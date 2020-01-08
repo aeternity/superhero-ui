@@ -1,0 +1,9 @@
+{
+  "name": "Example Aepp",
+  "short_name": "Example",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": ".",
+  "description": "Your average aepp.",
+  "background_color": "#ff0d6a"
+}

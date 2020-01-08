@@ -7,7 +7,7 @@ npm install && \
 NODE_ENV=prod npm run build && \
 cd dist/ && \
 git init && \
-git remote add origin git@github.com:mradkov/tip-aggregator.git && \
+git remote add origin git@github.com:aeternity/aepp-raendom.git && \
 git checkout -b gh-pages && \
 git add * && \
 git commit -m "tip-aggregator ${GIT_REV} deployment to gh-pages" && \

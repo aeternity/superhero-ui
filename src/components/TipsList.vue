@@ -130,6 +130,7 @@
             let p = t[1]
             p.url = t[0][0]
             p.amount = this.convertToAE(p.amount)
+            temp.push(p)
           });
           return temp;
         }
@@ -140,7 +141,7 @@
               url: this.nodeUrl,
               internalUrl: this.nodeUrl,
               keypair: this.keypair,
-              networkId: 'ae_uat',
+              networkId: 'ae_mainnet',
               compilerUrl: "https://compiler.aepps.com"
           });
 

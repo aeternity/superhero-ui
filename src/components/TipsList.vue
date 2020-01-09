@@ -83,17 +83,14 @@
       },
       data() {
         return {
-          nodeUrl: "https://testnet.aeternity.art",
+          nodeUrl: "https://sdk-mainnet.aepps.com",
           keypair: Crypto.generateKeyPair(),
           contractCode: CONTRACT_TIP_ANY,
           contractInstance: null,
-          contractAddress: 'ct_23RBxJBhNwixiiaKFJNKSig3yYKUDwC5iouaEGjQsogNvkGS3M',
+          contractAddress: 'ct_cT9mSpx9989Js39ag45fih2daephb7YsicsvNdUdEB156gT5C',
           address: null,
           client: null,
-          tasks: [],
           showLoading: true,
-          functionAddTaskExists: false,
-          addTodoText: "",
           loadingProgress: "",
           allErrors: [],
           tips: null
@@ -108,11 +105,6 @@
           if (matchFunctionNotFound) message = matchFunctionNotFound[1] + " function not defined (maybe commented out?)";
 
           this.allErrors.push(message);
-        },
-        transformTasksList(list) {
-          return list.map(([id, task]) => {
-            return {...{id: id}, ...task};
-          });
         },
         async getContractInstanceAtAddress(contractAddress) {
           try {
@@ -138,9 +130,8 @@
             let p = t[1]
             p.url = t[0][0]
             p.amount = this.convertToAE(p.amount)
-            if (p.received_at != 1578470791313) temp.push(p)
           });
-          return temp.reverse();
+          return temp;
         }
       },
       async created() {

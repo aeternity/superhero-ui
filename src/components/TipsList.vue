@@ -15,6 +15,9 @@
       </p>
 
       <div class="container">
+        <div class="search__container">
+            <input class="search__input" v-model="searchTerm" type="text" placeholder="Search for a tip record..." id="tips-search">
+        </div>
         <table class="table table-responsive">
           <thead>
             <tr>
@@ -26,13 +29,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(tip,index) in tips" :key="index">
+            <tr v-for="(tip,index) in filteredTips" :key="index">
               <td>
                 <ae-identicon class="identicon" :address="tip.sender" size="base" />
               </td>
               <td>
                   <div class="text-left mr-auto tip-content">
-                    <ae-text face="mono-xs" class="tip-url" > <a :href="tip.url"> {{ tip.url }} </a> </ae-text>
+                    <ae-text face="mono-xs" class="tip-url" :title="tip.url" > <a :href="tip.url"> {{ tip.url }} </a> </ae-text>
                     <ae-text length="flat" class="sender"> {{ tip.sender }} </ae-text>
                     <ae-text face="mono-xs" class="tip-note" > {{ tip.note }} </ae-text>
                 </div>
@@ -47,6 +50,7 @@
                 <span v-bind:class = "(tip.repaid)?'repaid':'unclaimed'" class="status status-label">{{ tip.repaid == true ? 'Repaid' : 'Unclaimed' }}</span>
               </td>
             </tr>
+            <tr v-if="filteredTips !== null && filteredTips.length == 0"><td colspan="5">There are no results found</td></tr>
           </tbody>
         </table>
     </div>
@@ -93,7 +97,36 @@
           showLoading: true,
           loadingProgress: "",
           allErrors: [],
-          tips: null
+          tips: null,
+          searchTerm: ''
+        }
+      },
+      computed: {
+        filteredTips() {
+          if(this.searchTerm.trim().length == 0){
+            return this.tips
+          }
+          let term = this.searchTerm.toLowerCase();
+
+          let urlSearchResults = this.tips.filter(tip => {
+            if(typeof tip.url !== 'undefined'){
+              return tip.url.toLowerCase().includes(term)
+            }
+            return false
+          })
+          let senderSearchResults = this.tips.filter(tip => {
+             if(typeof tip.sender !== 'undefined'){
+              return tip.sender.toLowerCase().includes(term)
+            }
+            return false
+          })
+          let noteSearchResults = this.tips.filter(tip => {
+            if(typeof tip.note !== 'undefined'){
+              return tip.note.toLowerCase().includes(term)
+            }
+            return false
+          })
+          return[...urlSearchResults, ...senderSearchResults, ...noteSearchResults]
         }
       },
       methods: {
@@ -394,19 +427,41 @@
   }
 
   .tip-note {
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
     -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
   }
 
   .tip-url {
+    -webkit-line-clamp: 1;
+  }
+  .tip-url a{
+    width: 32rem;
+    display: block;
+  }
+
+  .tip-url, .tip-note{
     display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
   }
 
+  .search__container{
+    text-align: left;
+    padding: 0 .75rem .75rem .75rem;
+  }
+  .search__input{
+    width: 20rem;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+  }
+  .table th:first-child, .table td:first-child,
+  .table th:nth-child(3), .table td:nth-child(3),
+  .table th:nth-child(4), .table td:nth-child(4),
+  .table th:nth-child(5), .table td:nth-child(5)
+  {
+    width: 10rem;
+  }
+  .table th:nth-child(2), .table td:nth-child(2){
+    width: 35rem;
+  }
 </style>

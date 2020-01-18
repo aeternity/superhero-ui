@@ -35,9 +35,11 @@
               </td>
               <td>
                   <div class="text-left mr-auto tip-content">
+                    <ae-label face="mono-xs" class="tip-note mt-0 mb-0" > {{ tip.note }} </ae-label>
                     <ae-text face="mono-xs" class="tip-url" :title="tip.url" > <a :href="tip.url"> {{ tip.url }} </a> </ae-text>
-                    <ae-text length="flat" class="sender"> {{ tip.sender }} </ae-text>
-                    <ae-text face="mono-xs" class="tip-note" > {{ tip.note }} </ae-text>
+                    <small>
+                      <ae-text length="flat" class="sender"> {{ tip.sender }} </ae-text>
+                    </small>
                 </div>
               </td>
               <td>
@@ -428,6 +430,14 @@
 
   .tip-note {
     -webkit-line-clamp: 2;
+  }
+
+  .mt-0 {
+    margin-top: 0;
+  }
+
+  .mb-0 {
+    margin-bottom: 0;
   }
 
   .tip-url {

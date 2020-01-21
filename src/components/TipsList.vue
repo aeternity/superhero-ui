@@ -126,7 +126,9 @@
             }
             return false
           })
-          return[...urlSearchResults, ...senderSearchResults, ...noteSearchResults]
+          //We convert the result array to Set in order to remove duplicate records
+          let convertResultToSet = new Set([...urlSearchResults, ...senderSearchResults, ...noteSearchResults]);
+          return [...convertResultToSet];
         }
       },
       methods: {

@@ -89,7 +89,7 @@
       },
       data() {
         return {
-          nodeUrl: "https://sdk-mainnet.aepps.com",
+          nodeUrl: "https://mainnet.aeternal.io",
           keypair: Crypto.generateKeyPair(),
           contractCode: CONTRACT_TIP_ANY,
           contractInstance: null,

@@ -7,7 +7,6 @@
     </div>
     <div id="app-content">
       <h2>tip explorer</h2>
-
       <p>
         Welcome to the aeternity tips explorer.
         
@@ -73,7 +72,7 @@
 
   import CONTRACT_TIP_ANY from '../../contracts/tip_any_basic.aes';
 
-  import BiggerLoader from './BiggerLoader'
+  import BiggerLoader from '../components/common/BiggerLoader'
 
   export default {
     name: 'TipsList',
@@ -190,16 +189,7 @@
   }
 </script>
 
-<style>
-  #app-content {
-    margin-top: 2rem;
-    max-width: 1200px;
-    padding: 0 20px 20px;
-  }
-
-  ul {
-    list-style: none;
-  }
+<style lang="scss" scoped>
 
   .errors div {
     padding: 0.5rem 1rem;
@@ -438,7 +428,7 @@
     margin-top: 0;
   }
 
-  .mb-0 {
+ .mb-0 {
     margin-bottom: 0;
   }
 

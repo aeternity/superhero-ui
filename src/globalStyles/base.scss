@@ -1,0 +1,17 @@
+//Bootstrap customizations go here:
+$theme-colors: (
+  "primary": #FF0D6A,
+); 
+
+@import "node_modules/bootstrap/scss/bootstrap";
+@import "variables";
+
+body{
+  font-family: 'Roboto', 'Helvetica', 'Arial', 'sans-serif';
+}
+
+.app-container{
+  margin: 0 auto;
+  width: 90vw;
+  padding: 3rem 0;
+}

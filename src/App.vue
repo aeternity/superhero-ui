@@ -1,17 +1,26 @@
 <template>
   <div id="app" class="app-container">
     <app-header></app-header>
-    <router-view></router-view>
+    <div class="clearfix">
+      <div class="content-area float-left">
+        <router-view></router-view>
+      </div>
+      <div class="articles-section float-left">
+        <articles-section></articles-section>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HeaderNavigation from './components/layout/HeaderNavigation'
+import HeaderNavigation from './components/layout/HeaderNavigation';
+import ArticlesSection from './components/layout/articles/ArticlesSection';
 
 export default {
   name: 'app',
   components: {
-    appHeader: HeaderNavigation
+    appHeader: HeaderNavigation,
+    articlesSection: ArticlesSection
   }
 }
 </script>

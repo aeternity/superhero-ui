@@ -60,6 +60,7 @@ export default {
 
 .navbar{
   position: fixed;
+  z-index: 1000;
   width: 100vw;
   top: 0;
   left: 0;
@@ -114,14 +115,15 @@ export default {
     padding-top: .125rem;
     img{
       margin: 0 auto;
-      width: 2rem;
-      border-radius: 2rem;
+      width: $avatar_image_width;
+      border-radius: $avatar_image_radius;
       background-color: $light_color;
       display: block
     }
     span{
       font-size: .6125rem;
       color: $primary_color;
+      font-weight: 700;
     }
   } 
   .user__info,.user__notifications{

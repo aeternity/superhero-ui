@@ -1,12 +1,12 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light ">
-    <router-link class="navbar-brand" to="">Brand</router-link>
+    <router-link class="navbar-brand" to=""><img src="../../resources/images/tipTokenLogo.png"></router-link>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
-        <router-link class="nav-item" tag="li" active-class="active" to="/" exact>
+        <router-link class="nav-item" tag="li" active-class="active" to="/home">
           <a class="nav-link">
             <span>Home</span>
           </a>
@@ -16,7 +16,7 @@
             <span>Blockchain</span>
           </a>
         </router-link>
-        <router-link class="nav-item" tag="li" active-class="active" to="/test1">
+        <router-link class="nav-item" tag="li" active-class="active" to="/" exact>
           <a class="nav-link">
             <span>Gaming</span>
           </a>
@@ -41,7 +41,7 @@
           <i class="fa fa-bell"></i>
         </div>
         <div class="user__avatar">
-          <img src="../../resources/images/user.png">
+          <img src="../../resources/images/userLogo.png">
           <span>Major Tom</span>
         </div>
       </div>
@@ -69,6 +69,10 @@ export default {
   -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
   -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
   box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  .navbar-brand img{
+    width: 2.375rem;
+    height: 2.375rem;
+  }
   .navbar-nav{
     min-height: 3.125rem;
     .nav-link {

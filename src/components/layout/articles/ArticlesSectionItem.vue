@@ -11,7 +11,7 @@
           <i class="far fa-comment-dots"></i><span class="article-comments__counter"> 23k</span>
           <i class="fab fa-facebook"></i>
         </div>
-        <div class="truncate-overflow article__caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        <div class="article__caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
       </div>
       <div class="d-inline-block article__item mr-3">
         <div class="article__image-container">
@@ -23,7 +23,7 @@
           <i class="far fa-comment-dots"></i><span class="article-comments__counter"> 23k</span>
           <i class="fab fa-facebook"></i>
         </div>
-        <div class="truncate-overflow article__caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        <div class="article__caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
       </div>
       <div class="d-inline-block article__item">
         <div class="article__image-container">
@@ -35,7 +35,7 @@
           <i class="far fa-comment-dots"></i><span class="article-comments__counter"> 23k</span>
           <i class="fab fa-facebook"></i>
         </div>
-        <div class="truncate-overflow article__caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        <div class="article__caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
       </div>
     </div>
 </template>
@@ -47,6 +47,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../globalStyles/variables";
+@import "../../../globalStyles/mixins";
 
 .articles__row{
   background-color: $article_content_color;
@@ -95,6 +96,7 @@ export default {
       color: $primary_color;
       font-weight: 700;
       height: 3.5rem;
+      @include truncate-overflow-mx(3);
     }
   }
 }

@@ -40,7 +40,7 @@ export default {
 @import "../../../globalStyles/variables";
 
 .articles__container{
-  background-color: $sidenav_background_color;
+  background-color: $light_color;
   margin-bottom: -3rem;
   padding-bottom: 4rem;
   .articles__title{

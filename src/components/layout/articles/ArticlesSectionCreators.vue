@@ -1,22 +1,22 @@
 <template>
   <div class="articles__creators p-3 mb-3">
     <div class="creator__avatar pr-3" title="hellodolly.chain">
-      <img src="../../../resources/images/user.png">
+      <img src="../../../resources/images/userLogo.png">
     </div>
     <div class="creator__avatar pr-3" title="hellodolly.chain">
-      <img src="../../../resources/images/user.png">
+      <img src="../../../resources/images/userLogo.png">
     </div>
     <div class="creator__avatar pr-3" title="hellodolly.chain">
-      <img src="../../../resources/images/user.png">
+      <img src="../../../resources/images/userLogo.png">
     </div>
     <div class="creator__avatar pr-3" title="hellodolly.chain">
-      <img src="../../../resources/images/user.png">
+      <img src="../../../resources/images/userLogo.png">
     </div>
     <div class="creator__avatar pr-3" title="hellodolly.chain">
-      <img src="../../../resources/images/user.png">
+      <img src="../../../resources/images/userLogo.png">
     </div>
     <div class="creator__avatar pr-3" title="hellodolly.chain">
-      <img src="../../../resources/images/user.png">
+      <img src="../../../resources/images/userLogo.png">
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 import TipsListComponent from '../pages/TipsList';
-import HomePageComponent from '../pages/HomePage/index';
+import HomePageComponent from '../pages/HomePage/HomeTipsContainer';
 
 export default [
   {
@@ -9,5 +9,9 @@ export default [
   {
     path: '/test',
     component: HomePageComponent,
-  }
+  },
+  {
+    path: '/home',
+    component: HomePageComponent,
+  },
 ];

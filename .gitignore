@@ -1,3 +1,5 @@
 node_modules
 .idea
 tailwind.css
+dist/
+*.iml

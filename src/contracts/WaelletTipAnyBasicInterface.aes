@@ -1,0 +1,14 @@
+payable contract WaelletTipAnyBasic =
+
+  record state =
+    { tips          : map(string * int, tip)
+    , tips_flat     : map(string, int) }
+
+  record tip =
+    { sender        : address
+    , received_at   : int
+    , repaid        : bool
+    , amount        : int
+    , note          : option(string) }
+
+  entrypoint get_state() : state = state

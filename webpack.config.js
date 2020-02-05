@@ -38,7 +38,7 @@ module.exports = env => {
     },
     devServer: {
       contentBase: path.join(__dirname, 'dist'),
-      port: 8081,
+      port: 8082,
       historyApiFallback: true,
       // Enable to allow other (than localhost) machines to access the aepp on your computer
       disableHostCheck: false,

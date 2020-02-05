@@ -1,20 +1,19 @@
 <template>
   <div>
     <div class="container">
-      <div class="tips__container pt-3 pr-5">
+      <div class="tips__container pt-3">
         <div class="clearfix actions__container mb-3">
           <div class="input-group float-left">
             <input type="text" v-model="searchTerm" class="form-control" placeholder="Search for a tip record...">
-            <div class="input-group-append">
+            <!-- <div class="input-group-append">
               <span class="input-group-text">
                 <img class="search-icon" src="../assets/search.svg">
               </span>
-            </div>
+            </div> -->
           </div>
           <div class="float-left sorting">
             <a class="mr-2" v-on:click="sortLatest()">Latest</a>
             <a class="mr-2" v-on:click="sortHighestRated()">Most Popular</a>
-            <a class="mr-2">Curators Choice</a>
           </div>
         </div>
         <div class="text-center spinner__container">
@@ -28,28 +27,27 @@
             <div class="clearfix">
               <div class="tip__actions float-left  mr-2">
                 <button class="btn btn-sm btn-light mr-1"><img src="../assets/likeIcon.png"></button>
-                <button class="btn btn-sm btn-light"><img src="../assets/commentsIcon.svg"></button>
               </div>
               <div class="tip__note float-left pr-2" :title="tip.note">
                   {{ tip.note }}
               </div>
             </div>
             <div>
-              <a class="tip__url mb-2 text-ellipsis pr-2" :title="tip.url">{{tip.url}}</a>
+              <a class="tip__url mb-2 text-ellipsis pr-2" :title="tip.url" :href='tip.url'>{{tip.url}}</a>
             </div>
             <div class="tip__footer clearfix ml-n3 pl-3 pr-3 pb-1 pt-1 text-ellipsis">
-              <div class="row">
-                <div class="col-sm-2">
+              <div >
+                <div class="float-left" >
                   <span class="tip__date mr-2">
                     {{ new Date(tip.received_at).toLocaleString('en-US', { hourCycle: 'h24' }) }}
                   </span>
                 </div>
-                <div class="col-sm-8">
+                <div class="float-left">
                   <span class="tip__amount">
                     <img src="../assets/likeIcon.png"> +{{ tip.amount }} AE
                   </span>
                   by
-                  <span class="tip__sender mr-2" :title="tip.sender">{{ tip.sender }}</span>
+                  <span class="tip__sender" :title="tip.sender">{{ tip.sender }}</span>
                 </div>
               </div>
             </div>
@@ -84,7 +82,7 @@
         showLoading: true,
         loadingProgress: "",
         tips: null,
-        searchTerm: ''
+        searchTerm: '',
       }
     },
     computed: {
@@ -146,6 +144,7 @@
   }
 
   .tips__container{
+    width: 100%;
     .no-results{
       color: $standard_font_color;
       font-size: .75rem;
@@ -153,7 +152,7 @@
     .actions__container{
       font-size: .75rem;
       .input-group{
-        width: 55%;
+        width: 50%;
         .form-control{
           background-color: $white_color;
           color: $standard_font_color;
@@ -179,7 +178,7 @@
         }
       }
       .sorting{
-        width: 45%;
+        width: 50%;
         background-color: $light_color;
         border-top-right-radius: .25rem;
         border-bottom-right-radius: .25rem;
@@ -201,7 +200,6 @@
     .tip__record{
       background-color: $article_content_color;
       .tip__actions{
-        width: 5.3rem;
        .btn-sm img{
          width: 1rem;
         }
@@ -209,18 +207,19 @@
       .tip__body{
         width: calc(100% - 12rem);
         .tip__note{
-          width: calc(100% - 6rem);
+          width: calc(100% - 3rem);
           font-size: .8375rem;
           font-weight: 700;
           color: $standard_font_color;
-          @include truncate-overflow-mx(2);
-          height: 2.5rem;
         }
         .tip__url{
-          color: $primary_color;
+          color: $custom_links_color;
           font-size: .75rem;
           cursor: pointer;
-          display: block
+          display: block;
+          overflow: visible;
+          white-space: pre-wrap;
+          word-wrap: break-word;
         }
         .tip__footer{
           background-color: $light_color;
@@ -283,9 +282,9 @@
           border-color: transparent $article_content_color;
           left: -.52rem;
         }
-        // .tip__article--hasresults{
-        //   display: none;
-        // }
+        .tip__article--hasresults{
+          display: none;
+        }
         .tip__article--noresults{
           display: none;
           width: 100%;
@@ -296,5 +295,47 @@
         }
       }
     }
+    .tip__article{
+      display: none;
+    }
   }
+  .tips__container .tip__record .tip__body{
+      width: 100%;
+  }
+  .tips__container .tip__record .tip__body .tip__footer{
+    margin-right: -1rem;
+  }
+
+@media only screen and (max-width: 768px){
+  .tips__container .tip__record .tip__body .tip__url{
+    font-size: .65rem;
+  }
+  .tips__container .tip__record .tip__body .tip__note{
+    font-size: .7375rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .tips__container .tip__record .tip__body .tip__note{
+    font-size: .65rem;
+  }
+  .tips__container .tip__record .tip__actions .btn-sm img{
+    width: .75rem
+  }
+  .tips__container .actions__container .input-group{
+    width: 100%;
+    padding-bottom: 1rem;
+  }
+  .tips__container .actions__container .sorting{
+    width: 100%;
+    text-align: left;
+  }
+  .tips__container .tip__record .tip__body .tip__footer .tip__amount img{
+    width: .35rem;
+  }
+  .tips__container .tip__record .tip__body .tip__footer{
+    font-size: .65rem;  
+    white-space: normal;
+  }
+}
 </style>

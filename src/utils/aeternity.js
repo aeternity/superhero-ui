@@ -1,7 +1,6 @@
-import Aepp from '@aeternity/aepp-sdk/es/ae/aepp'
 import Util from './util'
 import CONTRACT_TIP_ANY from '../contracts/WaelletTipAnyBasicInterface.aes'
-import {Universal} from "@aeternity/aepp-sdk/es/ae/universal";
+import { Node, Universal, Aepp, MemoryAccount } from '@aeternity/aepp-sdk/es';
 
 const aeternity = {
   client: null,
@@ -42,9 +41,15 @@ aeternity.initMobileBaseAepp = async () => {
 
 aeternity.initStaticClient = async () => {
   return Universal({
-    url: 'https://sdk-mainnet.aepps.com',
-    internalUrl: 'https://sdk-mainnet.aepps.com',
-    compilerUrl: 'https://compiler.aepps.com'
+    compilerUrl: 'https://compiler.aepps.com',
+    nodes: [
+      {
+        name: 'mainnet',
+        instance: await Node({
+          url: 'https://sdk-mainnet.aepps.com',
+          internalUrl: 'https://sdk-mainnet.aepps.com',
+        })
+      }]
   });
 };
 
@@ -65,13 +70,12 @@ aeternity.initClient = async () => {
 
   if (process && process.env && process.env.PRIVATE_KEY && process.env.PUBLIC_KEY) {
     aeternity.client = await Universal({
-      url: 'https://sdk-testnet.aepps.com',
-      internalUrl: 'https://sdk-testnet.aepps.com',
       compilerUrl: 'https://compiler.aepps.com',
-      keypair: {
-        publicKey: process.env.PUBLIC_KEY,
-        secretKey: process.env.PRIVATE_KEY
-      }
+      nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],
+      accounts: [
+        MemoryAccount({ keypair: { secretKey: process.env.PRIVATE_KEY, publicKey: process.env.PUBLIC_KEY } }),
+      ],
+      address: process.env.PUBLIC_KEY,
     });
     return await aeternity.initProvider();
   }

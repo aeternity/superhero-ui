@@ -6,7 +6,9 @@
           <div class="input-group float-left">
             <input type="text" v-model="searchTerm" class="form-control" placeholder="Search for a tip record...">
             <div class="input-group-append">
-              <span class="input-group-text"><i class="fas fa-search"></i></span>
+              <span class="input-group-text">
+                <img class="search-icon" src="../assets/search.svg">
+              </span>
             </div>
           </div>
           <div class="float-left sorting">
@@ -141,6 +143,10 @@
 <style lang="scss" scoped>
   @import "../styles/variables";
   @import "../styles/mixins";
+
+  .search-icon {
+    height: 1rem;
+  }
 
   .tips__container{
     .no-results{

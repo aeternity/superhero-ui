@@ -1,81 +1,91 @@
 <template>
   <div>
-    <div>
-      <div class="overlay-loader" v-show="showLoading">
-        <BiggerLoader :progress="loadingProgress"></BiggerLoader>
-      </div>
-    </div>
-    <div id="app-content">
-      <h2>tip explorer</h2>
-
-      <p>
-        Welcome to the aeternity tips explorer.
-
-        <br> To start tipping and receiving tips install the <a href="https://waellet.com">waellet</a> extension
-      </p>
-
-      <div class="container">
-        <div class="search__container">
-          <input class="search__input" v-model="searchTerm" type="text" placeholder="Search for a tip record..."
-                 id="tips-search">
+    <div class="container">
+      <div class="tips__container pt-3 pr-5">
+        <div class="clearfix actions__container mb-3">
+          <div class="input-group float-left">
+            <input type="text" v-model="searchTerm" class="form-control" placeholder="Search for a tip record...">
+            <div class="input-group-append">
+              <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+          </div>
+          <div class="float-left sorting">
+            <a class="mr-2">Latest</a>
+            <a class="mr-2">Most Popular</a>
+            <a class="mr-2">Curators Choice</a>
+          </div>
         </div>
-        <table class="table table-responsive">
-          <thead>
-          <tr>
-            <th></th>
-            <th>URL / Tipper / Tipnote</th>
-            <th>Timestamp</th>
-            <th>Amount</th>
-            <th>Status</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="(tip,index) in filteredTips" :key="index">
-            <td>
-              <ae-identicon class="identicon" :address="tip.sender" size="base"/>
-            </td>
-            <td>
-              <div class="text-left mr-auto tip-content">
-                <ae-label face="mono-xs" class="tip-note mt-0 mb-0"> {{ tip.note }}</ae-label>
-                <ae-text face="mono-xs" class="tip-url" :title="tip.url"><a :href="tip.url"> {{ tip.url }} </a>
-                </ae-text>
-                <ae-text length="flat" class="sender text-xs"> {{ tip.sender }}</ae-text>
+        <div class="text-center spinner__container">
+        <!-- <div class="spinner-border text-primary" v-show="!client || showLoading" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>  -->
+        </div>
+        <div class="no-results mb-3 text-center" v-if="filteredTips !== null && filteredTips.length == 0">There are no results found</div>
+        <div v-for="(tip,index) in filteredTips" :key="index" class="tip__record clearfix pt-2 pl-3 pr-3 mb-3">
+          <div class="tip__body float-left">
+            <div class="clearfix">
+              <div class="tip__actions float-left  mr-2">
+                <button class="btn btn-sm btn-light mr-1"><img src="../resources/images/likeIcon.png"></button>
+                <button class="btn btn-sm btn-light"><img src="../resources/images/commentIcon.png"></button>
               </div>
-            </td>
-            <td>
-              <ae-text face="mono-xs" class="transactionDate">{{ new Date(tip.received_at).toLocaleString('en-US', {
-                hourCycle: 'h24' }) }}
-              </ae-text>
-            </td>
-            <td>
-              <span class="balance">{{ tip.amount }}</span>
-            </td>
-            <td>
-              <span v-bind:class="(tip.repaid)?'repaid':'unclaimed'" class="status status-label">{{ tip.repaid == true ? 'Repaid' : 'Unclaimed' }}</span>
-            </td>
-          </tr>
-          <tr v-if="filteredTips !== null && filteredTips.length == 0">
-            <td colspan="5">There are no results found</td>
-          </tr>
-          </tbody>
-        </table>
+              <div class="tip__note float-left pr-2" :title="tip.note">
+                  {{ tip.note }}
+              </div>
+            </div>
+            <div>
+              <a class="tip__url mb-2 text-ellipsis pr-2" :title="tip.url">{{tip.url}}</a>
+            </div>
+            <div class="tip__footer clearfix ml-n3 pl-3 pr-3 pb-1 pt-1 text-ellipsis">
+              <div class="row">
+                <div class="col-sm-2">
+                  <span class="tip__date mr-2">
+                    {{ new Date(tip.received_at).toLocaleString('en-US', { hourCycle: 'h24' }) }}
+                  </span>
+                </div>
+                <div class="col-sm-8">
+                  <span class="tip__amount">
+                    <img src="../resources/images/likeIcon.png"> +{{ tip.amount }} AE 
+                  </span>
+                  by
+                  <span class="tip__sender mr-2" :title="tip.sender">{{ tip.sender }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tip__article float-right mt-n2 pt-2 pl-2 clearfix">
+            <div class="left-arrow"></div>
+            <div class="left-arrow filler"></div>
+            <div class="tip__article--hasresults">
+              <div class="text-ellipsis tip__article__caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</div>
+              <img src="https://via.placeholder.com/100x65" class="float-left mr-1">
+              <span>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+              </span>
+            </div>
+            <div class="tip__article--noresults">
+              No Preview Available
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import aeternity from '../utils/aeternity'
-  import {
-    AeButton,
-    AeInput,
-    AeLabel,
-    AeList,
-    AeListItem,
-    AeCheck,
-    AeText,
-    AeIdenticon
-  } from '@aeternity/aepp-components/src/components'
+
+  import 'prismjs'
+  import 'prismjs/themes/prism.css'
+  import 'prismjs/components/prism-reason.min.js'
+  import 'vue-prism-editor/dist/VuePrismEditor.css' // import the styles
+  import PrismEditor from 'vue-prism-editor'
+
+  import {Universal} from '@aeternity/aepp-sdk/es/ae/universal'
+  import * as Crypto from '@aeternity/aepp-sdk/es/utils/crypto'
+  import {AeButton, AeInput, AeLabel, AeList, AeListItem, AeCheck} from '@aeternity/aepp-components'
+  import aeternity from '../utils/aeternity';
+
+
   import BiggerLoader from '../components/BiggerLoader'
 
   export default {
@@ -87,8 +97,8 @@
       AeList,
       AeListItem,
       AeCheck,
-      AeText,
-      AeIdenticon,
+      // AeText,
+      // AeIdenticon,
       BiggerLoader
     },
     data() {
@@ -140,326 +150,161 @@
   }
 </script>
 
-<style>
-  #app-content {
-    text-align: center;
-    margin-top: 2rem;
-    max-width: 1200px;
-    padding: 0 20px 20px;
-  }
 
-  ul {
-    list-style: none;
-  }
+<style lang="scss" scoped>
+  @import "../globalStyles/variables";
+  @import "../globalStyles/mixins";
 
-  h2 {
-    font-size: 2rem;
-    margin-bottom: .5rem;
-    font-weight: 500;
-    line-height: 1.2;
-  }
-
-  a {
-    color: #007bff;
-    text-decoration: none;
-    background-color: transparent;
-  }
-
-  .ae-text.text-xs {
-    font-size: .75rem;
-  }
-
-  .table td {
-    padding: .75rem;
-    vertical-align: top;
-    border-top: 1px solid #dee2e6;
-  }
-
-  .tip-content .ae-label {
-    margin-top: 0;
-  }
-
-  .tip-content .ae-identicon {
-    border-radius: 0;
-  }
-
-  .errors div {
-    padding: 0.5rem 1rem;
-    background: rgba(255, 0, 0, 0.6);
-    color: white;
-    margin: 1rem 0;
-    display: flex;
-    align-items: center;
-    text-align: left;
-  }
-
-  .errors div::before {
-    content: "!";
-    font-size: 2rem;
-    font-weight: bold;
-    margin-right: 1rem;
-  }
-
-  .overlay-loader {
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 100;
-    width: 100%;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 150px;
-    background-color: rgba(255, 255, 255, 0.85);
-    overflow: hidden;
-  }
-
-  input.ae-input {
-    box-sizing: border-box;
-  }
-
-  .status-label {
-    padding: 2px;
-    border-radius: 2px;
-  }
-
-  .status-label.unclaimed {
-    color: orange;
-  }
-
-  .status-label.repaid {
-    color: limegreen;
-  }
-
-  .sender {
-    font-weight: bold;
-  }
-
-  .actions {
-    width: 50%;
-    margin-top: 5px;
-  }
-
-  .tipWebsiteHeader {
-    margin-bottom: 20px;
-  }
-
-  .ae-divider {
-    background-color: #bbbbbb !important;
-  }
-
-  .domainFavicon {
-    width: 32px;
-    margin-right: 15px;
-  }
-
-  .noFavicon {
-    font-size: 0.8rem;
-    height: 32px;
-    word-break: break-word;
-  }
-
-  .domainInfo {
-    flex-grow: 1;
-  }
-
-  .domain {
-    position: relative;
-    cursor: pointer;
-  }
-
-  .domain:hover .full-domain {
-    display: block;
-  }
-
-  .identicon {
-    padding-top: 2px;
-  }
-
-  .full-domain {
-    display: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 115%;
-    background: #001833;
-    color: #fff;
-    padding: 5px;
-    border-radius: 6px;
-    word-break: break-word;
-    white-space: normal;
-    z-index: 15;
-    font-size: 0.8rem;
-  }
-
-  .full-domain:after {
-    content: "";
-    border: solid black;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
-    transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    -ms-transform: rotate(-135deg);
-    position: absolute;
-    top: -4px;
-    left: 23px;
-    background: inherit;
-  }
-
-  h6 {
-    margin: 0;
-    word-break: break-word;
-  }
-
-  p {
-    margin: 0;
-    font-weight: normal;
-  }
-
-  .ae-icon {
-    color: #fff !important;
-    width: 20px !important;
-    height: 20px !important;
-    font-size: 0.8rem;
-    margin-right: 2px;
-    border: 2px solid #dae1ea;
-  }
-
-  .balance {
-    color: red;
-    font-size: 0.5em;
-    font-weight: bold;
-  }
-
-  .textarea {
-    min-height: 60px;
-  }
-
-  .ae-badge {
-    border-radius: 20px;
-    width: 20%;
-    justify-content: center;
-    cursor: pointer;
-    background: #e4e4e4;
-  }
-
-  .ae-badge.primary {
-    background: #e4e4e4;
-    color: #fff;
-  }
-
-  .ae-badge.alternative {
-    background: #e4e4e4;
-    color: #fff;
-  }
-
-  .sendTip {
-    margin-top: 25px;
-  }
-
-  .tipSlider {
-    margin: 25px 0;
-  }
-
-  .container {
-    margin-top: 3rem;
-  }
-
-  .hideSlider {
-    opacity: 0.3;
-  }
-
-  .amount-container {
-    position: relative;
-  }
-
-  .hideSlider .sliderOver {
-    position: absolute;
-    z-index: 50;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-  }
-
-  .balanceInfo {
-    margin-top: 15px;
-  }
-
-  .btn-50 {
-    width: 50%;
-  }
-
-  .ae-address {
-    font-weight: bold !important;
-    color: #000;
-  }
-
-  .balance {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #000;
-  }
-
-  .balance:after {
-    content: ' AE'
-  }
-
-  small {
-    font-size: .8rem;
-  }
-
-  .tip-note {
-    -webkit-line-clamp: 2;
-  }
-
-  .mt-0 {
-    margin-top: 0;
-  }
-
-  .mb-0 {
-    margin-bottom: 0;
-  }
-
-  .tip-url {
-    -webkit-line-clamp: 1;
-  }
-
-  .tip-url a {
-    width: 32rem;
-    display: block;
-  }
-
-  .tip-url, .tip-note {
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-  }
-
-  .search__container {
-    text-align: left;
-    padding: 0 .75rem .75rem .75rem;
-  }
-
-  .search__input {
-    width: 20rem;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    border-width: 1px;
-  }
-
-  .table th:first-child, .table td:first-child,
-  .table th:nth-child(3), .table td:nth-child(3),
-  .table th:nth-child(4), .table td:nth-child(4),
-  .table th:nth-child(5), .table td:nth-child(5) {
-    width: 10rem;
-  }
-
-  .table th:nth-child(2), .table td:nth-child(2) {
-    width: 35rem;
+  .tips__container{
+    .no-results{
+      color: $standard_font_color;
+      font-size: .75rem;
+    }
+    .actions__container{
+      font-size: .75rem;
+      .input-group{
+        width: 55%;
+        .form-control{
+          background-color: $white_color;
+          color: $standard_font_color;
+          font-size: .75rem;
+          border: 1px solid $white_color;
+        }
+        .input-group-text{
+          background-color: $search_icon_backgound;
+          border: 1px solid $white_color;
+          &:hover{
+            cursor: pointer;
+            background-color: $primary_color;
+            .fas.fa-search{
+              color: $search_icon_hover_color;
+            }
+          }
+          &:active{
+             background-color: $secondary_color;
+          }
+        }
+        .fas.fa-search{
+          color: $standard_font_color;
+        }
+      }
+      .sorting{
+        width: 45%;
+        background-color: $light_color;
+        border-top-right-radius: .25rem;
+        border-bottom-right-radius: .25rem;
+        color: $light_font_color;
+        text-align: right;
+        padding: .45rem;
+        a{
+          font-weight: 700;
+          &:hover{
+            color: $primary_color;
+            cursor: pointer;
+          }
+          &:active{
+            color: $secondary_color;
+          }
+        }
+      }
+    }
+    .tip__record{
+      background-color: $article_content_color;
+      .tip__actions{
+        width: 5.3rem;
+       .btn-sm img{
+         width: 1rem;
+        }
+      }
+      .tip__body{
+        width: calc(100% - 12rem);
+        .tip__note{
+          width: calc(100% - 6rem);
+          font-size: .8375rem;
+          font-weight: 700;
+          color: $standard_font_color;
+          @include truncate-overflow-mx(2);
+          height: 2.5rem;
+        }
+        .tip__url{
+          color: $primary_color;
+          font-size: .75rem;
+          cursor: pointer;
+          display: block
+        }
+        .tip__footer{
+          background-color: $light_color;
+          font-size: .5rem;
+          color: $light_font_color;
+          .tip__amount{
+            color: $secondary_color;
+            font-weight: 700;
+          }
+          .tip__sender{
+            color: $custom_links_color;
+            font-weight: 700;
+            font-size: .5rem;
+          }
+          .tip__totalsum, .tip__amount, .tip__comments, .tip__article__logo{
+            img {
+              width: .75rem;
+              display: inline;
+              margin-right: 2px;
+            }
+          }
+          .tip__article__logo{
+            font-weight: 700;
+            .fa-facebook-f{
+              color: #4267B2;
+            }
+          }
+        }
+      }
+      .tip__article{
+        width: 12rem;
+        border-left: .05rem solid $border_color;
+        min-height: 5.9rem;
+        font-size: .5rem;
+        position: relative;
+        color: $standard_font_color;
+        .tip__article__caption{
+          font-size: .625rem;
+          font-weight: 700;
+          color: $standard_font_color;
+        }
+        img{
+          width: 6rem;
+          float: left;
+          height: 4.125rem;
+        }
+        span{
+          @include truncate-overflow-mx(6);
+        }
+        .left-arrow {
+          @include vertical-align(absolute);
+          border-color: transparent $border_color;
+          border-style: solid;
+          border-width: 10px 10px 10px 0px;
+          height: 0px;
+          width: 0px;
+          left: -.6rem;
+        }
+        .left-arrow.filler{
+          border-color: transparent $article_content_color;
+          left: -.52rem;
+        }
+        // .tip__article--hasresults{
+        //   display: none;
+        // }
+        .tip__article--noresults{
+          display: none;
+          width: 100%;
+          text-align: center;
+          @include vertical-align(absolute);
+          font-size: .75rem;
+          color: $light_font_color;
+        }
+      }
+    }
   }
 </style>

@@ -50,12 +50,17 @@
   }
 </script>
 
+
+<style lang="scss">
+  @import 'globalStyles/base.scss';
+</style>
+
 <style scoped>
   .min-h-screen {
     min-height: 100vh;
     max-height: 100vh;
     padding-bottom: 0;
-    background-color: #ffffff;
+    background-color: #505058;
   }
 
   #app {

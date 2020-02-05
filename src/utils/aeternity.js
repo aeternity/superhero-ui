@@ -1,6 +1,6 @@
 import Aepp from '@aeternity/aepp-sdk/es/ae/aepp'
 import Util from './util'
-import CONTRACT_TIP_ANY from '../contracts/WaelletTipAnyBasic.aes'
+import CONTRACT_TIP_ANY from '../contracts/WaelletTipAnyBasicInterface.aes'
 import {Universal} from "@aeternity/aepp-sdk/es/ae/universal";
 
 const aeternity = {

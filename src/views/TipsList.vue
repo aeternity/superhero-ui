@@ -39,9 +39,7 @@
                 <ae-label face="mono-xs" class="tip-note mt-0 mb-0"> {{ tip.note }}</ae-label>
                 <ae-text face="mono-xs" class="tip-url" :title="tip.url"><a :href="tip.url"> {{ tip.url }} </a>
                 </ae-text>
-                <small>
-                  <ae-text length="flat" class="sender"> {{ tip.sender }}</ae-text>
-                </small>
+                <ae-text length="flat" class="sender text-xs"> {{ tip.sender }}</ae-text>
               </div>
             </td>
             <td>
@@ -144,6 +142,7 @@
 
 <style>
   #app-content {
+    text-align: center;
     margin-top: 2rem;
     max-width: 1200px;
     padding: 0 20px 20px;
@@ -151,6 +150,37 @@
 
   ul {
     list-style: none;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+  }
+
+  .ae-text.text-xs {
+    font-size: .75rem;
+  }
+
+  .table td {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+  }
+
+  .tip-content .ae-label {
+    margin-top: 0;
+  }
+
+  .tip-content .ae-identicon {
+    border-radius: 0;
   }
 
   .errors div {
@@ -375,7 +405,7 @@
   }
 
   .balance:after {
-    content: 'AE'
+    content: ' AE'
   }
 
   small {
@@ -419,6 +449,7 @@
     width: 20rem;
     padding: .375rem .75rem;
     font-size: 1rem;
+    border-width: 1px;
   }
 
   .table th:first-child, .table td:first-child,

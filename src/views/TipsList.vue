@@ -10,8 +10,8 @@
             </div>
           </div>
           <div class="float-left sorting">
-            <a class="mr-2">Latest</a>
-            <a class="mr-2">Most Popular</a>
+            <a class="mr-2" v-on:click="sortLatest()">Latest</a>
+            <a class="mr-2" v-on:click="sortHighestRated()">Most Popular</a>
             <a class="mr-2">Curators Choice</a>
           </div>
         </div>
@@ -139,7 +139,16 @@
         return [...convertResultToSet];
       }
     },
-    methods: {},
+    methods: {
+      sortLatest() {
+        // sort by timestamp
+        this.tips.sort((a,b) => (a.received_at < b.received_at) ? 1 : -1)
+      },
+      sortHighestRated() {
+        // sort by most tipped amount combined
+        this.tips.sort((a, b) => (a.amount < b.amount) ? 1 : -1)
+      }
+    },
     async created() {
       this.loadingProgress = "fetching tips";
       await aeternity.initClient();

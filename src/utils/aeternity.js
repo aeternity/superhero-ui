@@ -5,10 +5,7 @@ import {Universal} from "@aeternity/aepp-sdk/es/ae/universal";
 
 const aeternity = {
   client: null,
-  address: null,
-  height: null,
-  networkId: null,
-  passive: false,
+  contract: null,
   contractAddress: 'ct_cT9mSpx9989Js39ag45fih2daephb7YsicsvNdUdEB156gT5C'
 };
 
@@ -24,9 +21,7 @@ const timeout = async (promise) => {
 
 aeternity.initProvider = async () => {
   try {
-    aeternity.height = await aeternity.client.height();
-    aeternity.networkId = (await aeternity.client.getNodeInfo()).nodeNetworkId;
-    if (aeternity.contractAddress)
+    if (aeternity.contractAddress && !aeternity.contract)
       aeternity.contract = await aeternity.client.getContractInstance(CONTRACT_TIP_ANY, {contractAddress: aeternity.contractAddress});
     return true;
   } catch (e) {

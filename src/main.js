@@ -1,6 +1,4 @@
-import './main.css'
-
-import '@aeternity/aepp-components/dist/aepp.fonts.css'
+import './styles/base.scss';
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'

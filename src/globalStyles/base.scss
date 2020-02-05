@@ -1,0 +1,43 @@
+@import "variables";
+//Bootstrap customizations go here:
+$theme-colors: (
+  "primary": $primary_color,
+  "light": $light_color
+); 
+
+@import "node_modules/bootstrap/scss/bootstrap";
+
+/* Global Styles */
+body{
+  font-family: 'Roboto', 'Helvetica', 'Arial', 'sans-serif';
+  background-color: $background_color;
+}
+
+.btn{
+  font-size: .75rem;
+  &.btn-light{
+    color: $primary_color;
+  }
+}
+
+.app-container{
+  margin: 0 auto;
+  width: 90vw;
+  padding: 3.5rem 0;
+}
+
+ .articles-section{
+  width: $article_section_width;
+ }
+
+ .content-area{
+  width: calc(100% - #{$article_section_width});
+ }
+
+ /* Helpers */
+ .text-ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

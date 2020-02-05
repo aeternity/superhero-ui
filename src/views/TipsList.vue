@@ -28,7 +28,7 @@
             <div class="clearfix">
               <div class="tip__actions float-left  mr-2">
                 <button class="btn btn-sm btn-light mr-1"><img src="../assets/likeIcon.png"></button>
-                <button class="btn btn-sm btn-light"><img src="../assets/commentIcon.png"></button>
+                <button class="btn btn-sm btn-light"><img src="../assets/commentsIcon.svg"></button>
               </div>
               <div class="tip__note float-left pr-2" :title="tip.note">
                   {{ tip.note }}
@@ -76,11 +76,9 @@
 
 <script>
   import aeternity from '../utils/aeternity';
-  import BiggerLoader from '../components/BiggerLoader'
 
   export default {
     name: 'TipsList',
-    components: {BiggerLoader},
     data() {
       return {
         showLoading: true,
@@ -141,8 +139,7 @@
 
 
 <style lang="scss" scoped>
-  @import "../styles/variables";
-  @import "../styles/mixins";
+  @import "../styles/base";
 
   .search-icon {
     height: 1rem;

@@ -37,7 +37,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new FaviconsWebpackPlugin({
-      logo: path.resolve(__dirname, 'src/assets/logo.svg'),
+      logo: path.resolve(__dirname, 'src/assets/commentsIcon.svg'),
       mode: 'webapp', // optional can be 'webapp' or 'light' - 'webapp' by default
       devMode: 'webapp', // optional can be 'webapp' or 'light' - 'light' by default
       publicPath: '/',

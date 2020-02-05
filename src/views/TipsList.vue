@@ -20,13 +20,13 @@
           <span class="sr-only">Loading...</span>
         </div>  -->
         </div>
-        <div class="no-results mb-3 text-center" v-if="filteredTips !== null && filteredTips.length == 0">There are no results found</div>
+        <div class="no-results mb-3 text-center" v-if="filteredTips !== null && filteredTips.length === 0">There are no results found</div>
         <div v-for="(tip,index) in filteredTips" :key="index" class="tip__record clearfix pt-2 pl-3 pr-3 mb-3">
           <div class="tip__body float-left">
             <div class="clearfix">
               <div class="tip__actions float-left  mr-2">
-                <button class="btn btn-sm btn-light mr-1"><img src="../resources/images/likeIcon.png"></button>
-                <button class="btn btn-sm btn-light"><img src="../resources/images/commentIcon.png"></button>
+                <button class="btn btn-sm btn-light mr-1"><img src="../assets/likeIcon.png"></button>
+                <button class="btn btn-sm btn-light"><img src="../assets/commentIcon.png"></button>
               </div>
               <div class="tip__note float-left pr-2" :title="tip.note">
                   {{ tip.note }}
@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-sm-8">
                   <span class="tip__amount">
-                    <img src="../resources/images/likeIcon.png"> +{{ tip.amount }} AE 
+                    <img src="../assets/likeIcon.png"> +{{ tip.amount }} AE
                   </span>
                   by
                   <span class="tip__sender mr-2" :title="tip.sender">{{ tip.sender }}</span>
@@ -73,34 +73,12 @@
 </template>
 
 <script>
-
-  import 'prismjs'
-  import 'prismjs/themes/prism.css'
-  import 'prismjs/components/prism-reason.min.js'
-  import 'vue-prism-editor/dist/VuePrismEditor.css' // import the styles
-  import PrismEditor from 'vue-prism-editor'
-
-  import {Universal} from '@aeternity/aepp-sdk/es/ae/universal'
-  import * as Crypto from '@aeternity/aepp-sdk/es/utils/crypto'
-  import {AeButton, AeInput, AeLabel, AeList, AeListItem, AeCheck} from '@aeternity/aepp-components'
   import aeternity from '../utils/aeternity';
-
-
   import BiggerLoader from '../components/BiggerLoader'
 
   export default {
     name: 'TipsList',
-    components: {
-      AeInput,
-      AeButton,
-      AeLabel,
-      AeList,
-      AeListItem,
-      AeCheck,
-      // AeText,
-      // AeIdenticon,
-      BiggerLoader
-    },
+    components: {BiggerLoader},
     data() {
       return {
         showLoading: true,
@@ -161,8 +139,8 @@
 
 
 <style lang="scss" scoped>
-  @import "../globalStyles/variables";
-  @import "../globalStyles/mixins";
+  @import "../styles/variables";
+  @import "../styles/mixins";
 
   .tips__container{
     .no-results{

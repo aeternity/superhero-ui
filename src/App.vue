@@ -50,11 +50,6 @@
   }
 </script>
 
-
-<style lang="scss">
-  @import 'globalStyles/base.scss';
-</style>
-
 <style scoped>
   .min-h-screen {
     min-height: 100vh;

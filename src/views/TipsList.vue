@@ -18,9 +18,9 @@
           </div>
         </div>
         <div class="text-center spinner__container">
-        <!-- <div class="spinner-border text-primary" v-show="!client || showLoading" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>  -->
+          <div class="spinner-border text-primary" v-show="showLoading" role="status">
+            <span class="sr-only">Loading...</span>
+          </div> 
         </div>
         <div class="no-results mb-3 text-center" v-if="filteredTips !== null && filteredTips.length === 0">There are no results found</div>
         <div v-for="(tip,index) in filteredTips" :key="index" class="tip__record clearfix pt-2 pl-3 pr-3 mb-3">

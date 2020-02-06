@@ -4,7 +4,7 @@
       <div class="tips__container pt-3">
         <div class="row actions__container mb-3">
           <div class="input-group col-md-6 col-sm-12">
-            <input type="text" v-model="searchTerm" class="form-control" placeholder="Search for æid record...">
+            <input type="text" v-model="searchTerm" class="form-control" placeholder="Search for a tip record...">
             <!-- <div class="input-group-append">
               <span class="input-group-text">
                 <img class="search-icon" src="../assets/search.svg">
@@ -12,8 +12,8 @@
             </div> -->
           </div>
           <div class="col-md-6 col-sm-12 sorting">
-            <a class="mr-2" v-on:click="sortLatest()">Latest</a>
-            <a class="mr-2" v-on:click="sortHighestRated()">Most Popular</a>
+            <a class="mr-2" v-on:click="sortLatest()" v-bind:class="{ active: isLatestActive }">Latest</a>
+            <a class="mr-2" v-on:click="sortHighestRated()" v-bind:class="{ active: isHighestRateActive }">Most Popular</a>
           </div>
         </div>
         <div class="text-center spinner__container">
@@ -83,6 +83,8 @@
         loadingProgress: "",
         tips: null,
         searchTerm: '',
+        isLatestActive: false,
+        isHighestRateActive: false,
       }
     },
     computed: {
@@ -113,14 +115,26 @@
         //We convert the result array to Set in order to remove duplicate records
         let convertResultToSet = new Set([...urlSearchResults, ...senderSearchResults, ...noteSearchResults]);
         return [...convertResultToSet];
-      }
+      },
+
     },
     methods: {
+      setLatestActive(){
+        this.isHighestRateActive = false;
+        this.isLatestActive = true;
+      },
+      setHighestRateActive(){
+        this.isHighestRateActive = true;
+        this.isLatestActive = false;
+      },
       sortLatest() {
+        this.setLatestActive();
         // sort by timestamp
         this.tips.sort((a,b) => (a.received_at < b.received_at) ? 1 : -1)
       },
       sortHighestRated() {
+        this.setHighestRateActive();
+
         // sort by most tipped amount combined
         this.tips.sort((a, b) => (a.amount < b.amount) ? 1 : -1)
       }
@@ -183,8 +197,9 @@
         background-color: $light_color;
         border-radius: .25rem;
         color: $light_font_color;
-        text-align: right;
+        text-align: left;
         padding: .45rem;
+        padding-left: 1rem;
         a{
           font-weight: 700;
           &:hover{
@@ -194,6 +209,9 @@
           &:active{
             color: $secondary_color;
           }
+        }
+        a.active{
+          color: $secondary_color;
         }
       }
     }
@@ -332,10 +350,6 @@
   .tips__container .actions__container .input-group{
     margin-bottom: 1rem;
     padding-right: 0;
-  }
-  .tips__container .actions__container .sorting{
-    width: 100%;
-    text-align: left;
   }
   .tips__container .tip__record .tip__body .tip__footer .tip__amount img{
     width: .7rem;

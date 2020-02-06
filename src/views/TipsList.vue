@@ -26,7 +26,7 @@
           <div class="tip__body float-left">
             <div class="clearfix">
               <div class="tip__actions float-left  mr-2">
-                <button class="btn btn-sm btn-light mr-1"><img src="../assets/likeIcon.png"></button>
+                <button class="btn btn-sm btn-light mr-1"><img src="../assets/heart.svg"></button>
               </div>
               <div class="tip__note float-left pr-2" :title="tip.note">
                   {{ tip.note }}
@@ -44,7 +44,7 @@
                 </div>
                 <div class="float-left">
                   <span class="tip__amount">
-                    <img src="../assets/likeIcon.png"> +{{ tip.amount }} AE
+                    <img src="../assets/heart.svg"> +{{ tip.amount }} AE
                   </span>
                   by
                   <span class="tip__sender" :title="tip.sender">{{ tip.sender }}</span>

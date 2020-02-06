@@ -21,10 +21,10 @@
             <a class="mr-2" v-on:click="sortHighestRated()" v-bind:class="{ active: isHighestRateActive }">Most Popular</a>
           </div>
         </div>
-        <div class="text-center spinner__container">
-          <div class="spinner-border text-primary" v-show="showLoading" role="status">
+        <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
+          <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
-          </div> 
+          </div>
         </div>
         <div class="no-results mb-3 text-center" v-if="filteredTips !== null && filteredTips.length === 0">There are no results found</div>
         <div v-for="(tip,index) in filteredTips" :key="index" class="tip__record clearfix pt-2 pl-3 pr-3 mb-3">
@@ -142,14 +142,27 @@
 
         // sort by most tipped amount combined
         this.tips.sort((a, b) => (a.amount < b.amount) ? 1 : -1)
+      },
+      async loadData() {
+        this.showLoading = true;
+        const tips = await aeternity.getTips();
+        if (!this.tips || tips.length > this.tips.length) {
+          this.tips = tips;
+          if (this.isLatestActive) {
+            this.sortLatest();
+          } else {
+            this.sortHighestRated();
+          }
+        }
+        this.showLoading = false;
       }
     },
     async created() {
       this.loadingProgress = "fetching tips";
       await aeternity.initClient();
 
-      this.tips = await aeternity.getTips();
-      this.showLoading = false;
+      await this.loadData();
+      setInterval(() => this.loadData(), 120 * 1000);
     },
   }
 </script>
@@ -160,6 +173,18 @@
 
   .search-icon {
     height: 1rem;
+  }
+
+  .spinner__container{
+    margin-bottom: 1rem;
+    max-height: 200px;
+    opacity: 100%;
+    transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
+
+    &.active {
+      max-height: 0;
+      opacity: 0;
+    }
   }
 
   .tips__container{
@@ -367,7 +392,7 @@
     width: .7rem;
   }
   .tips__container .tip__record .tip__body .tip__footer{
-    font-size: .65rem;  
+    font-size: .65rem;
     white-space: normal;
   }
 }

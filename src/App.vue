@@ -56,8 +56,6 @@
   }
 
   .min-h-screen {
-    min-width: 100vw;
-    min-height: 100vh;
     padding-bottom: 0;
     background-color: #505058;
   }

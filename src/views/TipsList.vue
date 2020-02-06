@@ -2,6 +2,11 @@
   <div>
     <div class="container">
       <div class="tips__container pt-3">
+        <h2>Tip Explorer</h2>
+        <p>
+          Welcome to the aeternity Tips Explorer.
+          <br> To start tipping and receiving tips install the <a href="https://waellet.com">waellet</a> extension
+        </p>
         <div class="row actions__container mb-3">
           <div class="input-group col-md-6 col-sm-12">
             <input type="text" v-model="searchTerm" class="form-control" placeholder="Search for a tip record...">
@@ -159,6 +164,13 @@
 
   .tips__container{
     width: 100%;
+    h2,p{
+      color: $standard_font_color;
+      text-align: center;
+    }
+    p a{
+      color: $custom_links_color;
+    }
     .no-results{
       color: $standard_font_color;
       font-size: .75rem;

@@ -2,16 +2,16 @@
   <div>
     <div class="container">
       <div class="tips__container pt-3">
-        <div class="clearfix actions__container mb-3">
-          <div class="input-group float-left">
-            <input type="text" v-model="searchTerm" class="form-control" placeholder="Search for a tip record...">
+        <div class="row actions__container mb-3">
+          <div class="input-group col-md-6 col-sm-12">
+            <input type="text" v-model="searchTerm" class="form-control" placeholder="Search for æid record...">
             <!-- <div class="input-group-append">
               <span class="input-group-text">
                 <img class="search-icon" src="../assets/search.svg">
               </span>
             </div> -->
           </div>
-          <div class="float-left sorting">
+          <div class="col-md-6 col-sm-12 sorting">
             <a class="mr-2" v-on:click="sortLatest()">Latest</a>
             <a class="mr-2" v-on:click="sortHighestRated()">Most Popular</a>
           </div>
@@ -150,9 +150,11 @@
       font-size: .75rem;
     }
     .actions__container{
+      width: 100%;
       font-size: .75rem;
+      margin: 0 1rem 1rem 0;
       .input-group{
-        width: 50%;
+        padding-left: 0;
         .form-control{
           background-color: $white_color;
           color: $standard_font_color;
@@ -178,10 +180,8 @@
         }
       }
       .sorting{
-        width: 50%;
         background-color: $light_color;
-        border-top-right-radius: .25rem;
-        border-bottom-right-radius: .25rem;
+        border-radius: .25rem;
         color: $light_font_color;
         text-align: right;
         padding: .45rem;
@@ -199,6 +199,7 @@
     }
     .tip__record{
       background-color: $article_content_color;
+      border-radius: .25rem;
       .tip__actions{
        .btn-sm img{
          width: 1rem;
@@ -225,6 +226,8 @@
           background-color: $light_color;
           font-size: .5rem;
           color: $light_font_color;
+          border-bottom-right-radius: .25rem;
+          border-bottom-left-radius: .25rem;
           .tip__amount{
             color: $secondary_color;
             font-weight: 700;
@@ -313,6 +316,10 @@
   .tips__container .tip__record .tip__body .tip__note{
     font-size: .7375rem;
   }
+  .tips__container .actions__container .input-group{
+    margin-bottom: 1rem;
+    padding-right: 0;
+  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -323,15 +330,15 @@
     width: .75rem
   }
   .tips__container .actions__container .input-group{
-    width: 100%;
-    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    padding-right: 0;
   }
   .tips__container .actions__container .sorting{
     width: 100%;
     text-align: left;
   }
   .tips__container .tip__record .tip__body .tip__footer .tip__amount img{
-    width: .35rem;
+    width: .7rem;
   }
   .tips__container .tip__record .tip__body .tip__footer{
     font-size: .65rem;  

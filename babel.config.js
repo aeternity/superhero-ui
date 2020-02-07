@@ -10,6 +10,7 @@ module.exports = {
   plugins: [
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-transform-modules-commonjs',
-    '@babel/plugin-transform-block-scoping'
+    '@babel/plugin-transform-block-scoping',
+    '@babel/plugin-proposal-class-properties'
   ]
 };

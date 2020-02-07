@@ -17,8 +17,12 @@
             </div> -->
           </div>
           <div class="col-md-6 col-sm-12 sorting">
-            <a class="mr-2" v-on:click="sortLatest()" v-bind:class="{ active: isLatestActive }">Latest</a>
-            <a class="mr-2" v-on:click="sortHighestRated()" v-bind:class="{ active: isHighestRateActive }">Most Popular</a>
+            <a v-if="this.tipsOrdering" class="mr-2" v-on:click="sort('hot')"
+               v-bind:class="{ active: sorting === 'hot' }">Hot</a>
+            <a class="mr-2" v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">Latest</a>
+            <a class="mr-2" v-on:click="sort('highest')" v-bind:class="{ active: sorting === 'highest' }">
+              Highest Tipped
+            </a>
           </div>
         </div>
         <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
@@ -26,7 +30,9 @@
             <span class="sr-only">Loading...</span>
           </div>
         </div>
-        <div class="no-results mb-3 text-center" v-if="filteredTips !== null && filteredTips.length === 0">There are no results found</div>
+        <div class="no-results mb-3 text-center" v-if="filteredTips !== null && filteredTips.length === 0">
+          There are no results found
+        </div>
         <div v-for="(tip,index) in filteredTips" :key="index" class="tip__record clearfix pt-2 pl-3 pr-3 mb-3">
           <div class="tip__body float-left">
             <div class="clearfix">
@@ -34,15 +40,15 @@
                 <button class="btn btn-sm btn-light mr-1"><img src="../assets/heart.svg"></button>
               </div>
               <div class="tip__note float-left pr-2" :title="tip.note">
-                  {{ tip.note }}
+                {{ tip.note }}
               </div>
             </div>
             <div>
               <a class="tip__url mb-2 text-ellipsis pr-2" :title="tip.url" :href='tip.url'>{{tip.url}}</a>
             </div>
             <div class="tip__footer clearfix ml-n3 pl-3 pr-3 pb-1 pt-1 text-ellipsis">
-              <div >
-                <div class="float-left" >
+              <div>
+                <div class="float-left">
                   <span class="tip__date mr-2">
                     {{ new Date(tip.received_at).toLocaleString('en-US', { hourCycle: 'h24' }) }}
                   </span>
@@ -61,7 +67,9 @@
             <div class="left-arrow"></div>
             <div class="left-arrow filler"></div>
             <div class="tip__article--hasresults">
-              <div class="text-ellipsis tip__article__caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</div>
+              <div class="text-ellipsis tip__article__caption">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+              </div>
               <img src="https://via.placeholder.com/100x65" class="float-left mr-1">
               <span>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -79,17 +87,17 @@
 
 <script>
   import aeternity from '../utils/aeternity';
+  import Backend from "../utils/backend";
 
   export default {
     name: 'TipsList',
     data() {
       return {
         showLoading: true,
-        loadingProgress: "",
         tips: null,
+        tipsOrdering: null,
         searchTerm: '',
-        isLatestActive: false,
-        isHighestRateActive: false,
+        sorting: "latest",
       }
     },
     computed: {
@@ -124,45 +132,55 @@
 
     },
     methods: {
-      setLatestActive(){
-        this.isHighestRateActive = false;
-        this.isLatestActive = true;
-      },
-      setHighestRateActive(){
-        this.isHighestRateActive = true;
-        this.isLatestActive = false;
-      },
-      sortLatest() {
-        this.setLatestActive();
-        // sort by timestamp
-        this.tips.sort((a,b) => (a.received_at < b.received_at) ? 1 : -1)
-      },
-      sortHighestRated() {
-        this.setHighestRateActive();
+      sort(sorting) {
+        this.sorting = sorting;
 
-        // sort by most tipped amount combined
-        this.tips.sort((a, b) => (a.amount < b.amount) ? 1 : -1)
-      },
-      async loadData() {
-        this.showLoading = true;
-        const tips = await aeternity.getTips();
-        if (!this.tips || tips.length > this.tips.length) {
-          this.tips = tips;
-          if (this.isLatestActive) {
-            this.sortLatest();
-          } else {
-            this.sortHighestRated();
-          }
+        switch (this.sorting) {
+          case "hot":
+            this.tips.sort((a, b) => b.score - a.score);
+            break;
+          case "latest":
+            this.tips.sort((a, b) => b.received_at - a.received_at);
+            break;
+          case "highest":
+            this.tips.sort((a, b) => b.amount - a.amount);
+            break;
         }
+      },
+      async reloadData(initial = false) {
+        this.showLoading = true;
+
+        const fetchTips = async () => {
+          if (initial) await aeternity.initClient();
+          return aeternity.getTips().catch(console.error);
+        };
+        const fetchOrdering = new Backend().tipOrder().catch(console.error);
+        const [tips, tipOrdering] = await Promise.all([fetchTips(), fetchOrdering]);
+
+        this.tipsOrdering = tipOrdering;
+
+        if (this.tipsOrdering) {
+          const blacklistedTipIds = tipOrdering.map(order => order.id);
+          const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.tipId));
+
+          this.tips = filteredTips.map(tip => {
+            const orderItem = tipOrdering.find(order => order.id === tip.tipId);
+            tip.score = orderItem ? orderItem.score : 0;
+            return tip;
+          });
+
+          if (initial) this.sorting = "hot";
+        } else {
+          this.tips = tips;
+        }
+
+        this.sort(this.sorting);
         this.showLoading = false;
       }
     },
     async created() {
-      this.loadingProgress = "fetching tips";
-      await aeternity.initClient();
-
-      await this.loadData();
-      setInterval(() => this.loadData(), 120 * 1000);
+      await this.reloadData(true);
+      setInterval(() => this.reloadData(), 120 * 1000);
     },
   }
 </script>

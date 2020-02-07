@@ -20,7 +20,7 @@ export default class Backend {
   BACKEND_URL;
 
   constructor() {
-    this.BACKEND_URL = "https://raendom-backend.z52da5wt.xyz/";
+    this.BACKEND_URL = "https://raendom-backend.z52da5wt.xyz";
   }
 
   tipOrder = async () => wrapTry(async () => {

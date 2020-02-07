@@ -97,6 +97,7 @@ aeternity.initClient = async () => {
 const parseTips = (tips) => {
   return tips.map(([tip, data]) => {
     data.url = tip[0];
+    data.tipId = tip[0] + "," + tip[1];
     data.amount = Util.atomsToAe(data.amount);
     return data;
   });

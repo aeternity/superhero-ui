@@ -18,9 +18,9 @@ const timeout = async (promise) => {
   ]);
 };
 
-aeternity.initProvider = async () => {
+aeternity.initProvider = async (force = false) => {
   try {
-    if (aeternity.contractAddress && !aeternity.contract)
+    if (force || aeternity.contractAddress && !aeternity.contract)
       aeternity.contract = await aeternity.client.getContractInstance(CONTRACT_TIP_ANY, {contractAddress: aeternity.contractAddress});
     return true;
   } catch (e) {

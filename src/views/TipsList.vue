@@ -37,7 +37,7 @@
           <div class="tip__body float-left">
             <div class="clearfix">
               <div class="tip__actions float-left  mr-2">
-                <button class="btn btn-sm btn-light mr-1"><img src="../assets/heart.svg"></button>
+                <button class="btn btn-sm btn-light mr-1" @click="foundWallet && retip(tip.url)"><img src="../assets/heart.svg"></button>
               </div>
               <div class="tip__note float-left pr-2" :title="tip.note">
                 {{ tip.note }}
@@ -87,7 +87,9 @@
 
 <script>
   import aeternity from '../utils/aeternity';
+  import {wallet} from '../utils/walletSearch.js'
   import Backend from "../utils/backend";
+  import util from "../utils/util";
 
   export default {
     name: 'TipsList',
@@ -98,6 +100,7 @@
         tipsOrdering: null,
         searchTerm: '',
         sorting: "latest",
+        foundWallet: false
       }
     },
     computed: {
@@ -128,8 +131,7 @@
         //We convert the result array to Set in order to remove duplicate records
         let convertResultToSet = new Set([...urlSearchResults, ...senderSearchResults, ...noteSearchResults]);
         return [...convertResultToSet];
-      },
-
+      }
     },
     methods: {
       sort(sorting) {
@@ -147,11 +149,23 @@
             break;
         }
       },
+      async retip(url) {
+        const amount = util.aeToAtoms(prompt("Tip Amount in AE?"));
+        this.showLoading = true;
+        await aeternity.contract.methods.tip(url, undefined, {amount: amount}).catch(console.error);
+        this.reloadData();
+      },
       async reloadData(initial = false) {
         this.showLoading = true;
 
         const fetchTips = async () => {
-          if (initial) await aeternity.initClient();
+          if (initial) {
+            await aeternity.initClient();
+            wallet.init(() => {
+                this.foundWallet = true;
+                console.log("found wallet")
+            }).catch(console.error);
+          }
           return aeternity.getTips().catch(console.error);
         };
         const fetchOrdering = new Backend().tipOrder().catch(console.error);

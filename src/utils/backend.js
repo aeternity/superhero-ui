@@ -26,4 +26,7 @@ export default class Backend {
   tipOrder = async () => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/tiporder`);
   });
+  tipPreview = async () => wrapTry(async () => {
+    return fetch(`${this.BACKEND_URL}/linkpreview`);
+  });
 }

@@ -168,11 +168,13 @@
           }
           return aeternity.getTips().catch(console.error);
         };
-        const fetchOrdering = new Backend().tipOrder().catch(console.error);
-        const [tips, tipOrdering] = await Promise.all([fetchTips(), fetchOrdering]);
-
+        const backendInstance = new Backend();
+        const fetchOrdering = backendInstance.tipOrder().catch(console.error);
+        const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
+        const [tips, tipOrdering, tipsPreview] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview]);
+ 
         this.tipsOrdering = tipOrdering;
-
+        this.tipsPreview = tipsPreview;
         if (this.tipsOrdering) {
           const blacklistedTipIds = tipOrdering.map(order => order.id);
           const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.tipId));
@@ -180,12 +182,22 @@
           this.tips = filteredTips.map(tip => {
             const orderItem = tipOrdering.find(order => order.id === tip.tipId);
             tip.score = orderItem ? orderItem.score : 0;
+            if(this.tipsPreview){
+              tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
+            }
             return tip;
           });
 
           if (initial) this.sorting = "hot";
         } else {
-          this.tips = tips;
+          if(this.tipsPreview){
+            this.tips = tips.map(tip => { 
+              tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
+              return tip;
+            });
+          }else{
+            this.tips = tips;
+          }
         }
 
         this.sort(this.sorting);

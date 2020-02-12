@@ -11,4 +11,5 @@ payable contract WaelletTipAnyBasic =
     , amount        : int
     , note          : option(string) }
 
-  entrypoint get_state() : state = state
+  entrypoint get_state : () => state
+  payable stateful entrypoint tip : (string, option(string)) => unit

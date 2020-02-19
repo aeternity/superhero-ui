@@ -1,19 +1,4 @@
-const wrapTry = async (f) => {
-  try {
-    return Promise.race([
-      f().then(res => {
-        if (!res.ok) throw new Error(`Request failed with ${res.status}`);
-        return res.json()
-      }),
-      new Promise(function (resolve, reject) {
-        setTimeout(reject, 8000, 'TIMEOUT');
-      })
-    ])
-  } catch (e) {
-    console.error("backend error", e);
-    return null;
-  }
-};
+import { wrapTry } from './util'
 
 export default class Currency {
 

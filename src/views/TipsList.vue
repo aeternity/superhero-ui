@@ -199,14 +199,21 @@
         const backendInstance = new Backend();
         const fetchOrdering = backendInstance.tipOrder().catch(console.error);
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
-        const [tips, tipOrdering, tipsPreview] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview]);
+        const fetchLangTips = backendInstance.getLangTips().catch(console.error);
+        const [tips, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
  
         this.tipsOrdering = tipOrdering;
         this.tipsPreview = tipsPreview;
+        
         if (this.tipsOrdering) {
           const blacklistedTipIds = tipOrdering.map(order => order.id);
-          const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.tipId));
-
+          const filteredTips = tips.filter(tip => tip => {
+            if(typeof langTips !== 'undefined' && langTips.length > 0){
+              return blacklistedTipIds.includes(tip.tipId) && langTips.find((url)=> tip.url == url)
+            }else{
+              return blacklistedTipIds.includes(tip.tipId)
+            }
+          });
           this.tips = filteredTips.map(tip => {
             const orderItem = tipOrdering.find(order => order.id === tip.tipId);
             tip.score = orderItem ? orderItem.score : 0;
@@ -225,6 +232,14 @@
             });
           }else{
             this.tips = tips;
+          }
+          if(typeof langTips !== 'undefined' && langTips.length > 0){
+            this.tips = this.tips.filter(tip => {
+              tip = langTips.find((url)=> tip.url == url);
+              if(tip){
+                return tip;
+              }
+            });
           }
         }
 

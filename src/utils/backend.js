@@ -14,4 +14,7 @@ export default class Backend {
   tipPreview = async () => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/linkpreview`);
   });
+  getLangTips = async (lang = 'en') => wrapTry(async () => {
+    return fetch(`${this.BACKEND_URL}/language/` + lang); 
+  });
 }

@@ -162,11 +162,6 @@
         }
         this.displayCurrency();
       },
-      isPreviewToBeVisualized(tip){
-       return typeof tip !== 'undeifned' && tip !== null
-        && typeof tip.preview !== 'undefined' && tip.preview.description !== null
-          && tip.preview.description.length > 0  && tip.preview.image !== null;
-      },
       sort(sorting) {
         this.sorting = sorting;
 
@@ -234,15 +229,17 @@
         }
 
         const currencyInstance = new Currency();
-        const getCurrencyRates = currencyInstance.getRates().catch(console.error);
-        const currencyRates = await Promise.resolve(getCurrencyRates);
-        this.tips = this.tips.map(tip => {
-          tip.fiatValue = (tip.amount * currencyRates.aeternity[this.defaultCurrency]).toFixed(2);
+        currencyInstance.getRates()
+        .then(result => {
+          this.tips = this.tips.map(tip => {
+          tip.fiatValue = (tip.amount * result.aeternity[this.defaultCurrency]).toFixed(2);
           return tip;
         })
         .filter(tip => {
-          return (tip.amount * currencyRates.aeternity['usd']).toFixed(2) > 0.01;
+          return (tip.amount * result.aeternity['usd']).toFixed(2) > 0.01;
         });
+        })
+        .catch(console.error);
 
         this.sort(this.sorting);
         this.showLoading = false;

@@ -57,6 +57,9 @@
                   <span class="tip__amount">
                     <img src="../assets/heart.svg"> +{{ tip.amount }} AE
                   </span>
+                  <span class="currency-value">
+                     (~ {{ tip.fiatValue }} {{defaultCurrency.toUpperCase()}})
+                  </span>
                   by
                   <span class="tip__sender" :title="tip.sender">{{ tip.sender }}</span>
                 </div>
@@ -89,6 +92,7 @@
   import aeternity from '../utils/aeternity';
   import {wallet} from '../utils/walletSearch.js'
   import Backend from "../utils/backend";
+  import Currency from "../utils/currency";
   import util from "../utils/util";
 
   export default {
@@ -100,7 +104,17 @@
         tipsOrdering: null,
         searchTerm: '',
         sorting: "latest",
-        foundWallet: false
+        foundWallet: false,
+        languagesOptions: [
+          { value: 'en', text: 'English' },
+          { value: 'cn', text: 'Chinese' },
+        ],
+        defaultCurrency: 'eur',
+        currencies: [
+          { value: 'eur', text: 'EUR'},
+          { value: 'cny', text: 'YEN'},
+          { value: 'usd', text: 'USD'},
+        ]
       }
     },
     computed: {
@@ -134,6 +148,25 @@
       }
     },
     methods: {
+      openExplorer(address) {
+        return this.explorerUrl+address
+      },
+      switchLanguage(languageChoose) {
+        fetchAndSetLocale(languageChoose);
+        if(languageChoose == 'cn'){
+          this.isChineseActive = true;
+          this.defaultCurrency = 'cny';
+        }else{
+          this.isChineseActive = false;
+          this.defaultCurrency = 'eur';
+        }
+        this.displayCurrency();
+      },
+      isPreviewToBeVisualized(tip){
+       return typeof tip !== 'undeifned' && tip !== null
+        && typeof tip.preview !== 'undefined' && tip.preview.description !== null
+          && tip.preview.description.length > 0  && tip.preview.image !== null;
+      },
       sort(sorting) {
         this.sorting = sorting;
 
@@ -199,6 +232,17 @@
             this.tips = tips;
           }
         }
+
+        const currencyInstance = new Currency();
+        const getCurrencyRates = currencyInstance.getRates().catch(console.error);
+        const currencyRates = await Promise.resolve(getCurrencyRates);
+        this.tips = this.tips.map(tip => {
+          tip.fiatValue = (tip.amount * currencyRates.aeternity[this.defaultCurrency]).toFixed(2);
+          return tip;
+        })
+        .filter(tip => {
+          return (tip.amount * currencyRates.aeternity['usd']).toFixed(2) > 0.01;
+        });
 
         this.sort(this.sorting);
         this.showLoading = false;

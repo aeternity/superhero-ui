@@ -225,22 +225,22 @@
 
           if (initial) this.sorting = "hot";
         } else {
-          if(this.tipsPreview){
-            this.tips = tips.map(tip => { 
-              tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
-              return tip;
-            });
-          }else{
-            this.tips = tips;
-          }
+          let filteredTips = tips;
           if(typeof langTips !== 'undefined' && langTips.length > 0){
-            this.tips = this.tips.filter(tip => {
+            filteredTips = filteredTips.filter(tip => {
               tip = langTips.find((url)=> tip.url == url);
               if(tip){
                 return tip;
               }
             });
           }
+          if(this.tipsPreview){
+            filteredTips = filteredTips.map(tip => { 
+              tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
+              return tip;
+            });
+          }
+          this.tips = filteredTips;
         }
 
         const currencyInstance = new Currency();

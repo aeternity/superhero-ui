@@ -183,6 +183,14 @@
         await aeternity.contract.methods.tip(url, undefined, {amount: amount}).catch(console.error);
         this.reloadData();
       },
+      async asyncAddCurrency() {
+        new Currency().getRates().then(rates => {
+          this.tips = this.tips.map(tip => {
+            tip.fiatValue = (tip.amount * rates.aeternity[this.defaultCurrency]).toFixed(2);
+            return tip;
+          }).filter(tip => tip.amount * (rates.aeternity['usd']).toFixed(2) > 0.01);
+        }).catch(console.error);
+      },
       async reloadData(initial = false) {
         this.showLoading = true;
 
@@ -190,57 +198,50 @@
           if (initial) {
             await aeternity.initClient();
             wallet.init(() => {
-                this.foundWallet = true;
-                console.log("found wallet")
+              this.foundWallet = true;
+              console.log("found wallet")
             }).catch(console.error);
           }
           return aeternity.getTips().catch(console.error);
         };
+
         const backendInstance = new Backend();
         const fetchOrdering = backendInstance.tipOrder().catch(console.error);
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
-        const [tips, tipOrdering, tipsPreview] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview]);
- 
+        const fetchLangTips = backendInstance.getLangTips().catch(console.error);
+        let [tips, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
+
         this.tipsOrdering = tipOrdering;
         this.tipsPreview = tipsPreview;
+
+        // add score from backend to tips
         if (this.tipsOrdering) {
           const blacklistedTipIds = tipOrdering.map(order => order.id);
           const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.tipId));
 
-          this.tips = filteredTips.map(tip => {
+          tips = filteredTips.map(tip => {
             const orderItem = tipOrdering.find(order => order.id === tip.tipId);
             tip.score = orderItem ? orderItem.score : 0;
-            if(this.tipsPreview){
-              tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
-            }
             return tip;
           });
 
           if (initial) this.sorting = "hot";
-        } else {
-          if(this.tipsPreview){
-            this.tips = tips.map(tip => { 
-              tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
-              return tip;
-            });
-          }else{
-            this.tips = tips;
-          }
         }
 
-        const currencyInstance = new Currency();
-        currencyInstance.getRates()
-        .then(result => {
-          this.tips = this.tips.map(tip => {
-          tip.fiatValue = (tip.amount * result.aeternity[this.defaultCurrency]).toFixed(2);
-          return tip;
-        })
-        .filter(tip => {
-          return (tip.amount * result.aeternity['usd']).toFixed(2) > 0.01;
-        });
-        })
-        .catch(console.error);
+        // filter tips by language from backend
+        if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
 
+        // add preview to tips from backend
+        if (this.tipsPreview) {
+          tips = tips.map(tip => {
+            tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
+            return tip;
+          });
+        }
+
+        this.tips = tips;
+
+        this.asyncAddCurrency();
         this.sort(this.sorting);
         this.showLoading = false;
       }

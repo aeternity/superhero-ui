@@ -105,9 +105,10 @@
         searchTerm: '',
         sorting: "latest",
         foundWallet: false,
+        activeLang: 'en',
         languagesOptions: [
           { value: 'en', text: 'English' },
-          { value: 'cn', text: 'Chinese' },
+          { value: 'zh', text: 'Chinese' },
         ],
         defaultCurrency: 'eur',
         currencies: [
@@ -153,14 +154,13 @@
       },
       switchLanguage(languageChoose) {
         fetchAndSetLocale(languageChoose);
-        if(languageChoose == 'cn'){
-          this.isChineseActive = true;
+        this.activeLang = languageChoose;
+        if(languageChoose === 'zh'){
           this.defaultCurrency = 'cny';
         }else{
-          this.isChineseActive = false;
           this.defaultCurrency = 'eur';
         }
-        this.displayCurrency();
+        this.reloadData();
       },
       sort(sorting) {
         this.sorting = sorting;
@@ -208,7 +208,7 @@
         const backendInstance = new Backend();
         const fetchOrdering = backendInstance.tipOrder().catch(console.error);
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
-        const fetchLangTips = backendInstance.getLangTips().catch(console.error);
+        const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
         let [tips, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
 
         this.tipsOrdering = tipOrdering;

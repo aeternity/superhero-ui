@@ -58,13 +58,9 @@
   .min-h-screen {
     min-width: 100%;
     padding-bottom: 0;
-    background-color: #505058;
   }
 
   #app {
-    display: flex;
-    justify-content: center;
     font-family: Roboto, Helvetica, Arial, sans-serif;
-    color: #2c3e50;
   }
 </style>

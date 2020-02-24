@@ -17,4 +17,14 @@ export default class Backend {
   getLangTips = async (lang = 'en') => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/language/` + lang); 
   });
+  getTipComments = async (tipId) => wrapTry(async () => {
+    return fetch(`${this.BACKEND_URL}/comment/api/tip/` + encodeURIComponent(tipId));
+  });
+  sendTipComment = async (postParam) => wrapTry(async () => {
+    return fetch(`${this.BACKEND_URL}/comment/api/`, {
+      method: 'post',
+      body: JSON.stringify(postParam),
+      headers: {"Content-Type": "application/json"}
+    });
+  });
 }

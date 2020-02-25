@@ -1,6 +1,6 @@
 <template>
   <div class="aggregator__dropdown">
-    <b-form-select v-model="selectedVal" :options="optionsVal" @change="method.call()"></b-form-select>
+    <b-form-select v-model="selectedVal" :options="optionsVal" @change="method(selectedVal)"></b-form-select>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
     name: 'vue-dropdown',
     props: {
       options: { type: Array },
-      selected: { type: Number },
+      selected: { type: String },
       method: { type: Function },
     },
     data() {

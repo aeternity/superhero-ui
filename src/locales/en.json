@@ -1,0 +1,33 @@
+{
+  "pages": {
+    "Home": {
+      "HeaderTitle": "Tip Explorer",
+      "HeaderDescription": "Welcome to the aeternity Tips Explorer.",
+      "HeaderDescription2": "To start tipping and receiving tips install the",
+      "HeaderDescriptionLink": "waellet",
+      "HeaderDescription3": "extension",
+      "SearchPlaceholder": "Search for a tip record...",
+      "SortingLatest": "Latest",
+      "SortingHighestRated": "Highest Rated",
+      "SortingHot": "Hot",
+      "FooterPrivacyPolicy": "Privacy policy",
+      "FooterTermsOfService": "Legal Imprint",
+      "ReportABug": "Report a bug",
+      "NoResultsMsg": "There are no results found"
+    },
+    "TipComments":{
+      "NoResultsMsg": "There are no comments for this tip",
+      "BackTo": "Back to",
+      "records": "records"
+    }
+  },
+  "reused": {
+    "commentsModalTitle": "Write a comment"
+  },
+  "system": {
+    "noPreview": "No Preview Available",
+    "by": "by",
+    "Send": "Send",
+    "Cancel": "Cancel"
+  }
+}

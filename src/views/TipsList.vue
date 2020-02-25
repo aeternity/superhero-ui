@@ -1,90 +1,45 @@
 <template>
   <div>
-    <div class="container">
-      <div class="tips__container pt-3">
-        <h2>Tip Explorer</h2>
-        <p>
-          Welcome to the aeternity Tips Explorer.
-          <br> To start tipping and receiving tips install the <a href="https://waellet.com">waellet</a> extension
-        </p>
-        <div class="row actions__container mb-3">
-          <div class="input-group col-md-6 col-sm-12">
-            <input type="text" v-model="searchTerm" class="form-control" placeholder="Search for a tip record...">
-            <!-- <div class="input-group-append">
-              <span class="input-group-text">
-                <img class="search-icon" src="../assets/search.svg">
-              </span>
-            </div> -->
+    <div class="container header">
+    <h2 class="text-center mt-3">{{$t('pages.Home.HeaderTitle')}}</h2>
+    <p class="text-center">
+      {{$t('pages.Home.HeaderDescription')}}
+      <br> {{$t('pages.Home.HeaderDescription2')}} <a href="https://waellet.com">{{$t('pages.Home.HeaderDescriptionLink')}}</a> {{$t('pages.Home.HeaderDescription3')}}
+    </p>
+    </div>
+    <div class="actions__container">
+      <div class="container">
+        <div class="row">
+          <div class="input-group col-md-12 col-lg-6 col-sm-12">
+            <input type="text" v-model="searchTerm" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
+             <!-- <dropdown-component
+              :options="languagesOptions"
+              :selected="'en'"
+              :method="switchLanguage"
+            ></dropdown-component> -->
           </div>
-          <div class="col-md-6 col-sm-12 sorting">
-            <a v-if="this.tipsOrdering" class="mr-2" v-on:click="sort('hot')"
-               v-bind:class="{ active: sorting === 'hot' }">Hot</a>
-            <a class="mr-2" v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">Latest</a>
-            <a class="mr-2" v-on:click="sort('highest')" v-bind:class="{ active: sorting === 'highest' }">
-              Highest Tipped
+          <div class="col-md-12 col-lg-6 col-sm-12 sorting">
+            <a v-if="this.tipsOrdering" v-on:click="sort('hot')"
+                v-bind:class="{ active: sorting === 'hot' }"> {{$t('pages.Home.SortingHot')}}</a>
+            <a v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">{{$t('pages.Home.SortingLatest')}}</a>
+            <a v-on:click="sort('highest')" v-bind:class="{ active: sorting === 'highest' }">
+              {{$t('pages.Home.SortingHighestRated')}}
             </a>
           </div>
         </div>
-        <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
         </div>
-        <div class="no-results mb-3 text-center" v-if="filteredTips !== null && filteredTips.length === 0">
-          There are no results found
-        </div>
-        <div v-for="(tip,index) in filteredTips" :key="index" class="tip__record clearfix pt-2 pl-3 pr-3 mb-3">
-          <div class="tip__body float-left">
-            <div class="clearfix">
-              <div class="tip__actions float-left  mr-2">
-                <button class="btn btn-sm btn-light mr-1" @click="foundWallet && retip(tip.url)"><img src="../assets/heart.svg"></button>
-              </div>
-              <div class="tip__note float-left pr-2" :title="tip.note">
-                {{ tip.note }}
-              </div>
-            </div>
-            <div>
-              <a class="tip__url mb-2 text-ellipsis pr-2" :title="tip.url" :href='tip.url'>{{tip.url}}</a>
-            </div>
-            <div class="tip__footer clearfix ml-n3 pl-3 pr-3 pb-1 pt-1 text-ellipsis">
-              <div>
-                <div class="float-left">
-                  <span class="tip__date mr-2">
-                    {{ new Date(tip.received_at).toLocaleString('en-US', { hourCycle: 'h24' }) }}
-                  </span>
-                </div>
-                <div class="float-left">
-                  <span class="tip__amount">
-                    <img src="../assets/heart.svg"> +{{ tip.amount }} AE
-                  </span>
-                  <span class="currency-value">
-                     (~ {{ tip.fiatValue }} {{defaultCurrency.toUpperCase()}})
-                  </span>
-                  by
-                  <span class="tip__sender" :title="tip.sender">{{ tip.sender }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tip__article float-right mt-n2 pt-2 pl-2 clearfix">
-            <div class="left-arrow"></div>
-            <div class="left-arrow filler"></div>
-            <div class="tip__article--hasresults">
-              <div class="text-ellipsis tip__article__caption">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              </div>
-              <img src="https://via.placeholder.com/100x65" class="float-left mr-1">
-              <span>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-              </span>
-            </div>
-            <div class="tip__article--noresults">
-              No Preview Available
-            </div>
-          </div>
-        </div>
+    </div>
+    <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
       </div>
     </div>
+    <div class="container wrapper">
+     <div class="tips__container">
+       <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :foundWallet="foundWallet" :retip="retip" :defaultCurrency="defaultCurrency" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
+      </div>
+    </div>
+    <div class="no-results text-center" v-if="filteredTips !== null && !showLoading && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
   </div>
 </template>
 
@@ -95,10 +50,17 @@
   import Currency from "../utils/currency";
   import util from "../utils/util";
 
+  import Dropdown from "../components/DropdownComponent.vue"
+
+  import {langs, fetchAndSetLocale} from '../utils/i18nHelper'
+
+  import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
+
   export default {
     name: 'TipsList',
     data() {
       return {
+        explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
         showLoading: true,
         tips: null,
         tipsOrdering: null,
@@ -150,7 +112,7 @@
     },
     methods: {
       openExplorer(address) {
-        return this.explorerUrl+address
+        return this.explorerUrl + address
       },
       switchLanguage(languageChoose) {
         fetchAndSetLocale(languageChoose);
@@ -193,7 +155,6 @@
       },
       async reloadData(initial = false) {
         this.showLoading = true;
-
         const fetchTips = async () => {
           if (initial) {
             await aeternity.initClient();
@@ -210,7 +171,6 @@
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
         const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
         let [tips, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
-
         this.tipsOrdering = tipOrdering;
         this.tipsPreview = tipsPreview;
 
@@ -218,18 +178,16 @@
         if (this.tipsOrdering) {
           const blacklistedTipIds = tipOrdering.map(order => order.id);
           const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.tipId));
-
           tips = filteredTips.map(tip => {
             const orderItem = tipOrdering.find(order => order.id === tip.tipId);
             tip.score = orderItem ? orderItem.score : 0;
             return tip;
           });
-
           if (initial) this.sorting = "hot";
         }
 
         // filter tips by language from backend
-        if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
+//        if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
 
         // add preview to tips from backend
         if (this.tipsPreview) {
@@ -246,6 +204,10 @@
         this.showLoading = false;
       }
     },
+    components: {
+      'dropdown-component': Dropdown,
+      'tip-record': TipRecord
+    },
     async created() {
       await this.reloadData(true);
       setInterval(() => this.reloadData(), 120 * 1000);
@@ -257,43 +219,59 @@
 <style lang="scss" scoped>
   @import "../styles/base";
 
+  .header{
+    h2{
+      color: $standard_font_color;
+    }
+    p{
+      color: $light_font_color;
+    }
+    a{
+      color: $custom_links_color;
+    }
+  }
   .search-icon {
     height: 1rem;
   }
 
   .spinner__container{
+    margin-top: 1rem;
     margin-bottom: 1rem;
     max-height: 200px;
     opacity: 100%;
     transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
-
+    position: fixed;
+    left: 50%;
+    transform: translate( -50%);
+    z-index: 3;
     &.active {
       max-height: 0;
       opacity: 0;
     }
   }
-
-  .tips__container{
-    width: 100%;
-    h2,p{
-      color: $standard_font_color;
-      text-align: center;
-    }
-    p a{
-      color: $custom_links_color;
-    }
-    .no-results{
-      color: $standard_font_color;
-      font-size: .75rem;
-    }
-    .actions__container{
+  .container.wrapper{
+    min-height: 4rem;
+  }
+   .actions__container{
+      position: sticky;
+      position: -webkit-sticky;
+      top: 0;
+      z-index: 2;
       width: 100%;
       font-size: .75rem;
-      margin: 0 1rem 1rem 0;
+      margin: 0 1rem 0 0;
+      .row{
+        padding: .5rem 1rem .5rem 1rem;
+        background-color: $actions_ribbon_background_color;
+        border-top-right-radius: .25rem;
+        border-top-left-radius: .25rem;
+        margin: 0;
+      }
       .input-group{
         padding-left: 0;
+        padding-right: 0;
         .form-control{
-          background-color: $white_color;
+          background-color: $background_color;
           color: $standard_font_color;
           font-size: .75rem;
           border: 1px solid $white_color;
@@ -317,14 +295,16 @@
         }
       }
       .sorting{
-        background-color: $light_color;
         border-radius: .25rem;
         color: $light_font_color;
-        text-align: left;
-        padding: .45rem;
+        text-align: right;
         padding-left: 1rem;
+        padding: .45rem 0 .45rem .45rem;
         a{
-          font-weight: 700;
+          margin-right: .5rem;
+          &:last-child{
+            margin-right: 0;
+          }
           &:hover{
             color: $primary_color;
             cursor: pointer;
@@ -338,148 +318,98 @@
         }
       }
     }
-    .tip__record{
-      background-color: $article_content_color;
-      border-radius: .25rem;
-      .tip__actions{
-       .btn-sm img{
-         width: 1rem;
-        }
-      }
-      .tip__body{
-        width: calc(100% - 12rem);
-        .tip__note{
-          width: calc(100% - 3rem);
-          font-size: .8375rem;
-          font-weight: 700;
-          color: $standard_font_color;
-        }
-        .tip__url{
-          color: $custom_links_color;
-          font-size: .75rem;
-          cursor: pointer;
-          display: block;
-          overflow: visible;
-          white-space: pre-wrap;
-          word-wrap: break-word;
-        }
-        .tip__footer{
-          background-color: $light_color;
-          font-size: .5rem;
-          color: $light_font_color;
-          border-bottom-right-radius: .25rem;
-          border-bottom-left-radius: .25rem;
-          .tip__amount{
-            color: $secondary_color;
-            font-weight: 700;
-          }
-          .tip__sender{
-            color: $custom_links_color;
-            font-weight: 700;
-            font-size: .5rem;
-          }
-          .tip__totalsum, .tip__amount, .tip__comments, .tip__article__logo{
-            img {
-              width: .75rem;
-              display: inline;
-              margin-right: 2px;
-            }
-          }
-          .tip__article__logo{
-            font-weight: 700;
-            .fa-facebook-f{
-              color: #4267B2;
-            }
-          }
-        }
-      }
-      .tip__article{
-        width: 12rem;
-        border-left: .05rem solid $border_color;
-        min-height: 5.9rem;
-        font-size: .5rem;
-        position: relative;
-        color: $standard_font_color;
-        .tip__article__caption{
-          font-size: .625rem;
-          font-weight: 700;
-          color: $standard_font_color;
-        }
-        img{
-          width: 6rem;
-          float: left;
-          height: 4.125rem;
-        }
-        span{
-          @include truncate-overflow-mx(6);
-        }
-        .left-arrow {
-          @include vertical-align(absolute);
-          border-color: transparent $border_color;
-          border-style: solid;
-          border-width: 10px 10px 10px 0px;
-          height: 0px;
-          width: 0px;
-          left: -.6rem;
-        }
-        .left-arrow.filler{
-          border-color: transparent $article_content_color;
-          left: -.52rem;
-        }
-        .tip__article--hasresults{
-          display: none;
-        }
-        .tip__article--noresults{
-          display: none;
-          width: 100%;
-          text-align: center;
-          @include vertical-align(absolute);
-          font-size: .75rem;
-          color: $light_font_color;
-        }
-      }
+  .tips__container{
+    width: 100%;
+    background-color: $tip_list_background_color;
+    padding: 1rem;
+    &:empty{
+      visibility: hidden;
     }
-    .tip__article{
-      display: none;
-    }
-  }
-  .tips__container .tip__record .tip__body{
-      width: 100%;
-  }
-  .tips__container .tip__record .tip__body .tip__footer{
-    margin-right: -1rem;
   }
 
+  .no-results{
+    color: $standard_font_color;
+    font-size: .75rem;
+    margin-bottom: 4rem;
+  }
+
+@media only screen and (max-width: 1024px){
+   .actions__container .sorting{
+    padding-top: .45rem;
+  }
+}
+
 @media only screen and (max-width: 768px){
-  .tips__container .tip__record .tip__body .tip__url{
-    font-size: .65rem;
-  }
-  .tips__container .tip__record .tip__body .tip__note{
-    font-size: .7375rem;
-  }
-  .tips__container .actions__container .input-group{
+  .actions__container .input-group{
     margin-bottom: 1rem;
     padding-right: 0;
+  }
+  .actions__container{
+    padding-bottom: 0;
+    .input-group{
+      margin-bottom: 0;
+    }
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .tips__container .tip__record .tip__body .tip__note{
-    font-size: .65rem;
-  }
-  .tips__container .tip__record .tip__actions .btn-sm img{
-    width: .75rem
-  }
-  .tips__container .actions__container .input-group{
+  .actions__container .input-group{
     margin-bottom: 1rem;
     padding-right: 0;
   }
-  .tips__container .tip__record .tip__body .tip__footer .tip__amount img{
-    width: .7rem;
+  .actions__container{
+    padding-bottom: 0;
+    .input-group{
+      margin-bottom: 0;
+    }
   }
-  .tips__container .tip__record .tip__body .tip__footer{
-    font-size: .65rem;
-    white-space: normal;
+}
+
+//Smallest devices Portrait and Landscape
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+  .actions__container{
+      width: 100vw;
+      max-width: 100vw;
+      padding: .5rem .5rem 0 .5rem;
+      background-color: $actions_ribbon_background_color;
+      overflow-x: hidden;
+      .container,.row{
+        padding: 0;
+      }
+
+      .sorting{
+        width: -webkit-fill-available;
+        width: -moz-available;
+        background-color: #1D1D23;
+        margin: .5rem -1rem 0 -1rem;
+        text-align: center;
+        padding-bottom: 0;
+        padding-left: .5rem;
+        border-bottom: .075rem solid $search_nav_border_color;
+        a{
+          cursor: pointer;
+          width: 32.5%;
+          display: inline-block;
+          padding-bottom: .45rem;
+          margin-right: 0;
+          &.active{
+            border-bottom: .075rem solid $secondary_color;
+            margin-bottom: -.075rem;
+          }
+        }
+      }
+    }
+  .container.wrapper{
+    padding: 1rem .25rem 0 .25rem;
+    .tips__container{
+      padding: 0;
+      background-color: $background_color;
+    }
   }
+
 }
 </style>

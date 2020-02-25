@@ -1,0 +1,33 @@
+{
+  "pages": {
+    "Home": {
+      "HeaderTitle": "提示浏览器",
+      "HeaderDescription": "欢迎使用aeternity Tips Explorer。",
+      "HeaderDescription2": "要开始给小费和接收小费，请安装",
+      "HeaderDescriptionLink": "瓦莱特",
+      "HeaderDescription3": "延期",
+      "SearchPlaceholder": "搜索提示记录...",
+      "SortingLatest": "最新的",
+      "SortingHighestRated": "获取♥币最高的 记录排序",
+      "SortingHot": "按 最热的",
+      "FooterPrivacyPolicy": "隐私条款",
+      "FooterTermsOfService": "服务条款",
+      "ReportABug": "报告错误",
+      "NoResultsMsg": "找不到结果"
+    },
+    "TipComments":{
+      "NoResultsMsg": "这个提示没有评论",
+      "BackTo": "回到",
+      "records": "记录"
+    }
+  },
+  "reused": {
+    "commentsModalTitle": "留个评论"
+  },
+  "system": {
+    "noPreview": "无预览",
+    "by": "来自",
+    "Send": "发送",
+    "Cancel": "取消"
+  }
+}

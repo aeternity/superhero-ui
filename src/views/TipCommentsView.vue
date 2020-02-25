@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="tipped__url">
-      <tip-record :tip="tip" :defaultCurrency="defaultCurrency" :fiatValue="tip.fiatValue" @updateComment="onUpdateComment" :senderLink="openExplorer(tip.sender)""></tip-record>
+      <tip-record :tip="tip" :defaultCurrency="defaultCurrency" :fiatValue="tip.fiatValue" @updateComment="onUpdateComment" :senderLink="openExplorer(tip.sender)"></tip-record>
     </div>
     <div class="comments__section position-relative">
       <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
@@ -134,4 +134,3 @@
   }
 }
 </style>
-

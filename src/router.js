@@ -1,6 +1,7 @@
 import Router from 'vue-router'
 import TipsList from "./views/TipsList";
 import TipCommentsView from "./views/TipCommentsView";
+import UserProfileView from "./views/UserProfileView";
 
 let guardTipComments = (to, from, next) => {
   if(to.name == 'tip-comments' && to.params.tipData){
@@ -24,6 +25,12 @@ const routes = [
     meta: {title: 'Comments for a Tip'},
     props: true,
     beforeEnter : guardTipComments,
+  },{
+    path: '/user-profile/:address',
+    name: 'user-profile',
+    component: UserProfileView,
+    meta: {title: 'User Profile'},
+    props: true
   }
 ]
 

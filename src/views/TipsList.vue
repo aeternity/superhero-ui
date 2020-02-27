@@ -19,23 +19,6 @@
         </div>
       </div>
     </header-component>
-    <!-- <div class="actions__container">
-      <div class="container">
-        <div class="row">
-          <div class="input-group col-md-12 col-lg-6 col-sm-12">
-            <input type="text" v-model="searchTerm" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
-          </div>
-          <div class="col-md-12 col-lg-6 col-sm-12 sorting">
-            <a v-if="this.tipsOrdering" v-on:click="sort('hot')"
-                v-bind:class="{ active: sorting === 'hot' }"> {{$t('pages.Home.SortingHot')}}</a>
-            <a v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">{{$t('pages.Home.SortingLatest')}}</a>
-            <a v-on:click="sort('highest')" v-bind:class="{ active: sorting === 'highest' }">
-              {{$t('pages.Home.SortingHighestRated')}}
-            </a>
-          </div>
-        </div>
-        </div>
-    </div> -->
     <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>

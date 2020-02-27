@@ -1,12 +1,30 @@
 <template>
   <div class="app__rightcolumn">
-    <div class="navigation">
-      <div class="section__title">
-        Trending
+    <div class="content">
+      <div class="section">
+        <div class="section__title">
+          Trending
+        </div>
+        <div class="section__body clearfix">
+          <div class="float-left">#coronavirus</div>
+          <div class="float-right">33K AE(~6.6K USD)</div>
+        </div>
       </div>
-      <div class="section__body clearfix">
-        <div class="float-left">#coronavirus</div>
-        <div class="float-right">33K AE(~6.6K USD)</div>
+      <div class="section">
+        <div class="section__title">
+          Famous Superheroes
+        </div>
+        <div class="section__body clearfix">
+          <div class="float-left">#coronavirus</div>
+          <div class="float-right">33K AE(~6.6K USD)</div>
+        </div>
+      </div>
+      <div class="clearfix footer">
+        <div class="float-left">&copy; 2020 SUPERHERO.com</div>
+        <div class="float-right">
+          <a>Terms</a>
+          <a>Privacy Policy</a>
+        </div>
       </div>
     </div>
   </div>
@@ -29,11 +47,15 @@
   font-size: .55rem;
   position: fixed;
   right: 0;
-  .navigation{
+  .content{
     width: 8rem;
     margin-top: 1rem;
-    text-transform: uppercase;
+    .section{
+      border: .065rem solid $panel_border_color;
+      margin-bottom: 1rem;
+    }
     .section__title{
+      text-transform: uppercase;
       background-color: $actions_ribbon_background_color;
       border-top-right-radius: .25rem;
       border-top-left-radius: .25rem;
@@ -43,6 +65,13 @@
       text-transform: none;
       font-size: .45rem;
       padding: .5rem;
+    }
+    .footer{
+      font-size: .35rem;
+      a{
+        cursor: pointer;
+        text-decoration: underline;
+      }
     }
   }
 }

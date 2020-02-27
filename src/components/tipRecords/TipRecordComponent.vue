@@ -56,6 +56,8 @@
 <script>
   import Backend from "../../utils/backend";
   import CommentModal from "../CommentModalComponent.vue"
+  import { wallet } from '../../utils/walletSearch';
+  import aeternity from '../../utils/aeternity';
 
   const backendInstance = new Backend();
 
@@ -67,6 +69,16 @@
       }
     },
     methods: {
+      async signMessage(message) {
+        const messageSig  = await wallet.client.signMessage(message);
+        console.log("signed message => ", messageSig)
+        const isValid = await wallet.client.verifyMessage(message, messageSig)
+        console.log("message valid => ", isValid)
+
+        const isValidAgain = await aeternity.client.verifyMessage(message, messageSig)
+        console.log("message valid => ", isValidAgain)
+        return messageSig;
+      },
       isPreviewToBeVisualized(tip){
        return typeof tip !== 'undeifned' && tip !== null
         && typeof tip.preview !== 'undefined' && tip.preview.description !== null
@@ -83,12 +95,25 @@
           tipId: data.tip.tipId,
           text: data.comment,
           hidden: false,
-          id: parseInt(data.tip.tipId.substr(data.tip.tipId.length - 1)),
-          author: data.tip.sender,
-          signature: data.tip.tipId
+          author: wallet.client.rpcClient.getCurrentAccount(),
         }
-        backendInstance.sendTipComment(postData).then((response) => {
-          this.$emit('updateComment', response)
+
+        console.log("sending comment => ", postData)
+        
+        backendInstance.sendTipComment(postData).then(async (response) => {
+          console.log("challenge => ", response.challenge);
+          console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
+         
+          let signedChallenge = await this.signMessage(response.challenge)
+          let respondChallenge = {
+            challenge: response.challenge,
+            signature: signedChallenge
+          }
+
+          backendInstance.sendTipComment(respondChallenge).then((result) => {
+            console.log(result);
+            this.$emit('updateComment', result)
+          }).catch(console.error)
         }).catch(console.error);
       }
     },

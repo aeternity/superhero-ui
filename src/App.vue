@@ -11,6 +11,9 @@
 <script>
 
   import aeternity from './utils/aeternity.js'
+  import { mapGetters } from 'vuex';
+  import { clearInterval, setInterval } from 'timers';
+  import { wallet } from './utils/walletSearch';
 
   export default {
     name: 'app',
@@ -18,6 +21,9 @@
       return {
         foundWallet: false
       }
+    },
+    computed: {
+      ...mapGetters(['account', 'current', 'mainLoading', 'sdk', 'isLoggedIn']),
     },
     methods: {
       async checkAndReloadProvider() {
@@ -27,15 +33,22 @@
         if (changesDetected) this.$router.go();
       },
       async initialize() {
+        console.log('Initializing wallett')
         try {
           // Bypass check if there is already an active wallet
-          if (aeternity.hasActiveWallet())
+          if (aeternity.hasActiveWallet()) {
+            this.$store.commit('SWITCH_LOGGED_IN', true);
+            this.$store.commit('UPDATE_ACCOUNT', wallet.client.rpcClient.getCurrentAccount())
             return this.foundWallet = true;
+          }
           // Otherwise init the aeternity sdk
           if (!(await aeternity.initClient()))
             return console.error('Wallet init failed');
 
           this.foundWallet = true;
+          this.$store.commit('SWITCH_LOGGED_IN', true);
+          this.$store.commit('UPDATE_ACCOUNT', wallet.client.rpcClient.getCurrentAccount())
+
           // Constantly check if wallet is changed
           setInterval(this.checkAndReloadProvider, 1000)
         } catch (e) {
@@ -44,7 +57,7 @@
       }
     },
     async created() {
-     //this.initialize(); // not needed now as only one page that requires sdk
+      this.initialize();
     }
   }
 </script>

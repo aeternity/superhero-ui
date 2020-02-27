@@ -1,22 +1,10 @@
 <template>
   <div>
-    <div class="container header">
-    <h2 class="text-center mt-3">{{$t('pages.Home.HeaderTitle')}}</h2>
-    <p class="text-center">
-      {{$t('pages.Home.HeaderDescription')}}
-      <br> {{$t('pages.Home.HeaderDescription2')}} <a href="https://waellet.com">{{$t('pages.Home.HeaderDescriptionLink')}}</a> {{$t('pages.Home.HeaderDescription3')}}
-    </p>
-    </div>
     <div class="actions__container">
       <div class="container">
         <div class="row">
           <div class="input-group col-md-12 col-lg-6 col-sm-12">
             <input type="text" v-model="searchTerm" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
-             <!-- <dropdown-component
-              :options="languagesOptions"
-              :selected="'en'"
-              :method="switchLanguage"
-            ></dropdown-component> -->
           </div>
           <div class="col-md-12 col-lg-6 col-sm-12 sorting">
             <a v-if="this.tipsOrdering" v-on:click="sort('hot')"
@@ -35,8 +23,8 @@
       </div>
     </div>
     <div class="container wrapper">
-     <div class="tips__container">
-       <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :foundWallet="foundWallet" :retip="retip" :defaultCurrency="defaultCurrency" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
+      <div class="tips__container">
+        <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :foundWallet="foundWallet" :retip="retip" :defaultCurrency="defaultCurrency" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
       </div>
     </div>
     <div class="no-results text-center" v-if="filteredTips !== null && !showLoading && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>

@@ -4,7 +4,6 @@
       <div class="min-h-screen wrapper" ref="wrapper">
         <router-view></router-view>
       </div>
-
     </div>
   </div>
 </template>

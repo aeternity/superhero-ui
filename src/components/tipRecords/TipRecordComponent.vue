@@ -58,6 +58,7 @@
   import CommentModal from "../CommentModalComponent.vue"
   import { wallet } from '../../utils/walletSearch';
   import aeternity from '../../utils/aeternity';
+  import * as helper from '../../utils/helper';
 
   const backendInstance = new Backend();
 
@@ -69,16 +70,6 @@
       }
     },
     methods: {
-      async signMessage(message) {
-        const messageSig  = await wallet.client.signMessage(message);
-        console.log("signed message => ", messageSig)
-        const isValid = await wallet.client.verifyMessage(message, messageSig)
-        console.log("message valid => ", isValid)
-
-        const isValidAgain = await aeternity.client.verifyMessage(message, messageSig)
-        console.log("message valid => ", isValidAgain)
-        return messageSig;
-      },
       isPreviewToBeVisualized(tip){
        return typeof tip !== 'undeifned' && tip !== null
         && typeof tip.preview !== 'undefined' && tip.preview.description !== null
@@ -104,7 +95,7 @@
           console.log("challenge => ", response.challenge);
           console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
          
-          let signedChallenge = await this.signMessage(response.challenge)
+          let signedChallenge = await helper.signMessage(response.challenge)
           let respondChallenge = {
             challenge: response.challenge,
             signature: signedChallenge

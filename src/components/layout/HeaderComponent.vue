@@ -42,6 +42,7 @@
 }
 .header__body{
   width: 35rem;
+  min-height: 1.5rem;
   display: inline-block;
 }
 @media (min-width: 768px) {

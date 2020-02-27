@@ -60,7 +60,6 @@
   import util from "../utils/util";
 
   import Dropdown from "../components/DropdownComponent.vue"
-  import Header from "../components/layout/HeaderComponent.vue"
 
   import {langs, fetchAndSetLocale} from '../utils/i18nHelper'
 

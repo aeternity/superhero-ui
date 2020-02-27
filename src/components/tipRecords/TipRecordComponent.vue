@@ -203,15 +203,15 @@
         position: relative;
         color: $standard_font_color;
         background-color: $thumbnail_background_color;
-        padding-top: .5rem;
-        padding-left: .5rem;
-        margin-top: -.5rem;
+        padding: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
         border-top-right-radius: .25rem;
         border-bottom-right-radius: .25rem;
         img{
-          width: 6rem;
+          width: 50%;
           float: left;
-          height: 4.125rem;
+          height: 7.5rem;
           border-radius: .25rem;
           top: 50%;
           -webkit-transform: translateY(-50%);
@@ -219,6 +219,7 @@
           transform: translateY(20%);
         }
         span{
+          padding: 0.5rem 0.1rem 0.5rem;
           @include truncate-overflow-mx(6);
         }
         .tip__article--noresults{
@@ -248,8 +249,6 @@
     }
     .tip__article{
       min-height: initial;
-      padding-bottom: .5rem;
-      padding-left: 1rem;
       min-height: 2rem;
       &.col-4{
         width: 100%;
@@ -260,7 +259,7 @@
         transform: none;
       }
       span{
-        @include truncate-overflow-mx(4);
+        @include truncate-overflow-mx(6);
       }
     }
     .tip__body{
@@ -302,8 +301,6 @@
     }
     .tip__article{
       min-height: initial;
-      padding-bottom: .5rem;
-      padding-left: 1rem;
       min-height: 2rem;
       &.col-4{
         width: 100%;
@@ -314,7 +311,7 @@
         transform: none;
       }
       span{
-        @include truncate-overflow-mx(4);
+        @include truncate-overflow-mx(6);
       }
     }
     .tip__body{

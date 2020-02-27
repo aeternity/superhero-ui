@@ -50,6 +50,7 @@
 </script>
 
 <style >
+
   html{
     font-size: 125%;
   }
@@ -62,4 +63,5 @@
   #app {
     font-family: Roboto, Helvetica, Arial, sans-serif;
   }
+
 </style>

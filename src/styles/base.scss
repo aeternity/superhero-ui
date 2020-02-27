@@ -44,3 +44,42 @@ body{
   text-overflow: ellipsis;
 }
 
+.app__leftcolumn, .app__rightcolumn{
+  width: calc(50% - 17.5rem);
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 27rem;
+  }
+  .app__leftcolumn, .app__rightcolumn{
+    width: calc(50% - 13.5rem);
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 35rem
+  }
+  .app__leftcolumn, .app__rightcolumn{
+    width: calc(50% - 17.5rem);
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 35rem
+  }
+  .app__leftcolumn, .app__rightcolumn{
+    width: calc(50% - 17.5rem);
+  }
+}
+
+@media only screen and (max-width: 860px) {
+  .container{
+    width: 100%;
+  }
+  .app__leftcolumn, .app__rightcolumn{
+   display: none;
+  }
+}

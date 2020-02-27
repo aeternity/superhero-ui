@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="actions__container">
+    <header-component>
+      <div class="actions__container">
       <div class="container">
         <div class="row">
           <div class="input-group col-md-12 col-lg-6 col-sm-12">
@@ -16,12 +17,32 @@
           </div>
         </div>
         </div>
-    </div>
+      </div>
+    </header-component>
+    <!-- <div class="actions__container">
+      <div class="container">
+        <div class="row">
+          <div class="input-group col-md-12 col-lg-6 col-sm-12">
+            <input type="text" v-model="searchTerm" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
+          </div>
+          <div class="col-md-12 col-lg-6 col-sm-12 sorting">
+            <a v-if="this.tipsOrdering" v-on:click="sort('hot')"
+                v-bind:class="{ active: sorting === 'hot' }"> {{$t('pages.Home.SortingHot')}}</a>
+            <a v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">{{$t('pages.Home.SortingLatest')}}</a>
+            <a v-on:click="sort('highest')" v-bind:class="{ active: sorting === 'highest' }">
+              {{$t('pages.Home.SortingHighestRated')}}
+            </a>
+          </div>
+        </div>
+        </div>
+    </div> -->
     <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
       </div>
     </div>
+    <right-section></right-section>
+    <left-section></left-section>
     <div class="container wrapper">
       <div class="tips__container">
         <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :foundWallet="foundWallet" :retip="retip" :defaultCurrency="defaultCurrency" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
@@ -39,10 +60,14 @@
   import util from "../utils/util";
 
   import Dropdown from "../components/DropdownComponent.vue"
+  import Header from "../components/layout/HeaderComponent.vue"
 
   import {langs, fetchAndSetLocale} from '../utils/i18nHelper'
 
   import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
+  import HeaderComponent from '../components/layout/HeaderComponent.vue';
+  import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
+  import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
 
   export default {
     name: 'TipsList',
@@ -194,7 +219,10 @@
     },
     components: {
       'dropdown-component': Dropdown,
-      'tip-record': TipRecord
+      'tip-record': TipRecord,
+      'header-component': HeaderComponent,
+      'left-section': LeftSectionComponent,
+      'right-section': RightSectionComponent,
     },
     async created() {
       await this.reloadData(true);
@@ -241,16 +269,8 @@
     min-height: 4rem;
   }
    .actions__container{
-      position: sticky;
-      position: -webkit-sticky;
-      top: 0;
-      z-index: 2;
-      width: 100%;
-      font-size: .75rem;
-      margin: 0 1rem 0 0;
       .row{
         padding: .5rem 1rem .5rem 1rem;
-        background-color: $actions_ribbon_background_color;
         border-top-right-radius: .25rem;
         border-top-left-radius: .25rem;
         margin: 0;

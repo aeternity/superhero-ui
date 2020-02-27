@@ -60,10 +60,9 @@
   position: fixed;
   text-align: right;
   .content{
-    width: 6rem;
+    width: 8.3rem;
     margin-top: 1rem;
     display: inline-block;
-    width: 6rem;
     text-transform: uppercase;
     text-align: left;
     .navigation{

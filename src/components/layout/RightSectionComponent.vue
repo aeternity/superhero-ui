@@ -48,7 +48,7 @@
   position: fixed;
   right: 0;
   .content{
-    width: 8rem;
+    width: 8.3rem;
     margin-top: 1rem;
     .section{
       border: .065rem solid $panel_border_color;
@@ -67,7 +67,7 @@
       padding: .5rem;
     }
     .footer{
-      font-size: .35rem;
+      font-size: .33rem;
       a{
         cursor: pointer;
         text-decoration: underline;

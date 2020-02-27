@@ -45,7 +45,7 @@ body{
 }
 
 .app__leftcolumn, .app__rightcolumn{
-  width: calc(50% - 17.5rem);
+  width: calc(50% - 18rem);
 }
 
 @media (min-width: 768px) {
@@ -53,16 +53,16 @@ body{
     max-width: 27rem;
   }
   .app__leftcolumn, .app__rightcolumn{
-    width: calc(50% - 13.5rem);
+    width: calc(50% - 14rem);
   }
 }
 
 @media (min-width: 992px) {
   .container {
-    max-width: 35rem
+    max-width: 30rem
   }
   .app__leftcolumn, .app__rightcolumn{
-    width: calc(50% - 17.5rem);
+    width: calc(50% - 15rem);
   }
 }
 
@@ -71,7 +71,7 @@ body{
     max-width: 35rem
   }
   .app__leftcolumn, .app__rightcolumn{
-    width: calc(50% - 17.5rem);
+    width: calc(50% - 18rem);
   }
 }
 

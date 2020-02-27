@@ -41,7 +41,7 @@
   }
 }
 .header__body{
-  width: 35rem;
+  width: 33rem;
   min-height: 1.5rem;
   display: inline-block;
 }
@@ -56,7 +56,7 @@
 
 @media (min-width: 992px) {
   .header .header__body {
-    width: 35rem
+    width: 33rem
   }
   .header .header__logo{
     width: calc(50% - 17.5rem)
@@ -65,7 +65,7 @@
 
 @media (min-width: 1200px) {
   .header .header__body {
-    width: 35rem
+    width: 33rem
   }
   .header .header__logo{
     width: calc(50% - 17.5rem)

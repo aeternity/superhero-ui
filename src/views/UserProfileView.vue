@@ -1,5 +1,6 @@
 <template>
   <div>
+    <header-component></header-component>
     <right-section></right-section>
     <left-section></left-section>
     <div class="container profile__page">
@@ -125,6 +126,7 @@
   import RightSectionComponentVue from '../components/layout/RightSectionComponent.vue';
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
+  import HeaderComponentVue from '../components/layout/HeaderComponent.vue';
 
   const backendInstance = new Backend();
 
@@ -135,7 +137,8 @@
       'tip-comment': TipComment,
       'retip-component': RetipComment,
       'left-section': LeftSectionComponentVue,
-      'right-section': RightSectionComponentVue
+      'right-section': RightSectionComponentVue,
+      'header-component': HeaderComponentVue
     },
      data() {
       return {

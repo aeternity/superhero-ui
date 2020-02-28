@@ -88,18 +88,18 @@
         this.tipsPreview = tipsPreview;
 
         // add score from backend to tips
-        /*if (this.tipsOrdering) {
+        if (this.tipsOrdering) {
           const blacklistedTipIds = tipOrdering.map(order => order.id);
-          const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.tipId));
+          const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.id));
           tips = filteredTips.map(tip => {
-            const orderItem = tipOrdering.find(order => order.id === tip.tipId);
+            const orderItem = tipOrdering.find(order => order.id === tip.id);
             tip.score = orderItem ? orderItem.score : 0;
             return tip;
           });
           if (initial) this.sorting = "hot";
         }
 
-        this.$store.commit('SET_TIPS_ORDERING', this.tipsOrdering)
+        this.$store.commit('SET_TIPS_ORDERING', this.tipsOrdering);
 
         // filter tips by language from backend
         // if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
@@ -110,7 +110,7 @@
             tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
             return tip;
           });
-        }*/
+        }
 
         this.tempTips = tips;
         this.$store.commit('UPDATE_TIPS', this.tempTips);

@@ -5,6 +5,9 @@ export default {
     commit(types.UPDATE_ACCOUNT, payload);
     commit(types.UPDATE_BALANCE);
   },
+  updateCurrencyRates({ commit }, payload) {
+    commit(types.CURRENCY_RATES, payload)
+  },
   updateTips({ commit }, payload) {
     commit(types.UPDATE_TIPS, payload)
   },

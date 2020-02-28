@@ -18,7 +18,11 @@
         <div v-for="(amount, topic) in topics">
         <div class="section__body clearfix">
           <div class="float-left">{{topic}}</div>
-          <div class="float-right"><span class="value">{{amount}}</span> <span class="ae">AE</span>(~6.6K USD)</div>
+          <div class="float-right">
+            <span class="value">{{amount}}</span> 
+            <span class="ae">AE</span>
+            <fiat-value :amount="amount"></fiat-value>
+          </div>
         </div>
         </div>
       </div>
@@ -35,9 +39,13 @@
 
 <script>
   import {mapGetters} from "vuex";
+  import FiatValueComponentVue from '../FiatValueComponent.vue';
 
   export default {
     name: 'RightSectionComponent',
+    components: {
+      'fiat-value': FiatValueComponentVue
+    },
     data() {
       return {}
     },

@@ -23,9 +23,7 @@
             <span class="tip__amount" @click="foundWallet && retip(tip.id)" title="Send AE to this post">
               <img src="../../assets/heart.svg"> {{ tip.total_amount }} <span>AE</span>
             </span>
-            <span class="currency-value">
-                (~ {{ fiatValue }} {{current.currency.toUpperCase()}})
-            </span>
+            <fiat-value :amount="tip.total_amount"></fiat-value>
             <span @click="goToTip(tip)"><img src="../../assets/commentsIcon.svg"></span>
           </div>
           <div class="col-lg-3 col-md-12" >
@@ -52,12 +50,16 @@
   import { wallet } from '../../utils/walletSearch';
   import { mapGetters } from 'vuex';
   import aeternity from '../../utils/aeternity';
+  import FiatValueComponentVue from '../FiatValueComponent.vue';
 
   const backendInstance = new Backend();
 
   export default {
     name: 'TipRecord',
     props: ['tip', 'foundWallet', 'retip', 'fiatValue', 'senderLink'],
+    components: {
+      'fiat-value': FiatValueComponentVue
+    },
     data() {
       return {
       }

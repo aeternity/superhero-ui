@@ -54,6 +54,7 @@
       async asyncAddCurrency() {
         new Currency().getRates().then(rates => {
           console.log(rates);
+          this.$store.commit('CURRENCY_RATES', rates)
           this.tempTips = this.tempTips.map(tip => {
             tip.fiatValue = (tip.total_amount * rates.aeternity[this.current.currency]).toFixed(2);
             return tip;

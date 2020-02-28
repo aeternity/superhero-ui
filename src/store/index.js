@@ -15,7 +15,7 @@ export default new Vuex.Store({
     current: {
       language: '',
       token: 0,
-      currencyRate: 0,
+      currencyRates: {},
       currency: 'eur',
     },
     currencies: [

@@ -15,7 +15,7 @@ export default class Backend {
     return fetch(`${this.BACKEND_URL}/linkpreview`);
   });
   getLangTips = async (lang = 'en') => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/language/` + lang); 
+    return fetch(`${this.BACKEND_URL}/language/` + lang);
   });
   getTipComments = async (tipId) => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/comment/api/tip/` + encodeURIComponent(tipId));
@@ -43,5 +43,5 @@ export default class Backend {
   getProfileImage = async (address) => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/profile/image/` + address);
   });
-  
+
 }

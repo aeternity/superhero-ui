@@ -197,6 +197,7 @@
           -webkit-transform: translateY(-50%);
           -ms-transform: translateY(-50%);
           transform: translateY(20%);
+          object-fit: cover;
         }
         span{
           padding: .5rem 0.1rem 0 0.5rem;

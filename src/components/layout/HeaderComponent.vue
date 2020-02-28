@@ -39,7 +39,6 @@
   width: 100%;
   font-size: .75rem;
   margin: 0 1rem 0 0;
-  background-color: $actions_ribbon_background_color;
   min-height: 3rem;
   .header__left_section{
     width: calc(50% - 17.7rem);

@@ -4,10 +4,10 @@
       <div class="actions__container">
       <div class="container">
         <div class="row">
-          <div class="input-group col-md-12 col-lg-6 col-sm-12">
+          <div class="input-group col-md-12 col-lg-12 col-sm-12">
             <input type="text" v-model="searchTerm" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
           </div>
-          <div class="col-md-12 col-lg-6 col-sm-12 sorting">
+          <div class="col-md-12 col-lg-12 col-sm-12 sorting">
             <a v-if="this.tipsOrdering" v-on:click="sort('hot')"
                 v-bind:class="{ active: sorting === 'hot' }"> {{$t('pages.Home.SortingHot')}}</a>
             <a v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">{{$t('pages.Home.SortingLatest')}}</a>
@@ -252,6 +252,7 @@
   }
    .actions__container{
       .row{
+        background-color: $actions_ribbon_background_color;
         padding: .5rem 1rem .5rem 1rem;
         border-top-right-radius: .25rem;
         border-top-left-radius: .25rem;
@@ -287,7 +288,7 @@
       .sorting{
         border-radius: .25rem;
         color: $light_font_color;
-        text-align: right;
+        text-align: left;
         padding-left: 1rem;
         padding: .45rem 0 .45rem .45rem;
         a{
@@ -311,7 +312,7 @@
   .tips__container{
     width: 100%;
     background-color: $tip_list_background_color;
-    padding: 1rem;
+    padding-top: 0.1rem;
     &:empty{
       visibility: hidden;
     }

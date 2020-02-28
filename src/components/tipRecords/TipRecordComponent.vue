@@ -126,9 +126,8 @@
   }
   .tip__record{
       background-color: $light_color;
-      border-radius: .25rem;
       padding: .5rem 0 0 0;
-      margin: 0 0 1rem 0;
+      margin: 0 0 0.3rem 0;
       .tip__body{
         width: 100%;
         padding-left: 0;

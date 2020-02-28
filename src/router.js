@@ -3,7 +3,7 @@ import TipsList from "./views/TipsList";
 import TipCommentsView from "./views/TipCommentsView";
 
 let guardTipComments = (to, from, next) => {
-  if(to.name == 'tip-comments' && to.params.tipData){
+  if(to.name == 'tip' && to.params.tipId){
     next(); 
   }else{
     next('/'); 
@@ -18,10 +18,12 @@ const routes = [
     component: TipsList,
     meta: {title: 'Home'}
   },{
-    path: '/tip-comments',
-    name: 'tip-comments',
+    path: '/tip/:tipId',
+    name: 'tip',
     component: TipCommentsView,
-    meta: {title: 'Comments for a Tip'},
+    meta: {
+      title: 'Comments for a Tip'
+    },
     props: true,
     beforeEnter : guardTipComments,
   }

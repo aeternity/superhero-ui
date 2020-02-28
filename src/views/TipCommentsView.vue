@@ -39,9 +39,10 @@
   import TipComment from "../components/tipRecords/TipCommentComponent.vue"
   import RetipComment from "../components/tipRecords/RetipComponent.vue"
 
- import HeaderComponent from '../components/layout/HeaderComponent.vue';
+  import HeaderComponent from '../components/layout/HeaderComponent.vue';
   import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
   import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
+  import { mapGetters } from 'vuex';
 
   const backendInstance = new Backend();
 
@@ -55,19 +56,18 @@
       'left-section': LeftSectionComponent,
       'right-section': RightSectionComponent,
     },
-    props: ['tipData'],
-     data() {
+    data() {
       return {
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
-        tip: this.tipData,
-        defaultCurrency: 'eur',
+        tip: null,
+        tipId: this.$route.params.tipId,
         loading: false,
         comments: [],
         error: false
       }
     },
-    methods: {
-
+    computed: {
+      ...mapGetters(['tips', 'defaultCurrency'])
     },
     methods: {
       openExplorer(address) {
@@ -78,6 +78,7 @@
       }
     },
     created(){
+      this.tip = this.tips[this.tips.findIndex(x => x.tipId == this.$route.params.tipId)]
       this.loading = true;
       backendInstance.getTipComments(this.tip.tipId).then((response) => {
         this.loading = false;

@@ -80,8 +80,11 @@
           && tip.preview.description.length > 0  && tip.preview.image !== null;
       },
       goToTip(tip){
-        this.$router.push({name: 'tip-comments',
-        params: { tipData: tip }
+        this.$router.push({
+          name: 'tip',
+          params: {
+            tipId: tip.tipId
+          }
         })
       },
       sendComment(data){

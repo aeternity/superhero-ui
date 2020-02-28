@@ -26,8 +26,6 @@
           <span class="sr-only">Loading...</span>
         </div>
       </div>
-       <!-- <tip-comment v-if="tip != undefined" :tip="tip"></tip-comment> -->
-      <!-- <retip-component v-if="tip != undefined" :tip="tip"></retip-component>  -->
     </div>
   </div>
   </div>
@@ -37,8 +35,6 @@
   import Backend from "../utils/backend";
   import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
   import TipComment from "../components/tipRecords/TipCommentComponent.vue"
-  import RetipComment from "../components/tipRecords/RetipComponent.vue"
-
   import HeaderComponent from '../components/layout/HeaderComponent.vue';
   import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
   import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
@@ -51,7 +47,6 @@
     components: {
       'tip-record': TipRecord,
       'tip-comment': TipComment,
-      'retip-component': RetipComment,
       'header-component': HeaderComponent,
       'left-section': LeftSectionComponent,
       'right-section': RightSectionComponent,

@@ -121,7 +121,6 @@
   import Backend from "../utils/backend";
   import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
   import TipComment from "../components/tipRecords/TipCommentComponent.vue"
-  import RetipComment from "../components/tipRecords/RetipComponent.vue"
   import LeftSectionComponentVue from '../components/layout/LeftSectionComponent.vue';
   import RightSectionComponentVue from '../components/layout/RightSectionComponent.vue';
   import { mapGetters } from 'vuex';
@@ -135,7 +134,6 @@
     name: 'TipCommentsView',
     components: {
       'tip-comment': TipComment,
-      'retip-component': RetipComment,
       'left-section': LeftSectionComponentVue,
       'right-section': RightSectionComponentVue,
       'header-component': HeaderComponentVue

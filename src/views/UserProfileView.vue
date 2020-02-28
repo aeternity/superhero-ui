@@ -20,20 +20,20 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </div>
-              <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" v-bind:class="[loadingAvatar ? 'blurred' : '']">
+              <!-- <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" v-bind:class="[loadingAvatar ? 'blurred' : '']"> -->
                 <img v-bind:src="avatar"/>
-                <div>Change Avatar</div>
-              </label>
-              <div v-bind:class="[loadingAvatar ? 'blurred' : '']">
+                <!-- <div>Change Avatar</div> -->
+              <!-- </label> -->
+              <!-- <div v-bind:class="[loadingAvatar ? 'blurred' : '']">
                 <img v-bind:src="avatar" v-if="!editMode">
-              </div>
-              <input id="file-input" type="file" name="avatar" v-if="editMode" accept="image/png, image/jpeg">
+              </div> -->
+              <!-- <input id="file-input" type="file" name="avatar" v-if="editMode" accept="image/png, image/jpeg"> -->
             </div>
             <div class="profile__info">
               <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
-              <div class="input-group" v-if="editMode">
+              <!-- <div class="input-group" v-if="editMode">
                 <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
-              </div>
+              </div> -->
               <a class="profile__username" v-if="!editMode">{{userName}}</a>
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
@@ -371,6 +371,10 @@
   .spinner__container,.no-results{
     left: 0;
     @include vertical-align($position: absolute);
+  }
+
+  .profile__description {
+    padding: 1rem;
   }
 
 @media only screen and (max-width: 768px){

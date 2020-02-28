@@ -101,7 +101,7 @@
         this.$store.commit('SET_TIPS_ORDERING', this.tipsOrdering)
 
         // filter tips by language from backend
-//        if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
+        // if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
 
         // add preview to tips from backend
         if (this.tipsPreview) {

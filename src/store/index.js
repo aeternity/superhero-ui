@@ -32,6 +32,7 @@ export default new Vuex.Store({
   actions,
   plugins: [
     persistState(
+      state => state,
       ({ current }) => ({
         current,
       })

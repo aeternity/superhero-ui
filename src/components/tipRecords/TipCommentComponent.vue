@@ -81,6 +81,7 @@
   and (-webkit-min-device-pixel-ratio: 2) {
     .comment.tip__record{
       padding-bottom: 2rem;
+      padding-top: 1rem;
       .tip__body{
         padding-left: 0;
         .tip__note{

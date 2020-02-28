@@ -1,13 +1,15 @@
 <template>
   <div  class="tip__record row">
-    <span class="tip__date--mobile">
-      {{ new Date(tip.received_at).toLocaleString('en-US', { hourCycle: 'h24' }) }}
-    </span>
     <div class="tip__body " v-bind:class="[ isPreviewToBeVisualized(tip)? 'col-8' : 'col-12']">
       <div class="clearfix">
-        <!-- <div class="tip__actions float-left  mr-2">
-          <button class="btn btn-sm btn-light mr-1" @click="foundWallet && retip(tip.url)"><img src="../assets/heart.svg"></button>
-        </div> -->
+        <div class="tip__author" :title="tip.sender">
+          <img src="../../assets/userAvatar.svg">
+          <a v-if="senderLink" :href="senderLink" target="_blank">{{ tip.sender }}</a>
+          <span class="tip__author" v-else> {{ tip.sender }}</span>
+          <span class="date">
+            {{ new Date(tip.received_at).toLocaleString('en-US', { hourCycle: 'h24' }) }}
+          </span>
+        </div>
         <div class="tip__note pr-2" :title="tip.note" @click="goToTip(tip)">
             {{ tip.note }}
         </div>
@@ -25,16 +27,8 @@
                 (~ {{ fiatValue }} {{current.currency.toUpperCase()}})
             </span>
             <comment-modal :sendComment="sendComment" :tip="tip"></comment-modal>
-            <span class="tip__sender" :title="tip.sender">
-              <span>{{$t('system.by')}}</span> 
-              <a v-if="senderLink" :href="senderLink" target="_blank">{{ tip.sender }}</a>
-              <span class="tip__sender" v-else> {{ tip.sender }}</span>
-              </span>
           </div>
-          <div class="col-lg-3 col-md-12 tip__date" >
-            <span>
-              {{ new Date(tip.received_at).toLocaleString('en-US', { hourCycle: 'h24' }) }}
-            </span>
+          <div class="col-lg-3 col-md-12" >
           </div>
         </div>
       </div>
@@ -137,6 +131,17 @@
       .tip__body{
         width: 100%;
         padding-left: 0;
+        .tip__author{
+          color: $light_font_color;
+          font-size: .6rem;
+          padding: .25rem 1rem .25rem 1rem;
+          img{
+            width: 1.2rem;
+          }
+          a{
+            color: $light_font_color;
+          }
+        } 
         .tip__note{
           font-size: .8375rem;
           color: $standard_font_color;
@@ -160,7 +165,6 @@
           color: $light_font_color;
           border-bottom-right-radius: .25rem;
           border-bottom-left-radius: .25rem;
-          border-top: .05rem solid $record_footer_border_color;
           margin-left: 1rem;
           padding: .5rem 1rem .5rem 0;
           .tip__amount{
@@ -224,7 +228,7 @@
           transform: translateY(20%);
         }
         span{
-          padding: 0.5rem 0.1rem 0.5rem;
+          padding: .5rem 0.1rem 0 0.5rem;
           @include truncate-overflow-mx(6);
         }
         .tip__article--noresults{
@@ -248,9 +252,9 @@
 @media only screen and (min-width: 1024px){
   .tip__record{
     position: relative;
-    padding-bottom: 2.85rem;
+    padding-bottom: 2rem;
     .tip__body.col-12 .tip__footer{
-      bottom: -2.85rem;
+      bottom: -2rem;
     }
     .tip__article{
       min-height: initial;
@@ -300,9 +304,9 @@
 @media only screen and (max-width: 1024px){
   .tip__record{
     position: relative;
-    padding-bottom: 2.85rem;
+    padding-bottom: 2rem;
     .tip__body.col-12 .tip__footer{
-      bottom: -2.85rem;
+      bottom: -2rem;
     }
     .tip__article{
       min-height: initial;
@@ -359,9 +363,9 @@
 }
 @media only screen and (max-width: 768px){
   .tip__record{
-    padding-bottom: 3.35rem;
+    padding-bottom: 2rem;
     .tip__body.col-12 .tip__footer{
-      bottom: -3.35rem;
+      bottom: -2rem;
     }
     .tip__body{
       .tip__note{
@@ -408,7 +412,7 @@
   }
    .tip__record{
         position: relative;
-        padding: 1.25rem .5rem 3.85rem .5rem;
+        padding: .5rem .5rem 2rem .5rem;
         margin-bottom: .5rem;
         .tip__article{
           margin-left: -.5rem;
@@ -418,6 +422,10 @@
           margin-right: -1rem;
         }
         .tip__body{
+          .tip__author{
+            padding-left: 0;
+            font-size: .5rem;
+          }    
           .tip__note,.tip__url{
             padding-left: 0;
           }
@@ -439,7 +447,6 @@
             }
             .tip__amount{
               padding-bottom: .25rem;
-              display: block;
               img {
                 width: 1rem;
               }
@@ -455,7 +462,7 @@
     margin-right: 0;
   }
   .tipped__url .tip__record  .tip__body.col-12 .tip__footer{
-    bottom: -3.85rem;
+    bottom: -2rem;
     left: .5rem;
     margin-right: 0;
   }

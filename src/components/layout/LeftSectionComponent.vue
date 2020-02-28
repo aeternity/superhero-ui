@@ -17,7 +17,7 @@
           <a><img class="mr-1" src="../../assets/iconMission.svg">Mission</a>
         </div>
         <div class="navigation__item" v-if="!isLoggedIn"><a><img class="mr-1 avatar" src="../../assets/userAvatar.svg">Create Profile</a></div>
-         <div class="navigation__item" v-if="isLoggedIn"><a @click="openMyProfile">My Profile</a></div>
+         <div class="navigation__item" v-if="isLoggedIn"><a @click="openMyProfile"><img class="mr-1 avatar" src="../../assets/userAvatar.svg">My Profile</a></div>
       </div>
       <div class="overview">
         <div class="overview__item">

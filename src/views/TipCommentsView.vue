@@ -18,7 +18,28 @@
     <div class="tipped__url">
       <tip-record :tip="tip" :currency="current.currency" :fiatValue="tip.fiatValue" @updateComment="onUpdateComment" :senderLink="openExplorer(tip.sender)"></tip-record>
     </div>
-    <div class="comments__section position-relative">
+    <div class="comment__section">
+      <p class="latest__comments">Latest comments</p>
+      <div class="row">
+        <div class="col-sm-3">
+          <img class="mr-1 avatar" src="../assets/userAvatar.svg">
+        </div>
+        <div class="col-sm-9">
+          <div class="input-group col-md-12 col-lg-12 col-sm-12">
+            <input type="text" placeholder="Add comment" v-model="comment" class="form-control">
+            <b-button
+                size="sm"
+                @click="sendTipComment()"
+                :disabled="comment.length == 0"
+              >
+                {{$t('system.Send')}}
+            </b-button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
       <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
       <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
       <div class="text-center spinner__container w-100" v-if="loading">
@@ -27,7 +48,6 @@
         </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -39,6 +59,7 @@
   import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
   import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
   import { mapGetters } from 'vuex';
+  import { wallet } from '../utils/walletSearch';
 
   const backendInstance = new Backend();
 
@@ -58,13 +79,51 @@
         tipId: this.$route.params.tipId,
         loading: false,
         comments: [],
-        error: false
+        error: false,
+        comment: ''
       }
     },
     computed: {
       ...mapGetters(['tips', 'current', 'isLoggedIn', 'account'])
     },
     methods: {
+      sendTipComment(){
+        if(this.sendComment){
+          let postData = {
+            comment: this.comment,
+            tip: this.tip
+          }
+          this.sendComment(postData);
+        }
+        this.comment = '';
+      },
+      sendComment(data){
+        
+        let postData = {
+          tipId: data.tip.tipId,
+          text: data.comment,
+          hidden: false,
+          author: wallet.client.rpcClient.getCurrentAccount(),
+        }
+
+        console.log("sending comment => ", postData)
+        
+        backendInstance.sendTipComment(postData).then(async (response) => {
+          console.log("challenge => ", response.challenge);
+          console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
+         
+          let signedChallenge = await wallet.signMessage(response.challenge)
+          let respondChallenge = {
+            challenge: response.challenge,
+            signature: signedChallenge
+          }
+
+          backendInstance.sendTipComment(respondChallenge).then((result) => {
+            console.log(result);
+            this.$emit('updateComment', result)
+          }).catch(console.error)
+        }).catch(console.error);
+      },
       openExplorer(address) {
         return this.explorerUrl + address
       },
@@ -139,7 +198,17 @@
   }
   .spinner__container,.no-results{
     left: 0;
-    @include vertical-align($position: absolute);
+    @include vertical-align($position: relative);
+  }
+  .comment__section {
+    padding: 0.75rem;
+    p {
+      font-size: .75rem;
+      text-transform: capitalize;
+      margin-bottom: 0.7rem;
+      color: white;
+      font-weight: 600;
+    }
   }
 }
 </style>

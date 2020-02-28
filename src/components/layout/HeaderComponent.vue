@@ -1,7 +1,9 @@
 <template>
   <div class="header">
     <div class="header__left_section">
-      <img src="../../assets/headerLogo.svg">
+      <div class="content">
+        <img src="../../assets/headerLogo.svg">
+      </div>
     </div>
     <div class="header__body">
       <slot></slot>
@@ -57,8 +59,15 @@
     width: calc(50% - 17.7rem);
     display: inline-block;
     text-align: right;
-    img{
-      width: 6rem;
+    .content{
+      width: 12.5rem;
+      display: inline-block;
+      text-transform: uppercase;
+      text-align: left;
+      padding-left: 2rem;
+      img{
+        width: 6rem;
+      }
     }
   }
   .header__right_section{

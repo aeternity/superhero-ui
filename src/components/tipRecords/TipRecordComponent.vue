@@ -26,7 +26,8 @@
             <span class="currency-value">
                 (~ {{ fiatValue }} {{current.currency.toUpperCase()}})
             </span>
-            <comment-modal :sendComment="sendComment" :tip="tip"></comment-modal>
+            <span @click="goToTip(tip)"><img src="../../assets/commentsIcon.svg"></span>
+
           </div>
           <div class="col-lg-3 col-md-12" >
           </div>
@@ -80,33 +81,6 @@
           }
         })
       },
-      sendComment(data){
-        
-        let postData = {
-          tipId: data.tip.tipId,
-          text: data.comment,
-          hidden: false,
-          author: wallet.client.rpcClient.getCurrentAccount(),
-        }
-
-        console.log("sending comment => ", postData)
-        
-        backendInstance.sendTipComment(postData).then(async (response) => {
-          console.log("challenge => ", response.challenge);
-          console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
-         
-          let signedChallenge = await wallet.signMessage(response.challenge)
-          let respondChallenge = {
-            challenge: response.challenge,
-            signature: signedChallenge
-          }
-
-          backendInstance.sendTipComment(respondChallenge).then((result) => {
-            console.log(result);
-            this.$emit('updateComment', result)
-          }).catch(console.error)
-        }).catch(console.error);
-      }
     },
     components: {
       'comment-modal': CommentModal,
@@ -137,6 +111,7 @@
           padding: .25rem 1rem .25rem 1rem;
           img{
             width: 1.2rem;
+            margin-right: 0.25rem;
           }
           a{
             color: $light_font_color;

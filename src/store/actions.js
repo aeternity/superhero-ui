@@ -8,6 +8,9 @@ export default {
   updateTips({ commit }, payload) {
     commit(types.UPDATE_TIPS, payload)
   },
+  updateTopics({ commit }, payload) {
+    commit(types.UPDATE_TOPICS, payload)
+  },
   setTipOrdering({ commit }, payload) {
     commit(types.SET_TIPS_ORDERING, payload)
   },

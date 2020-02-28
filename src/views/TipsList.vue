@@ -53,6 +53,8 @@
   import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
   import { mapGetters } from 'vuex';
 
+  import BigNumber from 'bignumber.js';
+
   export default {
     name: 'TipsList',
     data() {
@@ -90,8 +92,8 @@
           return false
         })
         let noteSearchResults = this.tips.filter(tip => {
-          if (typeof tip.note !== 'undefined') {
-            return tip.note.toLowerCase().includes(term)
+          if (typeof tip.title !== 'undefined') {
+            return tip.title.toLowerCase().includes(term)
           }
           return false
         })
@@ -110,15 +112,15 @@
         switch (this.sorting) {
           case "hot":
             this.tips.sort((a, b) => b.score - a.score);
-            this.$store.commit('UPDATE_TIPS', this.tips)
+            this.$store.commit('UPDATE_TIPS', this.tips);
             break;
           case "latest":
-            this.tips.sort((a, b) => b.received_at - a.received_at);
-            this.$store.commit('UPDATE_TIPS', this.tips)
+            this.tips.sort((a, b) => b.timestamp - a.timestamp);
+            this.$store.commit('UPDATE_TIPS', this.tips);
             break;
           case "highest":
-            this.tips.sort((a, b) => b.amount - a.amount);
-            this.$store.commit('UPDATE_TIPS', this.tips)
+            this.tips.sort((a, b) => new BigNumber(b.amount).minus(a.amount).toNumber());
+            this.$store.commit('UPDATE_TIPS', this.tips);
             break;
         }
       },

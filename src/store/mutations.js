@@ -15,6 +15,9 @@ export default {
   [types.UPDATE_TIPS](state, payload) {
     state.tips = payload;
   },
+  [types.UPDATE_TOPICS](state, payload) {
+    state.topics = payload;
+  },
   [types.RELOAD_TIPS](state, payload) {
     state.tips = payload;
   },

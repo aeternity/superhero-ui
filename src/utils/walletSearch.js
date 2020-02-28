@@ -53,5 +53,5 @@ export const wallet = {
     const isValidAgain = await wallet.client.verifyMessage(message, messageSig)
     console.log("message valid => ", isValidAgain)
     return messageSig;
-  } 
+  }
 };

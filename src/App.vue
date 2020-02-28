@@ -55,7 +55,7 @@
         new Currency().getRates().then(rates => {
           console.log(rates);
           this.tempTips = this.tempTips.map(tip => {
-            tip.fiatValue = (tip.amount * rates.aeternity[this.current.currency]).toFixed(2);
+            tip.fiatValue = (tip.total_amount * rates.aeternity[this.current.currency]).toFixed(2);
             return tip;
           })
           .filter(tip => tip.amount * (rates.aeternity['usd']).toFixed(2) > 0.01);
@@ -82,12 +82,12 @@
         const fetchOrdering = backendInstance.tipOrder().catch(console.error);
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
         const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
-        let [tips, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
+        let [{topics, _, tips}, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
         this.tipsOrdering = tipOrdering;
         this.tipsPreview = tipsPreview;
 
         // add score from backend to tips
-        if (this.tipsOrdering) {
+        /*if (this.tipsOrdering) {
           const blacklistedTipIds = tipOrdering.map(order => order.id);
           const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.tipId));
           tips = filteredTips.map(tip => {
@@ -109,10 +109,11 @@
             tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
             return tip;
           });
-        }
+        }*/
 
         this.tempTips = tips;
         this.$store.commit('UPDATE_TIPS', this.tempTips);
+        this.$store.commit('UPDATE_TOPICS', topics);
 
         this.asyncAddCurrency();
         this.sort(this.sorting);
@@ -125,7 +126,7 @@
         if (changesDetected) this.$router.go();
       },
       async initialize() {
-        console.log('Initializing wallett')
+        console.log('Initializing wallet')
         try {
           // Bypass check if there is already an active wallet
           if (aeternity.hasActiveWallet()) {

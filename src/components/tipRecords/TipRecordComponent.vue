@@ -49,7 +49,6 @@
 
 <script>
   import Backend from "../../utils/backend";
-  import CommentModal from "../CommentModalComponent.vue"
   import { wallet } from '../../utils/walletSearch';
   import { mapGetters } from 'vuex';
   import aeternity from '../../utils/aeternity';
@@ -81,9 +80,6 @@
           }
         })
       },
-    },
-    components: {
-      'comment-modal': CommentModal,
     },
     created(){
 

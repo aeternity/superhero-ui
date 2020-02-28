@@ -17,7 +17,7 @@
         </div>
         <div v-for="(amount, topic) in topics">
         <div class="section__body clearfix">
-          <div class="float-left">{{topic}}</div>
+          <div class="float-left" @click="searchTopic(topic)">{{topic}}</div>
           <div class="float-right">
             <span class="value">{{amount}}</span> 
             <span class="ae">AE</span>
@@ -48,6 +48,12 @@
     },
     data() {
       return {}
+    },
+    methods: {
+      searchTopic(topic) {
+        console.log('topic: ',topic)
+        this.$emit('searchTopic', topic)
+      }
     },
     computed: {
       ...mapGetters(['topics']),

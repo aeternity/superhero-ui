@@ -4,7 +4,7 @@
       <div class="actions__container">
         <div class="container">
           <div class="input-group mb-1">
-            <input type="text" v-model="searchTerm" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
+            <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
           </div>
           <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12 sorting">
@@ -103,6 +103,10 @@
       }
     },
     methods: {
+      onSearchTopic (data) {
+        console.log('data; ',data)
+        this.searchTerm = data;
+      },
       openExplorer(address) {
         return this.explorerUrl + address
       },

@@ -89,7 +89,7 @@
   position: fixed;
   text-align: right;
   .content{
-    width: 8.3rem;
+    width: 12.5rem;
     margin-top: 1rem;
     display: inline-block;
     text-transform: uppercase;
@@ -138,6 +138,38 @@
         &:last-child{margin-bottom: none;}
       }
     }
+  }
+}
+
+@media (min-width: 768px) {
+  .app__leftcolumn {
+    .content {
+      width: 12.5rem;
+    } 
+  }
+}
+
+@media (min-width: 992px) {
+  .app__leftcolumn {
+    .content {
+      width: 12.5rem;
+    } 
+  }
+}
+
+@media (min-width: 1200px) {
+  .app__leftcolumn {
+    .content {
+      width: 12.5rem;
+    } 
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .app__leftcolumn {
+    .content {
+      width: 10rem;
+    } 
   }
 }
 

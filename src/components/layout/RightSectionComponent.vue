@@ -50,7 +50,7 @@
   position: fixed;
   right: 0;
   .content{
-    width: 8.3rem;
+    width: 12.5rem;
     margin-top: 1rem;
     .section{
       border-radius: .25rem;
@@ -104,6 +104,39 @@
         text-decoration: underline;
       }
     }
+  }
+}
+
+
+@media (min-width: 768px) {
+  .app__rightcolumn {
+    .content {
+      width: 8rem;
+    } 
+  }
+}
+
+@media (min-width: 992px) {
+  .app__rightcolumn {
+    .content {
+      width: 10.5rem;
+    } 
+  }
+}
+
+@media (min-width: 1200px) {
+  .app__rightcolumn {
+    .content {
+      width: 12rem;
+    } 
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .app__rightcolumn {
+    .content {
+      width: 10rem;
+    } 
   }
 }
 

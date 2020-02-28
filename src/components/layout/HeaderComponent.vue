@@ -76,10 +76,52 @@
   width: 33rem;
   min-height: 1.5rem;
   display: inline-block;
+  padding-left: .75rem;
+  padding-right: .75rem;
 }
+
+//Smallest devices Portrait and Landscape
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .header .header__body{
+      width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .header .header__left_section{display:none}
+  }
+
+@media only screen and (max-width: 576px) {
+  .header__body.header__body {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header__body {
+    width: 27rem;
+    padding-left: .6rem;
+    padding-right: .9rem;
+  }
+  .header .header__left_section{
+    width: calc(50% - 13.5rem);
+    img{
+      display: none;
+    }
+  }
+  .header .header__right_section {
+    display: none;
+  }
+}
+
+
 @media (min-width: 768px) {
   .header__body {
     width: 27rem;
+    padding-left: .75rem;
+    padding-right: .75rem;
   }
   .header .header__left_section{
     width: calc(50% - 13.5rem);
@@ -110,7 +152,9 @@
 
 @media (min-width: 1200px) {
   .header .header__body {
-    width: 35rem
+    width: 35rem;
+    padding-left: .75rem;
+    padding-right: .75rem;
   }
   .header .header__left_section{
     width: calc(50% - 17.7rem);

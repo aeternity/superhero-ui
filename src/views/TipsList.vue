@@ -2,25 +2,25 @@
   <div>
     <header-component>
       <div class="actions__container">
-      <div class="container">
-        <div class="row">
-          <div class="input-group col-md-12 col-lg-12 col-sm-12">
+        <div class="container">
+          <div class="input-group mb-1">
             <input type="text" v-model="searchTerm" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
           </div>
-          <div class="col-md-12 col-lg-12 col-sm-12 sorting">
-            <a v-if="this.tipsOrdering" v-on:click="sort('hot')" v-bind:class="{ active: sorting === 'hot' }">
-              {{$t('pages.Home.SortingHot')}}
-            </a>
-            <a v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">
-              {{$t('pages.Home.SortingLatest')}}
-            </a>
-            <a v-on:click="sort('highest')" v-bind:class="{ active: sorting === 'highest' }">
-              {{$t('pages.Home.SortingHighestRated')}}
-            </a>
+          <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12 sorting">
+              <a v-if="this.tipsOrdering" v-on:click="sort('hot')" v-bind:class="{ active: sorting === 'hot' }">
+                {{$t('pages.Home.SortingHot')}}
+              </a>
+              <a v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">
+                {{$t('pages.Home.SortingLatest')}}
+              </a>
+              <a v-on:click="sort('highest')" v-bind:class="{ active: sorting === 'highest' }">
+                {{$t('pages.Home.SortingHighestRated')}}
+              </a>
+            </div>
+          </div>
           </div>
         </div>
-        </div>
-      </div>
     </header-component>
     <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
       <div class="spinner-border text-primary" role="status">
@@ -182,21 +182,25 @@
     min-height: 4rem;
   }
    .actions__container{
+     font-size: .75rem;
+      background-color: $background_color;
+     .container{
+       padding: 0;
+     }
       .row{
         background-color: $actions_ribbon_background_color;
-        padding: .5rem 1rem .5rem 1rem;
         border-top-right-radius: .25rem;
         border-top-left-radius: .25rem;
         margin: 0;
       }
       .sorting{
         border-radius: .25rem;
-        color: $light_font_color;
         text-align: left;
         padding-left: 1rem;
-        padding: .45rem 0 .45rem .45rem;
         a{
-          margin-right: .5rem;
+          display: inline-block;
+          padding: .45rem .45rem .45rem .45rem;
+          color: $light_font_color;
           &:last-child{
             margin-right: 0;
           }
@@ -204,12 +208,10 @@
             color: $primary_color;
             cursor: pointer;
           }
-          &:active{
-            color: $secondary_color;
-          }
         }
         a.active{
-          color: $secondary_color;
+          color: $custom_links_color;
+          border-bottom: .065rem solid $custom_links_color;
         }
       }
     }
@@ -227,12 +229,6 @@
     font-size: .75rem;
     margin-bottom: 4rem;
   }
-
-@media only screen and (max-width: 1024px){
-   .actions__container .sorting{
-    padding-top: .45rem;
-  }
-}
 
 @media only screen and (max-width: 768px){
   .actions__container .input-group{
@@ -267,15 +263,14 @@
   and (-webkit-min-device-pixel-ratio: 2) {
 
   .actions__container{
-      width: 100vw;
-      max-width: 100vw;
-      padding: .5rem .5rem 0 .5rem;
+      width: 100%;
+      padding-top: .5rem;
       background-color: $actions_ribbon_background_color;
       overflow-x: hidden;
+      z-index: 10;
       .container,.row{
         padding: 0;
       }
-
       .sorting{
         width: -webkit-fill-available;
         width: -moz-available;
@@ -292,7 +287,7 @@
           padding-bottom: .45rem;
           margin-right: 0;
           &.active{
-            border-bottom: .075rem solid $secondary_color;
+            border-bottom: .075rem solid $custom_links_color;
             margin-bottom: -.075rem;
           }
         }

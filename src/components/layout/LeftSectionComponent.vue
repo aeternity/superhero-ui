@@ -6,7 +6,7 @@
           <a @click="goHome()">
             <img class="mr-1" src="../../assets/iconHome.svg">
             Home
-          </a>  
+          </a>
         </div>
         <div class="navigation__item">
           <a>
@@ -22,7 +22,7 @@
       <div class="overview">
         <div class="overview__item">
           <div class="overview__value">
-            158,057
+            {{stats.total_tips_length}}
           </div>
           <div class="overview__label">
             Tips Aggregated
@@ -30,10 +30,11 @@
         </div>
         <div class="overview__item">
           <div class="overview__value secondary">
-            2.768,321 <span class="currency secondary">AE</span>
-          </div> 
-          <div class="overview__value">
-            553,664 <span class="currency">AE</span>
+            {{stats.total_amount}}
+            <span class="currency secondary">AE</span>
+          </div>
+          <div class="overview__value" v-if="stats.total_amount">
+            <fiat-value :amount="stats.total_amount"></fiat-value>
           </div>
           <div class="overview__label">
             Total Tips Value
@@ -41,7 +42,7 @@
         </div>
         <div class="overview__item">
           <div class="overview__value">
-            217,515
+            {{stats.height}}
           </div>
           <div class="overview__label">
             Latest Block
@@ -54,8 +55,13 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import FiatValueComponentVue from "../FiatValueComponent";
+
   export default {
     name: 'LeftSectionComponent',
+    components: {
+      'fiat-value': FiatValueComponentVue
+    },
     data() {
       return {}
     },
@@ -75,7 +81,7 @@
       }
     },
     computed: {
-      ...mapGetters(['account', 'isLoggedIn'])
+      ...mapGetters(['stats', 'account', 'isLoggedIn'])
     }
   }
 </script>
@@ -145,7 +151,7 @@
   .app__leftcolumn {
     .content {
       width: 12.5rem;
-    } 
+    }
   }
 }
 
@@ -153,7 +159,7 @@
   .app__leftcolumn {
     .content {
       width: 12.5rem;
-    } 
+    }
   }
 }
 
@@ -161,7 +167,7 @@
   .app__leftcolumn {
     .content {
       width: 12.5rem;
-    } 
+    }
   }
 }
 
@@ -169,7 +175,7 @@
   .app__leftcolumn {
     .content {
       width: 10rem;
-    } 
+    }
   }
 }
 

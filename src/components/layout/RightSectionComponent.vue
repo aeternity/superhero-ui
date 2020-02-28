@@ -19,7 +19,7 @@
         <div class="section__body clearfix">
           <div class="float-left" @click="searchTopic(topic)">{{topic}}</div>
           <div class="float-right">
-            <span class="value">{{amount}}</span> 
+            <span class="value">{{amount}}</span>
             <span class="ae">AE</span>
             <fiat-value :amount="amount"></fiat-value>
           </div>
@@ -57,9 +57,6 @@
     },
     computed: {
       ...mapGetters(['topics']),
-    },
-    mounted() {
-      console.log(this.topics)
     }
   }
 </script>

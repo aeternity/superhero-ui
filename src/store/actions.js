@@ -14,6 +14,9 @@ export default {
   updateTopics({ commit }, payload) {
     commit(types.UPDATE_TOPICS, payload)
   },
+  updateStats({ commit }, payload) {
+    commit(types.UPDATE_STATS, payload)
+  },
   setTipOrdering({ commit }, payload) {
     commit(types.SET_TIPS_ORDERING, payload)
   },

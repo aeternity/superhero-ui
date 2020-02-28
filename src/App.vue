@@ -69,6 +69,7 @@
         const fetchTips = async () => {
           if (initial) {
             await aeternity.initClient();
+
             wallet.init(() => {
               this.foundWallet = true;
               this.$store.commit('SWITCH_LOGGED_IN', true);
@@ -83,7 +84,7 @@
         const fetchOrdering = backendInstance.tipOrder().catch(console.error);
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
         const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
-        let [{topics, _, tips}, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
+        let [{stats, topics, _, tips}, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
         this.tipsOrdering = tipOrdering;
         this.tipsPreview = tipsPreview;
 
@@ -115,6 +116,9 @@
         this.tempTips = tips;
         this.$store.commit('UPDATE_TIPS', this.tempTips);
         this.$store.commit('UPDATE_TOPICS', topics);
+
+        stats.height = await aeternity.client.height();
+        this.$store.commit('UPDATE_STATS', stats);
 
         this.asyncAddCurrency();
         this.sort(this.sorting);

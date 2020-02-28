@@ -7,6 +7,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import Currency from '../utils/currency'
+  import BigNumber from 'bignumber.js'
 
   export default {
     name: 'FiatValue',
@@ -21,7 +22,7 @@
     },
     async created () {
       new Currency().getRates().then(rates => {
-          this.fiatValue = (this.amount * rates.aeternity[this.current.currency]).toFixed(2);
+          this.fiatValue = (new BigNumber(this.amount).multipliedBy(rates.aeternity[this.current.currency])).toFixed(2);
       }).catch(console.error);
     }
   }

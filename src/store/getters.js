@@ -29,6 +29,9 @@ export const getters = {
   topics(state) {
     return state.topics;
   },
+  stats(state) {
+    return state.stats;
+  },
   tipsOrdering(state) {
     return state.tipsOrdering;
   },

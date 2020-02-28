@@ -63,7 +63,16 @@ const getTipsRetips = (state) => {
     return acc;
   }, {});
 
+  const stats = {
+    tips_length: state.tips.length,
+    retips_length: state.retips.length,
+    total_tips_length: state.tips.length + state.retips.length,
+    total_amount: tips.reduce((acc, tip) => acc.plus(tip.total_amount), new BigNumber('0')).toFixed(),
+    total_unclaimed_amount: tips.reduce((acc, tip) => acc.plus(tip.total_unclaimed_amount), new BigNumber('0')).toFixed()
+  };
+
   return {
+    stats: stats,
     topics: topics,
     urls: urls,
     tips: tips

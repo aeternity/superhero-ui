@@ -25,6 +25,7 @@ export default new Vuex.Store({
     ],
     tips: [],
     topics: {},
+    stats: {},
     tipsOrdering: null,
     isLoggedIn: false,
   },

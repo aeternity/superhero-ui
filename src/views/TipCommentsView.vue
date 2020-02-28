@@ -67,7 +67,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'defaultCurrency'])
+      ...mapGetters(['tips', 'defaultCurrency', 'isLoggedIn', 'account'])
     },
     methods: {
       openExplorer(address) {
@@ -78,6 +78,7 @@
       }
     },
     created(){
+      console.log(this.account)
       this.tip = this.tips[this.tips.findIndex(x => x.tipId == this.tipId)]
       this.loading = true;
       backendInstance.getTipComments(this.tipId).then((response) => {

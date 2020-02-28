@@ -139,7 +139,6 @@
 
           this.foundWallet = true;
           this.$store.commit('SWITCH_LOGGED_IN', true);
-          this.$store.commit('UPDATE_ACCOUNT', wallet.client.rpcClient.getCurrentAccount())
 
           // Constantly check if wallet is changed
           setInterval(this.checkAndReloadProvider, 1000)

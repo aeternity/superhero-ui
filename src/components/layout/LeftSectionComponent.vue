@@ -9,9 +9,10 @@
         </div>
         <div class="navigation__item"><a>Trending</a></div>
         <div class="navigation__item"><a>Mission</a></div>
-        <div class="navigation__item"><a>Create Profile</a></div>
+        <div class="navigation__item" v-if="!isLoggedIn"><a>Create Profile</a></div>
+        <div class="navigation__item" v-if="isLoggedIn"><a>{{ account }}</a></div>
       </div>
-      <div class="side__button"><a>Install Wallet</a></div>
+      <div class="side__button" v-if="!isLoggedIn"><a>Install Wallet</a></div>
       <div class="side__button secondary"><a>Get Tokens</a></div>
       <div class="overview">
         <div class="overview__item">
@@ -47,11 +48,15 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     name: 'LeftSectionComponent',
     data() {
       return {}
     },
+    computed: {
+      ...mapGetters(['account', 'isLoggedIn'])
+    }
   }
 </script>
 

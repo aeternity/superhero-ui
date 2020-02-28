@@ -3,16 +3,15 @@
     <div class="content">
       <div class="section">
         <div class="section__title">
-          Trending
+          Wallet
         </div>
         <div class="section__body clearfix">
-          <div class="float-left">#coronavirus</div>
-          <div class="float-right">33K AE(~6.6K USD)</div>
+          <div class="side__button"><a>Install Wallet</a></div>
         </div>
       </div>
       <div class="section">
         <div class="section__title">
-          Famous Superheroes
+          Trending
         </div>
         <div class="section__body clearfix">
           <div class="float-left">#coronavirus</div>
@@ -65,6 +64,26 @@
       text-transform: none;
       font-size: .45rem;
       padding: .5rem;
+    }
+    .side__button{
+      font-size: 1rem;
+      text-transform: capitalize;
+      margin-bottom: 0.7rem;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    .side__button{
+      color: $custom_links_color;
+      border: .065rem solid $custom_links_color;
+      border-radius: .25rem;
+      padding: .2rem .5rem .2rem .5rem;
+      text-align: center;
+      &.secondary{
+        color: $secondary_color;
+        border: .065rem solid $secondary_color;
+        margin-bottom: 1rem;
+      }
     }
     .footer{
       font-size: .33rem;

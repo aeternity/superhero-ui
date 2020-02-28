@@ -206,7 +206,7 @@
         min-height: 5.9rem;
         font-size: .6rem;
         position: relative;
-        color: $standard_font_color;
+        color: $article_description_color;
         background-color: $thumbnail_background_color;
         padding: 0;
         margin-left: 1rem;

@@ -2,18 +2,23 @@
   <div class="app__leftcolumn">
     <div class="content">
       <div class="navigation">
-        <div class="navigation__item">
+        <div class="navigation__item home">
           <a @click="goHome()">
+            <img class="mr-1" src="../../assets/iconHome.svg">
             Home
           </a>  
         </div>
-        <div class="navigation__item"><a>Trending</a></div>
-        <div class="navigation__item"><a>Mission</a></div>
-        <div class="navigation__item" v-if="!isLoggedIn"><a>Create Profile</a></div>
-        <div class="navigation__item" v-if="isLoggedIn"><a @click="openMyProfile">My Profile</a></div>
+        <div class="navigation__item">
+          <a>
+            <img class="mr-1" src="../../assets/iconTrending.svg">Trending
+          </a>
+        </div>
+        <div class="navigation__item">
+          <a><img class="mr-1" src="../../assets/iconMission.svg">Mission</a>
+        </div>
+        <div class="navigation__item" v-if="!isLoggedIn"><a><img class="mr-1 avatar" src="../../assets/userAvatar.svg">Create Profile</a></div>
+         <div class="navigation__item" v-if="isLoggedIn"><a @click="openMyProfile">My Profile</a></div>
       </div>
-      <div class="side__button" v-if="!isLoggedIn"><a>Install Wallet</a></div>
-      <div class="side__button secondary"><a>Get Tokens</a></div>
       <div class="overview">
         <div class="overview__item">
           <div class="overview__value">
@@ -89,11 +94,16 @@
     display: inline-block;
     text-transform: uppercase;
     text-align: left;
+    padding-left: 2rem;
     .navigation{
       margin-bottom: 1rem;
+      font-weight: 600;
+      .avatar{
+        width: 1.2rem;
+      }
     }
     .navigation__item, .side__button{
-      font-size: 1rem;
+      font-size: .75rem;
       text-transform: capitalize;
       margin-bottom: 0.7rem;
       &:hover{
@@ -113,19 +123,18 @@
       }
     }
     .overview{
-      background-color: $actions_ribbon_background_color;
-      padding: .5rem;
-      border-radius: .25rem;
-      border: .065rem solid $panel_border_color;
+      margin-top: 2rem;
       .overview__value{
         color: $custom_links_color;
-        font-size: .75rem;
+        font-size: 1rem;
         &.secondary{
           color: $secondary_color;
         }
       }
       .overview__label{
         margin-bottom: .5rem;
+        text-transform: none;
+        color: $light_font_color;
         &:last-child{margin-bottom: none;}
       }
     }

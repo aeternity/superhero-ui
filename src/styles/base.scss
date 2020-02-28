@@ -102,11 +102,11 @@ body{
   }
 }
 
-@media only screen and (max-width: 860px) {
+@media only screen and (max-width: 880px) {
   .container{
     width: 100%;
   }
-  .app__leftcolumn, .app__rightcolumn{
+  .app__leftcolumn, .app__rightcolumn, .header.header .header__right_section{
    display: none;
   }
 }

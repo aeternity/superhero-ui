@@ -3,6 +3,7 @@
     <div class="content">
       <div class="section">
         <div class="section__title">
+          <img src="../../assets/iconWallet.svg">
           Wallet
         </div>
         <div class="section__body clearfix">
@@ -11,18 +12,19 @@
       </div>
       <div class="section">
         <div class="section__title">
+          <img src="../../assets/iconTrending.svg">
           Trending
         </div>
         <div class="section__body clearfix">
-          <div class="float-left">#coronavirus</div>
-          <div class="float-right">33K AE(~6.6K USD)</div>
+          <div class="float-left tag">#coronavirus</div>
+          <div class="float-right"><span class="value">33K</span> <span class="ae">AE</span>(~6.6K USD)</div>
         </div>
       </div>
       <div class="clearfix footer">
-        <div class="float-left">&copy; 2020 SUPERHERO.com</div>
+        <div class="float-left">&copy; Superhero.</div>
         <div class="float-right">
-          <a>Terms</a>
-          <a>Privacy Policy</a>
+          <a class="ae">Terms</a>
+          <a class="ae">Privacy</a>
         </div>
       </div>
     </div>
@@ -41,32 +43,42 @@
 <style lang="scss" scoped>
   @import "../../styles/base";
 .app__rightcolumn{
-  color: white;
+  color: $light_font_color;
   display: inline-block;
-  font-size: .55rem;
+  font-weight: 600;
+  font-size: .65rem;
   position: fixed;
   right: 0;
   .content{
     width: 8.3rem;
     margin-top: 1rem;
     .section{
-      border: .065rem solid $panel_border_color;
+      border-radius: .25rem;
       margin-bottom: 1rem;
+      background-color: $actions_ribbon_background_color;
     }
     .section__title{
-      text-transform: uppercase;
-      background-color: $actions_ribbon_background_color;
       border-top-right-radius: .25rem;
       border-top-left-radius: .25rem;
       padding: .5rem;
+      color: $standard_font_color;
     }
     .section__body{
       text-transform: none;
       font-size: .45rem;
       padding: .5rem;
+      .tag{
+        color: $custom_links_color;
+      }
+      .value{
+        color: $standard_font_color;
+      }
+    }
+    .ae{
+      color: $secondary_color;
     }
     .side__button{
-      font-size: 1rem;
+      font-size: .65rem;
       text-transform: capitalize;
       margin-bottom: 0.7rem;
       &:hover{
@@ -86,7 +98,7 @@
       }
     }
     .footer{
-      font-size: .33rem;
+      font-size: .5rem;
       a{
         cursor: pointer;
         text-decoration: underline;

@@ -8,11 +8,11 @@
     </div>
     <div class="header__right_section">
       <div class="header__buttons">
-        <div class="redeem__tip">
-          <a href="">Redeem Tip</a>
+        <div >
+          <a class="redeem__tip colorful-buttons" href="">Redeem Tip</a>
         </div>
-        <div class="send__tip">
-          <a href="">Send Tip</a>
+        <div >
+          <a class="redeem__tip colorful-buttons secondary" href="">Send Tip</a>
         </div>
       </div>
     </div>
@@ -30,7 +30,20 @@
 
 <style lang="scss" scoped>
   @import "../../styles/base";
-
+.colorful-buttons{
+  background-color: $colorful_buttons_background_primary;
+  color: $custom_links_color;
+  padding: .25rem .5rem .25rem .5rem;
+  border-radius: .25rem;
+  margin-right: .125rem;
+  font-size: .65rem;
+  font-weight: 600;
+  &.secondary{
+    background-color: $colorful_buttons_background_secondary;
+    color: $secondary_color;
+    margin-right: 0;
+  }
+}
 .header{
   position: sticky;
   position: -webkit-sticky;
@@ -49,7 +62,6 @@
     }
   }
   .header__right_section{
-    width: calc(50% - 18rem);
     display: inline-block;
     text-align: left;
     img{
@@ -59,6 +71,7 @@
       display: flex;
     }
   }
+ // redeem__tip
 }
 .header__body{
   width: 33rem;
@@ -73,10 +86,6 @@
     width: calc(50% - 13.5rem);
     padding-right: 0.5rem;
   }
-  .header .header__right_section{
-    width: calc(50% - 18rem);
-    padding-left: 0.5rem;
-  }
 }
 
 @media (min-width: 992px) {
@@ -87,10 +96,6 @@
     width: calc(50% - 15.2rem);
     padding-right: 0.5rem;
   }
-  .header .header__right_section{
-    width: calc(50% - 25rem);
-    padding-left: 0.5rem;
-  }
 }
 
 @media (min-width: 1200px) {
@@ -100,10 +105,6 @@
   .header .header__left_section{
     width: calc(50% - 17.7rem);
     padding-right: 0.5rem;
-  }
-  .header .header__right_section{
-    width: calc(50% - 18rem);
-    padding-left: 0.5rem;
   }
 }
 

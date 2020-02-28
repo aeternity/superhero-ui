@@ -7,11 +7,11 @@
           <a v-if="senderLink" :href="senderLink" target="_blank">{{ tip.sender }}</a>
           <span class="tip__author" v-else> {{ tip.sender }}</span>
           <span class="date">
-            {{ new Date(tip.received_at).toLocaleString('en-US', { hourCycle: 'h24' }) }}
+            {{ new Date(tip.timestamp).toLocaleString('en-US', { hourCycle: 'h24' }) }}
           </span>
         </div>
-        <div class="tip__note pr-2" :title="tip.note" @click="goToTip(tip)">
-            {{ tip.note }}
+        <div class="tip__note pr-2" :title="tip.title" @click="goToTip(tip)">
+            {{ tip.title }}
         </div>
       </div>
       <div>
@@ -20,14 +20,13 @@
       <div class="tip__footer text-ellipsis">
         <div class="row">
           <div class="col-lg-9 col-md-12">
-            <span class="tip__amount" @click="foundWallet && retip(tip.url)" title="Send AE to this post">
-              <img src="../../assets/heart.svg"> {{ tip.amount }} <span>AE</span>
+            <span class="tip__amount" @click="foundWallet && retip(tip.id)" title="Send AE to this post">
+              <img src="../../assets/heart.svg"> {{ tip.total_amount }} <span>AE</span>
             </span>
             <span class="currency-value">
                 (~ {{ fiatValue }} {{current.currency.toUpperCase()}})
             </span>
             <span @click="goToTip(tip)"><img src="../../assets/commentsIcon.svg"></span>
-
           </div>
           <div class="col-lg-3 col-md-12" >
           </div>
@@ -116,7 +115,7 @@
           a{
             color: $light_font_color;
           }
-        } 
+        }
         .tip__note{
           font-size: .8375rem;
           color: $standard_font_color;
@@ -400,7 +399,7 @@
           .tip__author{
             padding-left: 0;
             font-size: .5rem;
-          }    
+          }
           .tip__note,.tip__url{
             padding-left: 0;
           }

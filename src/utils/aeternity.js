@@ -1,11 +1,12 @@
 import Util from './util'
-import CONTRACT_TIP_ANY from '../contracts/WaelletTipAnyBasicInterface.aes'
+import TIPPING_INTERFACE from '../contracts/TippingInterface.aes'
 import { Node, Universal, Aepp, MemoryAccount } from '@aeternity/aepp-sdk/es';
+import TippingContractUtil from './tippingContractUtil';
 
 const aeternity = {
   client: null,
   contract: null,
-  contractAddress: 'ct_cT9mSpx9989Js39ag45fih2daephb7YsicsvNdUdEB156gT5C'
+  contractAddress: 'ct_3HiJVrUJPQR65ycBXiwPjYwKAwmkmwnSbv614pZKfQDKdhun4'
 };
 
 const timeout = async (promise) => {
@@ -21,7 +22,7 @@ const timeout = async (promise) => {
 aeternity.initProvider = async (force = false) => {
   try {
     if (force || aeternity.contractAddress && !aeternity.contract)
-      aeternity.contract = await aeternity.client.getContractInstance(CONTRACT_TIP_ANY, {contractAddress: aeternity.contractAddress});
+      aeternity.contract = await aeternity.client.getContractInstance(TIPPING_INTERFACE, {contractAddress: aeternity.contractAddress});
     return true;
   } catch (e) {
     console.error(e);
@@ -41,7 +42,7 @@ aeternity.initMobileBaseAepp = async () => {
 
 aeternity.initStaticClient = async () => {
   return Universal({
-    compilerUrl: 'https://compiler.aepps.com',
+    compilerUrl: 'https://latest.compiler.aepps.com',
     nodes: [
       {
         name: 'mainnet',
@@ -70,7 +71,7 @@ aeternity.initClient = async () => {
 
   if (process && process.env && process.env.PRIVATE_KEY && process.env.PUBLIC_KEY) {
     aeternity.client = await Universal({
-      compilerUrl: 'https://compiler.aepps.com',
+      compilerUrl: 'https://latest.compiler.aepps.com',
       nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],
       accounts: [
         MemoryAccount({ keypair: { secretKey: process.env.PRIVATE_KEY, publicKey: process.env.PUBLIC_KEY } }),
@@ -94,23 +95,15 @@ aeternity.initClient = async () => {
   return result;
 };
 
-const parseTips = (tips) => {
-  return tips.map(([tip, data]) => {
-    data.url = tip[0];
-    data.tipId = tip[0] + "," + tip[1];
-    data.amount = Util.atomsToAe(data.amount);
-    return data;
-  });
-};
-
 aeternity.getTips = async () => {
-  const contractState = (await aeternity.contract.methods.get_state()).decodedResult;
-  return parseTips(contractState.tips);
+  const result = await aeternity.contract.methods.get_state();
+  const state = TippingContractUtil.getTipsRetips(result.decodedResult);
+  return state.tips;
 };
 
 aeternity.getTip = async (id) => {
   const tips = await aeternity.getTips();
-  return tips.find(tip => tip.tipId === id);
+  return tips.find(tip => tip.id === id);
 };
 
 aeternity.verifyAddress = async () => {

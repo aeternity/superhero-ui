@@ -22,7 +22,7 @@
               <img src="../../assets/heart.svg"> {{ tip.amount }} <span>AE</span>
             </span>
             <span class="currency-value">
-                (~ {{ fiatValue }} {{defaultCurrency.toUpperCase()}})
+                (~ {{ fiatValue }} {{current.currency.toUpperCase()}})
             </span>
             <comment-modal :sendComment="sendComment" :tip="tip"></comment-modal>
             <span class="tip__sender" :title="tip.sender">
@@ -70,7 +70,7 @@
       }
     },
     computed: {
-      ...mapGetters(['defaultCurrency'])
+      ...mapGetters(['current'])
     },
     methods: {
       isPreviewToBeVisualized(tip){

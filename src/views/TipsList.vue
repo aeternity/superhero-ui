@@ -31,7 +31,7 @@
     <left-section></left-section>
     <div class="container wrapper">
       <div class="tips__container">
-        <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :foundWallet="foundWallet" :retip="retip" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
+        <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :foundWallet="foundWallet" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
       </div>
     </div>
     <div class="no-results text-center" v-if="filteredTips !== null && !showLoading && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
@@ -60,7 +60,7 @@
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
         searchTerm: '',
         sorting: "hot",
-        showLoading: false,
+        showLoading: true,
         foundWallet: false,
         activeLang: 'en',
         languagesOptions: [
@@ -70,7 +70,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'tipsOrdering', 'account', 'isLoggedIn']),
+      ...mapGetters(['tips', 'tipsOrdering', 'account', 'isLoggedIn', 'current']),
       filteredTips() {
         if (this.searchTerm.trim().length === 0) {
           return this.tips
@@ -104,16 +104,6 @@
       openExplorer(address) {
         return this.explorerUrl + address
       },
-      // switchLanguage(languageChoose) {
-      //   fetchAndSetLocale(languageChoose);
-      //   this.activeLang = languageChoose;
-      //   if(languageChoose === 'zh'){
-      //     this.defaultCurrency = 'cny';
-      //   }else{
-      //     this.defaultCurrency = 'eur';
-      //   }
-      //   // this.reloadData();
-      // },
       sort(sorting) {
         this.sorting = sorting;
 
@@ -132,12 +122,14 @@
             break;
         }
       },
-      async retip(url) {
-        const amount = util.aeToAtoms(prompt("Tip Amount in AE?"));
-        this.showLoading = true;
-        await aeternity.contract.methods.tip(url, undefined, {amount: amount}).catch(console.error);
-        // this.reloadData();
-      },
+      showLoadingTips() {
+        let load = setInterval(() => {
+          if (this.tips.length > 0){
+            this.showLoading = false;
+            clearInterval(load);
+          }
+        }, 200);
+      }
     },
     components: {
       'dropdown-component': Dropdown,
@@ -146,8 +138,8 @@
       'left-section': LeftSectionComponent,
       'right-section': RightSectionComponent,
     },
-    created() {
-      console.log(this.tips)
+    async created() {
+      this.showLoadingTips();
     },
   }
 </script>

@@ -30,7 +30,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'defaultCurrency', 'account', 'isLoggedIn']),
+      ...mapGetters(['tips', 'current', 'account', 'isLoggedIn']),
     },
     methods: {
       sort(sorting) {
@@ -55,7 +55,7 @@
         new Currency().getRates().then(rates => {
           console.log(rates);
           this.tempTips = this.tempTips.map(tip => {
-            tip.fiatValue = (tip.amount * rates.aeternity[this.defaultCurrency]).toFixed(2);
+            tip.fiatValue = (tip.amount * rates.aeternity[this.current.currency]).toFixed(2);
             return tip;
           })
           .filter(tip => tip.amount * (rates.aeternity['usd']).toFixed(2) > 0.01);

@@ -29,7 +29,4 @@ export const getters = {
   tipsOrdering(state) {
     return state.tipsOrdering;
   },
-  defaultCurrency(state) {
-    return state.defaultCurrency;
-  },
 };

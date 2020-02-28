@@ -12,8 +12,8 @@
         <div class="tip__footer text-ellipsis">
           <div class="row">
             <div class="col-lg-9 col-md-12">
-              <span class="tip__amount" @click="foundWallet && retip(tip.url)" title="Send AE to this post">
-                <img src="../../assets/heart.svg"><span>+ {{ tip.amount }}100 {{$t('system.aeid')}}</span><span class="currency-value"> (~ {{ tip.fiatValue }} {{defaultCurrency.toUpperCase()}})</span>
+              <span class="tip__amount" @click="retip(tip.url)" title="Send AE to this post">
+                <img src="../../assets/heart.svg"><span>+ {{ tip.amount }}100 {{$t('system.aeid')}}</span><span class="currency-value"> (~ {{ tip.fiatValue }} {{current.currency.toUpperCase()}})</span>
               </span>
               <span class="tip__sender" :title="tip.sender"><span>{{$t('system.by')}}</span> {{ tip.sender }}</span>
             </div>
@@ -29,14 +29,28 @@
 </template>
 
 <script>
+  import aeternity from '../../utils/aeternity';
+  import { mapGetters } from 'vuex';
+  
   export default {
     name: 'TipRecord',
-    props: ['tip', 'foundWallet', 'retip'],
+    props: ['tip', 'foundWallet'],
     data() {
-      return {
-        defaultCurrency: 'eur',
-      }
+      return { }
     },
+    computed: {
+      ...mapGetters(['current'])
+    },
+    methods: {
+      async retip(url) {
+        console.log('retip')
+        const amount = util.aeToAtoms(prompt("Tip Amount in AE?"));
+        this.showLoading = true;
+        await aeternity.contract.methods.tip(url, undefined, {amount: amount}).catch(console.error);
+        this.$store.commit('RELOAD_TIPS');
+        this.showLoading = false;
+      },
+    }
   }
 </script>
 

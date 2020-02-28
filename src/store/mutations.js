@@ -1,4 +1,6 @@
+import Vue from 'vue';
 import * as types from './mutation-types';
+import { mergeWith } from 'lodash-es';
 
 export default {
   [types.UPDATE_ACCOUNT](state, payload) {
@@ -18,5 +20,16 @@ export default {
   },
   [types.SET_TIPS_ORDERING](state, payload) {
     state.tipsOrdering = payload;
+  },
+  syncState(state, remoteState) {
+    const customizer = (objValue, srcValue) => {
+      if (!Array.isArray(srcValue)) return undefined;
+      if (!Array.isArray(objValue)) return srcValue;
+      return srcValue.map((el, idx) => (
+        el && typeof el === 'object' ? mergeWith({}, objValue[idx], el, customizer) : el
+      ));
+    };
+    Object.entries(mergeWith({}, state, remoteState, customizer))
+      .forEach(([name, value]) => Vue.set(state, name, value));
   },
 };

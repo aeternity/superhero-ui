@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import { getters } from './getters';
 import mutations from './mutations';
 import actions from './actions';
+import persistState from './plugins/persistState'
 
 Vue.use(Vuex);
 
@@ -15,8 +16,8 @@ export default new Vuex.Store({
       language: '',
       token: 0,
       currencyRate: 0,
+      currency: 'eur',
     },
-    defaultCurrency: 'eur',
     currencies: [
       { value: 'eur', text: 'EUR'},
       { value: 'cny', text: 'YEN'},
@@ -29,5 +30,11 @@ export default new Vuex.Store({
   getters,
   mutations,
   actions,
-  plugins: [],
+  plugins: [
+    persistState(
+      ({ current }) => ({
+        current,
+      })
+    )
+  ]
 });

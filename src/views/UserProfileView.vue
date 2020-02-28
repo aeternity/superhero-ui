@@ -177,7 +177,7 @@
       },
       saveProfile(){
         let postData = {
-          biography: this.biography,
+          biography: this.profile.biography,
           author: wallet.client.rpcClient.getCurrentAccount(),
         }
 
@@ -196,7 +196,7 @@
 
           backendInstance.sendProfileData(respondChallenge).then((result) => {
             console.log(result);
-            this.getProfile()
+            this.resetEditedValues()
             // this.$emit('updateComment', result)
           }).catch(console.error)
         }).catch(console.error);
@@ -204,6 +204,8 @@
       getProfile() {
         // backendInstance.getProfileImage(this.address).then((response) => {}).catch(console.error);
         backendInstance.getProfile(this.address).then((response) => {
+          console.log('getting profile for address: ', this.address)
+          console.log(response)
           if(typeof response !== 'undefined' && response !== null){
             this.profile = response
           }
@@ -212,7 +214,7 @@
     },
     created(){
       this.getProfile();
-
+      
       backendInstance.getAllComments().then((response) => {
         this.loading = false;
         this.error = false;

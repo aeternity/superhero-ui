@@ -82,7 +82,7 @@
         const fetchOrdering = backendInstance.tipOrder().catch(console.error);
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
         const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
-        let [tips, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
+        let [{topics, _, tips}, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
         this.tipsOrdering = tipOrdering;
         this.tipsPreview = tipsPreview;
 
@@ -113,6 +113,7 @@
 
         this.tempTips = tips;
         this.$store.commit('UPDATE_TIPS', this.tempTips);
+        this.$store.commit('UPDATE_TOPICS', topics);
 
         this.asyncAddCurrency();
         this.sort(this.sorting);
@@ -125,7 +126,7 @@
         if (changesDetected) this.$router.go();
       },
       async initialize() {
-        console.log('Initializing wallett')
+        console.log('Initializing wallet')
         try {
           // Bypass check if there is already an active wallet
           if (aeternity.hasActiveWallet()) {

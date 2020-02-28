@@ -15,9 +15,11 @@
           <img src="../../assets/iconTrending.svg">
           Trending
         </div>
+        <div v-for="(amount, topic) in topics">
         <div class="section__body clearfix">
-          <div class="float-left tag">#coronavirus</div>
-          <div class="float-right"><span class="value">33K</span> <span class="ae">AE</span>(~6.6K USD)</div>
+          <div class="float-left">{{topic}}</div>
+          <div class="float-right"><span class="value">{{amount}}</span> <span class="ae">AE</span>(~6.6K USD)</div>
+        </div>
         </div>
       </div>
       <div class="clearfix footer">
@@ -32,11 +34,19 @@
 </template>
 
 <script>
+  import {mapGetters} from "vuex";
+
   export default {
     name: 'RightSectionComponent',
     data() {
       return {}
     },
+    computed: {
+      ...mapGetters(['topics']),
+    },
+    mounted() {
+      console.log(this.topics)
+    }
   }
 </script>
 
@@ -112,7 +122,7 @@
   .app__rightcolumn {
     .content {
       width: 8rem;
-    } 
+    }
   }
 }
 
@@ -120,7 +130,7 @@
   .app__rightcolumn {
     .content {
       width: 10.5rem;
-    } 
+    }
   }
 }
 
@@ -128,7 +138,7 @@
   .app__rightcolumn {
     .content {
       width: 12rem;
-    } 
+    }
   }
 }
 
@@ -136,7 +146,7 @@
   .app__rightcolumn {
     .content {
       width: 10rem;
-    } 
+    }
   }
 }
 

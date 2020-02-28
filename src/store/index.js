@@ -24,6 +24,7 @@ export default new Vuex.Store({
       { value: 'usd', text: 'USD'},
     ],
     tips: [],
+    topics: {},
     tipsOrdering: null,
     isLoggedIn: false,
   },

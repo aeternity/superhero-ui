@@ -6,7 +6,7 @@ import TippingContractUtil from './tippingContractUtil';
 const aeternity = {
   client: null,
   contract: null,
-  contractAddress: 'ct_3HiJVrUJPQR65ycBXiwPjYwKAwmkmwnSbv614pZKfQDKdhun4'
+  contractAddress: 'ct_2AfnEfCSZCTEkxL5Yoi4Yfq6fF7YapHRaFKDJK3THMXMBspp5z'
 };
 
 const timeout = async (promise) => {
@@ -98,7 +98,7 @@ aeternity.initClient = async () => {
 aeternity.getTips = async () => {
   const result = await aeternity.contract.methods.get_state();
   const state = TippingContractUtil.getTipsRetips(result.decodedResult);
-  return state.tips;
+  return state;
 };
 
 aeternity.getTip = async (id) => {

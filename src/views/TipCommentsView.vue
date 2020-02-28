@@ -78,9 +78,9 @@
       }
     },
     created(){
-      this.tip = this.tips[this.tips.findIndex(x => x.tipId == this.$route.params.tipId)]
+      this.tip = this.tips[this.tips.findIndex(x => x.tipId == this.tipId)]
       this.loading = true;
-      backendInstance.getTipComments(this.tip.tipId).then((response) => {
+      backendInstance.getTipComments(this.tipId).then((response) => {
         this.loading = false;
         this.error = false;
         if(typeof response !== 'undefined' && response.length > 0){

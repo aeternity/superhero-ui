@@ -25,6 +25,7 @@ const getTipsRetips = (state) => {
   const tips = state.tips.map(([id, data]) => {
     data.id = id;
     data.url = findUrl(data.url_id);
+    data.topics = data.title.match(/(\#[a-zA-Z]+\b)(?!;)/g);
     data.retips = findRetips(id, data.url_id);
     data.claim = findClaimGen(data.claim_gen, data.url_id);
 
@@ -54,8 +55,16 @@ const getTipsRetips = (state) => {
     };
   });
 
+  const topics = tips.reduce((acc, tip) => {
+    if (tip.topics) tip.topics.forEach(topic => {
+      if (topic) acc[topic] = acc[topic] ? new BigNumber(acc[topic]).plus(tip.total_amount).toFixed() : tip.total_amount
+    });
+
+    return acc;
+  }, {});
 
   return {
+    topics: topics,
     urls: urls,
     tips: tips
   };

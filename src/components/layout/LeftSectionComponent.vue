@@ -2,7 +2,11 @@
   <div class="app__leftcolumn">
     <div class="content">
       <div class="navigation">
-        <div class="navigation__item"><a>Home</a></div>
+        <div class="navigation__item">
+          <a>
+            Home
+          </a>  
+        </div>
         <div class="navigation__item"><a>Trending</a></div>
         <div class="navigation__item"><a>Mission</a></div>
         <div class="navigation__item"><a>Create Profile</a></div>
@@ -69,7 +73,9 @@
       margin-bottom: 1rem;
     }
     .navigation__item, .side__button{
-      margin-bottom: .5rem;
+      font-size: 1rem;
+      text-transform: capitalize;
+      margin-bottom: 0.7rem;
       &:hover{
         cursor: pointer;
       }

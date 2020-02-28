@@ -4,7 +4,7 @@ import TipCommentsView from "./views/TipCommentsView";
 import UserProfileView from "./views/UserProfileView";
 
 let guardTipComments = (to, from, next) => {
-  if(to.name == 'tip' && to.params.tipId){
+  if(to.name == 'tip' && typeof to.params.id !== "undefined"){
     next();
   }else{
     next('/');

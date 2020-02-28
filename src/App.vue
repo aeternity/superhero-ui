@@ -14,18 +14,110 @@
   import { mapGetters } from 'vuex';
   import { clearInterval, setInterval } from 'timers';
   import { wallet } from './utils/walletSearch';
+  import Backend from "./utils/backend";
+  import Currency from "./utils/currency";
+  import util from "./utils/util";
 
   export default {
     name: 'app',
     data() {
       return {
+        tempTips: [],
+        sorting: null,
+        tipsOrdering: null,
+        showLoading: true,
         foundWallet: false
       }
     },
     computed: {
-      ...mapGetters(['account', 'current', 'mainLoading', 'sdk', 'isLoggedIn']),
+      ...mapGetters(['tips', 'defaultCurrency', 'account', 'current', 'mainLoading', 'sdk', 'isLoggedIn']),
     },
     methods: {
+      sort(sorting) {
+        this.sorting = sorting;
+
+        switch (this.sorting) {
+          case "hot":
+            this.tempTips.sort((a, b) => b.score - a.score);
+            this.$store.commit('UPDATE_TIPS', this.tempTips)
+            break;
+          case "latest":
+            this.tempTips.sort((a, b) => b.received_at - a.received_at);
+            this.$store.commit('UPDATE_TIPS', this.tempTips)
+            break;
+          case "highest":
+            this.tempTips.sort((a, b) => b.amount - a.amount);
+            this.$store.commit('UPDATE_TIPS', this.tempTips)
+            break;
+        }
+      },
+      async asyncAddCurrency() {
+        new Currency().getRates().then(rates => {
+          console.log(rates);
+          this.tempTips = this.tempTips.map(tip => {
+            tip.fiatValue = (tip.amount * rates.aeternity[this.defaultCurrency]).toFixed(2);
+            return tip;
+          })
+          .filter(tip => tip.amount * (rates.aeternity['usd']).toFixed(2) > 0.01);
+          console.log(this.tempTips)
+          this.$store.commit('UPDATE_TIPS', this.tempTips)
+        }).catch(console.error);
+      },
+      async reloadData(initial = false) {
+        this.showLoading = true;
+        const fetchTips = async () => {
+          if (initial) {
+            await aeternity.initClient();
+            wallet.init(() => {
+              this.foundWallet = true;
+              this.$store.commit('SWITCH_LOGGED_IN', true);
+              this.$store.commit('UPDATE_ACCOUNT', wallet.client.rpcClient.getCurrentAccount())
+              console.log("found wallet")
+            }).catch(console.error);
+          }
+          return aeternity.getTips().catch(console.error);
+        };
+
+        const backendInstance = new Backend();
+        const fetchOrdering = backendInstance.tipOrder().catch(console.error);
+        const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
+        const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
+        let [tips, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
+        this.tipsOrdering = tipOrdering;
+        this.tipsPreview = tipsPreview;
+
+        // add score from backend to tips
+        if (this.tipsOrdering) {
+          const blacklistedTipIds = tipOrdering.map(order => order.id);
+          const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.tipId));
+          tips = filteredTips.map(tip => {
+            const orderItem = tipOrdering.find(order => order.id === tip.tipId);
+            tip.score = orderItem ? orderItem.score : 0;
+            return tip;
+          });
+          if (initial) this.sorting = "hot";
+        }
+
+        this.$store.commit('SET_TIPS_ORDERING', this.tipsOrdering)
+
+        // filter tips by language from backend
+//        if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
+
+        // add preview to tips from backend
+        if (this.tipsPreview) {
+          tips = tips.map(tip => {
+            tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
+            return tip;
+          });
+        }
+
+        this.tempTips = tips;
+        this.$store.commit('UPDATE_TIPS', this.tempTips);
+
+        this.asyncAddCurrency();
+        this.sort(this.sorting);
+        this.showLoading = false;
+      },
       async checkAndReloadProvider() {
         if (!aeternity.address) return;
         const changesDetected = await aeternity.verifyAddress();
@@ -57,7 +149,8 @@
       }
     },
     async created() {
-      this.initialize();
+      await this.reloadData(true);
+      setInterval(() => this.reloadData(), 120 * 1000);
     }
   }
 </script>

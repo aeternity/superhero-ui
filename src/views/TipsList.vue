@@ -8,9 +8,12 @@
             <input type="text" v-model="searchTerm" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
           </div>
           <div class="col-md-12 col-lg-12 col-sm-12 sorting">
-            <a v-if="this.tipsOrdering" v-on:click="sort('hot')"
-                v-bind:class="{ active: sorting === 'hot' }"> {{$t('pages.Home.SortingHot')}}</a>
-            <a v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">{{$t('pages.Home.SortingLatest')}}</a>
+            <a v-if="this.tipsOrdering" v-on:click="sort('hot')" v-bind:class="{ active: sorting === 'hot' }">
+              {{$t('pages.Home.SortingHot')}}
+            </a>
+            <a v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">
+              {{$t('pages.Home.SortingLatest')}}
+            </a>
             <a v-on:click="sort('highest')" v-bind:class="{ active: sorting === 'highest' }">
               {{$t('pages.Home.SortingHighestRated')}}
             </a>
@@ -28,7 +31,7 @@
     <left-section></left-section>
     <div class="container wrapper">
       <div class="tips__container">
-        <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :foundWallet="foundWallet" :retip="retip" :defaultCurrency="defaultCurrency" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
+        <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :foundWallet="foundWallet" :retip="retip" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
       </div>
     </div>
     <div class="no-results text-center" v-if="filteredTips !== null && !showLoading && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
@@ -38,8 +41,6 @@
 <script>
   import aeternity from '../utils/aeternity';
   import {wallet} from '../utils/walletSearch.js'
-  import Backend from "../utils/backend";
-  import Currency from "../utils/currency";
   import util from "../utils/util";
 
   import Dropdown from "../components/DropdownComponent.vue"
@@ -50,32 +51,26 @@
   import HeaderComponent from '../components/layout/HeaderComponent.vue';
   import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
   import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'TipsList',
     data() {
       return {
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
-        showLoading: true,
-        tips: null,
-        tipsOrdering: null,
         searchTerm: '',
-        sorting: "latest",
+        sorting: "hot",
+        showLoading: false,
         foundWallet: false,
         activeLang: 'en',
         languagesOptions: [
           { value: 'en', text: 'English' },
           { value: 'zh', text: 'Chinese' },
         ],
-        defaultCurrency: 'eur',
-        currencies: [
-          { value: 'eur', text: 'EUR'},
-          { value: 'cny', text: 'YEN'},
-          { value: 'usd', text: 'USD'},
-        ]
       }
     },
     computed: {
+      ...mapGetters(['tips', 'tipsOrdering', 'account', 'current', 'mainLoading', 'sdk', 'isLoggedIn']),
       filteredTips() {
         if (this.searchTerm.trim().length === 0) {
           return this.tips
@@ -109,28 +104,31 @@
       openExplorer(address) {
         return this.explorerUrl + address
       },
-      switchLanguage(languageChoose) {
-        fetchAndSetLocale(languageChoose);
-        this.activeLang = languageChoose;
-        if(languageChoose === 'zh'){
-          this.defaultCurrency = 'cny';
-        }else{
-          this.defaultCurrency = 'eur';
-        }
-        this.reloadData();
-      },
+      // switchLanguage(languageChoose) {
+      //   fetchAndSetLocale(languageChoose);
+      //   this.activeLang = languageChoose;
+      //   if(languageChoose === 'zh'){
+      //     this.defaultCurrency = 'cny';
+      //   }else{
+      //     this.defaultCurrency = 'eur';
+      //   }
+      //   // this.reloadData();
+      // },
       sort(sorting) {
         this.sorting = sorting;
 
         switch (this.sorting) {
           case "hot":
             this.tips.sort((a, b) => b.score - a.score);
+            this.$store.commit('UPDATE_TIPS', this.tips)
             break;
           case "latest":
             this.tips.sort((a, b) => b.received_at - a.received_at);
+            this.$store.commit('UPDATE_TIPS', this.tips)
             break;
           case "highest":
             this.tips.sort((a, b) => b.amount - a.amount);
+            this.$store.commit('UPDATE_TIPS', this.tips)
             break;
         }
       },
@@ -138,66 +136,8 @@
         const amount = util.aeToAtoms(prompt("Tip Amount in AE?"));
         this.showLoading = true;
         await aeternity.contract.methods.tip(url, undefined, {amount: amount}).catch(console.error);
-        this.reloadData();
+        // this.reloadData();
       },
-      async asyncAddCurrency() {
-        new Currency().getRates().then(rates => {
-          this.tips = this.tips.map(tip => {
-            tip.fiatValue = (tip.amount * rates.aeternity[this.defaultCurrency]).toFixed(2);
-            return tip;
-          }).filter(tip => tip.amount * (rates.aeternity['usd']).toFixed(2) > 0.01);
-        }).catch(console.error);
-      },
-      async reloadData(initial = false) {
-        this.showLoading = true;
-        const fetchTips = async () => {
-          if (initial) {
-            await aeternity.initClient();
-            wallet.init(() => {
-              this.foundWallet = true;
-              console.log("found wallet")
-            }).catch(console.error);
-          }
-          return aeternity.getTips().catch(console.error);
-        };
-
-        const backendInstance = new Backend();
-        const fetchOrdering = backendInstance.tipOrder().catch(console.error);
-        const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
-        const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
-        let [tips, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
-        this.tipsOrdering = tipOrdering;
-        this.tipsPreview = tipsPreview;
-
-        // add score from backend to tips
-        if (this.tipsOrdering) {
-          const blacklistedTipIds = tipOrdering.map(order => order.id);
-          const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.tipId));
-          tips = filteredTips.map(tip => {
-            const orderItem = tipOrdering.find(order => order.id === tip.tipId);
-            tip.score = orderItem ? orderItem.score : 0;
-            return tip;
-          });
-          if (initial) this.sorting = "hot";
-        }
-
-        // filter tips by language from backend
-//        if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
-
-        // add preview to tips from backend
-        if (this.tipsPreview) {
-          tips = tips.map(tip => {
-            tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
-            return tip;
-          });
-        }
-
-        this.tips = tips;
-
-        this.asyncAddCurrency();
-        this.sort(this.sorting);
-        this.showLoading = false;
-      }
     },
     components: {
       'dropdown-component': Dropdown,
@@ -206,9 +146,8 @@
       'left-section': LeftSectionComponent,
       'right-section': RightSectionComponent,
     },
-    async created() {
-      await this.reloadData(true);
-      setInterval(() => this.reloadData(), 120 * 1000);
+    created() {
+      console.log(this.tips)
     },
   }
 </script>

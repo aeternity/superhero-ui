@@ -11,4 +11,10 @@ export default {
   initSdk({ commit }, payload) {
     commit(types.INIT_SDK, payload);
   },
+  updateTips({ commit }, payload) {
+    commit(types.UPDATE_TIPS, payload)
+  },
+  setTipOrdering({ commit }, payload) {
+    commit(types.SET_TIPS_ORDERING, payload)
+  },
 };

@@ -59,15 +59,19 @@
   import { wallet } from '../../utils/walletSearch';
   import aeternity from '../../utils/aeternity';
   import * as helper from '../../utils/helper';
+  import { mapGetters } from 'vuex';
 
   const backendInstance = new Backend();
 
   export default {
     name: 'TipRecord',
-    props: ['tip', 'foundWallet', 'retip', 'defaultCurrency', 'fiatValue', 'senderLink'],
+    props: ['tip', 'foundWallet', 'retip', 'fiatValue', 'senderLink'],
     data() {
       return {
       }
+    },
+    computed: {
+      ...mapGetters(['defaultCurrency'])
     },
     methods: {
       isPreviewToBeVisualized(tip){

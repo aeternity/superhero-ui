@@ -53,4 +53,13 @@ export const getters = {
   notifications({ notifications }) {
     return notifications;
   },
+  tips(state) {
+    return state.tips;
+  },
+  tipsOrdering(state) {
+    return state.tipsOrdering;
+  },
+  defaultCurrency(state) {
+    return state.defaultCurrency;
+  },
 };

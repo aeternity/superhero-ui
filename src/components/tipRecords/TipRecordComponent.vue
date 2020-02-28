@@ -57,9 +57,8 @@
   import Backend from "../../utils/backend";
   import CommentModal from "../CommentModalComponent.vue"
   import { wallet } from '../../utils/walletSearch';
-  import aeternity from '../../utils/aeternity';
-  import * as helper from '../../utils/helper';
   import { mapGetters } from 'vuex';
+  import aeternity from '../../utils/aeternity';
 
   const backendInstance = new Backend();
 
@@ -102,7 +101,7 @@
           console.log("challenge => ", response.challenge);
           console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
          
-          let signedChallenge = await helper.signMessage(response.challenge)
+          let signedChallenge = await wallet.signMessage(response.challenge)
           let respondChallenge = {
             challenge: response.challenge,
             signature: signedChallenge

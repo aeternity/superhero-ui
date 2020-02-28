@@ -4,17 +4,23 @@ import Vuex from 'vuex';
 import { getters } from './getters';
 import mutations from './mutations';
 import actions from './actions';
-import { networks, DEFAULT_NETWORK } from '../utils/constants';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     account: {},
-    wallet: [],
     balance: 0,
     current: {
-      network: DEFAULT_NETWORK,
+      network: {
+        url: 'https://mainnet.aeternal.io',
+        internalUrl: 'https://mainnet.aeternal.io',
+        networkId: 'ae_mainnet',
+        middlewareUrl: 'https://mainnet.aeternal.io/',
+        explorerUrl: 'https://mainnet.aeternal.io',
+        compilerUrl: 'https://compiler.aepps.com',
+        tipContract: 'ct_YpQpntd6fi6r3VXnGW7vJiwPYtiKvutUDY35L4PiqkbKEVRqj'
+      },
       language: '',
       token: 0,
       currency: 'usd',
@@ -28,13 +34,7 @@ export default new Vuex.Store({
     ],
     tips: [],
     tipsOrdering: null,
-    network: networks,
     isLoggedIn: false,
-    sdk: null,
-    mainLoading: true,
-    nodeStatus: 'connecting',
-    currencies: {},
-    notifications: [],
   },
   getters,
   mutations,

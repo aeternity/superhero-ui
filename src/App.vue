@@ -30,7 +30,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'defaultCurrency', 'account', 'current', 'mainLoading', 'sdk', 'isLoggedIn']),
+      ...mapGetters(['tips', 'defaultCurrency', 'account', 'isLoggedIn']),
     },
     methods: {
       sort(sorting) {

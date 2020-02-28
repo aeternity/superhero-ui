@@ -70,7 +70,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'tipsOrdering', 'account', 'current', 'mainLoading', 'sdk', 'isLoggedIn']),
+      ...mapGetters(['tips', 'tipsOrdering', 'account', 'isLoggedIn']),
       filteredTips() {
         if (this.searchTerm.trim().length === 0) {
           return this.tips

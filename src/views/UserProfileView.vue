@@ -17,7 +17,7 @@
               </div>
             </div>
             <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" v-bind:class="[loadingAvatar ? 'blurred' : '']">
-              <img  v-bind:src="avatar"/>
+              <img v-bind:src="avatar"/>
               <div>Change Avatar</div>
             </label>
             <div v-bind:class="[loadingAvatar ? 'blurred' : '']">
@@ -26,19 +26,19 @@
             <input id="file-input" type="file" name="avatar" v-if="editMode" accept="image/png, image/jpeg">
           </div>
           <div class="profile__info">
-            <h1 class="profile__displayname" v-if="!editMode">{{displayName}}</h1>
+            <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
             <div class="input-group" v-if="editMode">
-              <input type="text" v-model="editingDisplayName" class="form-control" placeholder="Edit Display Name">
+              <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
             </div>
             <a class="profile__username" v-if="!editMode">{{userName}}</a>
           </div>
-          <div class="profile__description" v-if="!editMode">{{description}}</div>
+          <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
           <div class="input-group" v-if="editMode">
-            <textarea class="form-control" v-model="editingDescription" rows="3" placeholder="Edit Description"></textarea>
+            <textarea class="form-control" v-model="profile.biography" rows="3" placeholder="Edit Biography"></textarea>
           </div>
           <div class="mt-2 mb-2" v-if="editMode">
             <button type="button" @click="resetEditedValues()" class="btn btn-dark mr-2">Cancel</button>
-            <button type="button" @click="updateEditedValues()" class="btn btn-dark">Save</button>
+            <button type="button" @click="saveProfile()" class="btn btn-dark">Save</button>
           </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-12 profile__meta">
@@ -117,6 +117,8 @@
   import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
   import TipComment from "../components/tipRecords/TipCommentComponent.vue"
   import RetipComment from "../components/tipRecords/RetipComponent.vue"
+  import { mapGetters } from 'vuex';
+  import { wallet } from '../utils/walletSearch';
 
   const backendInstance = new Backend();
 
@@ -135,15 +137,20 @@
         comments: [],
         error: false,
         userName: this.address,
-        displayName: '',
-        description: '',
         editingDisplayName: '',
         editingDescription: '',
         editMode: false,
-        avatar: '../assets/userAvatar.svg',
         loadingProfile: false,
-        loadingAvatar: false
+        loadingAvatar: false,
+        profile: {
+          biography: '',
+          displayName: '',
+        },
+        avatar: '../assets/userAvatar.svg'
       }
+    },
+    computed: {
+      ...mapGetters(['current', 'account'])
     },
     methods: {
       openExplorer(address) {
@@ -156,33 +163,47 @@
         this.editMode = !this.editMode;
       },
       resetEditedValues(){
-        this.editingDisplayName = this.displayName;
-        this.editingDescription = this.description;
+        this.getProfile();
         this.toggleEditMode(false);
       },
-      updateEditedValues(){
-        this.displayName = this.editingDisplayName;
-        this.description = this.editingDescription;
-        this.toggleEditMode(false);
+      saveProfile(){
+        let postData = {
+          biography: this.biography,
+          author: wallet.client.rpcClient.getCurrentAccount(),
+        }
+
+        console.log("sending profile => ", postData)
+        
+        backendInstance.sendProfileData(postData).then(async (response) => {
+          console.log(response)
+          console.log("challenge => ", response.challenge);
+          console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
+         
+          let signedChallenge = await wallet.signMessage(response.challenge)
+          let respondChallenge = {
+            challenge: response.challenge,
+            signature: signedChallenge
+          }
+
+          backendInstance.sendProfileData(respondChallenge).then((result) => {
+            console.log(result);
+            this.getProfile()
+            // this.$emit('updateComment', result)
+          }).catch(console.error)
+        }).catch(console.error);
+      },
+      getProfile() {
+        // backendInstance.getProfileImage(this.address).then((response) => {}).catch(console.error);
+        backendInstance.getProfile(this.address).then((response) => {
+          if(typeof response !== 'undefined' && response !== null){
+            this.profile = response
+          }
+        }).catch(console.error);
       }
     },
     created(){
-      backendInstance.getProfileImage(this.address).then((response) => {}).catch(console.error);
-      backendInstance.getProfile(this.address).then((response) => {}).catch(console.error);
-      let response = {
-        avatar: 'https://via.placeholder.com/150',
-        biography: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining esse",
-        username: 'johndoe.chain',
-        displayname: 'John Doe'
-      }
-      if(typeof response !== 'undefined' && response !== null){
-        response.avatar ? this.avatar = response.avatar: ''
-        response.biography ? this.editingDescription = this.description = response.biography: ''
-        response.username ? this.userName = response.username: ''
-        response.displayname ? this.editingDisplayName = this.displayName = response.displayname: ''
-      }
+      this.getProfile();
 
-      this.loading = true;
       backendInstance.getAllComments().then((response) => {
         this.loading = false;
         this.error = false;

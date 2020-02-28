@@ -33,6 +33,13 @@ export default class Backend {
   getProfile = async (address) => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/profile/` + address);
   });
+  sendProfileData = async (postParam) => wrapTry(async () => {
+    return fetch(`${this.BACKEND_URL}/profile`, {
+      method: 'post',
+      body: JSON.stringify(postParam),
+      headers: {"Content-Type": "application/json"}
+    });
+  });
   getProfileImage = async (address) => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/profile/image/` + address);
   });

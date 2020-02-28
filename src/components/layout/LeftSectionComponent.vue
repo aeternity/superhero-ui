@@ -10,7 +10,7 @@
         <div class="navigation__item"><a>Trending</a></div>
         <div class="navigation__item"><a>Mission</a></div>
         <div class="navigation__item" v-if="!isLoggedIn"><a>Create Profile</a></div>
-        <div class="navigation__item" v-if="isLoggedIn"><a>{{ account }}</a></div>
+        <div class="navigation__item" v-if="isLoggedIn"><a @click="openMyProfile">My Profile</a></div>
       </div>
       <div class="side__button" v-if="!isLoggedIn"><a>Install Wallet</a></div>
       <div class="side__button secondary"><a>Get Tokens</a></div>
@@ -53,6 +53,16 @@
     name: 'LeftSectionComponent',
     data() {
       return {}
+    },
+    methods: {
+      openMyProfile() {
+        this.$router.push({
+          name: 'user-profile',
+          params: {
+            address: this.account
+          }
+        })
+      }
     },
     computed: {
       ...mapGetters(['account', 'isLoggedIn'])

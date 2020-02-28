@@ -1,111 +1,115 @@
 <template>
-  <div class="container profile__page">
-    <div class="profile__section clearfix position-relative">
-      <div class="text-center spinner__container w-100" v-if="loadingProfile">
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
+  <div>
+    <right-section></right-section>
+    <left-section></left-section>
+    <div class="container profile__page">
+      <div class="profile__section clearfix position-relative">
+        <div class="text-center spinner__container w-100" v-if="loadingProfile">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div class="row" v-bind:class="[loadingProfile ? 'invisible' : '']">
+          <div class="col-lg-9 col-md-8 col-sm-12 profile__editable position-relative">
+            <a class="edit__button" @click="toggleEditMode(true)" v-if="!editMode" title="Edit Profile"><img src="../assets/editIcon.svg"></a>
+            <div class="profile__image position-relative" >
+              <div class="overlay" v-if="loadingAvatar"></div>
+              <div class="text-center spinner__container w-100" v-if="loadingAvatar">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" v-bind:class="[loadingAvatar ? 'blurred' : '']">
+                <img v-bind:src="avatar"/>
+                <div>Change Avatar</div>
+              </label>
+              <div v-bind:class="[loadingAvatar ? 'blurred' : '']">
+                <img v-bind:src="avatar" v-if="!editMode">
+              </div>
+              <input id="file-input" type="file" name="avatar" v-if="editMode" accept="image/png, image/jpeg">
+            </div>
+            <div class="profile__info">
+              <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
+              <div class="input-group" v-if="editMode">
+                <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
+              </div>
+              <a class="profile__username" v-if="!editMode">{{userName}}</a>
+            </div>
+            <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
+            <div class="input-group" v-if="editMode">
+              <textarea class="form-control" v-model="profile.biography" rows="3" placeholder="Edit Biography"></textarea>
+            </div>
+            <div class="mt-2 mb-2" v-if="editMode">
+              <button type="button" @click="resetEditedValues()" class="btn btn-dark mr-2">Cancel</button>
+              <button type="button" @click="saveProfile()" class="btn btn-dark">Save</button>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-12 profile__meta">
+            <div class="row">
+              <div class="col-8">Tippers</div>
+              <div class="col-4 value">70</div>
+              <div class="col-8">Followers</div>
+              <div class="col-4 value">50</div>
+              <div class="col-8">Daily Audience</div>
+              <div class="col-4 value">120</div>
+              <div class="col-8">Total Received</div>
+              <div class="col-4 value">2000 AE</div>
+              <div class="col-8">Users Tipped</div>
+              <div class="col-4 value">100</div>
+              <div class="col-8">Total Spent</div>
+              <div class="col-4 value">1500 AE</div>
+              <div class="col-8">Tips Received</div>
+              <div class="col-4 value">200</div>
+              <div class="col-8">Tips Claimed</div>
+              <div class="col-4 value">200</div>
+              <div class="col-8">Tips Unclaimed</div>
+              <div class="col-4 value">0</div>
+            </div>
+            <div class="row mobile">
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-7">Total Spent</div>
+                    <div class="col-5 value">1500 AE</div>
+                    <div class="col-7">Tips Received</div>
+                    <div class="col-5 value">200</div>
+                    <div class="col-7">Tips Claimed</div>
+                    <div class="col-5 value">200</div>
+                    <div class="col-7">Tips Unclaimed</div>
+                    <div class="col-5 value">0</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-7">Tippers</div>
+                  <div class="col-5 value">70</div>
+                  <div class="col-7">Followers</div>
+                  <div class="col-5 value">50</div>
+                  <div class="col-7">Daily Audience</div>
+                  <div class="col-5 value">120</div>
+                  <div class="col-7">Total Received</div>
+                  <div class="col-5 value">2000 AE</div>
+                  <div class="col-7">Users Tipped</div>
+                  <div class="col-5 value">100</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="profile__actions">
+          <a>All</a>
+          <a>Sent Tips</a>
+          <a>Received Tips</a>
+          <a>Comments</a>
+          <a>Date</a>
         </div>
       </div>
-      <div class="row" v-bind:class="[loadingProfile ? 'invisible' : '']">
-        <div class="col-lg-9 col-md-8 col-sm-12 profile__editable position-relative">
-          <a class="edit__button" @click="toggleEditMode(true)" v-if="!editMode" title="Edit Profile"><img src="../assets/editIcon.svg"></a>
-          <div class="profile__image position-relative" >
-            <div class="overlay" v-if="loadingAvatar"></div>
-            <div class="text-center spinner__container w-100" v-if="loadingAvatar">
-              <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            </div>
-            <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" v-bind:class="[loadingAvatar ? 'blurred' : '']">
-              <img v-bind:src="avatar"/>
-              <div>Change Avatar</div>
-            </label>
-            <div v-bind:class="[loadingAvatar ? 'blurred' : '']">
-              <img v-bind:src="avatar" v-if="!editMode">
-            </div>
-            <input id="file-input" type="file" name="avatar" v-if="editMode" accept="image/png, image/jpeg">
+      <div class="comments__section position-relative">
+        <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
+        <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
+        <div class="text-center spinner__container w-100" v-if="loading">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
           </div>
-          <div class="profile__info">
-            <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
-            <div class="input-group" v-if="editMode">
-              <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
-            </div>
-            <a class="profile__username" v-if="!editMode">{{userName}}</a>
-          </div>
-          <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
-          <div class="input-group" v-if="editMode">
-            <textarea class="form-control" v-model="profile.biography" rows="3" placeholder="Edit Biography"></textarea>
-          </div>
-          <div class="mt-2 mb-2" v-if="editMode">
-            <button type="button" @click="resetEditedValues()" class="btn btn-dark mr-2">Cancel</button>
-            <button type="button" @click="saveProfile()" class="btn btn-dark">Save</button>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-12 profile__meta">
-          <div class="row">
-            <div class="col-8">Tippers</div>
-            <div class="col-4 value">70</div>
-            <div class="col-8">Followers</div>
-            <div class="col-4 value">50</div>
-            <div class="col-8">Daily Audience</div>
-            <div class="col-4 value">120</div>
-            <div class="col-8">Total Received</div>
-            <div class="col-4 value">2000 AE</div>
-            <div class="col-8">Users Tipped</div>
-            <div class="col-4 value">100</div>
-            <div class="col-8">Total Spent</div>
-            <div class="col-4 value">1500 AE</div>
-            <div class="col-8">Tips Received</div>
-            <div class="col-4 value">200</div>
-            <div class="col-8">Tips Claimed</div>
-            <div class="col-4 value">200</div>
-            <div class="col-8">Tips Unclaimed</div>
-            <div class="col-4 value">0</div>
-          </div>
-          <div class="row mobile">
-            <div class="col-6">
-              <div class="row">
-                <div class="col-7">Total Spent</div>
-                  <div class="col-5 value">1500 AE</div>
-                  <div class="col-7">Tips Received</div>
-                  <div class="col-5 value">200</div>
-                  <div class="col-7">Tips Claimed</div>
-                  <div class="col-5 value">200</div>
-                  <div class="col-7">Tips Unclaimed</div>
-                  <div class="col-5 value">0</div>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="row">
-                <div class="col-7">Tippers</div>
-                <div class="col-5 value">70</div>
-                <div class="col-7">Followers</div>
-                <div class="col-5 value">50</div>
-                <div class="col-7">Daily Audience</div>
-                <div class="col-5 value">120</div>
-                <div class="col-7">Total Received</div>
-                <div class="col-5 value">2000 AE</div>
-                <div class="col-7">Users Tipped</div>
-                <div class="col-5 value">100</div>
-              </div>
-            </div>
-          </div>
-        </div>
-       </div>
-       <div class="profile__actions">
-         <a>All</a>
-         <a>Sent Tips</a>
-         <a>Received Tips</a>
-         <a>Comments</a>
-         <a>Date</a>
-       </div>
-    </div>
-    <div class="comments__section position-relative">
-      <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
-      <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
-      <div class="text-center spinner__container w-100" v-if="loading">
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
         </div>
       </div>
     </div>
@@ -117,6 +121,8 @@
   import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
   import TipComment from "../components/tipRecords/TipCommentComponent.vue"
   import RetipComment from "../components/tipRecords/RetipComponent.vue"
+  import LeftSectionComponentVue from '../components/layout/LeftSectionComponent.vue';
+  import RightSectionComponentVue from '../components/layout/RightSectionComponent.vue';
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
 
@@ -128,6 +134,8 @@
     components: {
       'tip-comment': TipComment,
       'retip-component': RetipComment,
+      'left-section': LeftSectionComponentVue,
+      'right-section': RightSectionComponentVue
     },
      data() {
       return {

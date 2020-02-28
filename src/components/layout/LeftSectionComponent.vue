@@ -3,7 +3,7 @@
     <div class="content">
       <div class="navigation">
         <div class="navigation__item">
-          <a>
+          <a @click="goHome()">
             Home
           </a>  
         </div>
@@ -55,6 +55,11 @@
       return {}
     },
     methods: {
+      goHome() {
+        this.$router.push({
+          name: 'home',
+        })
+      },
       openMyProfile() {
         this.$router.push({
           name: 'user-profile',

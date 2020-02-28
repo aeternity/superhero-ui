@@ -10,7 +10,7 @@
             {{ new Date(tip.timestamp).toLocaleString('en-US', { hourCycle: 'h24' }) }}
           </span>
         </div>
-        <div class="tip__note pr-2" :title="tip.title" @click="goToTip(tip)">
+        <div class="tip__note pr-2" :title="tip.title" @click="goToTip(tip.id)">
             {{ tip.title }}
         </div>
       </div>
@@ -68,15 +68,16 @@
     },
     methods: {
       isPreviewToBeVisualized(tip){
-       return typeof tip !== 'undeifned' && tip !== null
+       return typeof tip !== 'undefined' && tip !== null
         && typeof tip.preview !== 'undefined' && tip.preview.description !== null
           && tip.preview.description.length > 0  && tip.preview.image !== null;
       },
-      goToTip(tip){
+      goToTip(id){
+        console.log("goToTip", id);
         this.$router.push({
           name: 'tip',
           params: {
-            tipId: tip.tipId
+            id: id
           }
         })
       },

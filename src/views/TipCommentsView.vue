@@ -6,7 +6,7 @@
   <div class="container url__page">
     <div class="actions-ribbon">
       <div class="row">
-         <a class="back-url col-md-6 col-sm-12" href="/"><img src="../assets/backArrow.svg">{{$t('pages.TipComments.BackTo')}}<span> AE</span> {{$t('pages.TipComments.records')}}</a> 
+         <a class="back-url col-md-6 col-sm-12" href="/"><img src="../assets/backArrow.svg">{{$t('pages.TipComments.BackTo')}}<span> AE</span> {{$t('pages.TipComments.records')}}</a>
         <!-- <div class="col-md-6 col-sm-12 text-right sorting">
           <a>Date</a>
           <a>AE Records</a>
@@ -76,7 +76,7 @@
       return {
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
         tip: null,
-        tipId: this.$route.params.tipId,
+        id: this.$route.params.id,
         loading: false,
         comments: [],
         error: false,
@@ -132,10 +132,10 @@
       }
     },
     created(){
-      console.log(this.account)
-      this.tip = this.tips[this.tips.findIndex(x => x.tipId == this.tipId)]
+      console.log(this.account);
+      this.tip = this.tips.find(x => x.id === this.id);
       this.loading = true;
-      backendInstance.getTipComments(this.tipId).then((response) => {
+      backendInstance.getTipComments(this.id).then((response) => {
         this.loading = false;
         this.error = false;
         if(typeof response !== 'undefined' && response.length > 0){
@@ -169,7 +169,7 @@
     .tip__record{
       margin-bottom: 0;
     }
-  } 
+  }
   .back-url,.sorting a{
     cursor: pointer;
   }

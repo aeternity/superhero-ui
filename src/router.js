@@ -5,9 +5,9 @@ import UserProfileView from "./views/UserProfileView";
 
 let guardTipComments = (to, from, next) => {
   if(to.name == 'tip' && to.params.tipId){
-    next(); 
+    next();
   }else{
-    next('/'); 
+    next('/');
   }
 }
 
@@ -19,7 +19,7 @@ const routes = [
     component: TipsList,
     meta: {title: 'Home'}
   },{
-    path: '/tip/:tipId',
+    path: '/tip/:id',
     name: 'tip',
     component: TipCommentsView,
     meta: {

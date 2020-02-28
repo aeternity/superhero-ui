@@ -8,11 +8,11 @@
     </div>
     <div class="header__right_section">
       <div class="header__buttons">
-        <div >
-          <a class="redeem__tip colorful-buttons" href="">Redeem Tip</a>
+        <div>
+          <a class="redeem__tip colorful-buttons secondary" href="">Redeem Tip</a>
         </div>
-        <div >
-          <a class="redeem__tip colorful-buttons secondary" href="">Send Tip</a>
+        <div>
+          <a class="send__tip colorful-buttons" href="">Send Tip</a>
         </div>
       </div>
     </div>
@@ -33,15 +33,15 @@
 .colorful-buttons{
   background-color: $colorful_buttons_background_primary;
   color: $custom_links_color;
-  padding: .25rem .5rem .25rem .5rem;
+  padding: .75rem 1rem .75rem 1rem;
   border-radius: .25rem;
-  margin-right: .125rem;
+  margin-right: 0;
   font-size: .65rem;
   font-weight: 600;
   &.secondary{
     background-color: $colorful_buttons_background_secondary;
     color: $secondary_color;
-    margin-right: 0;
+    margin-right: 0.125rem;
   }
 }
 .header{
@@ -71,7 +71,6 @@
       display: flex;
     }
   }
- // redeem__tip
 }
 .header__body{
   width: 33rem;
@@ -86,6 +85,13 @@
     width: calc(50% - 13.5rem);
     padding-right: 0.5rem;
   }
+  .header .header__right_section{
+    width: calc(50% - 16rem);
+    padding-right: 0.5rem;
+  }
+  .colorful-buttons {
+    font-size: .55rem;
+  }
 }
 
 @media (min-width: 992px) {
@@ -96,6 +102,10 @@
     width: calc(50% - 15.2rem);
     padding-right: 0.5rem;
   }
+  .header .header__right_section{
+    width: calc(50% - 16rem);
+    padding-right: 0.5rem;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -104,6 +114,10 @@
   }
   .header .header__left_section{
     width: calc(50% - 17.7rem);
+    padding-right: 0.5rem;
+  }
+  .header .header__right_section{
+    width: calc(50% - 18rem);
     padding-right: 0.5rem;
   }
 }

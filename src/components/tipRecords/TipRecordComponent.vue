@@ -24,7 +24,7 @@
               <img src="../../assets/heart.svg"> {{ tip.total_amount }} <span>AE</span>
             </span>
             <fiat-value :amount="tip.total_amount"></fiat-value>
-            <span @click="goToTip(tip)"><img src="../../assets/commentsIcon.svg"></span>
+            <span @click="goToTip(tip.id)"><img src="../../assets/commentsIcon.svg"></span>
           </div>
           <div class="col-lg-3 col-md-12" >
           </div>

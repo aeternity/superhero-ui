@@ -197,33 +197,6 @@
         border-top-left-radius: .25rem;
         margin: 0;
       }
-      .input-group{
-        padding-left: 0;
-        padding-right: 0;
-        .form-control{
-          background-color: $background_color;
-          color: $standard_font_color;
-          font-size: .75rem;
-          border: 1px solid $white_color;
-        }
-        .input-group-text{
-          background-color: $search_icon_backgound;
-          border: 1px solid $white_color;
-          &:hover{
-            cursor: pointer;
-            background-color: $primary_color;
-            .fas.fa-search{
-              color: $search_icon_hover_color;
-            }
-          }
-          &:active{
-             background-color: $secondary_color;
-          }
-        }
-        .fas.fa-search{
-          color: $standard_font_color;
-        }
-      }
       .sorting{
         border-radius: .25rem;
         color: $light_font_color;

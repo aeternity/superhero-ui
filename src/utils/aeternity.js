@@ -108,6 +108,11 @@ aeternity.getTips = async () => {
   return parseTips(contractState.tips);
 };
 
+aeternity.getTip = async (id) => {
+  const tips = await aeternity.getTips();
+  return tips.find(tip => tip.tipId === id);
+};
+
 aeternity.verifyAddress = async () => {
   const currAddress = await aeternity.client.address();
   return currAddress !== aeternity.address

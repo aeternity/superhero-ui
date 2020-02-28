@@ -27,4 +27,14 @@ export default class Backend {
       headers: {"Content-Type": "application/json"}
     });
   });
+  getAllComments = async () => wrapTry(async () => {
+    return fetch(`${this.BACKEND_URL}/comment/api/`);
+  });
+  getProfile = async (address) => wrapTry(async () => {
+    return fetch(`${this.BACKEND_URL}/profile/` + address);
+  });
+  getProfileImage = async (address) => wrapTry(async () => {
+    return fetch(`${this.BACKEND_URL}/profile/image/` + address);
+  });
+  
 }

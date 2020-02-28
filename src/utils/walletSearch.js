@@ -43,4 +43,15 @@ export const wallet = {
     this.height = await this.client.height();
     await this.scanForWallets(successCallback);
   },
+
+  async signMessage(message) {
+    const messageSig  = await wallet.client.signMessage(message);
+    console.log("signed message => ", messageSig)
+    const isValid = await wallet.client.verifyMessage(message, messageSig)
+    console.log("message valid => ", isValid)
+
+    const isValidAgain = await wallet.client.verifyMessage(message, messageSig)
+    console.log("message valid => ", isValidAgain)
+    return messageSig;
+  } 
 };

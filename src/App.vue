@@ -17,6 +17,7 @@
   import Backend from "./utils/backend";
   import Currency from "./utils/currency";
   import {EventBus} from "./utils/eventBus";
+  import util from './utils/util';
 
   export default {
     name: 'app',
@@ -70,10 +71,15 @@
           if (initial) {
             await aeternity.initClient();
 
-            wallet.init(() => {
+            wallet.init(async () => {
               this.foundWallet = true;
+              let currentAccount = wallet.client.rpcClient.getCurrentAccount()
               this.$store.commit('SWITCH_LOGGED_IN', true);
-              this.$store.commit('UPDATE_ACCOUNT', wallet.client.rpcClient.getCurrentAccount())
+              this.$store.commit('UPDATE_ACCOUNT', currentAccount)
+
+              const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
+              this.$store.commit('UPDATE_BALANCE', util.atomsToAe(balance).toFixed(5));
+
               console.log("found wallet")
             }).catch(console.error);
           }

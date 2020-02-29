@@ -54,7 +54,9 @@
             </div>
             <div class="form-row">
               <div class="col-sm-4 tip__post__balance">
-                 <span>100 AE (~20$)</span>
+                 <span>{{ balance }} AE
+                   <fiat-value v-if="balance" :amount="balance"></fiat-value>
+                 </span>
               </div>
               <div class="col-sm-4 offset-4 text-right">
                 <button @click="sendTip()" class="btn btn-primary tip__send">Send</button>
@@ -81,6 +83,7 @@
   import {EventBus} from '../utils/eventBus';
   import util from '../utils/util';
   import aeternity from '../utils/aeternity';
+  import FiatValueComponentVue from '../components/FiatValueComponent.vue';
 
   export default {
     name: 'TipsList',
@@ -103,7 +106,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'tipsOrdering', 'account', 'isLoggedIn', 'current']),
+      ...mapGetters(['tips', 'tipsOrdering', 'account', 'balance', 'isLoggedIn', 'current']),
       filteredTips() {
         if (this.searchTerm.trim().length === 0) {
           return this.tips
@@ -135,10 +138,11 @@
     },
     methods: {
       async sendTip(){
-        const amount = util.aeToAtoms(this.sendTipForm.amount);
-        await aeternity.contract.methods.tip(this.sendTipForm.url, this.sendTipForm.title, {amount: amount}).catch(console.error);
-        EventBus.$emit('reloadData');
+        let sendTip = sendTipForm
         this.clearTipForm();
+        const amount = util.aeToAtoms(this.sendTip.amount);
+        await aeternity.contract.methods.tip(this.sendTip.url, this.sendTip.title, {amount: amount}).catch(console.error);
+        EventBus.$emit('reloadData');
       },
       clearTipForm() {
         this.sendTipForm = { amount: null, url: '', title: '' }
@@ -182,6 +186,7 @@
       'header-component': HeaderComponent,
       'left-section': LeftSectionComponent,
       'right-section': RightSectionComponent,
+      'fiat-value': FiatValueComponentVue,
     },
     async created() {
       EventBus.$on("searchTopic", (topic) => {

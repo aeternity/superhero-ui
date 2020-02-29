@@ -98,11 +98,10 @@
         this.comment = '';
       },
       sendComment(data){
-        
+
         let postData = {
-          tipId: data.tip.tipId,
+          tipId: data.tip.id,
           text: data.comment,
-          hidden: false,
           author: wallet.client.rpcClient.getCurrentAccount(),
         }
 

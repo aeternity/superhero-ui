@@ -53,7 +53,6 @@
   margin: 0 1rem 0 0;
   min-height: 3rem;
   .header__left_section{
-    // width: calc(50% - 17.7rem);
     display: inline-block;
     text-align: right;
     .content{
@@ -73,18 +72,12 @@
     img{
       width: 6rem;
     }
-    .header__buttons {
-      // display: flex;
-    }
   }
 }
 .header__body{
-  // width: 33rem;
   width: 100%;
   min-height: 1.5rem;
   display: inline-block;
-  // padding-left: .75rem;
-  // padding-right: .75rem;
 }
 
 //Smallest devices Portrait and Landscape
@@ -99,90 +92,5 @@
     }
     .header .header__left_section{display:none}
   }
-
-// @media only screen and (max-width: 576px) {
-//   .header__body.header__body {
-//     width: 100%;
-//   }
-// }
-
-// @media only screen and (max-width: 768px) {
-//   .header__body {
-//     width: 27rem;
-//     padding-left: .6rem;
-//     padding-right: .9rem;
-//   }
-//   .header .header__left_section{
-//     width: calc(50% - 13.5rem);
-//     img{
-//       display: none;
-//     }
-//   }
-//   .header .header__right_section {
-//     display: none;
-//   }
-// }
-
-
-// @media (min-width: 768px) {
-//   .header__body {
-//     width: 27rem;
-//     padding-left: .75rem;
-//     padding-right: .75rem;
-//   }
-//   .header .header__left_section{
-//     width: calc(50% - 13.5rem);
-//     padding-right: 0.5rem;
-//   }
-//   .header .header__right_section{
-//     width: calc(50% - 16rem);
-//     padding-right: 0.5rem;
-//   }
-//   .colorful-buttons {
-//     font-size: .55rem;
-//   }
-// }
-
-// @media (min-width: 992px) {
-//   .header .header__body {
-//     width: 30rem;
-//   }
-//   .header .header__left_section{
-//     width: calc(50% - 15.2rem);
-//     padding-right: 0.5rem;
-//   }
-//   .header .header__right_section{
-//     width: calc(50% - 16rem);
-//     padding-right: 0.5rem;
-//   }
-// }
-
-// @media (min-width: 1200px) {
-//   .header .header__body {
-//     width: 35rem;
-//     padding-left: .75rem;
-//     padding-right: .75rem;
-//   }
-//   .header .header__left_section{
-//     width: calc(50% - 17.7rem);
-//     padding-right: 0.5rem;
-//   }
-//   .header .header__right_section{
-//     width: calc(50% - 18rem);
-//     padding-right: 0.5rem;
-//   }
-// }
-
-// @media only screen and (max-width: 768px) {
-//   .header .header__body {
-//     width: 100%;
-//   }
-//   .header .header__left_section {
-//     display: none;
-//   }
-//   .header .header__right_section {
-//     display: none;
-//   }
-// }
 
 </style>

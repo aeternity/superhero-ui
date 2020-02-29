@@ -17,7 +17,7 @@
         </div>
         <div v-for="(amount, topic) in topics">
         <div class="section__body clearfix">
-          <div class="float-left" @click="searchTopic(topic)">{{topic}}</div>
+          <div class="float-left topic" @click="searchTopic(topic)">{{topic}}</div>
           <div class="float-right">
             <span class="value">{{amount}}</span>
             <span class="ae">AE</span>
@@ -40,6 +40,7 @@
 <script>
   import {mapGetters} from "vuex";
   import FiatValueComponentVue from '../FiatValueComponent.vue';
+  import {EventBus} from '../../utils/eventBus';
 
   export default {
     name: 'RightSectionComponent',
@@ -51,8 +52,7 @@
     },
     methods: {
       searchTopic(topic) {
-        console.log('topic: ',topic)
-        this.$emit('searchTopic', topic)
+        EventBus.$emit('searchTopic', topic)
       }
     },
     computed: {
@@ -93,6 +93,9 @@
       }
       .value{
         color: $standard_font_color;
+      }
+      .topic{
+        color: #67B6F7;
       }
     }
     .ae{

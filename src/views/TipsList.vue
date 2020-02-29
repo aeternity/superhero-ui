@@ -48,6 +48,7 @@
   import { mapGetters } from 'vuex';
 
   import BigNumber from 'bignumber.js';
+  import {EventBus} from '../utils/eventBus';
 
   export default {
     name: 'TipsList',
@@ -138,6 +139,9 @@
       'right-section': RightSectionComponent,
     },
     async created() {
+      EventBus.$on("searchTopic", (topic) => {
+        this.onSearchTopic(topic);
+      });
       this.showLoadingTips();
     },
   }

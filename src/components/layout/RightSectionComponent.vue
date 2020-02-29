@@ -95,6 +95,7 @@
         color: $standard_font_color;
       }
       .topic{
+        font-size: 0.5rem;
         color: #67B6F7;
       }
     }

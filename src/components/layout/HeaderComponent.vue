@@ -9,10 +9,8 @@
       <slot></slot>
     </div>
     <div class="header__right_section">
-      <div class="header__buttons">
-        <a class="redeem__tip colorful-buttons secondary" href="">Redeem Tip</a>
-        <a class="send__tip colorful-buttons" href="">Send Tip</a>
-      </div>
+      <a class="redeem__tip colorful-buttons secondary" href="">Redeem Tip</a>
+      <a class="send__tip colorful-buttons" href="">Send Tip</a>
     </div>
   </div>
 </template>
@@ -31,11 +29,12 @@
 .colorful-buttons{
   background-color: $colorful_buttons_background_primary;
   color: $custom_links_color;
-  padding: .65rem;
+  padding: .65rem .4rem .65rem .4rem ;
   border-radius: .25rem;
   margin-right: 0;
-  font-size: 1vw;
+  font-size: .57rem;
   font-weight: 600;
+  display: inline-block;
   &.secondary{
     background-color: $colorful_buttons_background_secondary;
     color: $secondary_color;

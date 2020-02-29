@@ -71,7 +71,7 @@ body{
     color: $standard_font_color;
   }
 }
-.app__leftcolumn, .app__rightcolumn,.header__left_section, .header__right_section{
+.app__leftcolumn, .app__rightcolumn,.header__left_section{
   width: calc(50% - 17.7rem);
 }
 
@@ -90,7 +90,7 @@ body{
     display: block;
     margin: 0 auto;
   }
-  .app__leftcolumn, .app__rightcolumn,.header__left_section, .header__right_section{
+  .app__leftcolumn, .app__rightcolumn,.header__left_section{
     width: calc(50% - 13.7rem);
   }
 }
@@ -99,7 +99,7 @@ body{
   .container {
     max-width: 30rem
   }
-  .app__leftcolumn, .app__rightcolumn,.header__left_section, .header__right_section{
+  .app__leftcolumn, .app__rightcolumn,.header__left_section{
     width: calc(50% - 15.2rem);
   }
 }
@@ -108,7 +108,7 @@ body{
   .container {
     max-width: 35rem
   }
-  .app__leftcolumn, .app__rightcolumn,.header__left_section, .header__right_section{
+  .app__leftcolumn, .app__rightcolumn,.header__left_section{
     width: calc(50% - 17.7rem);
   }
 }

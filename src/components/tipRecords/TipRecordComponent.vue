@@ -20,7 +20,7 @@
       <div class="tip__footer text-ellipsis">
         <div class="row">
           <div class="col-lg-9 col-md-12">
-            <span class="tip__amount" @click="foundWallet && retip(tip.id)" title="Send AE to this post">
+            <span class="tip__amount" @click="retip(tip.id)" title="Send AE to this post">
               <img src="../../assets/heart.svg"> {{ tip.total_amount }} <span>AE</span>
             </span>
             <fiat-value :amount="tip.total_amount"></fiat-value>
@@ -46,17 +46,15 @@
 </template>
 
 <script>
-  import Backend from "../../utils/backend";
-  import { wallet } from '../../utils/walletSearch';
   import { mapGetters } from 'vuex';
   import aeternity from '../../utils/aeternity';
   import FiatValueComponentVue from '../FiatValueComponent.vue';
-
-  const backendInstance = new Backend();
+  import util from '../../utils/util';
+  import {EventBus} from '../../utils/eventBus';
 
   export default {
     name: 'TipRecord',
-    props: ['tip', 'foundWallet', 'retip', 'fiatValue', 'senderLink'],
+    props: ['tip', 'foundWallet', 'fiatValue', 'senderLink'],
     components: {
       'fiat-value': FiatValueComponentVue
     },
@@ -68,12 +66,17 @@
       ...mapGetters(['current'])
     },
     methods: {
-      isPreviewToBeVisualized(tip){
-       return typeof tip !== 'undefined' && tip !== null
-        && typeof tip.preview !== 'undefined' && tip.preview.description !== null
-          && tip.preview.description.length > 0  && tip.preview.image !== null;
+      async retip(id) {
+        const amount = util.aeToAtoms(prompt("Tip Amount in AE?"));
+        await aeternity.contract.methods.retip(id, {amount: amount}).catch(console.error);
+        EventBus.$emit('reloadData');
       },
-      goToTip(id){
+      isPreviewToBeVisualized(tip) {
+        return typeof tip !== 'undefined' && tip !== null
+          && typeof tip.preview !== 'undefined' && tip.preview.description !== null
+          && tip.preview.description.length > 0 && tip.preview.image !== null;
+      },
+      goToTip(id) {
         console.log("goToTip", id);
         this.$router.push({
           name: 'tip',
@@ -82,9 +85,6 @@
           }
         })
       },
-    },
-    created(){
-
     }
   }
 </script>

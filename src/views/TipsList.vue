@@ -31,7 +31,7 @@
     <left-section></left-section>
     <div class="container wrapper">
       <div class="tips__container">
-        <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :foundWallet="foundWallet" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
+        <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
       </div>
     </div>
     <div class="no-results text-center" v-if="filteredTips !== null && !showLoading && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
@@ -39,13 +39,7 @@
 </template>
 
 <script>
-  import aeternity from '../utils/aeternity';
-  import {wallet} from '../utils/walletSearch.js'
-  import util from "../utils/util";
-
   import Dropdown from "../components/DropdownComponent.vue"
-
-  import {langs, fetchAndSetLocale} from '../utils/i18nHelper'
 
   import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
   import HeaderComponent from '../components/layout/HeaderComponent.vue';
@@ -63,7 +57,6 @@
         searchTerm: '',
         sorting: "hot",
         showLoading: true,
-        foundWallet: false,
         activeLang: 'en',
         languagesOptions: [
           { value: 'en', text: 'English' },

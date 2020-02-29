@@ -12,11 +12,11 @@
 
   import aeternity from './utils/aeternity.js'
   import { mapGetters } from 'vuex';
-  import { clearInterval, setInterval } from 'timers';
+  import { setInterval } from 'timers';
   import { wallet } from './utils/walletSearch';
   import Backend from "./utils/backend";
   import Currency from "./utils/currency";
-  import util from "./utils/util";
+  import {EventBus} from "./utils/eventBus";
 
   export default {
     name: 'app',
@@ -155,6 +155,10 @@
     },
     async created() {
       await this.reloadData(true);
+      EventBus.$on("reloadData", () => {
+        this.reloadData();
+      });
+
       setInterval(() => this.reloadData(), 120 * 1000);
     }
   }

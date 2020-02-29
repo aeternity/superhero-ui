@@ -14,12 +14,12 @@
           <div class="row">
             <div class="col-lg-9 col-md-12">
               <!-- <span class="tip__amount mr-2" @click="foundWallet && retip(tip.url)" title="Send AE to this comment">
-                <img src="../../assets/heart.svg"> 
+                <img src="../../assets/heart.svg">
               </span>
               <span class="tip__comment mr-2" >
-                <img src="../../assets/replyIcon.svg"> 
+                <img src="../../assets/replyIcon.svg">
               </span> -->
-              <span class="tip__sender" :title="comment.author"><span>{{$t('system.by')}}</span> 
+              <span class="tip__sender" :title="comment.author"><span>{{$t('system.by')}}</span>
               <a v-if="senderLink" :href="senderLink" target="_blank">{{ comment.author }}</a>
               <span class="tip__sender" v-else> {{ comment.author }}</span>
               </span>
@@ -38,7 +38,7 @@
 <script>
   export default {
     name: 'TipComment',
-    props: ['comment', 'foundWallet', 'retip', 'senderLink'],
+    props: ['comment', 'retip', 'senderLink'],
     data() {
       return {
       }
@@ -63,7 +63,7 @@
   background: none;
 }
 .tip__record .tip__body .tip__note{
-  height: initial; 
+  height: initial;
 }
 .left-arrow {
   @include vertical-align(absolute);
@@ -96,8 +96,8 @@
             font-size: .38rem;
           }
         }
-      } 
+      }
     }
- 
+
   }
 </style>

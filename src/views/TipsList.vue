@@ -138,10 +138,9 @@
     },
     methods: {
       async sendTip(){
-        let sendTip = sendTipForm
+        const amount = util.aeToAtoms(this.sendTipForm.amount);
+        await aeternity.contract.methods.tip(this.sendTipForm.url, this.sendTipForm.title, {amount: amount}).catch(console.error);
         this.clearTipForm();
-        const amount = util.aeToAtoms(this.sendTip.amount);
-        await aeternity.contract.methods.tip(this.sendTip.url, this.sendTip.title, {amount: amount}).catch(console.error);
         EventBus.$emit('reloadData');
       },
       clearTipForm() {

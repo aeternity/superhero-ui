@@ -32,7 +32,7 @@
   padding: .65rem .4rem .65rem .4rem ;
   border-radius: .25rem;
   margin-right: 0;
-  font-size: .57rem;
+  font-size: .56rem;
   font-weight: 600;
   display: inline-block;
   &.secondary{
@@ -51,6 +51,7 @@
   font-size: .75rem;
   margin: 0 1rem 0 0;
   min-height: 3rem;
+  padding-top: .5rem;
   .header__left_section{
     display: inline-block;
     text-align: right;

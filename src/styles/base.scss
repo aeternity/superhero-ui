@@ -71,16 +71,27 @@ body{
     color: $standard_font_color;
   }
 }
-.app__leftcolumn, .app__rightcolumn{
-  width: calc(50% - 18rem);
+.app__leftcolumn, .app__rightcolumn,.header__left_section, .header__right_section{
+  width: calc(50% - 17.7rem);
+}
+
+@media only screen and (max-width: 768px) {
+  .header__body.container{
+    display: block;
+    margin: 0 auto;
+  }
 }
 
 @media (min-width: 768px) {
   .container {
     max-width: 27rem;
   }
-  .app__leftcolumn, .app__rightcolumn{
-    width: calc(50% - 14rem);
+  .header__body{
+    display: block;
+    margin: 0 auto;
+  }
+  .app__leftcolumn, .app__rightcolumn,.header__left_section, .header__right_section{
+    width: calc(50% - 13.7rem);
   }
 }
 
@@ -88,8 +99,8 @@ body{
   .container {
     max-width: 30rem
   }
-  .app__leftcolumn, .app__rightcolumn{
-    width: calc(50% - 15rem);
+  .app__leftcolumn, .app__rightcolumn,.header__left_section, .header__right_section{
+    width: calc(50% - 15.2rem);
   }
 }
 
@@ -97,16 +108,13 @@ body{
   .container {
     max-width: 35rem
   }
-  .app__leftcolumn, .app__rightcolumn{
-    width: calc(50% - 18rem);
+  .app__leftcolumn, .app__rightcolumn,.header__left_section, .header__right_section{
+    width: calc(50% - 17.7rem);
   }
 }
 
-@media only screen and (max-width: 880px) {
-  .container{
-    width: 100%;
-  }
-  .app__leftcolumn, .app__rightcolumn, .header.header .header__right_section{
+@media only screen and (max-width: 900px) {
+  .app__leftcolumn, .app__rightcolumn,.header.header .header__right_section, .header .header__left_section img{
    display: none;
   }
 }

@@ -7,7 +7,7 @@
           Wallet
         </div>
         <div class="section__body clearfix">
-          <div class="side__button"><a>Install Wallet</a></div>
+          <div class="side__button"><a href="//github.com/superherowallet/wallet/releases/latest">Install Wallet</a></div>
         </div>
       </div>
       <div class="section">

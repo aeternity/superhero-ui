@@ -29,7 +29,7 @@
       <div class="clearfix footer">
         <div class="float-left">&copy; Superhero.</div>
         <div class="float-right">
-          <a class="ae">Terms</a>
+          <a class="ae" href="/terms">Terms</a>
           <a class="ae">Privacy</a>
         </div>
       </div>

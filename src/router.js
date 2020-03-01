@@ -2,6 +2,7 @@ import Router from 'vue-router'
 import TipsList from "./views/TipsList";
 import TipCommentsView from "./views/TipCommentsView";
 import UserProfileView from "./views/UserProfileView";
+import Terms from './views/Terms';
 
 let guardTipComments = (to, from, next) => {
   if(to.name == 'tip' && typeof to.params.id !== "undefined"){
@@ -18,7 +19,8 @@ const routes = [
     name: 'home',
     component: TipsList,
     meta: {title: 'Home'}
-  },{
+  },
+  {
     path: '/tip/:id',
     name: 'tip',
     component: TipCommentsView,
@@ -27,19 +29,30 @@ const routes = [
     },
     props: true,
     beforeEnter : guardTipComments,
-  },{
+  },
+  {
     path: '/user-profile/:address',
     name: 'user-profile',
     component: UserProfileView,
-    meta: {title: 'User Profile'},
+    meta: {
+      title: 'User Profile'
+    },
     props: true
+  },
+  {
+    path: '/terms',
+    name: 'terms',
+    component: Terms,
+    meta: {
+      title: 'Terms of service'
+    }
   }
 ]
 
 const router = new Router({mode: 'history', routes: routes})
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} - Tipping Aggregator`
+  document.title = `${to.meta.title} - Social sharing with a mission`
   next()
 })
 

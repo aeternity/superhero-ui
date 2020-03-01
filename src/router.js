@@ -3,6 +3,7 @@ import TipsList from "./views/TipsList";
 import TipCommentsView from "./views/TipCommentsView";
 import UserProfileView from "./views/UserProfileView";
 import Terms from './views/Terms';
+import Privacy from './views/Privacy';
 
 let guardTipComments = (to, from, next) => {
   if(to.name == 'tip' && typeof to.params.id !== "undefined"){
@@ -45,6 +46,14 @@ const routes = [
     component: Terms,
     meta: {
       title: 'Terms of service'
+    }
+  },
+  {
+    path: '/privacy',
+    name: 'privacy',
+    component: Privacy,
+    meta: {
+      title: 'Privacy policy'
     }
   }
 ]

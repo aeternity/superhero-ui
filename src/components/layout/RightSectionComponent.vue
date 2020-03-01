@@ -29,8 +29,12 @@
       <div class="clearfix footer">
         <div class="float-left">&copy; Superhero.</div>
         <div class="float-right">
-          <a class="ae" href="/terms">Terms</a>
-          <a class="ae">Privacy</a>
+          <router-link class="ae" to="/terms">
+            Terms
+          </router-link>
+          <router-link class="ae" to="/privacy">
+            Privacy
+          </router-link>
         </div>
       </div>
     </div>

@@ -14,7 +14,11 @@
           </a>
         </div>
         <div class="navigation__item">
-          <a><img class="mr-1" src="../../assets/iconMission.svg">Mission</a>
+          <a><img class="mr-1" src="../../assets/iconMission.svg">
+            <router-link to="/mission">
+              Mission
+            </router-link>
+          </a>
         </div>
         <div class="navigation__item" v-if="!isLoggedIn"><a><img class="mr-1 avatar" src="../../assets/userAvatar.svg">Create Profile</a></div>
          <div class="navigation__item" v-if="isLoggedIn"><a @click="openMyProfile"><img class="mr-1 avatar" src="../../assets/userAvatar.svg">My Profile</a></div>

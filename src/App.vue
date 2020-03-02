@@ -34,22 +34,6 @@
       ...mapGetters(['tips', 'tipSortBy', 'current', 'account', 'isLoggedIn']),
     },
     methods: {
-      sort() {
-        switch (this.tipSortBy) {
-          case "hot":
-            this.tempTips.sort((a, b) => b.score - a.score);
-            this.$store.dispatch('updateTips', this.tempTips);
-            break;
-          case "latest":
-            this.tempTips.sort((a, b) => b.timestamp - a.timestamp);
-            this.$store.dispatch('updateTips', this.tempTips);
-            break;
-          case "highest":
-            this.tempTips.sort((a, b) => new BigNumber(b.amount).minus(a.amount).toNumber());
-            this.$store.dispatch('updateTips', this.tempTips);
-            break;
-        }
-      },
       async asyncAddCurrency() {
         new Currency().getRates().then(rates => {
           console.log(rates);
@@ -99,7 +83,6 @@
             tip.score = orderItem ? orderItem.score : 0;
             return tip;
           });
-          if (initial) this.$store.dispatch('setTipSortBy', "hot");
         }
 
         this.$store.dispatch('setTipsOrdering', this.tipsOrdering);
@@ -123,7 +106,8 @@
         this.$store.commit('UPDATE_STATS', stats);
 
         this.asyncAddCurrency();
-        this.sort();
+
+        if (initial) this.$store.dispatch('setTipSortBy', this.tipsOrdering ? "hot" : "latest");
         this.showLoading = false;
       },
       async checkAndReloadProvider() {
@@ -156,12 +140,6 @@
       }
     },
     async created() {
-      this.$store.subscribe((mutation, _) => {
-        if (mutation.type === "SET_TIPS_SORT_BY") {
-          this.sort();
-        }
-      });
-
       EventBus.$on("reloadData", () => {
         this.reloadData();
       });

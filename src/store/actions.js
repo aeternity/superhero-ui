@@ -1,4 +1,5 @@
 import * as types from './mutation-types';
+import { sort } from './util';
 
 export default {
   setAccount({ commit }, payload) {
@@ -20,8 +21,10 @@ export default {
   setTipsOrdering({ commit }, payload) {
     commit(types.SET_TIPS_ORDERING, payload)
   },
-  setTipSortBy({ commit }, payload) {
-    commit(types.SET_TIPS_SORT_BY, payload)
+  setTipSortBy({ commit, state }, payload) {
+    const tips = sort(payload, state.tips);
+    commit(types.SET_TIPS_SORT_BY, payload);
+    commit(types.UPDATE_TIPS, tips);
   },
   reloadTips({ commit }) {
     commit(types.RELOAD_TIPS)

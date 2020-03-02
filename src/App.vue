@@ -30,7 +30,7 @@
       }
     },
     computed: {
-      ...mapGetters(['current']),
+      ...mapGetters(['current', 'tipSortBy']),
     },
     methods: {
       async reloadData(initial = false) {
@@ -100,7 +100,7 @@
         this.$store.dispatch('updateStats', stats);
         this.$store.dispatch('updateCurrencyRates', rates);
 
-        if (initial) this.$store.dispatch('setTipSortBy', tipOrdering ? "hot" : "latest");
+        this.$store.dispatch('setTipSortBy', initial ? tipOrdering ? "hot" : "highest" : this.tipSortBy);
         this.showLoading = false;
       }
     },

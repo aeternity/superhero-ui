@@ -1,20 +1,23 @@
 <template>
-<div class="position-relative wrapper">
-  <img @click="toggleRetip(!show)" class="retip__icon" src="../assets/heart.svg">
-  <div class="clearfix retip__container" v-show="show">
-    <div class="text-center spinner__container" v-show="showLoading">
-      <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Loading...</span>
+<div class="d-inline-block">
+  <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
+  <div class="position-relative wrapper" v-on:click.stop>
+    <img @click="toggleRetip(!show)" class="retip__icon" src="../assets/heart.svg">
+    <div class="clearfix retip__container" v-show="show">
+      <div class="text-center spinner__container" v-show="showLoading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
-    </div>
-    <div class="text-center mb-2" v-show="error && !showLoading">An error occured while sending retip</div>
-    <div class="input-group mr-1 float-left" v-show="!showLoading">
-      <input type="number" step="0.1" v-model="value" class="form-control" aria-label="Default">
-      <div class="input-group-append">
-        <span class="input-group-text append__ae"> <span class="ae">AE</span>&nbsp;<fiat-value :amount="value"></fiat-value></span>
+      <div class="text-center mb-2" v-show="error && !showLoading">An error occured while sending retip</div>
+      <div class="input-group mr-1 float-left" v-show="!showLoading">
+        <input type="number" step="0.1" v-model="value" class="form-control" aria-label="Default">
+        <div class="input-group-append">
+          <span class="input-group-text append__ae"> <span class="ae">AE</span>&nbsp;<fiat-value :amount="value"></fiat-value></span>
+        </div>
       </div>
+      <button class="btn btn-primary retip__button float-right" @click="retip()" v-show="!showLoading">Retip</button>
     </div>
-    <button class="btn btn-primary retip__button float-right" @click="retip()" v-show="!showLoading">Retip</button>
   </div>
 </div>
 
@@ -75,20 +78,20 @@
         this.fiatValue = 0.00;
         this.error = false;
       },
-    },
-    async created () {
-      let _this = this;
-      window.addEventListener('click', function(e){
-        if (!_this.$el.contains(e.target)){
-          _this.show = false
-        } 
-      })
     }
   }
 </script>
 
 <style lang="scss" scoped>
  @import "../styles/base";
+  .overlay{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+  }
  .retip__icon{
    &:hover{
      cursor: pointer;
@@ -96,6 +99,7 @@
  }
  .wrapper{
    display: inline-block;
+   z-index: 11;
  }
 .wrapper .input-group .input-group-append span.append__ae {
     background: $background_color;

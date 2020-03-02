@@ -17,8 +17,12 @@ export default {
   updateStats({ commit }, payload) {
     commit(types.UPDATE_STATS, payload)
   },
-  setTipOrdering({ commit }, payload) {
+  setTipsOrdering({ commit }, payload) {
+    console.log("setTipsOrdering", payload);
     commit(types.SET_TIPS_ORDERING, payload)
+  },
+  setTipSortBy({ commit }, payload) {
+    commit(types.SET_TIPS_SORT_BY, payload)
   },
   reloadTips({ commit }) {
     commit(types.RELOAD_TIPS)

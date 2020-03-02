@@ -30,6 +30,9 @@ export default {
   [types.SET_TIPS_ORDERING](state, payload) {
     state.tipsOrdering = payload;
   },
+  [types.SET_TIPS_SORT_BY](state, payload) {
+    state.tipSortBy = payload;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

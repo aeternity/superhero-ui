@@ -25,31 +25,28 @@
     data() {
       return {
         tempTips: [],
-        sorting: null,
         tipsOrdering: null,
         showLoading: true,
         foundWallet: false
       }
     },
     computed: {
-      ...mapGetters(['tips', 'current', 'account', 'isLoggedIn']),
+      ...mapGetters(['tips', 'tipSortBy', 'current', 'account', 'isLoggedIn']),
     },
     methods: {
-      sort(sorting) {
-        this.sorting = sorting;
-
-        switch (this.sorting) {
+      sort() {
+        switch (this.tipSortBy) {
           case "hot":
             this.tempTips.sort((a, b) => b.score - a.score);
-            this.$store.commit('UPDATE_TIPS', this.tempTips)
+            this.$store.dispatch('updateTips', this.tempTips);
             break;
           case "latest":
-            this.tempTips.sort((a, b) => b.received_at - a.received_at);
-            this.$store.commit('UPDATE_TIPS', this.tempTips)
+            this.tempTips.sort((a, b) => b.timestamp - a.timestamp);
+            this.$store.dispatch('updateTips', this.tempTips);
             break;
           case "highest":
-            this.tempTips.sort((a, b) => b.amount - a.amount);
-            this.$store.commit('UPDATE_TIPS', this.tempTips)
+            this.tempTips.sort((a, b) => new BigNumber(b.amount).minus(a.amount).toNumber());
+            this.$store.dispatch('updateTips', this.tempTips);
             break;
         }
       },
@@ -102,10 +99,10 @@
             tip.score = orderItem ? orderItem.score : 0;
             return tip;
           });
-          if (initial) this.sorting = "hot";
+          if (initial) this.$store.dispatch('setTipSortBy', "hot");
         }
 
-        this.$store.commit('SET_TIPS_ORDERING', this.tipsOrdering);
+        this.$store.dispatch('setTipsOrdering', this.tipsOrdering);
 
         // filter tips by language from backend
         // if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
@@ -126,7 +123,7 @@
         this.$store.commit('UPDATE_STATS', stats);
 
         this.asyncAddCurrency();
-        this.sort(this.sorting);
+        this.sort();
         this.showLoading = false;
       },
       async checkAndReloadProvider() {
@@ -159,11 +156,18 @@
       }
     },
     async created() {
-      await this.reloadData(true);
+      this.$store.subscribe((mutation, _) => {
+        console.log(mutation);
+        if (mutation.type === "SET_TIPS_SORT_BY") {
+          this.sort();
+        }
+      });
+
       EventBus.$on("reloadData", () => {
         this.reloadData();
       });
 
+      await this.reloadData(true);
       setInterval(() => this.reloadData(), 120 * 1000);
     }
   }

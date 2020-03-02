@@ -21,7 +21,7 @@
         <div class="row">
           <div class="col-lg-9 col-md-12">
             <span class="tip__amount position-relative" >
-              <span class="tip__amount__btn" title="Send AE to this post"><retip-component :tipid="tip.id"></retip-component></span> {{ tip.total_amount }} <span>AE</span>
+              <span class="tip__amount__btn" title="Send AE to this post"><retip-component :tipid="tip.id"></retip-component></span> {{ tip.total_amount }} <span class="ae">AE</span>
             </span>
             <fiat-value :amount="tip.total_amount"></fiat-value>
             <span @click="goToTip(tip.id)"><img src="../../assets/commentsIcon.svg"></span>
@@ -140,7 +140,7 @@
           margin-left: 1rem;
           padding: .5rem 1rem .5rem 0;
           .tip__amount{
-            span{
+            .ae{
               color: $secondary_color;
             }
             .tip__amount__btn{

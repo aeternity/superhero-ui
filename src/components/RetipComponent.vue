@@ -5,7 +5,7 @@
     <div class="input-group mr-1 float-left">
       <input type="number" step="0.000001" v-model="value" @input="onValueChange" class="form-control" aria-label="Default">
       <div class="input-group-append">
-        <span class="input-group-text append__ae"> <span class="ae">AE</span>&nbsp;(~ {{current.currency.toUpperCase()}} {{ fiatValue }} )</span>
+        <span class="input-group-text append__ae"> <span class="ae">AE</span>&nbsp;<fiat-value :amount="value"></fiat-value></span>
       </div>
     </div>
     <button class="btn btn-primary retip__button float-right" @click="retip()">Retip</button>
@@ -21,7 +21,7 @@
   import BigNumber from 'bignumber.js'
   import aeternity from '../utils/aeternity';
   import {EventBus} from '../utils/eventBus';
-
+  import FiatValue from './FiatValueComponent.vue'
 
   export default {
     name: 'RetipComponent',
@@ -32,6 +32,9 @@
         value: 0,
         show: false
       }
+    },
+    components: {
+      'fiat-value': FiatValue
     },
     computed: {
       ...mapGetters(['current']),
@@ -98,6 +101,9 @@
   border: .065rem solid $custom_links_color;
   border-radius: .25rem;
   width: calc(100% - 4rem);
+  .form-control{
+    color: $custom_links_color;
+  }
   .input-group-append{
     .ae{
       color: $secondary_color;

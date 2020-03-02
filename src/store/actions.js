@@ -2,12 +2,13 @@ import * as types from './mutation-types';
 import { sort } from './util';
 
 export default {
-  setAccount({ commit }, payload) {
-    commit(types.UPDATE_ACCOUNT, payload);
-    commit(types.UPDATE_BALANCE);
+  setLoggedInAccount({ commit }, payload) {
+    commit(types.SWITCH_LOGGED_IN, true);
+    commit(types.UPDATE_ACCOUNT, payload.account);
+    commit(types.UPDATE_BALANCE, payload.balance);
   },
   updateCurrencyRates({ commit }, payload) {
-    commit(types.CURRENCY_RATES, payload)
+    commit(types.UPDATE_CURRENCY_RATES, payload)
   },
   updateTips({ commit }, payload) {
     commit(types.UPDATE_TIPS, payload)

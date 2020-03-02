@@ -12,7 +12,7 @@ export default {
   [types.SWITCH_LOGGED_IN](state, payload) {
     state.isLoggedIn = payload;
   },
-  [types.CURRENCY_RATES](state, payload) {
+  [types.UPDATE_CURRENCY_RATES](state, payload) {
     state.currencyRates = payload;
   },
   [types.UPDATE_TIPS](state, payload) {

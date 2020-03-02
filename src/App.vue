@@ -157,7 +157,6 @@
     },
     async created() {
       this.$store.subscribe((mutation, _) => {
-        console.log(mutation);
         if (mutation.type === "SET_TIPS_SORT_BY") {
           this.sort();
         }

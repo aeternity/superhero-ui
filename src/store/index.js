@@ -12,10 +12,10 @@ export default new Vuex.Store({
   state: {
     account: {},
     balance: 0,
+    currencyRates: {},
     current: {
       language: '',
       token: 0,
-      currencyRates: {},
       currency: 'eur',
     },
     currencies: [

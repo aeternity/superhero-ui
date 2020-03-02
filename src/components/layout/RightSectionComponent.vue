@@ -15,7 +15,7 @@
           <img src="../../assets/iconTrending.svg">
           Trending
         </div>
-        <div v-for="(amount, topic) in topics">
+        <div v-for="[topic, amount] in topics">
         <div class="section__body clearfix">
           <div class="float-left topic" @click="searchTopic(topic)">{{topic}}</div>
           <div class="float-right">

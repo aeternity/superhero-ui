@@ -103,9 +103,6 @@
         color: #67B6F7;
       }
     }
-    .ae{
-      color: $secondary_color;
-    }
     .side__button{
       font-size: .65rem;
       text-transform: capitalize;
@@ -131,6 +128,14 @@
       a{
         cursor: pointer;
         text-decoration: underline;
+
+        &.ae{
+          color: $secondary_color;
+          text-decoration: none;
+          font-weight: lighter;
+          padding-left: .3rem;
+          padding-right: .2rem;
+        }
       }
     }
   }

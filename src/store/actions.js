@@ -18,7 +18,6 @@ export default {
     commit(types.UPDATE_STATS, payload)
   },
   setTipsOrdering({ commit }, payload) {
-    console.log("setTipsOrdering", payload);
     commit(types.SET_TIPS_ORDERING, payload)
   },
   setTipSortBy({ commit }, payload) {

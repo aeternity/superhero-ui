@@ -169,10 +169,10 @@
       'fiat-value': FiatValueComponentVue,
     },
     async created() {
-      console.log("tipsOrdering", this.tipsOrdering);
       EventBus.$on("searchTopic", (topic) => {
         this.onSearchTopic(topic);
       });
+
       this.showLoadingTips();
     },
   }

@@ -3,7 +3,7 @@
   <img @click="toggleRetip(!show)" class="retip__icon" src="../assets/heart.svg">
   <div class="clearfix retip__container" v-if="show">
     <div class="input-group mr-1 float-left">
-      <input type="number" step="0.000001" v-model="value" @input="onValueChange" class="form-control" aria-label="Default">
+      <input type="number" step="0.1" v-model="value" class="form-control" aria-label="Default">
       <div class="input-group-append">
         <span class="input-group-text append__ae"> <span class="ae">AE</span>&nbsp;<fiat-value :amount="value"></fiat-value></span>
       </div>
@@ -40,9 +40,9 @@
       ...mapGetters(['current']),
     },
     methods:{
-      toggleRetip(flag){
-        this.show = flag;
-        if(flag){
+      toggleRetip(showRetipForm){
+        this.show = showRetipForm;
+        if(showRetipForm){
           this.resetForm();
         }
       },
@@ -56,23 +56,9 @@
         this.value = 0;
         this.fiatValue = 0.00;
       },
-      onValueChange(data){
-        this.getFiatVal();
-      },
-      async getFiatVal(){
-        if(this.value.length == 0){
-          this.fiatValue = 0.00;
-          return;
-        }
-        new Currency().getRates().then(rates => {
-            this.fiatValue = (new BigNumber(parseFloat(this.value)).multipliedBy(rates.aeternity[this.current.currency])).toFixed(2);
-        }).catch(console.error);
-      }
-      
     },
     async created () {
       let _this = this;
-      this.getFiatVal();
 
       window.addEventListener('click', function(e){
         if (!_this.$el.contains(e.target)){

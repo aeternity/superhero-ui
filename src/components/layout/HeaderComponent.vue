@@ -9,8 +9,12 @@
       <slot></slot>
     </div>
     <div class="header__right_section">
-      <a class="redeem__tip colorful-buttons secondary" href="">Redeem Tip</a>
-      <a class="send__tip colorful-buttons" href="">Send Tip</a>
+      <a class="redeem__tip colorful-buttons secondary" href="/">
+        Redeem Tip
+      </a>
+      <a class="send__tip colorful-buttons" href="/">
+        Send Tip
+      </a>
     </div>
   </div>
 </template>

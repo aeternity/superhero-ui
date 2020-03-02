@@ -34,7 +34,7 @@
         <div class="tip__post">
           <form @submit.prevent>
             <div class="form-row">
-              <label class="tip__post__label">Send Tip</label>
+              <label class="tip__post__label pl-2">Send Tip</label>
             </div>
             <div class="form-row">
               <div class="form-group col-md-3">
@@ -53,12 +53,12 @@
               <input type="text" class="form-control" v-model="sendTipForm.title" placeholder="Add message">
             </div>
             <div class="form-row">
-              <div class="col-sm-4 tip__post__balance">
+              <div class="col-sm-4 tip__post__balance pl-2">
                  <span>{{ balance }} AE
                    <fiat-value v-if="balance" :amount="balance"></fiat-value>
                  </span>
               </div>
-              <div class="col-sm-4 offset-4 text-right">
+              <div class="col-sm-4 offset-4 text-right mt-2">
                 <button @click="sendTip()" class="btn btn-primary tip__send">Send</button>
               </div>
             </div>

@@ -13,6 +13,7 @@
   import aeternity from './utils/aeternity.js'
   import { mapGetters } from 'vuex';
   import { setInterval } from 'timers';
+  import BigNumber from 'bignumber.js';
   import { wallet } from './utils/walletSearch';
   import Backend from "./utils/backend";
   import Currency from "./utils/currency";
@@ -59,9 +60,7 @@
           this.tempTips = this.tempTips.map(tip => {
             tip.fiatValue = (tip.total_amount * rates.aeternity[this.current.currency]).toFixed(2);
             return tip;
-          })
-          .filter(tip => tip.amount * (rates.aeternity['usd']).toFixed(2) > 0.01);
-          console.log(this.tempTips)
+          }).filter(tip => tip.amount * (rates.aeternity['usd']).toFixed(2) > 0.01);
           this.$store.commit('UPDATE_TIPS', this.tempTips)
         }).catch(console.error);
       },
@@ -121,7 +120,7 @@
 
         this.tempTips = tips;
         this.$store.commit('UPDATE_TIPS', this.tempTips);
-        this.$store.commit('UPDATE_TOPICS', topics);
+        this.$store.commit('UPDATE_TOPICS', Object.entries(topics).sort((a, b) => new BigNumber(b[1]).minus(a[1]).toNumber()));
 
         stats.height = await aeternity.client.height();
         this.$store.commit('UPDATE_STATS', stats);
@@ -170,9 +169,9 @@
   }
 </script>
 
-<style >
+<style>
 
-  html{
+  html {
     font-size: 135%;
   }
 

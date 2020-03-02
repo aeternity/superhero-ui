@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="row" v-bind:class="[loadingProfile ? 'invisible' : '']">
-          <div class="col-lg-9 col-md-8 col-sm-12 profile__editable position-relative">
+          <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
             <a class="edit__button" @click="toggleEditMode(true)" v-if="!editMode" title="Edit Profile"><img src="../assets/editIcon.svg"></a>
             <div class="profile__image position-relative" >
               <div class="overlay" v-if="loadingAvatar"></div>
@@ -45,64 +45,14 @@
               <button type="button" @click="saveProfile()" class="btn btn-dark">Save</button>
             </div>
           </div>
-          <div class="col-lg-3 col-md-4 col-sm-12 profile__meta">
-            <div class="row">
-              <div class="col-8">Tippers</div>
-              <div class="col-4 value">70</div>
-              <div class="col-8">Followers</div>
-              <div class="col-4 value">50</div>
-              <div class="col-8">Daily Audience</div>
-              <div class="col-4 value">120</div>
-              <div class="col-8">Total Received</div>
-              <div class="col-4 value">2000 AE</div>
-              <div class="col-8">Users Tipped</div>
-              <div class="col-4 value">100</div>
-              <div class="col-8">Total Spent</div>
-              <div class="col-4 value">1500 AE</div>
-              <div class="col-8">Tips Received</div>
-              <div class="col-4 value">200</div>
-              <div class="col-8">Tips Claimed</div>
-              <div class="col-4 value">200</div>
-              <div class="col-8">Tips Unclaimed</div>
-              <div class="col-4 value">0</div>
-            </div>
-            <div class="row mobile">
-              <div class="col-6">
-                <div class="row">
-                  <div class="col-7">Total Spent</div>
-                    <div class="col-5 value">1500 AE</div>
-                    <div class="col-7">Tips Received</div>
-                    <div class="col-5 value">200</div>
-                    <div class="col-7">Tips Claimed</div>
-                    <div class="col-5 value">200</div>
-                    <div class="col-7">Tips Unclaimed</div>
-                    <div class="col-5 value">0</div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="row">
-                  <div class="col-7">Tippers</div>
-                  <div class="col-5 value">70</div>
-                  <div class="col-7">Followers</div>
-                  <div class="col-5 value">50</div>
-                  <div class="col-7">Daily Audience</div>
-                  <div class="col-5 value">120</div>
-                  <div class="col-7">Total Received</div>
-                  <div class="col-5 value">2000 AE</div>
-                  <div class="col-7">Users Tipped</div>
-                  <div class="col-5 value">100</div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="profile__actions">
+        <!-- <div class="profile__actions">
           <a>All</a>
           <a>Sent Tips</a>
           <a>Received Tips</a>
           <a>Comments</a>
           <a>Date</a>
-        </div>
+        </div> -->
       </div>
       <div class="comments__section position-relative">
         <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>

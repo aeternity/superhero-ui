@@ -6,7 +6,7 @@
     <div class="container wrapper">
       <div class="row content">
         <div class="col-sm-12">
-          <h1>LEGAL IMPRINT</h1>  
+          <h1>LEGAL IMPRINT</h1>
           <p>
             ​The present Legal Imprint was created on I. Company information
             ​13th​ February 2020.
@@ -15,7 +15,7 @@
           <p>
             The service on ​http://youdonotneedacapetobeahero.com/​ is provided by ​xyz​, e-mail for correspondence: superherowallet@protonmail.com.
           </p>
-            
+
           <p>
             II. Subject of activity
             xyz ​developed a website which reflects as a newsfeed users’ donations and comments to news about anything they like on the internet and gives the possibility for other users to actively donate and comment on the news available on the newsfeed. This information hub enables users to incentivize informative and accurate updates about anything all over the world- whether created by news organizations or regular people. Therefore, due to the active role of users, the website is a platform on which real-time global updates about best content shared.
@@ -73,7 +73,7 @@
       'right-section': RightSectionComponent,
     },
     async created() {
-      
+
     },
   }
 </script>
@@ -83,7 +83,7 @@
   @import "../styles/base";
 
   .content {
-    color: $light_font_color;
+    color: $primary_color;
   }
 
   .container.wrapper{

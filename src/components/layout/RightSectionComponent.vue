@@ -15,7 +15,7 @@
           <img src="../../assets/iconTrending.svg">
           Trending
         </div>
-        <div v-for="(amount, topic) in topics">
+        <div v-for="[topic, amount] in topics">
         <div class="section__body clearfix">
           <div class="float-left topic" @click="searchTopic(topic)">{{topic}}</div>
           <div class="float-right">
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="clearfix footer">
-        <div class="float-left">&copy; Superhero.</div>
+        <div class="float-left"></div>
         <div class="float-right">
           <router-link class="ae" to="/terms">
             Terms
@@ -103,9 +103,6 @@
         color: #67B6F7;
       }
     }
-    .ae{
-      color: $secondary_color;
-    }
     .side__button{
       font-size: .65rem;
       text-transform: capitalize;
@@ -131,6 +128,14 @@
       a{
         cursor: pointer;
         text-decoration: underline;
+
+        &.ae{
+          color: $secondary_color;
+          text-decoration: none;
+          font-weight: lighter;
+          padding-left: .3rem;
+          padding-right: .2rem;
+        }
       }
     }
   }

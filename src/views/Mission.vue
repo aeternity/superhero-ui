@@ -7,7 +7,7 @@
       <div class="row content">
         <div class="col-sm-12">
           <h2>
-            Introducing Superhero: fully P2P tipping with no boundaries, no censorship—at near-zero fees
+            Introducing Superhero: fully P2P tipping with no boundaries, no censorship — at near-zero fees
           </h2>
           <p>
             Enabling blockchain interactions through user-friendly consumer applications that everyday people can actually use is critical to mainstream adoption. At the same time, blockchain technology’s promise of delivering a better Internet remains a promise to be fulfilled. 
@@ -57,7 +57,7 @@
       'right-section': RightSectionComponent,
     },
     async created() {
-      
+
     },
   }
 </script>
@@ -67,7 +67,7 @@
   @import "../styles/base";
 
   .content {
-    color: $light_font_color;
+    color: $primary_color;
   }
 
   .container.wrapper{

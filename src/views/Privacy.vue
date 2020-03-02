@@ -122,7 +122,7 @@
       'right-section': RightSectionComponent,
     },
     async created() {
-      
+
     },
   }
 </script>
@@ -132,7 +132,7 @@
   @import "../styles/base";
 
   .content {
-    color: $light_font_color;
+    color: $primary_color;
   }
 
   .container.wrapper{

@@ -5,6 +5,7 @@ import UserProfileView from "./views/UserProfileView";
 import Terms from './views/Terms';
 import Privacy from './views/Privacy';
 import Mission from './views/Mission';
+import CreateProfile from './views/CreateProfile';
 
 let guardTipComments = (to, from, next) => {
   if(to.name == 'tip' && typeof to.params.id !== "undefined"){
@@ -65,9 +66,17 @@ const routes = [
       title: 'Mission'
     }
   },
+  {
+    path: '/create-profile',
+    name: 'create-profile',
+    component: CreateProfile,
+    meta: {
+      title: 'Create Profile'
+    }
+  },
 ]
 
-const router = new Router({mode: 'history', routes: routes})
+const router = new Router({mode: 'hash', routes: routes})
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - Social sharing with a mission`

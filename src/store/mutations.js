@@ -12,7 +12,7 @@ export default {
   [types.SWITCH_LOGGED_IN](state, payload) {
     state.isLoggedIn = payload;
   },
-  [types.CURRENCY_RATES](state, payload) {
+  [types.UPDATE_CURRENCY_RATES](state, payload) {
     state.currencyRates = payload;
   },
   [types.UPDATE_TIPS](state, payload) {
@@ -24,11 +24,11 @@ export default {
   [types.UPDATE_STATS](state, payload) {
     state.stats = payload;
   },
-  [types.RELOAD_TIPS](state, payload) {
-    state.tips = payload;
-  },
   [types.SET_TIPS_ORDERING](state, payload) {
     state.tipsOrdering = payload;
+  },
+  [types.SET_TIPS_SORT_BY](state, payload) {
+    state.tipSortBy = payload;
   },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {

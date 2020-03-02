@@ -17,11 +17,12 @@
       <div>
         <a class="tip__url mb-2 text-ellipsis pr-2" :title="tip.url" :href='tip.url' target="_blank">{{tip.url}}</a>
       </div>
-      <div class="tip__footer text-ellipsis">
+      <div class="tip__footer">
         <div class="row">
           <div class="col-lg-9 col-md-12">
-            <span class="tip__amount" @click="retip(tip.id)" title="Send AE to this post">
-              <img src="../../assets/heart.svg"> {{ tip.total_amount }} <span>AE</span>
+            <span class="tip__amount position-relative" >
+              <span class="tip__amount__btn" title="Send AE to this post" @click="toggleRetip(!showRetipWindow)"><img src="../../assets/heart.svg"></span> {{ tip.total_amount }} <span>AE</span>
+              <retip-component :tipid="tip.id" :retip="retip" :show="showRetipWindow" @toggleRetip="toggleRetip"></retip-component>
             </span>
             <fiat-value :amount="tip.total_amount"></fiat-value>
             <span @click="goToTip(tip.id)"><img src="../../assets/commentsIcon.svg"></span>
@@ -51,23 +52,29 @@
   import FiatValueComponentVue from '../FiatValueComponent.vue';
   import util from '../../utils/util';
   import {EventBus} from '../../utils/eventBus';
+  import RetipComponent from '../RetipComponent.vue';
+
 
   export default {
     name: 'TipRecord',
     props: ['tip', 'foundWallet', 'fiatValue', 'senderLink'],
     components: {
-      'fiat-value': FiatValueComponentVue
+      'fiat-value': FiatValueComponentVue,
+      'retip-component': RetipComponent
     },
     data() {
       return {
+        showRetipWindow: false
       }
     },
     computed: {
       ...mapGetters(['current'])
     },
     methods: {
-      async retip(id) {
-        const amount = util.aeToAtoms(prompt("Tip Amount in AE?"));
+      toggleRetip(flag){
+        this.showRetipWindow = flag
+      },
+      async retip(id, amount) {
         await aeternity.contract.methods.retip(id, {amount: amount}).catch(console.error);
         EventBus.$emit('reloadData');
       },
@@ -144,8 +151,10 @@
             span{
               color: $secondary_color;
             }
-            &:hover{
-              cursor: pointer;
+            .tip__amount__btn{
+              &:hover{
+                cursor: pointer;
+              }
             }
           }
           .tip__sender{

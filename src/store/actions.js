@@ -26,8 +26,5 @@ export default {
     const tips = sort(payload, state.tips);
     commit(types.SET_TIPS_SORT_BY, payload);
     commit(types.UPDATE_TIPS, tips);
-  },
-  reloadTips({ commit }) {
-    commit(types.RELOAD_TIPS)
   }
 };

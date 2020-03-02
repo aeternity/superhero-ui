@@ -16,7 +16,7 @@
         </div> -->
       </div>
     </div>
-    <div class="tipped__url">
+    <div class="tipped__url" v-if="tip">
       <tip-record :tip="tip" :currency="current.currency" :fiatValue="tip.fiatValue" @updateComment="onUpdateComment" :senderLink="openExplorer(tip.sender)"></tip-record>
     </div>
     <div class="comment__section">
@@ -78,7 +78,7 @@
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
         tip: null,
         id: this.$route.params.id,
-        loading: false,
+        loading: true,
         comments: [],
         error: false,
         comment: ''
@@ -86,6 +86,11 @@
     },
     computed: {
       ...mapGetters(['tips', 'current', 'isLoggedIn', 'account'])
+    },
+    watch: {
+      tips() {
+        this.updateTip();
+      }
     },
     methods: {
       sendTipComment(){
@@ -97,6 +102,25 @@
           this.sendComment(postData);
         }
         this.comment = '';
+      },
+      updateTip() {
+        // Avoid empty trigger
+        if(this.tips.length === 0) return;
+        this.tip = this.tips.find(x => x.id === parseInt(this.id));
+        // Avoid backend spam
+        if(this.comments.length === 0) {
+          backendInstance.getTipComments(this.id).then((response) => {
+            this.loading = false;
+            this.error = false;
+            console.log(response)
+            if (typeof response !== 'undefined' && response.length > 0) {
+              this.comments = response;
+            }
+          }).catch(err => {
+            this.error = true;
+            this.loading = false;
+          });
+        }
       },
       sendComment(data){
 
@@ -133,18 +157,7 @@
     },
     created(){
       console.log(this.account);
-      this.tip = this.tips.find(x => x.id === this.id);
-      this.loading = true;
-      backendInstance.getTipComments(this.id).then((response) => {
-        this.loading = false;
-        this.error = false;
-        if(typeof response !== 'undefined' && response.length > 0){
-          this.comments = response;
-        }
-      }).catch(err => {
-        this.error = true;
-        this.loading = false;
-      });
+      this.updateTip();
     }
   }
 </script>

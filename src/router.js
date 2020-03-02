@@ -76,7 +76,7 @@ const routes = [
   },
 ]
 
-const router = new Router({mode: 'history', routes: routes})
+const router = new Router({mode: 'hash', routes: routes})
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - Social sharing with a mission`

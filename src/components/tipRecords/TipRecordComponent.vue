@@ -21,8 +21,7 @@
         <div class="row">
           <div class="col-lg-9 col-md-12">
             <span class="tip__amount position-relative" >
-              <span class="tip__amount__btn" title="Send AE to this post" @click="toggleRetip(!showRetipWindow)"><img src="../../assets/heart.svg"></span> {{ tip.total_amount }} <span>AE</span>
-              <retip-component :tipid="tip.id" :retip="retip" :show="showRetipWindow" @toggleRetip="toggleRetip"></retip-component>
+              <span class="tip__amount__btn" title="Send AE to this post"><retip-component :tipid="tip.id"></retip-component></span> {{ tip.total_amount }} <span>AE</span>
             </span>
             <fiat-value :amount="tip.total_amount"></fiat-value>
             <span @click="goToTip(tip.id)"><img src="../../assets/commentsIcon.svg"></span>
@@ -48,10 +47,7 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import aeternity from '../../utils/aeternity';
   import FiatValueComponentVue from '../FiatValueComponent.vue';
-  import util from '../../utils/util';
-  import {EventBus} from '../../utils/eventBus';
   import RetipComponent from '../RetipComponent.vue';
 
 
@@ -73,10 +69,6 @@
     methods: {
       toggleRetip(flag){
         this.showRetipWindow = flag
-      },
-      async retip(id, amount) {
-        await aeternity.contract.methods.retip(id, {amount: amount}).catch(console.error);
-        EventBus.$emit('reloadData');
       },
       isPreviewToBeVisualized(tip) {
         return typeof tip !== 'undefined' && tip !== null

@@ -1,40 +1,53 @@
 <template>
-  <div v-if="toggleForm" class="clearfix retip__container">
+<div class="position-relative wrapper">
+  <img @click="toggleRetip(!show)" class="retip__icon" src="../assets/heart.svg">
+  <div class="clearfix retip__container" v-if="show">
     <div class="input-group mr-1 float-left">
       <input type="number" step="0.000001" v-model="value" @input="onValueChange" class="form-control" aria-label="Default">
       <div class="input-group-append">
         <span class="input-group-text append__ae"> <span class="ae">AE</span>&nbsp;(~ {{current.currency.toUpperCase()}} {{ fiatValue }} )</span>
       </div>
     </div>
-    <button class="btn btn-primary retip__button float-right" @click="submitRetip()">Retip</button>
+    <button class="btn btn-primary retip__button float-right" @click="retip()">Retip</button>
   </div>
+</div>
+
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import util from '../utils/util';
   import Currency from '../utils/currency'
   import BigNumber from 'bignumber.js'
+  import aeternity from '../utils/aeternity';
+  import {EventBus} from '../utils/eventBus';
+
 
   export default {
-    name: 'FiatValue',
-    props: ['retip', 'tipid', 'show', 'toggleRetip'],
+    name: 'RetipComponent',
+    props: ['tipid'],
     data() {
       return {
         fiatValue: 0.00,
-        value: 0
+        value: 0,
+        show: false
       }
     },
     computed: {
       ...mapGetters(['current']),
-      toggleForm(){
-        this.resetForm();
-        return this.show;
-      }
     },
     methods:{
-      submitRetip(){
-        this.retip(this.tipid, this.value)
-        this.$emit('toggleRetip', false)
+      toggleRetip(flag){
+        this.show = flag;
+        if(flag){
+          this.resetForm();
+        }
+      },
+      async retip() {
+        let amount = util.aeToAtoms(this.value);
+        await aeternity.contract.methods.retip(this.tipid, {amount: amount}).catch(console.error);
+        EventBus.$emit('reloadData');
+        this.show = false;
       },
       resetForm(){
         this.value = 0;
@@ -55,14 +68,32 @@
       
     },
     async created () {
+      let _this = this;
       this.getFiatVal();
+
+      window.addEventListener('click', function(e){
+        if (!_this.$el.contains(e.target)){
+          _this.show = false
+        } 
+      })
     }
   }
 </script>
 
 <style lang="scss" scoped>
  @import "../styles/base";
- 
+ .retip__icon{
+   &:hover{
+     cursor: pointer;
+   }
+ }
+ .wrapper{
+   display: inline-block;
+ }
+.wrapper .input-group .input-group-append span.append__ae {
+    background: $background_color;
+    color: $light_font_color;
+}
 .input-group{
   border: .065rem solid $custom_links_color;
   border-radius: .25rem;
@@ -73,8 +104,6 @@
     }
     span.append__ae {
       font-size: 0.75rem;
-      background: $background_color;
-      color: $light_font_color;
       cursor: default;
     }
   }

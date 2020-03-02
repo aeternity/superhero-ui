@@ -86,11 +86,11 @@
 
   export default {
     name: 'TipsList',
+    props: ['showLoading'],
     data() {
       return {
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
         searchTerm: '',
-        showLoading: true,
         activeLang: 'en',
         languagesOptions: [
           { value: 'en', text: 'English' },
@@ -150,14 +150,6 @@
       },
       openExplorer(address) {
         return this.explorerUrl + address
-      },
-      showLoadingTips() {
-        let load = setInterval(() => {
-          if (this.tips.length > 0){
-            this.showLoading = false;
-            clearInterval(load);
-          }
-        }, 200);
       }
     },
     components: {
@@ -172,8 +164,6 @@
       EventBus.$on("searchTopic", (topic) => {
         this.onSearchTopic(topic);
       });
-
-      this.showLoadingTips();
     },
   }
 </script>

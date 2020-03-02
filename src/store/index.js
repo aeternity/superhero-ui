@@ -27,6 +27,7 @@ export default new Vuex.Store({
     topics: {},
     stats: {},
     tipsOrdering: null,
+    tipSortBy: "highest",
     isLoggedIn: false,
   },
   getters,

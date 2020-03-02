@@ -35,4 +35,7 @@ export const getters = {
   tipsOrdering(state) {
     return state.tipsOrdering;
   },
+  tipSortBy(state) {
+    return state.tipSortBy;
+  }
 };

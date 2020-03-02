@@ -5,6 +5,7 @@ import UserProfileView from "./views/UserProfileView";
 import Terms from './views/Terms';
 import Privacy from './views/Privacy';
 import Mission from './views/Mission';
+import CreateProfile from './views/CreateProfile';
 
 let guardTipComments = (to, from, next) => {
   if(to.name == 'tip' && typeof to.params.id !== "undefined"){
@@ -63,6 +64,14 @@ const routes = [
     component: Mission,
     meta: {
       title: 'Mission'
+    }
+  },
+  {
+    path: '/create-profile',
+    name: 'create-profile',
+    component: CreateProfile,
+    meta: {
+      title: 'Create Profile'
     }
   },
 ]

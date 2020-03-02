@@ -25,34 +25,15 @@
     data() {
       return {
         tempTips: [],
-        sorting: null,
         tipsOrdering: null,
         showLoading: true,
         foundWallet: false
       }
     },
     computed: {
-      ...mapGetters(['tips', 'current', 'account', 'isLoggedIn']),
+      ...mapGetters(['tips', 'tipSortBy', 'current', 'account', 'isLoggedIn']),
     },
     methods: {
-      sort(sorting) {
-        this.sorting = sorting;
-
-        switch (this.sorting) {
-          case "hot":
-            this.tempTips.sort((a, b) => b.score - a.score);
-            this.$store.commit('UPDATE_TIPS', this.tempTips)
-            break;
-          case "latest":
-            this.tempTips.sort((a, b) => b.received_at - a.received_at);
-            this.$store.commit('UPDATE_TIPS', this.tempTips)
-            break;
-          case "highest":
-            this.tempTips.sort((a, b) => b.amount - a.amount);
-            this.$store.commit('UPDATE_TIPS', this.tempTips)
-            break;
-        }
-      },
       async asyncAddCurrency() {
         new Currency().getRates().then(rates => {
           console.log(rates);
@@ -102,10 +83,9 @@
             tip.score = orderItem ? orderItem.score : 0;
             return tip;
           });
-          if (initial) this.sorting = "hot";
         }
 
-        this.$store.commit('SET_TIPS_ORDERING', this.tipsOrdering);
+        this.$store.dispatch('setTipsOrdering', this.tipsOrdering);
 
         // filter tips by language from backend
         // if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
@@ -126,7 +106,8 @@
         this.$store.commit('UPDATE_STATS', stats);
 
         this.asyncAddCurrency();
-        this.sort(this.sorting);
+
+        if (initial) this.$store.dispatch('setTipSortBy', this.tipsOrdering ? "hot" : "latest");
         this.showLoading = false;
       },
       async checkAndReloadProvider() {
@@ -159,11 +140,11 @@
       }
     },
     async created() {
-      await this.reloadData(true);
       EventBus.$on("reloadData", () => {
         this.reloadData();
       });
 
+      await this.reloadData(true);
       setInterval(() => this.reloadData(), 120 * 1000);
     }
   }

@@ -8,13 +8,13 @@
           </div>
           <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12 sorting">
-              <a v-if="this.tipsOrdering" v-on:click="sort('hot')" v-bind:class="{ active: sorting === 'hot' }">
+              <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
                 {{$t('pages.Home.SortingHot')}}
               </a>
-              <a v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">
+              <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
                 {{$t('pages.Home.SortingLatest')}}
               </a>
-              <a v-on:click="sort('highest')" v-bind:class="{ active: sorting === 'highest' }">
+              <a v-on:click="setTipSortBy('highest')" v-bind:class="{ active: tipSortBy === 'highest' }">
                 {{$t('pages.Home.SortingHighestRated')}}
               </a>
             </div>
@@ -78,8 +78,7 @@
   import HeaderComponent from '../components/layout/HeaderComponent.vue';
   import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
   import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
-  import { mapGetters } from 'vuex';
-  import BigNumber from 'bignumber.js';
+  import { mapGetters, mapActions } from 'vuex';
   import {EventBus} from '../utils/eventBus';
   import util from '../utils/util';
   import aeternity from '../utils/aeternity';
@@ -91,7 +90,6 @@
       return {
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
         searchTerm: '',
-        sorting: "hot",
         showLoading: true,
         activeLang: 'en',
         languagesOptions: [
@@ -106,7 +104,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'tipsOrdering', 'account', 'balance', 'isLoggedIn', 'current']),
+      ...mapGetters(['tips', 'tipsOrdering', 'tipSortBy', 'account', 'balance', 'isLoggedIn', 'current']),
       filteredTips() {
         if (this.searchTerm.trim().length === 0) {
           return this.tips
@@ -137,6 +135,7 @@
       }
     },
     methods: {
+      ...mapActions(['setTipSortBy']),
       async sendTip(){
         const amount = util.aeToAtoms(this.sendTipForm.amount);
         await aeternity.contract.methods.tip(this.sendTipForm.url, this.sendTipForm.title, {amount: amount}).catch(console.error);
@@ -151,24 +150,6 @@
       },
       openExplorer(address) {
         return this.explorerUrl + address
-      },
-      sort(sorting) {
-        this.sorting = sorting;
-
-        switch (this.sorting) {
-          case "hot":
-            this.tips.sort((a, b) => b.score - a.score);
-            this.$store.commit('UPDATE_TIPS', this.tips);
-            break;
-          case "latest":
-            this.tips.sort((a, b) => b.timestamp - a.timestamp);
-            this.$store.commit('UPDATE_TIPS', this.tips);
-            break;
-          case "highest":
-            this.tips.sort((a, b) => new BigNumber(b.amount).minus(a.amount).toNumber());
-            this.$store.commit('UPDATE_TIPS', this.tips);
-            break;
-        }
       },
       showLoadingTips() {
         let load = setInterval(() => {
@@ -191,6 +172,7 @@
       EventBus.$on("searchTopic", (topic) => {
         this.onSearchTopic(topic);
       });
+
       this.showLoadingTips();
     },
   }

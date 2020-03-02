@@ -37,5 +37,8 @@ export const getters = {
   },
   tipSortBy(state) {
     return state.tipSortBy;
+  },
+  currencyRates(state) {
+    return state.currencyRates;
   }
 };

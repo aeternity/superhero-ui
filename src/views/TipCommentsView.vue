@@ -6,7 +6,8 @@
   <div class="container url__page">
     <div class="actions-ribbon">
       <div class="row">
-         <a class="back-url col-md-6 col-sm-12" href="/"><img src="../assets/backArrow.svg">{{$t('pages.TipComments.BackTo')}}<span> AE</span> {{$t('pages.TipComments.records')}}</a>
+         <a class="back-url col-md-6 col-sm-12" href="/">
+          <img src="../assets/backArrow.svg">{{$t('pages.TipComments.BackTo')}}<span> AE</span> {{$t('pages.TipComments.records')}}</a>
         <!-- <div class="col-md-6 col-sm-12 text-right sorting">
           <a>Date</a>
           <a>AE Records</a>

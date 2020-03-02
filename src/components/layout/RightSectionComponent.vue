@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="clearfix footer">
-        <div class="float-left">&copy; Superhero.</div>
+        <div class="float-left"></div>
         <div class="float-right">
           <router-link class="ae" to="/terms">
             Terms

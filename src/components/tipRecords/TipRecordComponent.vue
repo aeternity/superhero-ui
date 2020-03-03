@@ -38,7 +38,7 @@
       <div class="tip__article--hasresults" v-if="isPreviewToBeVisualized(tip)">
         <img v-bind:src="tip.preview.image" class="mr-2">
         <span>
-          {{tip.preview.description}}
+          {{tipText}}
         </span>
       </div>
       <div class="tip__article--noresults" v-else>
@@ -67,13 +67,20 @@
       }
     },
     computed: {
-      ...mapGetters(['current'])
+      ...mapGetters(['current']),
+      tipText() {
+        if(!this.isPreviewToBeVisualized(this.tip)) return '';
+        return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
+      }
     },
     methods: {
       isPreviewToBeVisualized(tip) {
         return typeof tip !== 'undefined' && tip !== null
-          && typeof tip.preview !== 'undefined' && tip.preview.description !== null
-          && tip.preview.description.length > 0 && tip.preview.image !== null;
+          && typeof tip.preview !== 'undefined' && tip.preview.image !== null
+          && (
+            (tip.preview.description !== null && tip.preview.description.length > 0) ||
+            (tip.preview.title !== null && tip.preview.title.length > 0)
+          )
       },
       goToTip(id) {
         console.log("goToTip", id);

@@ -1,6 +1,11 @@
 <template>
   <div>
-    <header-component></header-component>
+    <header-component>
+      <div class="profile__header">
+        <div class="address">{{trimAddress}}</div>
+        <div class="count" v-if="tips">{{tips.length}} Tips</div>
+      </div>
+    </header-component>
     <right-section></right-section>
     <left-section></left-section>
     <div class="container profile__page">
@@ -12,7 +17,7 @@
         </div>
         <div class="row" v-bind:class="[loadingProfile ? 'invisible' : '']">
           <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
-            <a class="edit__button" @click="toggleEditMode(true)" v-if="!editMode" title="Edit Profile"><img src="../assets/editIcon.svg"></a>
+            <a class="edit__button" @click="toggleEditMode(true)" v-if="!editMode" title="Edit Profile">Edit Profile</a>
             <div class="profile__image position-relative" >
               <div class="overlay" v-if="loadingAvatar"></div>
               <div class="text-center spinner__container w-100" v-if="loadingAvatar">
@@ -34,7 +39,7 @@
               <!-- <div class="input-group" v-if="editMode">
                 <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
               </div> -->
-              <a class="profile__username" v-if="!editMode">{{userName}}</a>
+              <a class="profile__username" v-if="!editMode" :title="address">{{trimAddress}}</a>
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
             <div class="input-group" v-if="editMode">
@@ -46,16 +51,24 @@
             </div>
           </div>
         </div>
-        <!-- <div class="profile__actions">
-          <a>All</a>
-          <a>Sent Tips</a>
-          <a>Received Tips</a>
-          <a>Comments</a>
-          <a>Date</a>
-        </div> -->
+
       </div>
+        <div class="profile__actions">
+          <a v-bind:class="{ active: activeTab === 'all' }" @click="setActiveTab('all')">All</a>
+          <!-- <a>Sent Tips</a>
+          <a>Received Tips</a> -->
+          <a  v-bind:class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">Comments</a>
+        </div>
       <div class="comments__section position-relative">
         <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
+          <div v-if="activeTab == 'all'">
+              <tip-record v-for="(tip,index) in tips" 
+                :key="index" 
+                :tip="tip" 
+                :fiatValue="tip.fiatValue"
+                :senderLink="openExplorer(tip.sender)">
+              </tip-record>
+          </div>
         <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
         <div class="text-center spinner__container w-100" v-if="loading">
           <div class="spinner-border text-primary" role="status">
@@ -86,7 +99,8 @@
       'tip-comment': TipComment,
       'left-section': LeftSectionComponentVue,
       'right-section': RightSectionComponentVue,
-      'header-component': HeaderComponentVue
+      'header-component': HeaderComponentVue,
+      TipRecord
     },
      data() {
       return {
@@ -101,6 +115,7 @@
         editMode: false,
         loadingProfile: false,
         loadingAvatar: false,
+        activeTab: 'all',
         profile: {
           biography: '',
           displayName: '',
@@ -109,9 +124,21 @@
       }
     },
     computed: {
-      ...mapGetters(['current', 'account'])
+      ...mapGetters(['current', 'account', 'tips']),
+      trimAddress(){
+        return this.address.substring(0, 5) + ('(...)') + this.address.substring(this.address.length-5, this.address.length)
+      }
     },
     methods: {
+      userTips(){
+        if(this.tips.length > 0 ){
+          return this.tips;
+        }
+        return this.tips = this.tips.filter(tips => tip.sender == this.address);
+      },
+      setActiveTab(tab){
+        this.activeTab = tab;
+      },
       openExplorer(address) {
         return this.explorerUrl + address
       },
@@ -160,7 +187,10 @@
             this.profile = response
           }
         }).catch(console.error);
-      }
+      },
+      openExplorer(address) {
+        return this.explorerUrl + address
+      },
     },
     created(){
       this.getProfile();
@@ -183,35 +213,47 @@
 <style lang="scss" scoped>
   @import "../styles/base";
 
+  .profile__header{
+    padding: .25rem 1rem;
+    background-color: $actions_ribbon_background_color;
+    .address{
+      color: $standard_font_color;
+    }
+    .count{
+      color: $light_font_color;
+      font-size: .6rem;
+    }
+  }
   #file-input{
     display: none;
   }
   .profile__page{
-    margin-top: 1rem;
+    margin-top: .125rem;
     a{
       color: $custom_links_color;
       cursor: pointer;
     }
     .edit__button{
+      color: $standard_font_color;
+      border: .065rem solid $standard_font_color;
+      border-radius: .25rem;
+      padding: .2rem .5rem .2rem .5rem;
+      text-align: center;
+      font-size: 0.65rem;
       position: absolute;
-      top: 0;
+      top: 50%;
+      transform: translateY(-50%);
       right: 1rem;
-      img{
-        width: .75rem;
-      }
     }
     color: $light_font_color;
     font-size: .75rem;
     .profile__section{
       background-color: $actions_ribbon_background_color;
-      border-radius: .25rem;
       .spinner__container{
         top: 40%;
       }
       .row{
         padding: .5rem 1rem 1rem 1rem;
-        border-bottom-right-radius: .25rem;
-        border-bottom-left-radius: .25rem;
         margin-right: -1rem;
       }
       .profile__image{
@@ -265,6 +307,7 @@
         }
         .profile__username{
           display: block;
+          color: $secondary_color;
           font-size: .6rem;
         }
       }
@@ -283,30 +326,31 @@
       }
     }
     .profile__actions{
-      text-align: right;
-      padding: .5rem;
-      background-color: $background_color;
-
+      padding-left: 1rem;
+      margin-top: .125rem;
+      background-color: $actions_ribbon_background_color;
       a{
-          color: $light_font_color;
-          margin-right: .5rem;
-          &:last-child{
-            margin-right: 0;
-          }
-          &:hover{
-            color: $primary_color;
-          }
-          &:active{
-            color: $secondary_color;
-          }
+        font-weight: 600;
+        color: $light_font_color;
+        padding: .5rem;
+        display: inline-block;
+        margin-right: .5rem;
+        &:last-child{
+          margin-right: 0;
         }
+        &:hover{
+          color: $primary_color;
+        }
+        &.active{
+          color: $custom_links_color;
+          border-bottom: .1rem solid $custom_links_color;
+        }
+      }
     }
   }
   .comments__section{
     min-height: 5rem;
-    background-color: $tip_list_background_color;
     overflow-y: auto;
-    padding: 1rem;
     border-radius: .25rem;
   }
 
@@ -324,11 +368,18 @@
   }
 
   .profile__description {
-    padding: 1rem;
+    padding: .5rem 0;
   }
 
 @media only screen and (max-width: 768px){
   .profile__description{padding-bottom: .5rem; font-size: .65rem;}
+  .profile__page .edit__button{
+    top: 0;
+    transform: none;
+  }
+  .profile__page .profile__section .profile__info .profile__username{
+    font-size: .5rem;
+  }
   .profile__page .profile__meta{
     margin-top: 0;
     border-top-right-radius: 0;

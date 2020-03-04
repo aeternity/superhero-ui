@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js'
 import Util from "./util";
 
+const topicsRegex = /(\#[a-zA-Z]+\b)(?!;)/g;
+
 const getTipsRetips = (state) => {
   const findUrl = (urlId) => state.urls.find(([_, id]) => urlId === id)[0];
 
@@ -25,7 +27,7 @@ const getTipsRetips = (state) => {
   const tips = state.tips.map(([id, data]) => {
     data.id = id;
     data.url = findUrl(data.url_id);
-    data.topics = data.title.match(/(\#[a-zA-Z]+\b)(?!;)/g);
+    data.topics = data.title.match(topicsRegex);
     data.retips = findRetips(id, data.url_id);
     data.claim = findClaimGen(data.claim_gen, data.url_id);
 
@@ -80,5 +82,6 @@ const getTipsRetips = (state) => {
 };
 
 export default {
-  getTipsRetips
+  getTipsRetips,
+  topicsRegex
 }

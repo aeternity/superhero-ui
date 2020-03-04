@@ -10,8 +10,8 @@
             {{ new Date(tip.timestamp).toLocaleString('en-US', { hourCycle: 'h24' }) }}
           </span>
         </div>
-        <div class="tip__note pr-2" :title="tip.title" @click="goToTip(tip.id)">
-            {{ tip.title }}
+        <div class="tip__note pr-2">
+          <tip-title :tip="tip" :goToTip="goToTip"></tip-title>
         </div>
       </div>
       <div>
@@ -52,14 +52,15 @@
   import { mapGetters } from 'vuex';
   import FiatValueComponentVue from '../FiatValueComponent.vue';
   import RetipComponent from '../RetipComponent.vue';
-
+  import TipTitle from './TipTitle.vue';
 
   export default {
     name: 'TipRecord',
     props: ['tip', 'foundWallet', 'fiatValue', 'senderLink'],
     components: {
       'fiat-value': FiatValueComponentVue,
-      'retip-component': RetipComponent
+      'retip-component': RetipComponent,
+      TipTitle
     },
     data() {
       return {
@@ -83,7 +84,6 @@
           )
       },
       goToTip(id) {
-        console.log("goToTip", id);
         this.$router.push({
           name: 'tip',
           params: {

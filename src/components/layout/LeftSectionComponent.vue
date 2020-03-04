@@ -183,7 +183,7 @@
           color: $light_font_color;
 
           &:last-child {
-            margin-bottom: none;
+            margin-bottom: 0;
           }
         }
       }

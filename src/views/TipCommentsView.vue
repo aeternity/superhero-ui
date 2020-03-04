@@ -16,11 +16,35 @@
         </div> -->
       </div>
     </div>
+
     <div class="tipped__url" v-if="tip">
       <tip-record :tip="tip" :currency="current.currency" :fiatValue="tip.fiatValue" @updateComment="onUpdateComment" :senderLink="openExplorer(tip.sender)"></tip-record>
     </div>
+
     <div class="comment__section">
-      <p class="latest__comments">Latest comments</p>
+      <p>Latest comments</p>
+    </div>
+
+    <div class="text-center spinner__container w-100" v-if="loading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div
+      class="no-results text-center w-100"
+      :class="{ error }"
+      v-else-if="!comments.length"
+    >
+      {{$t('pages.TipComments.NoResultsMsg')}}
+    </div>
+    <tip-comment
+      v-for="(comment, index) in comments"
+      :key="index"
+      :comment="comment"
+      :senderLink="openExplorer(comment.author)"
+    />
+
+    <div class="comment__section">
       <div class="row">
         <div class="col-sm-3">
           <img class="mr-1 avatar" src="../assets/userAvatar.svg">
@@ -29,27 +53,18 @@
           <div class="input-group col-md-12 col-lg-12 col-sm-12">
             <input type="text" placeholder="Add comment" v-model="comment" class="form-control">
             <b-button
-                size="sm"
-                @click="sendTipComment()"
-                :disabled="comment.length == 0"
-              >
-                {{$t('system.Send')}}
+              size="sm"
+              @click="sendTipComment()"
+              :disabled="comment.length == 0"
+            >
+              {{$t('system.Send')}}
             </b-button>
           </div>
         </div>
       </div>
-      
-    </div>
-    
-      <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
-      <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
-      <div class="text-center spinner__container w-100" v-if="loading">
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -131,11 +146,11 @@
         }
 
         console.log("sending comment => ", postData)
-        
+
         backendInstance.sendTipComment(postData).then(async (response) => {
           console.log("challenge => ", response.challenge);
           console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
-         
+
           let signedChallenge = await wallet.signMessage(response.challenge)
           let respondChallenge = {
             challenge: response.challenge,
@@ -218,7 +233,7 @@
     p {
       font-size: .75rem;
       text-transform: capitalize;
-      margin-bottom: 0.7rem;
+      margin-bottom: 0;
       color: white;
       font-weight: 600;
     }

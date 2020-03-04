@@ -56,7 +56,14 @@
     },
     methods: {
       searchTopic(topic) {
-        EventBus.$emit('searchTopic', topic)
+        if(this.$route.name !== 'home'){
+          this.$router.push({
+            name: 'home',
+            params: {searchTopicPhrase: topic}
+          });
+        }else{
+          EventBus.$emit('searchTopic', topic)
+        }
       }
     },
     computed: {
@@ -101,6 +108,9 @@
       .topic{
         font-size: 0.5rem;
         color: #67B6F7;
+        &:hover{
+          cursor: pointer;
+        }
       }
     }
     .side__button{

@@ -127,7 +127,9 @@
       EventBus.$on("searchTopic", (topic) => {
         this.onSearchTopic(topic);
       });
-
+      if(this.$route.params.searchTopicPhrase){
+        this.onSearchTopic(this.$route.params.searchTopicPhrase);
+      }
       this.showLoadingTips();
     },
   }

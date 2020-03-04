@@ -18,7 +18,7 @@ let guardTipComments = (to, from, next) => {
 
 const routes = [
   {
-    path: '/:searchTopicPhrase?',
+    path: '/',
     name: 'home',
     component: TipsList,
     meta: {title: 'Home'}

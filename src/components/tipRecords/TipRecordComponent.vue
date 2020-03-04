@@ -70,9 +70,6 @@
       ...mapGetters(['current'])
     },
     methods: {
-      toggleRetip(flag){
-        this.showRetipWindow = flag
-      },
       isPreviewToBeVisualized(tip) {
         return typeof tip !== 'undefined' && tip !== null
           && typeof tip.preview !== 'undefined' && tip.preview.description !== null

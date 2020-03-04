@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js'
+import BigNumber from 'bignumber.js';
 import Util from "./util";
 
 const topicsRegex = /(\#[a-zA-Z]+\b)(?!;)/g;
@@ -57,14 +57,6 @@ const getTipsRetips = (state) => {
     };
   });
 
-  const topics = tips.reduce((acc, tip) => {
-    if (tip.topics) tip.topics.forEach(topic => {
-      if (topic) acc[topic] = acc[topic] ? new BigNumber(acc[topic]).plus(tip.total_amount).toFixed() : tip.total_amount
-    });
-
-    return acc;
-  }, {});
-
   const stats = {
     tips_length: state.tips.length,
     retips_length: state.retips.length,
@@ -75,7 +67,6 @@ const getTipsRetips = (state) => {
 
   return {
     stats: stats,
-    topics: topics,
     urls: urls,
     tips: tips
   };

@@ -13,12 +13,12 @@
   import aeternity from './utils/aeternity.js'
   import { mapGetters } from 'vuex';
   import { setInterval } from 'timers';
-  import BigNumber from 'bignumber.js';
   import { wallet } from './utils/walletSearch';
   import Backend from "./utils/backend";
   import Currency from "./utils/currency";
   import { EventBus } from "./utils/eventBus";
   import util from './utils/util';
+  import TipTopicUtil from './utils/tipTopicUtil';
 
   export default {
     name: 'app',
@@ -60,7 +60,7 @@
         const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
         const fetchStats = backendInstance.getStats().catch(console.error);
         const fetchRates = new Currency().getRates();
-        let [{stats, topics, _, tips}, tipOrdering, tipsPreview, langTips, rates, backendStats] =
+        let [{stats, _, tips}, tipOrdering, tipsPreview, langTips, rates, backendStats] =
           await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips, fetchRates, fetchStats]);
 
         // add score from backend to tips
@@ -73,6 +73,8 @@
             return tip;
           });
         }
+
+        const topics = TipTopicUtil.getTipTopics(tips);
 
         // filter tips by language from backend
         if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
@@ -98,7 +100,7 @@
 
         this.$store.dispatch('setTipsOrdering', tipOrdering);
         this.$store.dispatch('updateTips', tips);
-        this.$store.dispatch('updateTopics', Object.entries(topics).sort((a, b) => new BigNumber(b[1]).minus(a[1]).toNumber()));
+        this.$store.dispatch('updateTopics', topics);
         this.$store.dispatch('updateStats', stats);
         this.$store.dispatch('updateCurrencyRates', rates);
 

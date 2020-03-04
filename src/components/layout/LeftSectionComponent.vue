@@ -36,15 +36,23 @@
         </div>
       </div>
       <div class="overview">
-        <div class="overview__item">
+        <div class="overview__item" v-if="stats.total_tips_length">
           <div class="overview__value">
             {{stats.total_tips_length}}
           </div>
           <div class="overview__label">
-            Tips Aggregated
+            Tips
           </div>
         </div>
-        <div class="overview__item">
+        <div class="overview__item" v-if="stats.comments">
+          <div class="overview__value">
+            {{stats.comments.total}}
+          </div>
+          <div class="overview__label">
+            Comments
+          </div>
+        </div>
+        <div class="overview__item" v-if="stats.total_amount">
           <div class="overview__value secondary">
             {{stats.total_amount}}
             <span class="currency secondary">AE</span>
@@ -56,7 +64,7 @@
             Total Tips Value
           </div>
         </div>
-        <div class="overview__item">
+        <div class="overview__item" v-if="stats.height">
           <div class="overview__value">
             {{stats.height}}
           </div>

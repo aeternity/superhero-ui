@@ -58,9 +58,10 @@
         const fetchOrdering = backendInstance.tipOrder().catch(console.error);
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
         const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
+        const fetchStats = backendInstance.getStats().catch(console.error);
         const fetchRates = new Currency().getRates();
-        let [{stats, topics, _, tips}, tipOrdering, tipsPreview, langTips, rates] =
-          await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips, fetchRates]);
+        let [{stats, topics, _, tips}, tipOrdering, tipsPreview, langTips, rates, backendStats] =
+          await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips, fetchRates, fetchStats]);
 
         // add score from backend to tips
         if (tipOrdering) {
@@ -93,6 +94,7 @@
         }
 
         stats.height = await aeternity.client.height();
+        if(backendStats) stats = {...stats, ...backendStats};
 
         this.$store.dispatch('setTipsOrdering', tipOrdering);
         this.$store.dispatch('updateTips', tips);

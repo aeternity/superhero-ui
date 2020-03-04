@@ -17,7 +17,9 @@
         </div>
         <div class="section__body" v-if="topics.length > 0">
           <div class="section__item clearfix" v-for="([topic, amount], index) in topics">
-            <div class="float-left topic" @click="searchTopic(topic)">{{topic}}</div>
+            <div class="float-left topic-container">
+            <topic :topic="topic" />
+          </div>
             <div class="float-right">
               <span class="value">{{amount}}</span>
               <span class="ae">AE</span>
@@ -44,27 +46,16 @@
 <script>
   import {mapGetters} from "vuex";
   import FiatValueComponentVue from '../FiatValueComponent.vue';
-  import {EventBus} from '../../utils/eventBus';
+  import Topic from "../tipRecords/Topic";
 
   export default {
     name: 'RightSectionComponent',
     components: {
+      Topic,
       'fiat-value': FiatValueComponentVue
     },
     data() {
       return {}
-    },
-    methods: {
-      searchTopic(topic) {
-        if(this.$route.name !== 'home'){
-          this.$router.push({
-            name: 'home',
-            query: { searchTopicPhrase: topic }
-          });
-        }else{
-          EventBus.$emit('searchTopic', topic)
-        }
-      }
     },
     computed: {
       ...mapGetters(['topics', 'isLoggedIn']),
@@ -94,7 +85,7 @@
           max-height: 10rem;
           overflow-y: auto;
         }
-      } 
+      }
     }
     .section__title{
       border-top-right-radius: .25rem;
@@ -118,12 +109,8 @@
       .value{
         color: $standard_font_color;
       }
-      .topic{
+      .topic-container {
         font-size: 0.5rem;
-        color: #67B6F7;
-        &:hover{
-          cursor: pointer;
-        }
       }
     }
     .side__button{

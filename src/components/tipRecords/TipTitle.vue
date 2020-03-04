@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="title" v-for="part in splitByTopics">
-      <span @click="goToTip(tip.id)" v-bind:class="{ topiclink: part.matches }">{{part.text}}</span>
+      <topic v-if="part.matches" :topic="part.text"></topic>
+      <span @click="goToTip(tip.id)" v-else>{{part.text}}</span>
     </div>
   </div>
 </template>
@@ -9,9 +10,11 @@
 <script>
 
   import TippingContractUtil from '../../utils/tippingContractUtil';
+  import Topic from "./Topic";
 
   export default {
     name: 'TipTitle',
+    components: {Topic},
     props: ['tip', 'goToTip'],
     computed: {
       splitByTopics() {
@@ -24,9 +27,6 @@
           }
         })
       }
-    },
-    created() {
-      console.log(this.splitByTopics);
     }
   }
 </script>

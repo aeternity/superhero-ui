@@ -21,12 +21,9 @@
     </div>
     <div class="comment__section">
       <p class="latest__comments">Latest comments</p>
-      <div class="row">
-        <div class="col-sm-3">
-          <img class="mr-1 avatar" src="../assets/userAvatar.svg">
-        </div>
-        <div class="col-sm-9">
-          <div class="input-group col-md-12 col-lg-12 col-sm-12">
+      <div class="d-flex">
+          <img class="mr-3 avatar" src="../assets/userAvatar.svg">
+          <div class="input-group">
             <input type="text" placeholder="Add comment" v-model="comment" class="form-control">
             <b-button
                 size="sm"
@@ -36,18 +33,18 @@
                 {{$t('system.Send')}}
             </b-button>
           </div>
-        </div>
       </div>
       
     </div>
-    
+    <div class="comments__section">
       <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
       <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
-      <div class="text-center spinner__container w-100" v-if="loading">
+      <div class="text-center spinner__container w-100 mt-3" v-if="loading">
         <div class="spinner-border text-primary" role="status">
           <span class="sr-only">Loading...</span>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -165,9 +162,16 @@
 
 <style lang="scss" scoped>
   @import "../styles/base";
+
 .url__page{
   color: $light_font_color;
   font-size: .75rem;
+  .avatar{
+    width: 2rem;
+  }
+  .input-group{
+    width: calc(100% - 2.5rem)
+  }
   .actions-ribbon{
     padding: 1rem .5rem .5rem .5rem;
     .sorting a{
@@ -178,9 +182,11 @@
     }
   }
   .tipped__url{
-    border-bottom: .065rem solid $secondary_color;
     .tip__record{
       margin-bottom: 0;
+      &.row{
+        background-color: $actions_ribbon_background_color;
+      }
     }
   }
   .back-url,.sorting a{
@@ -196,8 +202,7 @@
     }
   }
   .comments__section{
-    min-height: 65vh;
-    background-color: $tip_list_background_color;
+    background-color: $actions_ribbon_background_color;
     overflow-y: auto;
     padding: 1rem;
   }
@@ -214,7 +219,8 @@
     @include vertical-align($position: relative);
   }
   .comment__section {
-    padding: 0.75rem;
+    background-color: $actions_ribbon_background_color;
+    padding: 0.75rem 1rem;
     p {
       font-size: .75rem;
       text-transform: capitalize;

@@ -27,7 +27,7 @@ const getTipsRetips = (state) => {
   const tips = state.tips.map(([id, data]) => {
     data.id = id;
     data.url = findUrl(data.url_id);
-    data.topics = data.title.match(topicsRegex);
+    data.topics = [...new Set(data.title.match(topicsRegex))].map(x => x.toLowerCase());
     data.retips = findRetips(id, data.url_id);
     data.claim = findClaimGen(data.claim_gen, data.url_id);
 

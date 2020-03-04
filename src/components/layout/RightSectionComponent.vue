@@ -16,14 +16,14 @@
           Trending
         </div>
         <div class="section__body" v-if="topics.length > 0">
-          <div class="section__item clearfix" v-for="([topic, amount], index) in topics">
+          <div class="section__item clearfix" v-for="([topic, data], index) in topics">
             <div class="float-left topic-container">
             <topic :topic="topic" />
           </div>
             <div class="float-right">
-              <span class="value">{{amount}}</span>
+              <span class="value">{{data.amount}}</span>
               <span class="ae">AE</span>
-              <fiat-value :amount="amount"></fiat-value>
+              <fiat-value :amount="data.amount"></fiat-value>
             </div>
           </div>
         </div>

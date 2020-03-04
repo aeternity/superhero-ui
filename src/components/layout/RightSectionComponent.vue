@@ -74,7 +74,7 @@
   right: 0;
   .content{
     width: 12.5rem;
-    margin-top: 1rem;
+  /* margin-top: 1rem; */
     .section{
       border-radius: .25rem;
       margin-bottom: 1rem;

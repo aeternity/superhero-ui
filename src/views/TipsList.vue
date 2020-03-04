@@ -22,7 +22,7 @@
           </div>
         </div>
     </header-component>
-    <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
+    <div class="text-center spinner__container" v-if="showLoadingTips">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
       </div>
@@ -67,7 +67,7 @@
         <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
       </div>
     </div>
-    <div class="no-results text-center" v-if="filteredTips !== null && !showLoading && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
+    <div class="no-results text-center" v-if="filteredTips !== null && !showLoadingTips && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
   </div>
 </template>
 
@@ -86,7 +86,6 @@
 
   export default {
     name: 'TipsList',
-    props: ['showLoading'],
     data() {
       return {
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
@@ -132,6 +131,9 @@
         //We convert the result array to Set in order to remove duplicate records
         let convertResultToSet = new Set([...urlSearchResults, ...senderSearchResults, ...noteSearchResults]);
         return [...convertResultToSet];
+      },
+      showLoadingTips() {
+        return !(this.tips && this.tips.length);
       }
     },
     methods: {
@@ -164,7 +166,7 @@
       EventBus.$on("searchTopic", (topic) => {
         this.onSearchTopic(topic);
       });
-    },
+    }
   }
 </script>
 

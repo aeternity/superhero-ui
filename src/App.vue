@@ -2,7 +2,7 @@
   <div id="app" class="min-h-screen">
     <div class="content min-h-screen max-w-desktop">
       <div class="min-h-screen wrapper" ref="wrapper">
-        <router-view :showLoading="showLoading"></router-view>
+        <router-view></router-view>
       </div>
     </div>
   </div>

@@ -15,6 +15,9 @@
     computed: {
       ...mapGetters(['current', 'currencyRates']),
       fiatValue() {
+        if(!this.amount){
+          return 0
+        }
         return new BigNumber(this.amount).multipliedBy(this.currencyRates.aeternity[this.current.currency]).toFixed(2);
       }
     }

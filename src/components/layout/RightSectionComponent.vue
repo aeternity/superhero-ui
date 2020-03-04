@@ -1,7 +1,7 @@
 <template>
   <div class="app__rightcolumn">
     <div class="content">
-      <div class="section">
+      <div class="section" v-if="!isLoggedIn">
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
           Wallet
@@ -60,7 +60,7 @@
       }
     },
     computed: {
-      ...mapGetters(['topics']),
+      ...mapGetters(['topics', 'isLoggedIn']),
     }
   }
 </script>

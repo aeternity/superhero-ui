@@ -10,20 +10,20 @@
           <div class="side__button"><a href="//github.com/superherowallet/wallet/releases/latest">Install Wallet</a></div>
         </div>
       </div>
-      <div class="section">
+      <div class="section trending">
         <div class="section__title">
           <img src="../../assets/iconTrending.svg">
           Trending
         </div>
-        <div v-for="[topic, amount] in topics">
-        <div class="section__body clearfix">
-          <div class="float-left topic" @click="searchTopic(topic)">{{topic}}</div>
-          <div class="float-right">
-            <span class="value">{{amount}}</span>
-            <span class="ae">AE</span>
-            <fiat-value :amount="amount"></fiat-value>
+        <div class="section__body" v-if="topics.length > 0">
+          <div class="section__item clearfix" v-for="([topic, amount], index) in topics">
+            <div class="float-left topic" @click="searchTopic(topic)">{{topic}}</div>
+            <div class="float-right">
+              <span class="value">{{amount}}</span>
+              <span class="ae">AE</span>
+              <fiat-value :amount="amount"></fiat-value>
+            </div>
           </div>
-        </div>
         </div>
       </div>
       <div class="clearfix footer">
@@ -81,6 +81,13 @@
       border-radius: .25rem;
       margin-bottom: 1rem;
       background-color: $actions_ribbon_background_color;
+      &.trending{
+        padding-bottom: .5rem;
+        .section__body{
+          max-height: 10rem;
+          overflow-y: auto;
+        }
+      } 
     }
     .section__title{
       border-top-right-radius: .25rem;
@@ -89,9 +96,15 @@
       color: $standard_font_color;
     }
     .section__body{
-      text-transform: none;
-      font-size: .45rem;
       padding: .5rem;
+      .section__item{
+        margin: .5rem 0;
+        &:first-child{
+          margin-top: 0;
+        }
+        text-transform: none;
+        font-size: .45rem;
+      }
       .tag{
         color: $custom_links_color;
       }

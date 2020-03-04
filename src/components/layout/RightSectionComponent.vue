@@ -59,7 +59,7 @@
         if(this.$route.name !== 'home'){
           this.$router.push({
             name: 'home',
-            params: {searchTopicPhrase: topic}
+            query: { searchTopicPhrase: topic }
           });
         }else{
           EventBus.$emit('searchTopic', topic)

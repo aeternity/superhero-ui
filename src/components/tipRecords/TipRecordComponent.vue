@@ -102,6 +102,9 @@
     margin-left: 0;
     margin-right: 0;
   }
+  .url__page .tip__record .tip__body .tip__footer{
+    background-color: $actions_ribbon_background_color;
+  }
   .tip__record{
       background-color: $light_color;
       padding: .5rem 0 0 0;
@@ -406,7 +409,7 @@
         .tip__body{
           .tip__author{
             padding-left: 0;
-            font-size: .5rem;
+            font-size: .45rem;
           }
           .tip__note,.tip__url{
             padding-left: 0;

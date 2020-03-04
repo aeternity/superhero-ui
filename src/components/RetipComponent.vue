@@ -68,10 +68,10 @@
               this.showLoading = false
               this.error = true
           });
-          if(!this.error){
-            EventBus.$emit('reloadData');
-            this.show = false;
-          }
+        if(!this.error){
+          EventBus.$emit('reloadData');
+          this.show = false;
+        }
       },
       resetForm(){
         this.value = 0;

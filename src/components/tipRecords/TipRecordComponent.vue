@@ -14,9 +14,6 @@
           <tip-title :tip="tip" :goToTip="goToTip"></tip-title>
         </div>
       </div>
-      <div>
-        <a class="tip__url mb-2 text-ellipsis pr-2" :title="tip.url" :href='tip.url' target="_blank">{{tip.url}}</a>
-      </div>
       <div class="tip__footer">
         <div class="row">
           <div class="col-lg-9 col-md-12">
@@ -130,16 +127,10 @@
           height: 2.75rem;
           overflow-y: auto;
           padding-left: 1rem;
+          padding-bottom: .5rem;
           &:hover{
             cursor: pointer;
           }
-        }
-        .tip__url{
-          color: $custom_links_color;
-          font-size: .6rem;
-          cursor: pointer;
-          display: block;
-          padding-left: 1rem;
         }
         .tip__footer{
           background-color: $light_color;
@@ -266,9 +257,6 @@
       .tip__note{
         height: initial
       }
-      .tip__url{
-        padding-bottom: .5rem;
-      }
       .tip__footer{
         position: absolute;
         bottom: 0;
@@ -317,9 +305,6 @@
       }
       .tip__note{
         height: initial
-      }
-      .tip__url{
-        padding-bottom: .5rem;
       }
       .tip__footer{
         position: absolute;
@@ -411,7 +396,7 @@
             padding-left: 0;
             font-size: .45rem;
           }
-          .tip__note,.tip__url{
+          .tip__note{
             padding-left: 0;
           }
 

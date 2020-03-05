@@ -31,7 +31,9 @@
         </div>
       </div>
     </div>
-    <div class="tip__article col-4" v-if="isPreviewToBeVisualized(tip)">
+    <div class="tip__article col-4 position-relative" v-if="isPreviewToBeVisualized(tip)">
+      <a :href="tip.url" target="_blank">
+      <img class="external-link" src="../../assets/externalLink.svg">
       <div class="tip__article--hasresults" v-if="isPreviewToBeVisualized(tip)">
         <img v-bind:src="tip.preview.image" class="mr-2">
         <span>
@@ -41,6 +43,7 @@
       <div class="tip__article--noresults" v-else>
         {{$t('pages.system.noPreview')}}
       </div>
+      </a>
     </div>
   </div>
 </template>
@@ -186,15 +189,27 @@
         color: $article_description_color;
         background-color: $thumbnail_background_color;
         padding: 0;
+        padding-right: 1.25rem;
         margin-left: 1rem;
         margin-right: 1rem;
         border-top-right-radius: .25rem;
         border-bottom-right-radius: .25rem;
+        &:hover{
+          cursor: pointer;
+        }
+        .external-link{
+          width: .75rem;
+          height: .75rem;
+          right: .5rem;
+          top: .5rem;
+          position: absolute;
+        }
         img{
           width: 50%;
           float: left;
           height: 7.5rem;
-          border-radius: .25rem;
+          border-top-left-radius: .25rem;
+          border-bottom-left-radius: .25rem;
           top: 50%;
           -webkit-transform: translateY(-50%);
           -ms-transform: translateY(-50%);
@@ -204,6 +219,9 @@
         span{
           padding: .5rem 0.1rem 0 0.5rem;
           @include truncate-overflow-mx(6);
+        }
+        .tip__article--hasresults{
+          padding-right: .75rem;
         }
         .tip__article--noresults{
           display: none;

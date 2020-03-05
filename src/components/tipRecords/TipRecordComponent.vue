@@ -1,8 +1,8 @@
 <template>
-  <div  class="tip__record row">
+  <div @click="goToTip(tip.id)" class="tip__record row">
     <div class="tip__body " v-bind:class="[ isPreviewToBeVisualized(tip)? 'col-8' : 'col-12']">
       <div class="clearfix">
-        <div class="tip__author" :title="tip.sender">
+        <div class="tip__author" :title="tip.sender" v-on:click.stop>
           <router-link
           :to="'/user-profile/' + tip.sender "
           target="_blank">
@@ -13,7 +13,7 @@
             {{ new Date(tip.timestamp).toLocaleString('en-US', { hourCycle: 'h24' }) }}
           </span>
         </div>
-        <div class="tip__note pr-2">
+        <div class="tip__note pr-2" v-on:click.stop>
           <tip-title :tip="tip" :goToTip="goToTip"></tip-title>
         </div>
       </div>
@@ -21,7 +21,7 @@
         <div class="row">
           <div class="col-lg-9 col-md-12">
             <span class="tip__amount position-relative" >
-              <span class="tip__amount__btn" title="Send AE to this post">
+              <span class="tip__amount__btn" v-on:click.stop title="Send AE to this post">
                 <retip-component :tipid="tip.id" />
               </span>
               {{ tip.total_amount }} <span class="ae">AE</span>
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="tip__article col-4 position-relative" v-if="isPreviewToBeVisualized(tip)">
-      <a :href="tip.url" target="_blank">
+      <a :href="tip.url" target="_blank" v-on:click.stop>
       <img class="external-link" src="../../assets/externalLink.svg">
       <div class="tip__article--hasresults">
         <img v-bind:src="tip.preview.image" class="mr-2">
@@ -99,6 +99,9 @@
   .tip__record.row.row{
     margin-left: 0;
     margin-right: 0;
+    &:hover{
+      cursor: pointer;
+    }
   }
   .url__page .tip__record .tip__body .tip__footer{
     background-color: $actions_ribbon_background_color;

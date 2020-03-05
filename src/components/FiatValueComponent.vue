@@ -1,6 +1,6 @@
 <template>
     <span class="currency-value">
-      (~ {{ fiatValue }} {{current.currency.toUpperCase()}})
+      (~ {{ fiatValue }} {{settings.currency.toUpperCase()}})
     </span>
 </template>
 
@@ -13,12 +13,12 @@
     props: ['amount'],
 
     computed: {
-      ...mapGetters(['current', 'currencyRates']),
+      ...mapGetters(['settings', 'currencyRates']),
       fiatValue() {
-        if(!this.amount){
+        if (!this.amount) {
           return 0
         }
-        return new BigNumber(this.amount).multipliedBy(this.currencyRates.aeternity[this.current.currency]).toFixed(2);
+        return new BigNumber(this.amount).multipliedBy(this.currencyRates.aeternity[this.settings.currency]).toFixed(2);
       }
     }
   }

@@ -38,27 +38,14 @@
   import HeaderComponent from '../components/layout/HeaderComponent.vue';
   import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
   import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
-  import { mapGetters } from 'vuex';
 
   export default {
-    name: 'Privacy',
-    data() {
-      return {
-      }
-    },
-    computed: {
-      ...mapGetters(['account', 'balance', 'isLoggedIn', 'current']),
-    },
-    methods: {
-    },
+    name: 'Mission',
     components: {
       'header-component': HeaderComponent,
       'left-section': LeftSectionComponent,
       'right-section': RightSectionComponent,
-    },
-    async created() {
-
-    },
+    }
   }
 </script>
 

@@ -49,7 +49,7 @@
   import Topic from "../tipRecords/Topic";
 
   export default {
-    name: 'RightSectionComponent',
+    name: 'RightSection',
     components: {
       Topic,
       'fiat-value': FiatValueComponentVue

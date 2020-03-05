@@ -1,6 +1,6 @@
 <template>
 <div>
-  <header-component></header-component>
+  <custom-header></custom-header>
   <right-section></right-section>
   <left-section></left-section>
   <div class="container url__page">
@@ -51,11 +51,11 @@
 
 <script>
   import Backend from "../utils/backend";
-  import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
-  import TipComment from "../components/tipRecords/TipCommentComponent.vue"
-  import HeaderComponent from '../components/layout/HeaderComponent.vue';
-  import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
-  import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
+  import TipRecord from "../components/tipRecords/TipRecord.vue"
+  import TipComment from "../components/tipRecords/TipComment.vue"
+  import Header from '../components/layout/Header.vue';
+  import LeftSection from '../components/layout/LeftSection.vue';
+  import RightSection from '../components/layout/RightSection.vue';
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
 
@@ -66,9 +66,9 @@
     components: {
       'tip-record': TipRecord,
       'tip-comment': TipComment,
-      'header-component': HeaderComponent,
-      'left-section': LeftSectionComponent,
-      'right-section': RightSectionComponent,
+      'custom-header': Header,
+      'left-section': LeftSection,
+      'right-section': RightSection,
     },
     data() {
       return {

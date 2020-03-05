@@ -1,11 +1,11 @@
 <template>
   <div>
-    <header-component>
+    <custom-header>
       <div class="profile__header">
         <div class="address">{{trimAddress}}</div>
         <div class="count">{{userTips.length}} Tips</div>
       </div>
-    </header-component>
+    </custom-header>
     <right-section></right-section>
     <left-section></left-section>
     <div class="container profile__page">
@@ -88,13 +88,13 @@
 
 <script>
   import Backend from "../utils/backend";
-  import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
-  import TipComment from "../components/tipRecords/TipCommentComponent.vue"
-  import LeftSectionComponentVue from '../components/layout/LeftSectionComponent.vue';
-  import RightSectionComponentVue from '../components/layout/RightSectionComponent.vue';
+  import TipRecord from "../components/tipRecords/TipRecord.vue"
+  import TipComment from "../components/tipRecords/TipComment.vue"
+  import LeftSection from '../components/layout/LeftSection.vue';
+  import RightSection from '../components/layout/RightSection.vue';
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
-  import HeaderComponentVue from '../components/layout/HeaderComponent.vue';
+  import Header from '../components/layout/Header.vue';
 
   const backendInstance = new Backend();
 
@@ -103,9 +103,9 @@
     name: 'TipCommentsView',
     components: {
       'tip-comment': TipComment,
-      'left-section': LeftSectionComponentVue,
-      'right-section': RightSectionComponentVue,
-      'header-component': HeaderComponentVue,
+      'left-section': LeftSection,
+      'right-section': RightSection,
+      'custom-header': Header,
       TipRecord
     },
      data() {

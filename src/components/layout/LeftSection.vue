@@ -52,6 +52,14 @@
             Comments
           </div>
         </div>
+        <div class="overview__item" v-if="stats.senders_length">
+          <div class="overview__value">
+            {{stats.senders_length}}
+          </div>
+          <div class="overview__label">
+            Unique Tip Senders
+          </div>
+        </div>
         <div class="overview__item" v-if="stats.total_amount">
           <div class="overview__value secondary">
             {{stats.total_amount}}

@@ -60,7 +60,7 @@
           <a  v-bind:class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">Comments</a>
         </div>
       <div class="comments__section position-relative">
-        <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
+        <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="showNoResultsMsg()">{{'There is no activity to display.'}}</div>
           <div v-if="activeTab == 'all'">
             <div v-if="userTips.length">
               <tip-record v-for="(tip,index) in userTips"
@@ -135,6 +135,13 @@
       },
     },
     methods: {
+      showNoResultsMsg(){
+        if(this.activeTab == 'comments'){
+          return this.comments.length == 0 && !this.loading
+        }else{
+          return this.comments.length == 0 && this.userTips().length == 0 && !this.loading
+        }
+      },
       setActiveTab(tab){
         this.activeTab = tab;
       },
@@ -190,7 +197,7 @@
     },
     created(){
       this.getProfile();
-
+      this.loading = true;
       backendInstance.getAllComments().then((response) => {
         this.loading = false;
         this.error = false;

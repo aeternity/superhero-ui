@@ -3,9 +3,12 @@
       <div class="tip__body">
         <div class="clearfix">
           <div class="tip__author" :title="comment.author">
-            <img src="../../assets/userAvatar.svg">
-            <a v-if="senderLink" :href="senderLink" target="_blank">{{ comment.author }}</a>
-            <span class="tip__author" v-else> {{ comment.author }}</span>
+            <router-link
+              :to="'/user-profile/' + comment.author "
+              target="_blank">
+              <img src="../../assets/userAvatar.svg">
+              {{ comment.author }}
+            </router-link>
             <span class="date">
               {{ new Date(comment.createdAt).toLocaleString('en-US', { hourCycle: 'h24' }) }}
             </span>
@@ -21,7 +24,7 @@
 <script>
   export default {
     name: 'TipComment',
-    props: ['comment', 'senderLink'],
+    props: ['comment'],
     data() {
       return {
       }

@@ -26,7 +26,9 @@
                 </div>
               </div>
               <!-- <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" v-bind:class="[loadingAvatar ? 'blurred' : '']"> -->
-                <img v-bind:src="avatar"/>
+                <a :href="openExplorer(address)" target="_blank" v-if="!editMode" :title="address">
+                  <img v-bind:src="avatar"/>
+                </a>
                 <!-- <div>Change Avatar</div> -->
               <!-- </label> -->
               <!-- <div v-bind:class="[loadingAvatar ? 'blurred' : '']">
@@ -39,7 +41,7 @@
               <!-- <div class="input-group" v-if="editMode">
                 <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
               </div> -->
-              <a class="profile__username" v-if="!editMode" :title="address">{{trimAddress}}</a>
+              <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address">{{trimAddress}}</a>
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
             <div class="input-group" v-if="editMode">
@@ -54,14 +56,14 @@
 
       </div>
         <div class="profile__actions">
-          <a v-bind:class="{ active: activeTab === 'all' }" @click="setActiveTab('all')">All</a>
+          <a v-bind:class="{ active: activeTab === 'tips' }" @click="setActiveTab('tips')">Tips</a>
           <!-- <a>Sent Tips</a>
           <a>Received Tips</a> -->
           <a  v-bind:class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">Comments</a>
         </div>
       <div class="comments__section position-relative">
         <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="showNoResultsMsg()">{{'There is no activity to display.'}}</div>
-          <div v-if="activeTab == 'all'">
+          <div v-if="activeTab == 'tips'">
             <div v-if="userTips.length">
               <tip-record v-for="(tip,index) in userTips"
                 :key="index"
@@ -71,7 +73,9 @@
               </tip-record>
             </div>
           </div>
-        <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
+          <div v-if="activeTab == 'comments'">
+            <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
+          </div>
         <div class="text-center spinner__container w-100" v-if="loading">
           <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
@@ -117,7 +121,7 @@
         editMode: false,
         loadingProfile: false,
         loadingAvatar: false,
-        activeTab: 'all',
+        activeTab: 'tips',
         profile: {
           biography: '',
           displayName: '',
@@ -139,7 +143,7 @@
         if(this.activeTab == 'comments'){
           return this.comments.length == 0 && !this.loading
         }else{
-          return this.comments.length == 0 && this.userTips.length == 0 && !this.loading
+          return this.userTips.length == 0 && !this.loading
         }
       },
       setActiveTab(tab){
@@ -354,7 +358,6 @@
   .comments__section{
     min-height: 5rem;
     overflow-y: auto;
-    border-radius: .25rem;
   }
 
   .no-results{

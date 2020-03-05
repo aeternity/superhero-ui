@@ -132,14 +132,14 @@
       },
       userTips() {
         return this.tips = this.tips.filter(tip => tip.sender === this.address);
-      },
+      }
     },
     methods: {
       showNoResultsMsg(){
         if(this.activeTab == 'comments'){
           return this.comments.length == 0 && !this.loading
         }else{
-          return this.comments.length == 0 && this.userTips().length == 0 && !this.loading
+          return this.comments.length == 0 && this.userTips.length == 0 && !this.loading
         }
       },
       setActiveTab(tab){

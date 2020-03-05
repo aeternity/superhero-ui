@@ -63,9 +63,9 @@
         <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
           <div v-if="activeTab == 'all'">
             <div v-if="userTips.length">
-              <tip-record v-for="(tip,index) in userTips" 
-                :key="index" 
-                :tip="tip" 
+              <tip-record v-for="(tip,index) in userTips"
+                :key="index"
+                :tip="tip"
                 :fiatValue="tip.fiatValue"
                 :senderLink="openExplorer(tip.sender)">
               </tip-record>
@@ -127,18 +127,14 @@
     },
     computed: {
       ...mapGetters(['current', 'account', 'tips']),
-      trimAddress(){
-        return this.address.substring(0, 5) + ('(...)') + this.address.substring(this.address.length-5, this.address.length)
+      trimAddress() {
+        return this.address.substring(0, 5) + ('(...)') + this.address.substring(this.address.length - 5, this.address.length)
       },
-      userTips(){
-        if(this.tips.length == 0 ){
-          return [];
-        }
-        return this.tips = this.tips.filter(tips => tip.sender == this.address);
+      userTips() {
+        return this.tips = this.tips.filter(tip => tip.sender === this.address);
       },
     },
     methods: {
- 
       setActiveTab(tab){
         this.activeTab = tab;
       },
@@ -162,12 +158,12 @@
         }
 
         console.log("sending profile => ", postData)
-        
+
         backendInstance.sendProfileData(postData).then(async (response) => {
           console.log(response)
           console.log("challenge => ", response.challenge);
           console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
-         
+
           let signedChallenge = await wallet.signMessage(response.challenge)
           let respondChallenge = {
             challenge: response.challenge,
@@ -190,14 +186,11 @@
             this.profile = response
           }
         }).catch(console.error);
-      },
-      openExplorer(address) {
-        return this.explorerUrl + address
-      },
+      }
     },
     created(){
       this.getProfile();
-      
+
       backendInstance.getAllComments().then((response) => {
         this.loading = false;
         this.error = false;
@@ -288,7 +281,7 @@
           }
           &:hover{
             cursor: pointer;
-            
+
           }
         }
         img{
@@ -296,7 +289,7 @@
           height: 4rem;
           border-radius: 2rem;
         }
-      } 
+      }
       .profile__info, .profile__image{
         display: inline-block;
       }

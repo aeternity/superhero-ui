@@ -118,7 +118,7 @@
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
   import Header from '../components/layout/Header.vue';
-  import FiatValue from "../components/FiatValueComponent";
+  import FiatValue from "../components/FiatValue";
   import BigNumber from 'bignumber.js';
   import Util from '../utils/util';
 

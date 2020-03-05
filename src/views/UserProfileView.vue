@@ -3,7 +3,7 @@
     <header-component>
       <div class="profile__header">
         <div class="address">{{trimAddress}}</div>
-        <div class="count" v-if="tips">{{tips.length}} Tips</div>
+        <div class="count">{{userTips.length}} Tips</div>
       </div>
     </header-component>
     <right-section></right-section>
@@ -62,12 +62,14 @@
       <div class="comments__section position-relative">
         <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
           <div v-if="activeTab == 'all'">
-              <tip-record v-for="(tip,index) in tips" 
+            <div v-if="userTips.length">
+              <tip-record v-for="(tip,index) in userTips" 
                 :key="index" 
                 :tip="tip" 
                 :fiatValue="tip.fiatValue"
                 :senderLink="openExplorer(tip.sender)">
               </tip-record>
+            </div>
           </div>
         <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
         <div class="text-center spinner__container w-100" v-if="loading">
@@ -127,15 +129,16 @@
       ...mapGetters(['current', 'account', 'tips']),
       trimAddress(){
         return this.address.substring(0, 5) + ('(...)') + this.address.substring(this.address.length-5, this.address.length)
-      }
-    },
-    methods: {
+      },
       userTips(){
-        if(this.tips.length > 0 ){
-          return this.tips;
+        if(this.tips.length == 0 ){
+          return [];
         }
         return this.tips = this.tips.filter(tips => tip.sender == this.address);
       },
+    },
+    methods: {
+ 
       setActiveTab(tab){
         this.activeTab = tab;
       },

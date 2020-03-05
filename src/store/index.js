@@ -22,6 +22,7 @@ export default new Vuex.Store({
     tipsOrdering: null,
     tipSortBy: "highest",
     isLoggedIn: false,
+    oracleState: {}
   },
   getters,
   mutations,

@@ -28,5 +28,8 @@ export const getters = {
   },
   currencyRates(state) {
     return state.currencyRates;
+  },
+  oracleState(state) {
+    return state.oracleState;
   }
 };

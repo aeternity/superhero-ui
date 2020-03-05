@@ -1,11 +1,14 @@
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes'
+import ORACLE_INTERFACE from '../contracts/OracleServiceInterface.aes'
 import { Node, Universal, Aepp, MemoryAccount } from '@aeternity/aepp-sdk/es';
 import TippingContractUtil from './tippingContractUtil';
 
 const aeternity = {
   client: null,
   contract: null,
-  contractAddress: 'ct_2AfnEfCSZCTEkxL5Yoi4Yfq6fF7YapHRaFKDJK3THMXMBspp5z'
+  contractAddress: 'ct_2AfnEfCSZCTEkxL5Yoi4Yfq6fF7YapHRaFKDJK3THMXMBspp5z',
+  oracleContract: null,
+  oracleContractAddress: 'ct_23bfFKQ1vuLeMxyJuCrMHiaGg5wc7bAobKNuDadf8tVZUisKWs'
 };
 
 const timeout = async (promise) => {
@@ -22,6 +25,8 @@ aeternity.initProvider = async (force = false) => {
   try {
     if (force || aeternity.contractAddress && !aeternity.contract)
       aeternity.contract = await aeternity.client.getContractInstance(TIPPING_INTERFACE, {contractAddress: aeternity.contractAddress});
+    if (force || aeternity.oracleContractAddress && !aeternity.oracleContract)
+      aeternity.oracleContract = await aeternity.client.getContractInstance(ORACLE_INTERFACE, {contractAddress: aeternity.oracleContractAddress});
     return true;
   } catch (e) {
     console.error(e);

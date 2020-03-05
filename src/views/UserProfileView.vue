@@ -54,7 +54,7 @@
           </div>
         </div>
 
-        <div class="stats" v-if="userStats">
+        <div class="stats" v-if="oracleState && tips && userStats">
           <div class="stat">
             <div class="stat-title">Tips Sent</div>
             <div class="stat-value">{{userStats.tipsLength}}</div>
@@ -64,8 +64,16 @@
             <div class="stat-value">{{userStats.retipsLength}}</div>
           </div>
           <div class="stat">
-            <div class="stat-title">Total Tip Amount</div>
+            <div class="stat-title">Total Sent Amount</div>
             <div class="stat-value">{{userStats.totalTipAmount}} AE<fiat-value :amount="userStats.totalTipAmount" /></div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">Claimed Urls</div>
+            <div class="stat-value">{{userStats.claimedUrlsLength}}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">Unclaimed Amount</div>
+            <div class="stat-value">{{userStats.unclaimedAmount}} AE<fiat-value :amount="userStats.unclaimedAmount" /></div>
           </div>
         </div>
 
@@ -149,7 +157,7 @@
       }
     },
     computed: {
-      ...mapGetters(['current', 'account', 'tips']),
+      ...mapGetters(['current', 'account', 'tips', 'oracleState']),
       trimAddress() {
         return this.address.substring(0, 5) + ('(...)') + this.address.substring(this.address.length - 5, this.address.length)
       },
@@ -159,13 +167,18 @@
       userStats() {
         const userReTips = this.tips.flatMap(tip => tip.retips.filter(retip => retip.sender === this.address));
         const totalTipAmount = Util.atomsToAe(this.userTips
-          .reduce((acc, tip) => new BigNumber(acc).plus(tip.amount), new BigNumber(0))
-          .plus(userReTips.reduce((acc, tip) => new BigNumber(acc).plus(tip.amount), new BigNumber(0)))).toFixed(2);
+          .reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0))
+          .plus(userReTips.reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0)))).toFixed(2);
+
+        const claimedUrls = this.oracleState.success_claimed_urls ? this.oracleState.success_claimed_urls.filter(([_, data]) => data.success && data.account === this.address).map(([url]) => url) : [];
+        const unclaimedAmount = this.tips.reduce((acc, tip) => claimedUrls.includes(tip.url) ? acc.plus(tip.total_unclaimed_amount) : acc, new BigNumber(0));
 
         return {
           tipsLength: this.userTips.length,
           retipsLength: userReTips.length,
-          totalTipAmount: totalTipAmount
+          totalTipAmount: totalTipAmount,
+          claimedUrlsLength: claimedUrls.length,
+          unclaimedAmount : unclaimedAmount
         };
       },
       isMyUserProfile() {
@@ -233,7 +246,7 @@
         }).catch(console.error);
       }
     },
-    created(){
+   async created(){
       this.getProfile();
       this.loading = true;
       backendInstance.getAllComments().then((response) => {

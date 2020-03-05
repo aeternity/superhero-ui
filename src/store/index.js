@@ -14,8 +14,6 @@ export default new Vuex.Store({
     balance: 0,
     currencyRates: {},
     settings: {
-      language: '',
-      token: 0,
       currency: 'eur',
     },
     tips: [],

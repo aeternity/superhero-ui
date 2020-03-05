@@ -30,6 +30,9 @@ export default {
   [types.SET_TIPS_SORT_BY](state, payload) {
     state.tipSortBy = payload;
   },
+  [types.SET_ORACLE_STATE](state, payload) {
+    state.oracleState = payload;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

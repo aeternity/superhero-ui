@@ -33,36 +33,58 @@
       ...mapGetters(['settings', 'tipSortBy']),
     },
     methods: {
-      ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy']),
+      ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState']),
+      reloadAsyncData(initial, stats) {
+        // wallet
+        wallet.init(async () => {
+          this.foundWallet = true;
+          let currentAccount = wallet.client.rpcClient.getCurrentAccount();
+          const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
+          this.setLoggedInAccount({
+            account: currentAccount,
+            balance: util.atomsToAe(balance).toFixed(2)
+          });
+
+          console.log("found wallet")
+        }).catch(console.error);
+
+        // stats
+        Promise.all([new Backend().getStats(), aeternity.client.height()]).then(([backendStats, height]) => {
+          stats = {...stats, ...backendStats, ...{height: height}};
+          this.updateStats(stats);
+        }).catch(e => {
+          this.updateStats(stats);
+          console.error(e);
+        });
+
+        // currency rates
+        new Currency().getRates().then(rates => {
+          this.updateCurrencyRates(rates);
+        }).catch(console.error);
+
+        // oracle state
+        aeternity.oracleContract.methods.get_state().then(state => {
+          this.setOracleState(state.decodedResult);
+        }).catch(console.error);
+      },
       async reloadData(initial = false) {
         this.showLoading = true;
+
         const fetchTips = async () => {
-          if (initial) {
-            await aeternity.initClient();
-
-            wallet.init(async () => {
-              this.foundWallet = true;
-              let currentAccount = wallet.client.rpcClient.getCurrentAccount();
-              const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
-              this.setLoggedInAccount({
-                account: currentAccount,
-                balance: util.atomsToAe(balance).toFixed(2)
-              });
-
-              console.log("found wallet")
-            }).catch(console.error);
-          }
+          if (initial) await aeternity.initClient();
           return aeternity.getTips().catch(console.error);
         };
 
+        // await fetch
         const backendInstance = new Backend();
         const fetchOrdering = backendInstance.tipOrder().catch(console.error);
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
         const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
-        const fetchStats = backendInstance.getStats().catch(console.error);
-        const fetchRates = new Currency().getRates();
-        let [{stats, _, tips}, tipOrdering, tipsPreview, langTips, rates, backendStats] =
-          await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips, fetchRates, fetchStats]);
+        let [{stats, _, tips}, tipOrdering, tipsPreview, langTips] =
+          await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
+
+        // async fetch
+       this.reloadAsyncData(initial, stats);
 
         // add score from backend to tips
         if (tipOrdering) {
@@ -88,14 +110,9 @@
           });
         }
 
-        stats.height = await aeternity.client.height();
-        if (backendStats) stats = {...stats, ...backendStats};
-
         this.setTipsOrdering(tipOrdering);
         this.updateTips(tips);
         this.updateTopics(topics);
-        this.updateStats(stats);
-        this.updateCurrencyRates(rates);
         this.setTipSortBy(initial ? tipOrdering ? "hot" : "highest" : this.tipSortBy);
 
         this.showLoading = false;

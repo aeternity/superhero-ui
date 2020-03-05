@@ -1,0 +1,22 @@
+contract OracleService =
+
+  type oracle_type = oracle(string, string)
+  type oracle_query_tuples = list(oracle_type * oracle_query(string, string))
+
+  record success_claim =
+    { success : bool
+    , account : address
+    , percentage : int }
+
+  record state =
+    { trusted_oracles : map(int, oracle_type)
+    , oracle_queries : map(string, oracle_query_tuples)
+    , minimum_amount_of_oracles : int
+    , success_claimed_urls : map(string, success_claim)
+    , owner : address }
+
+  payable stateful entrypoint query_oracle : (string, address) => unit
+  stateful entrypoint check_persist_claim : (string, address, bool) => success_claim
+
+  entrypoint get_state : () => state
+  entrypoint estimate_query_fee : () => int

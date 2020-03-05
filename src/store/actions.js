@@ -26,5 +26,8 @@ export default {
     const tips = sort(payload, state.tips);
     commit(types.SET_TIPS_SORT_BY, payload);
     commit(types.UPDATE_TIPS, tips);
+  },
+  setOracleState({ commit }, payload) {
+    commit(types.SET_ORACLE_STATE, payload);
   }
 };

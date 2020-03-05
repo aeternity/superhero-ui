@@ -28,10 +28,10 @@
   import util from '../utils/util';
   import aeternity from '../utils/aeternity';
   import {EventBus} from '../utils/eventBus';
-  import FiatValue from './FiatValueComponent.vue';
+  import FiatValue from './FiatValue.vue';
 
   export default {
-    name: 'RetipComponent',
+    name: 'Retip',
     props: ['tipid'],
     data() {
       return {
@@ -43,7 +43,7 @@
       }
     },
     components: {
-      'fiat-value': FiatValue
+      FiatValue
     },
     computed: {
       ...mapGetters(['settings']),

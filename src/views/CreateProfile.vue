@@ -264,8 +264,8 @@
     name: 'CreateProfile',
     components: {
       'custom-header': Header,
-      'left-section': LeftSection,
-      'right-section': RightSection,
+      LeftSection,
+      RightSection,
     }
   }
 </script>

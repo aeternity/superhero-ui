@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import FiatValueComponentVue from "../FiatValueComponent";
+  import FiatValue from "../FiatValue";
   import { mapGetters } from "vuex";
   import util from "../../utils/util";
   import aeternity from "../../utils/aeternity";
@@ -45,7 +45,7 @@
   export default {
     name: 'SendTip',
     components: {
-      'fiat-value': FiatValueComponentVue
+      FiatValue
     },
     computed: {
       ...mapGetters(['balance', 'isLoggedIn'])

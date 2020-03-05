@@ -64,11 +64,11 @@
   export default {
     name: 'TipCommentsView',
     components: {
-      'tip-record': TipRecord,
-      'tip-comment': TipComment,
+      TipRecord,
+      TipComment,
       'custom-header': Header,
-      'left-section': LeftSection,
-      'right-section': RightSection,
+      LeftSection,
+      RightSection,
     },
     data() {
       return {

@@ -45,14 +45,14 @@
 
 <script>
   import {mapGetters} from "vuex";
-  import FiatValueComponentVue from '../FiatValueComponent.vue';
+  import FiatValue from '../FiatValue.vue';
   import Topic from "../tipRecords/Topic";
 
   export default {
     name: 'RightSection',
     components: {
       Topic,
-      'fiat-value': FiatValueComponentVue
+      FiatValue
     },
     data() {
       return {}

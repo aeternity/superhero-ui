@@ -79,12 +79,12 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import FiatValueComponentVue from "../FiatValueComponent";
+  import FiatValue from "../FiatValue";
 
   export default {
     name: 'LeftSection',
     components: {
-      'fiat-value': FiatValueComponentVue
+      FiatValue
     },
     data() {
       return {}

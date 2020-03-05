@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-component></header-component>
+    <custom-header></custom-header>
     <right-section></right-section>
     <left-section></left-section>
     <div class="container wrapper">
@@ -99,16 +99,16 @@
 </template>
 
 <script>
-  import HeaderComponent from '../components/layout/HeaderComponent.vue';
-  import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
-  import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
+  import Header from '../components/layout/Header.vue';
+  import LeftSection from '../components/layout/LeftSection.vue';
+  import RightSection from '../components/layout/RightSection.vue';
 
   export default {
     name: 'Privacy',
     components: {
-      'header-component': HeaderComponent,
-      'left-section': LeftSectionComponent,
-      'right-section': RightSectionComponent,
+      'custom-header': Header,
+      'left-section': LeftSection,
+      'right-section': RightSection,
     }
   }
 </script>

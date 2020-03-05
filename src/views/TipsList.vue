@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-component>
+    <custom-header>
       <div class="actions__container">
         <div class="container">
           <div class="input-group mb-1">
@@ -21,7 +21,7 @@
           </div>
           </div>
         </div>
-    </header-component>
+    </custom-header>
     <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
@@ -41,13 +41,13 @@
 </template>
 
 <script>
-  import Dropdown from "../components/DropdownComponent.vue"
+  import Dropdown from "../components/Dropdown.vue"
 
-  import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
+  import TipRecord from "../components/tipRecords/TipRecord.vue"
   import SendTip from "../components/layout/SendTip.vue"
-  import HeaderComponent from '../components/layout/HeaderComponent.vue';
-  import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
-  import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
+  import Header from '../components/layout/Header.vue';
+  import LeftSection from '../components/layout/LeftSection.vue';
+  import RightSection from '../components/layout/RightSection.vue';
   import { mapGetters, mapActions } from 'vuex';
   import {EventBus} from '../utils/eventBus';
   import FiatValueComponentVue from '../components/FiatValueComponent.vue';
@@ -115,11 +115,11 @@
       }
     },
     components: {
-      'dropdown-component': Dropdown,
+      'dropdown': Dropdown,
       'tip-record': TipRecord,
-      'header-component': HeaderComponent,
-      'left-section': LeftSectionComponent,
-      'right-section': RightSectionComponent,
+      'custom-header': Header,
+      'left-section': LeftSection,
+      'right-section': RightSection,
       'fiat-value': FiatValueComponentVue,
       'send-tip' : SendTip,
     },

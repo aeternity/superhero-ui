@@ -82,7 +82,7 @@
   import FiatValueComponentVue from "../FiatValueComponent";
 
   export default {
-    name: 'LeftSectionComponent',
+    name: 'LeftSection',
     components: {
       'fiat-value': FiatValueComponentVue
     },

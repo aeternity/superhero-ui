@@ -159,8 +159,8 @@
       userStats() {
         const userReTips = this.tips.flatMap(tip => tip.retips.filter(retip => retip.sender === this.address));
         const totalTipAmount = Util.atomsToAe(this.userTips
-          .reduce((acc, tip) => new BigNumber(acc).plus(tip.amount), 0)
-          .plus(userReTips.reduce((acc, tip) => new BigNumber(acc).plus(tip.amount), 0)));
+          .reduce((acc, tip) => new BigNumber(acc).plus(tip.amount), new BigNumber(0))
+          .plus(userReTips.reduce((acc, tip) => new BigNumber(acc).plus(tip.amount), new BigNumber(0)))).toFixed(2);
 
         return {
           tipsLength: this.userTips.length,
@@ -234,8 +234,6 @@
       }
     },
     created(){
-
-      setTimeout(() => console.log(this.userStats), 2000);
       this.getProfile();
       this.loading = true;
       backendInstance.getAllComments().then((response) => {

@@ -69,11 +69,9 @@
 
 <script>
   import Backend from "../utils/backend";
-  import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
   import TipComment from "../components/tipRecords/TipCommentComponent.vue"
   import LeftSectionComponentVue from '../components/layout/LeftSectionComponent.vue';
   import RightSectionComponentVue from '../components/layout/RightSectionComponent.vue';
-  import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
   import HeaderComponentVue from '../components/layout/HeaderComponent.vue';
 
@@ -108,9 +106,6 @@
         avatar: '../assets/userAvatar.svg'
       }
     },
-    computed: {
-      ...mapGetters(['current', 'account'])
-    },
     methods: {
       openExplorer(address) {
         return this.explorerUrl + address
@@ -132,12 +127,12 @@
         }
 
         console.log("sending profile => ", postData)
-        
+
         backendInstance.sendProfileData(postData).then(async (response) => {
           console.log(response)
           console.log("challenge => ", response.challenge);
           console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
-         
+
           let signedChallenge = await wallet.signMessage(response.challenge)
           let respondChallenge = {
             challenge: response.challenge,
@@ -164,7 +159,7 @@
     },
     created(){
       this.getProfile();
-      
+
       backendInstance.getAllComments().then((response) => {
         this.loading = false;
         this.error = false;
@@ -243,7 +238,7 @@
           }
           &:hover{
             cursor: pointer;
-            
+
           }
         }
         img{
@@ -251,7 +246,7 @@
           height: 4rem;
           border-radius: 2rem;
         }
-      } 
+      }
       .profile__info, .profile__image{
         display: inline-block;
       }

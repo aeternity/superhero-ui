@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="tipped__url" v-if="tip">
-      <tip-record :tip="tip" :currency="current.currency" :fiatValue="tip.fiatValue" @updateComment="onUpdateComment" :senderLink="openExplorer(tip.sender)"></tip-record>
+      <tip-record :tip="tip" @updateComment="onUpdateComment" :senderLink="openExplorer(tip.sender)"></tip-record>
     </div>
     <div class="comment__section">
       <p class="latest__comments">Latest comments</p>
@@ -34,7 +34,7 @@
             </b-button>
           </div>
       </div>
-      
+
     </div>
     <div class="comments__section">
       <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
@@ -82,7 +82,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'current', 'isLoggedIn', 'account'])
+      ...mapGetters(['tips', 'settings', 'account'])
     },
     watch: {
       tips() {
@@ -128,11 +128,11 @@
         }
 
         console.log("sending comment => ", postData)
-        
+
         backendInstance.sendTipComment(postData).then(async (response) => {
           console.log("challenge => ", response.challenge);
           console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
-         
+
           let signedChallenge = await wallet.signMessage(response.challenge)
           let respondChallenge = {
             challenge: response.challenge,

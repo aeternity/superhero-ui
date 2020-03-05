@@ -5,23 +5,11 @@ export const getters = {
   balance(state) {
     return state.balance;
   },
-  balanceCurrency({ current, balance }) {
-    return (current.currencyRate * balance).toFixed(3);
-  },
-  current(state) {
-    return state.current;
+  settings(state) {
+    return state.settings;
   },
   isLoggedIn(state) {
     return state.isLoggedIn;
-  },
-  tokenBalance(state) {
-    return state.current.token != 0 ? state.tokens[state.current.token].balance.toFixed(3) : state.balance.toFixed(3);
-  },
-  tokenSymbol() {
-    return 'AE';
-  },
-  currencies({ currencies }) {
-    return currencies;
   },
   tips(state) {
     return state.tips;

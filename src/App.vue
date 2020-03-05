@@ -30,7 +30,7 @@
       }
     },
     computed: {
-      ...mapGetters(['current', 'tipSortBy']),
+      ...mapGetters(['settings', 'tipSortBy']),
     },
     methods: {
       ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy']),
@@ -86,14 +86,6 @@
             tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
             return tip;
           });
-        }
-
-        // add currency to tips
-        if (rates) {
-          tips = tips.map(tip => {
-            tip.fiatValue = (tip.total_amount * rates.aeternity[this.current.currency]).toFixed(2);
-            return tip;
-          })//.filter(tip => tip.total_amount * (rates.aeternity['usd']).toFixed(2) > 0.01);
         }
 
         stats.height = await aeternity.client.height();

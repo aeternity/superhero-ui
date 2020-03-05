@@ -26,8 +26,6 @@
 <script>
   import { mapGetters } from 'vuex'
   import util from '../utils/util';
-  import Currency from '../utils/currency'
-  import BigNumber from 'bignumber.js'
   import aeternity from '../utils/aeternity';
   import {EventBus} from '../utils/eventBus';
   import FiatValue from './FiatValueComponent.vue';
@@ -48,7 +46,7 @@
       'fiat-value': FiatValue
     },
     computed: {
-      ...mapGetters(['current']),
+      ...mapGetters(['settings']),
     },
     methods:{
       toggleRetip(showRetipForm){
@@ -127,7 +125,7 @@
 }
 .retip__button{
   margin-top: 0.1rem;
-  background-color: $custom_links_color; 
+  background-color: $custom_links_color;
   color: $standard_font_color;
   border: none;
 }

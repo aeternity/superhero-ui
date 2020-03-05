@@ -37,14 +37,11 @@
     <div class="tip__article col-4 position-relative" v-if="isPreviewToBeVisualized(tip)">
       <a :href="tip.url" target="_blank">
       <img class="external-link" src="../../assets/externalLink.svg">
-      <div class="tip__article--hasresults" v-if="isPreviewToBeVisualized(tip)">
+      <div class="tip__article--hasresults">
         <img v-bind:src="tip.preview.image" class="mr-2">
         <span>
           {{tipText}}
         </span>
-      </div>
-      <div class="tip__article--noresults" v-else>
-        {{$t('pages.system.noPreview')}}
       </div>
       </a>
     </div>
@@ -225,15 +222,6 @@
         }
         .tip__article--hasresults{
           padding-right: .75rem;
-        }
-        .tip__article--noresults{
-          display: none;
-          width: 100%;
-          text-align: center;
-          @include vertical-align(absolute);
-          font-size: .75rem;
-          color: $light_font_color;
-          left: 0;
         }
       }
     }

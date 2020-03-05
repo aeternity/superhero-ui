@@ -3,9 +3,12 @@
     <div class="tip__body " v-bind:class="[ isPreviewToBeVisualized(tip)? 'col-8' : 'col-12']">
       <div class="clearfix">
         <div class="tip__author" :title="tip.sender">
-          <img src="../../assets/userAvatar.svg">
-          <a v-if="senderLink" :href="senderLink" target="_blank">{{ tip.sender }}</a>
-          <span class="tip__author" v-else> {{ tip.sender }}</span>
+          <router-link
+          :to="'/user-profile/' + tip.sender "
+          target="_blank">
+            <img src="../../assets/userAvatar.svg">
+            {{ tip.sender }}
+          </router-link>
           <span class="date">
             {{ new Date(tip.timestamp).toLocaleString('en-US', { hourCycle: 'h24' }) }}
           </span>

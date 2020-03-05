@@ -11,7 +11,7 @@
 <script>
 
   import aeternity from './utils/aeternity.js'
-  import { mapGetters } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import { setInterval } from 'timers';
   import { wallet } from './utils/walletSearch';
   import Backend from "./utils/backend";
@@ -30,9 +30,10 @@
       }
     },
     computed: {
-      ...mapGetters(['current', 'tipSortBy']),
+      ...mapGetters(['settings', 'tipSortBy']),
     },
     methods: {
+      ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy']),
       async reloadData(initial = false) {
         this.showLoading = true;
         const fetchTips = async () => {
@@ -43,7 +44,7 @@
               this.foundWallet = true;
               let currentAccount = wallet.client.rpcClient.getCurrentAccount();
               const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
-              this.$store.dispatch('setLoggedInAccount', {
+              this.setLoggedInAccount({
                 account: currentAccount,
                 balance: util.atomsToAe(balance).toFixed(2)
               });
@@ -87,24 +88,16 @@
           });
         }
 
-        // add currency to tips
-        if (rates) {
-          tips = tips.map(tip => {
-            tip.fiatValue = (tip.total_amount * rates.aeternity[this.current.currency]).toFixed(2);
-            return tip;
-          })//.filter(tip => tip.total_amount * (rates.aeternity['usd']).toFixed(2) > 0.01);
-        }
-
         stats.height = await aeternity.client.height();
-        if(backendStats) stats = {...stats, ...backendStats};
+        if (backendStats) stats = {...stats, ...backendStats};
 
-        this.$store.dispatch('setTipsOrdering', tipOrdering);
-        this.$store.dispatch('updateTips', tips);
-        this.$store.dispatch('updateTopics', topics);
-        this.$store.dispatch('updateStats', stats);
-        this.$store.dispatch('updateCurrencyRates', rates);
+        this.setTipsOrdering(tipOrdering);
+        this.updateTips(tips);
+        this.updateTopics(topics);
+        this.updateStats(stats);
+        this.updateCurrencyRates(rates);
+        this.setTipSortBy(initial ? tipOrdering ? "hot" : "highest" : this.tipSortBy);
 
-        this.$store.dispatch('setTipSortBy', initial ? tipOrdering ? "hot" : "highest" : this.tipSortBy);
         this.showLoading = false;
       }
     },

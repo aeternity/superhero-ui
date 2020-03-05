@@ -49,14 +49,13 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
   import FiatValueComponentVue from '../FiatValueComponent.vue';
   import RetipComponent from '../RetipComponent.vue';
   import TipTitle from './TipTitle.vue';
 
   export default {
     name: 'TipRecord',
-    props: ['tip', 'foundWallet', 'fiatValue', 'senderLink'],
+    props: ['tip', 'foundWallet', 'senderLink'],
     components: {
       'fiat-value': FiatValueComponentVue,
       'retip-component': RetipComponent,
@@ -68,7 +67,6 @@
       }
     },
     computed: {
-      ...mapGetters(['current']),
       tipText() {
         if(!this.isPreviewToBeVisualized(this.tip)) return '';
         return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;

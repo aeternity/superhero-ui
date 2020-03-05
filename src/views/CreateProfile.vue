@@ -9,13 +9,13 @@
           <h2>
             Create profile
           </h2>
-          
+
           <h3>What is Superhero?</h3>
           <p>
-            Superhero is a fully P2P wallet through which users can tip any URL. 
-            All transactions made through the Superhero wallet are aggregated and published on Superhero.com 
-            Superhero is an open-source project. Other websites may use this for their own purposes. 
-            With Superhero, there are no third-party custodians to declare whether a content creator can be monetized or not. 
+            Superhero is a fully P2P wallet through which users can tip any URL.
+            All transactions made through the Superhero wallet are aggregated and published on Superhero.com
+            Superhero is an open-source project. Other websites may use this for their own purposes.
+            With Superhero, there are no third-party custodians to declare whether a content creator can be monetized or not.
           </p>
 
           <p>
@@ -25,7 +25,7 @@
           <p>
             <ul>
               <li>
-                Send tips to URLs—regardless of whether the creator or author has the wallet or not. 
+                Send tips to URLs—regardless of whether the creator or author has the wallet or not.
               </li>
               <li>
                 Receive tips from supporters—no censorship, instant transactions at near-zero fees.
@@ -34,7 +34,7 @@
                 Read and interact with other other users by commenting on posts through Superhero.com
               </li>
               <li>
-                Tip other Superhero users through their posts and comments on Superhero.com 
+                Tip other Superhero users through their posts and comments on Superhero.com
               </li>
               <li>
                 Build up your profile, reputation, and following on Superhero.com
@@ -46,7 +46,7 @@
             What Superhero cannot do:
           </p>
           <p>
-            The Superhero wallet uses a trustless system. Therefore, there are no custodians to dictate what can and cannot be monetized. So long as a URL is live, it can be tipped. And so long as you have access to your Superhero account, your tips are yours. 
+            The Superhero wallet uses a trustless system. Therefore, there are no custodians to dictate what can and cannot be monetized. So long as a URL is live, it can be tipped. And so long as you have access to your Superhero account, your tips are yours.
           </p>
 
           <p>
@@ -55,7 +55,7 @@
 
           <p>
             Download and install the Superhero extension.
-            Superhero is available for Firefox and Chrome (the Chrome extension can be used for Brave and Opera). Choose the right one for your browser. 
+            Superhero is available for Firefox and Chrome (the Chrome extension can be used for Brave and Opera). Choose the right one for your browser.
 
             https://github.com/superherowallet/wallet/releases/latest
 
@@ -66,14 +66,14 @@
             For Chrome:
             On the upper right of your web browser, find the ellipsis menu.
 
-            Go to More Tools > Extensions. 
+            Go to More Tools > Extensions.
             Make sure Developer Mode is turned on. Then click Load Unpacked.
 
             Choose the unzipped folder for the Suerhero wallet—do not choose any file, just the folder itself.
           </p>
 
           <p>
-            That’s it. The Superhero icon should appear on the upper right of your browser toolbar. 
+            That’s it. The Superhero icon should appear on the upper right of your browser toolbar.
           </p>
 
           <p>
@@ -82,10 +82,10 @@
 
             Choose Add-ons.
 
-            Creating your wallet. 
+            Creating your wallet.
             <ul>
               <li>
-                Tick the checkbox to agree to the terms and conditions. 
+                Tick the checkbox to agree to the terms and conditions.
               </li>
               <li>
                 Click CREATE A NEW WALLET.
@@ -94,7 +94,7 @@
           </p>
 
           <p>
-            That’s it—your wallet is created! You can now start receiving tips from anyone through your wallet address. 
+            That’s it—your wallet is created! You can now start receiving tips from anyone through your wallet address.
           </p>
 
           <p>
@@ -110,11 +110,11 @@
           </p>
 
           <p>
-            With great freedom comes great responsibility. In this case, a little responsibility: you are in charge of keeping the keys to your account, and making sure you can retrieve it when necessary. 
+            With great freedom comes great responsibility. In this case, a little responsibility: you are in charge of keeping the keys to your account, and making sure you can retrieve it when necessary.
           </p>
 
           <p>
-            Security in the free web is a little different from what most people are used to. It’s much better—yet not really difficult. Because there are no third party custodians to keep and connect passwords with accounts, this task is yours, Superhero. 
+            Security in the free web is a little different from what most people are used to. It’s much better—yet not really difficult. Because there are no third party custodians to keep and connect passwords with accounts, this task is yours, Superhero.
           </p>
 
           <p>
@@ -122,11 +122,11 @@
           </p>
 
           <p>
-            Here’s how to do it: 
+            Here’s how to do it:
 
             <ul>
               <li>
-                Click the hamburger menu on the upper right of your wallet. 
+                Click the hamburger menu on the upper right of your wallet.
               </li>
               <li>
                 Go to Settings, choose Seed Phrase.
@@ -139,10 +139,10 @@
               </li>
             </ul>
 
-            Simple as that. 
+            Simple as that.
 
           </p>
-      
+
           <p>
             Sending tips
 
@@ -151,22 +151,22 @@
                 To send someone tips, make sure you are on the URL that you want to tip. The Superhero wallet will automatically detect the URL on your active tab.
               </li>
               <li>
-                Open your Superhero wallet extension. The button should be in the upper right of your browser tool bar. 
+                Open your Superhero wallet extension. The button should be in the upper right of your browser tool bar.
               </li>
               <li>
                 Click Tip someone.
               </li>
               <li>
-                On the next screen, fill in the required fields. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome. 
+                On the next screen, fill in the required fields. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome.
               </li>
               <li>
                 Click Send tip.
               </li>
               <li>
-                On the next screen, review the details of your tip. 
+                On the next screen, review the details of your tip.
               </li>
               <li>
-                Click Confirm to complete the transaction. 
+                Click Confirm to complete the transaction.
               </li>
             </ul>
           </p>
@@ -176,10 +176,10 @@
 
             <ul>
               <li>
-                To be able to receive tips, you must first copy your wallet address and paste it onto your web page or profile—it could be a blog, a social media account, or any other online profile. 
+                To be able to receive tips, you must first copy your wallet address and paste it onto your web page or profile—it could be a blog, a social media account, or any other online profile.
               </li>
               <li>
-                Save this change and refresh the page. Check to see if your wallet address is publicly visible on your web page. 
+                Save this change and refresh the page. Check to see if your wallet address is publicly visible on your web page.
               </li>
               <li>
                 Once your wallet address is publicly displayed on your web profile, all you have to do is open your Superhero wallet and voila—your tips will be collected and added to your wallet balance.
@@ -194,9 +194,9 @@
           <p>
             Loading up your wallet
           </p>
- 
+
           <p>
-            To load up your Superhero wallet, you can purchase AE tokens instantly using your credit card through Changelly. Just copy your Superhero wallet address and paste it as the recipient address for your purchase. See below. 
+            To load up your Superhero wallet, you can purchase AE tokens instantly using your credit card through Changelly. Just copy your Superhero wallet address and paste it as the recipient address for your purchase. See below.
           </p>
 
           <p>
@@ -237,12 +237,12 @@
             </ul>
           </p>
 
-          <p> 
+          <p>
             Cashing out your earnings
           </p>
 
           <p>
-            To withdraw the tips you’ve received, you can send your tips to your AE wallet address in a crypto exchange that supports AE tokens (see list above). These can then be converted into other cryptocurrencies, or converted into fiat and subsequently transferred to your local bank. Methods for these vary per country. 
+            To withdraw the tips you’ve received, you can send your tips to your AE wallet address in a crypto exchange that supports AE tokens (see list above). These can then be converted into other cryptocurrencies, or converted into fiat and subsequently transferred to your local bank. Methods for these vary per country.
           </p>
 
           <p>
@@ -256,31 +256,17 @@
 </template>
 
 <script>
-
   import HeaderComponent from '../components/layout/HeaderComponent.vue';
   import LeftSectionComponent from '../components/layout/LeftSectionComponent.vue';
   import RightSectionComponent from '../components/layout/RightSectionComponent.vue';
-  import { mapGetters } from 'vuex';
 
   export default {
     name: 'CreateProfile',
-    data() {
-      return {
-      }
-    },
-    computed: {
-      ...mapGetters(['account', 'balance', 'isLoggedIn', 'current']),
-    },
-    methods: {
-    },
     components: {
       'header-component': HeaderComponent,
       'left-section': LeftSectionComponent,
       'right-section': RightSectionComponent,
-    },
-    async created() {
-      
-    },
+    }
   }
 </script>
 

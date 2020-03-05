@@ -13,16 +13,9 @@ export default new Vuex.Store({
     account: {},
     balance: 0,
     currencyRates: {},
-    current: {
-      language: '',
-      token: 0,
+    settings: {
       currency: 'eur',
     },
-    currencies: [
-      { value: 'eur', text: 'EUR'},
-      { value: 'cny', text: 'YEN'},
-      { value: 'usd', text: 'USD'},
-    ],
     tips: [],
     topics: {},
     stats: {},
@@ -36,8 +29,8 @@ export default new Vuex.Store({
   plugins: [
     persistState(
       state => state,
-      ({ current }) => ({
-        current,
+      ({ settings }) => ({
+        settings,
       })
     )
   ]

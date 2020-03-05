@@ -1,4 +1,3 @@
-import Util from './util'
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes'
 import { Node, Universal, Aepp, MemoryAccount } from '@aeternity/aepp-sdk/es';
 import TippingContractUtil from './tippingContractUtil';

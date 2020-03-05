@@ -54,6 +54,21 @@
           </div>
         </div>
 
+        <div class="stats" v-if="userStats">
+          <div class="stat">
+            <div class="stat-title">Tips Sent</div>
+            <div class="stat-value">{{userStats.tipsLength}}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">Retips Sent</div>
+            <div class="stat-value">{{userStats.retipsLength}}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">Total Tip Amount</div>
+            <div class="stat-value">{{userStats.totalTipAmount}} AE<fiat-value :amount="userStats.totalTipAmount" /></div>
+          </div>
+        </div>
+
       </div>
         <div class="profile__actions">
           <a v-bind:class="{ active: activeTab === 'tips' }" @click="setActiveTab('tips')">Tips</a>
@@ -95,6 +110,9 @@
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
   import Header from '../components/layout/Header.vue';
+  import FiatValue from "../components/FiatValueComponent";
+  import BigNumber from 'bignumber.js';
+  import Util from '../utils/util';
 
   const backendInstance = new Backend();
 
@@ -102,6 +120,7 @@
     props: ['address'],
     name: 'TipCommentsView',
     components: {
+      FiatValue,
       'tip-comment': TipComment,
       'left-section': LeftSection,
       'right-section': RightSection,
@@ -135,7 +154,19 @@
         return this.address.substring(0, 5) + ('(...)') + this.address.substring(this.address.length - 5, this.address.length)
       },
       userTips() {
-        return this.tips = this.tips.filter(tip => tip.sender === this.address);
+        return this.tips.filter(tip => tip.sender === this.address);
+      },
+      userStats() {
+        const userReTips = this.tips.flatMap(tip => tip.retips.filter(retip => retip.sender === this.address));
+        const totalTipAmount = Util.atomsToAe(this.userTips
+          .reduce((acc, tip) => new BigNumber(acc).plus(tip.amount), 0)
+          .plus(userReTips.reduce((acc, tip) => new BigNumber(acc).plus(tip.amount), 0)));
+
+        return {
+          tipsLength: this.userTips.length,
+          retipsLength: userReTips.length,
+          totalTipAmount: totalTipAmount
+        };
       },
       isMyUserProfile() {
         return this.account === this.address;
@@ -203,6 +234,8 @@
       }
     },
     created(){
+
+      setTimeout(() => console.log(this.userStats), 2000);
       this.getProfile();
       this.loading = true;
       backendInstance.getAllComments().then((response) => {
@@ -239,6 +272,27 @@
   }
   .profile__page{
     margin-top: .125rem;
+
+    .stats {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      background-color: $light_color;
+      padding: 0 1rem 0 1rem;
+
+      .stat {
+        padding: .5rem;
+
+        .stat-title {
+          font-size: .6rem;
+        }
+
+        .stat-value {
+          font-size: .9rem;
+          color: $secondary_color;
+        }
+      }
+    }
+
     a{
       color: $custom_links_color;
       cursor: pointer;

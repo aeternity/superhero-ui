@@ -50,7 +50,7 @@
   import RightSection from '../components/layout/RightSection.vue';
   import { mapGetters, mapActions } from 'vuex';
   import {EventBus} from '../utils/eventBus';
-  import FiatValueComponentVue from '../components/FiatValueComponent.vue';
+  import FiatValue from '../components/FiatValue.vue';
 
   export default {
     name: 'TipsList',
@@ -115,13 +115,13 @@
       }
     },
     components: {
-      'dropdown': Dropdown,
-      'tip-record': TipRecord,
+      Dropdown,
+      TipRecord,
       'custom-header': Header,
-      'left-section': LeftSection,
-      'right-section': RightSection,
-      'fiat-value': FiatValueComponentVue,
-      'send-tip' : SendTip,
+      LeftSection,
+      RightSection,
+      FiatValue,
+      SendTip,
     },
     async created() {
       EventBus.$on("searchTopic", (topic) => {

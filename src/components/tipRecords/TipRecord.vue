@@ -22,7 +22,7 @@
           <div class="col-lg-9 col-md-12">
             <span class="tip__amount position-relative" >
               <span class="tip__amount__btn" v-on:click.stop title="Send AE to this post">
-                <retip-component :tipid="tip.id" />
+                <retip :tipid="tip.id" />
               </span>
               {{ tip.total_amount }} <span class="ae">AE</span>
             </span>
@@ -49,16 +49,16 @@
 </template>
 
 <script>
-  import FiatValueComponentVue from '../FiatValueComponent.vue';
-  import RetipComponent from '../RetipComponent.vue';
+  import FiatValue from '../FiatValue.vue';
+  import Retip from '../Retip.vue';
   import TipTitle from './TipTitle.vue';
 
   export default {
     name: 'TipRecord',
     props: ['tip', 'foundWallet', 'senderLink'],
     components: {
-      'fiat-value': FiatValueComponentVue,
-      'retip-component': RetipComponent,
+      FiatValue,
+      Retip,
       TipTitle
     },
     data() {

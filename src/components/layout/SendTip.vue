@@ -5,16 +5,16 @@
         <label class="tip__post__label pl-2">Send Tip</label>
       </div>
       <div class="form-row">
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-4">
           <div class="input-group mb-3">
-            <input type="number" step="0.1" v-model="sendTipForm.amount" class="form-control" aria-label="Default"
+            <input type="number" step="0.1" v-model="sendTipForm.amount" placeholder="Amount" class="form-control" aria-label="Default"
                    aria-describedby="inputGroup-sizing-mn">
             <div class="input-group-append">
               <span class="input-group-text append__ae">AE</span>
             </div>
           </div>
         </div>
-        <div class="form-group col-md-9">
+        <div class="form-group col-md-8">
           <input type="text" v-model="sendTipForm.url" class="form-control" placeholder="Enter URL">
         </div>
       </div>
@@ -28,7 +28,7 @@
                  </span>
         </div>
         <div class="col-sm-4 offset-4 text-right mt-2">
-          <button @click="sendTip()" class="btn btn-primary tip__send">Send</button>
+          <button @click="sendTip()" class="btn btn-primary tip__send">Tip</button>
         </div>
       </div>
     </form>

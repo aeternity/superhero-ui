@@ -60,8 +60,8 @@ body{
     color: $standard_font_color;
   }
 }
-.app__leftcolumn, .app__rightcolumn,.header__left_section{
-  width: calc(50% - 17.7rem);
+.app__leftcolumn, .app__rightcolumn{
+  width: calc(50% - 16rem);
 }
 
 @media only screen and (max-width: 768px) {
@@ -73,14 +73,10 @@ body{
 
 @media (min-width: 768px) {
   .container {
-    max-width: 27rem;
+    max-width: 25rem;
   }
-  .header__body{
-    display: block;
-    margin: 0 auto;
-  }
-  .app__leftcolumn, .app__rightcolumn,.header__left_section{
-    width: calc(50% - 13.7rem);
+  .app__leftcolumn, .app__rightcolumn{
+    width: calc(50% - 12.5rem);
   }
 }
 
@@ -88,8 +84,8 @@ body{
   .container {
     max-width: 27rem
   }
-  .app__leftcolumn, .app__rightcolumn,.header__left_section{
-    width: calc(50% - 15.2rem);
+  .app__leftcolumn, .app__rightcolumn{
+    width: calc(50% - 14rem);
   }
 }
 
@@ -97,13 +93,13 @@ body{
   .container {
     max-width: 31rem
   }
-  .app__leftcolumn, .app__rightcolumn,.header__left_section{
-    width: calc(50% - 17.7rem);
+  .app__leftcolumn, .app__rightcolumn{
+    width: calc(50% - 16rem);
   }
 }
 
 @media only screen and (max-width: 900px) {
-  .app__leftcolumn, .app__rightcolumn,.header.header .header__right_section, .header .header__left_section img{
+  .app__leftcolumn, .app__rightcolumn{
    display: none;
   }
 }

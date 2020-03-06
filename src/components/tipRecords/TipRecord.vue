@@ -108,17 +108,17 @@
   }
   .tip__record{
       background-color: $light_color;
-      padding: .5rem 0 0 0;
+      padding: 1rem 0 0 0;
       margin: 0 0 0.3rem 0;
       .tip__body{
         width: 100%;
         padding-left: 0;
         .tip__author{
           color: $light_font_color;
-          font-size: .6rem;
+          font-size: .8rem;
           padding: .25rem 1rem .25rem 1rem;
           img{
-            width: 1.2rem;
+            width: 1.5rem;
             margin-right: 0.25rem;
           }
           a{
@@ -126,7 +126,7 @@
           }
         }
         .tip__note{
-          font-size: .8375rem;
+          font-size: .8rem;;
           color: $standard_font_color;
           height: 2.75rem;
           overflow-y: auto;
@@ -138,12 +138,12 @@
         }
         .tip__footer{
           background-color: $light_color;
-          font-size: .55rem;
+          font-size: .8rem;
           color: $light_font_color;
           border-bottom-right-radius: .25rem;
           border-bottom-left-radius: .25rem;
           margin-left: 1rem;
-          padding: .5rem 1rem .5rem 0;
+          padding: .9rem 1rem .9rem 0;
           .tip__amount{
             .ae{
               color: $secondary_color;
@@ -171,7 +171,7 @@
           }
           .tip__totalsum, .tip__amount, .tip__comments, .tip__article__logo{
             img {
-              width: .75rem;
+              width: 1rem;
               display: inline;
               margin-right: 2px;
             }
@@ -187,7 +187,7 @@
       .tip__article{
         width: 12rem;
         min-height: 5.9rem;
-        font-size: .6rem;
+        font-size: .75rem;
         position: relative;
         color: $article_description_color;
         background-color: $thumbnail_background_color;
@@ -210,7 +210,7 @@
         img{
           width: 50%;
           float: left;
-          height: 7.5rem;
+          height: 9rem;
           border-top-left-radius: .25rem;
           border-bottom-left-radius: .25rem;
           top: 50%;
@@ -221,7 +221,7 @@
         }
         span{
           padding: .5rem 0.1rem 0 0.5rem;
-          @include truncate-overflow-mx(6);
+          @include truncate-overflow-mx(7);
         }
         .tip__article--hasresults{
           padding-right: .75rem;
@@ -253,9 +253,6 @@
       img{
         transform: none;
       }
-      span{
-        @include truncate-overflow-mx(6);
-      }
     }
     .tip__body{
       &.col-8{
@@ -275,7 +272,6 @@
         z-index: 1;
         margin-left: 0;
         margin-right: 1rem;
-        font-size: .6rem;
         .tip__date{
           text-align: left;
         }
@@ -302,9 +298,6 @@
       img{
         transform: none;
       }
-      span{
-        @include truncate-overflow-mx(6);
-      }
     }
     .tip__body{
       &.col-8{
@@ -324,7 +317,6 @@
         z-index: 1;
         margin-left: 0;
         margin-right: 1rem;
-        font-size: .6rem;
         .tip__date{
           text-align: left;
         }
@@ -352,7 +344,6 @@
         font-size: .75rem;
       }
       .tip__footer{
-        font-size: .5rem;
         .col-lg-9.col-md-12{
           padding-right: 0;
         }

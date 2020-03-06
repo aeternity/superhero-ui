@@ -1,6 +1,9 @@
 <template>
   <div class="app__leftcolumn">
     <div class="content">
+      <div class="logo">
+        <img src="../../assets/headerLogo.svg">
+      </div>
       <div class="navigation">
         <div class="navigation__item home">
           <a @click="goHome()">
@@ -127,15 +130,19 @@
     font-size: .55rem;
     position: fixed;
     text-align: right;
-
+    top: .5rem;
     .content {
       width: 12.5rem;
-      margin-top: 1rem;
       display: inline-block;
       text-transform: uppercase;
       text-align: left;
       padding-left: 2rem;
-
+      .logo{
+        margin-bottom: 1.4rem;
+        img{
+          width: 7.5rem;
+        }
+      } 
       .navigation {
         margin-bottom: 1rem;
         font-weight: 600;

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <custom-header></custom-header>
     <right-section></right-section>
     <left-section></left-section>
     <div class="container wrapper">
@@ -99,14 +98,12 @@
 </template>
 
 <script>
-  import Header from '../components/layout/Header.vue';
   import LeftSection from '../components/layout/LeftSection.vue';
   import RightSection from '../components/layout/RightSection.vue';
 
   export default {
     name: 'Privacy',
     components: {
-      'custom-header': Header,
       LeftSection,
       RightSection,
     }

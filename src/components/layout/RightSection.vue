@@ -70,9 +70,10 @@
   font-size: .75rem;
   position: fixed;
   right: 0;
+  top: 0;
+  padding-top: .5rem;
   .content{
     max-width: 17rem;
-  /* margin-top: 1rem; */
     .section{
       border-radius: .25rem;
       margin-bottom: 1rem;

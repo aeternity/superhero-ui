@@ -1,13 +1,13 @@
 <template>
   <div>
-    <custom-header>
-      <div class="profile__header">
+    <right-section></right-section>
+    <left-section></left-section>
+    <div class="container profile__header">
+      <div>
         <div class="address">{{trimAddress}}</div>
         <div class="count">{{userTips.length}} Tips</div>
       </div>
-    </custom-header>
-    <right-section></right-section>
-    <left-section></left-section>
+    </div>
     <div class="container profile__page">
       <div class="profile__section clearfix position-relative">
         <div class="text-center spinner__container w-100" v-if="loadingProfile">
@@ -117,7 +117,6 @@
   import RightSection from '../components/layout/RightSection.vue';
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
-  import Header from '../components/layout/Header.vue';
   import FiatValue from "../components/FiatValue";
   import BigNumber from 'bignumber.js';
   import Util from '../utils/util';
@@ -129,10 +128,9 @@
     name: 'TipCommentsView',
     components: {
       FiatValue,
-      'tip-comment': TipComment,
-      'left-section': LeftSection,
-      'right-section': RightSection,
-      'custom-header': Header,
+      TipComment,
+      LeftSection,
+      RightSection,
       TipRecord
     },
      data() {
@@ -268,14 +266,20 @@
   @import "../styles/base";
 
   .profile__header{
-    padding: .25rem 1rem;
-    background-color: $actions_ribbon_background_color;
-    .address{
-      color: $standard_font_color;
-    }
-    .count{
-      color: $light_font_color;
-      font-size: .6rem;
+    top: 0;
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 10;
+    &>div{
+      padding: .25rem 1rem;
+      background-color: $article_content_color;
+      .address{
+        color: $standard_font_color;
+      }
+      .count{
+        color: $light_font_color;
+        font-size: .6rem;
+      }
     }
   }
   #file-input{

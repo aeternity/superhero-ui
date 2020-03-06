@@ -4,11 +4,7 @@
     <div class="position-relative wrapper" v-on:click.stop>
       <img @click="toggleRetip(!show)" class="retip__icon" src="../assets/heart.svg">
       <div class="clearfix retip__container" v-if="show">
-        <div class="text-center spinner__container" v-if="showLoading">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div>
+        <loading :show-loading="showLoading" />
         <div class="text-center mb-2" v-show="error && !showLoading">An error occured while sending retip</div>
         <div v-if="!showLoading">
           <div class="input-group mr-1 float-left">
@@ -30,6 +26,7 @@
   import aeternity from '../utils/aeternity';
   import { EventBus } from '../utils/eventBus';
   import FiatValue from './FiatValue.vue';
+  import Loading from "./Loading";
 
   export default {
     name: 'Retip',
@@ -44,6 +41,7 @@
       }
     },
     components: {
+      Loading,
       FiatValue
     },
     computed: {

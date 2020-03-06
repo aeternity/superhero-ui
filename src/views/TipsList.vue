@@ -19,11 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="text-center spinner__container" v-bind:class="{ active: loading.tips }">
-      <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
+    <loading :show-loading="loading.tips" class="loading-position" />
     <right-section></right-section>
     <left-section></left-section>
     <div class="container wrapper">
@@ -47,6 +43,7 @@
   import { mapGetters, mapActions } from 'vuex';
   import {EventBus} from '../utils/eventBus';
   import FiatValue from '../components/FiatValue.vue';
+  import Loading from "../components/Loading";
 
   export default {
     name: 'TipsList',
@@ -102,6 +99,7 @@
       }
     },
     components: {
+      Loading,
       Dropdown,
       TipRecord,
       LeftSection,
@@ -140,22 +138,15 @@
     height: 1rem;
   }
 
-  .spinner__container{
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    opacity: 0;
-    max-height: 0;
-    transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
+  .loading-position {
     position: fixed;
     left: 50%;
     transform: translate( -50%);
     z-index: 3;
-
-    &.active {
-      max-height: 200px;
-      opacity: 100%;
-    }
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
+
   .container.wrapper{
     padding-top: 0;
     min-height: 4rem;

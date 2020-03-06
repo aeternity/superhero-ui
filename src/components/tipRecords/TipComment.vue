@@ -7,7 +7,7 @@
               :to="'/user-profile/' + comment.author "
               target="_blank">
               <img src="../../assets/userAvatar.svg">
-              {{ comment.author }}
+              <display-address :address="comment.author" class="mr-2"></display-address>
             </router-link>
             <span class="date">
               {{ new Date(comment.createdAt).toLocaleString('en-US', { hourCycle: 'h24' }) }}
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+  import DisplayAddress from '../DisplayAddress.vue';
   export default {
     name: 'TipComment',
     props: ['comment'],
@@ -29,6 +30,9 @@
       return {
       }
     },
+    components:{
+      DisplayAddress
+    }
   }
 </script>
 

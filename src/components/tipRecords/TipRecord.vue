@@ -7,7 +7,7 @@
           :to="'/user-profile/' + tip.sender "
           target="_blank">
             <img src="../../assets/userAvatar.svg">
-            {{ tip.sender }}
+            <display-address :address="tip.sender" class="mr-2"></display-address>
           </router-link>
           <span class="date">
             {{ new Date(tip.timestamp).toLocaleString('en-US', { hourCycle: 'h24' }) }}
@@ -52,6 +52,7 @@
   import FiatValue from '../FiatValue.vue';
   import Retip from '../Retip.vue';
   import TipTitle from './TipTitle.vue';
+  import DisplayAddress from '../DisplayAddress.vue';
 
   export default {
     name: 'TipRecord',
@@ -59,7 +60,8 @@
     components: {
       FiatValue,
       Retip,
-      TipTitle
+      TipTitle,
+      DisplayAddress
     },
     data() {
       return {

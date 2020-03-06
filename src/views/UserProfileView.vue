@@ -4,7 +4,7 @@
     <left-section></left-section>
     <div class="container profile__header">
       <div>
-        <div class="address">{{trimAddress}}</div>
+        <div class="address"><display-address :address="address"></display-address></div>
         <div class="count">{{userTips.length}} Tips</div>
       </div>
     </div>
@@ -41,7 +41,7 @@
               <!-- <div class="input-group" v-if="editMode">
                 <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
               </div> -->
-              <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address">{{trimAddress}}</a>
+              <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address"><display-address :address="address"></display-address></a>
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
             <div class="input-group" v-if="editMode">
@@ -115,6 +115,7 @@
   import TipComment from "../components/tipRecords/TipComment.vue"
   import LeftSection from '../components/layout/LeftSection.vue';
   import RightSection from '../components/layout/RightSection.vue';
+  import DisplayAddress from '../components/DisplayAddress.vue';
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
   import FiatValue from "../components/FiatValue";
@@ -131,7 +132,8 @@
       TipComment,
       LeftSection,
       RightSection,
-      TipRecord
+      TipRecord,
+      DisplayAddress
     },
      data() {
       return {
@@ -156,9 +158,6 @@
     },
     computed: {
       ...mapGetters(['current', 'account', 'tips', 'oracleState']),
-      trimAddress() {
-        return this.address.substring(0, 5) + ('(...)') + this.address.substring(this.address.length - 5, this.address.length)
-      },
       userTips() {
         return this.tips.filter(tip => tip.sender === this.address);
       },
@@ -320,8 +319,7 @@
       text-align: center;
       font-size: 0.65rem;
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 1.5rem;
       right: 1rem;
     }
     color: $light_font_color;
@@ -387,7 +385,7 @@
         .profile__username{
           display: block;
           color: $secondary_color;
-          font-size: .6rem;
+          font-size: .8rem;
         }
       }
     }
@@ -450,14 +448,6 @@
   }
 
 @media only screen and (max-width: 768px){
-  .profile__description{padding-bottom: .5rem; font-size: .65rem;}
-  .profile__page .edit__button{
-    top: 0;
-    transform: none;
-  }
-  .profile__page .profile__section .profile__info .profile__username{
-    font-size: .5rem;
-  }
   .profile__page .profile__meta{
     margin-top: 0;
     border-top-right-radius: 0;
@@ -477,4 +467,17 @@
     }
   }
 }
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .profile__page .edit__button{
+      top: 0;
+      .stats .stat .stat-value{
+        font-size: .6rem;
+      }
+    }
+    
+  }
 </style>

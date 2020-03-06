@@ -29,5 +29,13 @@ export default {
   },
   setOracleState({ commit }, payload) {
     commit(types.SET_ORACLE_STATE, payload);
+  },
+  addLoading({ commit, state }, payload) {
+    state.loading[payload] = true;
+    commit(types.SET_LOADING, state.loading);
+  },
+  removeLoading({ commit, state }, payload) {
+    state.loading[payload] = false;
+    commit(types.SET_LOADING, state.loading);
   }
 };

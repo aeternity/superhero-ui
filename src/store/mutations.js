@@ -33,6 +33,9 @@ export default {
   [types.SET_ORACLE_STATE](state, payload) {
     state.oracleState = payload;
   },
+  [types.SET_LOADING](state, payload) {
+    state.loading = payload;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

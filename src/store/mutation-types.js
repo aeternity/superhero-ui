@@ -8,3 +8,4 @@ export const UPDATE_STATS = 'UPDATE_STATS';
 export const SET_TIPS_ORDERING = 'SET_TIPS_ORDERING';
 export const SET_TIPS_SORT_BY = 'SET_TIPS_SORT_BY';
 export const SET_ORACLE_STATE = 'SET_ORACLE_STATE';
+export const SET_LOADING = 'SET_LOADING';

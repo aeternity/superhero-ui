@@ -1,6 +1,5 @@
 <template>
 <div>
-  <custom-header></custom-header>
   <right-section></right-section>
   <left-section></left-section>
   <div class="container url__page">
@@ -53,7 +52,6 @@
   import Backend from "../utils/backend";
   import TipRecord from "../components/tipRecords/TipRecord.vue"
   import TipComment from "../components/tipRecords/TipComment.vue"
-  import Header from '../components/layout/Header.vue';
   import LeftSection from '../components/layout/LeftSection.vue';
   import RightSection from '../components/layout/RightSection.vue';
   import { mapGetters } from 'vuex';
@@ -66,7 +64,6 @@
     components: {
       TipRecord,
       TipComment,
-      'custom-header': Header,
       LeftSection,
       RightSection,
     },

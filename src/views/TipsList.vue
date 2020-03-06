@@ -1,28 +1,24 @@
 <template>
   <div>
-    <custom-header>
-      <div class="actions__container">
-        <div class="container">
-          <div class="input-group mb-1">
-            <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
-            <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 col-lg-12 col-sm-12 sorting">
-              <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
-                {{$t('pages.Home.SortingHot')}}
-              </a>
-              <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
-                {{$t('pages.Home.SortingLatest')}}
-              </a>
-              <a v-on:click="setTipSortBy('highest')" v-bind:class="{ active: tipSortBy === 'highest' }">
-                {{$t('pages.Home.SortingHighestRated')}}
-              </a>
-            </div>
-          </div>
-          </div>
+    <div class="actions__container container">
+      <div class="input-group mb-1">
+        <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
+        <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 sorting">
+          <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
+            {{$t('pages.Home.SortingHot')}}
+          </a>
+          <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
+            {{$t('pages.Home.SortingLatest')}}
+          </a>
+          <a v-on:click="setTipSortBy('highest')" v-bind:class="{ active: tipSortBy === 'highest' }">
+            {{$t('pages.Home.SortingHighestRated')}}
+          </a>
         </div>
-    </custom-header>
+      </div>
+    </div>
     <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
@@ -46,7 +42,6 @@
 
   import TipRecord from "../components/tipRecords/TipRecord.vue"
   import SendTip from "../components/layout/SendTip.vue"
-  import Header from '../components/layout/Header.vue';
   import LeftSection from '../components/layout/LeftSection.vue';
   import RightSection from '../components/layout/RightSection.vue';
   import { mapGetters, mapActions } from 'vuex';
@@ -118,7 +113,6 @@
     components: {
       Dropdown,
       TipRecord,
-      'custom-header': Header,
       LeftSection,
       RightSection,
       FiatValue,
@@ -174,6 +168,10 @@
     min-height: 4rem;
   }
    .actions__container{
+      top: 0;
+      position: sticky;
+      position: -webkit-sticky;
+      z-index: 10;
       font-size: .75rem;
       background-color: $background_color;
       .form-control{

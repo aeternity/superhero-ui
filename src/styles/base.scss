@@ -23,20 +23,9 @@ body{
   }
 }
 
-.app-container{
-  margin: 0 auto;
-  width: 90vw;
-  padding: 3.5rem 0;
+.container.wrapper{
+  padding-top: .5rem;
 }
-
- .articles-section{
-  width: $article_section_width;
- }
-
- .content-area{
-  width: calc(100% - #{$article_section_width});
- }
-
  /* Helpers */
  .text-ellipsis{
   white-space: nowrap;
@@ -97,7 +86,7 @@ body{
 
 @media (min-width: 992px) {
   .container {
-    max-width: 30rem
+    max-width: 27rem
   }
   .app__leftcolumn, .app__rightcolumn,.header__left_section{
     width: calc(50% - 15.2rem);
@@ -106,7 +95,7 @@ body{
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 35rem
+    max-width: 31rem
   }
   .app__leftcolumn, .app__rightcolumn,.header__left_section{
     width: calc(50% - 17.7rem);

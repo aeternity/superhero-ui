@@ -7,7 +7,7 @@
           Wallet
         </div>
         <div class="section__body clearfix">
-          <div class="side__button"><a href="//github.com/superherowallet/wallet/releases/latest">Install Wallet</a></div>
+          <div class="side__button"><a :href="downloadUrl">Install Wallet</a></div>
         </div>
       </div>
       <div class="section trending">
@@ -45,6 +45,7 @@
   import {mapGetters} from "vuex";
   import FiatValue from '../FiatValue.vue';
   import Topic from "../tipRecords/Topic";
+  import { detect } from 'detect-browser';
 
   export default {
     name: 'RightSection',
@@ -53,10 +54,26 @@
       FiatValue
     },
     data() {
-      return {}
+      return { 
+        browser: detect()
+      }
     },
     computed: {
       ...mapGetters(['topics', 'isLoggedIn']),
+      downloadUrl () {
+        switch(this.browser && this.browser.name) {
+          case 'firefox':
+            return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
+            break;
+          case 'chrome':
+            // TODO: Update with chrome store url when published
+            return '//github.com/superherowallet/wallet/releases/latest';
+            break;
+          default:
+            return '//github.com/superherowallet/wallet/releases/latest';
+            break;
+        }
+      },
     }
   }
 </script>

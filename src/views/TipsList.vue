@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="text-center spinner__container" v-bind:class="{ active: !loading.tips }">
+    <div class="text-center spinner__container" v-bind:class="{ active: loading.tips }">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
       </div>
@@ -143,16 +143,17 @@
   .spinner__container{
     margin-top: 1rem;
     margin-bottom: 1rem;
-    max-height: 200px;
-    opacity: 100%;
+    opacity: 0;
+    max-height: 0;
     transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
     position: fixed;
     left: 50%;
     transform: translate( -50%);
     z-index: 3;
+
     &.active {
-      max-height: 0;
-      opacity: 0;
+      max-height: 200px;
+      opacity: 100%;
     }
   }
   .container.wrapper{

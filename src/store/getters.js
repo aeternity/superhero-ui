@@ -31,5 +31,8 @@ export const getters = {
   },
   oracleState(state) {
     return state.oracleState;
+  },
+  loading(state) {
+    return state.loading;
   }
 };

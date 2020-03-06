@@ -22,20 +22,13 @@
 
   export default {
     name: 'app',
-    data() {
-      return {
-        tempTips: [],
-        showLoading: true
-      }
-    },
     computed: {
       ...mapGetters(['settings', 'tipSortBy']),
     },
     methods: {
-      ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState']),
+      ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState', 'addLoading', 'removeLoading']),
       reloadAsyncData(initial, stats) {
         // wallet
-
         if (initial) wallet.init(async () => {
           let currentAccount = wallet.client.rpcClient.getCurrentAccount();
           const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
@@ -67,7 +60,7 @@
         }).catch(console.error);
       },
       async reloadData(initial = false) {
-        this.showLoading = true;
+        this.addLoading('tips');
 
         const fetchTips = async () => {
           if (initial) await aeternity.initClient();
@@ -114,7 +107,7 @@
         this.updateTopics(topics);
         this.setTipSortBy(initial ? tipOrdering ? "hot" : "highest" : this.tipSortBy);
 
-        this.showLoading = false;
+        this.removeLoading('tips');
       }
     },
     async created() {

@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
+    <div class="text-center spinner__container" v-bind:class="{ active: !loading.tips }">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
       </div>
@@ -33,7 +33,7 @@
                     :senderLink="openExplorer(tip.sender)"></tip-record>
       </div>
     </div>
-    <div class="no-results text-center" v-if="filteredTips !== null && !showLoading && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
+    <div class="no-results text-center" v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
   </div>
 </template>
 
@@ -54,7 +54,6 @@
       return {
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
         searchTerm: '',
-        showLoading: true,
         activeLang: 'en',
         languagesOptions: [
           { value: 'en', text: 'English' },
@@ -63,7 +62,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'tipsOrdering', 'tipSortBy', 'account', 'balance', 'isLoggedIn']),
+      ...mapGetters(['tips', 'tipsOrdering', 'tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
       filteredTips() {
         if (this.searchTerm.trim().length === 0) {
           return this.tips
@@ -100,14 +99,6 @@
       },
       openExplorer(address) {
         return this.explorerUrl + address
-      },
-      showLoadingTips() {
-        let load = setInterval(() => {
-          if (this.tips.length > 0){
-            this.showLoading = false;
-            clearInterval(load);
-          }
-        }, 200);
       }
     },
     components: {
@@ -122,10 +113,10 @@
       EventBus.$on("searchTopic", (topic) => {
         this.onSearchTopic(topic);
       });
+
       if(this.$route.query.searchTopicPhrase){
         this.onSearchTopic(this.$route.query.searchTopicPhrase);
       }
-      this.showLoadingTips();
     },
   }
 </script>

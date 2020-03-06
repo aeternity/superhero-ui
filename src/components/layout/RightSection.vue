@@ -65,6 +65,7 @@
 
 <style lang="scss" scoped>
   @import "../../styles/base";
+
 .app__rightcolumn{
   color: $light_font_color;
   display: inline-block;
@@ -84,6 +85,11 @@
         .section__body{
           max-height: 10rem;
           overflow-y: auto;
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          &::-webkit-scrollbar {
+            display: none;
+          }
         }
       }
     }

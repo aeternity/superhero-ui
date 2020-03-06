@@ -2,7 +2,7 @@
   <div class="app__leftcolumn">
     <div class="content">
       <div class="logo">
-        <img src="../../assets/headerLogo.svg">
+        <img @click="goHome()" src="../../assets/headerLogo.svg">
       </div>
       <div class="navigation">
         <div class="navigation__item home">
@@ -141,6 +141,9 @@
         margin-bottom: 1.4rem;
         img{
           width: 7.5rem;
+          &:hover{
+            cursor: pointer;
+          }
         }
       } 
       .navigation {

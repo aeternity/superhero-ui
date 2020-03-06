@@ -428,6 +428,9 @@
   .comments__section{
     min-height: 5rem;
     overflow-y: auto;
+    .comment.tip__record{
+      border-radius: unset;
+    }
   }
 
   .no-results{

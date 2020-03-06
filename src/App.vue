@@ -131,7 +131,7 @@
 <style>
 
   html {
-    font-size: 135%;
+    font-size: 125%;
   }
 
   .min-h-screen {

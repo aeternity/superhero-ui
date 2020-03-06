@@ -28,16 +28,14 @@
           </div>
         </div>
       </div>
-      <div class="clearfix footer">
-        <div class="float-left"></div>
-        <div class="float-right">
-          <router-link class="ae" to="/terms">
-            Terms
-          </router-link>
-          <router-link class="ae" to="/privacy">
-            Privacy
-          </router-link>
-        </div>
+      <div class="footer text-center">
+        SuperHero is Open Source
+        <router-link class="ae" to="/terms">
+          Terms
+        </router-link>
+        <router-link class="ae" to="/privacy">
+          Privacy
+        </router-link>
       </div>
     </div>
   </div>
@@ -69,17 +67,16 @@
 .app__rightcolumn{
   color: $light_font_color;
   display: inline-block;
-  font-weight: 600;
-  font-size: .65rem;
+  font-size: .75rem;
   position: fixed;
   right: 0;
   .content{
-    width: 12.5rem;
+    max-width: 17rem;
   /* margin-top: 1rem; */
     .section{
       border-radius: .25rem;
       margin-bottom: 1rem;
-      background-color: $actions_ribbon_background_color;
+      background-color: $article_content_color;
       &.trending{
         padding-bottom: .5rem;
         .section__body{
@@ -98,6 +95,8 @@
       border-top-left-radius: .25rem;
       padding: .5rem;
       color: $standard_font_color;
+      font-size: 1rem;
+      font-weight: 600;
     }
     .section__body{
       padding: .5rem;
@@ -107,7 +106,7 @@
           margin-top: 0;
         }
         text-transform: none;
-        font-size: .45rem;
+        font-size: .75rem;
       }
       .tag{
         color: $custom_links_color;
@@ -115,14 +114,11 @@
       .value{
         color: $standard_font_color;
       }
-      .topic-container {
-        font-size: 0.5rem;
-      }
     }
     .side__button{
-      font-size: .65rem;
       text-transform: capitalize;
       margin-bottom: 0.7rem;
+      font-weight: 600;
       &:hover{
         cursor: pointer;
       }
@@ -140,7 +136,7 @@
       }
     }
     .footer{
-      font-size: .5rem;
+      font-size: .6rem;
       a{
         cursor: pointer;
         text-decoration: underline;
@@ -149,43 +145,8 @@
           color: $secondary_color;
           text-decoration: none;
           font-weight: lighter;
-          padding-left: .3rem;
-          padding-right: .2rem;
         }
       }
-    }
-  }
-}
-
-
-@media (min-width: 768px) {
-  .app__rightcolumn {
-    .content {
-      width: 8rem;
-    }
-  }
-}
-
-@media (min-width: 992px) {
-  .app__rightcolumn {
-    .content {
-      width: 10.5rem;
-    }
-  }
-}
-
-@media (min-width: 1200px) {
-  .app__rightcolumn {
-    .content {
-      width: 12rem;
-    }
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .app__rightcolumn {
-    .content {
-      width: 10rem;
     }
   }
 }

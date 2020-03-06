@@ -36,7 +36,7 @@ export const wallet = {
     window !== window.parent;
 
     this.client = await RpcAepp({
-      name: 'Raendom Tipping',
+      name: 'Superhero',
       nodes: [{ name: 'mainnet', instance: await Node({ url: NODE_URL, internalUrl: NODE_INTERNAL_URL }) }],
       compilerUrl: COMPILER_URL
     });

@@ -25,8 +25,7 @@
     data() {
       return {
         tempTips: [],
-        showLoading: true,
-        foundWallet: false
+        showLoading: true
       }
     },
     computed: {
@@ -36,8 +35,8 @@
       ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState']),
       reloadAsyncData(initial, stats) {
         // wallet
-        wallet.init(async () => {
-          this.foundWallet = true;
+
+        if (initial) wallet.init(async () => {
           let currentAccount = wallet.client.rpcClient.getCurrentAccount();
           const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
           this.setLoggedInAccount({
@@ -84,7 +83,7 @@
           await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
 
         // async fetch
-       this.reloadAsyncData(initial, stats);
+        this.reloadAsyncData(initial, stats);
 
         // add score from backend to tips
         if (tipOrdering) {

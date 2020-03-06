@@ -109,6 +109,9 @@
         }
         text-transform: none;
         font-size: .75rem;
+        .ae{
+          color: $secondary_color;
+        }
       }
       .tag{
         color: $custom_links_color;
@@ -156,6 +159,11 @@
 @media (min-width: 768px) {
   .app__rightcolumn .content .section__body .section__item{
     font-size: .65rem;
+  }
+}
+@media (min-width: 992px) {
+  .app__rightcolumn .content .section__body .section__item{
+    font-size: .75rem;
   }
 }
 </style>

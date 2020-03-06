@@ -16,11 +16,11 @@
           Trending
         </div>
         <div class="section__body" v-if="topics.length > 0">
-          <div class="section__item clearfix" v-for="([topic, data], index) in topics">
-            <div class="float-left topic-container">
+          <div class="section__item" v-for="([topic, data], index) in topics">
+            <div class="topic-container text-ellipsis">
             <topic :topic="topic" />
           </div>
-            <div class="float-right">
+            <div>
               <span class="value">{{data.amount}}</span>
               <span class="ae">AE</span>
               <fiat-value :amount="data.amount"></fiat-value>
@@ -81,6 +81,12 @@
       &.trending{
         padding-bottom: .5rem;
         margin-bottom: .5rem;
+        .section__item{
+          display: flex;
+          &>div{
+            width: 50%;
+          }
+        }
         .section__body{
           max-height: 10rem;
           overflow-y: auto;

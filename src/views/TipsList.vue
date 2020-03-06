@@ -165,6 +165,7 @@
     }
   }
   .container.wrapper{
+    padding-top: 0;
     min-height: 4rem;
   }
    .actions__container{

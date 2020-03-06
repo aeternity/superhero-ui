@@ -1,6 +1,6 @@
 <template>
     <span class="currency-value" v-if="currencyRates.aeternity">
-      (~ {{ fiatValue }} {{settings.currency.toUpperCase()}})
+      (~ {{ fiatValue }} <span class="currency-sign">{{settings.currency.toUpperCase()}}</span>)
     </span>
 </template>
 

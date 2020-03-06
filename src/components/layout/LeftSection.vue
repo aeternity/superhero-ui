@@ -44,25 +44,25 @@
             {{stats.total_tips_length}}
           </div>
           <div class="overview__label">
-            Tips
+            Tips Aggregated
           </div>
         </div>
-        <div class="overview__item" v-if="stats.comments">
+        <!-- <div class="overview__item" v-if="stats.comments">
           <div class="overview__value">
             {{stats.comments.total}}
           </div>
           <div class="overview__label">
             Comments
           </div>
-        </div>
-        <div class="overview__item" v-if="stats.senders_length">
+        </div> -->
+        <!-- <div class="overview__item" v-if="stats.senders_length">
           <div class="overview__value">
             {{stats.senders_length}}
           </div>
           <div class="overview__label">
             Unique Tip Senders
           </div>
-        </div>
+        </div> -->
         <div class="overview__item" v-if="stats.total_amount">
           <div class="overview__value secondary">
             {{stats.total_amount}}
@@ -121,13 +121,13 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "../../styles/base";
 
   .app__leftcolumn {
     color: $standard_font_color;
     display: inline-block;
-    font-size: .55rem;
+    font-size: 1rem;
     position: fixed;
     text-align: right;
     top: .5rem;
@@ -145,17 +145,16 @@
       } 
       .navigation {
         margin-bottom: 1rem;
-        font-weight: 600;
-
+        font-weight: 500;
         .avatar {
           width: 1.2rem;
         }
       }
 
-      .navigation__item, .side__button {
-        font-size: .75rem;
+      .navigation__item {
+        font-size: 1rem;
         text-transform: capitalize;
-        margin-bottom: 0.7rem;
+        margin-bottom: 1rem;
 
         &:hover {
           cursor: pointer;
@@ -166,36 +165,25 @@
         }
       }
 
-      .side__button {
-        color: $custom_links_color;
-        border: .065rem solid $custom_links_color;
-        border-radius: .25rem;
-        padding: .1rem .5rem .1rem .5rem;
-        text-align: center;
-
-        &.secondary {
-          color: $secondary_color;
-          border: .065rem solid $secondary_color;
-          margin-bottom: 1rem;
-        }
-      }
-
       .overview {
         margin-top: 2rem;
-
+        font-weight: 100;
         .overview__value {
           color: $custom_links_color;
-          font-size: 1rem;
+          font-size: 1.6rem;
 
           &.secondary {
             color: $secondary_color;
           }
         }
-
+        .currency, .currency-value .currency-sign{
+          font-size: .9rem;
+        }
         .overview__label {
           margin-bottom: .5rem;
           text-transform: none;
           color: $light_font_color;
+          font-size: .75rem;
 
           &:last-child {
             margin-bottom: 0;

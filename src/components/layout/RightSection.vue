@@ -71,7 +71,7 @@
   position: fixed;
   right: 0;
   top: 0;
-  padding-top: .5rem;
+  padding-top: .9rem;
   .content{
     max-width: 17rem;
     .section{
@@ -80,6 +80,7 @@
       background-color: $article_content_color;
       &.trending{
         padding-bottom: .5rem;
+        margin-bottom: .5rem;
         .section__body{
           max-height: 10rem;
           overflow-y: auto;
@@ -152,4 +153,9 @@
   }
 }
 
+@media (min-width: 768px) {
+  .app__rightcolumn .content .section__body .section__item{
+    font-size: .65rem;
+  }
+}
 </style>

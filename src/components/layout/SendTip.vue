@@ -77,7 +77,7 @@
   @import "../../styles/base";
 
   .tip__post {
-    background-color: #272830;
+    background-color: $actions_ribbon_background_color;
     padding: 1rem;
 
     form {

@@ -5,6 +5,7 @@
         <div class="container">
           <div class="input-group mb-1">
             <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
+            <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
           </div>
           <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12 sorting">
@@ -173,11 +174,14 @@
     min-height: 4rem;
   }
    .actions__container{
-     font-size: .75rem;
+      font-size: .75rem;
       background-color: $background_color;
-     .container{
-       padding: 0;
-     }
+      .form-control{
+        padding-right: 1.25rem;
+      }
+      .container{
+        padding: 0;
+      }
       .row{
         background-color: $actions_ribbon_background_color;
         border-top-right-radius: .25rem;
@@ -205,13 +209,24 @@
           border-bottom: .065rem solid $custom_links_color;
         }
       }
-    }
+  }
   .tips__container{
     width: 100%;
     background-color: $tip_list_background_color;
     padding-top: 0.1rem;
     &:empty{
       visibility: hidden;
+    }
+  }
+
+  .clear{
+    font-size: .75rem;
+    color: $standard_font_color;
+    right: .5rem;
+    @include vertical-align($position: absolute);
+    z-index: 10;
+    &:hover{
+      cursor: pointer;
     }
   }
 

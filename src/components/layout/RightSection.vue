@@ -7,7 +7,7 @@
           Wallet
         </div>
         <div class="section__body clearfix">
-          <div class="side__button"><a :href="downloadUrl">Install Wallet</a></div>
+          <div class="side__button"><a :href="downloadUrl" target="_blank">Install Wallet</a></div>
         </div>
       </div>
       <div class="section trending">
@@ -61,7 +61,8 @@
     computed: {
       ...mapGetters(['topics', 'isLoggedIn']),
       downloadUrl () {
-        switch(this.browser && this.browser.name) {
+        if (this.browser) {
+          switch(this.browser.name) {
           case 'firefox':
             return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
             break;
@@ -72,6 +73,7 @@
           default:
             return '//github.com/superherowallet/wallet/releases/latest';
             break;
+        }
         }
       },
     }

@@ -33,8 +33,6 @@
               {{ retipAmount }} <span class="ae">AE</span> 
             </span>
           </div>
-          <div class="col-md-12" >
-          </div>
         </div>
       </div>
     </div>
@@ -69,8 +67,7 @@
     },
     data() {
       return {
-        showRetipWindow: false,
-
+        showRetipWindow: false
       }
     },
     computed: {

@@ -115,10 +115,6 @@
       if(this.$route.query.searchTopicPhrase){
         this.onSearchTopic(this.$route.query.searchTopicPhrase);
       }
-      let _this=this;
-      setTimeout(function(){
-        console.log(_this.tips);
-      },10000);
     },
   }
 </script>

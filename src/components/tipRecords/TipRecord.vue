@@ -26,12 +26,13 @@
               </span>
               {{ tip.amount_ae }} <span class="ae">AE</span>
             </span>
-            <fiat-value :amount="tip.total_amount" class="mr-2"></fiat-value>
-            <span class="ml-2" v-if="tip.retip_amount_ae !== '0'">
-              <span><img src="../../assets/retipIcon.svg"></span>
+            <fiat-value :amount="tip.total_amount"></fiat-value>
+            <span class="ml-4" v-if="tip.retip_amount_ae !== '0'" v-on:click.stop>
+              <retip :tipid="tip.id" :retip-icon="true"/>
               {{ tip.retip_amount_ae }} <span class="ae">AE</span>
+              <fiat-value :amount="tip.retip_amount_ae"></fiat-value>
             </span>
-            <span @click="goToTip(tip.id)" class="ml-2 mr-2"><img src="../../assets/commentsIcon.svg"></span>
+            <span @click="goToTip(tip.id)" class="ml-4"><img src="../../assets/commentsIcon.svg"></span>
           </div>
         </div>
       </div>
@@ -65,22 +66,10 @@
       TipTitle,
       DisplayAddress
     },
-    data() {
-      return {
-        showRetipWindow: false
-      }
-    },
     computed: {
       tipText() {
         if(!this.isPreviewToBeVisualized(this.tip)) return '';
         return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
-      },
-      retipAmount(){
-        if(this.tip && this.tip.retips && this.tip.retips.length){
-          console.log(this.tip);
-         return this.tip.retips[this.tip.retips.length - 1].amount_ae;
-        }
-        return 0;
       }
     },
     methods: {

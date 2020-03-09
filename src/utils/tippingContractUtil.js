@@ -33,9 +33,13 @@ const getTipsRetips = (state) => {
 
     data.amount_ae = Util.atomsToAe(data.amount).toFixed();
 
-    data.total_amount = Util.atomsToAe(new BigNumber(data.amount).plus(data.retips.reduce((acc, retip) => {
+    const retip_amount = data.retips.reduce((acc, retip) => {
       return acc.plus(retip.amount)
-    }, new BigNumber('0'))).toFixed()).toFixed();
+    }, new BigNumber('0')).toFixed();
+
+    data.retip_amount_ae = Util.atomsToAe(retip_amount).toFixed();
+
+    data.total_amount = Util.atomsToAe(new BigNumber(data.amount).plus(retip_amount)).toFixed();
 
     data.total_unclaimed_amount = Util.atomsToAe(new BigNumber(data.claim.unclaimed ? data.amount : 0).plus(data.retips.reduce((acc, retip) => {
       return acc.plus(retip.claim.unclaimed ? retip.amount : 0)

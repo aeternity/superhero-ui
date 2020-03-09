@@ -24,14 +24,14 @@
               <span class="tip__amount__btn" v-on:click.stop title="Send AE to this post">
                 <retip :tipid="tip.id" />
               </span>
-              {{ tip.total_amount }} <span class="ae">AE</span>
+              {{ tip.amount_ae }} <span class="ae">AE</span>
             </span>
             <fiat-value :amount="tip.total_amount" class="mr-2"></fiat-value>
-            <span @click="goToTip(tip.id)" class="mr-2"><img src="../../assets/commentsIcon.svg"></span>
-            <span v-if="retipAmount">
+            <span class="ml-2" v-if="tip.retip_amount_ae !== '0'">
               <span><img src="../../assets/retipIcon.svg"></span>
-              {{ retipAmount }} <span class="ae">AE</span> 
+              {{ tip.retip_amount_ae }} <span class="ae">AE</span>
             </span>
+            <span @click="goToTip(tip.id)" class="ml-2 mr-2"><img src="../../assets/commentsIcon.svg"></span>
           </div>
         </div>
       </div>
@@ -77,6 +77,7 @@
       },
       retipAmount(){
         if(this.tip && this.tip.retips && this.tip.retips.length){
+          console.log(this.tip);
          return this.tip.retips[this.tip.retips.length - 1].amount_ae;
         }
         return 0;

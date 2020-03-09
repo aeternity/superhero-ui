@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="tipped__url" v-if="tip">
-      <tip-record :tip="tip" @updateComment="onUpdateComment" :senderLink="openExplorer(tip.sender)"></tip-record>
+      <tip-record :tip="tip" :senderLink="openExplorer(tip.sender)"></tip-record>
     </div>
     <div class="comment__section">
       <p class="latest__comments">Latest comments</p>
@@ -56,6 +56,7 @@
   import RightSection from '../components/layout/RightSection.vue';
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
+  import { EventBus } from "../utils/eventBus";
 
   const backendInstance = new Backend();
 
@@ -89,13 +90,13 @@
     methods: {
       sendTipComment(){
         if(this.sendComment){
-          let postData = {
+          this.sendComment({
             comment: this.comment,
             tip: this.tip
-          }
-          this.sendComment(postData);
+          }).then(() => {
+            this.comment = '';
+          });
         }
-        this.comment = '';
       },
       updateTip() {
         // Avoid empty trigger
@@ -119,41 +120,28 @@
           });
         }
       },
-      sendComment(data){
-
+      async sendComment(data) {
         let postData = {
           tipId: data.tip.id,
           text: data.comment,
           author: wallet.client.rpcClient.getCurrentAccount(),
-        }
+        };
 
-        console.log("sending comment => ", postData)
+        const responseChallenge = await backendInstance.sendTipComment(postData);
+        let signedChallenge = await wallet.signMessage(responseChallenge.challenge);
+        let respondChallenge = {
+          challenge: responseChallenge.challenge,
+          signature: signedChallenge
+        };
 
-        backendInstance.sendTipComment(postData).then(async (response) => {
-          console.log("challenge => ", response.challenge);
-          console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
-
-          let signedChallenge = await wallet.signMessage(response.challenge)
-          let respondChallenge = {
-            challenge: response.challenge,
-            signature: signedChallenge
-          }
-
-          backendInstance.sendTipComment(respondChallenge).then((result) => {
-            console.log(result);
-            this.$emit('updateComment', result)
-          }).catch(console.error)
-        }).catch(console.error);
+        const response = await backendInstance.sendTipComment(respondChallenge);
+        this.comments.push(response);
       },
       openExplorer(address) {
         return this.explorerUrl + address
       },
-      onUpdateComment(data){
-        this.comments.push(data);
-      }
     },
     created(){
-      console.log(this.account);
       this.updateTip();
     }
   }

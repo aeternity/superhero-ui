@@ -132,7 +132,7 @@
     text-align: right;
     top: .5rem;
     .content {
-      width: 12.5rem;
+      width: 10rem;
       display: inline-block;
       text-transform: uppercase;
       text-align: left;
@@ -175,8 +175,8 @@
         font-weight: 100;
         .overview__value {
           color: $custom_links_color;
-          font-size: 1.6rem;
-
+          font-size: 1.3rem;
+          line-height: 1.8rem;
           &.secondary {
             color: $secondary_color;
           }
@@ -185,47 +185,11 @@
           font-size: .9rem;
         }
         .overview__label {
-          margin-bottom: .5rem;
+          font-size: .75rem;
+          margin-bottom: 1.25rem;
           text-transform: none;
           color: $light_font_color;
-          font-size: .75rem;
-
-          &:last-child {
-            margin-bottom: 0;
-          }
         }
-      }
-    }
-  }
-
-  @media (min-width: 768px) {
-    .app__leftcolumn {
-      .content {
-        width: 12.5rem;
-      }
-    }
-  }
-
-  @media (min-width: 992px) {
-    .app__leftcolumn {
-      .content {
-        width: 12.5rem;
-      }
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .app__leftcolumn {
-      .content {
-        width: 12.5rem;
-      }
-    }
-  }
-
-  @media only screen and (max-width: 768px) {
-    .app__leftcolumn {
-      .content {
-        width: 10rem;
       }
     }
   }

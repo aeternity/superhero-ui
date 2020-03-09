@@ -129,13 +129,16 @@
         }
         .tip__note{
           font-size: .8rem;;
-          color: $standard_font_color;
+          color: $tip_note_color;
           height: 2.75rem;
           overflow-y: auto;
           padding-left: 1rem;
           padding-bottom: .5rem;
           &:hover{
             cursor: pointer;
+          }
+          .title .topic{
+            color: $standard_font_color;
           }
         }
         .tip__footer{

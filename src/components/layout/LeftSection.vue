@@ -45,22 +45,22 @@
             Tips Aggregated
           </div>
         </div>
-        <!-- <div class="overview__item" v-if="stats.comments">
+        <div class="overview__item" v-if="stats.comments">
           <div class="overview__value">
             {{stats.comments.total}}
           </div>
           <div class="overview__label">
             Comments
           </div>
-        </div> -->
-        <!-- <div class="overview__item" v-if="stats.senders_length">
+        </div>
+        <div class="overview__item" v-if="stats.senders_length">
           <div class="overview__value">
             {{stats.senders_length}}
           </div>
           <div class="overview__label">
             Unique Tip Senders
           </div>
-        </div> -->
+        </div> 
         <div class="overview__item" v-if="stats.total_amount">
           <div class="overview__value secondary">
             {{stats.total_amount}}
@@ -173,8 +173,9 @@
         font-weight: 100;
         .overview__value {
           color: $custom_links_color;
-          font-size: 1.3rem;
-          line-height: 1.8rem;
+          font-size: 1rem;
+          line-height: 1rem;
+          font-weight: 300;
           &.secondary {
             color: $secondary_color;
           }
@@ -183,13 +184,31 @@
           font-size: .9rem;
         }
         .overview__label {
-          font-size: .75rem;
-          margin-bottom: 1.25rem;
           text-transform: none;
           color: $light_font_color;
+          font-size: .75rem;
+          margin-bottom: .5rem;
+          font-weight: 400;
         }
       }
     }
   }
 
+@media only screen and (min-width: 1300px) {
+.app__leftcolumn .content .overview{
+  .overview__value {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    font-weight: 300;
+  }
+  .overview__label{
+    text-transform: none;
+    color: $light_font_color;
+    font-size: .75rem;
+    margin-bottom: 1.15rem;
+    font-weight: 400;
+  }
+} 
+
+}
 </style>

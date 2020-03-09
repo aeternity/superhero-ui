@@ -15,7 +15,7 @@
           <img src="../../assets/iconTrending.svg">
           Trending
         </div>
-        <div class="section__body" v-if="topics.length > 0">
+        <div class="section__body topics-section" v-bind:class="{ active: topics.length > 0 }">
           <div class="section__item" v-for="([topic, data], index) in topics">
             <div class="topic-container text-ellipsis">
             <topic :topic="topic" />
@@ -75,6 +75,15 @@
     }
   }
 
+  .topics-section{
+    max-height: 0;
+    transition: max-height 0.25s ease-in;
+
+    &.active {
+      max-height: 10rem;
+    }
+  }
+
 .app__rightcolumn{
   color: $light_font_color;
   display: inline-block;
@@ -99,7 +108,6 @@
           }
         }
         .section__body{
-          max-height: 10rem;
           overflow-y: auto;
           -ms-overflow-style: none;
           scrollbar-width: none;

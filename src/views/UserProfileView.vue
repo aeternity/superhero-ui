@@ -4,7 +4,7 @@
     <left-section></left-section>
     <div class="container profile__header position-sticky">
       <div>
-        <div class="address"><display-address :address="address"></display-address></div>
+        <div class="address"><span>{{address}}</span></div>
         <div class="count">{{userTips.length}} Tips</div>
       </div>
     </div>
@@ -41,7 +41,7 @@
               <!-- <div class="input-group" v-if="editMode">
                 <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
               </div> -->
-              <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address"><display-address :address="address"></display-address></a>
+              <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address"><span>{{address}}</span></a>
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
             <div class="input-group" v-if="editMode">
@@ -115,7 +115,6 @@
   import TipComment from "../components/tipRecords/TipComment.vue"
   import LeftSection from '../components/layout/LeftSection.vue';
   import RightSection from '../components/layout/RightSection.vue';
-  import DisplayAddress from '../components/DisplayAddress.vue';
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
   import FiatValue from "../components/FiatValue";
@@ -132,8 +131,7 @@
       TipComment,
       LeftSection,
       RightSection,
-      TipRecord,
-      DisplayAddress
+      TipRecord
     },
      data() {
       return {
@@ -317,7 +315,7 @@
       text-align: center;
       font-size: 0.65rem;
       position: absolute;
-      top: 1.5rem;
+      top: 0;
       right: 1rem;
     }
     color: $light_font_color;
@@ -383,7 +381,7 @@
         .profile__username{
           display: block;
           color: $secondary_color;
-          font-size: .8rem;
+          font-size: .65rem;
         }
       }
     }
@@ -448,6 +446,12 @@
     padding: .5rem 0;
   }
 
+@media only screen and (max-width: 1024px){
+  .profile__page .profile__section .profile__info .profile__username{
+    font-size: .6rem;
+  }
+}
+
 @media only screen and (max-width: 768px){
   .profile__page .profile__meta{
     margin-top: 0;
@@ -479,6 +483,8 @@
         font-size: .6rem;
       }
     }
-    
+  .profile__page .profile__section .profile__info .profile__username{
+    font-size: .3rem;
+  }
   }
 </style>

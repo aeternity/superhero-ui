@@ -19,17 +19,21 @@
       </div>
       <div class="tip__footer">
         <div class="row">
-          <div class="col-lg-9 col-md-12">
+          <div class="col-md-12">
             <span class="tip__amount position-relative" >
               <span class="tip__amount__btn" v-on:click.stop title="Send AE to this post">
                 <retip :tipid="tip.id" />
               </span>
               {{ tip.total_amount }} <span class="ae">AE</span>
             </span>
-            <fiat-value :amount="tip.total_amount"></fiat-value>
-            <span @click="goToTip(tip.id)"><img src="../../assets/commentsIcon.svg"></span>
+            <fiat-value :amount="tip.total_amount" class="mr-2"></fiat-value>
+            <span @click="goToTip(tip.id)" class="mr-2"><img src="../../assets/commentsIcon.svg"></span>
+            <span v-if="retipAmount">
+              <span><img src="../../assets/retipIcon.svg"></span>
+              {{ retipAmount }} <span class="ae">AE</span> 
+            </span>
           </div>
-          <div class="col-lg-3 col-md-12" >
+          <div class="col-md-12" >
           </div>
         </div>
       </div>
@@ -65,13 +69,20 @@
     },
     data() {
       return {
-        showRetipWindow: false
+        showRetipWindow: false,
+
       }
     },
     computed: {
       tipText() {
         if(!this.isPreviewToBeVisualized(this.tip)) return '';
         return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
+      },
+      retipAmount(){
+        if(this.tip && this.tip.retips && this.tip.retips.length){
+         return this.tip.retips[this.tip.retips.length - 1].amount_ae;
+        }
+        return 0;
       }
     },
     methods: {
@@ -149,10 +160,10 @@
           border-bottom-left-radius: .25rem;
           margin-left: 1rem;
           padding: .9rem 1rem .9rem 0;
+          .ae{
+            color: $secondary_color;
+          }
           .tip__amount{
-            .ae{
-              color: $secondary_color;
-            }
             .tip__amount__btn{
               &:hover{
                 cursor: pointer;

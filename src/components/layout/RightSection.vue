@@ -1,7 +1,7 @@
 <template>
   <div class="app__rightcolumn">
     <div class="content">
-      <div class="section" v-if="!isLoggedIn">
+      <div class="section wallet-install" v-bind:class="{ active: !isLoggedIn }">
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
           Wallet
@@ -63,6 +63,17 @@
 
 <style lang="scss" scoped>
   @import "../../styles/base";
+
+  .wallet-install{
+    max-height: 0;
+    transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
+    opacity: 0;
+
+    &.active {
+      max-height: 400px;
+      opacity: 100%;
+    }
+  }
 
 .app__rightcolumn{
   color: $light_font_color;

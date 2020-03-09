@@ -19,11 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
-      <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
+    <loading :show-loading="loading.tips" class="loading-position" />
     <right-section></right-section>
     <left-section></left-section>
     <div class="container wrapper">
@@ -33,7 +29,7 @@
                     :senderLink="openExplorer(tip.sender)"></tip-record>
       </div>
     </div>
-    <div class="no-results text-center" v-if="filteredTips !== null && !showLoading && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
+    <div class="no-results text-center" v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
   </div>
 </template>
 
@@ -47,6 +43,7 @@
   import { mapGetters, mapActions } from 'vuex';
   import {EventBus} from '../utils/eventBus';
   import FiatValue from '../components/FiatValue.vue';
+  import Loading from "../components/Loading";
 
   export default {
     name: 'TipsList',
@@ -54,7 +51,6 @@
       return {
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
         searchTerm: '',
-        showLoading: true,
         activeLang: 'en',
         languagesOptions: [
           { value: 'en', text: 'English' },
@@ -63,7 +59,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'tipsOrdering', 'tipSortBy', 'account', 'balance', 'isLoggedIn']),
+      ...mapGetters(['tips', 'tipsOrdering', 'tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
       filteredTips() {
         if (this.searchTerm.trim().length === 0) {
           return this.tips
@@ -100,17 +96,10 @@
       },
       openExplorer(address) {
         return this.explorerUrl + address
-      },
-      showLoadingTips() {
-        let load = setInterval(() => {
-          if (this.tips.length > 0){
-            this.showLoading = false;
-            clearInterval(load);
-          }
-        }, 200);
       }
     },
     components: {
+      Loading,
       Dropdown,
       TipRecord,
       LeftSection,
@@ -122,10 +111,10 @@
       EventBus.$on("searchTopic", (topic) => {
         this.onSearchTopic(topic);
       });
+
       if(this.$route.query.searchTopicPhrase){
         this.onSearchTopic(this.$route.query.searchTopicPhrase);
       }
-      this.showLoadingTips();
     },
   }
 </script>
@@ -149,21 +138,15 @@
     height: 1rem;
   }
 
-  .spinner__container{
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    max-height: 200px;
-    opacity: 100%;
-    transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
+  .loading-position {
     position: fixed;
     left: 50%;
     transform: translate( -50%);
     z-index: 3;
-    &.active {
-      max-height: 0;
-      opacity: 0;
-    }
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
+
   .container.wrapper{
     padding-top: 0;
     min-height: 4rem;

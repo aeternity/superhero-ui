@@ -131,7 +131,7 @@
           height: 2.75rem;
           overflow-y: auto;
           padding-left: 1rem;
-          padding-bottom: .5rem;
+          margin-bottom: .5rem;
           &:hover{
             cursor: pointer;
           }
@@ -236,6 +236,9 @@
   }
   .tips__container .tip__record .tip__body{
       width: 100%;
+    .tip__note{
+      @include truncate-overflow-mx(4);
+    }
   }
 
 @media only screen and (min-width: 1024px){

@@ -1,34 +1,32 @@
 <template>
-<div class="d-inline-block">
-  <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
-  <div class="position-relative wrapper" v-on:click.stop>
-    <img @click="toggleRetip(!show)" class="retip__icon" src="../assets/heart.svg">
-    <div class="clearfix retip__container" v-show="show">
-      <div class="text-center spinner__container" v-show="showLoading">
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
+  <div class="d-inline-block">
+    <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
+    <div class="position-relative wrapper" v-on:click.stop>
+      <img @click="toggleRetip(!show)" class="retip__icon" src="../assets/heart.svg">
+      <div class="clearfix retip__container" v-if="show">
+        <loading :show-loading="showLoading" />
+        <div class="text-center mb-2" v-show="error && !showLoading">An error occured while sending retip</div>
+        <div v-if="!showLoading">
+          <div class="input-group mr-1 float-left">
+            <input type="number" step="0.1" v-model="value" class="form-control" aria-label="Default">
+            <div class="input-group-append">
+              <span class="input-group-text append__ae"> <span class="ae">AE</span> <fiat-value :amount="value"/></span>
+            </div>
+          </div>
+          <button class="btn btn-primary retip__button float-right" @click="retip()">Retip</button>
         </div>
       </div>
-      <div class="text-center mb-2" v-show="error && !showLoading">An error occured while sending retip</div>
-      <div class="input-group mr-1 float-left" v-show="!showLoading">
-        <input type="number" step="0.1" v-model="value" class="form-control" aria-label="Default">
-        <div class="input-group-append">
-          <span class="input-group-text append__ae"> <span class="ae">AE</span>&nbsp;<fiat-value :amount="value"></fiat-value></span>
-        </div>
-      </div>
-      <button class="btn btn-primary retip__button float-right" @click="retip()" v-show="!showLoading">Retip</button>
     </div>
   </div>
-</div>
-
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import util from '../utils/util';
   import aeternity from '../utils/aeternity';
-  import {EventBus} from '../utils/eventBus';
+  import { EventBus } from '../utils/eventBus';
   import FiatValue from './FiatValue.vue';
+  import Loading from "./Loading";
 
   export default {
     name: 'Retip',
@@ -43,35 +41,35 @@
       }
     },
     components: {
+      Loading,
       FiatValue
     },
     computed: {
       ...mapGetters(['settings']),
     },
-    methods:{
-      toggleRetip(showRetipForm){
+    methods: {
+      toggleRetip(showRetipForm) {
         this.show = showRetipForm;
-        if(showRetipForm){
+        if (showRetipForm) {
           this.resetForm();
         }
       },
       async retip() {
         let amount = util.aeToAtoms(this.value);
-        this.showLoading = true
+        this.showLoading = true;
         await aeternity.contract.methods.retip(this.tipid, {amount: amount})
-          .then(response => {
-            this.showLoading = false
-            this.error = false
-          }).catch( error => {
-              this.showLoading = false
-              this.error = true
+          .then(() => {
+            EventBus.$emit('reloadData');
+            this.showLoading = false;
+            this.error = false;
+            this.show = false;
+          }).catch(e => {
+            console.error(e);
+            this.showLoading = false;
+            this.error = true;
           });
-        if(!this.error){
-          EventBus.$emit('reloadData');
-          this.show = false;
-        }
       },
-      resetForm(){
+      resetForm() {
         this.value = 0;
         this.fiatValue = 0.00;
         this.error = false;

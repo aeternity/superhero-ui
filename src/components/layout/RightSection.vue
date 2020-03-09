@@ -1,13 +1,13 @@
 <template>
   <div class="app__rightcolumn">
     <div class="content">
-      <div class="section" v-if="!isLoggedIn">
+      <div class="section wallet-install" v-bind:class="{ active: !isLoggedIn }">
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
           Wallet
         </div>
         <div class="section__body clearfix">
-          <div class="side__button"><a href="//github.com/superherowallet/wallet/releases/latest">Install Wallet</a></div>
+          <div class="side__button"><a :href="downloadUrl" target="_blank">Install Wallet</a></div>
         </div>
       </div>
       <div class="section trending">
@@ -15,7 +15,7 @@
           <img src="../../assets/iconTrending.svg">
           Trending
         </div>
-        <div class="section__body" v-if="topics.length > 0">
+        <div class="section__body topics-section" v-bind:class="{ active: topics.length > 0 }">
           <div class="section__item" v-for="([topic, data], index) in topics">
             <div class="topic-container text-ellipsis">
             <topic :topic="topic" />
@@ -45,6 +45,7 @@
   import {mapGetters} from "vuex";
   import FiatValue from '../FiatValue.vue';
   import Topic from "../tipRecords/Topic";
+  import { detect } from 'detect-browser';
 
   export default {
     name: 'RightSection',
@@ -53,16 +54,54 @@
       FiatValue
     },
     data() {
-      return {}
+      return { 
+        browser: detect()
+      }
     },
     computed: {
       ...mapGetters(['topics', 'isLoggedIn']),
+      downloadUrl () {
+        if (this.browser) {
+          switch(this.browser.name) {
+          case 'firefox':
+            return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
+            break;
+          case 'chrome':
+            // TODO: Update with chrome store url when published
+            return '//github.com/superherowallet/wallet/releases/latest';
+            break;
+          default:
+            return '//github.com/superherowallet/wallet/releases/latest';
+            break;
+        }
+        }
+      },
     }
   }
 </script>
 
 <style lang="scss" scoped>
   @import "../../styles/base";
+
+  .wallet-install{
+    max-height: 0;
+    transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
+    opacity: 0;
+
+    &.active {
+      max-height: 400px;
+      opacity: 100%;
+    }
+  }
+
+  .topics-section{
+    max-height: 0;
+    transition: max-height 0.25s ease-in;
+
+    &.active {
+      max-height: 10rem;
+    }
+  }
 
 .app__rightcolumn{
   color: $light_font_color;
@@ -88,7 +127,6 @@
           }
         }
         .section__body{
-          max-height: 10rem;
           overflow-y: auto;
           -ms-overflow-style: none;
           scrollbar-width: none;

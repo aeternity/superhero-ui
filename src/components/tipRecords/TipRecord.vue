@@ -133,7 +133,8 @@
           height: 2.75rem;
           overflow-y: auto;
           padding-left: 1rem;
-          padding-bottom: .5rem;
+          margin-bottom: .5rem;
+          @include truncate-overflow-mx(4);
           &:hover{
             cursor: pointer;
           }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="actions__container container">
+    <div class="actions__container container position-sticky">
       <div class="input-group mb-1">
         <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
         <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
@@ -170,8 +170,6 @@
   }
    .actions__container{
       top: 0;
-      position: sticky;
-      position: -webkit-sticky;
       z-index: 10;
       font-size: .75rem;
       background-color: $background_color;

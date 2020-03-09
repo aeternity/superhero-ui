@@ -2,7 +2,7 @@
   <div>
     <right-section></right-section>
     <left-section></left-section>
-    <div class="container profile__header">
+    <div class="container profile__header position-sticky">
       <div>
         <div class="address"><display-address :address="address"></display-address></div>
         <div class="count">{{userTips.length}} Tips</div>
@@ -266,8 +266,6 @@
 
   .profile__header{
     top: 0;
-    position: sticky;
-    position: -webkit-sticky;
     z-index: 10;
     &>div{
       padding: .25rem 1rem;

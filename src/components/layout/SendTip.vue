@@ -1,5 +1,5 @@
 <template>
-  <div class="tip__post" v-if="isLoggedIn">
+  <div class="tip__post" v-bind:class="{ active: isLoggedIn }">
     <form @submit.prevent>
       <div class="form-row">
         <label class="tip__post__label pl-2">Send Tip</label>
@@ -78,9 +78,18 @@
 
   .tip__post {
     background-color: $actions_ribbon_background_color;
-    padding: 1rem;
+    max-height: 0;
+    transition: max-height 0.25s ease-in;
+    opacity: 0;
+
+    &.active {
+      max-height: 400px;
+      opacity: 100%;
+    }
 
     form {
+      padding: 1rem;
+
       span.append__ae {
         font-size: 0.75rem;
         background: $background_color;

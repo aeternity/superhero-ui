@@ -201,11 +201,7 @@
       },
       openExplorer(address) {
         return this.explorerUrl + address
-      },
-      onUpdateComment(data){
-        this.comments.push(data);
-      },
-      toggleEditMode(flag){
+      }, toggleEditMode(flag){
         this.editMode = !this.editMode;
       },
       resetEditedValues(){
@@ -485,6 +481,6 @@
         font-size: .6rem;
       }
     }
-    
+
   }
 </style>

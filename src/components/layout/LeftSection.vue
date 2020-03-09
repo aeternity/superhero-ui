@@ -158,7 +158,9 @@
         font-size: 1rem;
         text-transform: capitalize;
         margin-bottom: 1rem;
-
+        a a{
+          color: $standard_font_color;
+        }
         &:hover {
           cursor: pointer;
         }

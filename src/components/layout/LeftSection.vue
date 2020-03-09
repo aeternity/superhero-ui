@@ -138,7 +138,7 @@
       .logo{
         margin-bottom: 1.4rem;
         img{
-          width: 7.5rem;
+          width: 8rem;
           &:hover{
             cursor: pointer;
           }

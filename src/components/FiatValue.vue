@@ -1,6 +1,7 @@
 <template>
     <span class="currency-value" v-if="currencyRates.aeternity">
-      (~ {{ fiatValue }} <span class="currency-sign">{{settings.currency.toUpperCase()}}</span>)
+      <span v-if="withoutBrackets">{{ fiatValue }} <span class="currency-sign">{{settings.currency.toUpperCase()}}</span></span>
+      <span v-else>(~ {{ fiatValue }} <span class="currency-sign">{{settings.currency.toUpperCase()}}</span>)</span>
     </span>
 </template>
 
@@ -10,7 +11,7 @@
 
   export default {
     name: 'FiatValue',
-    props: ['amount'],
+    props: ['amount', 'withoutBrackets'],
 
     computed: {
       ...mapGetters(['settings', 'currencyRates']),

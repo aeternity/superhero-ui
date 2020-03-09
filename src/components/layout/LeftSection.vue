@@ -69,7 +69,7 @@
             <span class="currency secondary">AE</span>
           </div>
           <div class="overview__value" v-if="stats.total_amount">
-            <fiat-value :amount="stats.total_amount"></fiat-value>
+            <fiat-value :amount="stats.total_amount" :withoutBrackets="true"></fiat-value>
           </div>
           <div class="overview__label">
             Total Tips Value

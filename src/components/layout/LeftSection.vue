@@ -18,18 +18,16 @@
           </a>
         </div>
         <div class="navigation__item">
-          <a><img class="mr-1" src="../../assets/iconMission.svg">
-            <router-link to="/mission">
-              <span v-bind:class="{ active: $route.name === 'mission' }">Mission</span>
-            </router-link>
-          </a>
+          <router-link to="/mission">
+            <img class="mr-1" src="../../assets/iconMission.svg">
+            <span v-bind:class="{ active: $route.name === 'mission' }">Mission</span>
+          </router-link>
         </div>
         <div class="navigation__item" v-if="!isLoggedIn">
-          <a><img class="mr-1 avatar" src="../../assets/userAvatar.svg">
-            <router-link to="/create-profile">
-              <span v-bind:class="{ active: $route.name === 'user-profile' }">Create Profile</span>
-            </router-link>
-          </a>
+          <router-link to="/create-profile">
+            <img class="mr-1 avatar" src="../../assets/userAvatar.svg">
+            <span v-bind:class="{ active: $route.name === 'user-profile' }">Create Profile</span>
+          </router-link>
         </div>
         <div class="navigation__item" v-if="isLoggedIn">
           <a @click="openMyProfile">
@@ -158,7 +156,7 @@
         font-size: 1rem;
         text-transform: capitalize;
         margin-bottom: 1rem;
-        a a{
+        a{
           color: $standard_font_color;
         }
         &:hover {

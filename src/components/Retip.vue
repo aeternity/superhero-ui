@@ -47,11 +47,15 @@
     },
     computed: {
       ...mapGetters(['settings']),
+      eventPayload() {
+       return `${this.tipid}:${this.retipIcon}`
+      }
     },
     methods: {
       toggleRetip(showRetipForm) {
         this.show = showRetipForm;
         if (showRetipForm) {
+          EventBus.$emit('showRetipForm', this.eventPayload);
           this.resetForm();
         }
       },
@@ -75,6 +79,13 @@
         this.fiatValue = 0.00;
         this.error = false;
       },
+    },
+    created() {
+      EventBus.$on("showRetipForm", (payload) => {
+        if (payload !== this.eventPayload) {
+          this.show = false;
+        }
+      });
     }
   }
 </script>

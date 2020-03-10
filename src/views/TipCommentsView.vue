@@ -171,10 +171,6 @@
     }
   }
   .comments__section{
-    .send-button {
-      width: 3rem;
-    }
-
     background-color: $actions_ribbon_background_color;
     overflow-y: auto;
     padding: 1rem;

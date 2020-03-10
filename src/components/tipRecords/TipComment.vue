@@ -7,7 +7,9 @@
               :to="'/user-profile/' + comment.author "
               target="_blank">
               <img src="../../assets/userAvatar.svg">
-              <display-address :address="comment.author" class="mr-2"></display-address>
+              <span v-if="userChainNames && userChainNames.length > 0" :title="userChainNames[0].name" >{{userChainNames[0].name}}</span>
+              <span v-else-if="comment.chainNames && comment.chainNames.length > 0" :title="comment.chainNames[0].name">{{comment.chainNames[0].name}}</span>
+              <display-address v-else :address="comment.author" class="mr-2"></display-address>
             </router-link>
             <span class="date">
               {{ new Date(comment.createdAt).toLocaleString('en-US', { hourCycle: 'h24' }) }}
@@ -25,7 +27,7 @@
   import DisplayAddress from '../DisplayAddress.vue';
   export default {
     name: 'TipComment',
-    props: ['comment'],
+    props: ['comment', 'userChainNames'],
     data() {
       return {
       }

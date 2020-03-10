@@ -34,5 +34,8 @@ export const getters = {
   },
   loading(state) {
     return state.loading;
+  },
+  chainNames(state) {
+    return state.chainNames;
   }
 };

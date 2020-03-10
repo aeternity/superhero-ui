@@ -25,7 +25,8 @@ export default new Vuex.Store({
     oracleState: {},
     loading: {
       tips: false
-    }
+    },
+    chainNames: []
   },
   getters,
   mutations,

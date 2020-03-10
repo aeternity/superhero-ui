@@ -36,6 +36,9 @@ export default {
   [types.SET_LOADING](state, payload) {
     state.loading = payload;
   },
+  [types.SET_CHAIN_NAMES](state, payload) {
+    state.chainNames = payload;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

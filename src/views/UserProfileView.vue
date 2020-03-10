@@ -41,7 +41,10 @@
               <!-- <div class="input-group" v-if="editMode">
                 <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
               </div> -->
-              <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address"><display-address :address="address"></display-address></a>
+              <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address">
+                <display-address v-if="!userChainNames.length" :address="address"></display-address>
+                <span :title="userChainNames[0].name" v-else>{{userChainNames[0].name}}</span>
+              </a>
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
             <div class="input-group" v-if="editMode">
@@ -97,7 +100,7 @@
             </div>
           </div>
           <div v-if="activeTab == 'comments'">
-            <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
+            <tip-comment v-for="(comment, index) in comments" :key="index" :userChainNames="userChainNames"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
           </div>
         <div class="text-center spinner__container w-100" v-if="loading">
           <div class="spinner-border text-primary" role="status">
@@ -151,13 +154,13 @@
         activeTab: 'tips',
         profile: {
           biography: '',
-          displayName: '',
+          displayName: ''
         },
         avatar: '../assets/userAvatar.svg'
       }
     },
     computed: {
-      ...mapGetters(['current', 'account', 'tips', 'oracleState']),
+      ...mapGetters(['current', 'account', 'tips', 'oracleState', 'chainNames']),
       userTips() {
         return this.tips.filter(tip => tip.sender === this.address);
       },
@@ -181,6 +184,9 @@
       isMyUserProfile() {
         return this.account === this.address;
       },
+      userChainNames(){
+        return this.chainNames.filter(chainName => chainName.owner === this.address);
+      }
     },
     methods: {
       showNoResultsMsg(){

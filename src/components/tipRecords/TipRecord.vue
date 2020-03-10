@@ -39,7 +39,7 @@
               {{ tip.amount_ae }} <span class="ae">AE</span>
             </span>
             <fiat-value :amount="tip.total_amount"></fiat-value>
-            <span class="ml-4" v-on:click.stop>
+            <span class="ml-4 retip__wrapper" v-on:click.stop>
               <retip :tipid="tip.id" :retip-icon="true"/>
               {{ tip.retip_amount_ae }} <span class="ae">AE</span>
               <fiat-value :amount="tip.retip_amount_ae"></fiat-value>
@@ -250,13 +250,13 @@
 @media (min-width: 576px){
   .tip__record .tip__body .tip__author .date.wholeaddr{
     padding-top: 0;
- } 
+ }
 }
 
 @media (min-width: 768px) {
   .tip__record .tip__body .tip__author .date.wholeaddr{
     padding-top: 0;
- } 
+ }
 }
 
 @media (min-width: 992px) {
@@ -267,7 +267,7 @@
     .date{
       padding-top: 0;
     }
-  } 
+  }
 }
 
 @media (min-width: 1200px) {
@@ -278,7 +278,7 @@
   .date.wholeaddr{
     padding-top: .3rem;
   }
- } 
+ }
 }
 
 @media only screen and (max-width: 1024px){

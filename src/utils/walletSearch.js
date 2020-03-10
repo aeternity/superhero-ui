@@ -2,6 +2,7 @@ import { Node, RpcAepp } from '@aeternity/aepp-sdk/es';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import aeternity from "./aeternity";
+import { MemoryAccount, Universal } from '@aeternity/aepp-sdk'
 
 // Send wallet connection info to Aepp through content script
 const NODE_URL = 'https://sdk-mainnet.aepps.com';
@@ -33,7 +34,23 @@ export const wallet = {
   },
 
   async init (successCallback) {
-    window !== window.parent;
+    if (process && process.env && process.env.PRIVATE_KEY && process.env.PUBLIC_KEY) {
+      this.client = await Universal({
+        compilerUrl: COMPILER_URL,
+        nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],
+        accounts: [
+          MemoryAccount({ keypair: { secretKey: process.env.PRIVATE_KEY, publicKey: process.env.PUBLIC_KEY } }),
+        ],
+        address: process.env.PUBLIC_KEY,
+      });
+      aeternity.client = this.client;
+      this.height = await this.client.height();
+      this.client.rpcClient = {
+        getCurrentAccount: async () => process.env.PUBLIC_KEY
+      }
+      await aeternity.initProvider(true);
+      return successCallback();
+    }
 
     this.client = await RpcAepp({
       name: 'Superhero',

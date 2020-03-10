@@ -72,8 +72,9 @@
         const fetchOrdering = backendInstance.tipOrder().catch(console.error);
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
         const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
-        let [{stats, _, tips}, tipOrdering, tipsPreview, langTips] =
-          await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
+        const fetchChainNames = backendInstance.getChainNameFromAddress().catch(console.error);
+        let [{stats, _, tips}, tipOrdering, tipsPreview, langTips, chainNames] =
+          await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips, fetchChainNames]);
 
         // async fetch
         this.reloadAsyncData(initial, stats);
@@ -98,6 +99,13 @@
         if (tipsPreview) {
           tips = tips.map(tip => {
             tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
+            return tip;
+          });
+        }
+
+        if (chainNames) {
+          tips = tips.map(tip => {
+            tip.chainNames = chainNames.filter(chainName => chainName.owner === tip.sender);
             return tip;
           });
         }

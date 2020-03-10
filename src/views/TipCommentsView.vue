@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="tipped__url" v-if="tip">
-      <tip-record :tip="tip" :senderLink="openExplorer(tip.sender)"></tip-record>
+      <tip-record :tip="tip"></tip-record>
     </div>
     <div class="comment__section">
       <p class="latest__comments">Latest comments</p>
@@ -24,7 +24,7 @@
           <img class="mr-3 avatar" src="../assets/userAvatar.svg">
           <div class="input-group">
             <input type="text" placeholder="Add comment" v-model="comment" class="form-control">
-            <b-button size="sm" @click="sendTipComment()" :disabled="comment.length === 0 || loading">
+            <b-button size="sm" @click="sendTipComment()" :disabled="comment.length === 0 || showLoading">
               {{$t('system.Send')}}
             </b-button>
           </div>
@@ -32,11 +32,11 @@
 
     </div>
     <div class="comments__section">
-      <div class="no-results text-center w-100" v-bind:class="[error ? 'error' : '']" v-if="comments.length === 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
+      <div class="no-results text-center w-100" v-bind:class="[error ? 'error' : '']" v-if="comments.length === 0 && !showLoading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
 
-      <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
-      <div class="text-center spinner__container w-100 mt-3" v-if="loading">
-        <loading :show-loading="loading" />
+      <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment"></tip-comment>
+      <div class="text-center w-100 mt-3" v-if="showLoading">
+        <loading :show-loading="true" />
       </div>
     </div>
     </div>
@@ -66,61 +66,31 @@
     },
     data() {
       return {
-        explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
-        tip: null,
         id: this.$route.params.id,
-        loading: false,
+        showLoading: true,
         comments: [],
         error: false,
         comment: ''
       }
     },
     computed: {
-      ...mapGetters(['tips', 'settings', 'account', 'chainNames'])
+      ...mapGetters(['tips', 'settings', 'account', 'chainNames']),
+      tip() {
+        return this.tips.find(x => x.id === parseInt(this.id));
+      }
     },
     watch: {
-      tips() {
+      tip() {
         this.updateTip();
       }
     },
     methods: {
-      sendTipComment(){
-        if(this.sendComment){
-          this.loading = true;
-          this.sendComment({
-            comment: this.comment,
-            tip: this.tip
-          }).then(() => {
-            this.loading = false;
-            this.comment = '';
-          });
-        }
-      },
-      updateTip() {
-        this.loading = true;
-        // Avoid empty trigger
-        if(this.tips.length === 0) return;
-        this.tip = this.tips.find(x => x.id === parseInt(this.id));
-        // Avoid backend spam
-        if(this.comments.length === 0) {
-          backendInstance.getTipComments(this.id).then((response) => {
-            this.error = false;
-            this.comments = response.map(comment => {
-              comment.chainNames = this.chainNames.filter(chainName => chainName.owner === comment.author);
-              return comment;
-            });
-            this.loading = false;
-          }).catch(e => {
-            console.error(e);
-            this.error = true;
-            this.loading = false;
-          });
-        }
-      },
-      async sendComment(data) {
+      async sendTipComment() {
+        this.showLoading = true;
+
         let postData = {
-          tipId: data.tip.id,
-          text: data.comment,
+          tipId: this.tip.id,
+          text: this.comment,
           author: wallet.client.rpcClient.getCurrentAccount(),
         };
 
@@ -133,10 +103,24 @@
 
         const response = await backendInstance.sendTipComment(respondChallenge);
         this.comments.push(response);
+
+        this.showLoading = false;
+        this.comment = '';
       },
-      openExplorer(address) {
-        return this.explorerUrl + address
-      },
+      updateTip() {
+        backendInstance.getTipComments(this.id).then((response) => {
+          this.error = false;
+          this.comments = response.map(comment => {
+            comment.chainNames = this.chainNames.filter(chainName => chainName.owner === comment.author);
+            return comment;
+          });
+          this.showLoading = false;
+        }).catch(e => {
+          console.error(e);
+          this.error = true;
+          this.showLoading = false;
+        });
+      }
     },
     created(){
       this.updateTip();

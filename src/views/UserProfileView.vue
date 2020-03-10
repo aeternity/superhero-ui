@@ -17,7 +17,7 @@
         </div>
         <div class="row" v-bind:class="[loadingProfile ? 'invisible' : '']">
           <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
-            <a class="edit__button" @click="toggleEditMode(true)" v-if="!editMode && isMyUserProfile" title="Edit Profile">Edit Profile</a>
+            <a class="edit__button" @click="toggleEditMode()" v-if="!editMode && isMyUserProfile" title="Edit Profile">Edit Profile</a>
             <div class="profile__image position-relative" >
               <div class="overlay" v-if="loadingAvatar"></div>
               <div class="text-center spinner__container w-100" v-if="loadingAvatar">
@@ -201,12 +201,13 @@
       },
       openExplorer(address) {
         return this.explorerUrl + address
-      }, toggleEditMode(flag){
+      },
+      toggleEditMode(){
         this.editMode = !this.editMode;
       },
       resetEditedValues(){
         this.getProfile();
-        this.toggleEditMode(false);
+        this.toggleEditMode();
       },
       saveProfile(){
         let postData = {

@@ -7,7 +7,7 @@
           :to="'/user-profile/' + tip.sender "
           target="_blank">
             <img src="../../assets/userAvatar.svg">
-            <display-address v-if="!(this.tip.chainNames && this.tip.chainNames.length > 0)" :address="tip.sender" class="mr-2"></display-address>
+            <display-address v-if="!(tip.chainNames && tip.chainNames.length > 0)" :address="tip.sender" class="mr-2"></display-address>
             <span :title="tip.chainNames[0].name" v-else>{{tip.chainNames[0].name}}</span>
           </router-link>
           <span class="date">

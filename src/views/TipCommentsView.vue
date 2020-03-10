@@ -79,7 +79,7 @@
       }
     },
     computed: {
-      ...mapGetters(['tips', 'settings', 'account'])
+      ...mapGetters(['tips', 'settings', 'account', 'chainNames'])
     },
     watch: {
       tips() {
@@ -108,7 +108,10 @@
             this.error = false;
             console.log(response)
             if (typeof response !== 'undefined' && response.length > 0) {
-              this.comments = response;
+              this.comments = response.map(comment => {
+                comment.chainNames = this.chainNames.filter(chainName => chainName.owner === comment.author);
+                return comment;
+              });
             }
           }).catch(err => {
             this.error = true;

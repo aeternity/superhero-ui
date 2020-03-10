@@ -37,5 +37,8 @@ export default {
   removeLoading({ commit, state }, payload) {
     state.loading[payload] = false;
     commit(types.SET_LOADING, state.loading);
-  }
+  },
+  setChainNames({ commit }, payload) {
+    commit(types.SET_CHAIN_NAMES, payload)
+  },
 };

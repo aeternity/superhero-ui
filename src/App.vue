@@ -26,7 +26,7 @@
       ...mapGetters(['settings', 'tipSortBy']),
     },
     methods: {
-      ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState', 'addLoading', 'removeLoading']),
+      ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState', 'addLoading', 'removeLoading', 'setChainNames']),
       reloadAsyncData(initial, stats) {
         // wallet
         if (initial) wallet.init(async () => {
@@ -110,6 +110,7 @@
           });
         }
 
+        this.setChainNames(chainNames);
         this.setTipsOrdering(tipOrdering);
         this.updateTips(tips);
         this.updateTopics(topics);

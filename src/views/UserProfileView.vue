@@ -10,28 +10,28 @@
     </div>
     <div class="container profile__page">
       <div class="profile__section clearfix position-relative">
-        <div class="text-center spinner__container w-100" v-if="loadingProfile">
+        <div class="text-center spinner__container w-100" v-if="showLoadingProfile">
           <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
           </div>
         </div>
-        <div class="row" v-bind:class="[loadingProfile ? 'invisible' : '']">
+        <div class="row" v-bind:class="[showLoadingProfile ? 'invisible' : '']">
           <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
             <a class="edit__button" @click="toggleEditMode()" v-if="!editMode && isMyUserProfile" title="Edit Profile">Edit Profile</a>
             <div class="profile__image position-relative" >
-              <div class="overlay" v-if="loadingAvatar"></div>
-              <div class="text-center spinner__container w-100" v-if="loadingAvatar">
+              <div class="overlay" v-if="showLoadingAvatar"></div>
+              <div class="text-center spinner__container w-100" v-if="showLoadingAvatar">
                 <div class="spinner-border text-primary" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               </div>
-              <!-- <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" v-bind:class="[loadingAvatar ? 'blurred' : '']"> -->
+              <!-- <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" v-bind:class="[showLoadingAvatar ? 'blurred' : '']"> -->
                 <a :href="openExplorer(address)" target="_blank" v-if="!editMode" :title="address">
                   <img v-bind:src="avatar"/>
                 </a>
                 <!-- <div>Change Avatar</div> -->
               <!-- </label> -->
-              <!-- <div v-bind:class="[loadingAvatar ? 'blurred' : '']">
+              <!-- <div v-bind:class="[showLoadingAvatar ? 'blurred' : '']">
                 <img v-bind:src="avatar" v-if="!editMode">
               </div> -->
               <!-- <input id="file-input" type="file" name="avatar" v-if="editMode" accept="image/png, image/jpeg"> -->
@@ -88,8 +88,8 @@
           <a  v-bind:class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">Comments</a>
         </div>
       <div class="comments__section position-relative">
-        <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="showNoResultsMsg()">{{'There is no activity to display.'}}</div>
-          <div v-if="activeTab == 'tips'">
+        <div class="no-results text-center w-100" v-bind:class="[error ? 'error' : '']" v-if="showNoResultsMsg">{{'There is no activity to display.'}}</div>
+          <div v-if="activeTab === 'tips'">
             <div v-if="userTips.length">
               <tip-record v-for="(tip,index) in userTips"
                 :key="index"
@@ -99,13 +99,11 @@
               </tip-record>
             </div>
           </div>
-          <div v-if="activeTab == 'comments'">
+          <div v-if="activeTab === 'comments'">
             <tip-comment v-for="(comment, index) in comments" :key="index" :userChainNames="userChainNames"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
           </div>
-        <div class="text-center spinner__container w-100" v-if="loading">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
+        <div class="mt-3" v-if="showLoading || loading.tips">
+          <loading :show-loading="true" />
         </div>
       </div>
     </div>
@@ -124,6 +122,7 @@
   import FiatValue from "../components/FiatValue";
   import BigNumber from 'bignumber.js';
   import Util from '../utils/util';
+  import Loading from "../components/Loading";
 
   const backendInstance = new Backend();
 
@@ -131,6 +130,7 @@
     props: ['address'],
     name: 'TipCommentsView',
     components: {
+      Loading,
       FiatValue,
       TipComment,
       LeftSection,
@@ -142,15 +142,15 @@
       return {
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
         tip: this.tipData,
-        loading: false,
+        showLoading: false,
         comments: [],
         error: false,
         userName: this.address,
         editingDisplayName: '',
         editingDescription: '',
         editMode: false,
-        loadingProfile: false,
-        loadingAvatar: false,
+        showLoadingProfile: false,
+        showLoadingAvatar: false,
         activeTab: 'tips',
         profile: {
           biography: '',
@@ -160,7 +160,7 @@
       }
     },
     computed: {
-      ...mapGetters(['current', 'account', 'tips', 'oracleState', 'chainNames']),
+      ...mapGetters(['current', 'account', 'tips', 'oracleState', 'chainNames', 'loading']),
       userTips() {
         return this.tips.filter(tip => tip.sender === this.address);
       },
@@ -186,16 +186,16 @@
       },
       userChainNames(){
         return this.chainNames.filter(chainName => chainName.owner === this.address);
+      },
+      showNoResultsMsg() {
+        if (this.activeTab === 'comments') {
+          return this.comments.length === 0 && !this.showLoading && !this.loading.tips
+        } else {
+          return this.userTips.length === 0 && !this.showLoading && !this.loading.tips
+        }
       }
     },
     methods: {
-      showNoResultsMsg(){
-        if(this.activeTab == 'comments'){
-          return this.comments.length == 0 && !this.loading
-        }else{
-          return this.userTips.length == 0 && !this.loading
-        }
-      },
       setActiveTab(tab){
         this.activeTab = tab;
       },
@@ -209,55 +209,40 @@
         this.getProfile();
         this.toggleEditMode();
       },
-      saveProfile(){
+      async saveProfile() {
         let postData = {
           biography: this.profile.biography,
           author: wallet.client.rpcClient.getCurrentAccount(),
-        }
+        };
 
-        console.log("sending profile => ", postData)
+        const response = await backendInstance.sendProfileData(postData);
+        let signedChallenge = await wallet.signMessage(response.challenge);
+        let respondChallenge = {
+          challenge: response.challenge,
+          signature: signedChallenge
+        };
 
-        backendInstance.sendProfileData(postData).then(async (response) => {
-          console.log(response)
-          console.log("challenge => ", response.challenge);
-          console.log("signing with => ", wallet.client.rpcClient.getCurrentAccount())
-
-          let signedChallenge = await wallet.signMessage(response.challenge)
-          let respondChallenge = {
-            challenge: response.challenge,
-            signature: signedChallenge
-          }
-
-          backendInstance.sendProfileData(respondChallenge).then((result) => {
-            console.log(result);
-            this.resetEditedValues()
-            // this.$emit('updateComment', result)
-          }).catch(console.error)
-        }).catch(console.error);
+        await backendInstance.sendProfileData(respondChallenge);
+        this.resetEditedValues();
       },
       getProfile() {
         // backendInstance.getProfileImage(this.address).then((response) => {}).catch(console.error);
         backendInstance.getProfile(this.address).then((response) => {
-          console.log('getting profile for address: ', this.address)
-          console.log(response)
-          if(typeof response !== 'undefined' && response !== null){
-            this.profile = response
-          }
+            this.profile = response;
         }).catch(console.error);
       }
     },
    async created(){
       this.getProfile();
-      this.loading = true;
+      this.showLoading = true;
       backendInstance.getAllComments().then((response) => {
-        this.loading = false;
+        this.showLoading = false;
         this.error = false;
-        if(typeof response !== 'undefined' && response.length > 0){
-          this.comments = response.filter(comment => comment.author == this.address);
-        }
-      }).catch(err => {
+        this.comments = response.filter(comment => comment.author === this.address);
+      }).catch(e => {
+        console.error(e);
         this.error = true;
-        this.loading = false;
+        this.showLoading = false;
       });
     }
   }

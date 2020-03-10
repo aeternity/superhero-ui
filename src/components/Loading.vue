@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center spinner__container" v-bind:class="{ active: showLoading }">
+  <div class="text-center spinner__container w-100" v-bind:class="{ active: showLoading }">
     <div class="spinner-border text-primary" role="status">
       <span class="sr-only">Loading...</span>
     </div>

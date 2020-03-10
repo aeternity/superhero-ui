@@ -19,17 +19,20 @@
       </div>
       <div class="tip__footer">
         <div class="row">
-          <div class="col-lg-9 col-md-12">
+          <div class="col-md-12">
             <span class="tip__amount position-relative" >
               <span class="tip__amount__btn" v-on:click.stop title="Send AE to this post">
                 <retip :tipid="tip.id" />
               </span>
-              {{ tip.total_amount }} <span class="ae">AE</span>
+              {{ tip.amount_ae }} <span class="ae">AE</span>
             </span>
             <fiat-value :amount="tip.total_amount"></fiat-value>
-            <span @click="goToTip(tip.id)"><img src="../../assets/commentsIcon.svg"></span>
-          </div>
-          <div class="col-lg-3 col-md-12" >
+            <span class="ml-4" v-if="tip.retip_amount_ae !== '0'" v-on:click.stop>
+              <retip :tipid="tip.id" :retip-icon="true"/>
+              {{ tip.retip_amount_ae }} <span class="ae">AE</span>
+              <fiat-value :amount="tip.retip_amount_ae"></fiat-value>
+            </span>
+            <span @click="goToTip(tip.id)" class="ml-4"><img src="../../assets/commentsIcon.svg"></span>
           </div>
         </div>
       </div>
@@ -62,11 +65,6 @@
       Retip,
       TipTitle,
       DisplayAddress
-    },
-    data() {
-      return {
-        showRetipWindow: false
-      }
     },
     computed: {
       tipText() {
@@ -149,10 +147,10 @@
           border-bottom-left-radius: .25rem;
           margin-left: 1rem;
           padding: .9rem 1rem .9rem 0;
+          .ae{
+            color: $secondary_color;
+          }
           .tip__amount{
-            .ae{
-              color: $secondary_color;
-            }
             .tip__amount__btn{
               &:hover{
                 cursor: pointer;

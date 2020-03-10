@@ -2,7 +2,8 @@
   <div class="d-inline-block">
     <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
     <div class="position-relative wrapper" v-on:click.stop>
-      <img @click="toggleRetip(!show)" class="retip__icon" src="../assets/heart.svg">
+      <img @click="toggleRetip(!show)" v-if="!retipIcon" class="retip__icon" src="../assets/heart.svg">
+      <img @click="toggleRetip(!show)" v-else class="retip__icon" src="../assets/retipIcon.svg">
       <div class="clearfix retip__container" v-if="show">
         <loading :show-loading="showLoading" />
         <div class="text-center mb-2" v-show="error && !showLoading">An error occured while sending retip</div>
@@ -30,7 +31,7 @@
 
   export default {
     name: 'Retip',
-    props: ['tipid'],
+    props: ['tipid', 'retipIcon'],
     data() {
       return {
         fiatValue: 0.00,
@@ -46,11 +47,15 @@
     },
     computed: {
       ...mapGetters(['settings']),
+      eventPayload() {
+       return `${this.tipid}:${this.retipIcon}`
+      }
     },
     methods: {
       toggleRetip(showRetipForm) {
         this.show = showRetipForm;
         if (showRetipForm) {
+          EventBus.$emit('showRetipForm', this.eventPayload);
           this.resetForm();
         }
       },
@@ -74,6 +79,13 @@
         this.fiatValue = 0.00;
         this.error = false;
       },
+    },
+    created() {
+      EventBus.$on("showRetipForm", (payload) => {
+        if (payload !== this.eventPayload) {
+          this.show = false;
+        }
+      });
     }
   }
 </script>

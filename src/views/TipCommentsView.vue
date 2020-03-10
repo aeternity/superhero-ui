@@ -24,24 +24,19 @@
           <img class="mr-3 avatar" src="../assets/userAvatar.svg">
           <div class="input-group">
             <input type="text" placeholder="Add comment" v-model="comment" class="form-control">
-            <b-button
-                size="sm"
-                @click="sendTipComment()"
-                :disabled="comment.length == 0"
-              >
-                {{$t('system.Send')}}
+            <b-button size="sm" @click="sendTipComment()" :disabled="comment.length === 0 || loading">
+              {{$t('system.Send')}}
             </b-button>
           </div>
       </div>
 
     </div>
     <div class="comments__section">
-      <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
+      <div class="no-results text-center w-100" v-bind:class="[error ? 'error' : '']" v-if="comments.length === 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
+
       <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
       <div class="text-center spinner__container w-100 mt-3" v-if="loading">
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
+        <loading :show-loading="loading" />
       </div>
     </div>
     </div>
@@ -56,13 +51,14 @@
   import RightSection from '../components/layout/RightSection.vue';
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
-  import { EventBus } from "../utils/eventBus";
+  import Loading from "../components/Loading";
 
   const backendInstance = new Backend();
 
   export default {
     name: 'TipCommentsView',
     components: {
+      Loading,
       TipRecord,
       TipComment,
       LeftSection,
@@ -73,7 +69,7 @@
         explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
         tip: null,
         id: this.$route.params.id,
-        loading: true,
+        loading: false,
         comments: [],
         error: false,
         comment: ''
@@ -90,31 +86,32 @@
     methods: {
       sendTipComment(){
         if(this.sendComment){
+          this.loading = true;
           this.sendComment({
             comment: this.comment,
             tip: this.tip
           }).then(() => {
+            this.loading = false;
             this.comment = '';
           });
         }
       },
       updateTip() {
+        this.loading = true;
         // Avoid empty trigger
         if(this.tips.length === 0) return;
         this.tip = this.tips.find(x => x.id === parseInt(this.id));
         // Avoid backend spam
         if(this.comments.length === 0) {
           backendInstance.getTipComments(this.id).then((response) => {
-            this.loading = false;
             this.error = false;
-            console.log(response)
-            if (typeof response !== 'undefined' && response.length > 0) {
-              this.comments = response.map(comment => {
-                comment.chainNames = this.chainNames.filter(chainName => chainName.owner === comment.author);
-                return comment;
-              });
-            }
-          }).catch(err => {
+            this.comments = response.map(comment => {
+              comment.chainNames = this.chainNames.filter(chainName => chainName.owner === comment.author);
+              return comment;
+            });
+            this.loading = false;
+          }).catch(e => {
+            console.error(e);
             this.error = true;
             this.loading = false;
           });
@@ -190,6 +187,10 @@
     }
   }
   .comments__section{
+    .send-button {
+      width: 3rem;
+    }
+
     background-color: $actions_ribbon_background_color;
     overflow-y: auto;
     padding: 1rem;
@@ -201,10 +202,6 @@
     &.error{
       color: red;
     }
-  }
-  .spinner__container,.no-results{
-    left: 0;
-    @include vertical-align($position: relative);
   }
   .comment__section {
     background-color: $actions_ribbon_background_color;

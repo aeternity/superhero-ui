@@ -153,7 +153,7 @@
   }
    .actions__container{
       top: 0;
-      z-index: 10;
+      z-index: 100;
       font-size: .75rem;
       background-color: $background_color;
       .form-control{
@@ -253,7 +253,7 @@
       padding-top: .5rem;
       background-color: $actions_ribbon_background_color;
       overflow-x: hidden;
-      z-index: 10;
+      z-index: 100;
       .container,.row{
         padding: 0;
       }

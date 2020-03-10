@@ -1,6 +1,6 @@
 <template>
   <div @click="goToTip(tip.id)" class="tip__record row">
-    <div class="tip__body " v-bind:class="[ isPreviewToBeVisualized(tip)? 'col-8' : 'col-12']">
+    <div class="tip__body ">
       <div class="clearfix">
         <div class="tip__author" :title="tip.sender" v-on:click.stop>
           <router-link
@@ -16,6 +16,17 @@
         <div class="tip__note pr-2" v-on:click.stop>
           <tip-title :tip="tip" :goToTip="goToTip"></tip-title>
         </div>
+      </div>
+      <div class="tip__article position-relative" v-if="isPreviewToBeVisualized(tip)">
+        <a :href="tip.url" target="_blank" v-on:click.stop>
+        <img class="external-link" src="../../assets/externalLink.svg">
+        <div class="tip__article--hasresults">
+          <img v-bind:src="tip.preview.image" class="mr-2">
+          <span>
+            {{tipText}}
+          </span>
+        </div>
+        </a>
       </div>
       <div class="tip__footer">
         <div class="row">
@@ -36,17 +47,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="tip__article col-4 position-relative" v-if="isPreviewToBeVisualized(tip)">
-      <a :href="tip.url" target="_blank" v-on:click.stop>
-      <img class="external-link" src="../../assets/externalLink.svg">
-      <div class="tip__article--hasresults">
-        <img v-bind:src="tip.preview.image" class="mr-2">
-        <span>
-          {{tipText}}
-        </span>
-      </div>
-      </a>
     </div>
   </div>
 </template>
@@ -172,62 +172,53 @@
               margin-right: -1rem;
             }
           }
-          .tip__totalsum, .tip__amount, .tip__comments, .tip__article__logo{
+          .tip__amount, .tip__comments{
             img {
               width: 1rem;
               display: inline;
               margin-right: 2px;
             }
           }
-          .tip__article__logo{
-            font-weight: 700;
-            .fa-facebook-f{
-              color: #4267B2;
-            }
+        }
+        .tip__article{
+          min-height: 5.9rem;
+          font-size: .75rem;
+          position: relative;
+          color: $article_description_color;
+          background-color: $thumbnail_background_color;
+          padding: 0;
+          padding-right: 1.25rem;
+          margin-left: 1rem;
+          border-top-right-radius: .25rem;
+          border-bottom-right-radius: .25rem;
+          margin-right: 1rem;
+          &:hover{
+            cursor: pointer;
           }
-        }
-      }
-      .tip__article{
-        width: 12rem;
-        min-height: 5.9rem;
-        font-size: .75rem;
-        position: relative;
-        color: $article_description_color;
-        background-color: $thumbnail_background_color;
-        padding: 0;
-        padding-right: 1.25rem;
-        margin-left: 1rem;
-        margin-right: 1rem;
-        border-top-right-radius: .25rem;
-        border-bottom-right-radius: .25rem;
-        &:hover{
-          cursor: pointer;
-        }
-        .external-link{
-          width: .75rem;
-          height: .75rem;
-          right: .5rem;
-          top: .5rem;
-          position: absolute;
-        }
-        img{
-          width: 50%;
-          float: left;
-          height: 9rem;
-          border-top-left-radius: .25rem;
-          border-bottom-left-radius: .25rem;
-          top: 50%;
-          -webkit-transform: translateY(-50%);
-          -ms-transform: translateY(-50%);
-          transform: translateY(20%);
-          object-fit: cover;
-        }
-        span{
-          padding: .5rem 0.1rem 0 0.5rem;
-          @include truncate-overflow-mx(7);
-        }
-        .tip__article--hasresults{
-          padding-right: .75rem;
+          .external-link{
+            width: .75rem;
+            height: .75rem;
+            right: .5rem;
+            top: .5rem;
+            position: absolute;
+          }
+          img{
+            width: 50%;
+            float: left;
+            height: 9rem;
+            border-top-left-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+            object-fit: cover;
+          }
+          span{
+            padding: .5rem 0.1rem 0 0.5rem;
+            height: 9rem;
+            @include truncate-overflow-mx(7);
+            line-height: 1.2rem;
+          }
+          .tip__article--hasresults{
+            padding-right: .75rem;
+          }
         }
       }
     }
@@ -244,40 +235,16 @@
 @media only screen and (min-width: 1024px){
   .tip__record{
     position: relative;
-    padding-bottom: 2rem;
-    .tip__body.col-12 .tip__footer{
-      bottom: -2rem;
-    }
     .tip__article{
       min-height: initial;
       min-height: 2rem;
-      &.col-4{
-        width: 100%;
-        max-width: 100%;
-        flex: initial;
-      }
-      img{
-        transform: none;
-      }
     }
     .tip__body{
-      &.col-8{
-        position: static;
-        width: 100%;
-        max-width: 100%;
-        flex: initial;
-      }
       .tip__note{
         height: initial
       }
       .tip__footer{
-        position: absolute;
-        bottom: 0;
-        left: 1rem;
-        right: 0;
-        z-index: 1;
-        margin-left: 0;
-        margin-right: 1rem;
+        margin-left: 1rem;
         .tip__date{
           text-align: left;
         }
@@ -289,40 +256,16 @@
 @media only screen and (max-width: 1024px){
   .tip__record{
     position: relative;
-    padding-bottom: 2rem;
-    .tip__body.col-12 .tip__footer{
-      bottom: -2rem;
-    }
     .tip__article{
       min-height: initial;
       min-height: 2rem;
-      &.col-4{
-        width: 100%;
-        max-width: 100%;
-        flex: initial;
-      }
-      img{
-        transform: none;
-      }
     }
     .tip__body{
-      &.col-8{
-        position: static;
-        width: 100%;
-        max-width: 100%;
-        flex: initial;
-      }
       .tip__note{
         height: initial
       }
       .tip__footer{
-        position: absolute;
-        bottom: 0;
-        left: 1rem;
-        right: 0;
-        z-index: 1;
-        margin-left: 0;
-        margin-right: 1rem;
+        margin-left: 1rem;
         .tip__date{
           text-align: left;
         }
@@ -331,20 +274,8 @@
   }
 }
 
-@media only screen and (max-width: 1024px) and (min-width: 992px){
-   .tips__container .tip__record{
-    padding-bottom: 2rem;
-    .tip__body.col-12 .tip__footer{
-      bottom: -2rem;
-    }
-  }
-}
 @media only screen and (max-width: 768px){
   .tip__record{
-    padding-bottom: 2rem;
-    .tip__body.col-12 .tip__footer{
-      bottom: -2rem;
-    }
     .tip__body{
       .tip__note{
         font-size: .75rem;
@@ -389,7 +320,7 @@
   }
    .tip__record{
         position: relative;
-        padding: .5rem .5rem 2rem .5rem;
+        padding: .5rem .5rem .5rem .5rem;
         margin-bottom: .5rem;
         .tip__article{
           margin-left: -.5rem;
@@ -409,7 +340,6 @@
 
           .tip__footer{
             margin-left: -.5rem;
-            margin-right: .5rem;
             padding: .5rem 0 .5rem 0;
             font-size: .65rem;
             .row{
@@ -432,6 +362,15 @@
               display: none;
             }
         }
+        .tip__article{
+          margin-left: 0;
+          width: 100%;
+          span{
+            padding: 0;
+            @include truncate-overflow-mx(8);
+            line-height: 1.1rem;
+          }
+        }
       }
     }
   .container.wrapper .tips__container .tip__record  .tip__body.col-12 .tip__footer{
@@ -439,8 +378,6 @@
     margin-right: 0;
   }
   .tipped__url .tip__record  .tip__body.col-12 .tip__footer{
-    bottom: -2rem;
-    left: .5rem;
     margin-right: 0;
   }
 }

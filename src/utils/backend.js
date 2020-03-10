@@ -3,9 +3,11 @@ import { wrapTry } from './util'
 export default class Backend {
 
   BACKEND_URL;
+  MAINNET_URL;
 
   constructor() {
     this.BACKEND_URL = "https://raendom-backend.z52da5wt.xyz";
+    this.MAINNET_URL = 'https://mainnet.aeternal.io/'
   }
 
   tipOrder = async () => wrapTry(async () => {
@@ -47,4 +49,7 @@ export default class Backend {
     return fetch(`${this.BACKEND_URL}/static/stats/`);
   })
 
+  getChainNameFromAddress = async () => wrapTry(async () => {
+    return fetch(`${this.MAINNET_URL}/middleware/names/active`);
+  });
 }

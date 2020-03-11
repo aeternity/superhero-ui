@@ -71,6 +71,10 @@
             <div class="stat-value">{{userStats.totalTipAmount}} AE<fiat-value :amount="userStats.totalTipAmount" /></div>
           </div>
           <div class="stat">
+            <div class="stat-title">Comments</div>
+            <div class="stat-value">{{userStats.userComments}}</div>
+          </div>
+          <div class="stat">
             <div class="stat-title">Claimed Urls</div>
             <div class="stat-value">{{userStats.claimedUrlsLength}}</div>
           </div>
@@ -83,8 +87,6 @@
       </div>
         <div class="profile__actions">
           <a v-bind:class="{ active: activeTab === 'tips' }" @click="setActiveTab('tips')">Tips</a>
-          <!-- <a>Sent Tips</a>
-          <a>Received Tips</a> -->
           <a  v-bind:class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">Comments</a>
         </div>
       <div class="comments__section position-relative">
@@ -152,6 +154,7 @@
         showLoadingProfile: false,
         showLoadingAvatar: false,
         activeTab: 'tips',
+        userCommentCount: 0,
         profile: {
           biography: '',
           displayName: ''
@@ -178,7 +181,8 @@
           retipsLength: userReTips.length,
           totalTipAmount: totalTipAmount,
           claimedUrlsLength: claimedUrls.length,
-          unclaimedAmount : unclaimedAmount
+          unclaimedAmount : unclaimedAmount,
+          userComments : this.userCommentCount
         };
       },
       isMyUserProfile() {
@@ -227,18 +231,23 @@
       },
       getProfile() {
         // backendInstance.getProfileImage(this.address).then((response) => {}).catch(console.error);
-        backendInstance.getProfile(this.address).then((response) => {
-            this.profile = response;
+
+        backendInstance.getCommentCountForAddress(this.address).then(userComment => {
+          this.userCommentCount = userComment.count
+        }).catch(console.error);
+
+        backendInstance.getProfile(this.address).then(profile => {
+            this.profile = profile;
         }).catch(console.error);
       }
     },
    async created(){
       this.getProfile();
       this.showLoading = true;
-      backendInstance.getAllComments().then((response) => {
+      backendInstance.getAllComments().then(allComments => {
         this.showLoading = false;
         this.error = false;
-        this.comments = response.filter(comment => comment.author === this.address);
+        this.comments = allComments.filter(comment => comment.author === this.address);
       }).catch(e => {
         console.error(e);
         this.error = true;

@@ -17,10 +17,10 @@ export default class Backend {
     return fetch(`${this.BACKEND_URL}/linkpreview`);
   });
   getLangTips = async (lang = 'en') => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/language/` + lang);
+    return fetch(`${this.BACKEND_URL}/language/${lang}`);
   });
   getTipComments = async (tipId) => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/comment/api/tip/` + encodeURIComponent(tipId));
+    return fetch(`${this.BACKEND_URL}/comment/api/tip/${encodeURIComponent(tipId)}`);
   });
   sendTipComment = async (postParam) => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/comment/api/`, {
@@ -33,7 +33,7 @@ export default class Backend {
     return fetch(`${this.BACKEND_URL}/comment/api/`);
   });
   getProfile = async (address) => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/profile/` + address);
+    return fetch(`${this.BACKEND_URL}/profile/${address}`);
   });
   sendProfileData = async (postParam) => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/profile`, {
@@ -43,7 +43,7 @@ export default class Backend {
     });
   });
   getProfileImage = async (address) => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/profile/image/` + address);
+    return fetch(`${this.BACKEND_URL}/profile/image/${address}`);
   });
   getStats = async () => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/static/stats/`);
@@ -53,5 +53,8 @@ export default class Backend {
   });
   getCommentCounts = async () => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/comment/count/tips/`);
+  });
+  getCommentCountForAddress = async (address) => wrapTry(async () => {
+    return fetch(`${this.BACKEND_URL}/comment/count/author/${address}`);
   });
 }

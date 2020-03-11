@@ -152,8 +152,6 @@
         .tip__note{
           font-size: .8rem;;
           color: $tip_note_color;
-          height: 2.75rem;
-          overflow-y: auto;
           padding-left: 1rem;
           margin-bottom: .5rem;
           &:hover{

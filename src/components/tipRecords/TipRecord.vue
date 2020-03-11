@@ -39,7 +39,7 @@
               {{ tip.amount_ae }} <span class="ae">AE</span>
             </span>
             <fiat-value :amount="tip.total_amount"></fiat-value>
-            <span class="ml-4" v-if="tip.retip_amount_ae !== '0'" v-on:click.stop>
+            <span class="ml-4" v-on:click.stop>
               <retip :tipid="tip.id" :retip-icon="true"/>
               {{ tip.retip_amount_ae }} <span class="ae">AE</span>
               <fiat-value :amount="tip.retip_amount_ae"></fiat-value>

@@ -28,7 +28,8 @@
     methods: {
       ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState', 'addLoading', 'removeLoading', 'setChainNames']),
       initWallet() {
-        wallet.init(async () => {
+        return Promise.race([
+          wallet.init(async () => {
           let currentAccount = wallet.client.rpcClient.getCurrentAccount();
           const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
           this.setLoggedInAccount({
@@ -36,8 +37,12 @@
             balance: util.atomsToAe(balance).toFixed(2)
           });
 
+
           console.log("found wallet");
-        }).catch(console.error);
+        }), new Promise(function (resolve, reject) {
+            setTimeout(reject, 4000, 'TIMEOUT');
+          })
+        ]).then(() => EventBus.$emit('walletFound')).catch(console.error);
       },
       reloadAsyncData(initial, stats) {
         // stats
@@ -60,6 +65,7 @@
         }).catch(console.error);
       },
       async reloadData(initial = false) {
+        this.addLoading('wallet');
         this.addLoading('tips');
 
         if (initial) {

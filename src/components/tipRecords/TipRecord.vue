@@ -7,10 +7,10 @@
           :to="'/user-profile/' + tip.sender "
           target="_blank">
             <img src="../../assets/userAvatar.svg">
-            <display-address v-if="!(tip.chainNames && tip.chainNames.length > 0)" :address="tip.sender" class="mr-2"></display-address>
-            <span :title="tip.chainNames[0].name" v-else>{{tip.chainNames[0].name}}</span>
+            <span v-if="!(tip.chainNames && tip.chainNames.length > 0)" class="address">{{tip.sender}}</span>
+            <span class="chain__name" :title="tip.chainNames[0].name" v-else>{{tip.chainNames[0].name}}</span>
           </router-link>
-          <span class="date">
+          <span class="date" v-bind:class="[!(tip.chainNames && tip.chainNames.length > 0)? 'wholeaddr': '']">
             {{ new Date(tip.timestamp).toLocaleString('en-US', { hourCycle: 'h24' }) }}
           </span>
         </div>
@@ -56,7 +56,6 @@
   import FiatValue from '../FiatValue.vue';
   import Retip from '../Retip.vue';
   import TipTitle from './TipTitle.vue';
-  import DisplayAddress from '../DisplayAddress.vue';
 
   export default {
     name: 'TipRecord',
@@ -64,8 +63,7 @@
     components: {
       FiatValue,
       Retip,
-      TipTitle,
-      DisplayAddress
+      TipTitle
     },
     computed: {
       tipText() {
@@ -118,12 +116,35 @@
           color: $light_font_color;
           font-size: .8rem;
           padding: .25rem 1rem .25rem 1rem;
+          display: flex;
+          .date{
+            width: 20%;
+            font-size: .6rem;
+            display: inline-block;
+            padding-top: .2rem;
+          }
+          .address{
+            font-size: .6rem;
+          }
+          .address, .chain__name{
+            width: calc(100% - 2rem);
+            display: inline-block;
+            word-break: break-all;
+          }
+          .chain__name{
+            vertical-align: top;
+          }
           img{
             width: 1.5rem;
             margin-right: 0.25rem;
+            vertical-align: baseline;
           }
-          a{
+          &>a{
+            width: 80%;
             color: $light_font_color;
+            &:hover{
+              text-decoration: none;
+            }
           }
         }
         .tip__note{
@@ -165,12 +186,6 @@
             }
             a,.tip__sender{
               color: $custom_links_color;
-            }
-          }
-          .tip__date{
-            text-align: right;
-            span{
-              margin-right: -1rem;
             }
           }
           .tip__amount, .tip__comments{
@@ -223,9 +238,6 @@
         }
       }
     }
-  .tip__date--mobile{
-    display: none;
-  }
   .tips__container .tip__record .tip__body{
       width: 100%;
     .tip__note{
@@ -233,25 +245,38 @@
     }
   }
 
-@media only screen and (min-width: 1024px){
-  .tip__record{
-    position: relative;
-    .tip__article{
-      min-height: initial;
-      min-height: 2rem;
+@media (min-width: 576px){
+  .tip__record .tip__body .tip__author .date.wholeaddr{
+    padding-top: 0;
+ } 
+}
+
+@media (min-width: 768px) {
+  .tip__record .tip__body .tip__author .date.wholeaddr{
+    padding-top: 0;
+ } 
+}
+
+@media (min-width: 992px) {
+  .tip__record .tip__body .tip__author{
+    img{
+      vertical-align: baseline;
     }
-    .tip__body{
-      .tip__note{
-        height: initial
-      }
-      .tip__footer{
-        margin-left: 1rem;
-        .tip__date{
-          text-align: left;
-        }
-      }
+    .date{
+      padding-top: 0;
     }
+  } 
+}
+
+@media (min-width: 1200px) {
+ .tip__record .tip__body .tip__author{
+   img{
+     vertical-align: middle;
+   }
+  .date.wholeaddr{
+    padding-top: .3rem;
   }
+ } 
 }
 
 @media only screen and (max-width: 1024px){
@@ -267,9 +292,6 @@
       }
       .tip__footer{
         margin-left: 1rem;
-        .tip__date{
-          text-align: left;
-        }
       }
     }
   }
@@ -312,13 +334,6 @@
   and (min-device-width: 320px)
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
-  .tip__date--mobile{
-    color: $light_font_color;
-    display: block;
-    position: absolute;
-    font-size: .65rem;
-    top: .25rem;
-  }
    .tip__record{
         position: relative;
         padding: .5rem .5rem .5rem .5rem;
@@ -333,7 +348,13 @@
         .tip__body{
           .tip__author{
             padding-left: 0;
-            font-size: .45rem;
+            font-size: .6rem;
+            img{
+              vertical-align: super;
+            }
+            .date{
+              padding-top: 0;
+            }
           }
           .tip__note{
             padding-left: 0;
@@ -358,9 +379,6 @@
               img {
                 width: 1rem;
               }
-            }
-            .tip__date{
-              display: none;
             }
         }
         .tip__article{

@@ -4,7 +4,8 @@
     <left-section></left-section>
     <div class="container profile__header position-sticky">
       <div>
-        <div class="address"><display-address :address="address"></display-address></div>
+        <span class="address" v-if="!userChainNames.length">{{address}}</span>
+        <span class="address chain" :title="userChainNames[0].name" v-else>{{userChainNames[0].name}}</span>
         <div class="count">{{userTips.length}} Tips</div>
       </div>
     </div>
@@ -42,8 +43,8 @@
                 <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
               </div> -->
               <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address">
-                <display-address v-if="!userChainNames.length" :address="address"></display-address>
-                <span :title="userChainNames[0].name" v-else>{{userChainNames[0].name}}</span>
+                <span v-if="!userChainNames.length">{{address}}</span>
+                <span class="chain" :title="userChainNames[0].name" v-else>{{userChainNames[0].name}}</span>
               </a>
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
@@ -116,7 +117,6 @@
   import TipComment from "../components/tipRecords/TipComment.vue"
   import LeftSection from '../components/layout/LeftSection.vue';
   import RightSection from '../components/layout/RightSection.vue';
-  import DisplayAddress from '../components/DisplayAddress.vue';
   import { mapGetters } from 'vuex';
   import { wallet } from '../utils/walletSearch';
   import FiatValue from "../components/FiatValue";
@@ -135,8 +135,7 @@
       TipComment,
       LeftSection,
       RightSection,
-      TipRecord,
-      DisplayAddress
+      TipRecord
     },
      data() {
       return {
@@ -255,6 +254,13 @@
   .profile__header{
     top: 0;
     z-index: 10;
+    word-break: break-all;
+    .address{
+      font-size: .65rem;
+      &.chain{
+        font-size: .9rem;
+      }
+    }
     &>div{
       padding: .25rem 1rem;
       background-color: $article_content_color;
@@ -305,7 +311,7 @@
       text-align: center;
       font-size: 0.65rem;
       position: absolute;
-      top: 1.5rem;
+      top: 0;
       right: 1rem;
     }
     color: $light_font_color;
@@ -316,7 +322,7 @@
         top: 40%;
       }
       .row{
-        padding: .5rem 1rem 1rem 1rem;
+        padding: 1rem 1rem 1rem 1rem;
         margin-right: -1rem;
       }
       .profile__image{
@@ -371,7 +377,11 @@
         .profile__username{
           display: block;
           color: $secondary_color;
-          font-size: .8rem;
+          font-size: .6rem;
+          word-break: break-all;
+          .chain{
+            font-size: .8rem;
+          }
         }
       }
     }
@@ -461,12 +471,25 @@
   and (min-device-width: 320px)
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
-    .profile__page .edit__button{
-      top: 0;
+    .profile__page{
+      .profile__section{
+        .row{
+          padding-top: 1.5rem;
+        }
+        .profile__info .profile__username{
+          font-size: .5rem;
+          .chain{
+            font-size: .6rem;
+          }
+        }
+      } 
+      .edit__button{
+        top: -1.25rem;
+        right: .25rem;
+      }
       .stats .stat .stat-value{
         font-size: .6rem;
       }
-    }
-
+    } 
   }
 </style>

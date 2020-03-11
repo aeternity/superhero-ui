@@ -27,9 +27,8 @@
     },
     methods: {
       ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState', 'addLoading', 'removeLoading', 'setChainNames']),
-      reloadAsyncData(initial, stats) {
-        // wallet
-        if (initial) wallet.init(async () => {
+      initWallet() {
+        wallet.init(async () => {
           let currentAccount = wallet.client.rpcClient.getCurrentAccount();
           const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
           this.setLoggedInAccount({
@@ -37,9 +36,10 @@
             balance: util.atomsToAe(balance).toFixed(2)
           });
 
-          console.log("found wallet")
+          console.log("found wallet");
         }).catch(console.error);
-
+      },
+      reloadAsyncData(initial, stats) {
         // stats
         Promise.all([new Backend().getStats(), aeternity.client.height()]).then(([backendStats, height]) => {
           stats = {...stats, ...backendStats, ...{height: height}};
@@ -62,20 +62,21 @@
       async reloadData(initial = false) {
         this.addLoading('tips');
 
-        const fetchTips = async () => {
-          if (initial) await aeternity.initClient();
-          return aeternity.getTips().catch(console.error);
-        };
+        if (initial) {
+          await aeternity.initClient();
+          this.initWallet();
+        }
 
         // await fetch
         const backendInstance = new Backend();
+        const fetchTips = aeternity.getTips().catch(console.error);
         const fetchOrdering = backendInstance.tipOrder().catch(console.error);
         const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
         const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
         const fetchChainNames = backendInstance.getChainNameFromAddress().catch(console.error);
         const fetchCommentCounts = backendInstance.getCommentCounts().catch(console.error);
         let [{stats, _, tips}, tipOrdering, tipsPreview, langTips, chainNames, commentCounts] =
-          await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips, fetchChainNames, fetchCommentCounts]);
+          await Promise.all([fetchTips, fetchOrdering, fetchTipsPreview, fetchLangTips, fetchChainNames, fetchCommentCounts]);
 
         // async fetch
         this.reloadAsyncData(initial, stats);

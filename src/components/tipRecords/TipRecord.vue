@@ -45,6 +45,7 @@
               <fiat-value :amount="tip.retip_amount_ae"></fiat-value>
             </span>
             <span @click="goToTip(tip.id)" class="ml-4"><img src="../../assets/commentsIcon.svg"></span>
+            <span>{{tip.commentCount}}</span>
           </div>
         </div>
       </div>

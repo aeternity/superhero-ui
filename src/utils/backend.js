@@ -47,9 +47,11 @@ export default class Backend {
   });
   getStats = async () => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/static/stats/`);
-  })
-
+  });
   getChainNameFromAddress = async () => wrapTry(async () => {
     return fetch(`${this.MAINNET_URL}/middleware/names/active`);
+  });
+  getCommentCounts = async () => wrapTry(async () => {
+    return fetch(`${this.BACKEND_URL}/comment/count/tips/`);
   });
 }

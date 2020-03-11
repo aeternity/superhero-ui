@@ -179,9 +179,9 @@
           &.secondary {
             color: $secondary_color;
           }
-        }
-        .currency, .currency-value .currency-sign{
-          font-size: .9rem;
+          .currency, .currency-value .currency-sign{
+            font-size: .8rem;
+          }
         }
         .overview__label {
           text-transform: none;

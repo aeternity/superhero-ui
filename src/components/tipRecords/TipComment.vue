@@ -7,11 +7,12 @@
               :to="'/user-profile/' + comment.author "
               target="_blank">
               <img src="../../assets/userAvatar.svg">
-              <span v-if="userChainNames && userChainNames.length > 0" :title="userChainNames[0].name" >{{userChainNames[0].name}}</span>
-              <span v-else-if="comment.chainNames && comment.chainNames.length > 0" :title="comment.chainNames[0].name">{{comment.chainNames[0].name}}</span>
-              <display-address v-else :address="comment.author" class="mr-2"></display-address>
+              <span class="chain__name" v-if="userChainNames && userChainNames.length > 0" :title="userChainNames[0].name" >{{userChainNames[0].name}}</span>
+              <span class="chain__name" v-else-if="comment.chainNames && comment.chainNames.length > 0" :title="comment.chainNames[0].name">{{comment.chainNames[0].name}}</span>
+              <span v-else :address="comment.author" class="address">{{comment.author}}</span>
             </router-link>
-            <span class="date">
+            <span class="date"
+             v-bind:class="[!(comment.chainNames && comment.chainNames.length > 0) && !(userChainNames && userChainNames.length > 0)? 'wholeaddr': '']">
               {{ new Date(comment.createdAt).toLocaleString('en-US', { hourCycle: 'h24' }) }}
             </span>
           </div>
@@ -24,16 +25,12 @@
 </template>
 
 <script>
-  import DisplayAddress from '../DisplayAddress.vue';
   export default {
     name: 'TipComment',
     props: ['comment', 'userChainNames'],
     data() {
       return {
       }
-    },
-    components:{
-      DisplayAddress
     }
   }
 </script>

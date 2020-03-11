@@ -128,6 +128,7 @@
             font-size: .6rem;
           }
           .address, .chain__name{
+            color: $secondary_color;
             width: calc(100% - 2rem);
             display: inline-block;
             word-break: break-all;

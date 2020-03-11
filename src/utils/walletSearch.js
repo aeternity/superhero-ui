@@ -1,4 +1,4 @@
-import { RpcAepp, Node } from '@aeternity/aepp-sdk/es';
+import { Node, RpcAepp } from '@aeternity/aepp-sdk/es';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import aeternity from "./aeternity";
@@ -44,14 +44,7 @@ export const wallet = {
     await this.scanForWallets(successCallback);
   },
 
-  async signMessage(message) {
-    const messageSig  = await wallet.client.signMessage(message);
-    console.log("signed message => ", messageSig)
-    const isValid = await wallet.client.verifyMessage(message, messageSig)
-    console.log("message valid => ", isValid)
-
-    const isValidAgain = await wallet.client.verifyMessage(message, messageSig)
-    console.log("message valid => ", isValidAgain)
-    return messageSig;
+  signMessage(message) {
+    return wallet.client.signMessage(message);
   }
 };

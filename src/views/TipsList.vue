@@ -192,7 +192,7 @@
   }
   .tips__container{
     width: 100%;
-    background-color: $tip_list_background_color;
+    $background-color: $background_color;;
     padding-top: 0.1rem;
     &:empty{
       visibility: hidden;
@@ -283,7 +283,6 @@
     padding: 1rem .25rem 0 .25rem;
     .tips__container{
       padding: 0;
-      background-color: $background_color;
     }
   }
 

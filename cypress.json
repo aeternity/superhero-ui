@@ -1,3 +1,5 @@
 {
-  "pluginsFile": "tests/e2e/plugins/index.js"
+  "video": false,
+  "pluginsFile": "tests/e2e/plugins/index.js",
+  "screenshotOnRunFailure": false
 }

@@ -107,7 +107,6 @@
  }
  .wrapper{
    display: inline-block;
-   z-index: 11;
  }
 .wrapper .input-group .input-group-append span.append__ae {
     background: $background_color;

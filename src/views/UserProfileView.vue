@@ -262,7 +262,7 @@
 
   .profile__header{
     top: 0;
-    z-index: 100;
+    z-index: 10;
     word-break: break-all;
     .address{
       font-size: .65rem;

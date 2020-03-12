@@ -6,20 +6,18 @@ import Terms from './views/Terms';
 import Privacy from './views/Privacy';
 import Mission from './views/Mission';
 import CreateProfile from './views/CreateProfile';
-import LoadingView from "./views/LoadingView";
 
 let guardTipComments = (to, from, next) => {
-  if(to.name == 'tip' && typeof to.params.id !== "undefined"){
+  if (to.name === 'tip' && typeof to.params.id !== "undefined") {
     next();
-  }else{
+  } else {
     next('/');
   }
-}
-
+};
 
 const routes = [
   {
-    path: '/tips',
+    path: '/',
     name: 'home',
     component: TipsList,
     meta: {title: 'Home'}
@@ -42,14 +40,6 @@ const routes = [
       title: 'User Profile'
     },
     props: true
-  },
-  {
-    path: '/',
-    name: 'loading',
-    component: LoadingView,
-    meta: {
-      title: 'Loading'
-    }
   },
   {
     path: '/terms',

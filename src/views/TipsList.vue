@@ -1,35 +1,41 @@
 <template>
   <div>
-    <div class="actions__container container position-sticky">
-      <div class="input-group mb-1">
-        <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
-        <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 col-lg-12 col-sm-12 sorting">
-          <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
-            {{$t('pages.Home.SortingHot')}}
-          </a>
-          <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
-            {{$t('pages.Home.SortingLatest')}}
-          </a>
-          <a v-on:click="setTipSortBy('highest')" v-bind:class="{ active: tipSortBy === 'highest' }">
-            {{$t('pages.Home.SortingHighestRated')}}
-          </a>
-        </div>
-      </div>
-    </div>
-    <loading :show-loading="loading.tips" class="loading-position" />
     <right-section></right-section>
     <left-section></left-section>
-    <div class="container wrapper">
-      <div class="tips__container">
-        <send-tip></send-tip>
-        <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :fiatValue="tip.fiatValue"
-                    :senderLink="openExplorer(tip.sender)"></tip-record>
+    <loading class="mt-5" v-if="loading.wallet || loading.tips" :show-loading="true"/>
+    <div v-else>
+      <div class="actions__container container position-sticky">
+        <div class="input-group mb-1">
+          <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="form-control"
+                 v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
+          <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-lg-12 col-sm-12 sorting">
+            <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
+              {{$t('pages.Home.SortingHot')}}
+            </a>
+            <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
+              {{$t('pages.Home.SortingLatest')}}
+            </a>
+            <a v-on:click="setTipSortBy('highest')" v-bind:class="{ active: tipSortBy === 'highest' }">
+              {{$t('pages.Home.SortingHighestRated')}}
+            </a>
+          </div>
+        </div>
+      </div>
+      <loading :show-loading="loading.tips" class="loading-position"/>
+      <div class="container wrapper">
+        <div class="tips__container">
+          <send-tip></send-tip>
+          <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :fiatValue="tip.fiatValue"
+                      :senderLink="openExplorer(tip.sender)"></tip-record>
+        </div>
+      </div>
+      <div class="no-results text-center" v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0">
+        {{$t('pages.Home.NoResultsMsg')}}
       </div>
     </div>
-    <div class="no-results text-center" v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
   </div>
 </template>
 

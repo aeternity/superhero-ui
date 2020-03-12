@@ -8,7 +8,7 @@
       <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 sorting">
           <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
-            {{$t('pages.Home.SortingHot')}}
+            {{$t('pages.Home.SortingMostPopular')}}
           </a>
           <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
             {{$t('pages.Home.SortingLatest')}}
@@ -164,17 +164,16 @@
       }
       .row{
         background-color: $actions_ribbon_background_color;
-        border-top-right-radius: .25rem;
-        border-top-left-radius: .25rem;
         margin: 0;
       }
       .sorting{
-        border-radius: .25rem;
         text-align: left;
         padding-left: 1rem;
         a{
+          font-weight: 600;
           display: inline-block;
-          padding: .45rem .45rem .45rem .45rem;
+          padding: .625rem 0;
+          margin-right: 1rem;
           color: $light_font_color;
           &:last-child{
             margin-right: 0;
@@ -186,7 +185,7 @@
         }
         a.active{
           color: $custom_links_color;
-          border-bottom: .065rem solid $custom_links_color;
+          border-bottom: .1rem solid $custom_links_color;
         }
       }
   }

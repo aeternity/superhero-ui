@@ -195,7 +195,7 @@
   }
   .tips__container{
     width: 100%;
-    $background-color: $background_color;;
+    background-color: $background_color;
     padding-top: 0.1rem;
     &:empty{
       visibility: hidden;

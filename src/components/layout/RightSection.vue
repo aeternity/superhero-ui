@@ -83,17 +83,6 @@
 <style lang="scss" scoped>
   @import "../../styles/base";
 
-  .wallet-install{
-    max-height: 0;
-    transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
-    opacity: 0;
-
-    &.active {
-      max-height: 400px;
-      opacity: 100%;
-    }
-  }
-
   .topics-section{
     max-height: 0;
     transition: max-height 0.25s ease-in;
@@ -110,7 +99,7 @@
   position: fixed;
   right: 0;
   top: 0;
-  padding-top: .9rem;
+  padding-top: .5rem;
   .content{
     max-width: 17rem;
     .section{
@@ -160,6 +149,18 @@
       }
       .value{
         color: $standard_font_color;
+      }
+    }
+    .wallet-install{
+      max-height: 0;
+      transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
+      opacity: 0;
+      margin-bottom: 0;
+      
+      &.active {
+        max-height: 400px;
+        opacity: 100%;
+        margin-bottom: 1rem;
       }
     }
     .footer{

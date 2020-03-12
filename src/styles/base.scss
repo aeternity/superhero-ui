@@ -54,6 +54,14 @@ body{
   }
 }
 
+.input-group, .form-group{
+  .form-control{
+    box-shadow: none;
+    &:focus{
+      border: .05rem solid $custom_links_color;
+    }
+  }
+}
 .input-group{
   padding-left: 0;
   padding-right: 0;

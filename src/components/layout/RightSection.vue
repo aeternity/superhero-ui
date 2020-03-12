@@ -7,7 +7,7 @@
           Wallet
         </div>
         <div class="section__body clearfix">
-          <div class="side__button"><a :href="downloadUrl" target="_blank">Install Wallet</a></div>
+          <div><a :href="downloadUrl" target="_blank" class="button w-100">Install Wallet</a></div>
         </div>
       </div>
       <div class="section trending">
@@ -99,7 +99,7 @@
     transition: max-height 0.25s ease-in;
 
     &.active {
-      max-height: 10rem;
+      max-height: 15rem;
     }
   }
 
@@ -114,7 +114,7 @@
   .content{
     max-width: 17rem;
     .section{
-      border-radius: .25rem;
+      border-radius: .5rem;
       margin-bottom: 1rem;
       background-color: $article_content_color;
       &.trending{
@@ -137,15 +137,13 @@
       }
     }
     .section__title{
-      border-top-right-radius: .25rem;
-      border-top-left-radius: .25rem;
-      padding: .5rem;
+      padding: .65rem .75rem;
       color: $standard_font_color;
       font-size: 1rem;
       font-weight: 600;
     }
     .section__body{
-      padding: .5rem;
+      padding: .25rem 1rem 1rem 1rem;
       .section__item{
         margin: .5rem 0;
         &:first-child{
@@ -162,26 +160,6 @@
       }
       .value{
         color: $standard_font_color;
-      }
-    }
-    .side__button{
-      text-transform: capitalize;
-      margin-bottom: 0.7rem;
-      font-weight: 600;
-      &:hover{
-        cursor: pointer;
-      }
-    }
-    .side__button{
-      color: $custom_links_color;
-      border: .065rem solid $custom_links_color;
-      border-radius: .25rem;
-      padding: .2rem .5rem .2rem .5rem;
-      text-align: center;
-      &.secondary{
-        color: $secondary_color;
-        border: .065rem solid $secondary_color;
-        margin-bottom: 1rem;
       }
     }
     .footer{

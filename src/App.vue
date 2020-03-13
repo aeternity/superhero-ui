@@ -69,6 +69,7 @@
         this.addLoading('tips');
 
         if (initial) {
+          this.addLoading('initial');
           this.addLoading('wallet');
           await aeternity.initClient();
           this.initWallet();
@@ -134,6 +135,7 @@
         this.setTipSortBy(initial ? tipOrdering ? "hot" : "highest" : this.tipSortBy);
 
         this.removeLoading('tips');
+        if(initial) this.removeLoading('initial');
       }
     },
     async created() {

@@ -2,6 +2,8 @@
   <div>
     <right-section></right-section>
     <left-section></left-section>
+    <loading class="mt-5" v-if="loading.wallet || loading.initial" :show-loading="true"/>
+    <div v-else>
     <div class="container profile__header position-sticky">
       <div>
         <span class="address" v-if="!userChainNames.length">{{address}}</span>
@@ -110,6 +112,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -188,7 +191,7 @@
         return this.account === this.address;
       },
       userChainNames(){
-        return this.chainNames.filter(chainName => chainName.owner === this.address);
+        return this.chainNames ? this.chainNames.filter(chainName => chainName.owner === this.address) : [];
       },
       showNoResultsMsg() {
         if (this.activeTab === 'comments') {
@@ -436,10 +439,6 @@
       color: red;
     }
   }
-  .spinner__container,.no-results{
-    left: 0;
-    @include vertical-align($position: absolute);
-  }
 
   .profile__description {
     padding: .5rem 0;
@@ -481,7 +480,7 @@
             font-size: .6rem;
           }
         }
-      } 
+      }
       .edit__button{
         top: -1.5rem;
         right: .25rem;
@@ -490,6 +489,6 @@
       .stats .stat .stat-value{
         font-size: .6rem;
       }
-    } 
+    }
   }
 </style>

@@ -8,5 +8,17 @@ jobs:
   include:
     - stage: aepp
       script:
-        - npm install
-        - npm run test
+        - npm run build
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  local_dir: dist
+  repo: $DEPLOY_REPO
+  target_branch: master
+  name: $DEPLOY_NAME
+  email: $DEPLOY_EMAIL
+  on:
+    branch: feature/layout-superhero

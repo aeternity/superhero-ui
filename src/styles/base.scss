@@ -33,6 +33,35 @@ body{
   text-overflow: ellipsis;
 }
 
+.button, a.button{
+  background: transparent;
+  display: inline-block;
+  font-weight: 600;
+  font-size: .75rem;
+  color: $standard_font_color;
+  border: .05rem solid $standard_font_color;
+  border-radius: .25rem;
+  padding: .625rem 2.15rem .725rem 2.15rem;
+  text-align: center;
+  &:hover{
+    cursor: pointer;
+    text-decoration: none;
+    color: $custom_links_color;
+    border: .05rem solid $custom_links_color;
+  }
+  &.small{
+    padding: .425rem 1rem .425rem 1rem;
+  }
+}
+
+.input-group, .form-group{
+  .form-control{
+    box-shadow: none;
+    &:focus{
+      border: .05rem solid $custom_links_color;
+    }
+  }
+}
 .input-group{
   padding-left: 0;
   padding-right: 0;

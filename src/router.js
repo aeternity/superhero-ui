@@ -8,13 +8,12 @@ import Mission from './views/Mission';
 import CreateProfile from './views/CreateProfile';
 
 let guardTipComments = (to, from, next) => {
-  if(to.name == 'tip' && typeof to.params.id !== "undefined"){
+  if (to.name === 'tip' && typeof to.params.id !== "undefined") {
     next();
-  }else{
+  } else {
     next('/');
   }
-}
-
+};
 
 const routes = [
   {
@@ -79,7 +78,7 @@ const routes = [
 const router = new Router({mode: 'hash', routes: routes})
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} - Social sharing with a mission`
+  document.title = `${to.meta.title} - Superhero.com`
   next()
 })
 

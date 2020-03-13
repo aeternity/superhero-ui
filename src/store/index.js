@@ -24,7 +24,9 @@ export default new Vuex.Store({
     isLoggedIn: false,
     oracleState: {},
     loading: {
-      tips: false
+      tips: false,
+      wallet: false,
+      initial: false
     },
     chainNames: []
   },

@@ -10,7 +10,7 @@ export const wrapTry = async (f) => {
         return res.json()
       }),
       new Promise(function (resolve, reject) {
-        setTimeout(reject, 8000, 'TIMEOUT');
+        setTimeout(reject, 3000, 'TIMEOUT');
       })
     ])
   } catch (e) {

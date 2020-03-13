@@ -84,7 +84,7 @@
 
     &.active {
       max-height: 400px;
-      opactiy: 1;
+      opacity: 1;
     }
 
     form {

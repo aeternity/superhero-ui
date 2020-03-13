@@ -5,31 +5,31 @@
         <img @click="goHome()" src="../../assets/headerLogo.svg">
       </div>
       <div class="navigation">
-        <div class="navigation__item home">
+        <div class="navigation__item home" v-bind:class="{ active: $route.name === 'home' }">
           <a @click="goHome()">
-            <img class="mr-1" src="../../assets/iconHome.svg">
-            <span v-bind:class="{ active: $route.name === 'home' }">Home</span>
+             <div class="navigation__item__image"></div>
+            <span >Home</span>
           </a>
         </div>
-        <div class="navigation__item">
+        <div class="navigation__item trending" v-bind:class="{ active: $route.name === 'trending' }">
           <a>
-            <img class="mr-1" src="../../assets/iconTrending.svg">
-            <span v-bind:class="{ active: $route.name === 'trending' }">Trending</span>
+            <div class="navigation__item__image"></div>
+            <span>Trending</span>
           </a>
         </div>
-        <div class="navigation__item">
+        <div class="navigation__item mission" v-bind:class="{ active: $route.name === 'mission' }">
           <router-link to="/mission">
-            <img class="mr-1" src="../../assets/iconMission.svg">
-            <span v-bind:class="{ active: $route.name === 'mission' }">Mission</span>
+            <div class="navigation__item__image"></div>
+            <span>Mission</span>
           </router-link>
         </div>
-        <div class="navigation__item" v-if="!isLoggedIn">
+        <div class="navigation__item profile" v-if="!isLoggedIn" v-bind:class="{ active: $route.name === 'user-profile' }">
           <router-link to="/create-profile">
             <img class="mr-1 avatar" src="../../assets/userAvatar.svg">
-            <span v-bind:class="{ active: $route.name === 'user-profile' }">Create Profile</span>
+            <span>Create Profile</span>
           </router-link>
         </div>
-        <div class="navigation__item" v-if="isLoggedIn">
+        <div class="navigation__item profile" v-if="isLoggedIn" v-bind:class="{ active: $route.name === 'user-profile' }">
           <a @click="openMyProfile">
             <img class="mr-1 avatar" src="../../assets/userAvatar.svg">
             <span v-bind:class="{ active: $route.name === 'user-profile' }">My Profile</span>
@@ -148,23 +148,50 @@
         margin-bottom: 1rem;
         font-weight: 500;
         .avatar {
-          width: 1.2rem;
+          width: 1.3rem;
         }
       }
 
       .navigation__item {
-        font-size: 1rem;
+        font-size: .93rem;
         text-transform: capitalize;
         margin-bottom: 1rem;
         a{
           color: $standard_font_color;
+          &:hover{
+            text-decoration: none;
+          }
         }
-        &:hover {
-          cursor: pointer;
+        .navigation__item__image{
+          width: 26px;
+          height: 26px;
+          display: inline-block;
+          transform: translateY(.3rem);
+          margin-right: .2rem;
         }
-
-        .active {
-          color: $custom_links_color;
+        &.home .navigation__item__image{
+          background-image: url('../../assets/iconHome.svg');
+        }
+        &.trending .navigation__item__image{
+          background-image: url('../../assets/iconTrending.svg');
+        }
+        &.mission .navigation__item__image{
+          background-image: url('../../assets/iconMission.svg');
+        }
+        &:hover, &.active {
+          a{
+            cursor: pointer;
+            color: $custom_links_color;
+          }
+          &.home .navigation__item__image{
+            background-image: url('../../assets/iconHomeActive.svg');
+          }
+          &.trending .navigation__item__image{
+            background-image: url('../../assets/iconTrendingActive.svg');
+          }
+          &.mission .navigation__item__image{
+            background-image: url('../../assets/iconMissionActive.svg');
+          }
         }
       }
 

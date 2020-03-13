@@ -126,10 +126,12 @@
       }
 
       .tip__send {
-        padding-left: 3rem;
-        padding-right: 3rem;
+        padding: .6rem 2.45rem .7rem 2.45rem;
         color: white;
-        background-color: $custom_links_color
+        background-color: $custom_links_color;
+        border: none;
+        font-size: .75rem;
+        font-weight: 600;
       }
     }
   }

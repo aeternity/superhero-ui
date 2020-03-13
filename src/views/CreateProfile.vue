@@ -272,7 +272,7 @@
   @import "../styles/base";
 
   .content {
-    color: $light_font_color;
+    color: $standard_font_color;
   }
 
   .container.wrapper{

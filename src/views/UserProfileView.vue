@@ -18,7 +18,7 @@
         </div>
         <div class="row" v-bind:class="[showLoadingProfile ? 'invisible' : '']">
           <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
-            <a class="edit__button" @click="toggleEditMode()" v-if="!editMode && isMyUserProfile" title="Edit Profile">Edit Profile</a>
+            <a class="edit__button button small" @click="toggleEditMode()" v-if="!editMode && isMyUserProfile" title="Edit Profile">Edit Profile</a>
             <div class="profile__image position-relative" >
               <div class="overlay" v-if="showLoadingAvatar"></div>
               <div class="text-center spinner__container w-100" v-if="showLoadingAvatar">
@@ -308,20 +308,10 @@
       }
     }
 
-    a{
-      color: $custom_links_color;
-      cursor: pointer;
-    }
     .edit__button{
-      color: $standard_font_color;
-      border: .065rem solid $standard_font_color;
-      border-radius: .25rem;
-      padding: .2rem .5rem .2rem .5rem;
-      text-align: center;
-      font-size: 0.65rem;
       position: absolute;
-      top: 0;
-      right: 1rem;
+      top: -1.25rem;
+      right: .5rem;
     }
     color: $light_font_color;
     font-size: .75rem;
@@ -331,7 +321,7 @@
         top: 40%;
       }
       .row{
-        padding: 1rem 1rem 1rem 1rem;
+        padding: 1.75rem 1rem 1rem 1rem;
         margin-right: -1rem;
       }
       .profile__image{
@@ -483,7 +473,7 @@
     .profile__page{
       .profile__section{
         .row{
-          padding-top: 1.5rem;
+          padding-top: 2rem;
         }
         .profile__info .profile__username{
           font-size: .5rem;
@@ -493,8 +483,9 @@
         }
       } 
       .edit__button{
-        top: -1.25rem;
+        top: -1.5rem;
         right: .25rem;
+        font-size: .6rem;
       }
       .stats .stat .stat-value{
         font-size: .6rem;

@@ -155,6 +155,7 @@
 
   .min-h-screen {
     min-width: 100%;
+    margin-top: .5rem;
     padding-bottom: 0;
   }
 

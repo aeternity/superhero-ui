@@ -5,15 +5,14 @@
     <loading class="mt-5" v-if="loading.wallet || loading.tips" :show-loading="true"/>
     <div v-else>
       <div class="actions__container container position-sticky">
-        <div class="input-group mb-1">
-          <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="form-control"
-                 v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
-          <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
-        </div>
+      <div class="search__input__container">
+        <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="search__input" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
+        <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
+      </div>
         <div class="row">
           <div class="col-md-12 col-lg-12 col-sm-12 sorting">
             <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
-              {{$t('pages.Home.SortingHot')}}
+              {{$t('pages.Home.SortingMostPopular')}}
             </a>
             <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
               {{$t('pages.Home.SortingLatest')}}
@@ -129,19 +128,22 @@
 <style lang="scss" scoped>
   @import "../styles/base";
 
-  .header{
-    h2{
-      color: $standard_font_color;
-    }
-    p{
-      color: $light_font_color;
-    }
-    a{
-      color: $custom_links_color;
-    }
+  .search__input__container{
+    margin-bottom: .15rem;
+    position: relative;
   }
-  .search-icon {
-    height: 1rem;
+
+  .search__input{
+    font-size: .75rem;
+    color: $standard_font_color;
+    background-color: $article_content_color;
+    padding: 1.05rem 2.5rem 1.05rem 1rem;
+    border: none;
+    outline: none;
+    width: 100%;
+    &:focus{
+      border: .05rem solid $custom_links_color;
+    }
   }
 
   .loading-position {
@@ -155,6 +157,7 @@
 
   .container.wrapper{
     padding-top: 0;
+    margin-top: 0.05rem;
     min-height: 4rem;
   }
    .actions__container{
@@ -170,17 +173,16 @@
       }
       .row{
         background-color: $actions_ribbon_background_color;
-        border-top-right-radius: .25rem;
-        border-top-left-radius: .25rem;
         margin: 0;
       }
       .sorting{
-        border-radius: .25rem;
         text-align: left;
         padding-left: 1rem;
         a{
+          font-weight: 600;
           display: inline-block;
-          padding: .45rem .45rem .45rem .45rem;
+          padding: .625rem 0;
+          margin-right: 1rem;
           color: $light_font_color;
           &:last-child{
             margin-right: 0;
@@ -192,13 +194,13 @@
         }
         a.active{
           color: $custom_links_color;
-          border-bottom: .065rem solid $custom_links_color;
+          border-bottom: .1rem solid $custom_links_color;
         }
       }
   }
   .tips__container{
     width: 100%;
-    background-color: $tip_list_background_color;
+    background-color: $background_color;
     padding-top: 0.1rem;
     &:empty{
       visibility: hidden;
@@ -208,7 +210,7 @@
   .clear{
     font-size: .75rem;
     color: $standard_font_color;
-    right: .5rem;
+    right: 1rem;
     @include vertical-align($position: absolute);
     z-index: 10;
     &:hover{
@@ -289,7 +291,6 @@
     padding: 1rem .25rem 0 .25rem;
     .tips__container{
       padding: 0;
-      background-color: $background_color;
     }
   }
 

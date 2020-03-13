@@ -161,7 +161,7 @@
           biography: '',
           displayName: ''
         },
-        avatar: '../assets/userAvatar.svg'
+        avatar: require('../assets/userAvatar.svg')
       }
     },
     computed: {

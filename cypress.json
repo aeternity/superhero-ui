@@ -1,5 +1,9 @@
 {
   "video": false,
   "pluginsFile": "tests/e2e/plugins/index.js",
-  "screenshotOnRunFailure": false
+  "screenshotOnRunFailure": false,
+  "env": {
+    "privateKey": "7c6e602a94f30e4ea7edabe4376314f69ba7eaa2f355ecedb339df847b6f0d80575f81ffb0a297b7725dc671da0b1769b1fc5cbe45385c7b5ad1fc2eaf1d609d",
+    "publicKey": "ak_fUq2NesPXcYZ1CcqBcGC3StpdnQw3iVxMA3YSeCNAwfN4myQk"
+  }
 }

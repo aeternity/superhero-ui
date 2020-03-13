@@ -23,7 +23,7 @@ const timeout = async (promise) => {
 
 aeternity.initProvider = async (force = false) => {
   // TESTING
-  if (process && process.env && process.env.PRIVATE_KEY && process.env.PUBLIC_KEY) {
+  if (typeof Cypress !== 'undefined') {
     aeternity.contractAddress = 'ct_2GRP3xp7KWrKtZSnYfdcLnreRWrntWf5aTsxtLqpBHp71EFc3i';
     aeternity.oracleContract = {
       methods: {
@@ -31,13 +31,14 @@ aeternity.initProvider = async (force = false) => {
       }
     }
     force = false
+    console.log(Cypress.env)
     aeternity.client = await Universal({
       compilerUrl: 'https://latest.compiler.aepps.com',
       nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],
       accounts: [
-        MemoryAccount({ keypair: { secretKey: process.env.PRIVATE_KEY, publicKey: process.env.PUBLIC_KEY } }),
+        MemoryAccount({ keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey')} }),
       ],
-      address: process.env.PUBLIC_KEY,
+      address: Cypress.env('publicKey'),
     });
   }
     try {

@@ -156,11 +156,11 @@
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       opacity: 0;
       margin-bottom: 0;
-      
+
       &.active {
         display: block;
         max-height: 400px;
-        opacity: 100%;
+        opacity: 1;
         margin-bottom: 1rem;
       }
     }

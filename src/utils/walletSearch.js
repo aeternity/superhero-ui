@@ -22,6 +22,7 @@ export const wallet = {
     });
     const detector = await Detector({ connection: scannerConnection });
     const handleWallets = async function ({ wallets, newWallet }) {
+      if(!newWallet) return;
       detector.stopScan();
       await this.client.connectToWallet(await newWallet.getConnection());
       await this.client.subscribeAddress('subscribe', 'current');

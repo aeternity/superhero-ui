@@ -5,31 +5,31 @@
         <label class="tip__post__label pl-2">Send Tip</label>
       </div>
       <div class="form-row">
-        <div class="form-group col-md-4">
-          <div class="input-group mb-3">
+        <div class="form-group col-md-5">
+          <div class="input-group mb-2">
             <input type="number" step="0.1" v-model="sendTipForm.amount" placeholder="Amount" class="form-control" aria-label="Default"
                    aria-describedby="inputGroup-sizing-mn">
             <div class="input-group-append">
-              <span class="input-group-text append__ae">AE</span>
+              <span class="input-group-text append__ae"> <span class="ae">AE&nbsp;</span><fiat-value :displaySymbol="true" :amount="sendTipForm.amount"/></span>
             </div>
           </div>
         </div>
-        <div class="form-group col-md-8">
-          <input type="text" v-model="sendTipForm.url" class="form-control" placeholder="Enter URL">
+        <div class="form-group col-md-7">
+          <input type="text" v-model="sendTipForm.url" class="form-control mb-2" placeholder="Enter URL">
         </div>
       </div>
-      <div class="form-group">
-        <input type="text" class="form-control" v-model="sendTipForm.title" placeholder="Add message">
+      <div class="form-group mb-3">
+        <img src="/assets/userAvatar.svg" class="avatar mr-3">
+        <input type="text" class="form-control comment" v-model="sendTipForm.title" placeholder="Add message">
       </div>
-      <div class="form-row">
-        <div class="col-sm-4 tip__post__balance pl-2">
+      <div class="text-right">
+        <button @click="sendTip()" class="btn btn-primary tip__send">Tip</button>
+
+        <!-- <div class="col-sm-4 tip__post__balance pl-2">
                  <span>{{ balance }} AE
                    <fiat-value v-if="balance" :amount="balance"></fiat-value>
                  </span>
-        </div>
-        <div class="col-sm-4 offset-4 text-right mt-2">
-          <button @click="sendTip()" class="btn btn-primary tip__send">Tip</button>
-        </div>
+        </div> -->
       </div>
     </form>
   </div>
@@ -88,14 +88,15 @@
     }
 
     form {
-      padding: 1rem;
+      padding: .6rem 1rem 1rem 1rem;
 
       span.append__ae {
         font-size: 0.75rem;
         background: $background_color;
-        color: $secondary_color;
         cursor: default;
-
+        & .ae{
+          color: $secondary_color;
+        }
         &:hover {
           background: $background_color;
           cursor: default;
@@ -104,15 +105,25 @@
 
       .tip__post__label {
         font-weight: 600;
-        color: white;
+        color: $standard_font_color;
       }
 
       .form-group {
         margin-bottom: 0;
-
+        .input-group{
+          border: 1px solid $custom_links_color;
+          border-radius: .25rem;
+        }
         input {
+          &[type=number]:focus{
+            border: none;
+          }
+          &.comment{
+            display: inline-block;
+            width: calc(100% - 3.25rem);
+          }
           background-color: $background_color;
-          color: #FFF;
+          color: $standard_font_color;
           font-size: .75rem;
           border: 1px solid #21212A;
         }
@@ -121,13 +132,19 @@
       .tip__post__balance {
         span {
           font-size: 0.75rem;
-          color: white;
+          color:$standard_font_color;
         }
+      }
+
+      .avatar{
+        width: 2rem;
+        height: 2rem;
+        border-radius: 1rem;
       }
 
       .tip__send {
         padding: .6rem 2.45rem .7rem 2.45rem;
-        color: white;
+        color:$standard_font_color;
         background-color: $custom_links_color;
         border: none;
         font-size: .75rem;

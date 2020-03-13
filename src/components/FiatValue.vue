@@ -1,6 +1,7 @@
 <template>
     <span class="currency-value" v-if="currencyRates.aeternity">
       <span v-if="withoutBrackets">{{ fiatValue }} <span class="currency-sign">{{settings.currency.toUpperCase()}}</span></span>
+      <span v-else-if="displaySymbol">(~ <span class="currency-sign">{{currencySign}}</span> {{ fiatValue }})</span>
       <span v-else>(~ {{ fiatValue }} <span class="currency-sign">{{settings.currency.toUpperCase()}}</span>)</span>
     </span>
 </template>
@@ -11,7 +12,7 @@
 
   export default {
     name: 'FiatValue',
-    props: ['amount', 'withoutBrackets'],
+    props: ['amount', 'withoutBrackets', 'displaySymbol'],
 
     computed: {
       ...mapGetters(['settings', 'currencyRates']),
@@ -20,6 +21,23 @@
           return 0
         }
         return new BigNumber(this.amount).multipliedBy(this.currencyRates.aeternity[this.settings.currency]).toFixed(2);
+      },
+      currencySign(){
+        let sign = ''
+        switch(this.settings.currency.toUpperCase()) {
+          case 'EUR':
+            sign = '€'
+            break;
+          case 'USD':
+            sign = '$'
+            break;
+          case 'CNY':
+            sign = '¥'
+            break;
+          default:
+           sign = '€'
+        }
+        return sign;
       }
     }
   }

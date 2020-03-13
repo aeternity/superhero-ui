@@ -1,6 +1,6 @@
 <template>
   <div class="app__rightcolumn">
-    <div class="content">
+    <div class="content" v-if="!(loading.wallet || loading.tips)">
       <div class="section wallet-install" v-bind:class="{ active: !isLoggedIn }">
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
@@ -16,7 +16,7 @@
           Trending
         </div>
         <div class="section__body topics-section" v-bind:class="{ active: topics.length > 0 }">
-          <div class="section__item" v-for="([topic, data], index) in topics">
+          <div class="section__item" v-for="([topic, data]) in topics">
             <div class="topic-container text-ellipsis">
             <topic :topic="topic" />
           </div>
@@ -54,12 +54,12 @@
       FiatValue
     },
     data() {
-      return { 
+      return {
         browser: detect()
       }
     },
     computed: {
-      ...mapGetters(['topics', 'isLoggedIn']),
+      ...mapGetters(['topics', 'loading', 'isLoggedIn']),
       downloadUrl () {
         if (this.browser) {
           switch(this.browser.name) {

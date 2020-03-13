@@ -28,17 +28,23 @@
     methods: {
       ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState', 'addLoading', 'removeLoading', 'setChainNames']),
       initWallet() {
-        wallet.init(async () => {
-          let currentAccount = wallet.client.rpcClient.getCurrentAccount();
-          const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
-          this.setLoggedInAccount({
-            account: currentAccount,
-            balance: util.atomsToAe(balance).toFixed(2)
-          });
-
-          console.log("found wallet");
+        return Promise.race([
+          new Promise((resolve, _) => wallet.init(async () => {
+            let currentAccount = wallet.client.rpcClient.getCurrentAccount();
+            const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
+            this.setLoggedInAccount({
+              account: currentAccount,
+              balance: util.atomsToAe(balance).toFixed(2)
+            });
+            console.log("found wallet");
+            resolve()
+          })),
+          new Promise((resolve, _) => setTimeout(resolve, 3000, 'TIMEOUT'))
+        ]).then(() => {
+          this.removeLoading('wallet');
         }).catch(console.error);
       },
+
       reloadAsyncData(initial, stats) {
         // stats
         Promise.all([new Backend().getStats(), aeternity.client.height()]).then(([backendStats, height]) => {
@@ -63,6 +69,7 @@
         this.addLoading('tips');
 
         if (initial) {
+          this.addLoading('wallet');
           await aeternity.initClient();
           this.initWallet();
         }

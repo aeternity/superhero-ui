@@ -8,13 +8,12 @@ import Mission from './views/Mission';
 import CreateProfile from './views/CreateProfile';
 
 let guardTipComments = (to, from, next) => {
-  if(to.name == 'tip' && typeof to.params.id !== "undefined"){
+  if (to.name === 'tip' && typeof to.params.id !== "undefined") {
     next();
-  }else{
+  } else {
     next('/');
   }
-}
-
+};
 
 const routes = [
   {

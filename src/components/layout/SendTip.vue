@@ -1,5 +1,5 @@
 <template>
-  <div class="tip__post" v-bind:class="{ active: isLoggedIn }">
+  <div class="tip__post" v-bind:class="{ active: !loading.wallet }">
     <form @submit.prevent>
       <div class="form-row">
         <label class="tip__post__label pl-2">Send Tip</label>
@@ -48,7 +48,7 @@
       FiatValue
     },
     computed: {
-      ...mapGetters(['balance', 'isLoggedIn'])
+      ...mapGetters(['balance', 'loading'])
     },
     data() {
       return {

@@ -46,7 +46,7 @@ export const wallet = {
       aeternity.client = this.client;
       this.height = await this.client.height();
       this.client.rpcClient = {
-        getCurrentAccount: async () => process.env.PUBLIC_KEY
+        getCurrentAccount: async () => Cypress.env('publicKey')
       }
       await aeternity.initProvider(true);
       return successCallback();

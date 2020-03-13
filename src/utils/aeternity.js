@@ -31,7 +31,6 @@ aeternity.initProvider = async (force = false) => {
       }
     }
     force = false
-    console.log(Cypress.env)
     aeternity.client = await Universal({
       compilerUrl: 'https://latest.compiler.aepps.com',
       nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],

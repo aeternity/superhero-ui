@@ -21,7 +21,7 @@
 
     &.active {
       max-height: 200px;
-      opactiy: 1;
+      opacity: 1;
     }
   }
 </style>

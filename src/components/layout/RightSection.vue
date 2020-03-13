@@ -54,7 +54,7 @@
       FiatValue
     },
     data() {
-      return { 
+      return {
         browser: detect()
       }
     },
@@ -90,7 +90,7 @@
 
     &.active {
       max-height: 400px;
-      opacity: 100%;
+      opactiy: 1;
     }
   }
 

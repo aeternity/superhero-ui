@@ -34,14 +34,14 @@ export const wallet = {
   },
 
   async init (successCallback) {
-    if (process && process.env && process.env.PRIVATE_KEY && process.env.PUBLIC_KEY) {
+    if (typeof Cypress !== 'undefined') {
       this.client = await Universal({
         compilerUrl: COMPILER_URL,
         nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],
         accounts: [
-          MemoryAccount({ keypair: { secretKey: process.env.PRIVATE_KEY, publicKey: process.env.PUBLIC_KEY } }),
+          MemoryAccount({ keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey')} }),
         ],
-        address: process.env.PUBLIC_KEY,
+        address: Cypress.env('publicKey'),
       });
       aeternity.client = this.client;
       this.height = await this.client.height();

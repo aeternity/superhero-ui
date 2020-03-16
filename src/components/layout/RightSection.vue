@@ -151,12 +151,14 @@
       }
     }
     .wallet-install{
+      display: none;
       max-height: 0;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       opacity: 0;
       margin-bottom: 0;
       
       &.active {
+        display: block;
         max-height: 400px;
         opacity: 100%;
         margin-bottom: 1rem;

@@ -8,7 +8,7 @@ const aeternity = {
   contract: null,
   contractAddress: 'ct_2AfnEfCSZCTEkxL5Yoi4Yfq6fF7YapHRaFKDJK3THMXMBspp5z',
   oracleContract: null,
-  oracleContractAddress: 'ct_23bfFKQ1vuLeMxyJuCrMHiaGg5wc7bAobKNuDadf8tVZUisKWs'
+  oracleContractAddress: 'ct_2VpQ1QGXy7KA2rsQmC4QraFKwQam3Ksqq3cAK8KHUNwhoiQkL'
 };
 
 const timeout = async (promise) => {

@@ -10,7 +10,10 @@
             <input type="number" step="0.1" v-model="sendTipForm.amount" placeholder="Amount" class="form-control" aria-label="Default"
                    aria-describedby="inputGroup-sizing-mn">
             <div class="input-group-append">
-              <span class="input-group-text append__ae"> <span class="ae">AE&nbsp;</span><fiat-value :displaySymbol="true" :amount="sendTipForm.amount"/></span>
+              <span class="input-group-text append__ae">
+                <span class="ae">AE&nbsp;</span>
+                <fiat-value :displaySymbol="true" :amount="sendTipForm.amount"/>
+              </span>
             </div>
           </div>
         </div>

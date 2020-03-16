@@ -1,7 +1,7 @@
 <template>
   <div class="app__rightcolumn">
     <div class="content" v-if="!(loading.wallet || loading.tips)">
-      <div class="section wallet-install" v-bind:class="{ active: !isLoggedIn }">
+      <div class="section wallet-install" v-if="!isLoggedIn" v-bind:class="{ active: !isLoggedIn }">
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
           Wallet

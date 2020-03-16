@@ -106,6 +106,7 @@
    }
  }
  .wrapper{
+   z-index: 20;
    display: inline-block;
  }
 .wrapper .input-group .input-group-append span.append__ae {

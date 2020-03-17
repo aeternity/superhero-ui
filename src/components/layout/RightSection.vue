@@ -80,8 +80,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../styles/base";
-
   .topics-section{
     max-height: 0;
     transition: max-height 0.25s ease-in;

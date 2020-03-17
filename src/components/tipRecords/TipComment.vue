@@ -37,7 +37,6 @@
 
 
 <style lang="scss" scoped>
-  @import "../../styles/base";
   .comment.tip__record{
     padding-bottom: 0;
     margin-bottom: .5rem;

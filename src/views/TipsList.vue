@@ -126,8 +126,6 @@
 
 
 <style lang="scss" scoped>
-  @import "../styles/base";
-
   .search__input__container{
     margin-bottom: .15rem;
     position: relative;

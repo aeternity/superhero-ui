@@ -261,8 +261,6 @@
 
 
 <style lang="scss" scoped>
-  @import "../styles/base";
-
   .profile__header{
     top: 0;
     z-index: 10;

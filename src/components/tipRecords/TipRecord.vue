@@ -93,7 +93,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .tip__record.row.row{
     margin-left: 0;
     margin-right: 0;

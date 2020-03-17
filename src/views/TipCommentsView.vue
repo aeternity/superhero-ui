@@ -130,8 +130,6 @@
 
 
 <style lang="scss" scoped>
-  @import "../styles/base";
-
 .url__page{
   color: $light_font_color;
   font-size: .75rem;

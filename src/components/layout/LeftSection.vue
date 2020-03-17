@@ -119,7 +119,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .app__leftcolumn {
     color: $standard_font_color;
     display: inline-block;

@@ -36,7 +36,7 @@
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
   .comment.tip__record{
     padding-bottom: 0;
     margin-bottom: .5rem;

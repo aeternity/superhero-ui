@@ -91,7 +91,6 @@
 </script>
 
 <style lang="scss" scoped>
- @import "../styles/base";
   .overlay{
     position: fixed;
     top: 0;

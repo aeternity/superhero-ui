@@ -93,9 +93,7 @@
   }
 </script>
 
-<style lang="scss" >
- @import "../../styles/base";
-
+<style lang="scss" scoped>
   .tip__record.row.row{
     margin-left: 0;
     margin-right: 0;

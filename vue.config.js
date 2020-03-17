@@ -3,6 +3,17 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
   lintOnSave: false,
+  css: {
+    loaderOptions: {
+      sass: {
+        // Global includes - will be prepended in every scss file (including components)
+        prependData: `
+          @import "@/styles/_variables";
+          @import "@/styles/_mixins";
+        `
+      }
+    }
+  },
   chainWebpack: config => config
     .plugin('favicons')
     .use(FaviconsWebpackPlugin, [{

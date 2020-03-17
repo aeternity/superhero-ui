@@ -74,8 +74,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../styles/base";
-
   .tip__post {
     background-color: $actions_ribbon_background_color;
     max-height: 0;

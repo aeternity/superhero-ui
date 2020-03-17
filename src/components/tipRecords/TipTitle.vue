@@ -31,9 +31,7 @@
   }
 </script>
 
-<style lang="scss">
-  @import "../../styles/base";
-
+<style lang="scss" scoped>
   .title {
     display: inline;
 

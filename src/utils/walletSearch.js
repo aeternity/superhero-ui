@@ -2,6 +2,7 @@ import { Node, RpcAepp } from '@aeternity/aepp-sdk/es';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import aeternity from "./aeternity";
+import { MemoryAccount, Universal } from '@aeternity/aepp-sdk'
 
 // Send wallet connection info to Aepp through content script
 const NODE_URL = 'https://sdk-mainnet.aepps.com';
@@ -21,6 +22,7 @@ export const wallet = {
     });
     const detector = await Detector({ connection: scannerConnection });
     const handleWallets = async function ({ wallets, newWallet }) {
+      if(!newWallet) return;
       detector.stopScan();
       await this.client.connectToWallet(await newWallet.getConnection());
       await this.client.subscribeAddress('subscribe', 'current');
@@ -33,7 +35,23 @@ export const wallet = {
   },
 
   async init (successCallback) {
-    window !== window.parent;
+    if (typeof Cypress !== 'undefined') {
+      this.client = await Universal({
+        compilerUrl: COMPILER_URL,
+        nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],
+        accounts: [
+          MemoryAccount({ keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey')} }),
+        ],
+        address: Cypress.env('publicKey'),
+      });
+      aeternity.client = this.client;
+      this.height = await this.client.height();
+      this.client.rpcClient = {
+        getCurrentAccount: async () => Cypress.env('publicKey')
+      }
+      await aeternity.initProvider(true);
+      return successCallback();
+    }
 
     this.client = await RpcAepp({
       name: 'Superhero',

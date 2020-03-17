@@ -6,7 +6,7 @@ export default class Backend {
   MAINNET_URL;
 
   constructor() {
-    this.BACKEND_URL = "https://raendom-backend.z52da5wt.xyz";
+    this.BACKEND_URL = typeof Cypress !== 'undefined' ? 'http://localhost' : "https://raendom-backend.z52da5wt.xyz";
     this.MAINNET_URL = 'https://mainnet.aeternal.io/'
   }
 

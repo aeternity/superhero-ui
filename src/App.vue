@@ -12,7 +12,6 @@
 
   import aeternity from './utils/aeternity.js'
   import { mapActions, mapGetters } from 'vuex';
-  import { setInterval } from 'timers';
   import { wallet } from './utils/walletSearch';
   import Backend from "./utils/backend";
   import Currency from "./utils/currency";

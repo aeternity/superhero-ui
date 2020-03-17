@@ -3,9 +3,7 @@
     <div class="tip__body ">
       <div class="clearfix">
         <div class="tip__author" :title="tip.sender" v-on:click.stop>
-          <router-link
-          :to="'/user-profile/' + tip.sender "
-          target="_blank">
+          <router-link :to="'/user-profile/' + tip.sender">
             <img src="../../assets/userAvatar.svg">
             <span v-if="!(tip.chainNames && tip.chainNames.length > 0)" class="address">{{tip.sender}}</span>
             <span class="chain__name" :title="tip.chainNames[0].name" v-else>{{tip.chainNames[0].name}}</span>

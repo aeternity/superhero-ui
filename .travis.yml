@@ -1,14 +1,11 @@
 dist: xenial
-sudo: false
 
 language: node_js
 node_js: '12'
 
-jobs:
-  include:
-    - stage: aepp
-      script:
-        - npm run build
+script: npm run build
+
+before_deploy: scripts/before-deploy.sh
 
 deploy:
   provider: pages

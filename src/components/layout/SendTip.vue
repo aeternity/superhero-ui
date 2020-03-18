@@ -7,7 +7,7 @@
       <div class="form-row">
         <div class="form-group col-md-5">
           <div class="input-group mb-2">
-            <input type="number" step="0.1" v-model="sendTipForm.amount" placeholder="Amount" class="form-control" aria-label="Default"
+            <input type="number" step="0.1" v-model.number="sendTipForm.amount" placeholder="Amount" class="form-control" aria-label="Default"
                    aria-describedby="inputGroup-sizing-mn">
             <div class="input-group-append">
               <span class="input-group-text append__ae">
@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="form-group col-md-7">
-          <input type="text" v-model="sendTipForm.url" class="form-control mb-2" placeholder="Enter URL">
+          <input type="text" v-model.trim="sendTipForm.url" class="form-control mb-2" placeholder="Enter URL">
         </div>
       </div>
       <div class="form-group mb-3">
@@ -26,7 +26,7 @@
         <input type="text" class="form-control comment" v-model="sendTipForm.title" placeholder="Add message">
       </div>
       <div class="text-right">
-        <button @click="sendTip()" class="btn btn-primary tip__send">Tip</button>
+        <button @click="sendTip()" :disabled='isDisabled' class="btn btn-primary tip__send">Tip</button>
 
         <!-- <div class="col-sm-4 tip__post__balance pl-2">
                  <span>{{ balance }} AE
@@ -52,7 +52,12 @@
       FiatValue
     },
     computed: {
-      ...mapGetters(['balance', 'loading'])
+      ...mapGetters(['balance', 'loading']),
+      isDisabled(){
+        return  this.sendTipForm.amount === 0
+                  || this.sendTipForm.url.length === 0 
+                    || this.sendTipForm.url.indexOf('http') !== 0
+      }
     },
     data() {
       return {

@@ -10,11 +10,11 @@ module.exports = {
         prependData: `
           @import "@/styles/_variables";
           @import "@/styles/_mixins";
-        `
-      }
-    }
+        `,
+      },
+    },
   },
-  chainWebpack: config => config
+  chainWebpack: (config) => config
     .plugin('favicons')
     .use(FaviconsWebpackPlugin, [{
       logo: path.resolve(__dirname, 'src/assets/commentsIcon.svg'),
@@ -32,9 +32,9 @@ module.exports = {
         icons: {
           coast: false,
           yandex: false,
-          windows: false
-        }
-      }
+          windows: false,
+        },
+      },
     }])
     .end()
     .module

@@ -1,4 +1,4 @@
-describe('TipRecord.vue', function () {
+describe('TipRecord.vue', () => {
   before(() => {
     cy.visit('/#/tip/1');
   });
@@ -15,5 +15,4 @@ describe('TipRecord.vue', function () {
     cy.get('.form-control').type(randomString);
     cy.get('.btn').click();
   });
-
 });

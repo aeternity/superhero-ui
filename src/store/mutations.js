@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import * as types from './mutation-types';
 import { mergeWith } from 'lodash-es';
+import * as types from './mutation-types';
 
 export default {
   [types.UPDATE_ACCOUNT](state, payload) {

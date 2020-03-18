@@ -9,26 +9,26 @@
 
 <script>
 
-  import TippingContractUtil from '../../utils/tippingContractUtil';
-  import Topic from "./Topic";
+import TippingContractUtil from '../../utils/tippingContractUtil';
+import Topic from './Topic';
 
-  export default {
-    name: 'TipTitle',
-    components: {Topic},
-    props: ['tip', 'goToTip'],
-    computed: {
-      splitByTopics() {
-        return this.tip.title.split(TippingContractUtil.topicsRegex).map(part => {
-          const matches = TippingContractUtil.topicsRegex.test(part);
+export default {
+  name: 'TipTitle',
+  components: { Topic },
+  props: ['tip', 'goToTip'],
+  computed: {
+    splitByTopics() {
+      return this.tip.title.split(TippingContractUtil.topicsRegex).map((part) => {
+        const matches = TippingContractUtil.topicsRegex.test(part);
 
-          return {
-            text: part,
-            matches: matches
-          }
-        })
-      }
-    }
-  }
+        return {
+          text: part,
+          matches,
+        };
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">

@@ -255,16 +255,16 @@
 </template>
 
 <script>
-  import LeftSection from '../components/layout/LeftSection.vue';
-  import RightSection from '../components/layout/RightSection.vue';
+import LeftSection from '../components/layout/LeftSection.vue';
+import RightSection from '../components/layout/RightSection.vue';
 
-  export default {
-    name: 'CreateProfile',
-    components: {
-      LeftSection,
-      RightSection,
-    }
-  }
+export default {
+  name: 'CreateProfile',
+  components: {
+    LeftSection,
+    RightSection,
+  },
+};
 </script>
 
 

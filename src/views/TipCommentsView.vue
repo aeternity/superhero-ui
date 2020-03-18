@@ -32,88 +32,87 @@
 </template>
 
 <script>
-  import Backend from "../utils/backend";
-  import TipRecord from "../components/tipRecords/TipRecord.vue"
-  import TipComment from "../components/tipRecords/TipComment.vue"
-  import LeftSection from '../components/layout/LeftSection.vue';
-  import RightSection from '../components/layout/RightSection.vue';
-  import { mapGetters } from 'vuex';
-  import { wallet } from '../utils/walletSearch';
-  import Loading from "../components/Loading";
+import { mapGetters } from 'vuex';
+import Backend from '../utils/backend';
+import TipRecord from '../components/tipRecords/TipRecord.vue';
+import TipComment from '../components/tipRecords/TipComment.vue';
+import LeftSection from '../components/layout/LeftSection.vue';
+import RightSection from '../components/layout/RightSection.vue';
+import { wallet } from '../utils/walletSearch';
+import Loading from '../components/Loading';
 
-  const backendInstance = new Backend();
+const backendInstance = new Backend();
 
-  export default {
-    name: 'TipCommentsView',
-    components: {
-      Loading,
-      TipRecord,
-      TipComment,
-      LeftSection,
-      RightSection,
+export default {
+  name: 'TipCommentsView',
+  components: {
+    Loading,
+    TipRecord,
+    TipComment,
+    LeftSection,
+    RightSection,
+  },
+  data() {
+    return {
+      id: this.$route.params.id,
+      showLoading: true,
+      comments: [],
+      error: false,
+      comment: '',
+    };
+  },
+  computed: {
+    ...mapGetters(['tips', 'settings', 'account', 'chainNames']),
+    tip() {
+      return this.tips.find((x) => x.id === parseInt(this.id));
     },
-    data() {
-      return {
-        id: this.$route.params.id,
-        showLoading: true,
-        comments: [],
-        error: false,
-        comment: ''
-      }
-    },
-    computed: {
-      ...mapGetters(['tips', 'settings', 'account', 'chainNames']),
-      tip() {
-        return this.tips.find(x => x.id === parseInt(this.id));
-      }
-    },
-    watch: {
-      tip() {
-        this.updateTip();
-      }
-    },
-    methods: {
-      async sendTipComment() {
-        this.showLoading = true;
-
-        let postData = {
-          tipId: this.tip.id,
-          text: this.comment,
-          author: wallet.client.rpcClient.getCurrentAccount(),
-        };
-
-        const responseChallenge = await backendInstance.sendTipComment(postData);
-        let signedChallenge = await wallet.signMessage(responseChallenge.challenge);
-        let respondChallenge = {
-          challenge: responseChallenge.challenge,
-          signature: signedChallenge
-        };
-
-        const response = await backendInstance.sendTipComment(respondChallenge);
-        this.comments.push(response);
-
-        this.showLoading = false;
-        this.comment = '';
-      },
-      updateTip() {
-        backendInstance.getTipComments(this.id).then((response) => {
-          this.error = false;
-          this.comments = response.map(comment => {
-            comment.chainName = this.chainNames[comment.author];
-            return comment;
-          });
-          this.showLoading = false;
-        }).catch(e => {
-          console.error(e);
-          this.error = true;
-          this.showLoading = false;
-        });
-      }
-    },
-    created(){
+  },
+  watch: {
+    tip() {
       this.updateTip();
-    }
-  }
+    },
+  },
+  methods: {
+    async sendTipComment() {
+      this.showLoading = true;
+
+      const postData = {
+        tipId: this.tip.id,
+        text: this.comment,
+        author: wallet.client.rpcClient.getCurrentAccount(),
+      };
+
+      const responseChallenge = await backendInstance.sendTipComment(postData);
+      const signedChallenge = await wallet.signMessage(responseChallenge.challenge);
+      const respondChallenge = {
+        challenge: responseChallenge.challenge,
+        signature: signedChallenge,
+      };
+
+      const response = await backendInstance.sendTipComment(respondChallenge);
+      this.comments.push(response);
+      this.showLoading = false;
+      this.comment = '';
+    },
+    updateTip() {
+      backendInstance.getTipComments(this.id).then((response) => {
+        this.error = false;
+        this.comments = response.map((comment) => {
+          comment.chainName = this.chainNames[comment.author];
+          return comment;
+        });
+        this.showLoading = false;
+      }).catch((e) => {
+        console.error(e);
+        this.error = true;
+        this.showLoading = false;
+      });
+    },
+  },
+  created() {
+    this.updateTip();
+  },
+};
 </script>
 
 

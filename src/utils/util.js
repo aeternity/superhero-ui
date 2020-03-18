@@ -19,8 +19,15 @@ export const wrapTry = async (f) => {
   }
 }
 
+export const currencySigns = {
+  eur: '€',
+  usd: '$',
+  cny: '¥'
+}
+
 export default {
   atomsToAe,
   aeToAtoms,
-  wrapTry
+  wrapTry,
+  currencySigns
 }

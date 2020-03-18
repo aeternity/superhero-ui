@@ -9,6 +9,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import BigNumber from 'bignumber.js'
+  import { currencySigns } from '../utils/util'
 
   export default {
     name: 'FiatValue',
@@ -23,21 +24,7 @@
         return new BigNumber(this.amount).multipliedBy(this.currencyRates.aeternity[this.settings.currency]).toFixed(2);
       },
       currencySign(){
-        let sign = ''
-        switch(this.settings.currency.toUpperCase()) {
-          case 'EUR':
-            sign = '€'
-            break;
-          case 'USD':
-            sign = '$'
-            break;
-          case 'CNY':
-            sign = '¥'
-            break;
-          default:
-           sign = '€'
-        }
-        return sign;
+       return this.settings && this.settings.currency? currencySigns[this.settings.currency] : ''
       }
     }
   }

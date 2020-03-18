@@ -21,7 +21,9 @@
             <topic :topic="topic" />
           </div>
             <div>
-              <span class="value">{{data.amount | toBigNumber | bnToFixed | bnRemoveTrailingZeros}}</span>
+              <span class="value">
+                <ae-amount :amount="data.amount" :round="2"></ae-amount>
+              </span>
               <span class="ae">AE</span>
               <fiat-value :amount="data.amount"></fiat-value>
             </div>
@@ -44,6 +46,7 @@
 <script>
   import {mapGetters} from "vuex";
   import FiatValue from '../FiatValue.vue';
+  import AeAmount from '../AeAmount.vue';
   import Topic from "../tipRecords/Topic";
   import { detect } from 'detect-browser';
 
@@ -51,7 +54,8 @@
     name: 'RightSection',
     components: {
       Topic,
-      FiatValue
+      FiatValue,
+      AeAmount
     },
     data() {
       return {

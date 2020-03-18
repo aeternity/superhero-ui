@@ -7,7 +7,6 @@ import { BootstrapVue } from 'bootstrap-vue'
 import store from './store';
 import router from './router'
 import { i18n } from './utils/i18nHelper';
-import './filters/_globals';
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue)

@@ -37,5 +37,5 @@ export const getters = {
   },
   chainNames(state) {
     return state.chainNames;
-  }
+  },
 };

@@ -1,14 +1,14 @@
-import Router from 'vue-router'
-import TipsList from "./views/TipsList";
-import TipCommentsView from "./views/TipCommentsView";
-import UserProfileView from "./views/UserProfileView";
+import Router from 'vue-router';
+import TipsList from './views/TipsList';
+import TipCommentsView from './views/TipCommentsView';
+import UserProfileView from './views/UserProfileView';
 import Terms from './views/Terms';
 import Privacy from './views/Privacy';
 import Mission from './views/Mission';
 import CreateProfile from './views/CreateProfile';
 
-let guardTipComments = (to, from, next) => {
-  if (to.name === 'tip' && typeof to.params.id !== "undefined") {
+const guardTipComments = (to, from, next) => {
+  if (to.name === 'tip' && typeof to.params.id !== 'undefined') {
     next();
   } else {
     next('/');
@@ -20,66 +20,66 @@ const routes = [
     path: '/',
     name: 'home',
     component: TipsList,
-    meta: {title: 'Home'}
+    meta: { title: 'Home' },
   },
   {
     path: '/tip/:id',
     name: 'tip',
     component: TipCommentsView,
     meta: {
-      title: 'Comments for a Tip'
+      title: 'Comments for a Tip',
     },
     props: true,
-    beforeEnter : guardTipComments,
+    beforeEnter: guardTipComments,
   },
   {
     path: '/user-profile/:address',
     name: 'user-profile',
     component: UserProfileView,
     meta: {
-      title: 'User Profile'
+      title: 'User Profile',
     },
-    props: true
+    props: true,
   },
   {
     path: '/terms',
     name: 'terms',
     component: Terms,
     meta: {
-      title: 'Terms of service'
-    }
+      title: 'Terms of service',
+    },
   },
   {
     path: '/privacy',
     name: 'privacy',
     component: Privacy,
     meta: {
-      title: 'Privacy policy'
-    }
+      title: 'Privacy policy',
+    },
   },
   {
     path: '/mission',
     name: 'mission',
     component: Mission,
     meta: {
-      title: 'Mission'
-    }
+      title: 'Mission',
+    },
   },
   {
     path: '/create-profile',
     name: 'create-profile',
     component: CreateProfile,
     meta: {
-      title: 'Create Profile'
-    }
+      title: 'Create Profile',
+    },
   },
-]
+];
 
-const router = new Router({mode: 'hash', routes: routes})
+const router = new Router({ mode: 'hash', routes });
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} - Superhero.com`
-  next()
-})
+  document.title = `${to.meta.title} - Superhero.com`;
+  next();
+});
 
 export default router;

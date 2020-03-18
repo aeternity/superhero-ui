@@ -49,16 +49,16 @@
 </template>
 
 <script>
-  import LeftSection from '../components/layout/LeftSection.vue';
-  import RightSection from '../components/layout/RightSection.vue';
+import LeftSection from '../components/layout/LeftSection.vue';
+import RightSection from '../components/layout/RightSection.vue';
 
-  export default {
-    name: 'Terms',
-    components: {
-      LeftSection,
-      RightSection,
-    }
-  }
+export default {
+  name: 'Terms',
+  components: {
+    LeftSection,
+    RightSection,
+  },
+};
 </script>
 
 

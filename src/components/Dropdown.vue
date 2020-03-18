@@ -5,20 +5,20 @@
 </template>
 
 <script>
-  export default {
-    name: 'vue-dropdown',
-    props: {
-      options: { type: Array },
-      selected: { type: String },
-      method: { type: Function },
-    },
-    data() {
-      return {
-        selectedVal: this.selected,
-        optionsVal: this.options
-      }
-    }
-  }
+export default {
+  name: 'vue-dropdown',
+  props: {
+    options: { type: Array },
+    selected: { type: String },
+    method: { type: Function },
+  },
+  data() {
+    return {
+      selectedVal: this.selected,
+      optionsVal: this.options,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

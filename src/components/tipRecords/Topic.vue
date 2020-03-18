@@ -3,24 +3,24 @@
 </template>
 
 <script>
-  import { EventBus } from "../../utils/eventBus";
+import { EventBus } from '../../utils/eventBus';
 
-  export default {
-    name: 'Topic',
-    props: ['topic'],
-    methods: {
-      searchTopic(topic) {
-        if(this.$route.name !== 'home'){
-          this.$router.push({
-            name: 'home',
-            query: { searchTopicPhrase: topic }
-          });
-        }else{
-          EventBus.$emit('searchTopic', topic)
-        }
+export default {
+  name: 'Topic',
+  props: ['topic'],
+  methods: {
+    searchTopic(topic) {
+      if (this.$route.name !== 'home') {
+        this.$router.push({
+          name: 'home',
+          query: { searchTopicPhrase: topic },
+        });
+      } else {
+        EventBus.$emit('searchTopic', topic);
       }
-    }
-  }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

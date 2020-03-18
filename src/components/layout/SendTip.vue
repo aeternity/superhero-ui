@@ -39,50 +39,50 @@
 </template>
 
 <script>
-  import FiatValue from "../FiatValue";
-  import { mapGetters } from "vuex";
-  import util from "../../utils/util";
-  import aeternity from "../../utils/aeternity";
-  import { EventBus } from "../../utils/eventBus";
-  import avatar from '../../assets/userAvatar.svg';
+import { mapGetters } from 'vuex';
+import FiatValue from '../FiatValue';
+import util from '../../utils/util';
+import aeternity from '../../utils/aeternity';
+import { EventBus } from '../../utils/eventBus';
+import avatar from '../../assets/userAvatar.svg';
 
-  export default {
-    name: 'SendTip',
-    components: {
-      FiatValue
+export default {
+  name: 'SendTip',
+  components: {
+    FiatValue,
+  },
+  computed: {
+    ...mapGetters(['balance', 'loading']),
+    isSendTipDataValid() {
+      const urlRegex = /(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
+      // TODO: better validation
+      return this.sendTipForm.amount > 0
+          && this.sendTipForm.url.length > 0
+          && urlRegex.test(this.sendTipForm.url);
     },
-    computed: {
-      ...mapGetters(['balance', 'loading']),
-      isSendTipDataValid(){
-        let urlRegex = /(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
-        // TODO: better validation
-        return this.sendTipForm.amount > 0
-            && this.sendTipForm.url.length > 0 
-            && urlRegex.test(this.sendTipForm.url)
-      }
-    },
-    data() {
-      return {
-        sendTipForm: {
-          amount: null,
-          url: '',
-          title: '',
-        },
-        avatar,
-      }
-    },
-    methods: {
-      async sendTip() {
-        const amount = util.aeToAtoms(this.sendTipForm.amount);
-        await aeternity.contract.methods.tip(this.sendTipForm.url, this.sendTipForm.title, {amount: amount}).catch(console.error);
-        this.clearTipForm();
-        EventBus.$emit('reloadData');
+  },
+  data() {
+    return {
+      sendTipForm: {
+        amount: null,
+        url: '',
+        title: '',
       },
-      clearTipForm() {
-        this.sendTipForm = {amount: null, url: '', title: ''}
-      },
-    }
-  }
+      avatar,
+    };
+  },
+  methods: {
+    async sendTip() {
+      const amount = util.aeToAtoms(this.sendTipForm.amount);
+      await aeternity.contract.methods.tip(this.sendTipForm.url, this.sendTipForm.title, { amount }).catch(console.error);
+      this.clearTipForm();
+      EventBus.$emit('reloadData');
+    },
+    clearTipForm() {
+      this.sendTipForm = { amount: null, url: '', title: '' };
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

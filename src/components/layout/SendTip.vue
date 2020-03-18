@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="form-group mb-3">
-        <img src="/assets/userAvatar.svg" class="avatar mr-3">
+        <img :src="avatar" class="avatar mr-3">
         <input type="text" class="form-control comment" v-model="sendTipForm.title" placeholder="Add message">
       </div>
       <div class="text-right">
@@ -44,6 +44,7 @@
   import util from "../../utils/util";
   import aeternity from "../../utils/aeternity";
   import { EventBus } from "../../utils/eventBus";
+  import avatar from '../../assets/userAvatar.svg';
 
   export default {
     name: 'SendTip',
@@ -58,7 +59,8 @@
         sendTipForm: {
           amount: null,
           url: '',
-          title: ''
+          title: '',
+          avatar
         }
       }
     },

@@ -25,7 +25,6 @@ const getTipTopics = (tips) => {
   const maxCount = Math.max(...Object.values(topics).map(x => x.count));
 
   const sortedTopic = Object.entries(topics).map(([topic, data]) => {
-      data.amount = new BigNumber(data.amount).toFixed(3);
       data.avgScore = data.totalScore / data.count;
       data.countScore  = data.count / maxCount;
 

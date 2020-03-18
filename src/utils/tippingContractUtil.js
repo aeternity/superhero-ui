@@ -69,8 +69,8 @@ const getTipsRetips = (state) => {
     tips_length: state.tips.length,
     retips_length: state.retips.length,
     total_tips_length: state.tips.length + state.retips.length,
-    total_amount: tips.reduce((acc, tip) => acc.plus(tip.total_amount), new BigNumber('0')).toFixed(3),
-    total_unclaimed_amount: tips.reduce((acc, tip) => acc.plus(tip.total_unclaimed_amount), new BigNumber('0')).toFixed(3),
+    total_amount: tips.reduce((acc, tip) => acc.plus(tip.total_amount), new BigNumber('0')).toFixed(),
+    total_unclaimed_amount: tips.reduce((acc, tip) => acc.plus(tip.total_unclaimed_amount), new BigNumber('0')).toFixed(),
     senders_length: senders.length
   };
 

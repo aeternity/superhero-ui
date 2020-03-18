@@ -90,7 +90,6 @@
   import { mapGetters } from 'vuex'
   import FiatValue from "../FiatValue";
   import AeAmount from "../AeAmount";
-  import BigNumber from 'bignumber.js';
 
   export default {
     name: 'LeftSection',

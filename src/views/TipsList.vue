@@ -52,7 +52,7 @@ import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import { EventBus } from '../utils/eventBus';
 import FiatValue from '../components/FiatValue.vue';
-import Loading from '../components/Loading';
+import Loading from '../components/Loading.vue';
 
 export default {
   name: 'TipsList',

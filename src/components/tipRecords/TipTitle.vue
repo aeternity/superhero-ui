@@ -10,7 +10,7 @@
 <script>
 
 import TippingContractUtil from '../../utils/tippingContractUtil';
-import Topic from './Topic';
+import Topic from './Topic.vue';
 
 export default {
   name: 'TipTitle',

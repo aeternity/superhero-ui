@@ -8,7 +8,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import aeternity from './utils/aeternity.js';
+import aeternity from './utils/aeternity';
 import { wallet } from './utils/walletSearch';
 import Backend from './utils/backend';
 import Currency from './utils/currency';

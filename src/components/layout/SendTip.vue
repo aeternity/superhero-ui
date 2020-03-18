@@ -40,7 +40,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import FiatValue from '../FiatValue';
+import FiatValue from '../FiatValue.vue';
 import util from '../../utils/util';
 import aeternity from '../../utils/aeternity';
 import { EventBus } from '../../utils/eventBus';

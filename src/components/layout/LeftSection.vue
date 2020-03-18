@@ -25,13 +25,13 @@
         </div>
         <div class="navigation__item profile" v-if="!isLoggedIn" v-bind:class="{ active: $route.name === 'user-profile' }">
           <router-link to="/create-profile">
-            <img class="mr-1 avatar" src="../../assets/userAvatar.svg">
+            <div class="navigation__item__image"></div>
             <span>Create Profile</span>
           </router-link>
         </div>
         <div class="navigation__item profile" v-if="isLoggedIn" v-bind:class="{ active: $route.name === 'user-profile' }">
           <a @click="openMyProfile">
-            <img class="mr-1 avatar" src="../../assets/userAvatar.svg">
+            <div class="navigation__item__image"></div>
             <span v-bind:class="{ active: $route.name === 'user-profile' }">My Profile</span>
           </a>
         </div>
@@ -175,6 +175,9 @@ export default {
         &.mission .navigation__item__image{
           background-image: url('../../assets/iconMission.svg');
         }
+        &.profile .navigation__item__image{
+          background-image: url('../../assets/userIcon.svg');
+        }
         &:hover, &.active {
           a{
             cursor: pointer;
@@ -188,6 +191,9 @@ export default {
           }
           &.mission .navigation__item__image{
             background-image: url('../../assets/iconMissionActive.svg');
+          }
+          &.profile .navigation__item__image{
+            background-image: url('../../assets/userIconActive.svg');
           }
         }
       }

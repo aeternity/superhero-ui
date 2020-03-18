@@ -23,8 +23,8 @@
         }
         return new BigNumber(this.amount).multipliedBy(this.currencyRates.aeternity[this.settings.currency]).toFixed(2);
       },
-      currencySign(){
-       return this.settings && this.settings.currency? currencySigns[this.settings.currency] : ''
+      currencySign() {
+        return this.settings && this.settings.currency ? currencySigns[this.settings.currency] : ''
       }
     }
   }

@@ -60,8 +60,8 @@
           amount: null,
           url: '',
           title: '',
-          avatar
-        }
+        },
+        avatar,
       }
     },
     methods: {

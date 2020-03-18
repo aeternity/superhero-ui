@@ -52,45 +52,45 @@
 </template>
 
 <script>
-  import FiatValue from '../FiatValue.vue';
-  import AeAmount from '../AeAmount.vue';
-  import Retip from '../Retip.vue';
-  import TipTitle from './TipTitle.vue';
+import FiatValue from '../FiatValue.vue';
+import AeAmount from '../AeAmount.vue';
+import Retip from '../Retip.vue';
+import TipTitle from './TipTitle.vue';
 
-  export default {
-    name: 'TipRecord',
-    props: ['tip', 'foundWallet', 'senderLink'],
-    components: {
-      FiatValue,
-      AeAmount,
-      Retip,
-      TipTitle
+export default {
+  name: 'TipRecord',
+  props: ['tip', 'foundWallet', 'senderLink'],
+  components: {
+    FiatValue,
+    AeAmount,
+    Retip,
+    TipTitle,
+  },
+  computed: {
+    tipText() {
+      if (!this.isPreviewToBeVisualized(this.tip)) return '';
+      return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
     },
-    computed: {
-      tipText() {
-        if(!this.isPreviewToBeVisualized(this.tip)) return '';
-        return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
-      }
-    },
-    methods: {
-      isPreviewToBeVisualized(tip) {
-        return typeof tip !== 'undefined' && tip !== null
+  },
+  methods: {
+    isPreviewToBeVisualized(tip) {
+      return typeof tip !== 'undefined' && tip !== null
           && typeof tip.preview !== 'undefined' && tip.preview.image !== null
           && (
-            (tip.preview.description !== null && tip.preview.description.length > 0) ||
-            (tip.preview.title !== null && tip.preview.title.length > 0)
-          )
-      },
-      goToTip(id) {
-        this.$router.push({
-          name: 'tip',
-          params: {
-            id: id
-          }
-        })
-      },
-    }
-  }
+            (tip.preview.description !== null && tip.preview.description.length > 0)
+            || (tip.preview.title !== null && tip.preview.title.length > 0)
+          );
+    },
+    goToTip(id) {
+      this.$router.push({
+        name: 'tip',
+        params: {
+          id,
+        },
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">

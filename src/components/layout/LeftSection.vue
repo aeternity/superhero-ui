@@ -87,38 +87,38 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import FiatValue from "../FiatValue";
-  import AeAmount from "../AeAmount";
+import { mapGetters } from 'vuex';
+import FiatValue from '../FiatValue';
+import AeAmount from '../AeAmount';
 
-  export default {
-    name: 'LeftSection',
-    components: {
-      FiatValue,
-      AeAmount
+export default {
+  name: 'LeftSection',
+  components: {
+    FiatValue,
+    AeAmount,
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    goHome() {
+      this.$router.push({
+        name: 'home',
+      });
     },
-    data() {
-      return {}
+    openMyProfile() {
+      this.$router.push({
+        name: 'user-profile',
+        params: {
+          address: this.account,
+        },
+      });
     },
-    methods: {
-      goHome() {
-        this.$router.push({
-          name: 'home',
-        })
-      },
-      openMyProfile() {
-        this.$router.push({
-          name: 'user-profile',
-          params: {
-            address: this.account
-          }
-        })
-      }
-    },
-    computed: {
-      ...mapGetters(['stats', 'account', 'isLoggedIn'])
-    }
-  }
+  },
+  computed: {
+    ...mapGetters(['stats', 'account', 'isLoggedIn']),
+  },
+};
 </script>
 
 <style lang="scss">

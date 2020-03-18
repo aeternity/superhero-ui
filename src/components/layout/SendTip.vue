@@ -54,9 +54,9 @@
     computed: {
       ...mapGetters(['balance', 'loading']),
       isDisabled(){
-        return  this.sendTipForm.amount === 0
-                  || this.sendTipForm.url.length === 0 
-                    || this.sendTipForm.url.indexOf('http') !== 0
+        return this.sendTipForm.amount <= 0
+                || this.sendTipForm.url.length === 0 
+                  || this.sendTipForm.url.indexOf('http') !== 0
       }
     },
     data() {

@@ -44,14 +44,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Dropdown from '../components/Dropdown.vue';
 
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import SendTip from '../components/layout/SendTip.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import { EventBus } from '../utils/eventBus';
-import FiatValue from '../components/FiatValue.vue';
 import Loading from '../components/Loading.vue';
 
 export default {
@@ -109,11 +107,9 @@ export default {
   },
   components: {
     Loading,
-    Dropdown,
     TipRecord,
     LeftSection,
     RightSection,
-    FiatValue,
     SendTip,
   },
   async created() {

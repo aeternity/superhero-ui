@@ -18,7 +18,6 @@
       </div>
       <div class="tip__article position-relative" v-if="isPreviewToBeVisualized(tip)">
         <a :href="tip.url" target="_blank" v-on:click.stop>
-        <img class="external-link" src="../../assets/externalLink.svg">
         <div class="tip__article--hasresults">
           <img v-bind:src="tip.preview.image" class="mr-2">
           <span>
@@ -201,27 +200,19 @@ export default {
           color: $article_description_color;
           background-color: $thumbnail_background_color;
           padding: 0;
-          padding-right: 1.25rem;
           margin-left: 1rem;
-          border-top-right-radius: .25rem;
-          border-bottom-right-radius: .25rem;
+          border-top-right-radius: .5rem;
+          border-bottom-right-radius: .5rem;
           margin-right: 1rem;
           &:hover{
             cursor: pointer;
-          }
-          .external-link{
-            width: .75rem;
-            height: .75rem;
-            right: .5rem;
-            top: .5rem;
-            position: absolute;
           }
           img{
             width: 50%;
             float: left;
             height: 9rem;
-            border-top-left-radius: .25rem;
-            border-bottom-left-radius: .25rem;
+            border-top-left-radius: .5rem;
+            border-bottom-left-radius: .5rem;
             object-fit: cover;
           }
           span{
@@ -231,7 +222,7 @@ export default {
             line-height: 1.2rem;
           }
           .tip__article--hasresults{
-            padding-right: .75rem;
+            padding-right: .5rem;
           }
         }
       }

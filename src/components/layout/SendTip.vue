@@ -26,7 +26,7 @@
         <input type="text" class="form-control comment" v-model="sendTipForm.title" placeholder="Add message">
       </div>
       <div class="text-right">
-        <button @click="sendTip()" :disabled='isDisabled' class="btn btn-primary tip__send">Tip</button>
+        <button @click="sendTip()" :disabled='!isSendTipDataValid' class="btn btn-primary tip__send">Tip</button>
 
         <!-- <div class="col-sm-4 tip__post__balance pl-2">
                  <span>{{ balance }} AE
@@ -53,10 +53,11 @@
     },
     computed: {
       ...mapGetters(['balance', 'loading']),
-      isDisabled(){
-        return this.sendTipForm.amount <= 0
-                || this.sendTipForm.url.length === 0 
-                  || this.sendTipForm.url.indexOf('http') !== 0
+      isSendTipDataValid(){
+        // TODO: better validation
+        return this.sendTipForm.amount >= 0
+            && this.sendTipForm.url.length > 0 
+            && this.sendTipForm.url.indexOf('http') === 0
       }
     },
     data() {

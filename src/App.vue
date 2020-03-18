@@ -26,7 +26,7 @@ export default {
     ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState', 'addLoading', 'removeLoading', 'setChainNames']),
     initWallet() {
       return Promise.race([
-        new Promise((resolve, _) => wallet.init(async () => {
+        new Promise((resolve) => wallet.init(async () => {
           const currentAccount = wallet.client.rpcClient.getCurrentAccount();
           const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
           this.setLoggedInAccount({
@@ -36,7 +36,7 @@ export default {
           console.log('found wallet');
           resolve();
         })),
-        new Promise((resolve, _) => setTimeout(resolve, 3000, 'TIMEOUT')),
+        new Promise((resolve) => setTimeout(resolve, 3000, 'TIMEOUT')),
       ]).then(() => {
         this.removeLoading('wallet');
       }).catch(console.error);

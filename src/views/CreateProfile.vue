@@ -207,31 +207,31 @@
 
             <ul>
               <li>
-                Binance - the largest cryptocurrency exchange in the world
+                Binance - the largest cryptocurrency exchange in the world
               </li>
               <li>
-                MXC Exchange - Chinese assets trading platform
+                MXC Exchange - Chinese assets trading platform
               </li>
               <li>
-                Gate.io - Chinese assets trading platform
+                Gate.io - Chinese assets trading platform
               </li>
               <li>
-                OKEx - Maltese cryptocurrency exchange
+                OKEx - Maltese cryptocurrency exchange
               </li>
               <li>
-                CoinAll - Maltese cryptocurrency exchange
+                CoinAll - Maltese cryptocurrency exchange
               </li>
               <li>
                 DragonEx - Singaporean cryptocurrency exchange
               </li>
               <li>
-                HOTBIT - Chinese cryptocurrency exchange
+                HOTBIT - Chinese cryptocurrency exchange
               </li>
               <li>
-                HitBTC - American cryptocurrency exchange
+                HitBTC - American cryptocurrency exchange
               </li>
               <li>
-                CoinBene - Singaporean cryptocurrency exchange
+                CoinBene - Singaporean cryptocurrency exchange
               </li>
             </ul>
           </p>

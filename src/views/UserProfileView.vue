@@ -128,6 +128,7 @@
   import BigNumber from 'bignumber.js';
   import Util from '../utils/util';
   import Loading from "../components/Loading";
+  import avatar from '../assets/userAvatar.svg';
 
   const backendInstance = new Backend();
 
@@ -161,7 +162,7 @@
           biography: '',
           displayName: ''
         },
-        avatar: '../assets/userAvatar.svg'
+        avatar,
       }
     },
     computed: {

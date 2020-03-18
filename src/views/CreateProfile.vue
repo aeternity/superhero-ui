@@ -269,8 +269,6 @@
 
 
 <style lang="scss" scoped>
-  @import "../styles/base";
-
   .content {
     color: $standard_font_color;
   }

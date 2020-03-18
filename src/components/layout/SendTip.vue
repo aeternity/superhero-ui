@@ -77,8 +77,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../styles/base";
-
   .tip__post {
     background-color: $actions_ribbon_background_color;
     max-height: 0;
@@ -87,7 +85,7 @@
 
     &.active {
       max-height: 400px;
-      opacity: 100%;
+      opacity: 1;
     }
 
     form {

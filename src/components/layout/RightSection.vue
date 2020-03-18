@@ -67,11 +67,10 @@
             return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
             break;
           case 'chrome':
-            // TODO: Update with chrome store url when published
-            return '//github.com/superherowallet/wallet/releases/latest';
+            return '//chrome.google.com/webstore/detail/mnhmmkepfddpifjkamaligfeemcbhdne/';
             break;
           default:
-            return '//github.com/superherowallet/wallet/releases/latest';
+            return '//github.com/aeternity/superhero-wallet/releases/latest/';
             break;
         }
         }
@@ -81,8 +80,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../styles/base";
-
   .topics-section{
     max-height: 0;
     transition: max-height 0.25s ease-in;
@@ -152,14 +149,16 @@
       }
     }
     .wallet-install{
+      display: none;
       max-height: 0;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       opacity: 0;
       margin-bottom: 0;
-      
+
       &.active {
+        display: block;
         max-height: 400px;
-        opacity: 100%;
+        opacity: 1;
         margin-bottom: 1rem;
       }
     }

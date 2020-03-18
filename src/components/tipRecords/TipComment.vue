@@ -3,9 +3,7 @@
       <div class="tip__body">
         <div class="clearfix">
           <div class="tip__author" :title="comment.author">
-            <router-link
-              :to="'/user-profile/' + comment.author "
-              target="_blank">
+            <router-link :to="'/user-profile/' + comment.author">
               <img src="../../assets/userAvatar.svg">
               <span class="chain__name" v-if="userChainNames && userChainNames.length > 0" :title="userChainNames[0].name" >{{userChainNames[0].name}}</span>
               <span class="chain__name" v-else-if="comment.chainNames && comment.chainNames.length > 0" :title="comment.chainNames[0].name">{{comment.chainNames[0].name}}</span>
@@ -36,8 +34,7 @@
 </script>
 
 
-<style lang="scss" scoped>
-  @import "../../styles/base";
+<style lang="scss">
   .comment.tip__record{
     padding-bottom: 0;
     margin-bottom: .5rem;

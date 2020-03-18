@@ -60,7 +60,7 @@
           <div class="overview__label">
             Unique Tip Senders
           </div>
-        </div> 
+        </div>
         <div class="overview__item" v-if="stats.total_amount">
           <div class="overview__value secondary">
             {{stats.total_amount}}
@@ -120,8 +120,6 @@
 </script>
 
 <style lang="scss">
-  @import "../../styles/base";
-
   .app__leftcolumn {
     color: $standard_font_color;
     display: inline-block;
@@ -143,7 +141,7 @@
             cursor: pointer;
           }
         }
-      } 
+      }
       .navigation {
         margin-bottom: 1rem;
         font-weight: 500;
@@ -235,7 +233,7 @@
     margin-bottom: 1.15rem;
     font-weight: 400;
   }
-} 
+}
 
 }
 </style>

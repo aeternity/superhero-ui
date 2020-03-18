@@ -22,7 +22,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../styles/base";
 .aggregator__dropdown{
   display: inline-block;
   margin: unset;

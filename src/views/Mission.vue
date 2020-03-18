@@ -48,8 +48,6 @@
 
 
 <style lang="scss" scoped>
-  @import "../styles/base";
-
   .content {
     color: $primary_color;
   }

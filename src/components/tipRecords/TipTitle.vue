@@ -32,8 +32,6 @@
 </script>
 
 <style lang="scss">
-  @import "../../styles/base";
-
   .title {
     display: inline;
 

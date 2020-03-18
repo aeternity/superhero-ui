@@ -10,6 +10,7 @@ contract OracleService =
 
   record state =
     { trusted_oracles : map(int, oracle_type)
+    , trusted_oracle_seq : int
     , oracle_queries : map(string, oracle_query_tuples)
     , minimum_amount_of_oracles : int
     , success_claimed_urls : map(string, success_claim)

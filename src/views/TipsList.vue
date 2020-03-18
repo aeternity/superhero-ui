@@ -140,7 +140,7 @@
     color: $standard_font_color;
     background-color: $article_content_color;
     padding: 1.05rem 2.5rem 1.05rem 1rem;
-    border: none;
+    border: .05rem solid transparent;
     outline: none;
     width: 100%;
     &:focus{

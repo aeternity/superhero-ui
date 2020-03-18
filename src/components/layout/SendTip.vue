@@ -121,12 +121,15 @@
       .form-group {
         margin-bottom: 0;
         .input-group{
-          border: 1px solid $custom_links_color;
           border-radius: .25rem;
         }
         input {
           &[type=number]:focus{
-            border: none;
+            border-right: none;
+          }
+          &[type=number]:focus~.input-group-append .input-group-text{
+            border: .05rem solid $custom_links_color;
+            border-left: none;
           }
           &.comment{
             display: inline-block;
@@ -135,7 +138,10 @@
           background-color: $background_color;
           color: $standard_font_color;
           font-size: .75rem;
-          border: 1px solid #21212A;
+          border: .05rem solid transparent;
+          &:focus{
+             border: .05rem solid $custom_links_color;
+          }
         }
       }
 

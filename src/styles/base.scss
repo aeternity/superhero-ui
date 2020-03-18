@@ -54,6 +54,7 @@ body{
 .input-group, .form-group{
   .form-control{
     box-shadow: none;
+    border: .05rem solid transparent;
     &:focus{
       border: .05rem solid $custom_links_color;
     }

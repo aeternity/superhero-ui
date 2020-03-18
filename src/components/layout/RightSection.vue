@@ -21,7 +21,7 @@
             <topic :topic="topic" />
           </div>
             <div>
-              <span class="value">{{data.amount}}</span>
+              <span class="value">{{data.amount | toBigNumber | bnToFixed | bnRemoveTrailingZeros}}</span>
               <span class="ae">AE</span>
               <fiat-value :amount="data.amount"></fiat-value>
             </div>

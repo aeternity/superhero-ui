@@ -63,7 +63,7 @@
         </div>
         <div class="overview__item" v-if="stats.total_amount">
           <div class="overview__value secondary">
-            {{stats.total_amount}}
+            {{stats.total_amount | toBigNumber | bnToFixed | bnRemoveTrailingZeros}}
             <span class="currency secondary">AE</span>
           </div>
           <div class="overview__value" v-if="stats.total_amount">
@@ -89,6 +89,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import FiatValue from "../FiatValue";
+  import BigNumber from 'bignumber.js';
 
   export default {
     name: 'LeftSection',

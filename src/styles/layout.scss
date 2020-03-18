@@ -1,0 +1,43 @@
+:root {
+  --column-width: calc(50% - var(--container-width) / 2);
+  --container-width: 25rem;
+}
+
+.container {
+  max-width: var(--container-width);
+}
+
+.app__leftcolumn {
+  display: inline-block;
+  position: fixed;
+  top: .5rem;
+  width: var(--column-width);
+}
+
+.app__rightcolumn {
+  display: inline-block;
+  padding-top: .5rem;
+  position: fixed;
+  right: 0;
+  top: .5rem;
+  width: var(--column-width);
+}
+
+@media (min-width: 992px) {
+  :root {
+    --container-width: 27rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --container-width: 31rem;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .app__leftcolumn,
+  .app__rightcolumn {
+    display: none;
+  }
+}

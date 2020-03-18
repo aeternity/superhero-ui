@@ -79,7 +79,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .topics-section{
     max-height: 0;
     transition: max-height 0.25s ease-in;
@@ -91,12 +91,7 @@
 
 .app__rightcolumn{
   color: $light_font_color;
-  display: inline-block;
   font-size: .75rem;
-  position: fixed;
-  right: 0;
-  top: 0;
-  padding-top: .5rem;
   .content{
     max-width: 17rem;
     .section{

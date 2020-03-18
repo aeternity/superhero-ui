@@ -122,11 +122,8 @@
 <style lang="scss">
   .app__leftcolumn {
     color: $standard_font_color;
-    display: inline-block;
     font-size: 1rem;
-    position: fixed;
     text-align: right;
-    top: .5rem;
     .content {
       width: 10rem;
       display: inline-block;

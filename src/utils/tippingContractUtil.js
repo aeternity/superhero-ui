@@ -4,10 +4,10 @@ import Util from './util';
 const topicsRegex = /(\#[a-zA-Z]+\b)(?!;)/g;
 
 const getTipsRetips = (state) => {
-  const findUrl = (urlId) => state.urls.find(([_, id]) => urlId === id)[0];
+  const findUrl = (urlId) => state.urls.find(([, id]) => urlId === id)[0];
 
   const findClaimGen = (tipClaimGen, urlId) => {
-    const [_, data] = state.claims.find(([id, _]) => id === urlId);
+    const [, data] = state.claims.find(([id]) => id === urlId);
 
     return {
       unclaimed: tipClaimGen > data[0],
@@ -16,7 +16,7 @@ const getTipsRetips = (state) => {
     };
   };
 
-  const findRetips = (tipId, urlId) => state.retips.filter(([_, data]) => data.tip_id === tipId).map(([id, data]) => {
+  const findRetips = (tipId, urlId) => state.retips.filter(([, data]) => data.tip_id === tipId).map(([id, data]) => {
     data.id = id;
     data.claim = findClaimGen(data.claim_gen, urlId);
     data.amount_ae = Util.atomsToAe(data.amount).toFixed();
@@ -47,7 +47,7 @@ const getTipsRetips = (state) => {
 
   const urls = state.urls.map(([url, id]) => {
     const urlTips = tips.filter((tip) => tip.url_id === id);
-    const claim = state.claims.find(([urlId, _]) => urlId === id)[1];
+    const claim = state.claims.find(([urlId]) => urlId === id)[1];
 
     return {
       url,

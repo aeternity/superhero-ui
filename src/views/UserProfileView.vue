@@ -169,7 +169,7 @@ export default {
         .reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0))
         .plus(userReTips.reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0)))).toFixed(2);
 
-      const claimedUrls = this.oracleState.success_claimed_urls ? this.oracleState.success_claimed_urls.filter(([_, data]) => data.success && data.account === this.address).map(([url]) => url) : [];
+      const claimedUrls = this.oracleState.success_claimed_urls ? this.oracleState.success_claimed_urls.filter(([, data]) => data.success && data.account === this.address).map(([url]) => url) : [];
       const unclaimedAmount = this.tips.reduce((acc, tip) => (claimedUrls.includes(tip.url) ? acc.plus(tip.total_unclaimed_amount) : acc), new BigNumber(0));
 
       return {

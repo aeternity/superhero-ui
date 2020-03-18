@@ -9,7 +9,7 @@ const fetchTips = async () => {
   const fetchLangTips = backendInstance.getLangTips().catch(console.error);
   const fetchChainNames = backendInstance.getChainNameFromAddress().catch(console.error);
   const fetchCommentCounts = backendInstance.getCommentCounts().catch(console.error);
-  let [{ stats, _, tips }, tipOrdering, tipsPreview, langTips, chainNames, commentCounts] = await Promise.all([fetchTips, fetchOrdering, fetchTipsPreview, fetchLangTips, fetchChainNames, fetchCommentCounts]);
+  let [{ stats, tips }, tipOrdering, tipsPreview, langTips, chainNames, commentCounts] = await Promise.all([fetchTips, fetchOrdering, fetchTipsPreview, fetchLangTips, fetchChainNames, fetchCommentCounts]);
 
   // add score from backend to tips
   if (tipOrdering) {

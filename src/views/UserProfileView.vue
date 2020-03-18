@@ -18,7 +18,7 @@
             <span class="sr-only">Loading...</span>
           </div>
         </div>
-        <div class="row" v-bind:class="[showLoadingProfile ? 'invisible' : '']">
+        <div class="row" :class="[showLoadingProfile ? 'invisible' : '']">
           <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
             <a class="edit__button button small" @click="toggleEditMode()" v-if="!editMode && isMyUserProfile" title="Edit Profile">Edit Profile</a>
             <div class="profile__image position-relative" >
@@ -28,14 +28,14 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </div>
-              <!-- <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" v-bind:class="[showLoadingAvatar ? 'blurred' : '']"> -->
+              <!-- <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" :class="[showLoadingAvatar ? 'blurred' : '']"> -->
                 <a :href="openExplorer(address)" target="_blank" v-if="!editMode" :title="address">
-                  <img v-bind:src="avatar"/>
+                  <img :src="avatar"/>
                 </a>
                 <!-- <div>Change Avatar</div> -->
               <!-- </label> -->
-              <!-- <div v-bind:class="[showLoadingAvatar ? 'blurred' : '']">
-                <img v-bind:src="avatar" v-if="!editMode">
+              <!-- <div :class="[showLoadingAvatar ? 'blurred' : '']">
+                <img :src="avatar" v-if="!editMode">
               </div> -->
               <!-- <input id="file-input" type="file" name="avatar" v-if="editMode" accept="image/png, image/jpeg"> -->
             </div>
@@ -89,11 +89,11 @@
 
       </div>
         <div class="profile__actions">
-          <a v-bind:class="{ active: activeTab === 'tips' }" @click="setActiveTab('tips')">Tips</a>
-          <a  v-bind:class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">Comments</a>
+          <a :class="{ active: activeTab === 'tips' }" @click="setActiveTab('tips')">Tips</a>
+          <a :class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">Comments</a>
         </div>
       <div class="comments__section position-relative">
-        <div class="no-results text-center w-100" v-bind:class="[error ? 'error' : '']" v-if="showNoResultsMsg">{{'There is no activity to display.'}}</div>
+        <div class="no-results text-center w-100" :class="[error ? 'error' : '']" v-if="showNoResultsMsg">{{'There is no activity to display.'}}</div>
           <div v-if="activeTab === 'tips'">
             <div v-if="userTips.length">
               <tip-record v-for="(tip,index) in userTips"

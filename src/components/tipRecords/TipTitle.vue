@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="title" v-for="part in splitByTopics">
+    <div class="title" v-for="(part, id) in splitByTopics" :key="id">
       <topic v-if="part.matches" :topic="part.text"></topic>
       <span @click="goToTip(tip.id)" v-else>{{part.text}}</span>
     </div>

@@ -156,8 +156,6 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
-
-
   .send__tip__container{
     margin-bottom: .15rem;
   }
@@ -167,6 +165,7 @@
     min-height: 4rem;
   }
    .actions__container{
+      padding: 0;
       top: 0;
       &:nth-child(2){
         top: 3.2rem;

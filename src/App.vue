@@ -105,10 +105,6 @@
 <style lang="scss">
   @import "styles/layout";
 
-  html {
-    font-size: 125%;
-  }
-
   .min-h-screen {
     min-height: 100vh;
     min-width: 100%;

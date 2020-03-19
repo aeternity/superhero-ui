@@ -1,55 +1,56 @@
 :root {
-  --left-column-width: unset;
-  --right-column-width: unset;
-  --container-width: 25rem;
+  --left-column-width: 11rem;
+  --container-width: 31rem;
+}
+
+html {
+  font-size: 125%;
 }
 
 .min-h-screen > div {
-  display: grid;
-  grid-template-columns: var(--left-column-width) var(--container-width) var(--right-column-width);
   margin: 0 auto;
   max-width: 61rem;
-  padding: 0 1rem;
 }
 
-.container {
-  max-width: var(--container-width);
+.app__leftcolumn {
+  box-sizing: content-box;
+  height: 0;
+  max-width: 9rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  position: sticky;
+  position: -webkit-sticky;
+  top: .7rem;
+}
+
+.app__rightcolumn {
+  height: 0;
+  left: 100%;
+  max-width: 18rem;
+  order: 3;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  position: sticky;
+  position: -webkit-sticky;
+  top: .7rem;
+}
+
+/** handle 1,2,3 column layouts **/
+.container.wrapper {
+  margin-right: auto;
   padding: 0;
-}
-
-.app__leftcolumn {
-  grid-column: 1;
-  grid-row: 1;
-  height: 100vh;
-  max-width: 8rem;
-  padding-top: .7rem;
-  position: sticky;
-  top: 0;
-  width: 100vw;
-}
-
-.app__rightcolumn {
-  grid-column: 3;
-  grid-row: 1;
-  height: 100vh;
-  margin-left: 1rem;
-  max-width: 17rem;
-  padding-top: .7rem;
   position: sticky;
   top: 0;
 }
-
-.overview {
-  overflow-x: hidden;
-  overflow-y: auto;
+.app__leftcolumn ~ .container.wrapper {
+  margin-left: var(--left-column-width);
+  max-width: calc(100% - var(--left-column-width));
 }
 
-.app__leftcolumn {
-  margin-right: 1rem;
-}
-
-.app__rightcolumn {
-  margin-left: 1rem;
+.app__leftcolumn + div:not([class]),
+.app__rightcolumn ~ .container.wrapper {
+  margin-left: var(--left-column-width);
+  max-width: var(--container-width);
 }
 
 @media (max-width: 991px) {
@@ -57,45 +58,33 @@
   .app__rightcolumn {
     display: none;
   }
+
+  :root {
+    --left-column-width: auto;
+    --container-width: 25rem;
+  }
 }
 
 @media (min-width: 992px) {
-  :root {
-    --container-width: 29rem;
-  }
   html {
-    font-size: 100% !important;
+    font-size: 100%;
   }
 }
 
 @media (min-width: 1200px) {
-  :root {
-    --left-column-width: 1fr;
-    --right-column-width: 2.125fr;
-    --container-width: 31rem;
-  }
   html {
-    font-size: 125% !important;
-  }
-}
-
-@media (min-width: 1366px) {
-  .app__leftcolumn {
-    margin-right: 3rem;
-  }
-  .app__rightcolumn {
-    margin-left: 2rem;
-  }
-  .min-h-screen > div {
-    padding: 0;
+    font-size: 125%;
   }
 }
 
 @media (min-width: 1440px) {
   .app__leftcolumn {
-    margin-right: 3rem;
+    padding-left: 0;
+
   }
+
   .app__rightcolumn {
-    margin-left: 2rem;
+    padding-right: 0;
+
   }
 }

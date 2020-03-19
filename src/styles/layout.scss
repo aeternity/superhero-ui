@@ -37,7 +37,6 @@ html {
 
 /* handle 1,2,3 column layouts */
 .container.wrapper {
-  margin-right: auto;
   padding: 0;
   position: sticky;
   top: 0;
@@ -46,12 +45,14 @@ html {
 .app__leftcolumn ~ .container.wrapper {
   margin-left: var(--left-column-margin);
   max-width: calc(100% - var(--left-column-margin));
+  margin-right: auto;
 }
 
 .app__leftcolumn + div:not([class]),
 .app__rightcolumn ~ .container.wrapper {
   margin-left: var(--left-column-margin);
   max-width: var(--container-width);
+  margin-right: auto;
 }
 
 @media (max-width: 991px) {

@@ -118,7 +118,7 @@ export default {
           .section__body {
             -ms-overflow-style: none;
             overflow-y: auto;
-            scrollbar-width: 0;
+            scrollbar-width: none;
 
             &::-webkit-scrollbar {
               display: none;

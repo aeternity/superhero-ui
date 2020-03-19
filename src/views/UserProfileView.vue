@@ -2,7 +2,7 @@
   <div>
     <right-section></right-section>
     <left-section></left-section>
-    <loading class="mt-5" v-if="loading.wallet || loading.initial" :show-loading="true"/>
+    <loading class="mt-5" v-if="loading.wallet || loading.initial" :show-loading="true" />
     <div v-else>
     <div class="container profile__page">
       <div class="profile__section clearfix position-relative">
@@ -13,7 +13,14 @@
         </div>
         <div class="row" :class="[showLoadingProfile ? 'invisible' : '']">
           <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
-            <a class="edit__button button small" @click="toggleEditMode()" v-if="!editMode && isMyUserProfile" title="Edit Profile">Edit Profile</a>
+            <a
+              class="edit__button button small"
+              @click="toggleEditMode()"
+              v-if="!editMode && isMyUserProfile"
+              title="Edit Profile"
+            >
+              Edit Profile
+            </a>
             <div class="profile__image position-relative" >
               <div class="overlay" v-if="showLoadingAvatar"></div>
               <div class="text-center spinner__container w-100" v-if="showLoadingAvatar">
@@ -21,23 +28,48 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </div>
-              <!-- <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" :class="[showLoadingAvatar ? 'blurred' : '']"> -->
+              <!--
+                <label
+                  for="file-input"
+                  v-if="editMode"
+                  class="position-relative profile__image--edit"
+                  :class="[showLoadingAvatar ? 'blurred' : '']"
+                >
+              -->
                 <a :href="openExplorer(address)" target="_blank" v-if="!editMode" :title="address">
-                  <img :src="avatar"/>
+                  <img :src="avatar" />
                 </a>
                 <!-- <div>Change Avatar</div> -->
               <!-- </label> -->
               <!-- <div :class="[showLoadingAvatar ? 'blurred' : '']">
                 <img :src="avatar" v-if="!editMode">
               </div> -->
-              <!-- <input id="file-input" type="file" name="avatar" v-if="editMode" accept="image/png, image/jpeg"> -->
+              <!--
+                <input
+                  id="file-input"
+                  type="file"
+                  name="avatar"
+                  v-if="editMode"
+                  accept="image/png, image/jpeg"
+                >
+              -->
             </div>
             <div class="profile__info">
               <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
               <!-- <div class="input-group" v-if="editMode">
-                <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
+                <input
+                  type="text"
+                  v-model="profile.displayName"
+                  class="form-control"
+                  placeholder="Edit Display Name"
+                >
               </div> -->
-              <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address">
+              <a
+                class="profile__username"
+                target="_blank"
+                :href="openExplorer(address)"
+                v-if="!editMode" :title="address"
+              >
                 <span class="chain"  v-if="userChainName">{{userChainName}}</span>
                 <span v-else>{{address}}</span>
               </a>
@@ -45,10 +77,17 @@
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
             <div class="input-group" v-if="editMode">
-              <textarea class="form-control" v-model="profile.biography" rows="3" placeholder="Edit Biography"></textarea>
+              <textarea
+                class="form-control"
+                v-model="profile.biography"
+                rows="3"
+                placeholder="Edit Biography"
+              />
             </div>
             <div class="mt-2 mb-2" v-if="editMode">
-              <button type="button" @click="resetEditedValues()" class="btn btn-dark mr-2">Cancel</button>
+              <button type="button" @click="resetEditedValues()" class="btn btn-dark mr-2">
+                Cancel
+              </button>
               <button type="button" @click="saveProfile()" class="btn btn-dark">Save</button>
             </div>
           </div>
@@ -65,7 +104,10 @@
           </div>
           <div class="stat">
             <div class="stat-title">Total Sent Amount</div>
-            <div class="stat-value">{{userStats.totalTipAmount}} AE<fiat-value :amount="userStats.totalTipAmount" /></div>
+            <div class="stat-value">
+              {{userStats.totalTipAmount}} AE
+              <fiat-value :amount="userStats.totalTipAmount" />
+            </div>
           </div>
           <div class="stat">
             <div class="stat-title">Comments</div>
@@ -77,17 +119,28 @@
           </div>
           <div class="stat">
             <div class="stat-title">Unclaimed Amount</div>
-            <div class="stat-value">{{userStats.unclaimedAmount}} AE<fiat-value :amount="userStats.unclaimedAmount" /></div>
+            <div class="stat-value">
+              {{userStats.unclaimedAmount}} AE
+              <fiat-value :amount="userStats.unclaimedAmount" />
+            </div>
           </div>
         </div>
 
       </div>
         <div class="profile__actions">
           <a :class="{ active: activeTab === 'tips' }" @click="setActiveTab('tips')">Tips</a>
-          <a :class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">Comments</a>
+          <a :class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">
+            Comments
+          </a>
         </div>
       <div class="comments__section position-relative">
-        <div class="no-results text-center w-100 mt-3" :class="[error ? 'error' : '']" v-if="showNoResultsMsg">{{'There is no activity to display.'}}</div>
+        <div
+          class="no-results text-center w-100 mt-3"
+          :class="[error ? 'error' : '']"
+          v-if="showNoResultsMsg"
+        >
+          {{'There is no activity to display.'}}
+        </div>
           <div v-if="activeTab === 'tips'">
             <div v-if="userTips.length">
               <tip-record v-for="(tip,index) in userTips"
@@ -99,7 +152,13 @@
             </div>
           </div>
           <div v-if="activeTab === 'comments'">
-            <tip-comment v-for="(comment, index) in comments" :key="index" :userChainName="userChainName"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
+            <tip-comment
+              v-for="(comment, index) in comments"
+              :key="index"
+              :userChainName="userChainName"
+              :comment="comment"
+              :senderLink="openExplorer(comment.author)"
+            />
           </div>
         <div class="mt-3" v-if="showLoading || loading.tips">
           <loading :show-loading="true" />
@@ -164,13 +223,21 @@ export default {
       return this.tips.filter((tip) => tip.sender === this.address);
     },
     userStats() {
-      const userReTips = this.tips.flatMap((tip) => tip.retips.filter((retip) => retip.sender === this.address));
+      const userReTips = this.tips
+        .flatMap((tip) => tip.retips.filter((retip) => retip.sender === this.address));
       const totalTipAmount = Util.atomsToAe(this.userTips
         .reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0))
         .plus(userReTips.reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0)))).toFixed(2);
 
-      const claimedUrls = this.oracleState.success_claimed_urls ? this.oracleState.success_claimed_urls.filter(([, data]) => data.success && data.account === this.address).map(([url]) => url) : [];
-      const unclaimedAmount = this.tips.reduce((acc, tip) => (claimedUrls.includes(tip.url) ? acc.plus(tip.total_unclaimed_amount) : acc), new BigNumber(0));
+      const claimedUrls = this.oracleState.success_claimed_urls
+        ? this.oracleState.success_claimed_urls
+          .filter(([, data]) => data.success && data.account === this.address).map(([url]) => url)
+        : [];
+      const unclaimedAmount = this.tips
+        .reduce((acc, tip) => (claimedUrls.includes(tip.url)
+          ? acc.plus(tip.total_unclaimed_amount)
+          : acc),
+        new BigNumber(0));
 
       return {
         tipsLength: this.userTips.length,

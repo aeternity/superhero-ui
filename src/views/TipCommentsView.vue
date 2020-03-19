@@ -12,7 +12,11 @@
           <img class="mr-3 avatar" src="../assets/userAvatar.svg">
           <div class="input-group">
             <input type="text" placeholder="Add comment" v-model="comment" class="form-control">
-            <b-button size="sm" @click="sendTipComment()" :disabled="comment.length === 0 || showLoading">
+            <b-button
+              size="sm"
+              @click="sendTipComment()"
+              :disabled="comment.length === 0 || showLoading"
+            >
               {{$t('system.Send')}}
             </b-button>
           </div>
@@ -20,9 +24,15 @@
 
     </div>
     <div class="comments__section">
-      <div class="no-results text-center w-100" v-bind:class="[error ? 'error' : '']" v-if="comments.length === 0 && !showLoading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
+      <div
+        class="no-results text-center w-100"
+        v-bind:class="[error ? 'error' : '']"
+        v-if="comments.length === 0 && !showLoading"
+      >
+        {{$t('pages.TipComments.NoResultsMsg')}}
+      </div>
 
-      <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment"></tip-comment>
+      <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" />
       <div class="text-center w-100 mt-3" v-if="showLoading">
         <loading :show-loading="true" />
       </div>

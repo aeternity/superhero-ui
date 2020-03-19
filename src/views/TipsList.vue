@@ -6,7 +6,13 @@
     <div v-else>
       <div class="actions__container container position-sticky">
       <div class="search__input__container">
-        <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="search__input" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
+        <input
+          type="text"
+          v-model="searchTerm"
+          @searchTopic="onSearchTopic"
+          class="search__input"
+          v-bind:placeholder="$t('pages.Home.SearchPlaceholder')"
+        >
         <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
       </div>
       </div>
@@ -19,23 +25,41 @@
           <div class="actions__container position-sticky">
             <div class="row">
               <div class="col-md-12 col-lg-12 col-sm-12 sorting">
-                <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
+                <a
+                  v-if="this.tipsOrdering"
+                  v-on:click="setTipSortBy('hot')"
+                  v-bind:class="{ active: tipSortBy === 'hot' }"
+                >
                   {{$t('pages.Home.SortingMostPopular')}}
                 </a>
-                <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
+                <a
+                  v-on:click="setTipSortBy('latest')"
+                  v-bind:class="{ active: tipSortBy === 'latest' }"
+                >
                   {{$t('pages.Home.SortingLatest')}}
                 </a>
-                <a v-on:click="setTipSortBy('highest')" v-bind:class="{ active: tipSortBy === 'highest' }">
+                <a
+                  v-on:click="setTipSortBy('highest')"
+                  v-bind:class="{ active: tipSortBy === 'highest' }"
+                >
                   {{$t('pages.Home.SortingHighestRated')}}
                 </a>
               </div>
             </div>
           </div>
-          <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :fiatValue="tip.fiatValue"
-                      :senderLink="openExplorer(tip.sender)"></tip-record>
+          <tip-record
+            v-for="(tip,index) in filteredTips"
+            :key="index"
+            :tip="tip"
+            :fiatValue="tip.fiatValue"
+            :senderLink="openExplorer(tip.sender)"
+          />
         </div>
       </div>
-      <div class="no-results text-center" v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0">
+      <div
+        class="no-results text-center"
+        v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0"
+      >
         {{$t('pages.Home.NoResultsMsg')}}
       </div>
     </div>
@@ -92,7 +116,9 @@ export default {
         return false;
       });
       // We convert the result array to Set in order to remove duplicate records
-      const convertResultToSet = new Set([...urlSearchResults, ...senderSearchResults, ...noteSearchResults]);
+      const convertResultToSet = new Set(
+        [...urlSearchResults, ...senderSearchResults, ...noteSearchResults],
+      );
       return [...convertResultToSet];
     },
   },

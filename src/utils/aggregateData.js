@@ -9,7 +9,11 @@ const fetchTips = async () => {
   const fetchLangTips = backendInstance.getLangTips().catch(console.error);
   const fetchChainNames = backendInstance.getChainNameFromAddress().catch(console.error);
   const fetchCommentCounts = backendInstance.getCommentCounts().catch(console.error);
-  let [{ stats, tips }, tipOrdering, tipsPreview, langTips, chainNames, commentCounts] = await Promise.all([fetchTips, fetchOrdering, fetchTipsPreview, fetchLangTips, fetchChainNames, fetchCommentCounts]);
+  let [
+    { stats, tips }, tipOrdering, tipsPreview, langTips, chainNames, commentCounts,
+  ] = await Promise.all([
+    fetchTips, fetchOrdering, fetchTipsPreview, fetchLangTips, fetchChainNames, fetchCommentCounts,
+  ]);
 
   // add score from backend to tips
   if (tipOrdering) {
@@ -45,7 +49,9 @@ const fetchTips = async () => {
         // shorter always replaces
         if (chainName.name.length < acc[pubkey].length) acc[pubkey] = chainName.name;
         // equal length replaces if alphabetically earlier
-        if (chainName.name.length === acc[pubkey].length && chainName.name < acc[pubkey]) acc[pubkey] = chainName.name;
+        if (chainName.name.length === acc[pubkey].length && chainName.name < acc[pubkey]) {
+          acc[pubkey] = chainName.name;
+        }
       } else {
         acc[pubkey] = chainName.name;
       }

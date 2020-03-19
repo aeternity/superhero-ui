@@ -16,7 +16,7 @@
         <div class="text-center mb-2" v-show="error && !showLoading">An error occured while sending retip</div>
         <div v-if="!showLoading">
           <div class="input-group mr-1 float-left">
-            <input type="number" step="0.1" v-model.number="value" class="form-control" aria-label="Default">
+            <input type="number" min="0" step="0.1" v-model.number="value" class="form-control" aria-label="Default">
             <div class="input-group-append">
               <span class="input-group-text append__ae"> <span class="ae">AE</span> <fiat-value :displaySymbol="true" :amount="value"/></span>
             </div>

@@ -7,7 +7,7 @@
       <div class="form-row">
         <div class="form-group col-md-5">
           <div class="input-group mb-2">
-            <input type="number" step="0.1" v-model.number="sendTipForm.amount" placeholder="Amount" class="form-control" aria-label="Default"
+            <input type="number" min="0" step="0.1" v-model.number="sendTipForm.amount" placeholder="Amount" class="form-control" aria-label="Default"
                    aria-describedby="inputGroup-sizing-mn">
             <div class="input-group-append">
               <span class="input-group-text append__ae">

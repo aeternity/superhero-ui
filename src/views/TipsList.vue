@@ -269,10 +269,14 @@
       background-color: $actions_ribbon_background_color;
       overflow-x: hidden;
       z-index: 100;
+      padding-bottom: .5rem;
       &:nth-child(2){
         width: 100vw;
         margin-left: -.2rem;
-      }
+        top: 4.45rem;
+        padding-top: 0;
+        padding-bottom: 0;
+      }  
       .container,.row{
         padding: 0;
       }
@@ -280,7 +284,7 @@
         width: -webkit-fill-available;
         width: -moz-available;
         background-color: #1D1D23;
-        margin: .5rem -1rem 0 -1rem;
+        margin: 0 -1rem 0 -1rem;
         text-align: center;
         padding-bottom: 0;
         padding-left: .5rem;

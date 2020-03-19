@@ -75,9 +75,9 @@ export default {
 
   .overview__value {
     color: $custom_links_color;
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 300;
-    line-height: 1.25rem;
+    line-height: 1rem;
 
     &.secondary {
       color: $secondary_color;

@@ -111,7 +111,7 @@
         backendInstance.getTipComments(this.id).then((response) => {
           this.error = false;
           this.comments = response.map(comment => {
-            comment.chainNames = this.chainNames.filter(chainName => chainName.owner === comment.author);
+            comment.chainName = this.chainNames[comment.author];
             return comment;
           });
           this.showLoading = false;

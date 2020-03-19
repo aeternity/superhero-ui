@@ -5,10 +5,10 @@
         <div class="tip__author" :title="tip.sender" v-on:click.stop>
           <router-link :to="'/user-profile/' + tip.sender">
             <img src="../../assets/userAvatar.svg">
-            <span v-if="!(tip.chainNames && tip.chainNames.length > 0)" class="address">{{tip.sender}}</span>
-            <span class="chain__name" :title="tip.chainNames[0].name" v-else>{{tip.chainNames[0].name}}</span>
+            <span v-if="tip.chainName" class="chain__name">{{tip.chainName}}</span>
+            <span v-else class="address">{{tip.sender}}</span>
           </router-link>
-          <span class="date" v-bind:class="[!(tip.chainNames && tip.chainNames.length > 0)? 'wholeaddr': '']">
+          <span class="date" v-bind:class="[tip.chainName ? '': 'wholeaddr']">
             {{ new Date(tip.timestamp).toLocaleString('en-US', { hourCycle: 'h24' }) }}
           </span>
         </div>

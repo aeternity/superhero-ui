@@ -19,7 +19,7 @@ export default new Vuex.Store({
     tips: [],
     topics: {},
     stats: {},
-    tipsOrdering: null,
+    tipsOrdering: false,
     tipSortBy: "highest",
     isLoggedIn: false,
     oracleState: {},

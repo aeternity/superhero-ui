@@ -16,12 +16,12 @@
         <div class="text-center mb-2" v-show="error && !showLoading">An error occured while sending retip</div>
         <div v-if="!showLoading">
           <div class="input-group mr-1 float-left">
-            <input type="number" step="0.1" v-model="value" class="form-control" aria-label="Default">
+            <input type="number" step="0.1" v-model.number="value" class="form-control" aria-label="Default">
             <div class="input-group-append">
-              <span class="input-group-text append__ae"> <span class="ae">AE</span> <fiat-value :amount="value"/></span>
+              <span class="input-group-text append__ae"> <span class="ae">AE</span> <fiat-value :displaySymbol="true" :amount="value"/></span>
             </div>
           </div>
-          <button class="btn btn-primary retip__button float-right" @click="retip()">Retip</button>
+          <button class="btn btn-primary retip__button float-right" :disabled='!isRetipDataValid' @click="retip()">Retip</button>
         </div>
       </div>
     </div>
@@ -62,6 +62,9 @@
         url.searchParams.set('x-success', window.location);
         url.searchParams.set('x-cancel', window.location);
         return url;
+      },
+      isRetipDataValid(){
+        return this.value > 0;
       }
     },
     methods: {

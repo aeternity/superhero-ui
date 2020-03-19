@@ -56,7 +56,7 @@
       isSendTipDataValid(){
         let urlRegex = /(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
         // TODO: better validation
-        return this.sendTipForm.amount >= 0
+        return this.sendTipForm.amount > 0
             && this.sendTipForm.url.length > 0 
             && urlRegex.test(this.sendTipForm.url)
       }

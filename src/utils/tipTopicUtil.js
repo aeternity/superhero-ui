@@ -29,11 +29,13 @@ const getTipTopics = (tips) => {
   const maxCount = Math.max(...Object.values(topics).map((x) => x.count));
 
   const sortedTopic = Object.entries(topics).map(([topic, data]) => {
-    data.avgScore = data.totalScore / data.count;
-    data.countScore = data.count / maxCount;
+    const topicData = data;
+    topicData.avgScore = data.totalScore / data.count;
+    topicData.countScore = data.count / maxCount;
 
-    data.score = data.avgScore * avgTipScoreWeight + data.countScore * countScoreWeight;
-    return [topic, data];
+    topicData.score = topicData.avgScore * avgTipScoreWeight
+      + topicData.countScore * countScoreWeight;
+    return [topic, topicData];
   }).sort((a, b) => new BigNumber(b[1].score).minus(a[1].score).toNumber());
 
   return sortedTopic.slice(0, 10);

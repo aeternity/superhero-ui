@@ -108,8 +108,9 @@ export default {
       backendInstance.getTipComments(this.id).then((response) => {
         this.error = false;
         this.comments = response.map((comment) => {
-          comment.chainName = this.chainNames[comment.author];
-          return comment;
+          const newComment = comment;
+          newComment.chainName = this.chainNames[newComment.author];
+          return newComment;
         });
         this.showLoading = false;
       }).catch((e) => {

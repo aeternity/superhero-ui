@@ -21,8 +21,10 @@ const fetchTips = async () => {
     const filteredTips = tips.filter((tip) => blacklistedTipIds.includes(tip.id));
     tips = filteredTips.map((tip) => {
       const orderItem = tipOrdering.find((order) => order.id === tip.id);
-      tip.score = orderItem ? orderItem.score : 0;
-      return tip;
+      return {
+        ...tip,
+        score: orderItem ? orderItem.score : 0,
+      };
     });
   }
 
@@ -31,10 +33,10 @@ const fetchTips = async () => {
 
   // add preview to tips from backend
   if (tipsPreview) {
-    tips = tips.map((tip) => {
-      tip.preview = tipsPreview.find((preview) => preview.requestUrl === tip.url);
-      return tip;
-    });
+    tips = tips.map((tip) => ({
+      ...tip,
+      preview: tipsPreview.find((preview) => preview.requestUrl === tip.url),
+    }));
   }
 
   if (chainNames) {
@@ -58,17 +60,19 @@ const fetchTips = async () => {
       return acc;
     }, {});
 
-    tips = tips.map((tip) => {
-      tip.chainName = chainNames[tip.sender];
-      return tip;
-    });
+    tips = tips.map((tip) => ({
+      ...tip,
+      chainName: chainNames[tip.sender],
+    }));
   }
 
   if (commentCounts) {
     tips = tips.map((tip) => {
       const commentCount = commentCounts.find((comment) => comment.tipId === tip.id);
-      tip.commentCount = commentCount ? commentCount.count : 0;
-      return tip;
+      return {
+        ...tip,
+        commentCount: commentCount ? commentCount.count : 0,
+      };
     });
   }
 

@@ -22,6 +22,7 @@ const timeout = async (promise) => Promise.race([
 
 aeternity.initProvider = async (force = false) => {
   // TESTING
+  let isForce = force;
   if (typeof Cypress !== 'undefined') {
     aeternity.contractAddress = 'ct_2GRP3xp7KWrKtZSnYfdcLnreRWrntWf5aTsxtLqpBHp71EFc3i';
     aeternity.oracleContract = {
@@ -29,7 +30,7 @@ aeternity.initProvider = async (force = false) => {
         get_state: async () => ({ success_claimed_urls: [] }),
       },
     };
-    force = false;
+    isForce = false;
     aeternity.client = await Universal({
       compilerUrl: 'https://latest.compiler.aepps.com',
       nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],
@@ -40,11 +41,11 @@ aeternity.initProvider = async (force = false) => {
     });
   }
   try {
-    if (force || aeternity.contractAddress && !aeternity.contract) {
+    if (isForce || aeternity.contractAddress && !aeternity.contract) {
       aeternity.contract = await aeternity.client
         .getContractInstance(TIPPING_INTERFACE, { contractAddress: aeternity.contractAddress });
     }
-    if (force || aeternity.oracleContractAddress && !aeternity.oracleContract) {
+    if (isForce || aeternity.oracleContractAddress && !aeternity.oracleContract) {
       aeternity.oracleContract = await aeternity.client
         .getContractInstance(
           ORACLE_INTERFACE,

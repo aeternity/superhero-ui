@@ -17,32 +17,34 @@ const getTipsRetips = (state) => {
   };
 
   const findRetips = (tipId, urlId) => state.retips
-    .filter(([, data]) => data.tip_id === tipId).map(([id, data]) => {
-      data.id = id;
-      data.claim = findClaimGen(data.claim_gen, urlId);
-      data.amount_ae = Util.atomsToAe(data.amount).toFixed();
-      return data;
-    });
+    .filter(([, data]) => data.tip_id === tipId).map(([id, data]) => ({
+      ...data,
+      id,
+      claim: findClaimGen(data.claim_gen, urlId),
+      amount_ae: Util.atomsToAe(data.amount).toFixed(),
+    }));
 
 
   const tips = state.tips.map(([id, data]) => {
-    data.id = id;
-    data.url = findUrl(data.url_id);
-    data.topics = [...new Set(data.title.match(topicsRegex))].map((x) => x.toLowerCase());
-    data.retips = findRetips(id, data.url_id);
-    data.claim = findClaimGen(data.claim_gen, data.url_id);
+    const tipsData = data;
+    tipsData.id = id;
+    tipsData.url = findUrl(tipsData.url_id);
+    tipsData.topics = [...new Set(tipsData.title.match(topicsRegex))].map((x) => x.toLowerCase());
+    tipsData.retips = findRetips(id, tipsData.url_id);
+    tipsData.claim = findClaimGen(tipsData.claim_gen, tipsData.url_id);
 
-    data.amount_ae = Util.atomsToAe(data.amount).toFixed();
+    tipsData.amount_ae = Util.atomsToAe(tipsData.amount).toFixed();
 
-    const retip_amount = data.retips.reduce((acc, retip) => acc.plus(retip.amount), new BigNumber('0')).toFixed();
+    const retip_amount = tipsData.retips.reduce((acc, retip) => acc.plus(retip.amount), new BigNumber('0')).toFixed();
 
-    data.retip_amount_ae = Util.atomsToAe(retip_amount).toFixed();
+    tipsData.retip_amount_ae = Util.atomsToAe(retip_amount).toFixed();
 
-    data.total_amount = Util.atomsToAe(new BigNumber(data.amount).plus(retip_amount)).toFixed();
+    tipsData.total_amount = Util
+      .atomsToAe(new BigNumber(tipsData.amount).plus(retip_amount)).toFixed();
 
-    data.total_unclaimed_amount = Util.atomsToAe(new BigNumber(data.claim.unclaimed ? data.amount : 0).plus(data.retips.reduce((acc, retip) => acc.plus(retip.claim.unclaimed ? retip.amount : 0), new BigNumber('0'))).toFixed()).toFixed();
+    tipsData.total_unclaimed_amount = Util.atomsToAe(new BigNumber(tipsData.claim.unclaimed ? tipsData.amount : 0).plus(tipsData.retips.reduce((acc, retip) => acc.plus(retip.claim.unclaimed ? retip.amount : 0), new BigNumber('0'))).toFixed()).toFixed();
 
-    return data;
+    return tipsData;
   });
 
 

@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import Util from './util';
 
-const topicsRegex = /(\#[a-zA-Z]+\b)(?!;)/g;
+const topicsRegex = /(#[a-zA-Z]+\b)(?!;)/g;
 
 const getTipsRetips = (state) => {
   const findUrl = (urlId) => state.urls.find(([, id]) => urlId === id)[0];
@@ -35,12 +35,12 @@ const getTipsRetips = (state) => {
 
     tipsData.amount_ae = Util.atomsToAe(tipsData.amount).toFixed();
 
-    const retip_amount = tipsData.retips.reduce((acc, retip) => acc.plus(retip.amount), new BigNumber('0')).toFixed();
+    const retipAmount = tipsData.retips.reduce((acc, retip) => acc.plus(retip.amount), new BigNumber('0')).toFixed();
 
-    tipsData.retip_amount_ae = Util.atomsToAe(retip_amount).toFixed();
+    tipsData.retip_amount_ae = Util.atomsToAe(retipAmount).toFixed();
 
     tipsData.total_amount = Util
-      .atomsToAe(new BigNumber(tipsData.amount).plus(retip_amount)).toFixed();
+      .atomsToAe(new BigNumber(tipsData.amount).plus(retipAmount)).toFixed();
 
     tipsData.total_unclaimed_amount = Util.atomsToAe(new BigNumber(tipsData.claim.unclaimed ? tipsData.amount : 0).plus(tipsData.retips.reduce((acc, retip) => acc.plus(retip.claim.unclaimed ? retip.amount : 0), new BigNumber('0'))).toFixed()).toFixed();
 

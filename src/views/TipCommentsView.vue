@@ -74,7 +74,7 @@ export default {
   computed: {
     ...mapGetters(['tips', 'settings', 'account', 'chainNames']),
     tip() {
-      return this.tips.find((x) => x.id === parseInt(this.id));
+      return this.tips.find((x) => x.id === parseInt(this.id, 10));
     },
   },
   watch: {

@@ -24,7 +24,7 @@ export const wallet = {
       connectionInfo: { id: 'spy' },
     });
     const detector = await Detector({ connection: scannerConnection });
-    const handleWallets = async function ({ newWallet }) {
+    const handleWallets = async ({ newWallet }) => {
       if (!newWallet) return;
       detector.stopScan();
       await this.client.connectToWallet(await newWallet.getConnection());
@@ -63,6 +63,7 @@ export const wallet = {
     });
     this.height = await this.client.height();
     await this.scanForWallets(successCallback);
+    return undefined;
   },
 
   signMessage(message) {

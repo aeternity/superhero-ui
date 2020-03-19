@@ -12,6 +12,7 @@ export const sort = (sortBy, tips) => {
     case 'highest':
       tips.sort((a, b) => new BigNumber(b.total_amount).minus(a.total_amount).toNumber());
       break;
+    default:
   }
 
   return tips;

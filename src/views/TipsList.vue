@@ -165,6 +165,7 @@
     min-height: 4rem;
   }
    .actions__container{
+      padding: 0;
       top: 0;
       &:nth-child(2){
         top: 3.2rem;
@@ -254,6 +255,12 @@
     .input-group{
       margin-bottom: 0;
     }
+  }
+}
+
+@media (min-width: 992px) {
+  .loading-position {
+    left: calc(50% - 3rem);
   }
 }
 

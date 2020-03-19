@@ -1,9 +1,7 @@
 <template>
-  <div id="app" class="min-h-screen">
-    <div class="content min-h-screen max-w-desktop">
-      <div class="min-h-screen wrapper" ref="wrapper">
-        <router-view></router-view>
-      </div>
+  <div id="app">
+    <div class="min-h-screen wrapper" ref="wrapper">
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -107,12 +105,8 @@
 <style lang="scss">
   @import "styles/layout";
 
-  html {
-    font-size: 125%;
-  }
-
   .min-h-screen {
-    margin-top: .5rem;
+    min-height: 100vh;
     min-width: 100%;
     padding-bottom: 0;
   }

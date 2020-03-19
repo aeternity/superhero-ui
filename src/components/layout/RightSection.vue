@@ -1,7 +1,7 @@
 <template>
   <div class="app__rightcolumn">
-    <div class="content" v-if="!(loading.wallet || loading.tips)">
-      <div class="section wallet-install" v-bind:class="{ active: !isLoggedIn }">
+    <div class="content">
+      <div class="section wallet-install" :class="{ active: !isLoggedIn }" v-if="!loading.wallet">
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
           Wallet
@@ -15,7 +15,7 @@
           <img src="../../assets/iconTrending.svg">
           Trending
         </div>
-        <div class="section__body topics-section" v-bind:class="{ active: topics.length > 0 }">
+        <div class="section__body topics-section" :class="{ active: topics.length > 0 }" v-if="!loading.tips">
           <div class="section__item" v-for="([topic, data]) in topics">
             <div class="topic-container text-ellipsis">
             <topic :topic="topic" />
@@ -48,7 +48,7 @@ import { mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
 import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
-import Topic from '../tipRecords/Topic';
+import Topic from '../tipRecords/Topic.vue';
 
 export default {
   name: 'RightSection',
@@ -69,108 +69,125 @@ export default {
         switch (this.browser.name) {
           case 'firefox':
             return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
-            break;
           case 'chrome':
             return '//chrome.google.com/webstore/detail/mnhmmkepfddpifjkamaligfeemcbhdne/';
-            break;
           default:
-            return '//github.com/aeternity/superhero-wallet/releases/latest/';
             break;
         }
       }
+      return '//github.com/aeternity/superhero-wallet/releases/latest/';
     },
   },
 };
 </script>
 
 <style lang="scss">
-  .topics-section{
-    max-height: 0;
-    transition: max-height 0.25s ease-in;
+.topics-section {
+  max-height: 0;
+  transition: max-height 0.25s ease-in;
 
-    &.active {
-      max-height: 15rem;
-    }
+  &.active {
+    max-height: 15rem;
   }
+}
 
-.app__rightcolumn{
+.app__rightcolumn {
   color: $light_font_color;
   font-size: .75rem;
-  .content{
+
+  .content {
     max-width: 17rem;
-    .section{
+
+    .section {
+      background-color: $article_content_color;
       border-radius: .5rem;
       margin-bottom: 1rem;
-      background-color: $article_content_color;
-      &.trending{
-        padding-bottom: .5rem;
+
+      &.trending {
         margin-bottom: .5rem;
-        .section__item{
+        padding-bottom: .5rem;
+
+        .section__item {
           display: flex;
-          &>div{
+
+          & > div {
             width: 50%;
           }
         }
-        .section__body{
-          overflow-y: auto;
+
+        .section__body {
           -ms-overflow-style: none;
+          overflow-y: auto;
           scrollbar-width: none;
+
           &::-webkit-scrollbar {
             display: none;
           }
         }
       }
     }
-    .section__title{
-      padding: .65rem .75rem;
+
+    .section__title {
       color: $standard_font_color;
       font-size: 1rem;
       font-weight: 600;
+      padding: .65rem .75rem;
     }
-    .section__body{
+
+    .section__body {
       padding: .25rem 1rem 1rem 1rem;
-      .section__item{
+
+      .section__item {
+        font-size: .75rem;
+
         margin: .5rem 0;
-        &:first-child{
+
+        text-transform: none;
+
+        &:first-child {
           margin-top: 0;
         }
-        text-transform: none;
-        font-size: .75rem;
-        .ae{
+
+        .ae {
           color: $secondary_color;
         }
       }
-      .tag{
+
+      .tag {
         color: $custom_links_color;
       }
-      .value{
+
+      .value {
         color: $standard_font_color;
       }
     }
-    .wallet-install{
+
+    .wallet-install {
       display: none;
-      max-height: 0;
-      transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
-      opacity: 0;
       margin-bottom: 0;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
 
       &.active {
         display: block;
+        margin-bottom: 1rem;
         max-height: 400px;
         opacity: 1;
-        margin-bottom: 1rem;
       }
     }
-    .footer{
+
+    .footer {
       font-size: .6rem;
-      a{
+
+      a {
         cursor: pointer;
         text-decoration: underline;
 
-        &.ae{
+        &.ae {
           color: $secondary_color;
-          text-decoration: none;
           font-weight: lighter;
+          text-decoration: none;
         }
       }
     }
@@ -178,12 +195,13 @@ export default {
 }
 
 @media (min-width: 768px) {
-  .app__rightcolumn .content .section__body .section__item{
+  .app__rightcolumn .content .section__body .section__item {
     font-size: .65rem;
   }
 }
+
 @media (min-width: 992px) {
-  .app__rightcolumn .content .section__body .section__item{
+  .app__rightcolumn .content .section__body .section__item {
     font-size: .75rem;
   }
 }

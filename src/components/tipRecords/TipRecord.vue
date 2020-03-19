@@ -38,10 +38,12 @@
             <fiat-value :amount="tip.amount_ae"></fiat-value>
             <span class="ml-4 retip__wrapper" v-on:click.stop>
               <retip :tipid="tip.id" :retip-icon="true"/>
-              <ae-amount :amount="tip.retip_amount_ae" :round="2"></ae-amount><span class="ae">AE</span>
+              <ae-amount :amount="tip.retip_amount_ae" :round="2" /><span class="ae">AE</span>
               <fiat-value :amount="tip.retip_amount_ae"></fiat-value>
             </span>
-            <span @click="goToTip(tip.id)" class="ml-4"><img src="../../assets/commentsIcon.svg"></span>
+            <span @click="goToTip(tip.id)" class="ml-4">
+              <img src="../../assets/commentsIcon.svg">
+            </span>
             <span>{{tip.commentCount}}</span>
           </div>
         </div>

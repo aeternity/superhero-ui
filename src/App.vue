@@ -23,7 +23,11 @@ export default {
     ...mapGetters(['settings', 'tipSortBy']),
   },
   methods: {
-    ...mapActions(['setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy', 'setOracleState', 'addLoading', 'removeLoading', 'setChainNames']),
+    ...mapActions([
+      'setLoggedInAccount', 'setTipsOrdering', 'updateTips',
+      'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy',
+      'setOracleState', 'addLoading', 'removeLoading', 'setChainNames',
+    ]),
     initWallet() {
       return Promise.race([
         new Promise((resolve) => wallet.init(async () => {
@@ -43,13 +47,14 @@ export default {
     },
     reloadAsyncData(initial, stats) {
       // stats
-      Promise.all([new Backend().getStats(), aeternity.client.height()]).then(([backendStats, height]) => {
-        stats = { ...stats, ...backendStats, ...{ height } };
-        this.updateStats(stats);
-      }).catch((e) => {
-        this.updateStats(stats);
-        console.error(e);
-      });
+      Promise.all([new Backend().getStats(), aeternity.client.height()])
+        .then(([backendStats, height]) => {
+          const newStats = { ...stats, ...backendStats, height };
+          this.updateStats(newStats);
+        }).catch((e) => {
+          this.updateStats(stats);
+          console.error(e);
+        });
       // currency rates
       new Currency().getRates().then((rates) => {
         this.updateCurrencyRates(rates);

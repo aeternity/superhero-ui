@@ -40,8 +40,17 @@ aeternity.initProvider = async (force = false) => {
     });
   }
   try {
-    if (force || aeternity.contractAddress && !aeternity.contract) { aeternity.contract = await aeternity.client.getContractInstance(TIPPING_INTERFACE, { contractAddress: aeternity.contractAddress }); }
-    if (force || aeternity.oracleContractAddress && !aeternity.oracleContract) { aeternity.oracleContract = await aeternity.client.getContractInstance(ORACLE_INTERFACE, { contractAddress: aeternity.oracleContractAddress }); }
+    if (force || aeternity.contractAddress && !aeternity.contract) {
+      aeternity.contract = await aeternity.client
+        .getContractInstance(TIPPING_INTERFACE, { contractAddress: aeternity.contractAddress });
+    }
+    if (force || aeternity.oracleContractAddress && !aeternity.oracleContract) {
+      aeternity.oracleContract = await aeternity.client
+        .getContractInstance(
+          ORACLE_INTERFACE,
+          { contractAddress: aeternity.oracleContractAddress },
+        );
+    }
     return true;
   } catch (e) {
     console.error(e);

@@ -16,12 +16,13 @@ const getTipsRetips = (state) => {
     };
   };
 
-  const findRetips = (tipId, urlId) => state.retips.filter(([, data]) => data.tip_id === tipId).map(([id, data]) => {
-    data.id = id;
-    data.claim = findClaimGen(data.claim_gen, urlId);
-    data.amount_ae = Util.atomsToAe(data.amount).toFixed();
-    return data;
-  });
+  const findRetips = (tipId, urlId) => state.retips
+    .filter(([, data]) => data.tip_id === tipId).map(([id, data]) => {
+      data.id = id;
+      data.claim = findClaimGen(data.claim_gen, urlId);
+      data.amount_ae = Util.atomsToAe(data.amount).toFixed();
+      return data;
+    });
 
 
   const tips = state.tips.map(([id, data]) => {
@@ -57,7 +58,9 @@ const getTipsRetips = (state) => {
     };
   });
 
-  const senders = [...new Set(tips.reduce((acc, tip) => acc.concat([tip.sender, ...tip.retips.map((retip) => retip.sender)]), []))];
+  const senders = [...new Set(tips
+    .reduce((acc, tip) => acc
+      .concat([tip.sender, ...tip.retips.map((retip) => retip.sender)]), []))];
 
   const stats = {
     tips_length: state.tips.length,

@@ -15,7 +15,11 @@
           <img src="../../assets/iconTrending.svg">
           Trending
         </div>
-        <div class="section__body topics-section" :class="{ active: topics.length > 0 }" v-if="!loading.tips">
+        <div
+          class="section__body topics-section"
+          :class="{ active: topics.length > 0 }"
+          v-if="!loading.tips"
+        >
           <div class="section__item" v-for="([topic, data], idx) in topics" :key="idx">
             <div class="topic-container text-ellipsis">
             <topic :topic="topic" />

@@ -1,6 +1,6 @@
 <template>
   <div class="aggregator__dropdown">
-    <b-form-select v-model="selectedVal" :options="optionsVal" @change="method(selectedVal)"></b-form-select>
+    <b-form-select v-model="selectedVal" :options="optionsVal" @change="method(selectedVal)" />
   </div>
 </template>
 

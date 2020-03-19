@@ -126,13 +126,19 @@
     color: $light_font_color;
 }
 .input-group{
-  border: .065rem solid $custom_links_color;
   border-radius: .25rem;
   width: calc(100% - 4rem);
   .form-control{
     color: $custom_links_color;
     &:focus{
       box-shadow: none;
+    }
+    &[type=number]:focus{
+      border-right: none;
+    }
+    &[type=number]:focus~.input-group-append .input-group-text{
+      border: .05rem solid $custom_links_color;
+      border-left: none;
     }
   }
   .input-group-append{

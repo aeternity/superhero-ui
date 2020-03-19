@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 
+// eslint-disable-next-line import/prefer-default-export
 export const sort = (sortBy, tips) => {
   switch (sortBy) {
     case 'hot':

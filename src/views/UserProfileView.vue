@@ -4,13 +4,6 @@
     <left-section></left-section>
     <loading class="mt-5" v-if="loading.wallet || loading.initial" :show-loading="true"/>
     <div v-else>
-    <div class="container profile__header position-sticky">
-      <div>
-        <span class="address chain" v-if="userChainName">{{userChainName}}</span>
-        <span class="address" v-else>{{address}}</span>
-        <div class="count">{{userTips.length}} Tips</div>
-      </div>
-    </div>
     <div class="container profile__page">
       <div class="profile__section clearfix position-relative">
         <div class="text-center spinner__container w-100" v-if="showLoadingProfile">
@@ -48,6 +41,7 @@
                 <span class="chain"  v-if="userChainName">{{userChainName}}</span>
                 <span v-else>{{address}}</span>
               </a>
+              <div class="count" v-if="!editMode">{{userTips.length}} Tips</div>
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
             <div class="input-group" v-if="editMode">
@@ -93,7 +87,7 @@
           <a :class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">Comments</a>
         </div>
       <div class="comments__section position-relative">
-        <div class="no-results text-center w-100" :class="[error ? 'error' : '']" v-if="showNoResultsMsg">{{'There is no activity to display.'}}</div>
+        <div class="no-results text-center w-100 mt-3" :class="[error ? 'error' : '']" v-if="showNoResultsMsg">{{'There is no activity to display.'}}</div>
           <div v-if="activeTab === 'tips'">
             <div v-if="userTips.length">
               <tip-record v-for="(tip,index) in userTips"
@@ -262,50 +256,33 @@
 
 
 <style lang="scss" scoped>
-  .profile__header{
-    top: 0;
-    z-index: 10;
-    word-break: break-all;
-    .address{
-      font-size: .65rem;
-      &.chain{
-        font-size: .9rem;
-      }
-    }
-    &>div{
-      padding: .25rem 1rem;
-      background-color: $article_content_color;
-      .address{
-        color: $standard_font_color;
-      }
-      .count{
-        color: $light_font_color;
-        font-size: .6rem;
-      }
-    }
-  }
   #file-input{
     display: none;
   }
   .profile__page{
     margin-top: .125rem;
-
+    .count{
+      font-size: .65rem;
+    }
     .stats {
       display: grid;
       grid-template-columns: auto auto auto;
       background-color: $light_color;
-      padding: 0 1rem 0 1rem;
+      padding: .5rem 1rem .5rem 1rem;
 
       .stat {
         padding: .5rem;
 
         .stat-title {
-          font-size: .6rem;
+          font-size: .7rem;
+          font-weight: 600;
+          color: $tip_note_color;
         }
 
         .stat-value {
           font-size: .9rem;
           color: $secondary_color;
+          font-weight: 400;
         }
       }
     }
@@ -359,16 +336,16 @@
           }
         }
         img{
-          width: 4rem;
-          height: 4rem;
-          border-radius: 2rem;
+          width: 6.5rem;
+          height: 6.5rem;
+          border-radius: 3.25rem;
         }
       }
       .profile__info, .profile__image{
         display: inline-block;
       }
       .profile__info{
-        width: calc(100% - 6rem);
+        width: calc(100% - 8.5rem);
         .profile__displayname{
           font-size: 1.2rem;
         }
@@ -377,9 +354,10 @@
         }
         .profile__username{
           display: block;
-          color: $secondary_color;
+          color: $tip_note_color;
           font-size: .6rem;
           word-break: break-all;
+          font-weight: 400;
           .chain{
             font-size: .8rem;
           }
@@ -414,6 +392,7 @@
         }
         &:hover{
           color: $primary_color;
+          cursor: pointer;
         }
         &.active{
           color: $custom_links_color;
@@ -441,6 +420,7 @@
 
   .profile__description {
     padding: .5rem 0;
+    color: $tip_note_color;
   }
 
 @media only screen and (max-width: 768px){
@@ -473,11 +453,19 @@
         .row{
           padding-top: 2rem;
         }
-        .profile__info .profile__username{
-          font-size: .5rem;
-          .chain{
-            font-size: .6rem;
+        .profile__info {
+          width: calc(100% - 4.5rem);
+          vertical-align: middle;
+          .profile__username {
+            font-size: .5rem;
+            .chain{
+              font-size: .6rem;
+            }
           }
+        } 
+        .profile__image img{
+          width: 4rem;
+          height: 4rem;
         }
       }
       .edit__button{

@@ -13,6 +13,10 @@ body{
   background-color: $background_color;
 }
 
+a:hover{
+  text-decoration: none;
+}
+
 .btn{
   font-size: .75rem;
   &.btn-light{

@@ -82,127 +82,127 @@ export default {
 </script>
 
 <style lang="scss">
-  .topics-section {
-    max-height: 0;
-    transition: max-height 0.25s ease-in;
+.topics-section {
+  max-height: 0;
+  transition: max-height 0.25s ease-in;
 
-    &.active {
-      max-height: 15rem;
-    }
+  &.active {
+    max-height: 15rem;
   }
+}
 
-  .app__rightcolumn {
-    color: $light_font_color;
-    font-size: .75rem;
+.app__rightcolumn {
+  color: $light_font_color;
+  font-size: .75rem;
 
-    .content {
-      max-width: 17rem;
+  .content {
+    max-width: 17rem;
 
-      .section {
-        background-color: $article_content_color;
-        border-radius: .5rem;
-        margin-bottom: 1rem;
+    .section {
+      background-color: $article_content_color;
+      border-radius: .5rem;
+      margin-bottom: 1rem;
 
-        &.trending {
-          margin-bottom: .5rem;
-          padding-bottom: .5rem;
-
-          .section__item {
-            display: flex;
-
-            & > div {
-              width: 50%;
-            }
-          }
-
-          .section__body {
-            -ms-overflow-style: none;
-            overflow-y: auto;
-            scrollbar-width: none;
-
-            &::-webkit-scrollbar {
-              display: none;
-            }
-          }
-        }
-      }
-
-      .section__title {
-        color: $standard_font_color;
-        font-size: 1rem;
-        font-weight: 600;
-        padding: .65rem .75rem;
-      }
-
-      .section__body {
-        padding: .25rem 1rem 1rem 1rem;
+      &.trending {
+        margin-bottom: .5rem;
+        padding-bottom: .5rem;
 
         .section__item {
-          font-size: .75rem;
+          display: flex;
 
-          margin: .5rem 0;
-
-          text-transform: none;
-
-          &:first-child {
-            margin-top: 0;
-          }
-
-          .ae {
-            color: $secondary_color;
+          & > div {
+            width: 50%;
           }
         }
 
-        .tag {
-          color: $custom_links_color;
-        }
+        .section__body {
+          -ms-overflow-style: none;
+          overflow-y: auto;
+          scrollbar-width: none;
 
-        .value {
-          color: $standard_font_color;
-        }
-      }
-
-      .wallet-install {
-        display: none;
-        margin-bottom: 0;
-        max-height: 0;
-        opacity: 0;
-        transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
-
-        &.active {
-          display: block;
-          margin-bottom: 1rem;
-          max-height: 400px;
-          opacity: 1;
-        }
-      }
-
-      .footer {
-        font-size: .6rem;
-
-        a {
-          cursor: pointer;
-          text-decoration: underline;
-
-          &.ae {
-            color: $secondary_color;
-            font-weight: lighter;
-            text-decoration: none;
+          &::-webkit-scrollbar {
+            display: none;
           }
         }
       }
     }
-  }
 
-  @media (min-width: 768px) {
-    .app__rightcolumn .content .section__body .section__item {
-      font-size: .65rem;
+    .section__title {
+      color: $standard_font_color;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: .65rem .75rem;
+    }
+
+    .section__body {
+      padding: .25rem 1rem 1rem 1rem;
+
+      .section__item {
+        font-size: .75rem;
+
+        margin: .5rem 0;
+
+        text-transform: none;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        .ae {
+          color: $secondary_color;
+        }
+      }
+
+      .tag {
+        color: $custom_links_color;
+      }
+
+      .value {
+        color: $standard_font_color;
+      }
+    }
+
+    .wallet-install {
+      display: none;
+      margin-bottom: 0;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
+
+      &.active {
+        display: block;
+        margin-bottom: 1rem;
+        max-height: 400px;
+        opacity: 1;
+      }
+    }
+
+    .footer {
+      font-size: .6rem;
+
+      a {
+        cursor: pointer;
+        text-decoration: underline;
+
+        &.ae {
+          color: $secondary_color;
+          font-weight: lighter;
+          text-decoration: none;
+        }
+      }
     }
   }
+}
 
-  @media (min-width: 992px) {
-    .app__rightcolumn .content .section__body .section__item {
-      font-size: .75rem;
-    }
+@media (min-width: 768px) {
+  .app__rightcolumn .content .section__body .section__item {
+    font-size: .65rem;
   }
+}
+
+@media (min-width: 992px) {
+  .app__rightcolumn .content .section__body .section__item {
+    font-size: .75rem;
+  }
+}
 </style>

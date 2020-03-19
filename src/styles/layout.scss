@@ -1,5 +1,5 @@
 :root {
-  --left-column-width: 11rem;
+  --left-column-margin: 11rem;
   --container-width: 31rem;
 }
 
@@ -15,12 +15,12 @@ html {
 .app__leftcolumn {
   box-sizing: content-box;
   height: 0;
-  max-width: 9rem;
   padding-left: 1rem;
-  padding-right: 1rem;
+  padding-right: 0;
   position: sticky;
   position: -webkit-sticky;
   top: .7rem;
+  width: 8rem;
 }
 
 .app__rightcolumn {
@@ -35,21 +35,22 @@ html {
   top: .7rem;
 }
 
-/** handle 1,2,3 column layouts **/
+/* handle 1,2,3 column layouts */
 .container.wrapper {
   margin-right: auto;
   padding: 0;
   position: sticky;
   top: 0;
 }
+
 .app__leftcolumn ~ .container.wrapper {
-  margin-left: var(--left-column-width);
-  max-width: calc(100% - var(--left-column-width));
+  margin-left: var(--left-column-margin);
+  max-width: calc(100% - var(--left-column-margin));
 }
 
 .app__leftcolumn + div:not([class]),
 .app__rightcolumn ~ .container.wrapper {
-  margin-left: var(--left-column-width);
+  margin-left: var(--left-column-margin);
   max-width: var(--container-width);
 }
 
@@ -60,7 +61,7 @@ html {
   }
 
   :root {
-    --left-column-width: auto;
+    --left-column-margin: auto;
     --container-width: 25rem;
   }
 }
@@ -80,11 +81,9 @@ html {
 @media (min-width: 1440px) {
   .app__leftcolumn {
     padding-left: 0;
-
   }
 
   .app__rightcolumn {
     padding-right: 0;
-
   }
 }

@@ -63,16 +63,11 @@ export default {
     color: $standard_font_color;
     font-size: 1rem;
     font-weight: 500;
-
-    .avatar {
-      width: 1.3rem;
-    }
   }
 
   .navigation__item {
     font-size: .93rem;
     margin-bottom: 1rem;
-    text-transform: capitalize;
 
     a {
       align-items: center;

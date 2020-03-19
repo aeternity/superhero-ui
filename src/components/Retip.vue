@@ -1,5 +1,12 @@
 <template>
-  <div class="d-inline-block">
+  <a
+    v-if="useDeepLinks"
+    :href="deepLink"
+    target="_blank"
+  >
+    <img src="../assets/heart.svg">
+  </a>
+  <div v-else class="d-inline-block">
     <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
     <div class="position-relative wrapper" v-on:click.stop>
       <img @click="toggleRetip(!show)" v-if="!retipIcon" class="retip__icon" src="../assets/heart.svg">
@@ -22,8 +29,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import util from '../utils/util';
+  import util, { IS_MOBILE_DEVICE, IS_FRAME } from '../utils/util';
   import aeternity from '../utils/aeternity';
   import { EventBus } from '../utils/eventBus';
   import FiatValue from './FiatValue.vue';
@@ -38,7 +44,8 @@
         value: 0,
         show: false,
         showLoading: false,
-        error: true
+        error: true,
+        useDeepLinks: IS_MOBILE_DEVICE && !IS_FRAME,
       }
     },
     components: {
@@ -46,9 +53,15 @@
       FiatValue
     },
     computed: {
-      ...mapGetters(['settings']),
       eventPayload() {
        return `${this.tipid}:${this.retipIcon}`
+      },
+      deepLink() {
+        const url = new URL('https://mobile.z52da5wt.xyz/retip');
+        url.searchParams.set('id', this.tipid);
+        url.searchParams.set('x-success', window.location);
+        url.searchParams.set('x-cancel', window.location);
+        return url;
       }
     },
     methods: {

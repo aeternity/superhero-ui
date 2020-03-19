@@ -148,15 +148,16 @@
   }
 </script>
 
-<style>
+<style lang="scss">
+  @import "styles/layout";
 
   html {
     font-size: 125%;
   }
 
   .min-h-screen {
-    min-width: 100%;
     margin-top: .5rem;
+    min-width: 100%;
     padding-bottom: 0;
   }
 

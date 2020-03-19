@@ -87,47 +87,11 @@ body{
     color: $standard_font_color;
   }
 }
-.app__leftcolumn, .app__rightcolumn{
-  width: calc(50% - 16rem);
-}
 
 @media only screen and (max-width: 768px) {
-  .header__body.container{
+  .header__body.container {
     display: block;
     margin: 0 auto;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 25rem;
-  }
-  .app__leftcolumn, .app__rightcolumn{
-    width: calc(50% - 12.5rem);
-  }
-}
-
-@media (min-width: 992px) {
-  .container {
-    max-width: 27rem
-  }
-  .app__leftcolumn, .app__rightcolumn{
-    width: calc(50% - 14rem);
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 31rem
-  }
-  .app__leftcolumn, .app__rightcolumn{
-    width: calc(50% - 16rem);
-  }
-}
-
-@media only screen and (max-width: 900px) {
-  .app__leftcolumn, .app__rightcolumn{
-   display: none;
   }
 }
 

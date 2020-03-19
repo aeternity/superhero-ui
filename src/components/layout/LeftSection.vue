@@ -63,7 +63,7 @@
         </div>
         <div class="overview__item" v-if="stats.total_amount">
           <div class="overview__value secondary">
-            {{stats.total_amount}}
+            <ae-amount :amount="stats.total_amount" :round="2"></ae-amount>
             <span class="currency secondary">AE</span>
           </div>
           <div class="overview__value" v-if="stats.total_amount">
@@ -87,46 +87,45 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import FiatValue from "../FiatValue";
+import { mapGetters } from 'vuex';
+import FiatValue from '../FiatValue';
+import AeAmount from '../AeAmount';
 
-  export default {
-    name: 'LeftSection',
-    components: {
-      FiatValue
+export default {
+  name: 'LeftSection',
+  components: {
+    FiatValue,
+    AeAmount,
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    goHome() {
+      this.$router.push({
+        name: 'home',
+      });
     },
-    data() {
-      return {}
+    openMyProfile() {
+      this.$router.push({
+        name: 'user-profile',
+        params: {
+          address: this.account,
+        },
+      });
     },
-    methods: {
-      goHome() {
-        this.$router.push({
-          name: 'home',
-        })
-      },
-      openMyProfile() {
-        this.$router.push({
-          name: 'user-profile',
-          params: {
-            address: this.account
-          }
-        })
-      }
-    },
-    computed: {
-      ...mapGetters(['stats', 'account', 'isLoggedIn'])
-    }
-  }
+  },
+  computed: {
+    ...mapGetters(['stats', 'account', 'isLoggedIn']),
+  },
+};
 </script>
 
 <style lang="scss">
   .app__leftcolumn {
     color: $standard_font_color;
-    display: inline-block;
     font-size: 1rem;
-    position: fixed;
     text-align: right;
-    top: .5rem;
     .content {
       width: 10rem;
       display: inline-block;

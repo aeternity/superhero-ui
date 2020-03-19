@@ -21,7 +21,9 @@
             <topic :topic="topic" />
           </div>
             <div>
-              <span class="value">{{data.amount}}</span>
+              <span class="value">
+                <ae-amount :amount="data.amount" :round="2"></ae-amount>
+              </span>
               <span class="ae">AE</span>
               <fiat-value :amount="data.amount"></fiat-value>
             </div>
@@ -42,27 +44,29 @@
 </template>
 
 <script>
-  import {mapGetters} from "vuex";
-  import FiatValue from '../FiatValue.vue';
-  import Topic from "../tipRecords/Topic";
-  import { detect } from 'detect-browser';
+import { mapGetters } from 'vuex';
+import { detect } from 'detect-browser';
+import FiatValue from '../FiatValue.vue';
+import AeAmount from '../AeAmount.vue';
+import Topic from '../tipRecords/Topic';
 
-  export default {
-    name: 'RightSection',
-    components: {
-      Topic,
-      FiatValue
-    },
-    data() {
-      return {
-        browser: detect()
-      }
-    },
-    computed: {
-      ...mapGetters(['topics', 'loading', 'isLoggedIn']),
-      downloadUrl () {
-        if (this.browser) {
-          switch(this.browser.name) {
+export default {
+  name: 'RightSection',
+  components: {
+    Topic,
+    FiatValue,
+    AeAmount,
+  },
+  data() {
+    return {
+      browser: detect(),
+    };
+  },
+  computed: {
+    ...mapGetters(['topics', 'loading', 'isLoggedIn']),
+    downloadUrl() {
+      if (this.browser) {
+        switch (this.browser.name) {
           case 'firefox':
             return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
             break;
@@ -73,13 +77,13 @@
             return '//github.com/aeternity/superhero-wallet/releases/latest/';
             break;
         }
-        }
-      },
-    }
-  }
+      }
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .topics-section{
     max-height: 0;
     transition: max-height 0.25s ease-in;
@@ -91,12 +95,7 @@
 
 .app__rightcolumn{
   color: $light_font_color;
-  display: inline-block;
   font-size: .75rem;
-  position: fixed;
-  right: 0;
-  top: 0;
-  padding-top: .5rem;
   .content{
     max-width: 17rem;
     .section{

@@ -18,7 +18,6 @@
       </div>
       <div class="tip__article position-relative" v-if="isPreviewToBeVisualized(tip)">
         <a :href="tip.url" target="_blank" v-on:click.stop>
-        <img class="external-link" src="../../assets/externalLink.svg">
         <div class="tip__article--hasresults">
           <img v-bind:src="tip.preview.image" class="mr-2">
           <span>
@@ -39,7 +38,7 @@
             <fiat-value :amount="tip.total_amount"></fiat-value>
             <span class="ml-4 retip__wrapper" v-on:click.stop>
               <retip :tipid="tip.id" :retip-icon="true"/>
-              {{ tip.retip_amount_ae }} <span class="ae">AE</span>
+              <ae-amount :amount="tip.retip_amount_ae" :round="2"></ae-amount><span class="ae">AE</span>
               <fiat-value :amount="tip.retip_amount_ae"></fiat-value>
             </span>
             <span @click="goToTip(tip.id)" class="ml-4"><img src="../../assets/commentsIcon.svg"></span>
@@ -52,43 +51,45 @@
 </template>
 
 <script>
-  import FiatValue from '../FiatValue.vue';
-  import Retip from '../Retip.vue';
-  import TipTitle from './TipTitle.vue';
+import FiatValue from '../FiatValue.vue';
+import AeAmount from '../AeAmount.vue';
+import Retip from '../Retip.vue';
+import TipTitle from './TipTitle.vue';
 
-  export default {
-    name: 'TipRecord',
-    props: ['tip', 'foundWallet', 'senderLink'],
-    components: {
-      FiatValue,
-      Retip,
-      TipTitle
+export default {
+  name: 'TipRecord',
+  props: ['tip', 'foundWallet', 'senderLink'],
+  components: {
+    FiatValue,
+    AeAmount,
+    Retip,
+    TipTitle,
+  },
+  computed: {
+    tipText() {
+      if (!this.isPreviewToBeVisualized(this.tip)) return '';
+      return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
     },
-    computed: {
-      tipText() {
-        if(!this.isPreviewToBeVisualized(this.tip)) return '';
-        return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
-      }
-    },
-    methods: {
-      isPreviewToBeVisualized(tip) {
-        return typeof tip !== 'undefined' && tip !== null
+  },
+  methods: {
+    isPreviewToBeVisualized(tip) {
+      return typeof tip !== 'undefined' && tip !== null
           && typeof tip.preview !== 'undefined' && tip.preview.image !== null
           && (
-            (tip.preview.description !== null && tip.preview.description.length > 0) ||
-            (tip.preview.title !== null && tip.preview.title.length > 0)
-          )
-      },
-      goToTip(id) {
-        this.$router.push({
-          name: 'tip',
-          params: {
-            id: id
-          }
-        })
-      },
-    }
-  }
+            (tip.preview.description !== null && tip.preview.description.length > 0)
+            || (tip.preview.title !== null && tip.preview.title.length > 0)
+          );
+    },
+    goToTip(id) {
+      this.$router.push({
+        name: 'tip',
+        params: {
+          id,
+        },
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -199,27 +200,19 @@
           color: $article_description_color;
           background-color: $thumbnail_background_color;
           padding: 0;
-          padding-right: 1.25rem;
           margin-left: 1rem;
-          border-top-right-radius: .25rem;
-          border-bottom-right-radius: .25rem;
+          border-top-right-radius: .5rem;
+          border-bottom-right-radius: .5rem;
           margin-right: 1rem;
           &:hover{
             cursor: pointer;
-          }
-          .external-link{
-            width: .75rem;
-            height: .75rem;
-            right: .5rem;
-            top: .5rem;
-            position: absolute;
           }
           img{
             width: 50%;
             float: left;
             height: 9rem;
-            border-top-left-radius: .25rem;
-            border-bottom-left-radius: .25rem;
+            border-top-left-radius: .5rem;
+            border-bottom-left-radius: .5rem;
             object-fit: cover;
           }
           span{
@@ -229,7 +222,7 @@
             line-height: 1.2rem;
           }
           .tip__article--hasresults{
-            padding-right: .75rem;
+            padding-right: .5rem;
           }
         }
       }

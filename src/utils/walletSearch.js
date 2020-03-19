@@ -9,6 +9,7 @@ const NODE_URL = 'https://sdk-mainnet.aepps.com';
 const NODE_INTERNAL_URL = 'https://sdk-mainnet.aepps.com';
 const COMPILER_URL = 'https://latest.compiler.aepps.com';
 
+// eslint-disable-next-line import/prefer-default-export
 export const wallet = {
   client: null,
   height: null,

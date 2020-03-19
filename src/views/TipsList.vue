@@ -156,6 +156,8 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
+
+
   .send__tip__container{
     margin-bottom: .15rem;
   }
@@ -254,6 +256,12 @@
     .input-group{
       margin-bottom: 0;
     }
+  }
+}
+
+@media (min-width: 992px) {
+  .loading-position {
+    left: calc(50% - 3rem);
   }
 }
 

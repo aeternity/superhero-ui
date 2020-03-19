@@ -19,6 +19,9 @@ export const wrapTry = async (f) => {
   }
 }
 
+export const IS_MOBILE_DEVICE = window.navigator.userAgent.includes('Mobi');
+export const IS_FRAME = window.parent !== window;
+
 export default {
   atomsToAe,
   aeToAtoms,

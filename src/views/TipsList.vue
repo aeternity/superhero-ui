@@ -9,24 +9,28 @@
         <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="search__input" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
         <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
       </div>
-        <div class="row">
-          <div class="col-md-12 col-lg-12 col-sm-12 sorting">
-            <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
-              {{$t('pages.Home.SortingMostPopular')}}
-            </a>
-            <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
-              {{$t('pages.Home.SortingLatest')}}
-            </a>
-            <a v-on:click="setTipSortBy('highest')" v-bind:class="{ active: tipSortBy === 'highest' }">
-              {{$t('pages.Home.SortingHighestRated')}}
-            </a>
-          </div>
-        </div>
       </div>
       <loading :show-loading="loading.tips" class="loading-position"/>
       <div class="container wrapper">
         <div class="tips__container">
-          <send-tip></send-tip>
+          <div class="send__tip__container">
+            <send-tip></send-tip>
+          </div>
+          <div class="actions__container position-sticky">
+            <div class="row">
+              <div class="col-md-12 col-lg-12 col-sm-12 sorting">
+                <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
+                  {{$t('pages.Home.SortingMostPopular')}}
+                </a>
+                <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
+                  {{$t('pages.Home.SortingLatest')}}
+                </a>
+                <a v-on:click="setTipSortBy('highest')" v-bind:class="{ active: tipSortBy === 'highest' }">
+                  {{$t('pages.Home.SortingHighestRated')}}
+                </a>
+              </div>
+            </div>
+          </div>
           <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :fiatValue="tip.fiatValue"
                       :senderLink="openExplorer(tip.sender)"></tip-record>
         </div>
@@ -136,7 +140,7 @@
     color: $standard_font_color;
     background-color: $article_content_color;
     padding: 1.05rem 2.5rem 1.05rem 1rem;
-    border: none;
+    border: .05rem solid transparent;
     outline: none;
     width: 100%;
     &:focus{
@@ -152,14 +156,19 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
-
+  .send__tip__container{
+    margin-bottom: .15rem;
+  }
   .container.wrapper{
     padding-top: 0;
-    margin-top: 0.05rem;
+    margin-top: -0.125rem;
     min-height: 4rem;
   }
    .actions__container{
       top: 0;
+      &:nth-child(2){
+        top: 3.2rem;
+      }
       z-index: 100;
       font-size: .75rem;
       background-color: $background_color;
@@ -260,6 +269,10 @@
       background-color: $actions_ribbon_background_color;
       overflow-x: hidden;
       z-index: 100;
+      &:nth-child(2){
+        width: 100vw;
+        margin-left: -.2rem;
+      }  
       .container,.row{
         padding: 0;
       }
@@ -286,7 +299,7 @@
       }
     }
   .container.wrapper{
-    padding: 1rem .25rem 0 .25rem;
+    padding: .15rem .25rem 0 .25rem;
     .tips__container{
       padding: 0;
     }

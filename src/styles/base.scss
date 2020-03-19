@@ -2,92 +2,97 @@
 $theme-colors: (
   "primary": $primary_color,
   "light": $light_color
-); 
+);
 
 @import "node_modules/bootstrap/scss/bootstrap";
 @import 'node_modules/bootstrap-vue/src/index.scss';
 
 /* Global Styles */
-body{
-  font-family: 'Roboto', 'Helvetica', 'Arial', 'sans-serif';
+body {
   background-color: $background_color;
+  font-family: 'Roboto', 'Helvetica', 'Arial', 'sans-serif';
+  overflow-y: overlay;
 }
 
-a:hover{
-  text-decoration: none;
-}
-
-.btn{
+.btn {
   font-size: .75rem;
-  &.btn-light{
+
+  &.btn-light {
     color: $primary_color;
   }
 }
 
-.container.wrapper{
-  padding-top: .5rem;
-}
- /* Helpers */
- .text-ellipsis{
-  white-space: nowrap;
+/* Helpers */
+.text-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.button, a.button{
+.button, a.button {
   background: transparent;
-  display: inline-block;
-  font-weight: 600;
-  font-size: .75rem;
-  color: $standard_font_color;
   border: .05rem solid $standard_font_color;
   border-radius: .25rem;
+  color: $standard_font_color;
+  display: inline-block;
+  font-size: .75rem;
+  font-weight: 600;
   padding: .625rem 2.15rem .725rem 2.15rem;
   text-align: center;
-  &:hover{
+
+  &:hover {
+    border: .05rem solid $custom_links_color;
+    color: $custom_links_color;
     cursor: pointer;
     text-decoration: none;
-    color: $custom_links_color;
-    border: .05rem solid $custom_links_color;
   }
-  &.small{
+
+  &.small {
     padding: .425rem 1rem .425rem 1rem;
   }
 }
 
-.input-group, .form-group{
-  .form-control{
-    box-shadow: none;
+.input-group, .form-group {
+  .form-control {
     border: .05rem solid transparent;
-    &:focus{
+    box-shadow: none;
+
+    &:focus {
       border: .05rem solid $custom_links_color;
     }
   }
 }
-.input-group{
+
+.input-group {
   padding-left: 0;
   padding-right: 0;
-  .form-control{
+
+  .form-control {
     background-color: $background_color;
+    border: 1px solid $white_color;
     color: $standard_font_color;
     font-size: .75rem;
-    border: 1px solid $white_color;
   }
-  .input-group-text{
+
+  .input-group-text {
     background-color: $search_icon_backgound;
     border: 1px solid $white_color;
-    &:hover{
-      cursor: pointer;
+
+    &:hover {
       background-color: $primary_color;
-      .fas.fa-search{
+      cursor: pointer;
+
+      .fas.fa-search {
         color: $search_icon_hover_color;
       }
     }
-    &:active{
-       background-color: $secondary_color;
+
+    &:active {
+      background-color: $secondary_color;
     }
   }
-  .fas.fa-search{
+
+  .fas.fa-search {
     color: $standard_font_color;
   }
 }
@@ -108,5 +113,5 @@ input::-webkit-inner-spin-button {
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance:textfield;
+  -moz-appearance: textfield;
 }

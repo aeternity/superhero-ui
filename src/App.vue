@@ -75,7 +75,7 @@ export default {
       // await fetch
       const {
         stats, tips, hasOrdering, chainNames,
-      } = await AggregateData.fetchTips();
+      } = await AggregateData.fetchingTips();
       const topics = TipTopicUtil.getTipTopics(tips);
       // async fetch
       this.reloadAsyncData(initial, stats);
@@ -83,7 +83,11 @@ export default {
       this.updateTopics(topics);
       this.setChainNames(chainNames);
       this.setTipsOrdering(hasOrdering);
-      this.setTipSortBy(initial ? hasOrdering ? 'hot' : 'highest' : this.tipSortBy);
+      if (!initial) {
+        this.setTipSortBy(this.tipSortBy);
+      } else {
+        this.setTipSortBy(hasOrdering ? 'hot' : 'highest');
+      }
       this.removeLoading('tips');
       if (initial) this.removeLoading('initial');
     },

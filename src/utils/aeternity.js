@@ -43,11 +43,11 @@ aeternity.initProvider = async (force = false) => {
     });
   }
   try {
-    if (isForce || aeternity.contractAddress && !aeternity.contract) {
+    if (isForce || (aeternity.contractAddress && !aeternity.contract)) {
       aeternity.contract = await aeternity.client
         .getContractInstance(TIPPING_INTERFACE, { contractAddress: aeternity.contractAddress });
     }
-    if (isForce || aeternity.oracleContractAddress && !aeternity.oracleContract) {
+    if (isForce || (aeternity.oracleContractAddress && !aeternity.oracleContract)) {
       aeternity.oracleContract = await aeternity.client
         .getContractInstance(
           ORACLE_INTERFACE,

@@ -1,4 +1,5 @@
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
+/* eslint-disable global-require */
 
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';

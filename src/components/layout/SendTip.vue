@@ -78,7 +78,7 @@ export default {
   computed: {
     ...mapGetters(['balance', 'loading']),
     isSendTipDataValid() {
-      const urlRegex = /(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
+      const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
       return this.sendTipForm.amount > 0
           && this.sendTipForm.url.length > 0

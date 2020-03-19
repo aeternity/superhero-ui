@@ -1,7 +1,7 @@
 import Backend from './backend';
 import aeternity from './aeternity';
 
-const fetchTips = async () => {
+const fetchingTips = async () => {
   const backendInstance = new Backend();
   const fetchTips = aeternity.getTips().catch(console.error);
   const fetchOrdering = backendInstance.tipOrder().catch(console.error);
@@ -9,12 +9,15 @@ const fetchTips = async () => {
   const fetchLangTips = backendInstance.getLangTips().catch(console.error);
   const fetchChainNames = backendInstance.getChainNameFromAddress().catch(console.error);
   const fetchCommentCounts = backendInstance.getCommentCounts().catch(console.error);
-  let [
-    { stats, tips }, tipOrdering, tipsPreview, langTips, chainNames, commentCounts,
+  const [
+    fetchTipsResponse, tipOrdering, tipsPreview,
+    langTips, fetchedChainNames, commentCounts,
   ] = await Promise.all([
     fetchTips, fetchOrdering, fetchTipsPreview, fetchLangTips, fetchChainNames, fetchCommentCounts,
   ]);
 
+  let { tips } = fetchTipsResponse;
+  let chainNames = fetchedChainNames;
   // add score from backend to tips
   if (tipOrdering) {
     const blacklistedTipIds = tipOrdering.map((order) => order.id);
@@ -77,10 +80,10 @@ const fetchTips = async () => {
   }
 
   return {
-    stats, tips, hasOrdering: !!tipOrdering, chainNames,
+    stats: fetchTipsResponse.stats, tips, hasOrdering: !!tipOrdering, chainNames,
   };
 };
 
 export default {
-  fetchTips,
+  fetchingTips,
 };

@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 
 export default {

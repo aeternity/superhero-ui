@@ -15,7 +15,7 @@
             </span>
           </div>
         </div>
-          <div class="tip__note pr-2" :title="comment.text">
+          <div class="tip__note" :title="comment.text">
               {{ comment.text }}
           </div>
       </div>
@@ -34,7 +34,7 @@
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
   .comment.tip__record{
     padding-bottom: 0;
     margin-bottom: .5rem;
@@ -56,11 +56,13 @@
   and (-webkit-min-device-pixel-ratio: 2) {
     .comment.tip__record{
       padding-bottom: 0;
-      padding-top: 1rem;
+      padding: .5rem;
       .tip__body{
         padding-left: 0;
         .tip__note{
-          padding-bottom: 0;
+          margin-top: .25rem;
+          margin-bottom: 0;
+          padding: 0;
         }
       }
     }

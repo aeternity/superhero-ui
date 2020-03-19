@@ -17,7 +17,8 @@
   import Currency from "./utils/currency";
   import { EventBus } from "./utils/eventBus";
   import util from './utils/util';
-  import TipTopicUtil from './utils/tipTopicUtil';
+  import AggregateData from "./utils/aggregateData";
+  import TipTopicUtil from "./utils/tipTopicUtil";
 
   export default {
     name: 'app',
@@ -75,63 +76,18 @@
         }
 
         // await fetch
-        const backendInstance = new Backend();
-        const fetchTips = aeternity.getTips().catch(console.error);
-        const fetchOrdering = backendInstance.tipOrder().catch(console.error);
-        const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
-        const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
-        const fetchChainNames = backendInstance.getChainNameFromAddress().catch(console.error);
-        const fetchCommentCounts = backendInstance.getCommentCounts().catch(console.error);
-        let [{stats, _, tips}, tipOrdering, tipsPreview, langTips, chainNames, commentCounts] =
-          await Promise.all([fetchTips, fetchOrdering, fetchTipsPreview, fetchLangTips, fetchChainNames, fetchCommentCounts]);
+        const {stats, tips, hasOrdering, chainNames} = await AggregateData.fetchTips();
+        const topics = TipTopicUtil.getTipTopics(tips);
 
         // async fetch
         this.reloadAsyncData(initial, stats);
 
-        // add score from backend to tips
-        if (tipOrdering) {
-          const blacklistedTipIds = tipOrdering.map(order => order.id);
-          const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.id));
-          tips = filteredTips.map(tip => {
-            const orderItem = tipOrdering.find(order => order.id === tip.id);
-            tip.score = orderItem ? orderItem.score : 0;
-            return tip;
-          });
-        }
-
-        const topics = TipTopicUtil.getTipTopics(tips);
-
-        // filter tips by language from backend
-        if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
-
-        // add preview to tips from backend
-        if (tipsPreview) {
-          tips = tips.map(tip => {
-            tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
-            return tip;
-          });
-        }
-
-        if (chainNames) {
-          tips = tips.map(tip => {
-            tip.chainNames = chainNames.filter(chainName => chainName.owner === tip.sender);
-            return tip;
-          });
-        }
-
-        if (commentCounts) {
-          tips = tips.map(tip => {
-            const commentCount = commentCounts.find(comment => comment.tipId === tip.id);
-            tip.commentCount = commentCount ? commentCount.count : 0;
-            return tip;
-          });
-        }
-
-        this.setChainNames(chainNames);
-        this.setTipsOrdering(tipOrdering);
         this.updateTips(tips);
         this.updateTopics(topics);
-        this.setTipSortBy(initial ? tipOrdering ? "hot" : "highest" : this.tipSortBy);
+        this.setChainNames(chainNames);
+
+        this.setTipsOrdering(hasOrdering);
+        this.setTipSortBy(initial ? hasOrdering ? "hot" : "highest" : this.tipSortBy);
 
         this.removeLoading('tips');
         if(initial) this.removeLoading('initial');

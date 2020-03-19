@@ -6,8 +6,8 @@
     <div v-else>
     <div class="container profile__header position-sticky">
       <div>
-        <span class="address" v-if="!userChainNames.length">{{address}}</span>
-        <span class="address chain" :title="userChainNames[0].name" v-else>{{userChainNames[0].name}}</span>
+        <span class="address chain" v-if="userChainName">{{userChainName}}</span>
+        <span class="address" v-else>{{address}}</span>
         <div class="count">{{userTips.length}} Tips</div>
       </div>
     </div>
@@ -45,8 +45,8 @@
                 <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
               </div> -->
               <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address">
-                <span v-if="!userChainNames.length">{{address}}</span>
-                <span class="chain" :title="userChainNames[0].name" v-else>{{userChainNames[0].name}}</span>
+                <span class="chain"  v-if="userChainName">{{userChainName}}</span>
+                <span v-else>{{address}}</span>
               </a>
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
@@ -105,7 +105,7 @@
             </div>
           </div>
           <div v-if="activeTab === 'comments'">
-            <tip-comment v-for="(comment, index) in comments" :key="index" :userChainNames="userChainNames"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
+            <tip-comment v-for="(comment, index) in comments" :key="index" :userChainName="userChainName"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
           </div>
         <div class="mt-3" v-if="showLoading || loading.tips">
           <loading :show-loading="true" />
@@ -191,8 +191,8 @@
       isMyUserProfile() {
         return this.account === this.address;
       },
-      userChainNames(){
-        return this.chainNames ? this.chainNames.filter(chainName => chainName.owner === this.address) : [];
+      userChainName(){
+        return this.chainNames[this.address];
       },
       showNoResultsMsg() {
         if (this.activeTab === 'comments') {

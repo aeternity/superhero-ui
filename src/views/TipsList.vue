@@ -272,7 +272,7 @@
       &:nth-child(2){
         width: 100vw;
         margin-left: -.2rem;
-      }  
+      }
       .container,.row{
         padding: 0;
       }

@@ -14,7 +14,7 @@
       <div class="container wrapper">
         <div class="tips__container">
           <div class="send__tip__container">
-            <send-tip></send-tip>
+            <send-tip v-if="Object.keys(account).length && balance"></send-tip>
           </div>
           <div class="actions__container position-sticky">
             <div class="row">

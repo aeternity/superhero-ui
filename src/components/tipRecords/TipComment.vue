@@ -39,17 +39,16 @@
     padding-bottom: 0;
     margin-bottom: .5rem;
     border-radius: .5rem;
-  }
-  .tip__record .tip__body .tip__note{
-    padding: .5rem 1rem .5rem 1rem;
-    color: $comment_text_color;
-  }
-  .tip__record{
     background-color: $light_color;
+    .tip__body .tip__note{
+      padding: .5rem 1rem .5rem 1rem;
+      color: $comment_text_color;
+      height: initial;
+      font-size: .7rem;
+      font-weight: 400;
+    }
   }
-  .tip__record .tip__body .tip__note{
-    height: initial;
-  }
+
 @media only screen
   and (min-device-width: 320px)
   and (max-device-width: 480px)

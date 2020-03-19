@@ -125,7 +125,6 @@ export default {
             font-size: .6rem;
           }
           .address, .chain__name{
-            color: $secondary_color;
             width: calc(100% - 2rem);
             display: inline-block;
             word-break: break-all;
@@ -197,7 +196,6 @@ export default {
           min-height: 5.9rem;
           font-size: .75rem;
           position: relative;
-          color: $article_description_color;
           background-color: $thumbnail_background_color;
           padding: 0;
           margin-left: 1rem;
@@ -216,6 +214,7 @@ export default {
             object-fit: cover;
           }
           span{
+            color: $tip_note_color;
             padding: .5rem 0.1rem 0 0.5rem;
             height: 9rem;
             @include truncate-overflow-mx(7);

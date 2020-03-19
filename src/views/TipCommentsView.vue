@@ -3,18 +3,6 @@
   <right-section></right-section>
   <left-section></left-section>
   <div class="container url__page">
-    <div class="actions-ribbon">
-      <div class="row">
-         <a class="back-url col-md-6 col-sm-12" href="/">
-          <img src="../assets/backArrow.svg">{{$t('pages.TipComments.BackTo')}}<span> AE</span> {{$t('pages.TipComments.records')}}</a>
-        <!-- <div class="col-md-6 col-sm-12 text-right sorting">
-          <a>Date</a>
-          <a>AE Records</a>
-          <a>Comments</a>
-          <a>All</a>
-        </div> -->
-      </div>
-    </div>
     <div class="tipped__url" v-if="tip">
       <tip-record :tip="tip"></tip-record>
     </div>

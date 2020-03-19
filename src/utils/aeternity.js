@@ -1,3 +1,5 @@
+/* globals Cypress */
+
 import {
   Node, Universal, Aepp, MemoryAccount,
 } from '@aeternity/aepp-sdk/es';

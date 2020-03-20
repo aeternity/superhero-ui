@@ -2,7 +2,7 @@
 <div>
   <right-section></right-section>
   <left-section></left-section>
-  <div class="container url__page">
+  <div class="container wrapper url__page">
     <div class="tipped__url" v-if="tip">
       <tip-record :tip="tip"></tip-record>
     </div>

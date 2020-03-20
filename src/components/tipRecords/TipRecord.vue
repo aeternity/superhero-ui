@@ -20,9 +20,20 @@
         <a :href="tip.url" target="_blank" v-on:click.stop>
         <div class="tip__article--hasresults">
           <img :src="tipPreviewImage" class="mr-2">
-          <span>
-            {{tipText}}
-          </span>
+          <div class="tip__article__content">
+            <h2 class="title text-ellipsis"
+              :title="tipPreviewTitle">
+              {{tipPreviewTitle}}
+            </h2>
+            <div class="description"
+              :title="tipPreviewDescription">
+              {{tipPreviewDescription}}
+            </div>
+            <div class="domain text-ellipsis"
+              :title="tipPreviewDomain">
+              {{tipPreviewDomain}}
+            </div>
+          </div>
         </div>
         </a>
       </div>
@@ -69,9 +80,20 @@ export default {
     TipTitle,
   },
   computed: {
-    tipText() {
+    tipPreviewDescription() {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
-      return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
+
+      return this.tip.preview.description ? this.tip.preview.description : '';
+    },
+    tipPreviewTitle() {
+      if (!this.isPreviewToBeVisualized(this.tip)) return '';
+
+      return this.tip.preview.title ? this.tip.preview.title : '';
+    },
+    tipPreviewDomain() {
+      if (!this.isPreviewToBeVisualized(this.tip)) return '';
+
+      return this.tip.preview.responseUrl ? new URL(this.tip.preview.responseUrl).hostname : '';
     },
     tipPreviewImage() {
       return this.isPreviewToBeVisualized(this.tip) ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
@@ -239,15 +261,26 @@ export default {
               width: 18px;
             }
           }
-          span{
+          .tip__article__content{
+            width: 50%;
             color: $tip_note_color;
             padding: .5rem 0.1rem 0 0.5rem;
             height: 9rem;
-            @include truncate-overflow-mx(7);
-            line-height: 1.2rem;
+            line-height: 1.1rem;
+            .title{
+              display: block;
+              font-size: .75rem;
+              font-weight: 700;
+              margin-bottom: .25rem;
+            }
+            .description{
+              @include truncate-overflow-mx(5);
+              margin-bottom: .25rem;
+            }
           }
           .tip__article--hasresults{
             padding-right: .5rem;
+            display: flex;
           }
         }
       }
@@ -398,9 +431,10 @@ export default {
         .tip__article{
           margin-left: 0;
           width: 100%;
-          span{
-            padding: 0;
-            @include truncate-overflow-mx(8);
+          .tip__article__content {
+            .description {
+              @include truncate-overflow-mx(5);
+            }
             line-height: 1.1rem;
           }
         }

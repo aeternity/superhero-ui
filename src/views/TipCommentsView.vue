@@ -168,7 +168,6 @@ export default {
   }
   .comments__section{
     background-color: $actions_ribbon_background_color;
-    overflow-y: auto;
     padding: 1rem;
   }
   .no-results{

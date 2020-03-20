@@ -57,7 +57,7 @@ import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
 import Retip from '../Retip.vue';
 import TipTitle from './TipTitle.vue';
-import { BACKEND_URL } from '../../config/constants';
+import Backend from '../../utils/backend'
 
 export default {
   name: 'TipRecord',
@@ -74,7 +74,7 @@ export default {
       return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
     },
     tipPreviewImage() {
-      return this.isPreviewToBeVisualized(this.tip) ? `${BACKEND_URL}${this.tip.preview.image}` : '';
+      return this.isPreviewToBeVisualized(this.tip) ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     }
   },
   methods: {

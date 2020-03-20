@@ -36,4 +36,6 @@ export default class Backend {
   getCommentCounts = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/tips/`));
 
   getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));
+
+  static getTipPreviewUrl = previewLink => `${BACKEND_URL}${previewLink}`;
 }

@@ -1,5 +1,5 @@
-import { wrapTry } from './util';
 import { BACKEND_URL, MAINNET_URL } from '../config/constants';
+import { wrapTry } from './util';
 
 export default class Backend {
   tipOrder = async () => wrapTry(async () => fetch(`${BACKEND_URL}/tiporder`));
@@ -26,15 +26,15 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   }));
 
-  getProfileImage = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/profile/image/${address}`));
+  getProfileImage = (address) => `${BACKEND_URL}/profile/image/${address}`;
 
   setProfileImage = async (address, data, image = true) => wrapTry(async () => {
-    let request = {
+    const request = {
       method: 'post',
-      body: image ? data : JSON.stringify(data)
-    }
-    Object.assign(request, !image && { headers: {'Content-Type': 'application/json'} });
-    console.log(request)
+      body: image ? data : JSON.stringify(data),
+    };
+    Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
+    console.log(request);
     return fetch(`${BACKEND_URL}/profile/image/${address}`, request);
   });
 

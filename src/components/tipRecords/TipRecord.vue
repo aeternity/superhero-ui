@@ -21,7 +21,7 @@
         <div class="tip__article--hasresults">
           <img :src="tipPreviewImage" class="mr-2">
           <div class="tip__article__content">
-            <h2 class="title text-ellipsis" 
+            <h2 class="title text-ellipsis"
               :title="tipPreviewTitle">
               {{tipPreviewTitle}}
             </h2>
@@ -29,7 +29,7 @@
               :title="tipPreviewDescription">
               {{tipPreviewDescription}}
             </div>
-            <div class="domain text-ellipsis" 
+            <div class="domain text-ellipsis"
               :title="tipPreviewDomain">
               {{tipPreviewDomain}}
             </div>
@@ -85,12 +85,12 @@ export default {
 
       return this.tip.preview.description ? this.tip.preview.description : '';
     },
-    tipPreviewTitle(){
+    tipPreviewTitle() {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
 
       return this.tip.preview.title ? this.tip.preview.title : '';
     },
-    tipPreviewDomain(){
+    tipPreviewDomain() {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
 
       return this.tip.preview.responseUrl ? new URL(this.tip.preview.responseUrl).hostname : '';

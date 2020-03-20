@@ -201,19 +201,38 @@ export default {
           background-color: $thumbnail_background_color;
           padding: 0;
           margin-left: 1rem;
-          border-top-right-radius: .5rem;
-          border-bottom-right-radius: .5rem;
+          border-radius: .5rem;
           margin-right: 1rem;
+          background-image: url("../../assets/headerLogo.svg");
+          background-position: 4rem center;
+          background-repeat: no-repeat;
+          overflow: hidden;
+          height: 9rem;
+
           &:hover{
             cursor: pointer;
           }
           img{
+            background-color: $thumbnail_background_color;
+            content: ' ';
             width: 50%;
             float: left;
-            height: 9rem;
-            border-top-left-radius: .5rem;
-            border-bottom-left-radius: .5rem;
             object-fit: cover;
+
+            // these styles apply to broken images
+            &:-moz-broken {
+              opacity: 0;
+            }
+            // chrome (Note: putting height on img will render a silver border)
+            &::after {
+              background: inherit;
+              content: ' ';
+              height: 18px;
+              left: 0;
+              position: absolute;
+              top: 0;
+              width: 18px;
+            }
           }
           span{
             color: $tip_note_color;

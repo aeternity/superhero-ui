@@ -2,7 +2,6 @@ import { wrapTry } from './util';
 import { BACKEND_URL, MAINNET_URL } from '../config/constants';
 
 export default class Backend {
-
   tipOrder = async () => wrapTry(async () => fetch(`${BACKEND_URL}/tiporder`));
 
   tipPreview = async () => wrapTry(async () => fetch(`${BACKEND_URL}/linkpreview`));
@@ -37,5 +36,5 @@ export default class Backend {
 
   getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));
 
-  static getTipPreviewUrl = previewLink => `${BACKEND_URL}${previewLink}`;
+  static getTipPreviewUrl = (previewLink) => `${BACKEND_URL}${previewLink}`;
 }

@@ -35,7 +35,7 @@ export default class Backend {
     };
     Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
     console.log(request);
-    return fetch(getProfileImageUrl(address), request);
+    return fetch(this.getProfileImageUrl(address), request);
   });
 
   getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));

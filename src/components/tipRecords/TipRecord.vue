@@ -103,51 +103,47 @@ export default {
   &:hover {
     cursor: pointer;
   }
-}
-.url__page .tip__record .tip__body .tip__footer {
-  background-color: $actions_ribbon_background_color;
-}
-.tip__record {
-  background-color: $light_color;
-  padding: 1rem 0 0 0;
-  margin: 0 0 0.15rem 0;
-  .tip__body {
-    width: 100%;
-    padding-left: 0;
-    .tip__author {
-      color: $light_font_color;
-      font-size: 0.8rem;
-      padding: 0.25rem 1rem 0.25rem 1rem;
-      display: flex;
-      .date {
-        width: 20%;
-        font-size: 0.6rem;
-        display: inline-block;
-        padding-top: 0.2rem;
-      }
-      .address {
-        font-size: 0.6rem;
-      }
-      .address,
-      .chain__name {
-        color: $secondary_color;
-        width: calc(100% - 2rem);
-        display: inline-block;
-        word-break: break-all;
-      }
-      .chain__name {
-        vertical-align: top;
-      }
-      img {
-        width: 1.5rem;
-        margin-right: 0.25rem;
-        vertical-align: baseline;
-      }
-      & > a {
-        width: 80%;
-        color: $light_font_color;
-        &:hover {
-          text-decoration: none;
+  .tip__record{
+      background-color: $light_color;
+      padding: 1rem 0 0 0;
+      margin: 0 0 0.15rem 0;
+      .tip__body{
+        width: 100%;
+        padding-left: 0;
+        .tip__author{
+          color: $light_font_color;
+          font-size: .8rem;
+          padding: .25rem 1rem .25rem 1rem;
+          display: flex;
+          .date{
+            width: 20%;
+            font-size: .6rem;
+            display: inline-block;
+            padding-top: .2rem;
+          }
+          .address{
+            font-size: .6rem;
+          }
+          .address, .chain__name{
+            width: calc(100% - 2rem);
+            display: inline-block;
+            word-break: break-all;
+          }
+          .chain__name{
+            vertical-align: top;
+          }
+          img{
+            width: 1.5rem;
+            margin-right: 0.25rem;
+            vertical-align: baseline;
+          }
+          &>a{
+            width: 80%;
+            color: $light_font_color;
+            &:hover{
+              text-decoration: none;
+            }
+          }
         }
       }
     }
@@ -183,17 +179,37 @@ export default {
         span {
           color: $light_font_color;
         }
-        a,
-        .tip__sender {
-          color: $custom_links_color;
-        }
-      }
-      .tip__amount,
-      .tip__comments {
-        img {
-          width: 1rem;
-          display: inline;
-          margin-right: 2px;
+        .tip__article{
+          min-height: 5.9rem;
+          font-size: .75rem;
+          position: relative;
+          background-color: $thumbnail_background_color;
+          padding: 0;
+          margin-left: 1rem;
+          border-top-right-radius: .5rem;
+          border-bottom-right-radius: .5rem;
+          margin-right: 1rem;
+          &:hover{
+            cursor: pointer;
+          }
+          img{
+            width: 50%;
+            float: left;
+            height: 9rem;
+            border-top-left-radius: .5rem;
+            border-bottom-left-radius: .5rem;
+            object-fit: cover;
+          }
+          span{
+            color: $tip_note_color;
+            padding: .5rem 0.1rem 0 0.5rem;
+            height: 9rem;
+            @include truncate-overflow-mx(7);
+            line-height: 1.2rem;
+          }
+          .tip__article--hasresults{
+            padding-right: .5rem;
+          }
         }
       }
     }

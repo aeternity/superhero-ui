@@ -165,6 +165,7 @@
     min-height: 4rem;
   }
    .actions__container{
+      padding: 0;
       top: 0;
       &:nth-child(2){
         top: 3.2rem;
@@ -257,6 +258,12 @@
   }
 }
 
+@media (min-width: 992px) {
+  .loading-position {
+    left: calc(50% - 3rem);
+  }
+}
+
 //Smallest devices Portrait and Landscape
 @media only screen
   and (min-device-width: 320px)
@@ -269,10 +276,14 @@
       background-color: $actions_ribbon_background_color;
       overflow-x: hidden;
       z-index: 100;
+      padding-bottom: .5rem;
       &:nth-child(2){
         width: 100vw;
         margin-left: -.2rem;
-      }
+        top: 4.45rem;
+        padding-top: 0;
+        padding-bottom: 0;
+      }  
       .container,.row{
         padding: 0;
       }
@@ -280,7 +291,7 @@
         width: -webkit-fill-available;
         width: -moz-available;
         background-color: #1D1D23;
-        margin: .5rem -1rem 0 -1rem;
+        margin: 0 -1rem 0 -1rem;
         text-align: center;
         padding-bottom: 0;
         padding-left: .5rem;

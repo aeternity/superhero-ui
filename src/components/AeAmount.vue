@@ -1,7 +1,8 @@
 <template>
-    <span class="ae-amount">
-      <span>{{ roundedAmount }}</span>
-    </span>
+  <span class="ae-amount">
+    <span>{{ roundedAmount }}</span>
+    <span class="ae">AE</span>
+  </span>
 </template>
 
 <script>
@@ -21,3 +22,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.ae {
+  padding-left: 2px;
+  color: $secondary_color;
+}
+</style>

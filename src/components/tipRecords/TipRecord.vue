@@ -19,7 +19,7 @@
       <div class="tip__article position-relative" v-if="isPreviewToBeVisualized(tip)">
         <a :href="tip.url" target="_blank" v-on:click.stop>
         <div class="tip__article--hasresults">
-          <img :src="tipPreviewImage" class="mr-2">
+          <img :src="tipPreviewImage" :onerror="`this.style.opacity=0`">
           <div class="tip__article__content">
             <h2 class="title text-ellipsis"
               :title="tipPreviewTitle">
@@ -229,8 +229,8 @@ export default {
           margin-left: 1rem;
           border-radius: .5rem;
           margin-right: 1rem;
-          background-image: url("../../assets/headerLogo.svg");
-          background-position: 4rem center;
+          background-image: url("../../assets/defaultImg.svg");
+          background-position: 3.5rem center;
           background-repeat: no-repeat;
           overflow: hidden;
           height: 9rem;
@@ -240,26 +240,11 @@ export default {
           }
           img{
             background-color: $thumbnail_background_color;
-            content: ' ';
             width: 50%;
             float: left;
             object-fit: cover;
-            min-height: 1px;
-
-            // these styles apply to broken images
-            &:-moz-broken {
-              opacity: 0;
-            }
-            // chrome (Note: putting height on img will render a silver border)
-            &::after {
-              background: inherit;
-              content: ' ';
-              height: 18px;
-              left: 0;
-              position: absolute;
-              top: 0;
-              width: 18px;
-            }
+            margin-right: .5rem;
+            height: 9rem;
           }
           .tip__article__content{
             width: 50%;

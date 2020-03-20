@@ -28,29 +28,30 @@
                 class="position-absolute"
               />
               <label
-                for="file-input"
                 v-if="editMode"
-                class="position-relative profile__image--edit"
+                class="profile__image--edit"
                 :class="[showLoadingAvatar ? 'blurred' : '']"
-                >
-                <a v-if="editMode" :title="address">
-                  <img :src="getAvatar(address)" :key="avatarEditImageKey"/>
-                </a>
-                <div>Change Avatar</div>
-              </label>
-              <div>
-                <img :src="getAvatar(address)" v-if="!editMode">
-              </div>
-
+                :title="address"
+              >
+                  <img :src="avatar" :onerror="`this.style.opacity=0`" alt="">
+                  <span>Change Avatar</span>
                 <input
                   id="file-input"
                   type="file"
                   name="avatar"
-                  v-if="editMode"
                   accept="image/png, image/jpeg"
                   @change="uploadImage($event)"
                 >
-
+              </label>
+              <a
+                v-else
+                :class="[showLoadingAvatar ? 'blurred' : '']"
+                :href="openExplorer(address)"
+                :title="address"
+                target="_blank"
+              >
+                <img :src="avatar" v-if="!editMode" :onerror="`this.style.opacity=0`" alt="">
+              </a>
             </div>
             <div class="profile__info">
               <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
@@ -214,6 +215,7 @@ export default {
         biography: '',
         displayName: '',
       },
+      avatar: this.getAvatar(this.address),
     };
   },
   computed: {
@@ -271,6 +273,7 @@ export default {
       return this.explorerUrl + address;
     },
     toggleEditMode() {
+      this.avatar = this.getAvatar(this.address);
       this.editMode = !this.editMode;
     },
     resetEditedValues() {
@@ -320,9 +323,8 @@ export default {
       await backendInstance.setProfileImage(this.account, respondChallenge, false)
         .catch(console.error);
 
-      this.updateAvatarImageKey();
-
-      this.getAvatar(this.account);
+      // use the new avatar with cache-bust
+      this.avatar = `${this.getAvatar(this.account)}?${Math.random()}`;
     },
   },
   async created() {
@@ -347,6 +349,8 @@ export default {
     display: none;
   }
   .profile__page{
+    color: $light_font_color;
+    font-size: .75rem;
     margin-top: .125rem;
     .count{
       font-size: .65rem;
@@ -379,8 +383,6 @@ export default {
       top: -1.25rem;
       right: .5rem;
     }
-    color: $light_font_color;
-    font-size: .75rem;
     .profile__section{
       background-color: $actions_ribbon_background_color;
       .spinner__container{
@@ -410,21 +412,30 @@ export default {
           right: 0;
           z-index: 10;
         }
-        .profile__image--edit{
-          margin-bottom: 1rem;
-          &>div{
-            position: absolute;
-            top: 40%;
-            width: 100%;
-            text-align: center;
-            color: $standard_font_color;
-          }
-          img{
-              opacity: .4;
-          }
-          &:hover{
-            cursor: pointer;
+        .profile__image--edit {
+          cursor: pointer;
+          display: flex;
+          position: relative;
 
+          span {
+            align-items: center;
+            color: $standard_font_color;
+            display: flex;
+            height: 100%;
+            justify-content: center;
+            position: absolute;
+            text-align: center;
+            top: 0;
+            width: 100%;
+          }
+          img {
+            opacity: .2;
+          }
+
+          &:hover {
+            img {
+              filter: grayscale(1);
+            }
           }
         }
         img{

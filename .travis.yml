@@ -3,7 +3,9 @@ dist: xenial
 language: node_js
 node_js: '12'
 
-script: npm run build
+script:
+  - npm run lint -- --no-fix
+  - npm run build
 
 before_deploy: scripts/before-deploy.sh
 

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/prefer-default-export
 export const getters = {
   account(state) {
     return state.account;
@@ -37,5 +38,5 @@ export const getters = {
   },
   chainNames(state) {
     return state.chainNames;
-  }
+  },
 };

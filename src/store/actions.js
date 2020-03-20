@@ -8,19 +8,19 @@ export default {
     commit(types.UPDATE_BALANCE, payload.balance);
   },
   updateCurrencyRates({ commit }, payload) {
-    commit(types.UPDATE_CURRENCY_RATES, payload)
+    commit(types.UPDATE_CURRENCY_RATES, payload);
   },
   updateTips({ commit }, payload) {
-    commit(types.UPDATE_TIPS, payload)
+    commit(types.UPDATE_TIPS, payload);
   },
   updateTopics({ commit }, payload) {
-    commit(types.UPDATE_TOPICS, payload)
+    commit(types.UPDATE_TOPICS, payload);
   },
   updateStats({ commit }, payload) {
-    commit(types.UPDATE_STATS, payload)
+    commit(types.UPDATE_STATS, payload);
   },
   setTipsOrdering({ commit }, payload) {
-    commit(types.SET_TIPS_ORDERING, payload)
+    commit(types.SET_TIPS_ORDERING, payload);
   },
   setTipSortBy({ commit, state }, payload) {
     const tips = sort(payload, state.tips);
@@ -39,6 +39,6 @@ export default {
     commit(types.SET_LOADING, state.loading);
   },
   setChainNames({ commit }, payload) {
-    commit(types.SET_CHAIN_NAMES, payload)
+    commit(types.SET_CHAIN_NAMES, payload);
   },
 };

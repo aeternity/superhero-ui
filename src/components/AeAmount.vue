@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import BigNumber from "bignumber.js";
+import BigNumber from 'bignumber.js';
 
 export default {
   name: "AeAmount",

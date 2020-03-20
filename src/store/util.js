@@ -1,16 +1,18 @@
-import BigNumber from "bignumber.js";
+import BigNumber from 'bignumber.js';
 
+// eslint-disable-next-line import/prefer-default-export
 export const sort = (sortBy, tips) => {
   switch (sortBy) {
-    case "hot":
+    case 'hot':
       tips.sort((a, b) => b.score - a.score);
       break;
-    case "latest":
+    case 'latest':
       tips.sort((a, b) => b.timestamp - a.timestamp);
       break;
-    case "highest":
+    case 'highest':
       tips.sort((a, b) => new BigNumber(b.total_amount).minus(a.total_amount).toNumber());
       break;
+    default:
   }
 
   return tips;

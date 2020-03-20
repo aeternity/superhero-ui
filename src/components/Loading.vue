@@ -7,10 +7,10 @@
 </template>
 
 <script>
-  export default {
-    name: 'Loading',
-    props: ['showLoading']
-  }
+export default {
+  name: 'Loading',
+  props: ['showLoading'],
+};
 </script>
 
 <style lang="scss" scoped>

@@ -6,7 +6,13 @@
     <div v-else>
       <div class="actions__container container position-sticky">
       <div class="search__input__container">
-        <input type="text" v-model="searchTerm" @searchTopic="onSearchTopic" class="search__input" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
+        <input
+          type="text"
+          v-model="searchTerm"
+          @searchTopic="onSearchTopic"
+          class="search__input"
+          v-bind:placeholder="$t('pages.Home.SearchPlaceholder')"
+        >
         <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
       </div>
       </div>
@@ -19,23 +25,41 @@
           <div class="actions__container position-sticky">
             <div class="row">
               <div class="col-md-12 col-lg-12 col-sm-12 sorting">
-                <a v-if="this.tipsOrdering" v-on:click="setTipSortBy('hot')" v-bind:class="{ active: tipSortBy === 'hot' }">
+                <a
+                  v-if="this.tipsOrdering"
+                  v-on:click="setTipSortBy('hot')"
+                  v-bind:class="{ active: tipSortBy === 'hot' }"
+                >
                   {{$t('pages.Home.SortingMostPopular')}}
                 </a>
-                <a v-on:click="setTipSortBy('latest')" v-bind:class="{ active: tipSortBy === 'latest' }">
+                <a
+                  v-on:click="setTipSortBy('latest')"
+                  v-bind:class="{ active: tipSortBy === 'latest' }"
+                >
                   {{$t('pages.Home.SortingLatest')}}
                 </a>
-                <a v-on:click="setTipSortBy('highest')" v-bind:class="{ active: tipSortBy === 'highest' }">
+                <a
+                  v-on:click="setTipSortBy('highest')"
+                  v-bind:class="{ active: tipSortBy === 'highest' }"
+                >
                   {{$t('pages.Home.SortingHighestRated')}}
                 </a>
               </div>
             </div>
           </div>
-          <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :fiatValue="tip.fiatValue"
-                      :senderLink="openExplorer(tip.sender)"></tip-record>
+          <tip-record
+            v-for="(tip,index) in filteredTips"
+            :key="index"
+            :tip="tip"
+            :fiatValue="tip.fiatValue"
+            :senderLink="openExplorer(tip.sender)"
+          />
         </div>
       </div>
-      <div class="no-results text-center" v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0">
+      <div
+        class="no-results text-center"
+        v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0"
+      >
         {{$t('pages.Home.NoResultsMsg')}}
       </div>
     </div>
@@ -43,89 +67,87 @@
 </template>
 
 <script>
-  import Dropdown from "../components/Dropdown.vue"
+import { mapGetters, mapActions } from 'vuex';
 
-  import TipRecord from "../components/tipRecords/TipRecord.vue"
-  import SendTip from "../components/layout/SendTip.vue"
-  import LeftSection from '../components/layout/LeftSection.vue';
-  import RightSection from '../components/layout/RightSection.vue';
-  import { mapGetters, mapActions } from 'vuex';
-  import {EventBus} from '../utils/eventBus';
-  import FiatValue from '../components/FiatValue.vue';
-  import Loading from "../components/Loading";
+import TipRecord from '../components/tipRecords/TipRecord.vue';
+import SendTip from '../components/layout/SendTip.vue';
+import LeftSection from '../components/layout/LeftSection.vue';
+import RightSection from '../components/layout/RightSection.vue';
+import { EventBus } from '../utils/eventBus';
+import Loading from '../components/Loading.vue';
 
-  export default {
-    name: 'TipsList',
-    data() {
-      return {
-        explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
-        searchTerm: '',
-        activeLang: 'en',
-        languagesOptions: [
-          { value: 'en', text: 'English' },
-          { value: 'zh', text: 'Chinese' },
-        ]
+export default {
+  name: 'TipsList',
+  data() {
+    return {
+      explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
+      searchTerm: '',
+      activeLang: 'en',
+      languagesOptions: [
+        { value: 'en', text: 'English' },
+        { value: 'zh', text: 'Chinese' },
+      ],
+    };
+  },
+  computed: {
+    ...mapGetters(['tips', 'tipsOrdering', 'tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
+    filteredTips() {
+      if (this.searchTerm.trim().length === 0) {
+        return this.tips;
       }
-    },
-    computed: {
-      ...mapGetters(['tips', 'tipsOrdering', 'tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
-      filteredTips() {
-        if (this.searchTerm.trim().length === 0) {
-          return this.tips
+      const term = this.searchTerm.toLowerCase();
+
+      const urlSearchResults = this.tips.filter((tip) => {
+        if (typeof tip.url !== 'undefined') {
+          return tip.url.toLowerCase().includes(term);
         }
-        let term = this.searchTerm.toLowerCase();
-
-        let urlSearchResults = this.tips.filter(tip => {
-          if (typeof tip.url !== 'undefined') {
-            return tip.url.toLowerCase().includes(term)
-          }
-          return false
-        })
-        let senderSearchResults = this.tips.filter(tip => {
-          if (typeof tip.sender !== 'undefined') {
-            return tip.sender.toLowerCase().includes(term)
-          }
-          return false
-        })
-        let noteSearchResults = this.tips.filter(tip => {
-          if (typeof tip.title !== 'undefined') {
-            return tip.title.toLowerCase().includes(term)
-          }
-          return false
-        })
-        //We convert the result array to Set in order to remove duplicate records
-        let convertResultToSet = new Set([...urlSearchResults, ...senderSearchResults, ...noteSearchResults]);
-        return [...convertResultToSet];
-      }
-    },
-    methods: {
-      ...mapActions(['setTipSortBy']),
-      onSearchTopic (data) {
-        this.searchTerm = data;
-      },
-      openExplorer(address) {
-        return this.explorerUrl + address
-      }
-    },
-    components: {
-      Loading,
-      Dropdown,
-      TipRecord,
-      LeftSection,
-      RightSection,
-      FiatValue,
-      SendTip,
-    },
-    async created() {
-      EventBus.$on("searchTopic", (topic) => {
-        this.onSearchTopic(topic);
+        return false;
       });
-
-      if(this.$route.query.searchTopicPhrase){
-        this.onSearchTopic(this.$route.query.searchTopicPhrase);
-      }
+      const senderSearchResults = this.tips.filter((tip) => {
+        if (typeof tip.sender !== 'undefined') {
+          return tip.sender.toLowerCase().includes(term);
+        }
+        return false;
+      });
+      const noteSearchResults = this.tips.filter((tip) => {
+        if (typeof tip.title !== 'undefined') {
+          return tip.title.toLowerCase().includes(term);
+        }
+        return false;
+      });
+      // We convert the result array to Set in order to remove duplicate records
+      const convertResultToSet = new Set(
+        [...urlSearchResults, ...senderSearchResults, ...noteSearchResults],
+      );
+      return [...convertResultToSet];
     },
-  }
+  },
+  methods: {
+    ...mapActions(['setTipSortBy']),
+    onSearchTopic(data) {
+      this.searchTerm = data;
+    },
+    openExplorer(address) {
+      return this.explorerUrl + address;
+    },
+  },
+  components: {
+    Loading,
+    TipRecord,
+    LeftSection,
+    RightSection,
+    SendTip,
+  },
+  async created() {
+    EventBus.$on('searchTopic', (topic) => {
+      this.onSearchTopic(topic);
+    });
+
+    if (this.$route.query.searchTopicPhrase) {
+      this.onSearchTopic(this.$route.query.searchTopicPhrase);
+    }
+  },
+};
 </script>
 
 
@@ -283,7 +305,7 @@
         top: 4.45rem;
         padding-top: 0;
         padding-bottom: 0;
-      }  
+      }
       .container,.row{
         padding: 0;
       }

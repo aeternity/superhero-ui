@@ -1,50 +1,33 @@
 import { wrapTry } from './util';
+import { BACKEND_URL, MAINNET_URL } from '../config/constants';
 
 export default class Backend {
+  tipOrder = async () => wrapTry(async () => fetch(`${BACKEND_URL}/tiporder`));
 
-  BACKEND_URL;
-  MAINNET_URL;
+  tipPreview = async () => wrapTry(async () => fetch(`${BACKEND_URL}/linkpreview`));
 
-  constructor() {
-    this.BACKEND_URL = typeof Cypress !== 'undefined' ? 'http://localhost' : "https://raendom-backend.z52da5wt.xyz";
-    this.MAINNET_URL = 'https://mainnet.aeternal.io/'
-  }
+  getLangTips = async (lang = 'en') => wrapTry(async () => fetch(`${BACKEND_URL}/language/${lang}`));
 
-  tipOrder = async () => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/tiporder`);
-  });
-  tipPreview = async () => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/linkpreview`);
-  });
-  getLangTips = async (lang = 'en') => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/language/${lang}`);
-  });
-  getTipComments = async (tipId) => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/comment/api/tip/${encodeURIComponent(tipId)}`);
-  });
-  sendTipComment = async (postParam) => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/comment/api/`, {
-      method: 'post',
-      body: JSON.stringify(postParam),
-      headers: {"Content-Type": "application/json"}
-    });
-  });
-  getAllComments = async () => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/comment/api/`);
-  });
-  getProfile = async (address) => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/profile/${address}`);
-  });
-  sendProfileData = async (postParam) => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/profile`, {
-      method: 'post',
-      body: JSON.stringify(postParam),
-      headers: {"Content-Type": "application/json"}
-    });
-  });
-  getProfileImage = async (address) => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/profile/image/${address}`);
-  });
+  getTipComments = async (tipId) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/tip/${encodeURIComponent(tipId)}`));
+
+  sendTipComment = async (postParam) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/`, {
+    method: 'post',
+    body: JSON.stringify(postParam),
+    headers: { 'Content-Type': 'application/json' },
+  }));
+
+  getAllComments = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/`));
+
+  getProfile = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/profile/${address}`));
+
+  sendProfileData = async (postParam) => wrapTry(async () => fetch(`${BACKEND_URL}/profile`, {
+    method: 'post',
+    body: JSON.stringify(postParam),
+    headers: { 'Content-Type': 'application/json' },
+  }));
+
+  getProfileImage = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/profile/image/${address}`));
+
   setProfileImage = async (address, data, image = true) => wrapTry(async () => {
     let request = {
       method: 'post',
@@ -52,18 +35,16 @@ export default class Backend {
     }
     Object.assign(request, !image && { headers: {'Content-Type': 'application/json'} });
     console.log(request)
-    return fetch(`${this.BACKEND_URL}/profile/image/${address}`, request);
+    return fetch(`${BACKEND_URL}/profile/image/${address}`, request);
   });
-  getStats = async () => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/static/stats/`);
-  });
-  getChainNameFromAddress = async () => wrapTry(async () => {
-    return fetch(`${this.MAINNET_URL}/middleware/names/active`);
-  });
-  getCommentCounts = async () => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/comment/count/tips/`);
-  });
-  getCommentCountForAddress = async (address) => wrapTry(async () => {
-    return fetch(`${this.BACKEND_URL}/comment/count/author/${address}`);
-  });
+
+  getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
+
+  getChainNameFromAddress = async () => wrapTry(async () => fetch(`${MAINNET_URL}/middleware/names/active`));
+
+  getCommentCounts = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/tips/`));
+
+  getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));
+
+  static getTipPreviewUrl = (previewLink) => `${BACKEND_URL}${previewLink}`;
 }

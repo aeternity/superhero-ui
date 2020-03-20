@@ -12,7 +12,11 @@
           <img class="mr-3 avatar" src="../assets/userAvatar.svg">
           <div class="input-group">
             <input type="text" placeholder="Add comment" v-model="comment" class="form-control">
-            <b-button size="sm" @click="sendTipComment()" :disabled="comment.length === 0 || showLoading">
+            <b-button
+              size="sm"
+              @click="sendTipComment()"
+              :disabled="comment.length === 0 || showLoading"
+            >
               {{$t('system.Send')}}
             </b-button>
           </div>
@@ -20,9 +24,15 @@
 
     </div>
     <div class="comments__section">
-      <div class="no-results text-center w-100" v-bind:class="[error ? 'error' : '']" v-if="comments.length === 0 && !showLoading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
+      <div
+        class="no-results text-center w-100"
+        v-bind:class="[error ? 'error' : '']"
+        v-if="comments.length === 0 && !showLoading"
+      >
+        {{$t('pages.TipComments.NoResultsMsg')}}
+      </div>
 
-      <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment"></tip-comment>
+      <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" />
       <div class="text-center w-100 mt-3" v-if="showLoading">
         <loading :show-loading="true" />
       </div>
@@ -32,88 +42,88 @@
 </template>
 
 <script>
-  import Backend from "../utils/backend";
-  import TipRecord from "../components/tipRecords/TipRecord.vue"
-  import TipComment from "../components/tipRecords/TipComment.vue"
-  import LeftSection from '../components/layout/LeftSection.vue';
-  import RightSection from '../components/layout/RightSection.vue';
-  import { mapGetters } from 'vuex';
-  import { wallet } from '../utils/walletSearch';
-  import Loading from "../components/Loading";
+import { mapGetters } from 'vuex';
+import Backend from '../utils/backend';
+import TipRecord from '../components/tipRecords/TipRecord.vue';
+import TipComment from '../components/tipRecords/TipComment.vue';
+import LeftSection from '../components/layout/LeftSection.vue';
+import RightSection from '../components/layout/RightSection.vue';
+import { wallet } from '../utils/walletSearch';
+import Loading from '../components/Loading.vue';
 
-  const backendInstance = new Backend();
+const backendInstance = new Backend();
 
-  export default {
-    name: 'TipCommentsView',
-    components: {
-      Loading,
-      TipRecord,
-      TipComment,
-      LeftSection,
-      RightSection,
+export default {
+  name: 'TipCommentsView',
+  components: {
+    Loading,
+    TipRecord,
+    TipComment,
+    LeftSection,
+    RightSection,
+  },
+  data() {
+    return {
+      id: this.$route.params.id,
+      showLoading: true,
+      comments: [],
+      error: false,
+      comment: '',
+    };
+  },
+  computed: {
+    ...mapGetters(['tips', 'settings', 'account', 'chainNames']),
+    tip() {
+      return this.tips.find((x) => x.id === parseInt(this.id, 10));
     },
-    data() {
-      return {
-        id: this.$route.params.id,
-        showLoading: true,
-        comments: [],
-        error: false,
-        comment: ''
-      }
-    },
-    computed: {
-      ...mapGetters(['tips', 'settings', 'account', 'chainNames']),
-      tip() {
-        return this.tips.find(x => x.id === parseInt(this.id));
-      }
-    },
-    watch: {
-      tip() {
-        this.updateTip();
-      }
-    },
-    methods: {
-      async sendTipComment() {
-        this.showLoading = true;
-
-        let postData = {
-          tipId: this.tip.id,
-          text: this.comment,
-          author: wallet.client.rpcClient.getCurrentAccount(),
-        };
-
-        const responseChallenge = await backendInstance.sendTipComment(postData);
-        let signedChallenge = await wallet.signMessage(responseChallenge.challenge);
-        let respondChallenge = {
-          challenge: responseChallenge.challenge,
-          signature: signedChallenge
-        };
-
-        const response = await backendInstance.sendTipComment(respondChallenge);
-        this.comments.push(response);
-
-        this.showLoading = false;
-        this.comment = '';
-      },
-      updateTip() {
-        backendInstance.getTipComments(this.id).then((response) => {
-          this.error = false;
-          this.comments = response.map(comment => {
-            comment.chainName = this.chainNames[comment.author];
-            return comment;
-          });
-          this.showLoading = false;
-        }).catch(e => {
-          console.error(e);
-          this.error = true;
-          this.showLoading = false;
-        });
-      }
-    },
-    created(){
+  },
+  watch: {
+    tip() {
       this.updateTip();
-    }
-  }
+    },
+  },
+  methods: {
+    async sendTipComment() {
+      this.showLoading = true;
+
+      const postData = {
+        tipId: this.tip.id,
+        text: this.comment,
+        author: wallet.client.rpcClient.getCurrentAccount(),
+      };
+
+      const responseChallenge = await backendInstance.sendTipComment(postData);
+      const signedChallenge = await wallet.signMessage(responseChallenge.challenge);
+      const respondChallenge = {
+        challenge: responseChallenge.challenge,
+        signature: signedChallenge,
+      };
+
+      const response = await backendInstance.sendTipComment(respondChallenge);
+      this.comments.push(response);
+      this.showLoading = false;
+      this.comment = '';
+    },
+    updateTip() {
+      backendInstance.getTipComments(this.id).then((response) => {
+        this.error = false;
+        this.comments = response.map((comment) => {
+          const newComment = comment;
+          newComment.chainName = this.chainNames[newComment.author];
+          return newComment;
+        });
+        this.showLoading = false;
+      }).catch((e) => {
+        console.error(e);
+        this.error = true;
+        this.showLoading = false;
+      });
+    },
+  },
+  created() {
+    this.updateTip();
+  },
+};
 </script>
 
 
@@ -158,7 +168,6 @@
   }
   .comments__section{
     background-color: $actions_ribbon_background_color;
-    overflow-y: auto;
     padding: 1rem;
   }
   .no-results{

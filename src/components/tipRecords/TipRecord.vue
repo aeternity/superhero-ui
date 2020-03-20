@@ -19,7 +19,7 @@
       <div class="tip__article position-relative" v-if="isPreviewToBeVisualized(tip)">
         <a :href="tip.url" target="_blank" v-on:click.stop>
         <div class="tip__article--hasresults">
-          <img v-bind:src="tip.preview.image" class="mr-2">
+          <img :src="tipPreviewImage" class="mr-2">
           <span>
             {{tipText}}
           </span>
@@ -38,10 +38,12 @@
             <fiat-value :amount="tip.amount_ae"></fiat-value>
             <span class="ml-4 retip__wrapper" v-on:click.stop>
               <retip :tipid="tip.id" :retip-icon="true"/>
-              <ae-amount :amount="tip.retip_amount_ae" :round="2"></ae-amount><span class="ae">AE</span>
+              <ae-amount :amount="tip.retip_amount_ae" :round="2" /><span class="ae">AE</span>
               <fiat-value :amount="tip.retip_amount_ae"></fiat-value>
             </span>
-            <span @click="goToTip(tip.id)" class="ml-4"><img src="../../assets/commentsIcon.svg"></span>
+            <span @click="goToTip(tip.id)" class="ml-4">
+              <img src="../../assets/commentsIcon.svg">
+            </span>
             <span>{{tip.commentCount}}</span>
           </div>
         </div>
@@ -55,6 +57,7 @@ import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
 import Retip from '../Retip.vue';
 import TipTitle from './TipTitle.vue';
+import Backend from '../../utils/backend';
 
 export default {
   name: 'TipRecord',
@@ -69,6 +72,9 @@ export default {
     tipText() {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
       return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
+    },
+    tipPreviewImage() {
+      return this.isPreviewToBeVisualized(this.tip) ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
   },
   methods: {
@@ -199,19 +205,39 @@ export default {
           background-color: $thumbnail_background_color;
           padding: 0;
           margin-left: 1rem;
-          border-top-right-radius: .5rem;
-          border-bottom-right-radius: .5rem;
+          border-radius: .5rem;
           margin-right: 1rem;
+          background-image: url("../../assets/headerLogo.svg");
+          background-position: 4rem center;
+          background-repeat: no-repeat;
+          overflow: hidden;
+          height: 9rem;
+
           &:hover{
             cursor: pointer;
           }
           img{
+            background-color: $thumbnail_background_color;
+            content: ' ';
             width: 50%;
             float: left;
-            height: 9rem;
-            border-top-left-radius: .5rem;
-            border-bottom-left-radius: .5rem;
             object-fit: cover;
+            min-height: 1px;
+
+            // these styles apply to broken images
+            &:-moz-broken {
+              opacity: 0;
+            }
+            // chrome (Note: putting height on img will render a silver border)
+            &::after {
+              background: inherit;
+              content: ' ';
+              height: 18px;
+              left: 0;
+              position: absolute;
+              top: 0;
+              width: 18px;
+            }
           }
           span{
             color: $tip_note_color;

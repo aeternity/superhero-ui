@@ -23,14 +23,14 @@
 </template>
 
 <script>
-  export default {
-    name: 'TipComment',
-    props: ['comment', 'userChainName'],
-    data() {
-      return {
-      }
-    }
-  }
+export default {
+  name: 'TipComment',
+  props: ['comment', 'userChainName'],
+  data() {
+    return {
+    };
+  },
+};
 </script>
 
 

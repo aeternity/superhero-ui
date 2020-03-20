@@ -19,7 +19,7 @@
       <div class="tip__article position-relative" v-if="isPreviewToBeVisualized(tip)">
         <a :href="tip.url" target="_blank" v-on:click.stop>
         <div class="tip__article--hasresults">
-          <img v-bind:src="tip.preview.image" class="mr-2">
+          <img :src="tipPreviewImage" class="mr-2">
           <div class="tip__article__content">
             <h2 class="title text-ellipsis" 
               :title="tipPreviewTitle">
@@ -49,10 +49,12 @@
             <fiat-value :amount="tip.amount_ae"></fiat-value>
             <span class="ml-4 retip__wrapper" v-on:click.stop>
               <retip :tipid="tip.id" :retip-icon="true"/>
-              <ae-amount :amount="tip.retip_amount_ae" :round="2"></ae-amount><span class="ae">AE</span>
+              <ae-amount :amount="tip.retip_amount_ae" :round="2" /><span class="ae">AE</span>
               <fiat-value :amount="tip.retip_amount_ae"></fiat-value>
             </span>
-            <span @click="goToTip(tip.id)" class="ml-4"><img src="../../assets/commentsIcon.svg"></span>
+            <span @click="goToTip(tip.id)" class="ml-4">
+              <img src="../../assets/commentsIcon.svg">
+            </span>
             <span>{{tip.commentCount}}</span>
           </div>
         </div>
@@ -66,6 +68,7 @@ import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
 import Retip from '../Retip.vue';
 import TipTitle from './TipTitle.vue';
+import Backend from '../../utils/backend';
 
 export default {
   name: 'TipRecord',
@@ -91,7 +94,10 @@ export default {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
 
       return this.tip.preview.responseUrl ? new URL(this.tip.preview.responseUrl).hostname : '';
-    }
+    },
+    tipPreviewImage() {
+      return this.isPreviewToBeVisualized(this.tip) ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
+    },
   },
   methods: {
     isPreviewToBeVisualized(tip) {

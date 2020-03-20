@@ -3,7 +3,7 @@
     <div class="content">
       <div class="section wallet-install" :class="{ active: !isLoggedIn }" v-if="!loading.wallet">
         <div class="section__title">
-          <img src="../../assets/iconWallet.svg">
+          <img src="../../assets/iconWallet.svg" />
           Wallet
         </div>
         <div class="section__body clearfix">
@@ -12,19 +12,22 @@
       </div>
       <div class="section trending">
         <div class="section__title">
-          <img src="../../assets/iconTrending.svg">
+          <img src="../../assets/iconTrending.svg" />
           Trending
         </div>
-        <div class="section__body topics-section" :class="{ active: topics.length > 0 }" v-if="!loading.tips">
-          <div class="section__item" v-for="([topic, data]) in topics">
+        <div
+          class="section__body topics-section"
+          :class="{ active: topics.length > 0 }"
+          v-if="!loading.tips"
+        >
+          <div class="section__item" v-for="([topic, data], idx) in topics" :key="idx">
             <div class="topic-container text-ellipsis">
-            <topic :topic="topic" />
-          </div>
+              <topic :topic="topic" />
+            </div>
             <div>
               <span class="value">
                 <ae-amount :amount="data.amount" :round="2"></ae-amount>
               </span>
-              <span class="ae">AE</span>
               <fiat-value :amount="data.amount"></fiat-value>
             </div>
           </div>
@@ -161,7 +164,6 @@ export default {
         color: $standard_font_color;
       }
     }
-
     .wallet-install {
       display: none;
       margin-bottom: 0;

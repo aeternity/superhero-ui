@@ -1,4 +1,5 @@
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
+/* eslint-disable global-require */
 
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
@@ -10,10 +11,10 @@ const fallbackLocale = 'en';
 
 export const i18n = new VueI18n({
   locale: fallbackLocale,
-  fallbackLocale: fallbackLocale,
+  fallbackLocale,
   formatFallbackMessages: true,
-  messages: { en }
-})
+  messages: { en },
+});
 
 export const langs = {
   en: {
@@ -21,7 +22,7 @@ export const langs = {
   },
   zh: {
     getMessages: () => require(/* webpackChunkName: "locale-en" */ '../locales/zh.json'),
-  }
+  },
 };
 
 

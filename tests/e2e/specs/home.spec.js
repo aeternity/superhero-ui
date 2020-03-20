@@ -1,5 +1,4 @@
-describe('Home.vue', function () {
-
+describe('Home.vue', () => {
   describe('overall view', () => {
     before(() => {
       cy.visit('/');
@@ -28,7 +27,7 @@ describe('Home.vue', function () {
     });
 
     it('Created tip should be visible', () => {
-      cy.contains(randomString, {timeout: 10000}).should('be.visible');
+      cy.contains(randomString, { timeout: 10000 }).should('be.visible');
     });
 
     it('Tip should navigate to SingleTipView', () => {

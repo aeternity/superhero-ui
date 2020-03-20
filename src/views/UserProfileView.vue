@@ -2,7 +2,7 @@
   <div>
     <right-section></right-section>
     <left-section></left-section>
-    <loading class="mt-5" v-if="loading.wallet || loading.initial" :show-loading="true"/>
+    <loading class="mt-5" v-if="loading.wallet || loading.initial" :show-loading="true" />
     <div v-else>
     <div class="container profile__page">
       <div class="profile__section clearfix position-relative">
@@ -13,7 +13,14 @@
         </div>
         <div class="row" :class="[showLoadingProfile ? 'invisible' : '']">
           <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
-            <a class="edit__button button small" @click="toggleEditMode()" v-if="!editMode && isMyUserProfile" title="Edit Profile">Edit Profile</a>
+            <a
+              class="edit__button button small"
+              @click="toggleEditMode()"
+              v-if="!editMode && isMyUserProfile"
+              title="Edit Profile"
+            >
+              Edit Profile
+            </a>
             <div class="profile__image position-relative" >
               <div class="overlay" v-if="showLoadingAvatar"></div>
               <div class="text-center spinner__container w-100" v-if="showLoadingAvatar">
@@ -21,23 +28,48 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </div>
-              <!-- <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" :class="[showLoadingAvatar ? 'blurred' : '']"> -->
+              <!--
+                <label
+                  for="file-input"
+                  v-if="editMode"
+                  class="position-relative profile__image--edit"
+                  :class="[showLoadingAvatar ? 'blurred' : '']"
+                >
+              -->
                 <a :href="openExplorer(address)" target="_blank" v-if="!editMode" :title="address">
-                  <img :src="avatar"/>
+                  <img :src="avatar" />
                 </a>
                 <!-- <div>Change Avatar</div> -->
               <!-- </label> -->
               <!-- <div :class="[showLoadingAvatar ? 'blurred' : '']">
                 <img :src="avatar" v-if="!editMode">
               </div> -->
-              <!-- <input id="file-input" type="file" name="avatar" v-if="editMode" accept="image/png, image/jpeg"> -->
+              <!--
+                <input
+                  id="file-input"
+                  type="file"
+                  name="avatar"
+                  v-if="editMode"
+                  accept="image/png, image/jpeg"
+                >
+              -->
             </div>
             <div class="profile__info">
               <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
               <!-- <div class="input-group" v-if="editMode">
-                <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
+                <input
+                  type="text"
+                  v-model="profile.displayName"
+                  class="form-control"
+                  placeholder="Edit Display Name"
+                >
               </div> -->
-              <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address">
+              <a
+                class="profile__username"
+                target="_blank"
+                :href="openExplorer(address)"
+                v-if="!editMode" :title="address"
+              >
                 <span class="chain"  v-if="userChainName">{{userChainName}}</span>
                 <span v-else>{{address}}</span>
               </a>
@@ -45,10 +77,17 @@
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
             <div class="input-group" v-if="editMode">
-              <textarea class="form-control" v-model="profile.biography" rows="3" placeholder="Edit Biography"></textarea>
+              <textarea
+                class="form-control"
+                v-model="profile.biography"
+                rows="3"
+                placeholder="Edit Biography"
+              />
             </div>
             <div class="mt-2 mb-2" v-if="editMode">
-              <button type="button" @click="resetEditedValues()" class="btn btn-dark mr-2">Cancel</button>
+              <button type="button" @click="resetEditedValues()" class="btn btn-dark mr-2">
+                Cancel
+              </button>
               <button type="button" @click="saveProfile()" class="btn btn-dark">Save</button>
             </div>
           </div>
@@ -65,7 +104,10 @@
           </div>
           <div class="stat">
             <div class="stat-title">Total Sent Amount</div>
-            <div class="stat-value">{{userStats.totalTipAmount}} AE<fiat-value :amount="userStats.totalTipAmount" /></div>
+            <div class="stat-value">
+              {{userStats.totalTipAmount}} AE
+              <fiat-value :amount="userStats.totalTipAmount" />
+            </div>
           </div>
           <div class="stat">
             <div class="stat-title">Comments</div>
@@ -77,17 +119,28 @@
           </div>
           <div class="stat">
             <div class="stat-title">Unclaimed Amount</div>
-            <div class="stat-value">{{userStats.unclaimedAmount}} AE<fiat-value :amount="userStats.unclaimedAmount" /></div>
+            <div class="stat-value">
+              {{userStats.unclaimedAmount}} AE
+              <fiat-value :amount="userStats.unclaimedAmount" />
+            </div>
           </div>
         </div>
 
       </div>
         <div class="profile__actions">
           <a :class="{ active: activeTab === 'tips' }" @click="setActiveTab('tips')">Tips</a>
-          <a :class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">Comments</a>
+          <a :class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">
+            Comments
+          </a>
         </div>
       <div class="comments__section position-relative">
-        <div class="no-results text-center w-100 mt-3" :class="[error ? 'error' : '']" v-if="showNoResultsMsg">{{'There is no activity to display.'}}</div>
+        <div
+          class="no-results text-center w-100 mt-3"
+          :class="[error ? 'error' : '']"
+          v-if="showNoResultsMsg"
+        >
+          {{'There is no activity to display.'}}
+        </div>
           <div v-if="activeTab === 'tips'">
             <div v-if="userTips.length">
               <tip-record v-for="(tip,index) in userTips"
@@ -99,7 +152,13 @@
             </div>
           </div>
           <div v-if="activeTab === 'comments'">
-            <tip-comment v-for="(comment, index) in comments" :key="index" :userChainName="userChainName"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
+            <tip-comment
+              v-for="(comment, index) in comments"
+              :key="index"
+              :userChainName="userChainName"
+              :comment="comment"
+              :senderLink="openExplorer(comment.author)"
+            />
           </div>
         <div class="mt-3" v-if="showLoading || loading.tips">
           <loading :show-loading="true" />
@@ -111,147 +170,153 @@
 </template>
 
 <script>
-  import Backend from "../utils/backend";
-  import TipRecord from "../components/tipRecords/TipRecord.vue"
-  import TipComment from "../components/tipRecords/TipComment.vue"
-  import LeftSection from '../components/layout/LeftSection.vue';
-  import RightSection from '../components/layout/RightSection.vue';
-  import { mapGetters } from 'vuex';
-  import { wallet } from '../utils/walletSearch';
-  import FiatValue from "../components/FiatValue";
-  import BigNumber from 'bignumber.js';
-  import Util from '../utils/util';
-  import Loading from "../components/Loading";
-  import avatar from '../assets/userAvatar.svg';
+import { mapGetters } from 'vuex';
+import BigNumber from 'bignumber.js';
+import Backend from '../utils/backend';
+import TipRecord from '../components/tipRecords/TipRecord.vue';
+import TipComment from '../components/tipRecords/TipComment.vue';
+import LeftSection from '../components/layout/LeftSection.vue';
+import RightSection from '../components/layout/RightSection.vue';
+import { wallet } from '../utils/walletSearch';
+import FiatValue from '../components/FiatValue.vue';
+import Util from '../utils/util';
+import Loading from '../components/Loading.vue';
 
-  const backendInstance = new Backend();
+const backendInstance = new Backend();
 
-  export default {
-    props: ['address'],
-    name: 'TipCommentsView',
-    components: {
-      Loading,
-      FiatValue,
-      TipComment,
-      LeftSection,
-      RightSection,
-      TipRecord
+export default {
+  props: ['address'],
+  name: 'TipCommentsView',
+  components: {
+    Loading,
+    FiatValue,
+    TipComment,
+    LeftSection,
+    RightSection,
+    TipRecord,
+  },
+  data() {
+    return {
+      explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
+      tip: this.tipData,
+      showLoading: false,
+      comments: [],
+      error: false,
+      userName: this.address,
+      editingDisplayName: '',
+      editingDescription: '',
+      editMode: false,
+      showLoadingProfile: false,
+      showLoadingAvatar: false,
+      activeTab: 'tips',
+      userCommentCount: 0,
+      profile: {
+        biography: '',
+        displayName: '',
+      },
+      avatar: '../assets/userAvatar.svg',
+    };
+  },
+  computed: {
+    ...mapGetters(['current', 'account', 'tips', 'oracleState', 'chainNames', 'loading']),
+    userTips() {
+      return this.tips.filter((tip) => tip.sender === this.address);
     },
-     data() {
+    userStats() {
+      const userReTips = this.tips
+        .flatMap((tip) => tip.retips.filter((retip) => retip.sender === this.address));
+      const totalTipAmount = Util.atomsToAe(this.userTips
+        .reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0))
+        .plus(userReTips.reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0)))).toFixed(2);
+
+      const claimedUrls = this.oracleState.success_claimed_urls
+        ? this.oracleState.success_claimed_urls
+          .filter(([, data]) => data.success && data.account === this.address).map(([url]) => url)
+        : [];
+      const unclaimedAmount = this.tips
+        .reduce((acc, tip) => (claimedUrls.includes(tip.url)
+          ? acc.plus(tip.total_unclaimed_amount)
+          : acc),
+        new BigNumber(0));
+
       return {
-        explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
-        tip: this.tipData,
-        showLoading: false,
-        comments: [],
-        error: false,
-        userName: this.address,
-        editingDisplayName: '',
-        editingDescription: '',
-        editMode: false,
-        showLoadingProfile: false,
-        showLoadingAvatar: false,
-        activeTab: 'tips',
-        userCommentCount: 0,
-        profile: {
-          biography: '',
-          displayName: ''
-        },
-        avatar,
-      }
+        tipsLength: this.userTips.length,
+        retipsLength: userReTips.length,
+        totalTipAmount,
+        claimedUrlsLength: claimedUrls.length,
+        unclaimedAmount,
+        userComments: this.userCommentCount,
+      };
     },
-    computed: {
-      ...mapGetters(['current', 'account', 'tips', 'oracleState', 'chainNames', 'loading']),
-      userTips() {
-        return this.tips.filter(tip => tip.sender === this.address);
-      },
-      userStats() {
-        const userReTips = this.tips.flatMap(tip => tip.retips.filter(retip => retip.sender === this.address));
-        const totalTipAmount = Util.atomsToAe(this.userTips
-          .reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0))
-          .plus(userReTips.reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0)))).toFixed(2);
-
-        const claimedUrls = this.oracleState.success_claimed_urls ? this.oracleState.success_claimed_urls.filter(([_, data]) => data.success && data.account === this.address).map(([url]) => url) : [];
-        const unclaimedAmount = this.tips.reduce((acc, tip) => claimedUrls.includes(tip.url) ? acc.plus(tip.total_unclaimed_amount) : acc, new BigNumber(0));
-
-        return {
-          tipsLength: this.userTips.length,
-          retipsLength: userReTips.length,
-          totalTipAmount: totalTipAmount,
-          claimedUrlsLength: claimedUrls.length,
-          unclaimedAmount : unclaimedAmount,
-          userComments : this.userCommentCount
-        };
-      },
-      isMyUserProfile() {
-        return this.account === this.address;
-      },
-      userChainName(){
-        return this.chainNames[this.address];
-      },
-      showNoResultsMsg() {
-        if (this.activeTab === 'comments') {
-          return this.comments.length === 0 && !this.showLoading && !this.loading.tips
-        } else {
-          return this.userTips.length === 0 && !this.showLoading && !this.loading.tips
-        }
-      }
+    isMyUserProfile() {
+      return this.account === this.address;
     },
-    methods: {
-      setActiveTab(tab){
-        this.activeTab = tab;
-      },
-      openExplorer(address) {
-        return this.explorerUrl + address
-      },
-      toggleEditMode(){
-        this.editMode = !this.editMode;
-      },
-      resetEditedValues(){
-        this.getProfile();
-        this.toggleEditMode();
-      },
-      async saveProfile() {
-        let postData = {
-          biography: this.profile.biography,
-          author: wallet.client.rpcClient.getCurrentAccount(),
-        };
-
-        const response = await backendInstance.sendProfileData(postData);
-        let signedChallenge = await wallet.signMessage(response.challenge);
-        let respondChallenge = {
-          challenge: response.challenge,
-          signature: signedChallenge
-        };
-
-        await backendInstance.sendProfileData(respondChallenge);
-        this.resetEditedValues();
-      },
-      getProfile() {
-        // backendInstance.getProfileImage(this.address).then((response) => {}).catch(console.error);
-
-        backendInstance.getCommentCountForAddress(this.address).then(userComment => {
-          this.userCommentCount = userComment.count
-        }).catch(console.error);
-
-        backendInstance.getProfile(this.address).then(profile => {
-            this.profile = profile;
-        }).catch(console.error);
-      }
+    userChainName() {
+      return this.chainNames[this.address];
     },
-   async created(){
+    showNoResultsMsg() {
+      if (this.activeTab === 'comments') {
+        return this.comments.length === 0 && !this.showLoading && !this.loading.tips;
+      }
+      return this.userTips.length === 0 && !this.showLoading && !this.loading.tips;
+    },
+  },
+  methods: {
+    setActiveTab(tab) {
+      this.activeTab = tab;
+    },
+    openExplorer(address) {
+      return this.explorerUrl + address;
+    },
+    toggleEditMode() {
+      this.editMode = !this.editMode;
+    },
+    resetEditedValues() {
       this.getProfile();
-      this.showLoading = true;
-      backendInstance.getAllComments().then(allComments => {
-        this.showLoading = false;
-        this.error = false;
-        this.comments = allComments.filter(comment => comment.author === this.address);
-      }).catch(e => {
-        console.error(e);
-        this.error = true;
-        this.showLoading = false;
-      });
-    }
-  }
+      this.toggleEditMode();
+    },
+    async saveProfile() {
+      const postData = {
+        biography: this.profile.biography,
+        author: wallet.client.rpcClient.getCurrentAccount(),
+      };
+
+      const response = await backendInstance.sendProfileData(postData);
+      const signedChallenge = await wallet.signMessage(response.challenge);
+      const respondChallenge = {
+        challenge: response.challenge,
+        signature: signedChallenge,
+      };
+
+      await backendInstance.sendProfileData(respondChallenge);
+      this.resetEditedValues();
+    },
+    getProfile() {
+      // backendInstance.getProfileImage(this.address).then((response) => {}).catch(console.error);
+
+      backendInstance.getCommentCountForAddress(this.address).then((userComment) => {
+        this.userCommentCount = userComment.count;
+      }).catch(console.error);
+
+      backendInstance.getProfile(this.address).then((profile) => {
+        this.profile = profile;
+      }).catch(console.error);
+    },
+  },
+  async created() {
+    this.getProfile();
+    this.showLoading = true;
+    backendInstance.getAllComments().then((allComments) => {
+      this.showLoading = false;
+      this.error = false;
+      this.comments = allComments.filter((comment) => comment.author === this.address);
+    }).catch((e) => {
+      console.error(e);
+      this.error = true;
+      this.showLoading = false;
+    });
+  },
+};
 </script>
 
 
@@ -462,7 +527,7 @@
               font-size: .6rem;
             }
           }
-        } 
+        }
         .profile__image img{
           width: 4rem;
           height: 4rem;

@@ -27,7 +27,6 @@
     <div class="overview__item" v-if="stats.total_amount">
       <div class="overview__value secondary">
         <ae-amount :amount="stats.total_amount" :round="2"/>
-        <span class="currency secondary"> AE</span>
       </div>
       <div class="overview__value" v-if="stats.total_amount">
         <fiat-value :amount="stats.total_amount" :withoutBrackets="true"/>
@@ -84,8 +83,9 @@ export default {
       padding-bottom: 0;
     }
 
-    .currency, .currency-sign {
+    .currency, .currency-sign, .ae {
       font-size: .8rem;
+      padding-left: .25rem;
     }
   }
 

@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 import { getters } from './getters';
 import mutations from './mutations';
 import actions from './actions';
-import persistState from './plugins/persistState'
+import persistState from './plugins/persistState';
 
 Vue.use(Vuex);
 
@@ -20,25 +20,25 @@ export default new Vuex.Store({
     topics: {},
     stats: {},
     tipsOrdering: false,
-    tipSortBy: "highest",
+    tipSortBy: 'highest',
     isLoggedIn: false,
     oracleState: {},
     loading: {
       tips: false,
       wallet: false,
-      initial: false
+      initial: false,
     },
-    chainNames: []
+    chainNames: [],
   },
   getters,
   mutations,
   actions,
   plugins: [
     persistState(
-      state => state,
+      (state) => state,
       ({ settings }) => ({
         settings,
-      })
-    )
-  ]
+      }),
+    ),
+  ],
 });

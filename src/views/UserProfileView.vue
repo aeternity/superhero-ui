@@ -5,6 +5,11 @@
     <loading class="mt-5" v-if="loading.wallet || loading.initial" :show-loading="true" />
     <div v-else>
     <div class="container profile__page">
+      <div class="actions-ribbon">
+        <router-link :to="{ name: 'home' }">
+          <img src="../assets/backArrow.svg">
+        </router-link>
+      </div>
       <div class="profile__section clearfix position-relative">
         <div class="text-center spinner__container w-100" v-if="showLoadingProfile">
           <div class="spinner-border text-primary" role="status">

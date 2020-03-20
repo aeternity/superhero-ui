@@ -3,6 +3,11 @@
   <right-section></right-section>
   <left-section></left-section>
   <div class="container wrapper url__page">
+    <div class="actions-ribbon">
+      <router-link :to="{ name: 'home' }">
+        <img src="../assets/backArrow.svg">
+      </router-link>
+    </div>
     <div class="tipped__url" v-if="tip">
       <tip-record :tip="tip"></tip-record>
     </div>
@@ -137,33 +142,12 @@ export default {
   .input-group{
     width: calc(100% - 2.5rem)
   }
-  .actions-ribbon{
-    padding: 1rem .5rem .5rem .5rem;
-    .sorting a{
-      margin-right: .5rem;
-      &:last-child{
-        margin-right: 0;
-      }
-    }
-  }
   .tipped__url{
     .tip__record{
       margin-bottom: 0;
       &.row{
         background-color: $actions_ribbon_background_color;
       }
-    }
-  }
-  .back-url,.sorting a{
-    cursor: pointer;
-  }
-  .back-url{
-    span{
-      color: $secondary_color;
-    }
-    img{
-      width: 1rem;
-      margin-right: .25rem;
     }
   }
   .comments__section{

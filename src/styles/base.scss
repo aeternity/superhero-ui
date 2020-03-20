@@ -102,6 +102,16 @@ a:hover{
   }
 }
 
+//To be extended
+.actions-ribbon{
+  padding: .5rem .5rem .5rem .5rem;
+  background-color: $article_content_color;
+  img{
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .header__body.container {
     display: block;

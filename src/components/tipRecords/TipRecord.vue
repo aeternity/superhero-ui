@@ -218,6 +218,7 @@ export default {
             width: 50%;
             float: left;
             object-fit: cover;
+            min-height: 1px;
 
             // these styles apply to broken images
             &:-moz-broken {

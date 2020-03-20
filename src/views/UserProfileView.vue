@@ -243,9 +243,10 @@
       },
       uploadImage(event) {
         let data = new FormData();
+        data.append('name', 'image');
         data.append('image', event.target.files[0]);
 
-        backendInstance.setProfileImage(this.account, data, true)
+        backendInstance.setProfileImage(this.account, data)
           .then(async (response) => {
             let signedChallenge = await wallet.signMessage(response.challenge)
             let respondChallenge = {

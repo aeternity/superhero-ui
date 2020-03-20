@@ -44,7 +44,7 @@
               <span class="tip__amount__btn" v-on:click.stop title="Send AE to this post">
                 <retip :tipid="tip.id" />
               </span>
-              {{ tip.amount_ae }} <span class="ae">AE</span>
+              <ae-amount :amount="tip.amount_ae" :round="2"></ae-amount>
             </span>
             <fiat-value :amount="tip.amount_ae"></fiat-value>
             <span class="ml-4 retip__wrapper" v-on:click.stop>

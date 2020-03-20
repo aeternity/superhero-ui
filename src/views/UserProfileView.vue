@@ -28,26 +28,30 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </div>
-                <label
-                  for="file-input"
-                  v-if="editMode"
-                  class="position-relative profile__image--edit"
-                  :class="[showLoadingAvatar ? 'blurred' : '']"
-                >
+              <label
+                for="file-input"
+                v-if="editMode"
+                class="position-relative profile__image--edit"
+                :class="[showLoadingAvatar ? 'blurred' : '']"
+              >
                 <a :href="openExplorer(address)" target="_blank" v-if="!editMode" :title="address">
-                  <img :src="avatar" />
+                  <img :src="getAvatar(address)" />
                 </a>
                 <div>Change Avatar</div>
               </label>
               <div :class="[showLoadingAvatar ? 'blurred' : '']">
-                <img :src="avatar" v-if="!editMode">
+                <img :src="getAvatar(address)" v-if="!editMode">
+              </div>
+
                 <input
                   id="file-input"
                   type="file"
                   name="avatar"
                   v-if="editMode"
                   accept="image/png, image/jpeg"
+                  @change="uploadImage($event)"
                 >
+
             </div>
             <div class="profile__info">
               <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
@@ -176,7 +180,6 @@ import { wallet } from '../utils/walletSearch';
 import FiatValue from '../components/FiatValue.vue';
 import Util from '../utils/util';
 import Loading from '../components/Loading.vue';
-import avatar from '../assets/userAvatar.svg';
 
 const backendInstance = new Backend();
 
@@ -210,7 +213,6 @@ export default {
         biography: '',
         displayName: '',
       },
-      avatar,
     };
   },
   computed: {
@@ -288,8 +290,6 @@ export default {
       this.resetEditedValues();
     },
     getProfile() {
-      // backendInstance.getProfileImage(this.address).then((response) => {}).catch(console.error);
-
       backendInstance.getCommentCountForAddress(this.address).then((userComment) => {
         this.userCommentCount = userComment.count;
       }).catch(console.error);
@@ -297,6 +297,26 @@ export default {
       backendInstance.getProfile(this.address).then((profile) => {
         this.profile = profile;
       }).catch(console.error);
+    },
+    getAvatar(address) {
+      return backendInstance.getProfileImage(address);
+    },
+    async uploadImage(event) {
+      const data = new FormData();
+      data.append('name', 'image');
+      data.append('image', event.target.files[0]);
+
+      const setImage = await backendInstance.setProfileImage(this.account, data);
+      const signedChallenge = await wallet.signMessage(setImage.challenge);
+      const respondChallenge = {
+        challenge: setImage.challenge,
+        signature: signedChallenge,
+      };
+
+      await backendInstance.setProfileImage(this.account, respondChallenge, false)
+        .catch(console.error);
+
+      this.getAvatar(this.account);
     },
   },
   async created() {
@@ -383,6 +403,7 @@ export default {
         }
         .profile__image--edit{
           &>div{
+            position: absolute;
             top: 20%;
             text-align: center;
             color: $standard_font_color;

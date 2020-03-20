@@ -21,20 +21,20 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </div>
-              <!-- <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" :class="[showLoadingAvatar ? 'blurred' : '']"> -->
+              <label for="file-input" v-if="editMode" class="position-relative profile__image--edit" :class="[showLoadingAvatar ? 'blurred' : '']">
                 <a :href="openExplorer(address)" target="_blank" v-if="!editMode" :title="address">
                   <img :src="avatar"/>
                 </a>
-                <!-- <div>Change Avatar</div> -->
-              <!-- </label> -->
-              <!-- <div :class="[showLoadingAvatar ? 'blurred' : '']">
+                <div>Change Avatar</div>
+              </label>
+              <div :class="[showLoadingAvatar ? 'blurred' : '']">
                 <img :src="avatar" v-if="!editMode">
-              </div> -->
-              <!-- <input id="file-input" type="file" name="avatar" v-if="editMode" accept="image/png, image/jpeg"> -->
+              </div>
+              <input id="file-input" type="file" name="avatar" @change="uploadImage($event)" v-if="editMode" accept="image/png, image/jpeg">
             </div>
             <div class="profile__info">
-              <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
-              <!-- <div class="input-group" v-if="editMode">
+              <!-- <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
+              <div class="input-group" v-if="editMode">
                 <input type="text" v-model="profile.displayName" class="form-control" placeholder="Edit Display Name">
               </div> -->
               <a class="profile__username" target="_blank" :href="openExplorer(address)" v-if="!editMode" :title="address">
@@ -154,9 +154,11 @@
         userCommentCount: 0,
         profile: {
           biography: '',
-          displayName: ''
+          displayName: '',
+          image: false,
         },
         avatar,
+        BACKEND_URL : "https://raendom-backend.z52da5wt.xyz",
       }
     },
     computed: {
@@ -227,16 +229,35 @@
         this.resetEditedValues();
       },
       getProfile() {
-        // backendInstance.getProfileImage(this.address).then((response) => {}).catch(console.error);
-
         backendInstance.getCommentCountForAddress(this.address).then(userComment => {
           this.userCommentCount = userComment.count
         }).catch(console.error);
 
         backendInstance.getProfile(this.address).then(profile => {
-            this.profile = profile;
-        }).catch(console.error);
-      }
+          this.profile = profile;
+          if (profile.image) {
+            this.avatar = `${this.BACKEND_URL}/profile/image/${this.address}`;
+          }
+        })
+        .catch(console.error);
+      },
+      uploadImage(event) {
+        let data = new FormData();
+        data.append('image', event.target.files[0]);
+
+        backendInstance.setProfileImage(this.account, data, true)
+          .then(async (response) => {
+            let signedChallenge = await wallet.signMessage(response.challenge)
+            let respondChallenge = {
+              challenge: response.challenge,
+              signature: signedChallenge
+            }
+            backendInstance.setProfileImage(this.account, respondChallenge, false)
+              .then((result) => {
+                console.log(result);
+            }).catch(console.error)
+        })
+      },
     },
    async created(){
       this.getProfile();
@@ -322,7 +343,6 @@
         }
         .profile__image--edit{
           &>div{
-            position: absolute;
             top: 20%;
             text-align: center;
             color: $standard_font_color;

@@ -1,4 +1,4 @@
-import { wrapTry } from './util'
+import { wrapTry } from './util';
 
 export default class Backend {
 
@@ -44,6 +44,21 @@ export default class Backend {
   });
   getProfileImage = async (address) => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/profile/image/${address}`);
+  });
+  setProfileImage = async (address, data, image = true) => wrapTry(async () => {
+    if (image) {
+      return fetch(`${this.BACKEND_URL}/profile/image/` + address, {
+        method: 'post',
+        body: data,
+      });
+    }
+    else {
+      return fetch(`${this.BACKEND_URL}/profile/image/` + address, {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json'}
+      });
+    }
   });
   getStats = async () => wrapTry(async () => {
     return fetch(`${this.BACKEND_URL}/static/stats/`);

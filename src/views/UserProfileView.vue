@@ -23,11 +23,10 @@
             </a>
             <div class="profile__image position-relative" >
               <div class="overlay" v-if="showLoadingAvatar"></div>
-              <div class="text-center spinner__container w-100" v-if="showLoadingAvatar">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="sr-only">Loading...</span>
-                </div>
-              </div>
+              <loading
+                :show-loading="showLoadingAvatar && editMode"
+                class="position-absolute"
+              />
               <label
                 v-if="editMode"
                 class="profile__image--edit"
@@ -76,13 +75,14 @@
               <div class="count" v-if="!editMode">{{userTips.length}} Tips</div>
             </div>
             <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
-            <div class="input-group" v-if="editMode">
+            <div class="input-group description" v-if="editMode">
               <textarea
                 class="form-control"
                 v-model="profile.biography"
                 rows="3"
                 placeholder="Edit Biography"
-              />
+                >
+              </textarea>
             </div>
             <div class="mt-2 mb-2" v-if="editMode">
               <button type="button" @click="resetEditedValues()" class="btn btn-dark mr-2">
@@ -210,6 +210,7 @@ export default {
       showLoadingAvatar: false,
       activeTab: 'tips',
       userCommentCount: 0,
+      avatarEditImageKey: 0,
       profile: {
         biography: '',
         displayName: '',
@@ -262,6 +263,9 @@ export default {
     },
   },
   methods: {
+    updateAvatarImageKey() {
+      this.avatarEditImageKey += 1;
+    },
     setActiveTab(tab) {
       this.activeTab = tab;
     },
@@ -388,11 +392,14 @@ export default {
         padding: 1.75rem 1rem 1rem 1rem;
         margin-right: -1rem;
       }
+      .input-group.description{
+        margin-bottom: 1rem;
+      }
       .profile__image{
         margin-right: .5rem;
         vertical-align: super;
         .spinner__container{
-          top: 45%;
+          top: 30%;
         }
         .blurred{
           opacity: .4;
@@ -421,7 +428,6 @@ export default {
             top: 0;
             width: 100%;
           }
-
           img {
             opacity: .2;
           }
@@ -560,9 +566,17 @@ export default {
             }
           }
         }
-        .profile__image img{
-          width: 4rem;
-          height: 4rem;
+        .profile__image{
+          .spinner__container{
+            top: 22%;
+          }
+          .profile__image--edit > div{
+            top: 20%;
+          }
+          img{
+            width: 4rem;
+            height: 4rem;
+          }
         }
       }
       .edit__button{

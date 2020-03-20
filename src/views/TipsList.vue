@@ -18,6 +18,9 @@
       </div>
       <loading :show-loading="loading.tips" class="loading-position"/>
       <div class="container wrapper">
+        <div class="onboarding__container ">
+          <onboarding/>
+        </div>
         <div class="tips__container">
           <div class="send__tip__container">
             <send-tip></send-tip>
@@ -75,6 +78,7 @@ import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
+import Onboarding from '../components/onboarding/Wizard.vue';
 
 export default {
   name: 'TipsList',
@@ -132,6 +136,7 @@ export default {
     },
   },
   components: {
+    Onboarding,
     Loading,
     TipRecord,
     LeftSection,
@@ -174,7 +179,6 @@ export default {
     position: fixed;
     left: 50%;
     transform: translate( -50%);
-    z-index: 3;
     margin-top: 1rem;
     margin-bottom: 1rem;
   }

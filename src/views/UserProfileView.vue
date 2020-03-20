@@ -35,12 +35,12 @@
                 :class="[showLoadingAvatar ? 'blurred' : '']"
               >
                 <a :href="openExplorer(address)" target="_blank" v-if="!editMode" :title="address">
-                  <img :src="getAvatar(address)" />
+                  <img :src="getAvatar(address)" :onerror="`this.style.opacity=0`">
                 </a>
                 <div>Change Avatar</div>
               </label>
               <div :class="[showLoadingAvatar ? 'blurred' : '']">
-                <img :src="getAvatar(address)" v-if="!editMode">
+                <img :src="getAvatar(address)" v-if="!editMode" :onerror="`this.style.opacity=0`">
               </div>
 
                 <input

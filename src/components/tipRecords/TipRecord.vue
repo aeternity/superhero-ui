@@ -19,7 +19,7 @@
       <div class="tip__article position-relative" v-if="isPreviewToBeVisualized(tip)">
         <a :href="tip.url" target="_blank" v-on:click.stop>
         <div class="tip__article--hasresults">
-          <img v-bind:src="tip.preview.image" class="mr-2">
+          <img :src="tipPreviewImage" class="mr-2">
           <span>
             {{tipText}}
           </span>
@@ -57,6 +57,7 @@ import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
 import Retip from '../Retip.vue';
 import TipTitle from './TipTitle.vue';
+import Backend from '../../utils/backend';
 
 export default {
   name: 'TipRecord',
@@ -71,6 +72,9 @@ export default {
     tipText() {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
       return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
+    },
+    tipPreviewImage() {
+      return this.isPreviewToBeVisualized(this.tip) ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
   },
   methods: {

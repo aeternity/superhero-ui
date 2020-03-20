@@ -105,8 +105,8 @@
           <div class="stat">
             <div class="stat-title">Total Sent Amount</div>
             <div class="stat-value">
-              {{userStats.totalTipAmount}} AE
-              <fiat-value :amount="userStats.totalTipAmount" />
+              <ae-amount :amount="userStats.totalTipAmount" :round="2"></ae-amount>
+              <fiat-value :amount="userStats.totalTipAmount"></fiat-value>
             </div>
           </div>
           <div class="stat">
@@ -120,8 +120,8 @@
           <div class="stat">
             <div class="stat-title">Unclaimed Amount</div>
             <div class="stat-value">
-              {{userStats.unclaimedAmount}} AE
-              <fiat-value :amount="userStats.unclaimedAmount" />
+              <ae-amount :amount="userStats.unclaimedAmount" :round="2"></ae-amount>
+              <fiat-value :amount="userStats.unclaimedAmount"></fiat-value>
             </div>
           </div>
         </div>
@@ -179,8 +179,9 @@ import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import { wallet } from '../utils/walletSearch';
 import FiatValue from '../components/FiatValue.vue';
+import AeAmount from '../components/AeAmount.vue';
 import Util from '../utils/util';
-import Loading from '../components/Loading.vue';
+import Loading from '../components/Loading.vue';  
 
 const backendInstance = new Backend();
 
@@ -189,6 +190,7 @@ export default {
   name: 'TipCommentsView',
   components: {
     Loading,
+    AeAmount,
     FiatValue,
     TipComment,
     LeftSection,

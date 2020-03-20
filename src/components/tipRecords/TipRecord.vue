@@ -246,7 +246,6 @@ export default {
       }
     }
   }
-}
 .tips__container .tip__record .tip__body {
   width: 100%;
   .tip__note {

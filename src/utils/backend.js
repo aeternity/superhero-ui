@@ -1,4 +1,5 @@
 import { wrapTry } from './util';
+import { BACKEND_URL, MAINNET_URL } from '../config/constants';
 
 export default class Backend {
   BACKEND_URL;
@@ -6,8 +7,8 @@ export default class Backend {
   MAINNET_URL;
 
   constructor() {
-    this.BACKEND_URL = typeof Cypress !== 'undefined' ? 'http://localhost' : 'https://raendom-backend.z52da5wt.xyz';
-    this.MAINNET_URL = 'https://mainnet.aeternal.io/';
+    this.BACKEND_URL = BACKEND_URL;
+    this.MAINNET_URL = MAINNET_URL;
   }
 
   tipOrder = async () => wrapTry(async () => fetch(`${this.BACKEND_URL}/tiporder`));

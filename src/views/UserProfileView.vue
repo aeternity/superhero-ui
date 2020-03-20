@@ -181,7 +181,7 @@ import { wallet } from '../utils/walletSearch';
 import FiatValue from '../components/FiatValue.vue';
 import AeAmount from '../components/AeAmount.vue';
 import Util from '../utils/util';
-import Loading from '../components/Loading.vue';  
+import Loading from '../components/Loading.vue';
 
 const backendInstance = new Backend();
 

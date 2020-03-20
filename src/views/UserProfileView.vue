@@ -299,7 +299,7 @@ export default {
       }).catch(console.error);
     },
     getAvatar(address) {
-      return backendInstance.getProfileImage(address);
+      return backendInstance.getProfileImageUrl(address);
     },
     async uploadImage(event) {
       const data = new FormData();

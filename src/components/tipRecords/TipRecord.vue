@@ -53,46 +53,46 @@
 </template>
 
 <script>
-import FiatValue from "../FiatValue.vue";
-import AeAmount from "../AeAmount.vue";
-import Retip from "../Retip.vue";
-import TipTitle from "./TipTitle.vue";
+import FiatValue from '../FiatValue.vue';
+import AeAmount from '../AeAmount.vue';
+import Retip from '../Retip.vue';
+import TipTitle from './TipTitle.vue';
 
 export default {
-  name: "TipRecord",
-  props: ["tip", "foundWallet", "senderLink"],
+  name: 'TipRecord',
+  props: ['tip', 'foundWallet', 'senderLink'],
   components: {
     FiatValue,
     AeAmount,
     Retip,
-    TipTitle
+    TipTitle,
   },
   computed: {
     tipText() {
-      if (!this.isPreviewToBeVisualized(this.tip)) return "";
+      if (!this.isPreviewToBeVisualized(this.tip)) return '';
       return this.tip.preview.description ? this.tip.preview.description : this.tip.preview.title;
-    }
+    },
   },
   methods: {
     isPreviewToBeVisualized(tip) {
       return (
-        typeof tip !== "undefined" &&
-        tip !== null &&
-        typeof tip.preview !== "undefined" &&
-        tip.preview.image !== null &&
-        ((tip.preview.description !== null && tip.preview.description.length > 0) ||
-          (tip.preview.title !== null && tip.preview.title.length > 0))
+        typeof tip !== 'undefined'
+        && tip !== null
+        && typeof tip.preview !== 'undefined'
+        && tip.preview.image !== null
+        && ((tip.preview.description !== null && tip.preview.description.length > 0)
+          || (tip.preview.title !== null && tip.preview.title.length > 0))
       );
     },
     goToTip(id) {
       this.$router.push({
-        name: "tip",
+        name: 'tip',
         params: {
-          id
-        }
+          id,
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -339,7 +339,9 @@ export default {
 }
 
 //Smallest devices Portrait and Landscape
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+@media only screen and (min-device-width: 320px)
+and (max-device-width: 480px)
+and (-webkit-min-device-pixel-ratio: 2) {
   .tip__record {
     position: relative;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;

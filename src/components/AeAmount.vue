@@ -9,8 +9,8 @@
 import BigNumber from 'bignumber.js';
 
 export default {
-  name: "AeAmount",
-  props: ["amount", "round"],
+  name: 'AeAmount',
+  props: ['amount', 'round'],
 
   computed: {
     roundedAmount() {
@@ -18,8 +18,8 @@ export default {
         return 0;
       }
       return new BigNumber(this.amount).toFixed(this.round);
-    }
-  }
+    },
+  },
 };
 </script>
 

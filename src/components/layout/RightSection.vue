@@ -54,19 +54,19 @@ import AeAmount from '../AeAmount.vue';
 import Topic from '../tipRecords/Topic.vue';
 
 export default {
-  name: "RightSection",
+  name: 'RightSection',
   components: {
     Topic,
     FiatValue,
-    AeAmount
+    AeAmount,
   },
   data() {
     return {
-      browser: detect()
+      browser: detect(),
     };
   },
   computed: {
-    ...mapGetters(["topics", "loading", "isLoggedIn"]),
+    ...mapGetters(['topics', 'loading', 'isLoggedIn']),
     downloadUrl() {
       if (this.browser) {
         switch (this.browser.name) {

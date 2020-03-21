@@ -9,7 +9,7 @@
             <span v-else class="address">{{tip.sender}}</span>
           </router-link>
           <span class="date" v-bind:class="[tip.chainName ? '': 'wholeaddr']">
-            {{ formatDate }}
+            <format-date :dateTimestamp="tip.timestamp"></format-date>
           </span>
         </div>
         <div class="tip__note pr-2" v-on:click.stop>
@@ -69,6 +69,7 @@ import AeAmount from '../AeAmount.vue';
 import Retip from '../Retip.vue';
 import TipTitle from './TipTitle.vue';
 import Backend from '../../utils/backend';
+import FormatDate from './FormatDate.vue';
 
 export default {
   name: 'TipRecord',
@@ -78,6 +79,7 @@ export default {
     AeAmount,
     Retip,
     TipTitle,
+    FormatDate,
   },
   computed: {
     tipPreviewDescription() {
@@ -97,12 +99,6 @@ export default {
     },
     tipPreviewImage() {
       return this.isPreviewToBeVisualized(this.tip) ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
-    },
-    formatDate() {
-      const today = new Date();
-      const tipDate = new Date(this.tip.timestamp);
-      const isToday = (today.toDateString() === tipDate.toDateString());
-      return isToday ? tipDate.toLocaleTimeString('en-US', { hourCycle: 'h24' }) : tipDate.toLocaleDateString('en-US');
     },
   },
   methods: {

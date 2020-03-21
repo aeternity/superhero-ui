@@ -48,7 +48,7 @@
             </span>
             <fiat-value :amount="tip.amount_ae"></fiat-value>
             <span class="ml-4 retip__wrapper" v-on:click.stop>
-              <retip :tipid="tip.id" :retip-icon="true"/>
+              <retip :tipid="tip.id" :show-retip-icon="true"/>
               <ae-amount :amount="tip.retip_amount_ae" :round="2"></ae-amount>
               <fiat-value :amount="tip.retip_amount_ae"></fiat-value>
             </span>

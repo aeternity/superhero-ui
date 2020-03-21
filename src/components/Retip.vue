@@ -4,18 +4,18 @@
     :href="deepLink"
     target="_blank"
   >
-    <img src="../assets/heart.svg">
+    <img :src="showRetipIcon? retipIcon : heartIcon">
   </a>
   <div v-else class="d-inline-block">
     <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
     <div class="position-relative wrapper" v-on:click.stop>
       <img
         @click="toggleRetip(!show)"
-        v-if="!retipIcon"
+        v-if="!showRetipIcon"
         class="retip__icon"
-        src="../assets/heart.svg"
+        :src="heartIcon"
       >
-      <img @click="toggleRetip(!show)" v-else class="retip__icon" src="../assets/retipIcon.svg">
+      <img @click="toggleRetip(!show)" v-else class="retip__icon" :src="retipIcon">
       <div class="clearfix retip__container" v-if="show">
         <loading :show-loading="showLoading" />
         <div
@@ -60,10 +60,12 @@ import aeternity from '../utils/aeternity';
 import { EventBus } from '../utils/eventBus';
 import FiatValue from './FiatValue.vue';
 import Loading from './Loading.vue';
+import heartIcon from '../assets/heart.svg';
+import retipIcon from '../assets/retipIcon.svg';
 
 export default {
   name: 'Retip',
-  props: ['tipid', 'retipIcon'],
+  props: ['tipid', 'showRetipIcon'],
   data() {
     return {
       fiatValue: 0.00,
@@ -72,6 +74,8 @@ export default {
       showLoading: false,
       error: true,
       useDeepLinks: IS_MOBILE_DEVICE && !IS_FRAME,
+      heartIcon,
+      retipIcon,
     };
   },
   components: {
@@ -80,7 +84,7 @@ export default {
   },
   computed: {
     eventPayload() {
-      return `${this.tipid}:${this.retipIcon}`;
+      return `${this.tipid}:${this.showRetipIcon}`;
     },
     deepLink() {
       const url = new URL('https://mobile.z52da5wt.xyz/retip');

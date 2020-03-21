@@ -230,7 +230,7 @@ export default {
           border-radius: .5rem;
           margin-right: 1rem;
           background-image: url("../../assets/defaultImg.svg");
-          background-position: 3.5rem center;
+          background-position: 1rem center;
           background-repeat: no-repeat;
           overflow: hidden;
           height: 9rem;
@@ -359,6 +359,10 @@ export default {
   .tips__container .tip__record .tip__body .tip__footer{
     white-space: normal;
   }
+
+  .tip__record .tip__article {
+      background-size: 8rem;
+  }
 }
 
 //Smallest devices Portrait and Landscape
@@ -376,6 +380,7 @@ export default {
           max-width: calc(100% + 1rem);
           width: calc(100% + 1rem);
           margin-right: -1rem;
+          background-size: 5rem;
         }
         .tip__body{
           .tip__author{

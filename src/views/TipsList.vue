@@ -292,6 +292,9 @@ export default {
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
 
+  .search__input{
+    padding: .5rem 2.5rem .5rem 1rem;
+  }
   .actions__container{
       width: 100%;
       padding-top: .5rem;
@@ -302,7 +305,7 @@ export default {
       &:nth-child(2){
         width: 100vw;
         margin-left: -.2rem;
-        top: 4.45rem;
+        top: 3.35rem;
         padding-top: 0;
         padding-bottom: 0;
       }

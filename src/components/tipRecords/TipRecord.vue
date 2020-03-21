@@ -9,7 +9,7 @@
             <span v-else class="address">{{tip.sender}}</span>
           </router-link>
           <span class="date" v-bind:class="[tip.chainName ? '': 'wholeaddr']">
-            {{ new Date(tip.timestamp).toLocaleString('en-US', { hourCycle: 'h24' }) }}
+            {{ formatDate }}
           </span>
         </div>
         <div class="tip__note pr-2" v-on:click.stop>
@@ -98,6 +98,12 @@ export default {
     tipPreviewImage() {
       return this.isPreviewToBeVisualized(this.tip) ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
+    formatDate() {
+      const today = new Date();
+      const tipDate = new Date(this.tip.timestamp);
+      const isToday = (today.toDateString() === tipDate.toDateString());
+      return isToday ? tipDate.toLocaleTimeString('en-US', { hourCycle: 'h24' }) : tipDate.toLocaleDateString('en-US');
+    },
   },
   methods: {
     isPreviewToBeVisualized(tip) {
@@ -144,7 +150,7 @@ export default {
           padding: .25rem 1rem .25rem 1rem;
           display: flex;
           .date{
-            width: 20%;
+            width: 10%;
             font-size: .6rem;
             display: inline-block;
             padding-top: .2rem;
@@ -157,16 +163,12 @@ export default {
             display: inline-block;
             word-break: break-all;
           }
-          .chain__name{
-            vertical-align: top;
-          }
           img{
             width: 1.5rem;
             margin-right: 0.25rem;
-            vertical-align: baseline;
           }
           &>a{
-            width: 80%;
+            width: 90%;
             color: $light_font_color;
             &:hover{
               text-decoration: none;
@@ -277,40 +279,6 @@ export default {
     }
   }
 
-@media (min-width: 576px){
-  .tip__record .tip__body .tip__author .date.wholeaddr{
-    padding-top: 0;
- }
-}
-
-@media (min-width: 768px) {
-  .tip__record .tip__body .tip__author .date.wholeaddr{
-    padding-top: 0;
- }
-}
-
-@media (min-width: 992px) {
-  .tip__record .tip__body .tip__author{
-    img{
-      vertical-align: baseline;
-    }
-    .date{
-      padding-top: 0;
-    }
-  }
-}
-
-@media (min-width: 1200px) {
- .tip__record .tip__body .tip__author{
-   img{
-     vertical-align: middle;
-   }
-  .date.wholeaddr{
-    padding-top: .3rem;
-  }
- }
-}
-
 @media only screen and (max-width: 1024px){
   .tip__record{
     position: relative;
@@ -385,12 +353,20 @@ export default {
         .tip__body{
           .tip__author{
             padding-left: 0;
+            padding-right: 0;
             font-size: .6rem;
             img{
-              vertical-align: super;
+              vertical-align: middle;
             }
             .date{
-              padding-top: 0;
+              width: 20%;
+                padding-top: .3rem;
+            }
+            &>a{
+              width: 80%
+            }
+            .address{
+              font-size: .32rem;
             }
           }
           .tip__note{

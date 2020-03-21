@@ -163,9 +163,6 @@ export default {
             display: inline-block;
             word-break: break-all;
           }
-          .chain__name{
-            vertical-align: top;
-          }
           img{
             width: 1.5rem;
             margin-right: 0.25rem;
@@ -357,11 +354,8 @@ export default {
               vertical-align: middle;
             }
             .date{
-              padding-top: 0;
               width: 20%;
-              &.wholeaddr{
                 padding-top: .3rem;
-              }
             }
             &>a{
               width: 80%

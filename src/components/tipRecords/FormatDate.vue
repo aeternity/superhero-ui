@@ -1,5 +1,5 @@
 <template>
-  <span>{{formatDate}}</span>
+  <time :datetime="wholeDateAndTime" :title="wholeDateAndTime" >{{formatDate}}</time>
 </template>
 
 <script>
@@ -12,6 +12,9 @@ export default {
       const tipDate = new Date(this.dateTimestamp);
       const isToday = (today.toDateString() === tipDate.toDateString());
       return isToday ? tipDate.toLocaleTimeString('en-US', { hourCycle: 'h24' }) : tipDate.toLocaleDateString('en-US');
+    },
+    wholeDateAndTime() {
+      return new Date(this.dateTimestamp).toLocaleString('en-US', { hourCycle: 'h24' });
     },
   },
 };

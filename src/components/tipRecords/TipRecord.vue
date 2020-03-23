@@ -150,6 +150,7 @@ export default {
             font-size: .6rem;
             display: inline-block;
             padding-top: .2rem;
+            text-align: right;
           }
           .address{
             font-size: .6rem;
@@ -279,7 +280,6 @@ export default {
   .tip__record{
     position: relative;
     .tip__article{
-      min-height: initial;
       min-height: 2rem;
     }
     .tip__body{

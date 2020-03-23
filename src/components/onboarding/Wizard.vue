@@ -210,10 +210,10 @@ export default {
     // superhero icon
     &:after {
       border-bottom: 2px solid #67b6f7;
-      bottom: -2px;
+      bottom: -1rem;
       content: url("../../assets/activeTabIcon.svg");
       display: flex;
-      height: 1rem;
+      height: 2rem;
       justify-content: flex-end;
       opacity: 0;
       position: absolute;

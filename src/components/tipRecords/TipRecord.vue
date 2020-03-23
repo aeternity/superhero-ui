@@ -98,7 +98,7 @@ export default {
       return this.tip.preview.responseUrl ? new URL(this.tip.preview.responseUrl).hostname : '';
     },
     tipPreviewImage() {
-      return this.isPreviewToBeVisualized(this.tip) ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
+      return this.isPreviewToBeVisualized(this.tip) && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
   },
   methods: {

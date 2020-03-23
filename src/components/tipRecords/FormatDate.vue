@@ -1,5 +1,5 @@
 <template>
-  <time :datetime="wholeDateAndTime" :title="wholeDateAndTime" >{{formatDate}}</time>
+  <time :datetime="isoFormattedDateAndTime" :title="wholeDateAndTime" >{{formatDate}}</time>
 </template>
 
 <script>
@@ -15,6 +15,9 @@ export default {
     },
     wholeDateAndTime() {
       return new Date(this.dateTimestamp).toLocaleString('en-US', { hourCycle: 'h24' });
+    },
+    isoFormattedDateAndTime() {
+      return new Date(this.dateTimestamp).toISOString();
     },
   },
 };

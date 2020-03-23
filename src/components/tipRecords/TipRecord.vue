@@ -104,7 +104,7 @@ export default {
   methods: {
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
-          && typeof tip.preview !== 'undefined' && tip.preview.image !== null
+          && typeof tip.preview !== 'undefined'
           && (
             (tip.preview.description !== null && tip.preview.description.length > 0)
             || (tip.preview.title !== null && tip.preview.title.length > 0)

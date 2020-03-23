@@ -131,6 +131,7 @@ export default {
 <style lang="scss">
   .onboarding {
     border: 1px dashed $light_font_color;
+    margin: .2rem 0 .1rem;
 
     button:active,
     button:focus {
@@ -198,12 +199,12 @@ export default {
     border-bottom: 2px solid $custom_links_color;
     color: #52535a;
     font-size: 0.6rem;
-    padding: 0 .5rem 1rem 1rem;
+    padding: 0 .5rem 1rem .5rem;
     position: relative;
     white-space: nowrap;
 
     &:first-child {
-      padding-left: 1.5rem;
+      padding-left: 1rem;
     }
 
     // superhero icon
@@ -267,7 +268,6 @@ export default {
         height: 7.5rem;
         width: 7.5rem;
       }
-
     }
 
     .step__footer {
@@ -344,6 +344,16 @@ export default {
           margin: 0 0.5rem;
           width: 1.25rem;
         }
+      }
+    }
+  }
+
+  @media (min-width: 992px) {
+    .onboarding_tab {
+      padding: 0 .5rem 1rem 1rem;
+
+      &:first-child {
+        padding-left: 1.5rem;
       }
     }
   }

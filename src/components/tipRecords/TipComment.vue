@@ -11,7 +11,7 @@
             </router-link>
             <span class="date"
              v-bind:class="[userChainName || comment.chainName ? '': 'wholeaddr']">
-              {{ new Date(comment.createdAt).toLocaleString('en-US', { hourCycle: 'h24' }) }}
+              <format-date :dateTimestamp="comment.createdAt"></format-date>
             </span>
           </div>
         </div>
@@ -23,12 +23,18 @@
 </template>
 
 <script>
+
+import FormatDate from './FormatDate.vue';
+
 export default {
   name: 'TipComment',
   props: ['comment', 'userChainName'],
   data() {
     return {
     };
+  },
+  components: {
+    FormatDate,
   },
 };
 </script>

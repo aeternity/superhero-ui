@@ -4,7 +4,6 @@ import TipCommentsView from './views/TipCommentsView.vue';
 import UserProfileView from './views/UserProfileView.vue';
 import Terms from './views/Terms.vue';
 import Privacy from './views/Privacy.vue';
-import Mission from './views/Mission.vue';
 import CreateProfile from './views/CreateProfile.vue';
 
 const guardTipComments = (to, from, next) => {
@@ -55,14 +54,6 @@ const routes = [
     component: Privacy,
     meta: {
       title: 'Privacy policy',
-    },
-  },
-  {
-    path: '/mission',
-    name: 'mission',
-    component: Mission,
-    meta: {
-      title: 'Mission',
     },
   },
   {

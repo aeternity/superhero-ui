@@ -75,7 +75,7 @@ export default {
       // await fetch
       const {
         stats, tips, hasOrdering, chainNames,
-      } = await new Backend().getCache().catch(async () => await AggregateData.fetchingTips());
+      } = await new Backend().getCache().catch(() => AggregateData.fetchingTips());
 
       const topics = TipTopicUtil.getTipTopics(tips);
 

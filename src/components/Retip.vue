@@ -62,6 +62,7 @@ import FiatValue from './FiatValue.vue';
 import Loading from './Loading.vue';
 import heartIcon from '../assets/heart.svg';
 import retipIcon from '../assets/retipIcon.svg';
+import Backend from '../utils/backend';
 
 export default {
   name: 'Retip',
@@ -109,7 +110,8 @@ export default {
       const amount = util.aeToAtoms(this.value);
       this.showLoading = true;
       await aeternity.contract.methods.retip(this.tipid, { amount })
-        .then(() => {
+        .then(async () => {
+          await new Backend().cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');
           this.showLoading = false;
           this.error = false;

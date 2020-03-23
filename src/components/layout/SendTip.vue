@@ -102,6 +102,7 @@ export default {
       await aeternity.contract.methods
         .tip(this.sendTipForm.url, this.sendTipForm.title, { amount }).catch(console.error);
       this.clearTipForm();
+      await new Backend().cacheInvalidateTips().catch(console.error);
       EventBus.$emit('reloadData');
     },
     clearTipForm() {

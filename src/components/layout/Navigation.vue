@@ -17,12 +17,6 @@
         <span>Trending</span>
       </a>
     </div>
-    <div class="navigation__item mission">
-      <router-link :to="{ name: 'mission' }">
-        <div class="navigation__item__image"></div>
-        <span>Mission</span>
-      </router-link>
-    </div>
     <div class="navigation__item profile" v-if="isLoggedIn">
       <router-link :to="{ name: 'user-profile', params: { address: this.account }}">
         <div class="navigation__item__image"></div>
@@ -98,10 +92,6 @@ export default {
       background-image: url('../../assets/iconTrending.svg');
     }
 
-    .mission & {
-      background-image: url('../../assets/iconMission.svg');
-    }
-
     .profile & {
       background-image: url('../../assets/iconUser.svg');
     }
@@ -114,10 +104,6 @@ export default {
 
       .trending & {
         background-image: url('../../assets/iconTrendingActive.svg');
-      }
-
-      .mission & {
-        background-image: url('../../assets/iconMissionActive.svg');
       }
 
       .profile & {

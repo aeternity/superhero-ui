@@ -40,6 +40,8 @@ export default class Backend {
 
   getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
 
+  getCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/`));
+
   getChainNameFromAddress = async () => wrapTry(async () => fetch(`${MAINNET_URL}/middleware/names/active`));
 
   getCommentCounts = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/tips/`));

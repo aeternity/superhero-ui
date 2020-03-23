@@ -100,6 +100,7 @@ export default {
 <style lang="scss">
   .onboarding {
     border: 1px dashed $light_font_color;
+
     button:active,
     button:focus {
       opacity: 0.9;
@@ -119,48 +120,75 @@ export default {
   }
 
   .onboarding__tabs {
+    align-items: center;
     display: flex;
     justify-content: flex-start;
     width: 100%;
-    align-items: center;
 
     // blank space to separate the close button
     &:after {
-      order: 99;
-      flex-grow: 1;
       content: ' ';
+      flex-grow: 1;
+      order: 99;
     }
   }
 
   .onboarding_tab {
     background: transparent;
     border: 0;
+    border-bottom: 2px solid $custom_links_color;
     color: #52535a;
     font-size: 0.8rem;
-    padding: 0 0 1rem 1.5rem;
-    border-bottom: 2px solid $custom_links_color;
+    padding: 0 .5rem 1rem 1rem;
+    position: relative;
+
+    &:first-child {
+      padding-left: 1.5rem;
+    }
+
+    // superhero icon
+    &:after {
+      border-bottom: 2px solid #67b6f7;
+      bottom: -2px;
+      content: url("../../assets/activeTabIcon.svg");
+      display: flex;
+      height: 1rem;
+      justify-content: flex-end;
+      opacity: 0;
+      position: absolute;
+      right: calc(100% - 1.5rem);
+      transition: right 0.5s;
+      width: 0;
+    }
 
     &.active {
       color: #fff;
+
+      &:after {
+        opacity: 1;
+        right: -1.5rem;
+      }
+
       & ~ .onboarding_tab {
         border-bottom: 2px solid transparent;
       }
     }
   }
+
   .onboarding__close {
     background: transparent;
+    background: url("../../assets/wizardClose.svg") no-repeat center center;
+    background-color: inherit;
     border: 0;
     color: #fff;
     font-size: 0.8rem;
-    padding: 0;
-    background: url("../../assets/wizardClose.svg") no-repeat center center;
-    background-color: inherit;
-    width: .9rem;
     height: .9rem;
     justify-self: flex-end;
-    order: 100;
     margin-bottom: 1rem;
     margin-right: .75rem;
+    order: 100;
+    padding: 0;
+    width: .9rem;
   }
 
   .onboarding__start {

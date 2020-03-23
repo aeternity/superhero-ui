@@ -18,10 +18,12 @@ export default {
     opacity: 0;
     max-height: 0;
     transition: opacity 0.25s ease-in;
+    z-index: -1;
 
     &.active {
       max-height: 200px;
       opacity: 1;
+      z-index: 3;
     }
   }
 </style>

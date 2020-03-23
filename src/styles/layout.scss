@@ -4,7 +4,7 @@
 }
 
 html {
-  font-size: 125%;
+  font-size: 100%;
 }
 
 .min-h-screen > div {
@@ -64,12 +64,6 @@ html {
   :root {
     --left-column-margin: auto;
     --container-width: 25rem;
-  }
-}
-
-@media (min-width: 992px) {
-  html {
-    font-size: 100%;
   }
 }
 

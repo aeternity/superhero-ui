@@ -98,13 +98,13 @@ export default {
       return this.tip.preview.responseUrl ? new URL(this.tip.preview.responseUrl).hostname : '';
     },
     tipPreviewImage() {
-      return this.isPreviewToBeVisualized(this.tip) ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
+      return this.isPreviewToBeVisualized(this.tip) && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
   },
   methods: {
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
-          && typeof tip.preview !== 'undefined' && tip.preview.image !== null
+          && typeof tip.preview !== 'undefined'
           && (
             (tip.preview.description !== null && tip.preview.description.length > 0)
             || (tip.preview.title !== null && tip.preview.title.length > 0)

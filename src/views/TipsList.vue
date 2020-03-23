@@ -18,9 +18,7 @@
       </div>
       <loading :show-loading="loading.tips" class="loading-position"/>
       <div class="container wrapper">
-        <div class="onboarding__container ">
-          <onboarding/>
-        </div>
+        <onboarding/>
         <div class="tips__container">
           <div class="send__tip__container">
             <send-tip></send-tip>

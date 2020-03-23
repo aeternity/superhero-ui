@@ -1,10 +1,10 @@
 <template>
-  <div class="onboarding">
+  <div class="onboarding" v-if="shouldShowWizard">
     <div class="onboarding__nav">
-      <div class="onboarding__start_wrapper" v-if="currentStep === null">
+      <div class="onboarding__start" v-if="currentStep === null">
         <button
           @click="currentStep = 0"
-          class="onboarding__start"
+          class="button"
           v-if="currentStep === null">
           Join Superhero League
         </button>
@@ -12,7 +12,7 @@
       <div class="onboarding__tabs" v-else>
         <button
           :class="['onboarding_tab', { active: currentStep === index }]"
-          :_disabled="index > currentStep + 1 || index < currentStep - 1"
+          :disabled="isStepDisabled(index)"
           :key="key"
           @click="currentStep = index"
           v-for="([key, tab], index) in steps"
@@ -26,15 +26,15 @@
         </button>
       </div>
     </div>
-    <div class="onboarding__body">
-      <div class="onboarding__content">
-        <component :is="getStepComponent"/>
-      </div>
+    <div class="onboarding__body" v-if="currentStep !== null">
+      <component :is="getStepComponent" @wizard:next="nextStep"/>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import Step1 from './steps/Step1.vue';
 import Step2 from './steps/Step2.vue';
 import Step3 from './steps/Step3.vue';
@@ -64,6 +64,9 @@ export default {
     };
   },
   computed: {
+    shouldShowWizard() {
+      return this.currentStep * 1 < steps.length;
+    },
     getStepComponent() {
       if (this.currentStep in this.steps) {
         return this.steps[this.currentStep][0];
@@ -71,20 +74,48 @@ export default {
 
       return null;
     },
+    ...mapGetters(['account', 'isLoggedIn']),
   },
   watch: {
-    currentStep(step) {
-      this.storeStep(step);
+    currentStep(index) {
+      this.storeStep(index);
     },
   },
   methods: {
-    storeStep(step) {
-      if (step === null) {
+    isStepDisabled(index) {
+      return index > this.currentStep + 1;
+    },
+    nextStep() {
+      if (this.currentStep < steps.length - 1) {
+        this.currentStep += 1;
+        return;
+      }
+      this.finalStep();
+    },
+    finalStep() {
+      // set step after the last to hide permanently:
+      // this.storeStep(steps.length);
+      this.storeStep(null);
+
+      if (this.account) {
+        this.$router.push({
+          name: 'user-profile',
+          params: {
+            address: this.account,
+          },
+        });
+        return;
+      }
+
+      this.$router.push({ name: 'create-profile' });
+    },
+    storeStep(index) {
+      if (index === null) {
         localStorage.removeItem('currentStep');
 
         return;
       }
-      localStorage.setItem('currentStep', step);
+      localStorage.setItem('currentStep', index);
     },
     retrieveStep() {
       if (localStorage.getItem('currentStep') === null) {
@@ -106,6 +137,24 @@ export default {
       opacity: 0.9;
       outline: 0;
     }
+
+    .button {
+      background-color: inherit;
+      border: 1px solid $custom_links_color;
+      border-radius: .25rem;
+      color: $custom_links_color;
+      font-size: .75rem;
+      font-weight: 700;
+      justify-self: center;
+      line-height: 1.125;
+      padding: .65rem 2.5rem;
+
+      &[disabled] {
+        border: 1px solid #BBBBBE;
+        color: #BBBBBE;
+        opacity: .3;
+      }
+    }
   }
 
   .onboarding__container {
@@ -117,6 +166,16 @@ export default {
     display: flex;
     justify-content: center;
     padding: 1rem 0 0;
+  }
+
+  .onboarding__start {
+    padding-bottom: 1rem;
+
+    .button {
+      background: url("../../assets/wizardChevron.svg") no-repeat 1rem center;
+      line-height: 1;
+      padding: .65rem .9rem .65rem 2rem;
+    }
   }
 
   .onboarding__tabs {
@@ -138,9 +197,10 @@ export default {
     border: 0;
     border-bottom: 2px solid $custom_links_color;
     color: #52535a;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     padding: 0 .5rem 1rem 1rem;
     position: relative;
+    white-space: nowrap;
 
     &:first-child {
       padding-left: 1.5rem;
@@ -191,16 +251,106 @@ export default {
     width: .9rem;
   }
 
-  .onboarding__start {
-    background: url("../../assets/wizardChevron.svg") no-repeat 1rem center;
-    background-color: inherit;
-    border: 1px solid $custom_links_color;
-    border-radius: .25rem;
-    color: $custom_links_color;
-    font-size: .75rem;
-    font-weight: 700;
-    justify-self: center;
-    line-height: 1;
-    padding: .65rem .9rem .65rem 2rem;
+  .onboarding__body {
+    background-color: #21222c;
+    padding: 1.5rem 2.5rem 2.25rem;
+  }
+
+  .step__content {
+    color: #d2d2d4;
+
+    .step__figure {
+      margin-bottom: 1.35rem;
+      text-align: center;
+
+      img {
+        height: 7.5rem;
+        width: 7.5rem;
+      }
+
+    }
+
+    .step__footer {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+
+      .button {
+        min-width: 11rem;
+      }
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    p {
+      font-size: .8rem;
+      line-height: 1.625;
+      margin-bottom: 1rem;
+
+      a {
+        color: $custom_links_color;
+      }
+    }
+
+    ol, ul {
+      padding-left: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      font-size: .8rem;
+      line-height: 1.75;
+    }
+
+    blockquote {
+      color: #d2d2d4;
+      font-size: 0.9rem;
+      font-style: italic;
+      font-weight: 700;
+      line-height: 1.66;
+      min-height: 4rem;
+      padding: .5rem .5rem .5rem 2.5rem;
+      position: relative;
+      text-align: center;
+
+      &:before {
+        content: url("../../assets/quote.svg");
+        height: 1.5rem;
+        left: 0;
+        position: absolute;
+        top: 0.3rem;
+      }
+
+      cite {
+        align-items: center;
+        color: #d2d2d4;
+        display: flex;
+        font-size: 0.8rem;
+        font-weight: 400;
+        justify-content: center;
+        left: -1.5rem;
+        position: relative;
+
+        &:before,
+        &:after {
+          border-bottom: 2px solid #4d4e56;
+          content: '';
+          height: 0;
+          margin: 0 0.5rem;
+          width: 1.25rem;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 992px) {
+    .onboarding_tab {
+      font-size: 0.8rem;
+    }
   }
 </style>

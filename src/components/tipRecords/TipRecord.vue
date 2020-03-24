@@ -8,7 +8,7 @@
             <span v-if="tip.chainName" class="chain__name">{{tip.chainName}}</span>
             <span v-else class="address">{{tip.sender}}</span>
           </router-link>
-          <span class="date" v-bind:class="[tip.chainName ? '': 'wholeaddr']">
+          <span class="date" v-bind:class="[tip.chainName ? '' : 'wholeaddr']">
             <format-date :dateTimestamp="tip.timestamp"></format-date>
           </span>
         </div>

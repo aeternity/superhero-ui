@@ -36,6 +36,8 @@ export default class Backend {
     return fetch(this.getProfileImageUrl(address), request);
   });
 
+  getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
+
   getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
 
   getChainNameFromAddress = async () => wrapTry(async () => fetch(`${MAINNET_URL}/middleware/names/active`));

@@ -7,9 +7,13 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 import { i18n } from './utils/i18nHelper';
+import VueClipboard from 'vue-clipboard2';
+import SocialSharing from 'vue-social-sharing';
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
+Vue.use(VueClipboard);
+Vue.use(SocialSharing);
 
 Vue.config.productionTip = false;
 

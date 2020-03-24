@@ -27,7 +27,7 @@
               Edit Profile
             </a>
             <div class="profile__image position-relative" >
-              <div class="overlay" v-if="showLoadingAvatar"></div>
+              <div class="image-overlay" v-if="showLoadingAvatar"></div>
               <loading
                 :show-loading="showLoadingAvatar && editMode"
                 class="position-absolute"
@@ -411,7 +411,7 @@ export default {
         .blurred{
           opacity: .4;
         }
-        .overlay{
+        .image-overlay{
           position: absolute;
           top: 0;
           bottom: 0;

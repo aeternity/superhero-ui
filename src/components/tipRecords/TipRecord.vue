@@ -56,6 +56,7 @@
               <img src="../../assets/commentsIcon.svg">
             </span>
             <span>{{tip.commentCount}}</span>
+            <tip-share class="ml-4" :tip="tip"></tip-share>
           </div>
         </div>
       </div>
@@ -70,6 +71,7 @@ import Retip from '../Retip.vue';
 import TipTitle from './TipTitle.vue';
 import Backend from '../../utils/backend';
 import FormatDate from './FormatDate.vue';
+import TipShare from './TipShare.vue';
 
 export default {
   name: 'TipRecord',
@@ -80,6 +82,7 @@ export default {
     Retip,
     TipTitle,
     FormatDate,
+    TipShare
   },
   computed: {
     tipPreviewDescription() {
@@ -185,7 +188,7 @@ export default {
         }
         .tip__footer{
           background-color: $light_color;
-          font-size: .8rem;
+          font-size: .7rem;
           color: $light_font_color;
           border-bottom-right-radius: .25rem;
           border-bottom-left-radius: .25rem;

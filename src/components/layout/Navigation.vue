@@ -18,7 +18,7 @@
       </router-link>
     </div>
     <div class="navigation__item profile" v-if="isLoggedIn">
-      <router-link :to="{ name: 'user-profile', params: { address: this.account }}">
+      <router-link :to="{ name: 'user-profile', params: { address: this.account } }">
         <div class="navigation__item__image"></div>
         <span>My Profile</span>
       </router-link>

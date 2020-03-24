@@ -10,7 +10,7 @@
               <span v-else :address="comment.author" class="address">{{comment.author}}</span>
             </router-link>
             <span class="date"
-             v-bind:class="[userChainName || comment.chainName ? '': 'wholeaddr']">
+             v-bind:class="[userChainName || comment.chainName ? '' : 'wholeaddr']">
               <format-date :dateTimestamp="comment.createdAt"></format-date>
             </span>
           </div>

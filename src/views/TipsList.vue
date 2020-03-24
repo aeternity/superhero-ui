@@ -18,7 +18,7 @@
       </div>
       <loading :show-loading="loading.tips" class="loading-position"/>
       <div class="container wrapper">
-        <onboarding/>
+        <onboarding v-if="!isLoggedIn" />
         <div class="tips__container">
           <div class="send__tip__container">
             <send-tip></send-tip>

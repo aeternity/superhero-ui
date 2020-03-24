@@ -26,8 +26,6 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   }));
 
-  getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
-
   setProfileImage = async (address, data, image = true) => wrapTry(async () => {
     const request = {
       method: 'post',
@@ -38,6 +36,8 @@ export default class Backend {
     return fetch(this.getProfileImageUrl(address), request);
   });
 
+  getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
+
   getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
 
   getChainNameFromAddress = async () => wrapTry(async () => fetch(`${MAINNET_URL}/middleware/names/active`));
@@ -47,4 +47,6 @@ export default class Backend {
   getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));
 
   static getTipPreviewUrl = (previewLink) => `${BACKEND_URL}${previewLink}`;
+
+  static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 }

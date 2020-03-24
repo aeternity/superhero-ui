@@ -69,6 +69,7 @@ import util from '../../utils/util';
 import aeternity from '../../utils/aeternity';
 import { EventBus } from '../../utils/eventBus';
 import avatar from '../../assets/userAvatar.svg';
+import Backend from '../../utils/backend';
 
 export default {
   name: 'SendTip',
@@ -76,7 +77,7 @@ export default {
     FiatValue,
   },
   computed: {
-    ...mapGetters(['balance', 'loading']),
+    ...mapGetters(['balance', 'loading', 'account', 'isLoggedIn']),
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
@@ -106,6 +107,17 @@ export default {
     clearTipForm() {
       this.sendTipForm = { amount: null, url: '', title: '' };
     },
+    getAvatar(address) {
+      return Backend.getProfileImageUrl(address);
+    },
+  },
+  async created() {
+    const loadUserAvatar = setInterval(() => {
+      if (this.isLoggedIn) {
+        this.avatar = this.getAvatar(this.account);
+        clearInterval(loadUserAvatar);
+      }
+    }, 1000);
   },
 };
 </script>

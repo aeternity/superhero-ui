@@ -14,7 +14,7 @@
     <div class="comment__section">
       <p class="latest__comments">Latest comments</p>
       <div class="d-flex">
-          <img class="mr-3 avatar" src="../assets/userAvatar.svg">
+          <img class="mr-3 avatar" :src="avatar">
           <div class="input-group">
             <input type="text" placeholder="Add comment" v-model="comment" class="form-control">
             <b-button
@@ -55,6 +55,7 @@ import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
+import avatar from '../assets/userAvatar.svg';
 
 const backendInstance = new Backend();
 
@@ -74,10 +75,11 @@ export default {
       comments: [],
       error: false,
       comment: '',
+      avatar,
     };
   },
   computed: {
-    ...mapGetters(['tips', 'settings', 'account', 'chainNames']),
+    ...mapGetters(['tips', 'settings', 'account', 'chainNames', 'isLoggedIn']),
     tip() {
       return this.tips.find((x) => x.id === parseInt(this.id, 10));
     },
@@ -88,6 +90,9 @@ export default {
     },
   },
   methods: {
+    getAvatar(address) {
+      return Backend.getProfileImageUrl(address);
+    },
     async sendTipComment() {
       this.showLoading = true;
 
@@ -127,6 +132,12 @@ export default {
   },
   created() {
     this.updateTip();
+    const loadUserAvatar = setInterval(() => {
+      if (this.isLoggedIn) {
+        this.avatar = this.getAvatar(this.account);
+        clearInterval(loadUserAvatar);
+      }
+    }, 500);
   },
 };
 </script>
@@ -138,6 +149,8 @@ export default {
   font-size: .75rem;
   .avatar{
     width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
   }
   .input-group{
     width: calc(100% - 2.5rem)

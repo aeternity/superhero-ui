@@ -13,7 +13,9 @@
       Fund transfers are instant, with near-zero processing fees.
       Censorship-proof: there are no third-party intermediaries to ban creators from sending and
       receiving payments, and records are immortalized on æternity blockchain. Learn more by our
-      Tutorial & FAQ
+      <router-link to="/create-profile" v-slot="{ href }">
+        <a :href="href" target="_blank">Tutorial & FAQ</a>
+      </router-link>
     </p>
     <p>
       <b>Install as browser extension and mobile app on your preferred platforms:</b>

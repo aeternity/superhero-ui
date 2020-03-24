@@ -34,6 +34,18 @@ a:hover{
   white-space: nowrap;
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  &:hover {
+    cursor: default;
+  }
+}
+
 .button, a.button {
   background: transparent;
   border: .05rem solid $standard_font_color;

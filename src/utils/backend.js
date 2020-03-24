@@ -26,8 +26,6 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   }));
 
-  getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
-
   setProfileImage = async (address, data, image = true) => wrapTry(async () => {
     const request = {
       method: 'post',
@@ -47,4 +45,6 @@ export default class Backend {
   getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));
 
   static getTipPreviewUrl = (previewLink) => `${BACKEND_URL}${previewLink}`;
+
+  static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 }

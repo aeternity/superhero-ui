@@ -4,7 +4,7 @@
     :href="deepLink"
     target="_blank"
   >
-    <img :src="showRetipIcon? retipIcon : heartIcon">
+    <img :src="showRetipIcon ? retipIcon : heartIcon">
   </a>
   <div v-else class="d-inline-block">
     <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>

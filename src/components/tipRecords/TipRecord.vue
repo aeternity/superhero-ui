@@ -4,7 +4,7 @@
       <div class="clearfix">
         <div class="tip__author" :title="tip.sender" v-on:click.stop>
           <router-link :to="'/user-profile/' + tip.sender">
-            <img src="../../assets/userAvatar.svg">
+            <img :src="getAvatar(tip.sender)">
             <span v-if="tip.chainName" class="chain__name">{{tip.chainName}}</span>
             <span v-else class="address">{{tip.sender}}</span>
           </router-link>
@@ -102,6 +102,9 @@ export default {
     },
   },
   methods: {
+    getAvatar(address) {
+      return Backend.getProfileImageUrl(address);
+    },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
           && typeof tip.preview !== 'undefined'
@@ -162,7 +165,9 @@ export default {
           }
           img{
             width: 1.5rem;
+            height: 1.5rem;
             margin-right: 0.25rem;
+            border-radius: 50%;
           }
           &>a{
             width: 90%;

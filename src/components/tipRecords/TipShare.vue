@@ -121,7 +121,8 @@ export default {
   left: .5rem;
   padding: .25rem;
   display: none;
-
+  line-height: 1rem;
+  
   &.show {
     display: block;
   }

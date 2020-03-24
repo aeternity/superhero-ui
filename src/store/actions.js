@@ -41,4 +41,10 @@ export default {
   setChainNames({ commit }, payload) {
     commit(types.SET_CHAIN_NAMES, payload);
   },
+  setWizardCurrentStep({ commit }, payload) {
+    commit(types.SET_WIZARD_CURRENT_STEP, payload * 1);
+  },
+  setWizardIsCollapsed({ commit }, payload) {
+    commit(types.SET_WIZARD_IS_COLLAPSED, Boolean(payload));
+  },
 };

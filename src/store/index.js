@@ -29,6 +29,8 @@ export default new Vuex.Store({
       initial: false,
     },
     chainNames: [],
+    wizardCurrentStep: 0,
+    wizardIsCollapsed: false,
   },
   getters,
   mutations,
@@ -36,8 +38,10 @@ export default new Vuex.Store({
   plugins: [
     persistState(
       (state) => state,
-      ({ settings }) => ({
+      ({ settings, wizardCurrentStep, wizardIsCollapsed }) => ({
         settings,
+        wizardCurrentStep,
+        wizardIsCollapsed,
       }),
     ),
   ],

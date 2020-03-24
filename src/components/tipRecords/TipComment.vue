@@ -4,7 +4,7 @@
         <div class="clearfix">
           <div class="tip__author" :title="comment.author">
             <router-link :to="'/user-profile/' + comment.author">
-              <img src="../../assets/userAvatar.svg">
+              <img :src="getAvatar(comment.author)">
               <span class="chain__name" v-if="userChainName">{{userChainName}}</span>
               <span class="chain__name" v-else-if="comment.chainName">{{comment.chainName}}</span>
               <span v-else :address="comment.author" class="address">{{comment.author}}</span>
@@ -25,6 +25,7 @@
 <script>
 
 import FormatDate from './FormatDate.vue';
+import Backend from '../../utils/backend';
 
 export default {
   name: 'TipComment',
@@ -35,6 +36,11 @@ export default {
   },
   components: {
     FormatDate,
+  },
+  methods: {
+    getAvatar(address) {
+      return Backend.getProfileImageUrl(address);
+    },
   },
 };
 </script>

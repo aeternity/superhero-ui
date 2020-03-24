@@ -70,7 +70,13 @@ export default {
       display: flex;
       line-height: 1;
     }
-
+    //TODO: Should be removed when Trending page is added
+    &.trending .router-link-exact-active {
+      color: $standard_font_color;
+      &:hover{
+        color: $custom_links_color;
+      }
+    }
     a:hover,
     .router-link-exact-active {
       color: $custom_links_color;
@@ -102,13 +108,12 @@ export default {
         background-image: url('../../assets/iconHomeActive.svg');
       }
 
-      .trending & {
-        background-image: url('../../assets/iconTrendingActive.svg');
-      }
-
       .profile & {
         background-image: url('../../assets/iconUserActive.svg');
       }
+    }
+    .navigation__item.trending  a:hover &{
+      background-image: url('../../assets/iconTrendingActive.svg');
     }
   }
 

@@ -12,10 +12,10 @@
       </router-link>
     </div>
     <div class="navigation__item trending">
-      <a>
+      <router-link :to="{ name: 'home' }">
         <div class="navigation__item__image"></div>
         <span>Trending</span>
-      </a>
+      </router-link>
     </div>
     <div class="navigation__item profile" v-if="isLoggedIn">
       <router-link :to="{ name: 'user-profile', params: { address: this.account }}">

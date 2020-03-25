@@ -62,7 +62,7 @@ export default {
       // oracle state
 
       const oracleState = await new Backend().getOracleCache()
-        .catch(() => aeternity.oracleContract.methods.get_state().then(res => res.decodedResult));
+        .catch(() => aeternity.getOracleState());
       this.setOracleState(oracleState);
     },
     async reloadData(initial = false) {

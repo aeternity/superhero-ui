@@ -109,7 +109,7 @@ export default {
     async retip() {
       const amount = util.aeToAtoms(this.value);
       this.showLoading = true;
-      await aeternity.contract.methods.retip(this.tipid, { amount })
+      await aeternity.retip(this.tipid, amount)
         .then(async () => {
           await new Backend().cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');

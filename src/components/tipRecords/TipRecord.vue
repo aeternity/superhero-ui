@@ -45,7 +45,7 @@
                 <retip :tipid="tip.id" :amount="tip.amount_ae"></retip>
               </span>
             </span>
-            <span class="ml-4" v-on:click.stop>
+            <span class="ml-4 retip__wrapper" v-on:click.stop>
               <retip
                 :tipid="tip.id"
                 :show-retip-icon="true"

@@ -13,14 +13,14 @@
     <div class="position-relative wrapper" v-on:click.stop>
       <span @click="toggleRetip(!show)">
         <img
-        v-if="!showRetipIcon"
-        class="retip__icon"
-        :src="heartIcon"
+          v-if="!showRetipIcon"
+          class="retip__icon"
+          :src="heartIcon"
         >
         <img
-        v-else
-        class="retip__icon"
-        :src="retipIcon"
+          v-else
+          class="retip__icon"
+          :src="retipIcon"
         >
         <ae-amount :amount="amount" :round="2" class="vertical-align-mid"></ae-amount>
         <fiat-value :amount="amount" class="vertical-align-mid"></fiat-value>

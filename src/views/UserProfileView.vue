@@ -38,7 +38,12 @@
                 :class="[showLoadingAvatar ? 'blurred' : '']"
                 :title="address"
               >
-                  <img :src="avatar" :onerror="`this.style.opacity=0`" alt="">
+                  <img
+                    :src="avatar"
+                    :key="avatarEditImageKey"
+                    :onerror="`this.style.opacity=0`"
+                    alt=""
+                  >
                   <span>Change Avatar</span>
                 <input
                   id="file-input"
@@ -187,6 +192,7 @@ import FiatValue from '../components/FiatValue.vue';
 import AeAmount from '../components/AeAmount.vue';
 import Util from '../utils/util';
 import Loading from '../components/Loading.vue';
+import defaultAvatar from '../assets/userAvatar.svg';
 
 const backendInstance = new Backend();
 
@@ -222,7 +228,7 @@ export default {
         biography: '',
         displayName: '',
       },
-      avatar: this.getAvatar(this.address),
+      defaultAvatar,
     };
   },
   computed: {
@@ -268,6 +274,10 @@ export default {
       }
       return this.userTips.length === 0 && !this.showLoading && !this.loading.tips;
     },
+    avatar() {
+      const userImage = this.getAvatar(this.address);
+      return userImage || this.defaultAvatar;
+    },
   },
   methods: {
     updateAvatarImageKey() {
@@ -280,7 +290,6 @@ export default {
       return this.explorerUrl + address;
     },
     toggleEditMode() {
-      this.avatar = this.getAvatar(this.address);
       this.editMode = !this.editMode;
     },
     resetEditedValues() {
@@ -331,7 +340,7 @@ export default {
         .catch(console.error);
 
       // use the new avatar with cache-bust
-      this.avatar = `${this.getAvatar(this.account)}?${Math.random()}`;
+      this.updateAvatarImageKey();
     },
   },
   async created() {

@@ -70,10 +70,16 @@ import Retip from '../Retip.vue';
 import TipTitle from './TipTitle.vue';
 import Backend from '../../utils/backend';
 import FormatDate from './FormatDate.vue';
+import defaultAvatar from '../../assets/userAvatar.svg';
 
 export default {
   name: 'TipRecord',
   props: ['tip', 'foundWallet', 'senderLink'],
+  data() {
+    return {
+      defaultAvatar,
+    };
+  },
   components: {
     FiatValue,
     AeAmount,
@@ -103,7 +109,8 @@ export default {
   },
   methods: {
     getAvatar(address) {
-      return Backend.getProfileImageUrl(address);
+      const userImage = Backend.getProfileImageUrl(address);
+      return userImage || this.defaultAvatar;
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null

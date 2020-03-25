@@ -114,7 +114,10 @@ export default {
   async created() {
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
-        this.avatar = this.getAvatar(this.account);
+        const userImage = Backend.getProfileImageUrl(this.account);
+        if (userImage) {
+          this.avatar = userImage;
+        }
         clearInterval(loadUserAvatar);
       }
     }, 1000);

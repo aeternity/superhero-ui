@@ -19,7 +19,7 @@
       <div class="tip__article position-relative" v-if="isPreviewToBeVisualized(tip)">
         <a :href="tip.url" target="_blank" v-on:click.stop>
         <div class="tip__article--hasresults">
-          <img :src="tipPreviewImage" :onerror="`this.style.opacity=0`">
+          <img :src="tipPreviewImage" :onerror="`this.className='fail'`" :loading="`lazy`">
           <div class="tip__article__content">
             <h2 class="title text-ellipsis"
               :title="tipPreviewTitle">
@@ -238,8 +238,9 @@ export default {
           border-radius: .5rem;
           margin-right: 1rem;
           background-image: url("../../assets/defaultImg.svg");
-          background-position: 1rem center;
+          background-position: 14% center;
           background-repeat: no-repeat;
+          background-size: 30%;
           overflow: hidden;
           height: 9rem;
 
@@ -332,10 +333,6 @@ export default {
   .tips__container .tip__record .tip__body .tip__footer{
     white-space: normal;
   }
-
-  .tip__record .tip__article {
-      background-size: 8rem;
-  }
 }
 
 //Smallest devices Portrait and Landscape
@@ -353,7 +350,6 @@ export default {
           max-width: calc(100% + 1rem);
           width: calc(100% + 1rem);
           margin-right: -1rem;
-          background-size: 5rem;
         }
         .tip__body{
           .tip__author{

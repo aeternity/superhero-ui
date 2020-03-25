@@ -41,7 +41,7 @@
                   <img
                     :src="avatar"
                     :key="avatarEditImageKey"
-                    :onerror="`this.style.opacity=0`"
+                    :onerror="`this.className='fail'`"
                     alt=""
                   >
                   <span>Change Avatar</span>
@@ -60,7 +60,7 @@
                 :title="address"
                 target="_blank"
               >
-                <img :src="avatar" v-if="!editMode" :onerror="`this.style.opacity=0`" alt="">
+                <img :src="avatar" v-if="!editMode" :onerror="`this.className='fail'`" alt="">
               </a>
             </div>
             <div class="profile__info">

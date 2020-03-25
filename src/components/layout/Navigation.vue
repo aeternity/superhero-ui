@@ -29,6 +29,12 @@
         <span>Create Profile</span>
       </router-link>
     </div>
+    <div class="navigation__item faq">
+      <router-link :to="{ name: 'faq' }">
+        <div class="navigation__item__image"></div>
+        <span>FAQ</span>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -102,6 +108,9 @@ export default {
       background-image: url('../../assets/iconUser.svg');
     }
 
+    .faq & {
+      background-image: url('../../assets/iconHelp.svg');
+    }
     a:hover &,
     .router-link-exact-active & {
       .home & {
@@ -110,6 +119,10 @@ export default {
 
       .profile & {
         background-image: url('../../assets/iconUserActive.svg');
+      }
+
+      .faq & {
+        background-image: url('../../assets/iconHelpActive.svg');
       }
     }
     .navigation__item.trending  a:hover &{

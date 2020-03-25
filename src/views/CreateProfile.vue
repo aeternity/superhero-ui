@@ -26,7 +26,8 @@
           <p>
             <ul>
               <li>
-                Send tips to URLs—regardless of whether the creator or author has the wallet or not.
+                Send tips to URLs—regardless of whether the creator or author
+                has installed the wallet or not.
               </li>
               <li>
                 Receive tips from supporters—no censorship, instant transactions at near-zero fees.
@@ -62,34 +63,27 @@
             Download and install the Superhero extension.
             Superhero is available for Firefox and Chrome
             (the Chrome extension can be used for Brave and Opera).
-            Choose the right one for your browser.
+            Choose the right one for your browser.<br>
 
-            https://github.com/superherowallet/wallet/releases/latest
+            For Firefox, get the add-on here:<br>
 
-            After downloading, unzip the file. Remember where you saved these files.
+            https://addons.mozilla.org/en-US/firefox/addon/superhero-wallet/
+
+            Click Add to Firefox, and then confirm by clicking Add in the message prompt.<br>
+            The Superhero icon should appear on the upper right corner of your
+            Firefox browser tool bar.
           </p>
 
           <p>
-            For Chrome:
-            On the upper right of your web browser, find the ellipsis menu.
+            For Chrome, Brave, and Opera:<br>
+            https://chrome.google.com/webstore/detail/superhero/mnhmmkepfddpifjkamaligfeemcbhdne
 
-            Go to More Tools > Extensions.
-            Make sure Developer Mode is turned on. Then click Load Unpacked.
+            Add the extension to your browser. The Superhero icon should appear on the upper
 
-            Choose the unzipped folder for the Suerhero wallet—do not choose any file,
-            just the folder itself.
+            right corner of your Chrome browser tool bar.
           </p>
 
           <p>
-            That’s it. The Superhero icon should appear on the upper right of your browser toolbar.
-          </p>
-
-          <p>
-            For Firefox:
-            On the upper right of your web browser, find the hamburger menu.
-
-            Choose Add-ons.
-
             Creating your wallet.
             <ul>
               <li>
@@ -109,6 +103,8 @@
           <p>
             You can find your wallet address on your dashboard, right above your balance.
             It’s a random string of numbers and letters that starts with ak_.
+            This wallet address is also referred to as a public key—and is what
+            others see as your public ID by default.
           </p>
 
           <p>
@@ -209,10 +205,10 @@
               </li>
               <li>
                 Save this change and refresh the page.
-                Check to see if your wallet address is publicly visible on your web page.
+                You can also add your wallet address in the source code of your web page.
               </li>
               <li>
-                Once your wallet address is publicly displayed on your web profile,
+                Once your wallet address is added to your web page,
                 all you have to do is open your Superhero wallet
                 and voila—your tips will be collected and added to your wallet balance.
               </li>
@@ -222,7 +218,7 @@
           <p>
             In some cases, there may be slight delays in collecting tips.
             Give it a few minutes and try opening your wallet again.
-            If the problem persists, you may ask questions through superherowallet@protonmail.com
+            If the problem persists, you may ask questions through this Forum thread.
           </p>
 
           <p>
@@ -231,13 +227,11 @@
 
           <p>
             To load up your Superhero wallet,
-            you can purchase AE tokens instantly using your credit card through Changelly.
+            you can trade ETH or BTC to AE through Jelly Swap.
+            You can also purchase AE tokens instantly using
+            your credit card through Changelly (fees for Changelly apply).
             Just copy your Superhero wallet address
             and paste it as the recipient address for your purchase.See below.
-          </p>
-
-          <p>
-            You can also trade ETH or BTC to AE through Jelly Swap.
           </p>
 
           <p>
@@ -245,10 +239,8 @@
 
             <ul>
               <li>
-                Binance - the largest cryptocurrency exchange in the world
-              </li>
-              <li>
-                MXC Exchange - Chinese assets trading platform
+                Binance - the largest cryptocurrency exchange in the
+                world MXC Exchange - Chinese assets trading platform
               </li>
               <li>
                 Gate.io - Chinese assets trading platform
@@ -282,12 +274,16 @@
             To withdraw the tips you’ve received,
             you can send your tips to your AE wallet address in a crypto exchange
             that supports AE tokens (see list above).
-            These can then be converted into other cryptocurrencies,
-            or converted into fiat and subsequently transferred to your local bank.
-            Methods for these vary per country.
+            * Go to the hamburger menu, click Withdraw.
+            * Enter your wallet address from the crypto exchange of your choice as
+            well as the amount you want to withdraw.
+            * Review the transaction details and hit Send once you are satisfied.
           </p>
 
           <p>
+            These can then be converted into other cryptocurrencies,
+            or converted into fiat and subsequently transferred to your local bank.
+            Methods for these vary per country.
             Hopefully, in the future,
             you will be able to cash out directly from AE into your bank.
             Or even better, you may not even need to cash out at all in a world

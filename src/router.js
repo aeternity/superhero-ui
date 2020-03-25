@@ -4,6 +4,7 @@ import TipCommentsView from './views/TipCommentsView.vue';
 import UserProfileView from './views/UserProfileView.vue';
 import Terms from './views/Terms.vue';
 import Privacy from './views/Privacy.vue';
+import FAQ from './views/FAQ.vue';
 import CreateProfile from './views/CreateProfile.vue';
 
 const guardTipComments = (to, from, next) => {
@@ -62,6 +63,14 @@ const routes = [
     component: CreateProfile,
     meta: {
       title: 'Create Profile',
+    },
+  },
+  {
+    path: '/faq',
+    name: 'faq',
+    component: FAQ,
+    meta: {
+      title: 'FAQ Page',
     },
   },
 ];

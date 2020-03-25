@@ -45,7 +45,7 @@ export default {
         this.removeLoading('wallet');
       }).catch(console.error);
     },
-    reloadAsyncData(initial, stats) {
+    async reloadAsyncData(initial, stats) {
       // stats
       Promise.all([new Backend().getStats(), aeternity.client.height()])
         .then(([backendStats, height]) => {
@@ -60,9 +60,10 @@ export default {
         this.updateCurrencyRates(rates);
       }).catch(console.error);
       // oracle state
-      aeternity.oracleContract.methods.get_state().then((state) => {
-        this.setOracleState(state.decodedResult);
-      }).catch(console.error);
+
+      const oracleState = await new Backend().getOracleCache()
+        .catch(() => aeternity.oracleContract.methods.get_state().then(res => res.decodedResult));
+      this.setOracleState(oracleState);
     },
     async reloadData(initial = false) {
       this.addLoading('tips');

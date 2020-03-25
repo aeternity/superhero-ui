@@ -1,4 +1,4 @@
-import { BACKEND_URL, MAINNET_URL } from '../config/constants';
+import { BACKEND_URL, MIDDLEWARE_URL } from '../config/constants';
 import { wrapTry } from './util';
 
 export default class Backend {
@@ -46,7 +46,7 @@ export default class Backend {
 
   cacheInvalidateTips = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/invalidate/tips`));
 
-  getChainNameFromAddress = async () => wrapTry(async () => fetch(`${MAINNET_URL}/middleware/names/active`));
+  getChainNameFromAddress = async () => wrapTry(async () => fetch(`${MIDDLEWARE_URL}/middleware/names/active`));
 
   getCommentCounts = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/tips/`));
 

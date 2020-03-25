@@ -77,12 +77,13 @@ import RightSection from '../components/layout/RightSection.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
+import { MIDDLEWARE_URL } from '../config/constants';
 
 export default {
   name: 'TipsList',
   data() {
     return {
-      explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
+      explorerUrl: `${MIDDLEWARE_URL}account/transactions/`,
       searchTerm: '',
       activeLang: 'en',
       languagesOptions: [

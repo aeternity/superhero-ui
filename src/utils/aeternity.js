@@ -1,7 +1,7 @@
 /* globals Cypress */
 
 import {
-  Node, Universal, Aepp, MemoryAccount,
+  Aepp, MemoryAccount, Node, Universal,
 } from '@aeternity/aepp-sdk/es';
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import ORACLE_INTERFACE from '../contracts/OracleServiceInterface.aes';
@@ -22,9 +22,8 @@ const timeout = async (promise) => Promise.race([
   }, 30000)),
 ]);
 
-aeternity.initProvider = async (force = false) => {
+aeternity.initProvider = async () => {
   // TESTING
-  let isForce = force;
   if (typeof Cypress !== 'undefined') {
     aeternity.contractAddress = 'ct_2GRP3xp7KWrKtZSnYfdcLnreRWrntWf5aTsxtLqpBHp71EFc3i';
     aeternity.oracleContract = {
@@ -32,7 +31,6 @@ aeternity.initProvider = async (force = false) => {
         get_state: async () => ({ success_claimed_urls: [] }),
       },
     };
-    isForce = false;
     aeternity.client = await Universal({
       compilerUrl: 'https://latest.compiler.aepps.com',
       nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],
@@ -42,22 +40,21 @@ aeternity.initProvider = async (force = false) => {
       address: Cypress.env('publicKey'),
     });
   }
-  try {
-    if (isForce || (aeternity.contractAddress && !aeternity.contract)) {
-      aeternity.contract = await aeternity.client
-        .getContractInstance(TIPPING_INTERFACE, { contractAddress: aeternity.contractAddress });
-    }
-    if (isForce || (aeternity.oracleContractAddress && !aeternity.oracleContract)) {
-      aeternity.oracleContract = await aeternity.client
-        .getContractInstance(
-          ORACLE_INTERFACE,
-          { contractAddress: aeternity.oracleContractAddress },
-        );
-    }
-    return true;
-  } catch (e) {
-    console.error(e);
-    return false;
+};
+
+aeternity.initTippingContractIfNeeded = async () => {
+  if (!aeternity.client) throw new Error('Init sdk first');
+  if (!aeternity.contract) {
+    aeternity.contract = await aeternity.client
+      .getContractInstance(TIPPING_INTERFACE, { contractAddress: aeternity.contractAddress });
+  }
+};
+
+aeternity.initOracleContractIfNeeded = async () => {
+  if (!aeternity.client) throw new Error('Init sdk first');
+  if (!aeternity.oracleContract) {
+    aeternity.oracleContract = await aeternity.client
+      .getContractInstance(ORACLE_INTERFACE, { contractAddress: aeternity.oracleContractAddress });
   }
 };
 
@@ -108,15 +105,30 @@ aeternity.initClient = async () => {
   return result;
 };
 
-aeternity.getTips = async () => {
-  const result = await aeternity.contract.methods.get_state();
-  const state = TippingContractUtil.getTipsRetips(result.decodedResult);
-  return state;
+aeternity.getOracleState = async () => {
+  await aeternity.initOracleContractIfNeeded();
+
+  const state = await aeternity.oracleContract.methods.get_state();
+  return state.decodedResult;
 };
 
-aeternity.getTip = async (id) => {
-  const tips = await aeternity.getTips();
-  return tips.find((tip) => tip.id === id);
+aeternity.getTips = async () => {
+  await aeternity.initTippingContractIfNeeded();
+
+  const result = await aeternity.contract.methods.get_state();
+  return TippingContractUtil.getTipsRetips(result.decodedResult);
+};
+
+aeternity.retip = async (id, amount) => {
+  await aeternity.initTippingContractIfNeeded();
+
+  return aeternity.contract.methods.retip(id, { amount });
+};
+
+aeternity.tip = async (url, title, amount) => {
+  await aeternity.initTippingContractIfNeeded();
+
+  return aeternity.contract.methods.tip(url, title, { amount });
 };
 
 aeternity.verifyAddress = async () => {

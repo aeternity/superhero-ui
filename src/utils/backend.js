@@ -40,6 +40,12 @@ export default class Backend {
 
   getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
 
+  getCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache`));
+
+  getOracleCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/oracle`));
+
+  cacheInvalidateTips = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/invalidate/tips`));
+
   getChainNameFromAddress = async () => wrapTry(async () => fetch(`${MAINNET_URL}/middleware/names/active`));
 
   getCommentCounts = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/tips/`));

@@ -2,7 +2,7 @@
   <div>
     <right-section></right-section>
     <left-section></left-section>
-    <loading class="mt-5" v-if="loading.wallet || loading.initial" :show-loading="true" />
+    <loading class="mt-5" v-if="loading.initial" :show-loading="true" />
     <div v-else>
     <div class="container profile__page">
       <div class="actions-ribbon">

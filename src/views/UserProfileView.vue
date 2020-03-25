@@ -2,7 +2,7 @@
   <div>
     <right-section></right-section>
     <left-section></left-section>
-    <loading class="mt-5" v-if="loading.wallet || loading.initial" :show-loading="true" />
+    <loading class="mt-5" v-if="loading.initial" :show-loading="true" />
     <div v-else>
     <div class="container profile__page">
       <div class="actions-ribbon">
@@ -187,6 +187,7 @@ import FiatValue from '../components/FiatValue.vue';
 import AeAmount from '../components/AeAmount.vue';
 import Util from '../utils/util';
 import Loading from '../components/Loading.vue';
+import { MIDDLEWARE_URL } from '../config/constants';
 
 const backendInstance = new Backend();
 
@@ -204,7 +205,7 @@ export default {
   },
   data() {
     return {
-      explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
+      explorerUrl: `${MIDDLEWARE_URL}account/transactions/`,
       tip: this.tipData,
       showLoading: false,
       comments: [],

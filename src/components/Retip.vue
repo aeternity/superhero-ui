@@ -8,7 +8,7 @@
     <ae-amount :amount="amount" :round="2" class="vertical-align-mid"></ae-amount>
     <fiat-value :amount="amount" class="vertical-align-mid"></fiat-value>
   </a>
-  <div v-else class="d-inline-block">
+  <div v-else class="d-inline-block retip__wrapper">
     <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
     <div class="position-relative wrapper" v-on:click.stop>
       <span @click="toggleRetip(!show)">
@@ -209,7 +209,6 @@ export default {
  }
  .wrapper{
    z-index: 20;
-   display: inline-block;
  }
 .wrapper .input-group .input-group-append span.append__ae {
     background: $background_color;
@@ -250,6 +249,11 @@ export default {
     }
   }
 }
+
+.retip__wrapper {
+  height: 1rem;
+}
+
 .retip__button{
   margin-top: 0.1rem;
   background-color: $custom_links_color;
@@ -268,9 +272,6 @@ export default {
   and (min-device-width: 320px)
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
-    .input-group .form-control, .input-group .input-group-append span.append__ae{
-      font-size: .5rem;
-    }
     .retip__container{
       min-width: 13rem;
       padding: .5rem;

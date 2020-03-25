@@ -34,7 +34,7 @@
       <a
         href="https://apps.apple.com/bg/app/superhero-wallet/id1502786641"
         target="_blank">
-        <img src="../../../assets/wallletIOS.svg" alt="iOS">
+        <img src="../../../assets/walletIOS.svg" alt="iOS">
       </a>
       <a
         href="https://play.google.com/store/apps/details?id=com.superhero.cordova"
@@ -73,6 +73,7 @@ export default {
       display: flex;
       height: 2rem;
       margin: 0 1.5rem;
+      width: 2rem;
     }
 
     b {

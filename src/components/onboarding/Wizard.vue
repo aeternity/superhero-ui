@@ -1,32 +1,44 @@
 <template>
-  <div class="onboarding" v-if="shouldShowWizard">
-    <div class="onboarding__nav">
-      <div class="onboarding__start" v-if="wizardIsCollapsed">
-        <button @click="setWizardIsCollapsed(false)" class="button">
-          Join Superhero League
-        </button>
-      </div>
-      <div class="onboarding__tabs" v-else>
-        <button
-          :class="['onboarding_tab', { active: wizardCurrentStep === index }]"
-          :disabled="isStepDisabled(index)"
-          :key="key"
-          @click="setWizardCurrentStep(index)"
-          v-for="([key, tab], index) in steps"
-        >
-          {{ tab }}
-        </button>
-        <button @click="setWizardIsCollapsed(true)" class="onboarding__close"></button>
-      </div>
+  <transition name="component-fade" appear mode="out-in">
+    <div class="onboarding" v-if="shouldShowWizard">
+      <transition name="component-fade" mode="out-in">
+        <div class="onboarding__container" v-if="wizardIsCollapsed" :key="wizardIsCollapsed">
+          <div class="onboarding__nav" >
+            <div class="onboarding__start">
+              <button @click="setWizardIsCollapsed(false)" class="button">
+                Join Superhero League
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="wizard__container" v-else :key="wizardIsCollapsed">
+          <div class="onboarding__nav">
+            <div class="onboarding__tabs">
+              <button
+                :class="['onboarding_tab', { active: wizardCurrentStep === index }]"
+                :disabled="isStepDisabled(index)"
+                :key="key"
+                @click="setWizardCurrentStep(index)"
+                v-for="([key, tab], index) in steps"
+              >
+                {{ tab }}
+              </button>
+              <button @click="setWizardIsCollapsed(true)" class="onboarding__close"></button>
+            </div>
+          </div>
+          <div class="onboarding__body">
+            <transition name="component-fade" mode="out-in">
+              <component :is="getStepComponent" @wizard:next="nextStep" @wizard:goto="gotoStep"/>
+            </transition>
+          </div>
+        </div>
+      </transition>
     </div>
-    <div class="onboarding__body" v-if="!wizardIsCollapsed">
-      <component :is="getStepComponent" @wizard:next="nextStep" @wizard:goto="gotoStep"/>
-    </div>
-  </div>
+  </transition>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import Step1 from './steps/Step1.vue';
 import Step2 from './steps/Step2.vue';
@@ -89,10 +101,10 @@ export default {
     },
     finalStep() {
       // set step after the last to hide permanently (or until a new 'step' is added eventually):
-      this.setWizardCurrentStep(steps.length);
       this.setWizardIsCollapsed(true);
 
       if (this.account) {
+        this.setWizardCurrentStep(steps.length);
         this.$router.push({
           name: 'user-profile',
           params: {
@@ -110,8 +122,7 @@ export default {
 
 <style lang="scss">
   .onboarding {
-    border: 1px dashed $light_font_color;
-    margin: .2rem 0 .1rem;
+    position: relative;
 
     button:active,
     button:focus {
@@ -128,25 +139,32 @@ export default {
       font-weight: 700;
       justify-self: center;
       line-height: 1.125;
-      padding: .65rem 2.5rem;
+      padding: .65rem 1rem;
+      transition: filter 0.1s;
 
       &[disabled] {
         border: 1px solid #BBBBBE;
         color: #BBBBBE;
         opacity: .3;
       }
+      &:hover:not([disabled]) {
+        filter: saturate(0.5) brightness(1.2);
+      }
     }
   }
 
   .onboarding__container {
-    margin-bottom: .15rem;
+    border: 1px dashed $light_font_color;
+    margin: .2rem 0 .15rem;
   }
 
   .onboarding__nav {
     background: $actions_ribbon_background_color;
     display: flex;
     justify-content: center;
-    padding: 1rem 0 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .onboarding__start {
@@ -155,7 +173,7 @@ export default {
     .button {
       background: url("../../assets/wizardChevron.svg") no-repeat 1rem center;
       line-height: 1;
-      padding: .65rem .9rem .65rem 2rem;
+      padding: .65rem .9rem .65rem 2.2rem;
     }
   }
 
@@ -179,7 +197,7 @@ export default {
     border-bottom: 2px solid $custom_links_color;
     color: $custom_links_color;
     font-size: 0.6rem;
-    padding: 0 .5rem 1rem .5rem;
+    padding: 1rem .5rem;
     position: relative;
     white-space: nowrap;
 
@@ -192,14 +210,14 @@ export default {
       border-bottom: 2px solid #67b6f7;
       bottom: -1rem;
       content: url("../../assets/activeTabIcon.svg");
-      display: flex;
       height: 2rem;
       justify-content: flex-end;
-      opacity: 0;
       position: absolute;
-      right: calc(100% - 1.5rem);
-      transition: right 0.5s;
+      left: 100%;
+      transition: opacity .2s;
+      opacity: 0;
       width: 0;
+      margin-left: -1rem;
     }
 
     &.active {
@@ -207,16 +225,17 @@ export default {
 
       &:after {
         opacity: 1;
-        right: -1.5rem;
+        left: 100%;
       }
 
       & ~ .onboarding_tab {
-        color: #52535a;
-
         border-bottom: 2px solid transparent;
+        color: #52535a;
       }
     }
-    &:not(.active):not([disabled]) {
+
+    &:hover:not(.active):not([disabled]) {
+      filter: saturate(0.5) brightness(1.2);
     }
   }
 
@@ -229,11 +248,15 @@ export default {
     font-size: 0.8rem;
     height: .9rem;
     justify-self: flex-end;
-    margin-bottom: 1rem;
-    margin-right: .75rem;
+    margin: 1rem .75rem 1rem 0;
     order: 100;
     padding: 0;
     width: .9rem;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: .8;
+    }
   }
 
   .onboarding__body {
@@ -266,10 +289,11 @@ export default {
 
     a {
       cursor: pointer;
+      transition: all 0.2s;
 
       &:hover {
         color: $custom_links_color;
-        text-decoration: underline;
+        filter: saturate(0.5) brightness(1.2);
       }
     }
 
@@ -287,6 +311,7 @@ export default {
 
       a {
         color: $custom_links_color;
+        text-decoration: underline;
       }
     }
 
@@ -342,18 +367,44 @@ export default {
   }
 
   @media (min-width: 992px) {
+    .button {
+      padding: .65rem 2.5rem;
+    }
+
+    .onboarding__start {
+      .button {
+        padding: .65rem .9rem .65rem 2rem;
+      }
+    }
+
     .onboarding_tab {
-      padding: 0 .5rem 1rem 1rem;
+      font-size: 0.8rem;
+      padding: 1rem .5rem 1rem 1rem;
 
       &:first-child {
         padding-left: 1.5rem;
       }
     }
+
+    .step__content {
+      p {
+        a {
+          text-decoration: none;
+        }
+      }
+    }
   }
 
-  @media (min-width: 992px) {
-    .onboarding_tab {
-      font-size: 0.8rem;
-    }
+  // transition styles
+  .component-fade-enter-active {
+    transition: all .3s;
+  }
+
+  .component-fade-leave-active {
+    transition: all .1s;
+  }
+
+  .component-fade-enter, .component-fade-leave-to {
+    opacity: 0;
   }
 </style>

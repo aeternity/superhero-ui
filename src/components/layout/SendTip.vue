@@ -99,9 +99,10 @@ export default {
   methods: {
     async sendTip() {
       const amount = util.aeToAtoms(this.sendTipForm.amount);
-      await aeternity.contract.methods
-        .tip(this.sendTipForm.url, this.sendTipForm.title, { amount }).catch(console.error);
+      await aeternity.tip(this.sendTipForm.url, this.sendTipForm.title, amount)
+        .catch(console.error);
       this.clearTipForm();
+      await new Backend().cacheInvalidateTips().catch(console.error);
       EventBus.$emit('reloadData');
     },
     clearTipForm() {

@@ -2,7 +2,7 @@
   <div>
     <right-section></right-section>
     <left-section></left-section>
-    <loading class="mt-5" v-if="loading.wallet || loading.initial" :show-loading="true"/>
+    <loading class="mt-5" v-if="loading.initial" :show-loading="true"/>
     <div v-else>
       <div class="actions__container container position-sticky">
       <div class="search__input__container">
@@ -77,12 +77,13 @@ import RightSection from '../components/layout/RightSection.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
+import { MIDDLEWARE_URL } from '../config/constants';
 
 export default {
   name: 'TipsList',
   data() {
     return {
-      explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
+      explorerUrl: `${MIDDLEWARE_URL}account/transactions/`,
       searchTerm: '',
       activeLang: 'en',
       languagesOptions: [

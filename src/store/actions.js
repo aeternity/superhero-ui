@@ -1,5 +1,5 @@
 import * as types from './mutation-types';
-import {EventBus} from '../utils/eventBus';
+import { EventBus } from '../utils/eventBus';
 
 export default {
   setLoggedInAccount({ commit }, payload) {
@@ -19,7 +19,7 @@ export default {
   updateStats({ commit }, payload) {
     commit(types.UPDATE_STATS, payload);
   },
-  setTipSortBy({ commit, state }, payload) {
+  setTipSortBy({ commit }, payload) {
     commit(types.SET_TIPS_SORT_BY, payload);
     EventBus.$emit('setTipSortBy');
   },

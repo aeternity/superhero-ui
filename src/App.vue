@@ -66,13 +66,13 @@ export default {
       // await fetch
       const backend = new Backend();
       const [
-        stats, tips, chainNames, rates, oracleState
+        stats, tips, chainNames, rates, oracleState,
       ] = await Promise.all([
         backend.getCacheStats(),
         backend.getCacheTips(initial ? 'hot' : this.tipSortBy),
         backend.getCacheChainNames(),
         backend.getPrice(),
-        backend.getOracleCache()
+        backend.getOracleCache(),
       ]);
 
       const topics = TipTopicUtil.getTipTopics(tips);

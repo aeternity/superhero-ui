@@ -1,5 +1,5 @@
 <template>
-  <div class="tip__post" v-bind:class="{ active: !loading.wallet }">
+  <div class="tip__post" v-if="canTip" v-bind:class="{ active: !loading.wallet }">
     <form @submit.prevent>
       <div class="form-row">
         <label class="tip__post__label pl-2">Send Tip</label>
@@ -94,27 +94,30 @@ export default {
         title: '',
       },
       avatar,
+      canTip: false,
     };
   },
   methods: {
     async sendTip() {
       const amount = util.aeToAtoms(this.sendTipForm.amount);
-      await aeternity.contract.methods
-        .tip(this.sendTipForm.url, this.sendTipForm.title, { amount }).catch(console.error);
+      await aeternity.tip(this.sendTipForm.url, this.sendTipForm.title, amount)
+        .catch(console.error);
       this.clearTipForm();
+      await new Backend().cacheInvalidateTips().catch(console.error);
       EventBus.$emit('reloadData');
     },
     clearTipForm() {
       this.sendTipForm = { amount: null, url: '', title: '' };
     },
-    getAvatar(address) {
-      return Backend.getProfileImageUrl(address);
-    },
   },
   async created() {
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
-        this.avatar = this.getAvatar(this.account);
+        this.canTip = true;
+        const userImage = Backend.getProfileImageUrl(this.account);
+        if (userImage) {
+          this.avatar = userImage;
+        }
         clearInterval(loadUserAvatar);
       }
     }, 1000);

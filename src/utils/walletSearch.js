@@ -30,7 +30,7 @@ export const wallet = {
       await this.client.connectToWallet(await newWallet.getConnection());
       await this.client.subscribeAddress('subscribe', 'current');
       aeternity.client = this.client;
-      await aeternity.initProvider(true);
+      await aeternity.initProvider();
       successCallback();
     };
 
@@ -52,7 +52,7 @@ export const wallet = {
       this.client.rpcClient = {
         getCurrentAccount: async () => Cypress.env('publicKey'),
       };
-      await aeternity.initProvider(true);
+      await aeternity.initProvider();
       return successCallback();
     }
 

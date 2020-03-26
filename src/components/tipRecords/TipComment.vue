@@ -26,12 +26,14 @@
 
 import FormatDate from './FormatDate.vue';
 import Backend from '../../utils/backend';
+import defaultAvatar from '../../assets/userAvatar.svg';
 
 export default {
   name: 'TipComment',
   props: ['comment', 'userChainName'],
   data() {
     return {
+      defaultAvatar,
     };
   },
   components: {
@@ -39,7 +41,8 @@ export default {
   },
   methods: {
     getAvatar(address) {
-      return Backend.getProfileImageUrl(address);
+      const userImage = Backend.getProfileImageUrl(address);
+      return userImage || this.defaultAvatar;
     },
   },
 };

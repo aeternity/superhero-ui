@@ -5,17 +5,26 @@
     target="_blank"
   >
     <img :src="showRetipIcon ? retipIcon : heartIcon">
+    <ae-amount :amount="amount" :round="2" class="vertical-align-mid"></ae-amount>
+    <fiat-value :amount="amount" class="vertical-align-mid"></fiat-value>
   </a>
   <div v-else class="d-inline-block">
     <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
     <div class="position-relative wrapper" v-on:click.stop>
-      <img
-        @click="toggleRetip(!show)"
-        v-if="!showRetipIcon"
-        class="retip__icon"
-        :src="heartIcon"
-      >
-      <img @click="toggleRetip(!show)" v-else class="retip__icon" :src="retipIcon">
+      <span @click="toggleRetip(!show)">
+        <img
+          v-if="!showRetipIcon"
+          class="retip__icon"
+          :src="heartIcon"
+        >
+        <img
+          v-else
+          class="retip__icon"
+          :src="retipIcon"
+        >
+        <ae-amount :amount="amount" :round="2" class="vertical-align-mid"></ae-amount>
+        <fiat-value :amount="amount" class="vertical-align-mid"></fiat-value>
+      </span>
       <div class="clearfix retip__container" v-if="show">
         <loading :show-loading="showLoading" />
         <div
@@ -62,11 +71,13 @@ import FiatValue from './FiatValue.vue';
 import Loading from './Loading.vue';
 import heartIcon from '../assets/heart.svg';
 import retipIcon from '../assets/retipIcon.svg';
+import AeAmount from './AeAmount.vue';
 import Backend from '../utils/backend';
+
 
 export default {
   name: 'Retip',
-  props: ['tipid', 'showRetipIcon'],
+  props: ['tipid', 'showRetipIcon', 'amount'],
   data() {
     return {
       fiatValue: 0.00,
@@ -82,6 +93,7 @@ export default {
   components: {
     Loading,
     FiatValue,
+    AeAmount,
   },
   computed: {
     eventPayload() {

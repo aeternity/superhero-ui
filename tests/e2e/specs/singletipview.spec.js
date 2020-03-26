@@ -7,9 +7,9 @@ describe('TipRecord.vue', () => {
     cy
       .get('.title', { timeout: 15000 })
       .should('be.visible')
-      .get('.tip__amount')
+      .get('.retip__wrapper')
       .should('be.visible')
-      .get('.tip__amount')
+      .get('.retip__wrapper')
       .should('contain.text', '0.1');
   });
 

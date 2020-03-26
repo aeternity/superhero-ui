@@ -42,14 +42,14 @@
           <div class="col-md-12">
             <span class="tip__amount position-relative" >
               <span class="tip__amount__btn" v-on:click.stop title="Send AE to this post">
-                <retip :tipid="tip.id" :amount="tip.amount_ae"></retip>
+                <retip :tipid="tip.id" :tipurl="tip.url" :amount="tip.amount_ae"></retip>
               </span>
             </span>
             <span class="ml-4 retip__wrapper" v-on:click.stop>
               <retip
                 :tipid="tip.id"
                 :show-retip-icon="true"
-                :amount="tip.amount_ae"
+                :amount="tip.retip_amount_ae"
               >
               </retip>
             </span>

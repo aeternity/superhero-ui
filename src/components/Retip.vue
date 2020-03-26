@@ -34,7 +34,18 @@
           An error occured while sending retip
         </div>
         <div v-if="!showLoading">
-          <div class="input-group mr-1 float-left">
+          <div
+            v-if="!showRetipIcon"
+            class="input-group mr-1 float-left hasmessage"
+          >
+            <input
+              type="text"
+              class="form-control"
+              v-model="title"
+              placeholder="Add message"
+            >
+          </div>
+          <div class="input-group mr-1 float-left" :class="[!showRetipIcon ? 'hasmessage' : '']">
             <input
               type="number"
               min="0"
@@ -51,12 +62,22 @@
             </div>
           </div>
           <button
+            v-if="showRetipIcon"
             class="btn btn-primary retip__button float-right"
-            :disabled='!isRetipDataValid'
+            :disabled='!isDataValid'
             @click="retip()"
           >
             Retip
           </button>
+          <div class="button-section" v-else>
+            <button
+              class="btn btn-primary retip__button"
+              :disabled='!isDataValid'
+              @click="sendTip()"
+            >
+              Tip
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -77,7 +98,7 @@ import Backend from '../utils/backend';
 
 export default {
   name: 'Retip',
-  props: ['tipid', 'showRetipIcon', 'amount'],
+  props: ['tipid', 'showRetipIcon', 'amount', 'tipurl'],
   data() {
     return {
       fiatValue: 0.00,
@@ -88,6 +109,7 @@ export default {
       useDeepLinks: IS_MOBILE_DEVICE && !IS_FRAME,
       heartIcon,
       retipIcon,
+      title: '',
     };
   },
   components: {
@@ -106,8 +128,11 @@ export default {
       url.searchParams.set('x-cancel', window.location);
       return url;
     },
-    isRetipDataValid() {
-      return this.value > 0;
+    isDataValid() {
+      if (this.showRetipIcon) {
+        return this.value > 0;
+      }
+      return this.value > 0 && this.title.length > 0;
     },
   },
   methods: {
@@ -134,8 +159,25 @@ export default {
           this.error = true;
         });
     },
+    async sendTip() {
+      const amount = util.aeToAtoms(this.value);
+      this.showLoading = true;
+      await aeternity.tip(this.tipurl, this.title, amount)
+        .then(async () => {
+          await new Backend().cacheInvalidateTips().catch(console.error);
+          EventBus.$emit('reloadData');
+          this.showLoading = false;
+          this.error = false;
+          this.show = false;
+        }).catch((e) => {
+          console.error(e);
+          this.showLoading = false;
+          this.error = true;
+        });
+    },
     resetForm() {
       this.value = 0;
+      this.title = '';
       this.fiatValue = 0.00;
       this.error = false;
     },
@@ -173,11 +215,20 @@ export default {
     background: $background_color;
     color: $light_font_color;
 }
+.button-section {
+  text-align: center;
+  button {
+    width: 100%;
+  }
+}
 .input-group{
   border-radius: .25rem;
   width: calc(100% - 4rem);
+  &.hasmessage {
+    width: 100%;
+    margin-bottom: .5rem;
+  }
   .form-control{
-    color: $custom_links_color;
     &:focus{
       box-shadow: none;
     }

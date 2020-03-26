@@ -24,9 +24,6 @@ export default {
   [types.UPDATE_STATS](state, payload) {
     state.stats = payload;
   },
-  [types.SET_TIPS_ORDERING](state, payload) {
-    state.tipsOrdering = payload;
-  },
   [types.SET_TIPS_SORT_BY](state, payload) {
     state.tipSortBy = payload;
   },

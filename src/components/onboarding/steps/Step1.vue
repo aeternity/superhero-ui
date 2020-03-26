@@ -8,18 +8,22 @@
     </div>
     <h1>
       Introducing Superhero:<br>
-      Social Sharing With A Mission.
+      <a>a Social Platform With A Mission.</a>
     </h1>
     <p>
-      Welcome to the free web - where you are free to transact as you please.
-      Never be censored again by centralized content monetization platforms.
-      At Superhero, there are no third-party custodians to dictate what can and
-      cannot be monetized - it doesn’t matter whether we like you or not.
+      The first Superpower of Superhero to launch is a<br>
+      <span class="important">P2P tool to receive or send a tip to any URL</span> with...
     </p>
-    <blockquote>
-      A journey of a thousand miles begins with a single step
-      <cite>Lao Tzu</cite>
-    </blockquote>
+    <p>
+      <span class="important">Near zero transaction fees.</span> Cut out intermediaries<br>
+      profiting off sending or receiving support.
+      <span class="important">No wait-time.</span> Transfers<br>
+      are instant. <span class="important">No censorship.</span> No 3rd parties controlling<br>
+      approval nor release of tips. Keep your IP ownership.
+    </p>
+    <p class="highlited">
+      Welcome to a web where you can transact as you please.
+    </p>
     <div class="step__footer">
       <button
         class="button"

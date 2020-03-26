@@ -1,4 +1,6 @@
 describe('Home.vue', () => {
+  const randomString = [...Array(20)].map(() => Math.random().toString(36)[2]).join('');
+
   describe('Home page', () => {
     before(() => {
       cy.visit('/');
@@ -28,7 +30,6 @@ describe('Home.vue', () => {
         .should('be.visible');
     });
 
-    const randomString = [...Array(20)].map(() => Math.random().toString(36)[2]).join('');
     it('can create tip', () => {
       cy
         .get('.form-control')
@@ -70,17 +71,18 @@ describe('Home.vue', () => {
     it('can retip tip', () => {
       cy
         .wait('@getAccount')
-      // Define route here so we do not trigger it while loading initially
+        // Define route here so we do not trigger it while loading initially
         .route('POST', '/v2/debug/transactions/dry-run')
         .as('dryRun')
-        .get('.retip__wrapper .retip__icon')
-        .first()
+        .get('.retip__wrapper .retip__icon--tip')
         .click()
         .get('.retip__container')
         .should('be.visible')
-        .get('.retip__container input')
+        .get('.retip__container input.retip__message')
+        .type(randomString)
+        .get('.retip__container input.retip__value')
         .type('0.01')
-        .get('.retip__container .retip__button')
+        .get('.retip__container input.retip__button')
         .click()
         .wait('@dryRun', { requestTimeout: 50000 })
         .get('.retip__wrapper')

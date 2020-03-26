@@ -18,12 +18,12 @@
       >
         <img
           v-if="!showRetipIcon"
-          class="retip__icon"
+          class="retip__icon retip__icon--tip"
           :src="heartIcon"
         >
         <img
           v-else
-          class="retip__icon"
+          class="retip__icon retip__icon--retip"
           :src="retipIcon"
         >
         <ae-amount :amount="amount" :round="2" class="vertical-align-mid"></ae-amount>
@@ -44,7 +44,7 @@
           >
             <input
               type="text"
-              class="form-control"
+              class="form-control retip__message"
               v-model="title"
               placeholder="Add message"
             >
@@ -55,7 +55,7 @@
               min="0"
               step="0.1"
               v-model.number="value"
-              class="form-control"
+              class="form-control retip__value"
               aria-label="Default"
             >
             <div class="input-group-append">

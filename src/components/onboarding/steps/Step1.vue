@@ -1,10 +1,15 @@
 <template>
   <div class="step__content step_1">
     <div class="step__figure">
-      <img src="../../../assets/step_1_Image.svg" alt="">
+      <img
+        src="../../../assets/step_1_Image.svg"
+        alt=""
+      >
     </div>
-    <h1>Introducing Superhero:<br>
-      Social Sharing With A Mission.</h1>
+    <h1>
+      Introducing Superhero:<br>
+      Social Sharing With A Mission.
+    </h1>
     <p>
       Welcome to the free web - where you are free to transact as you please.
       Never be censored again by centralized content monetization platforms.
@@ -16,7 +21,12 @@
       <cite>Lao Tzu</cite>
     </blockquote>
     <div class="step__footer">
-      <button class="button" @click="nextStep">Start Your Superhero Journey</button>
+      <button
+        class="button"
+        @click="nextStep"
+      >
+        Start Your Superhero Journey
+      </button>
     </div>
   </div>
 </template>

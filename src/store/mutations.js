@@ -39,6 +39,12 @@ export default {
   [types.SET_CHAIN_NAMES](state, payload) {
     state.chainNames = payload;
   },
+  [types.SET_WIZARD_CURRENT_STEP](state, payload) {
+    state.wizardCurrentStep = payload;
+  },
+  [types.SET_WIZARD_IS_COLLAPSED](state, payload) {
+    state.wizardIsCollapsed = payload;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

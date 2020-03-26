@@ -1,39 +1,75 @@
 <template>
-  <div class="onboarding" v-if="shouldShowWizard">
-    <div class="onboarding__nav">
-      <div class="onboarding__start" v-if="currentStep === null">
-        <button
-          @click="currentStep = 0"
-          class="button"
-          v-if="currentStep === null">
-          Join Superhero League
-        </button>
-      </div>
-      <div class="onboarding__tabs" v-else>
-        <button
-          :class="['onboarding_tab', { active: currentStep === index }]"
-          :disabled="isStepDisabled(index)"
-          :key="key"
-          @click="currentStep = index"
-          v-for="([key, tab], index) in steps"
+  <transition
+    name="component-fade"
+    appear
+    mode="out-in"
+  >
+    <div
+      v-if="shouldShowWizard"
+      class="onboarding"
+    >
+      <transition
+        name="component-fade"
+        mode="out-in"
+      >
+        <div
+          v-if="wizardIsCollapsed"
+          :key="wizardIsCollapsed"
+          class="onboarding__container"
         >
-          {{ tab }}
-        </button>
-        <button
-          @click="currentStep = null"
-          class="onboarding__close"
+          <div class="onboarding__nav">
+            <div class="onboarding__start">
+              <button
+                class="button"
+                @click="setWizardIsCollapsed(false)"
+              >
+                Join Superhero League
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          v-else
+          :key="wizardIsCollapsed"
+          class="wizard__container"
         >
-        </button>
-      </div>
+          <div class="onboarding__nav">
+            <div class="onboarding__tabs">
+              <button
+                v-for="([key, tab], index) in steps"
+                :key="key"
+                :class="['onboarding_tab', { active: wizardCurrentStep === index }]"
+                :disabled="isStepDisabled(index)"
+                @click="setWizardCurrentStep(index)"
+              >
+                {{ tab }}
+              </button>
+              <button
+                class="onboarding__close"
+                @click="setWizardIsCollapsed(true)"
+              />
+            </div>
+          </div>
+          <div class="onboarding__body">
+            <transition
+              name="component-fade"
+              mode="out-in"
+            >
+              <component
+                :is="getStepComponent"
+                @wizard:next="nextStep"
+                @wizard:goto="gotoStep"
+              />
+            </transition>
+          </div>
+        </div>
+      </transition>
     </div>
-    <div class="onboarding__body" v-if="currentStep !== null">
-      <component :is="getStepComponent" @wizard:next="nextStep"/>
-    </div>
-  </div>
+  </transition>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import Step1 from './steps/Step1.vue';
 import Step2 from './steps/Step2.vue';
@@ -48,6 +84,7 @@ const steps = [
   ['Step4', 'Send Tips'],
   ['Step5', 'Your Profile'],
 ];
+
 export default {
   name: 'Onboarding',
   components: {
@@ -60,44 +97,45 @@ export default {
   data() {
     return {
       steps,
-      currentStep: this.retrieveStep(),
     };
   },
   computed: {
+    ...mapGetters(['loading', 'account', 'isLoggedIn', 'wizardCurrentStep', 'wizardIsCollapsed']),
     shouldShowWizard() {
-      return this.currentStep * 1 < steps.length;
+      return this.wizardCurrentStep * 1 < steps.length;
     },
     getStepComponent() {
-      if (this.currentStep in this.steps) {
-        return this.steps[this.currentStep][0];
+      if (this.wizardCurrentStep in this.steps) {
+        return this.steps[this.wizardCurrentStep][0];
       }
 
       return null;
     },
-    ...mapGetters(['account', 'isLoggedIn']),
-  },
-  watch: {
-    currentStep(index) {
-      this.storeStep(index);
-    },
   },
   methods: {
+    ...mapActions(['setWizardCurrentStep', 'setWizardIsCollapsed']),
     isStepDisabled(index) {
-      return index > this.currentStep + 1;
+      return index >= 0 && index > this.wizardCurrentStep + 1;
     },
     nextStep() {
-      if (this.currentStep < steps.length - 1) {
-        this.currentStep += 1;
+      if (this.wizardCurrentStep < steps.length - 1) {
+        this.setWizardCurrentStep(this.wizardCurrentStep + 1);
         return;
       }
       this.finalStep();
     },
+    gotoStep(index) {
+      if (this.isStepDisabled(index)) {
+        return;
+      }
+      this.setWizardCurrentStep(index);
+    },
     finalStep() {
-      // set step after the last to hide permanently:
-      // this.storeStep(steps.length);
-      this.storeStep(null);
+      // set step after the last to hide permanently (or until a new 'step' is added eventually):
+      this.setWizardIsCollapsed(true);
 
       if (this.account) {
+        this.setWizardCurrentStep(steps.length);
         this.$router.push({
           name: 'user-profile',
           params: {
@@ -107,22 +145,7 @@ export default {
         return;
       }
 
-      this.$router.push({ name: 'create-profile' });
-    },
-    storeStep(index) {
-      if (index === null) {
-        localStorage.removeItem('currentStep');
-
-        return;
-      }
-      localStorage.setItem('currentStep', index);
-    },
-    retrieveStep() {
-      if (localStorage.getItem('currentStep') === null) {
-        return null;
-      }
-
-      return localStorage.getItem('currentStep') * 1;
+      this.$router.push({ name: 'home' });
     },
   },
 };
@@ -130,8 +153,7 @@ export default {
 
 <style lang="scss">
   .onboarding {
-    border: 1px dashed $light_font_color;
-    margin: .2rem 0 .1rem;
+    position: relative;
 
     button:active,
     button:focus {
@@ -148,34 +170,42 @@ export default {
       font-weight: 700;
       justify-self: center;
       line-height: 1.125;
-      padding: .65rem 2.5rem;
+      padding: .65rem 1rem;
+      transition: filter 0.1s;
 
       &[disabled] {
         border: 1px solid #BBBBBE;
         color: #BBBBBE;
         opacity: .3;
       }
+      &:hover:not([disabled]) {
+        filter: saturate(0.5) brightness(1.2);
+      }
     }
   }
 
   .onboarding__container {
-    margin-bottom: .15rem;
+    border: 1px dashed $light_font_color;
+    margin: .2rem 0 .15rem;
   }
 
   .onboarding__nav {
     background: $actions_ribbon_background_color;
     display: flex;
     justify-content: center;
-    padding: 1rem 0 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .onboarding__start {
+    margin-top: 1rem;
     padding-bottom: 1rem;
 
     .button {
       background: url("../../assets/wizardChevron.svg") no-repeat 1rem center;
       line-height: 1;
-      padding: .65rem .9rem .65rem 2rem;
+      padding: .65rem .9rem .65rem 2.2rem;
     }
   }
 
@@ -197,9 +227,9 @@ export default {
     background: transparent;
     border: 0;
     border-bottom: 2px solid $custom_links_color;
-    color: #52535a;
+    color: $custom_links_color;
     font-size: 0.6rem;
-    padding: 0 .5rem 1rem .5rem;
+    padding: 1rem .5rem;
     position: relative;
     white-space: nowrap;
 
@@ -212,14 +242,14 @@ export default {
       border-bottom: 2px solid #67b6f7;
       bottom: -1rem;
       content: url("../../assets/activeTabIcon.svg");
-      display: flex;
       height: 2rem;
       justify-content: flex-end;
-      opacity: 0;
       position: absolute;
-      right: calc(100% - 1.5rem);
-      transition: right 0.5s;
+      left: 100%;
+      transition: opacity .2s;
+      opacity: 0;
       width: 0;
+      margin-left: -1rem;
     }
 
     &.active {
@@ -227,12 +257,17 @@ export default {
 
       &:after {
         opacity: 1;
-        right: -1.5rem;
+        left: 100%;
       }
 
       & ~ .onboarding_tab {
         border-bottom: 2px solid transparent;
+        color: #52535a;
       }
+    }
+
+    &:hover:not(.active):not([disabled]) {
+      filter: saturate(0.5) brightness(1.2);
     }
   }
 
@@ -245,11 +280,15 @@ export default {
     font-size: 0.8rem;
     height: .9rem;
     justify-self: flex-end;
-    margin-bottom: 1rem;
-    margin-right: .75rem;
+    margin: 1rem .75rem 1rem 0;
     order: 100;
     padding: 0;
     width: .9rem;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: .8;
+    }
   }
 
   .onboarding__body {
@@ -280,6 +319,16 @@ export default {
       }
     }
 
+    a {
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        color: $custom_links_color;
+        filter: saturate(0.5) brightness(1.2);
+      }
+    }
+
     h1 {
       color: #fff;
       font-size: 1.3rem;
@@ -294,6 +343,7 @@ export default {
 
       a {
         color: $custom_links_color;
+        text-decoration: underline;
       }
     }
 
@@ -349,18 +399,44 @@ export default {
   }
 
   @media (min-width: 992px) {
+    .button {
+      padding: .65rem 2.5rem;
+    }
+
+    .onboarding__start {
+      .button {
+        padding: .65rem .9rem .65rem 2rem;
+      }
+    }
+
     .onboarding_tab {
-      padding: 0 .5rem 1rem 1rem;
+      font-size: 0.8rem;
+      padding: 1rem .5rem 1rem 1rem;
 
       &:first-child {
         padding-left: 1.5rem;
       }
     }
+
+    .step__content {
+      p {
+        a {
+          text-decoration: none;
+        }
+      }
+    }
   }
 
-  @media (min-width: 992px) {
-    .onboarding_tab {
-      font-size: 0.8rem;
-    }
+  // transition styles
+  .component-fade-enter-active {
+    transition: all .3s;
+  }
+
+  .component-fade-leave-active {
+    transition: all .1s;
+  }
+
+  .component-fade-enter, .component-fade-leave-to {
+    opacity: 0;
   }
 </style>

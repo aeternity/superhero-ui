@@ -39,4 +39,10 @@ export const getters = {
   chainNames(state) {
     return state.chainNames;
   },
+  wizardCurrentStep(state) {
+    return state.wizardCurrentStep;
+  },
+  wizardIsCollapsed(state) {
+    return state.wizardIsCollapsed;
+  },
 };

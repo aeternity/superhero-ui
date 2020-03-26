@@ -109,9 +109,6 @@ export default {
     clearTipForm() {
       this.sendTipForm = { amount: null, url: '', title: '' };
     },
-    getAvatar(address) {
-      return Backend.getProfileImageUrl(address);
-    },
   },
   async created() {
     const loadUserAvatar = setInterval(() => {

@@ -10,7 +10,9 @@
 <script>
 export default {
   name: 'FormatDate',
-  props: ['dateTimestamp'],
+  props: {
+    dateTimestamp: { type: Number, required: true },
+  },
   computed: {
     formatDate() {
       const today = new Date();

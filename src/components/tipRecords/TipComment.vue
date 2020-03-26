@@ -54,7 +54,10 @@ export default {
   components: {
     FormatDate,
   },
-  props: ['comment', 'userChainName'],
+  props: {
+    comment: { type: Object, required: true },
+    userChainName: { type: String, default: '' },
+  },
   data() {
     return {
       defaultAvatar,

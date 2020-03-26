@@ -15,7 +15,9 @@
 <script>
 export default {
   name: 'Loading',
-  props: ['showLoading'],
+  props: {
+    showLoading: { type: Boolean, required: true },
+  },
 };
 </script>
 

@@ -138,8 +138,11 @@ export default {
     TipTitle,
     FormatDate,
   },
-  props: ['tip', 'foundWallet', 'senderLink'],
-  props: ['tip', 'foundWallet', 'senderLink'],
+  props: {
+    tip: { type: Object, required: true },
+    foundWallet: { type: Boolean },
+    senderLink: { type: String, default: '' },
+  },
   data() {
     return {
       defaultAvatar,

@@ -2,7 +2,7 @@
   <span
     :title="topic"
     class="topic"
-    ,@click="searchTopic(topic)"
+    @click="searchTopic(topic)"
   >
     {{ topic }}
   </span>
@@ -13,7 +13,9 @@ import { EventBus } from '../../utils/eventBus';
 
 export default {
   name: 'Topic',
-  props: ['topic'],
+  props: {
+    topic: { type: String, required: true },
+  },
   methods: {
     searchTopic(topic) {
       if (this.$route.name !== 'home') {

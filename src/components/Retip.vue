@@ -135,7 +135,12 @@ export default {
     FiatValue,
     AeAmount,
   },
-  props: ['tipid', 'showRetipIcon', 'amount', 'tipurl'],
+  props: {
+    tipid: { type: Number, required: true },
+    showRetipIcon: { type: Boolean },
+    amount: { type: Number, required: true },
+    tipurl: { type: String, required: true },
+  },
   data() {
     return {
       fiatValue: 0.00,

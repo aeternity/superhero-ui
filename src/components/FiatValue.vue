@@ -25,7 +25,11 @@ import { currencySigns } from '../utils/util';
 
 export default {
   name: 'FiatValue',
-  props: ['amount', 'withoutBrackets', 'displaySymbol'],
+  props: {
+    amount: { type: String, required: true },
+    withoutBrackets: { type: Boolean },
+    displaySymbol: { type: Boolean },
+  },
   computed: {
     ...mapGetters(['settings', 'currencyRates']),
     fiatValue() {

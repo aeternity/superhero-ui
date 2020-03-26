@@ -3,7 +3,7 @@
     <b-form-select
       v-model="selectedVal"
       :options="optionsVal"
-      ,@change="method(selectedVal)"
+      @change="method(selectedVal)"
     />
   </div>
 </template>
@@ -12,9 +12,9 @@
 export default {
   name: 'VueDropdown',
   props: {
-    options: { type: Array },
-    selected: { type: String },
-    method: { type: Function },
+    options: { type: Array, default: null },
+    selected: { type: String, default: '' },
+    method: { type: Function, required: true },
   },
   data() {
     return {

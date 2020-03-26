@@ -246,11 +246,11 @@
           >
             <div v-if="userTips.length">
               <tip-record
-                v-for="(tip,index) in userTips"
+                v-for="(userTip,index) in userTips"
                 :key="index"
-                :tip="tip"
-                :fiat-value="tip.fiatValue"
-                :sender-link="openExplorer(tip.sender)"
+                :tip="userTip"
+                :fiat-value="userTip.fiatValue"
+                :sender-link="openExplorer(userTip.sender)"
               />
             </div>
           </div>
@@ -307,7 +307,9 @@ export default {
     RightSection,
     TipRecord,
   },
-  props: ['address'],
+  props: {
+    address: { type: String, required: true },
+  },
   data() {
     return {
       explorerUrl: `${MIDDLEWARE_URL}account/transactions/`,

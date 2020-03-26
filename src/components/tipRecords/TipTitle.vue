@@ -11,7 +11,7 @@
       />
       <span
         v-else
-        ,@click="goToTip(tip.id)"
+        @click="goToTip(tip.id)"
       >
         {{ part.text }}
       </span>
@@ -27,7 +27,10 @@ import Topic from './Topic.vue';
 export default {
   name: 'TipTitle',
   components: { Topic },
-  props: ['tip', 'goToTip'],
+  props: {
+    tip: { type: Object, required: true },
+    goToTip: { type: Function, required: true },
+  },
   computed: {
     splitByTopics() {
       return this.tip.title.split(TippingContractUtil.topicsRegex).map((part) => {

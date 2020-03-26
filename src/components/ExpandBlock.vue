@@ -25,7 +25,10 @@ import iconDrawer from '../assets/iconDrawer.svg';
 
 export default {
   name: 'ExpandBlock',
-  props: ['title', 'body'],
+  props: {
+    title: { type: String, required: true },
+    body: { type: String, required: true },
+  },
   data() {
     return {
       expanded: false,

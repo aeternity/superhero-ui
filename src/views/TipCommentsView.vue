@@ -25,14 +25,14 @@
           >
           <div class="input-group">
             <input
-              v-model="comment"
+              v-model="newComment"
               type="text"
               placeholder="Add comment"
               class="form-control"
             >
             <b-button
               size="sm"
-              :disabled="comment.length === 0 || showLoading"
+              :disabled="newComment.length === 0 || showLoading"
               @click="sendTipComment()"
             >
               {{ $t('system.Send') }}
@@ -93,7 +93,7 @@ export default {
       showLoading: true,
       comments: [],
       error: false,
-      comment: '',
+      newComment: '',
       avatar: defaultAvatar,
     };
   },
@@ -127,7 +127,7 @@ export default {
 
       const postData = {
         tipId: this.tip.id,
-        text: this.comment,
+        text: this.newComment,
         author: wallet.client.rpcClient.getCurrentAccount(),
       };
 
@@ -141,7 +141,7 @@ export default {
       const response = await backendInstance.sendTipComment(respondChallenge);
       this.comments.push(response);
       this.showLoading = false;
-      this.comment = '';
+      this.newComment = '';
     },
     updateTip() {
       backendInstance.getTipComments(this.id).then((response) => {

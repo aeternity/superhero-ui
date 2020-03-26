@@ -93,6 +93,14 @@ import { MIDDLEWARE_URL } from '../config/constants';
 
 export default {
   name: 'TipsList',
+  components: {
+    Onboarding,
+    Loading,
+    TipRecord,
+    LeftSection,
+    RightSection,
+    SendTip,
+  },
   data() {
     return {
       explorerUrl: `${MIDDLEWARE_URL}account/transactions/`,
@@ -137,23 +145,6 @@ export default {
       return [...convertResultToSet];
     },
   },
-  methods: {
-    ...mapActions(['setTipSortBy']),
-    onSearchTopic(data) {
-      this.searchTerm = data;
-    },
-    openExplorer(address) {
-      return this.explorerUrl + address;
-    },
-  },
-  components: {
-    Onboarding,
-    Loading,
-    TipRecord,
-    LeftSection,
-    RightSection,
-    SendTip,
-  },
   async created() {
     EventBus.$on('searchTopic', (topic) => {
       this.onSearchTopic(topic);
@@ -162,6 +153,15 @@ export default {
     if (this.$route.query.searchTopicPhrase) {
       this.onSearchTopic(this.$route.query.searchTopicPhrase);
     }
+  },
+  methods: {
+    ...mapActions(['setTipSortBy']),
+    onSearchTopic(data) {
+      this.searchTerm = data;
+    },
+    openExplorer(address) {
+      return this.explorerUrl + address;
+    },
   },
 };
 </script>

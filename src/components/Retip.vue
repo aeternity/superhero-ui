@@ -51,11 +51,20 @@
             </div>
           </div>
           <button
+            v-if="showRetipIcon"
             class="btn btn-primary retip__button float-right"
-            :disabled='!isRetipDataValid'
+            :disabled='!isDataValid'
             @click="retip()"
           >
             Retip
+          </button>
+          <button
+            v-else
+            class="btn btn-primary retip__button float-right"
+            :disabled='!isDataValid'
+            @click="sendTip()"
+          >
+            Tip
           </button>
         </div>
       </div>
@@ -77,7 +86,7 @@ import Backend from '../utils/backend';
 
 export default {
   name: 'Retip',
-  props: ['tipid', 'showRetipIcon', 'amount'],
+  props: ['tipid', 'showRetipIcon', 'amount', 'tipurl'],
   data() {
     return {
       fiatValue: 0.00,
@@ -106,7 +115,7 @@ export default {
       url.searchParams.set('x-cancel', window.location);
       return url;
     },
-    isRetipDataValid() {
+    isDataValid() {
       return this.value > 0;
     },
   },
@@ -122,6 +131,21 @@ export default {
       const amount = util.aeToAtoms(this.value);
       this.showLoading = true;
       await aeternity.retip(this.tipid, amount)
+        .then(async () => {
+          await new Backend().cacheInvalidateTips().catch(console.error);
+          EventBus.$emit('reloadData');
+          this.showLoading = false;
+          this.error = false;
+          this.show = false;
+        }).catch((e) => {
+          console.error(e);
+          this.showLoading = false;
+          this.error = true;
+        });
+    },
+    async sendTip() {
+      const amount = util.aeToAtoms(this.value);
+      await aeternity.tip(this.tipurl, '', amount)
         .then(async () => {
           await new Backend().cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');

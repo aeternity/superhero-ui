@@ -25,7 +25,17 @@
         <a
           :href="href"
           target="_blank"
-        >Tutorial & FAQ</a>
+        >Tutorial </a>
+      </router-link>
+      &
+      <router-link
+        v-slot="{ href }"
+        to="/faq"
+      >
+        <a
+          :href="href"
+          target="_blank"
+        > FAQ</a>
       </router-link>
     </p>
     <p class="highlited">

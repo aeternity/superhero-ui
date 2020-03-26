@@ -11,7 +11,6 @@ import { mapActions, mapGetters } from 'vuex';
 import aeternity from './utils/aeternity';
 import { wallet } from './utils/walletSearch';
 import Backend from './utils/backend';
-import Currency from './utils/currency';
 import { EventBus } from './utils/eventBus';
 import util from './utils/util';
 import TipTopicUtil from './utils/tipTopicUtil';
@@ -54,14 +53,6 @@ export default {
           this.updateStats(stats);
           console.error(e);
         });
-      // currency rates
-      new Currency().getRates().then((rates) => {
-        this.updateCurrencyRates(rates);
-      }).catch(console.error);
-      // oracle state
-
-      const oracleState = await new Backend().getOracleCache();
-      this.setOracleState(oracleState);
     },
     async reloadData(initial = false) {
       this.addLoading('tips');
@@ -71,10 +62,18 @@ export default {
         await aeternity.initClient();
         this.initWallet();
       }
+
       // await fetch
-      const {
-        stats, tips, chainNames
-      } = await new Backend().getCache(initial ? 'hot' : this.tipSortBy);
+      const backend = new Backend();
+      const [
+        stats, tips, chainNames, rates, oracleState
+      ] = await Promise.all([
+        backend.getCacheStats(),
+        backend.getCacheTips(initial ? 'hot' : this.tipSortBy),
+        backend.getCacheChainNames(),
+        backend.getPrice(),
+        backend.getOracleCache()
+      ]);
 
       const topics = TipTopicUtil.getTipTopics(tips);
 
@@ -83,6 +82,8 @@ export default {
       this.updateTips(tips);
       this.updateTopics(topics);
       this.setChainNames(chainNames);
+      this.updateCurrencyRates(rates);
+      this.setOracleState(oracleState);
 
       this.removeLoading('tips');
       this.removeLoading('initial');

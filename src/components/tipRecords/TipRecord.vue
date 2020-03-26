@@ -52,14 +52,17 @@
               :amount="tip.amount_ae"
             />
           </div>
-          <div class="retip__amount" title="Send AE to this post" @click.stop>
+          <div class="tip__amount" title="Send AE to this post" @click.stop>
             <retip
               :tipid="tip.id"
               :show-retip-icon="true"
               :amount="tip.retip_amount_ae"
             />
           </div>
-          <div class="tip__comments" @click="goToTip(tip.id)">
+          <div
+            class="tip__comments"
+            :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
+            @click="goToTip(tip.id)">
             <img src="../../assets/commentsIcon.svg">
             <span>{{ tip.commentCount }}</span>
           </div>
@@ -154,22 +157,26 @@ export default {
     color: $light_font_color;
     display: flex;
     font-size: .8rem;
+    justify-content: space-between;
     padding: 0 1rem .5rem 1rem;
 
     .tip__date {
       display: inline-block;
       font-size: .6rem;
       text-align: right;
-      width: 10%;
     }
 
     .address {
       font-size: .6rem;
     }
 
-    .address, .chain__name {
+    .address,
+    .chain__name {
       display: inline-block;
-      width: calc(100% - 2rem);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
       word-break: break-all;
     }
 
@@ -182,10 +189,11 @@ export default {
       width: 2rem;
     }
 
-    & > a {
+    a {
       color: $light_font_color;
       display: flex;
-      width: 90%;
+      margin-right: 1rem;
+      overflow: hidden;
 
       &:hover {
         filter: brightness(1.3);
@@ -200,11 +208,14 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      overflow: hidden;
       width: 100%;
     }
   }
 
   .tip__note {
+    @include truncate-overflow-mx(4);
+
     color: $tip_note_color;
     font-size: .8rem;;
     margin-bottom: .5rem;
@@ -225,21 +236,6 @@ export default {
     color: $light_font_color;
     font-size: .8rem;
     padding: 0 1rem 1rem;
-
-    .currency-value,
-    .ae-amount {
-      align-items: center;
-      display: flex;
-      height: 1rem;
-    }
-
-    .ae-amount {
-      color: #fff;
-    }
-
-    .ae {
-      color: $secondary_color;
-    }
   }
 
   .tip__footer_wrapper {
@@ -261,7 +257,6 @@ export default {
   }
 
   .tip__comments,
-  .retip__amount,
   .tip__amount {
     align-items: center;
     display: flex;
@@ -270,7 +265,6 @@ export default {
     margin-right: 1rem;
     margin-top: .9rem;
     position: relative;
-
 
     img {
       height: 1rem;
@@ -283,22 +277,8 @@ export default {
       filter: brightness(1.3);
     }
 
-    .tip__amount__btn {
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-
-  .tip__sender {
-    color: $custom_links_color;
-
-    span {
-      color: $light_font_color;
-    }
-
-    a, .tip__sender {
-      color: $custom_links_color;
+    .tip__comments--hascomments {
+      color: #fff;
     }
   }
 
@@ -318,36 +298,22 @@ export default {
     padding: 0;
     position: relative;
 
-    .tip__article--hasresults {
-      display: flex;
-
-      img {
-        flex-basis: 50%;
-      }
-
-      .tip__article__content {
-        flex-basis: 50%;
-        width: 50%;
-      }
-    }
-
     img {
       background-color: $thumbnail_background_color;
-      float: left;
       height: 9rem;
       object-fit: cover;
-      width: 50%;
     }
 
     .tip__article__content {
       color: #babac0;
+      font-size: .75rem;
       height: 9rem;
       line-height: 1.1rem;
       padding: .7rem 1rem;
 
       .title {
         display: block;
-        font-size: .75rem;
+        font-size: inherit;
         font-weight: 700;
         margin-bottom: .25rem;
       }
@@ -355,6 +321,24 @@ export default {
       .description {
         @include truncate-overflow-mx(5);
         margin-bottom: .25rem;
+      }
+    }
+
+    .tip__article--hasresults {
+      display: flex;
+
+      img {
+        flex: 0 0 50%;
+        max-width: 50%;
+        min-width: 50%;
+        width: 50%;
+      }
+
+      .tip__article__content {
+        flex: 0 0 50%;
+        max-width: 50%;
+        min-width: 50%;
+        width: 50%;
       }
     }
 
@@ -376,30 +360,6 @@ export default {
     }
   }
 
-  .tip__note {
-    @include truncate-overflow-mx(4);
-  }
-
-  @media only screen and (max-width: 768px) {
-    .tip__record {
-      .tip__body {
-        .tip__note {
-          font-size: .75rem;
-        }
-
-        .tip__footer {
-          .col-lg-9.col-md-12 {
-            padding-right: 0;
-          }
-
-          .tip__sender {
-            display: block;
-          }
-        }
-      }
-    }
-  }
-
   @media only screen and (max-width: 1024px) {
     .tip__record {
       position: relative;
@@ -407,24 +367,39 @@ export default {
       .tip__article {
         min-height: 2rem;
       }
+    }
+  }
 
-      .tip__body {
-        .tip__note {
-          height: initial
-        }
+  @media only screen and (max-width: 768px) {
+    .tip__amount:nth-child(2) .retip__container {
+      left: -50%;
+      right: -50%;
+    }
+
+    .tip__note {
+      font-size: .75rem;
+    }
+
+    .tip__article {
+      .tip__article__content {
+        font-size: .75rem;
       }
     }
   }
 
   @media only screen and (max-width: 600px) {
-    .tips__container .tip__record .tip__body .tip__note {
-      font-size: .65rem;
+    .tip__note {
+      font-size: .75rem;
     }
-    .tips__container .tip__record .tip__actions .btn-sm img {
-      width: .75rem
-    }
-    .tips__container .tip__record .tip__body .tip__footer .tip__amount img {
+
+    .tip__footer .tip__amount img {
       width: .7rem;
+    }
+
+    .tip__article {
+      .tip__article__content {
+        font-size: .65rem;
+      }
     }
   }
 
@@ -456,16 +431,8 @@ export default {
         width: 1.5rem;
       }
 
-      .date {
-        width: 20%;
-      }
-
-      & > a {
-        width: 80%
-      }
-
       .address {
-        font-size: .32rem;
+        font-size: .55rem;
       }
     }
 
@@ -475,20 +442,7 @@ export default {
 
     .tip__footer {
       font-size: .65rem;
-      padding: .5rem 0 .5rem 0;
-
-      .row {
-        margin-left: 0;
-        margin-right: 0;
-
-        .col-lg-9.col-md-12 {
-          padding-left: 0;
-        }
-      }
-
-      .tip__sender {
-        font-size: .44rem;;
-      }
+      padding: 0;
 
       .tip__amount {
         img {

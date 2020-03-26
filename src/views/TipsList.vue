@@ -27,7 +27,6 @@
             <div class="row">
               <div class="col-md-12 col-lg-12 col-sm-12 sorting">
                 <a
-                  v-if="this.tipsOrdering"
                   v-on:click="setTipSortBy('hot')"
                   v-bind:class="{ active: tipSortBy === 'hot' }"
                 >
@@ -93,7 +92,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['tips', 'tipsOrdering', 'tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
+    ...mapGetters(['tips', 'tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
     filteredTips() {
       if (this.searchTerm.trim().length === 0) {
         return this.tips;

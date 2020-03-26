@@ -1,4 +1,4 @@
-import { BACKEND_URL, MIDDLEWARE_URL } from '../config/constants';
+import { BACKEND_URL } from '../config/constants';
 import { wrapTry } from './util';
 
 export default class Backend {
@@ -40,15 +40,11 @@ export default class Backend {
 
   getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
 
-  getCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache`));
+  getCache = async (ordering) => wrapTry(async () => fetch(`${BACKEND_URL}/cache?ordering=${ordering}`));
 
   getOracleCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/oracle`));
 
   cacheInvalidateTips = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/invalidate/tips`));
-
-  getChainNameFromAddress = async () => wrapTry(async () => fetch(`${MIDDLEWARE_URL}/middleware/names/active`));
-
-  getCommentCounts = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/tips/`));
 
   getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));
 

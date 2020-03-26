@@ -14,7 +14,6 @@ import Backend from './utils/backend';
 import Currency from './utils/currency';
 import { EventBus } from './utils/eventBus';
 import util from './utils/util';
-import AggregateData from './utils/aggregateData';
 import TipTopicUtil from './utils/tipTopicUtil';
 
 export default {
@@ -61,8 +60,7 @@ export default {
       }).catch(console.error);
       // oracle state
 
-      const oracleState = await new Backend().getOracleCache()
-        .catch(() => aeternity.getOracleState());
+      const oracleState = await new Backend().getOracleCache();
       this.setOracleState(oracleState);
     },
     async reloadData(initial = false) {
@@ -75,8 +73,8 @@ export default {
       }
       // await fetch
       const {
-        stats, tips, hasOrdering, chainNames,
-      } = await new Backend().getCache().catch(() => AggregateData.fetchingTips());
+        stats, tips, chainNames
+      } = await new Backend().getCache(initial ? 'hot' : this.tipSortBy);
 
       const topics = TipTopicUtil.getTipTopics(tips);
 
@@ -85,20 +83,16 @@ export default {
       this.updateTips(tips);
       this.updateTopics(topics);
       this.setChainNames(chainNames);
-      this.setTipsOrdering(hasOrdering);
-
-      if (!initial) {
-        this.setTipSortBy(this.tipSortBy);
-      } else {
-        this.setTipSortBy(hasOrdering ? 'hot' : 'highest');
-      }
 
       this.removeLoading('tips');
-      if (initial) this.removeLoading('initial');
+      this.removeLoading('initial');
     },
   },
   async created() {
     EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+    EventBus.$on('setTipSortBy', () => {
       this.reloadData();
     });
     await this.reloadData(true);

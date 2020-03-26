@@ -6,16 +6,18 @@
         alt=""
       >
     </div>
-    <h1>Install Superhero Wallet</h1>
+    <h1>
+      Install Superhero Wallet<br>
+      A Tool for Good Built on <a href="https://aeternity.com/" target="_blank">aeternity Blockchain</a>
+    </h1>
     <p>
-      Superhero allows you to send tips to anyone with an online profile. Tip your favorite
-      creators, musicians, and artists, as well as support good causes. Receive tips from your
-      followers, raise funds for good causes, and send help where it’s needed.
-    </p>
-    <p>
-      Fund transfers are instant, with near-zero processing fees.
-      Censorship-proof: there are no third-party intermediaries to ban creators from sending and
-      receiving payments, and records are immortalized on æternity blockchain. Learn more by our
+      Superhero empowers <span class="highlited">people supporting people</span><br>
+      including ability to transfer ae cryptocurrency P2P.<br>
+      <span class="highlited">Send tips</span> directly
+      to your fav creators, causes, projects...<br>
+      <span class="highlited">Receive tips</span> directly from your fans.<br>
+      <span class="highlited">Get or give help</span> any url on the web you please.<br>
+      Learn more:
       <router-link
         v-slot="{ href }"
         to="/create-profile"
@@ -26,8 +28,13 @@
         >Tutorial & FAQ</a>
       </router-link>
     </p>
-    <p>
-      <b>Install as browser extension and mobile app on your preferred platforms:</b>
+    <p class="highlited">
+      To start, you'll need a wallet. It's free. It's easy.<br>
+      <span class="important">
+        1. Click a browser extensions or mobile app
+      </span>
+      <br>
+      to install a Superhero wallet:
     </p>
     <div class="step__wallets">
       <a

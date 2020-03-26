@@ -6,16 +6,19 @@
         alt=""
       >
     </div>
-    <h1>Receive Tips From Your Supporters</h1>
+    <h1>
+      Receive Tips:<br>
+      Making the Internet a Fairer Place
+    </h1>
     <p>
-      Whether it be for awesome content, good causes, research, fundraising, or for simply being
-      funny—you earn what you deserve for taking part in making the Internet a better place.
+      After your Superhero wallet is installed<br>
+      <span class="important">1. Paste your wallet address</span> to your URL. <br>
+      <span class="important">2. Load your URL</span> so your wallet can instantly collect.
     </p>
-    <ol>
-      <li>Install the Superhero wallet extension.</li>
-      <li>Paste your wallet address to your URL.</li>
-      <li>Load your URL so your wallet can instantly collect all tips sent to you...</li>
-    </ol>
+    <p class="highlited">
+      People can directly support your content, cause project<br>
+      (or you for simply being you) with no middleman.
+    </p>
     <div class="step__footer">
       <button
         class="button"

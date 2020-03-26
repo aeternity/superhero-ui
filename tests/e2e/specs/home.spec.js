@@ -70,8 +70,8 @@ describe('Home.vue', () => {
 
     it('can retip tip', () => {
       cy
-        .wait('@getAccount')
-        // Define route here so we do not trigger it while loading initially
+        .wait('@getAccount', { timeout: 15000 })
+      // Define route here so we do not trigger it while loading initially
         .route('POST', '/v2/debug/transactions/dry-run')
         .as('dryRun')
         .get('.retip__wrapper .retip__icon--tip')

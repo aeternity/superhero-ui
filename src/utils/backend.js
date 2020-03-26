@@ -40,7 +40,10 @@ export default class Backend {
 
   getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
 
-  getCache = async (ordering) => wrapTry(async () => fetch(`${BACKEND_URL}/cache?ordering=${ordering}`));
+  getCacheTips = async (ordering) => wrapTry(async () => fetch(`${BACKEND_URL}/cache/tips?ordering=${ordering}`));
+  getCacheStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/stats`));
+  getCacheChainNames = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/chainnames`));
+  getPrice = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/price`));
 
   getOracleCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/oracle`));
 

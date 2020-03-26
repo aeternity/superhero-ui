@@ -1,34 +1,65 @@
 <template>
-  <transition name="component-fade" appear mode="out-in">
-    <div class="onboarding" v-if="shouldShowWizard">
-      <transition name="component-fade" mode="out-in">
-        <div class="onboarding__container" v-if="wizardIsCollapsed" :key="wizardIsCollapsed">
-          <div class="onboarding__nav" >
+  <transition
+    name="component-fade"
+    appear
+    mode="out-in"
+  >
+    <div
+      v-if="shouldShowWizard"
+      class="onboarding"
+    >
+      <transition
+        name="component-fade"
+        mode="out-in"
+      >
+        <div
+          v-if="wizardIsCollapsed"
+          :key="wizardIsCollapsed"
+          class="onboarding__container"
+        >
+          <div class="onboarding__nav">
             <div class="onboarding__start">
-              <button @click="setWizardIsCollapsed(false)" class="button">
+              <button
+                class="button"
+                @click="setWizardIsCollapsed(false)"
+              >
                 Join Superhero League
               </button>
             </div>
           </div>
         </div>
-        <div class="wizard__container" v-else :key="wizardIsCollapsed">
+        <div
+          v-else
+          :key="wizardIsCollapsed"
+          class="wizard__container"
+        >
           <div class="onboarding__nav">
             <div class="onboarding__tabs">
               <button
+                v-for="([key, tab], index) in steps"
+                :key="key"
                 :class="['onboarding_tab', { active: wizardCurrentStep === index }]"
                 :disabled="isStepDisabled(index)"
-                :key="key"
                 @click="setWizardCurrentStep(index)"
-                v-for="([key, tab], index) in steps"
               >
                 {{ tab }}
               </button>
-              <button @click="setWizardIsCollapsed(true)" class="onboarding__close"></button>
+              <button
+                class="onboarding__close"
+                @click="setWizardIsCollapsed(true)"
+              />
             </div>
           </div>
           <div class="onboarding__body">
-            <transition name="component-fade" mode="out-in">
-              <component :is="getStepComponent" @wizard:next="nextStep" @wizard:goto="gotoStep"/>
+            <transition
+              name="component-fade"
+              mode="out-in"
+            >
+              <component
+                :is="getStepComponent"
+                @wizard:next="nextStep"
+                @wizard:goto="gotoStep"
+              />
             </transition>
           </div>
         </div>
@@ -168,6 +199,7 @@ export default {
   }
 
   .onboarding__start {
+    margin-top: 1rem;
     padding-bottom: 1rem;
 
     .button {

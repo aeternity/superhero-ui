@@ -30,7 +30,7 @@
         <fiat-value :amount="amount" class="vertical-align-mid"></fiat-value>
       </div>
       <div class="retip__container" v-if="show">
-        <loading :show-loading="showLoading" />
+        <loading :show-loading="showLoading"/>
         <div
           class="text-center mb-2"
           v-show="error && !showLoading"
@@ -40,7 +40,7 @@
         <div v-if="!showLoading">
           <div
             v-if="!showRetipIcon"
-            class="input-group mr-1 float-left hasmessage"
+            class="input-group"
           >
             <input
               type="text"
@@ -49,7 +49,7 @@
               placeholder="Add message"
             >
           </div>
-          <div class="input-group mr-1 float-left" :class="[!showRetipIcon ? 'hasmessage' : '']">
+          <div class="input-group">
             <input
               type="number"
               min="0"
@@ -64,23 +64,24 @@
                 <fiat-value :displaySymbol="true" :amount="value"/>
               </span>
             </div>
-          </div>
-          <button
-            v-if="showRetipIcon"
-            class="btn btn-primary retip__button float-right"
-            :disabled='!isDataValid'
-            @click="retip()"
-          >
-            Retip
-          </button>
-          <div class="button-section" v-else>
-            <button
-              class="btn btn-primary retip__button"
-              :disabled='!isDataValid'
-              @click="sendTip()"
-            >
-              Tip
-            </button>
+            <div class="button-section">
+              <button
+                v-if="!showRetipIcon"
+                class="btn btn-primary retip__button"
+                :disabled='!isDataValid'
+                @click="sendTip()"
+              >
+                Tip
+              </button>
+              <button
+                v-else
+                class="btn btn-primary retip__button"
+                :disabled='!isDataValid'
+                @click="retip()"
+              >
+                Retip
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -206,10 +207,8 @@ export default {
     z-index: 10;
   }
 
-  .retip__icon {
-    &:hover {
-      cursor: pointer;
-    }
+  .retip__icon:hover {
+    cursor: pointer;
   }
 
   .wrapper {
@@ -250,12 +249,8 @@ export default {
     color: $secondary_color;
   }
 
-  .append__ae {
-    background: $background_color !important;
-    color: $light_font_color;
-  }
-
   .button-section {
+    margin-left: .5rem;
     text-align: center;
 
     button {
@@ -263,94 +258,60 @@ export default {
     }
   }
 
-  .input-group {
-    border-radius: .25rem;
-    width: calc(100% - 4rem);
-
-    &.hasmessage {
-      margin-bottom: .5rem;
-      width: 100%;
-    }
-
-    .form-control {
-      color: $custom_links_color;
-      &:focus {
-        box-shadow: none;
-      }
-
-      &[type=number]:focus {
-        border-right: none;
-      }
-
-      &[type=number]:focus ~ .input-group-append .input-group-text {
-        border: .05rem solid $custom_links_color;
-        border-left: none;
-      }
-    }
-
-    .input-group-append {
-      .ae {
-        color: $secondary_color;
-      }
-
-      span.append__ae {
-        cursor: default;
-        font-size: 0.75rem;
-      }
-    }
-  }
-
-  .input-group {
-    border-radius: .25rem;
-    width: calc(100% - 4rem);
-
-    .form-control {
-      color: $custom_links_color;
-
-      &:focus {
-        box-shadow: none;
-      }
-
-      &[type=number]:focus {
-        border-right: none;
-      }
-
-      &[type=number]:focus ~ .input-group-append .input-group-text {
-        border: .05rem solid $custom_links_color;
-        border-left: none;
-      }
-    }
-
-    .input-group-append {
-      .ae {
-        color: $secondary_color;
-      }
-
-      span.append__ae {
-        cursor: default;
-        font-size: 0.75rem;
-      }
-    }
-  }
-
   .retip__wrapper {
     height: 1rem;
-  }
-
-  .retip__button {
-    background-color: $custom_links_color;
-    border: none;
-    color: $standard_font_color;
-    margin-top: 0.1rem;
   }
 
   .retip__container {
     background-color: black;
     border-radius: .5rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: .25rem;
     min-width: 19rem;
     padding: 1rem;
     position: absolute;
-    margin-top: .25rem;
+
+    .form-control {
+      color: $custom_links_color;
+
+      &:focus {
+        box-shadow: none;
+      }
+
+      &[type=number]:focus {
+        border-right: none;
+      }
+
+      &[type=number]:focus ~ .input-group-append .input-group-text {
+        border: .05rem solid $custom_links_color;
+        border-left: none;
+      }
+    }
+
+    .retip__button {
+      background-color: $custom_links_color;
+      border: 1px solid $custom_links_color;
+      color: $standard_font_color;
+    }
+
+    .input-group {
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: .5rem;
+      }
+
+      .append__ae {
+        border-bottom-right-radius: .25rem;
+        border-top-right-radius: .25rem;
+
+        background: $background_color !important;
+        color: $light_font_color;
+        cursor: default;
+        font-size: 0.75rem;
+      }
+    }
   }
 
   @media only screen and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {

@@ -408,6 +408,7 @@ export default {
     .tip__body {
       padding: 0;
     }
+
     .tip__record {
       margin-bottom: .5rem;
       padding: .5rem .5rem .5rem .5rem;
@@ -419,6 +420,10 @@ export default {
       margin-right: -1rem;
       max-width: calc(100% + 1rem);
       width: calc(100% + 1rem);
+
+      .domain {
+        text-decoration: underline;
+      }
     }
 
     .tip__author {

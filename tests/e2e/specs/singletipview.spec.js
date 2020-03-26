@@ -5,7 +5,7 @@ describe('TipRecord.vue', () => {
 
   it('сontent is visible', () => {
     cy
-      .get('.title > span', { timeout: 15000 })
+      .get('.title', { timeout: 15000 })
       .should('be.visible')
       .get('.tip__amount')
       .should('be.visible')

@@ -73,7 +73,7 @@ describe('Home.vue', () => {
       // Define route here so we do not trigger it while loading initially
         .route('POST', '/v2/debug/transactions/dry-run')
         .as('dryRun')
-        .get('.tip__amount .retip__icon')
+        .get('.retip__wrapper .retip__icon')
         .first()
         .click()
         .get('.retip__container')

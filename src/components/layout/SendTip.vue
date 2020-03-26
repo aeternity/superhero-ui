@@ -83,6 +83,7 @@ export default {
       // TODO: better validation
       return this.sendTipForm.amount > 0
           && this.sendTipForm.url.length > 0
+          && this.sendTipForm.title.length > 0
           && urlRegex.test(this.sendTipForm.url);
     },
   },

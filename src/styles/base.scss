@@ -35,6 +35,10 @@ a:hover{
   white-space: nowrap;
 }
 
+.vertical-align-mid {
+  vertical-align: middle;
+}
+
 .button, a.button {
   background: transparent;
   border: .05rem solid $standard_font_color;

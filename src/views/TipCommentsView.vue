@@ -55,7 +55,7 @@ import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
-import avatar from '../assets/userAvatar.svg';
+import defaultAvatar from '../assets/userAvatar.svg';
 
 const backendInstance = new Backend();
 
@@ -75,7 +75,7 @@ export default {
       comments: [],
       error: false,
       comment: '',
-      avatar,
+      avatar: defaultAvatar,
     };
   },
   computed: {
@@ -91,7 +91,8 @@ export default {
   },
   methods: {
     getAvatar(address) {
-      return Backend.getProfileImageUrl(address);
+      const userImage = Backend.getProfileImageUrl(address);
+      return userImage || this.avatar;
     },
     async sendTipComment() {
       this.showLoading = true;

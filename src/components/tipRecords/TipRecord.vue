@@ -42,20 +42,21 @@
           <div class="col-md-12">
             <span class="tip__amount position-relative" >
               <span class="tip__amount__btn" v-on:click.stop title="Send AE to this post">
-                <retip :tipid="tip.id" />
+                <retip :tipid="tip.id" :amount="tip.amount_ae"></retip>
               </span>
-              <ae-amount :amount="tip.amount_ae" :round="2"></ae-amount>
             </span>
-            <fiat-value :amount="tip.amount_ae"></fiat-value>
             <span class="ml-4 retip__wrapper" v-on:click.stop>
-              <retip :tipid="tip.id" :show-retip-icon="true"/>
-              <ae-amount :amount="tip.retip_amount_ae" :round="2"></ae-amount>
-              <fiat-value :amount="tip.retip_amount_ae"></fiat-value>
+              <retip
+                :tipid="tip.id"
+                :show-retip-icon="true"
+                :amount="tip.amount_ae"
+              >
+              </retip>
             </span>
             <span @click="goToTip(tip.id)" class="ml-4">
               <img src="../../assets/commentsIcon.svg">
             </span>
-            <span>{{tip.commentCount}}</span>
+            <span class="vertical-align-mid">{{tip.commentCount}}</span>
           </div>
         </div>
       </div>
@@ -64,19 +65,21 @@
 </template>
 
 <script>
-import FiatValue from '../FiatValue.vue';
-import AeAmount from '../AeAmount.vue';
 import Retip from '../Retip.vue';
 import TipTitle from './TipTitle.vue';
 import Backend from '../../utils/backend';
 import FormatDate from './FormatDate.vue';
+import defaultAvatar from '../../assets/userAvatar.svg';
 
 export default {
   name: 'TipRecord',
   props: ['tip', 'foundWallet', 'senderLink'],
+  data() {
+    return {
+      defaultAvatar,
+    };
+  },
   components: {
-    FiatValue,
-    AeAmount,
     Retip,
     TipTitle,
     FormatDate,
@@ -103,7 +106,8 @@ export default {
   },
   methods: {
     getAvatar(address) {
-      return Backend.getProfileImageUrl(address);
+      const userImage = Backend.getProfileImageUrl(address);
+      return userImage || this.defaultAvatar;
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null

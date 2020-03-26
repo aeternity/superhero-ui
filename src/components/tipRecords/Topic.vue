@@ -1,5 +1,11 @@
 <template>
-  <span @click="searchTopic(topic)" :title="topic" class="topic">{{topic}}</span>
+  <span
+    :title="topic"
+    class="topic"
+    ,@click="searchTopic(topic)"
+  >
+    {{ topic }}
+  </span>
 </template>
 
 <script>

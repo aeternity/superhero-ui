@@ -1,7 +1,10 @@
 <template>
   <div id="app">
-    <div class="min-h-screen wrapper" ref="wrapper">
-      <router-view></router-view>
+    <div
+      ref="wrapper"
+      class="min-h-screen wrapper"
+    >
+      <router-view />
     </div>
   </div>
 </template>
@@ -16,9 +19,19 @@ import util from './utils/util';
 import TipTopicUtil from './utils/tipTopicUtil';
 
 export default {
-  name: 'app',
+  name: 'App',
   computed: {
     ...mapGetters(['settings', 'tipSortBy']),
+  },
+  async created() {
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+    EventBus.$on('setTipSortBy', () => {
+      this.reloadData();
+    });
+    await this.reloadData(true);
+    setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
     ...mapActions([
@@ -88,16 +101,6 @@ export default {
       this.removeLoading('tips');
       this.removeLoading('initial');
     },
-  },
-  async created() {
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
-    });
-    EventBus.$on('setTipSortBy', () => {
-      this.reloadData();
-    });
-    await this.reloadData(true);
-    setInterval(() => this.reloadData(), 120 * 1000);
   },
 };
 </script>

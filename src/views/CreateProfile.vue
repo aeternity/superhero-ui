@@ -1,18 +1,18 @@
 <template>
   <div>
-    <right-section></right-section>
-    <left-section></left-section>
+    <right-section />
+    <left-section />
     <div class="container wrapper">
       <div class="content tutorial-page">
-          <h1>
-            Join Superhero League: <br>
-            fully P2P tipping with no boundaries,<br>
-            no censorship - at near-zero fees
-          </h1>
-          <hr width="30%">
-          <expand-block
-            :title="`What is Superhero?`"
-            :body="`<p>Superhero is a fully P2P wallet through which users can tip any URL.</p>
+        <h1>
+          Join Superhero League: <br>
+          fully P2P tipping with no boundaries,<br>
+          no censorship - at near-zero fees
+        </h1>
+        <hr width="30%">
+        <expand-block
+          :title="`What is Superhero?`"
+          :body="`<p>Superhero is a fully P2P wallet through which users can tip any URL.</p>
                     <p>
                       All transactions made through the Superhero
                       wallet are aggregated and published on ${superheroLink}
@@ -23,11 +23,11 @@
                       With Superhero, there are no third-party custodians
                       to declare whether a content creator can be monetized or not.
                     </p>
-                  `">
-          </expand-block>
-          <expand-block
-            :title="`What you can do with Superhero:`"
-            :body="` <p>
+                  `"
+        />
+        <expand-block
+          :title="`What you can do with Superhero:`"
+          :body="` <p>
                       <ul>
                         <li>
                           Send tips to URLs—regardless of whether the creator or author
@@ -49,21 +49,21 @@
                           Build up your profile, reputation, and following on ${superheroLink}
                         </li>
                       </ul>
-                    </p>`">
-          </expand-block>
-          <expand-block
-            :title="`What Superhero cannot do:`"
-            :body="`<p>
+                    </p>`"
+        />
+        <expand-block
+          :title="`What Superhero cannot do:`"
+          :body="`<p>
                       The Superhero wallet uses a trustless system. Therefore,
                       there are no custodians to dictate what can and cannot be monetized.
                       So long as a URL is live, it can be tipped.
                       And so long as you have access to your Superhero account,
                       your tips are yours.
-                    </p>`">
-          </expand-block>
-          <expand-block
-            :title="`How to use Superhero`"
-            :body="`<p>Download and install the Superhero extension.</p>
+                    </p>`"
+        />
+        <expand-block
+          :title="`How to use Superhero`"
+          :body="`<p>Download and install the Superhero extension.</p>
                     <b>Superhero is available as:</b>
                     <p>- native mobile app for IOS and Android.</p>
                     <div class='spacer'>
@@ -94,11 +94,11 @@
                       Add the extension to your browser. The Superhero icon should appear on the
                       upper right corner of your Chrome browser tool bar.
                     </p>
-                  `">
-          </expand-block>
-          <expand-block
-            :title="`Creating your wallet.`"
-            :body="`<ul>
+                  `"
+        />
+        <expand-block
+          :title="`Creating your wallet.`"
+          :body="`<ul>
                       <li>
                         Tick the checkbox to agree to the terms and conditions.
                       </li>
@@ -123,11 +123,11 @@
                       You can easily copy this by clicking the copy
                       button  right next to your wallet address.
                     </p>
-                    `">
-          </expand-block>
-          <expand-block
-            :title="`Backing up your seed phrase`"
-            :body="`<p>
+                    `"
+        />
+        <expand-block
+          :title="`Backing up your seed phrase`"
+          :body="`<p>
                       With great freedom comes great responsibility.
                       In this case, a little responsibility:
                       you are in charge of keeping the keys to your account,
@@ -173,11 +173,11 @@
 
                       Simple as that.
 
-                    </p>`">
-          </expand-block>
-          <expand-block
-            :title="`Sending tips`"
-            :body="` <ul>
+                    </p>`"
+        />
+        <expand-block
+          :title="`Sending tips`"
+          :body="` <ul>
                       <li>
                         To send someone tips, make sure you are on the URL that you want to tip.
                         The Superhero wallet will automatically detect the URL on your active tab.
@@ -204,11 +204,11 @@
                         Click Confirm to complete the transaction.
                       </li>
                     </ul>
-                    `">
-          </expand-block>
-          <expand-block
-            :title="`Collecting your tips`"
-            :body="`<ul>
+                    `"
+        />
+        <expand-block
+          :title="`Collecting your tips`"
+          :body="`<ul>
                       <li>
                         To be able to receive tips,
                         you must first copy your wallet address and paste
@@ -229,11 +229,11 @@
                       In some cases, there may be slight delays in collecting tips.
                       Give it a few minutes and try opening your wallet again.
                       If the problem persists, you may ask questions through this Forum thread.
-                    </p>`">
-          </expand-block>
-          <expand-block
-            :title="`What is Superhero?`"
-            :body="`<p>
+                    </p>`"
+        />
+        <expand-block
+          :title="`What is Superhero?`"
+          :body="`<p>
                       To load up your Superhero wallet,
                       you can trade ETH or BTC to AE through Jelly Swap.
                       You can also purchase AE tokens instantly using
@@ -270,11 +270,11 @@
                           CoinBene - Singaporean cryptocurrency exchange
                         </li>
                       </ul>
-                    </p>`">
-          </expand-block>
-          <expand-block
-            :title="`Cashing out your earnings`"
-            :body="`<p>
+                    </p>`"
+        />
+        <expand-block
+          :title="`Cashing out your earnings`"
+          :body="`<p>
                       To withdraw the tips you’ve received,
                       you can send your tips to your AE wallet address in a crypto exchange
                       that supports AE tokens (see list above).
@@ -293,8 +293,8 @@
                       you will be able to cash out directly from AE into your bank.
                       Or even better, you may not even need to cash out at all in a world
                       where all merchants around you accept AE tokens. ;)
-                    </p>`">
-          </expand-block>
+                    </p>`"
+        />
       </div>
     </div>
   </div>
@@ -321,45 +321,45 @@ export default {
       return '<a href="http://superhero.com" target="_blank">Superhero.com</a>';
     },
     androidStoreLink() {
-      return `<a 
-                href="https://play.google.com/store/apps/details?id=com.superhero.cordova" 
+      return `<a
+                href="https://play.google.com/store/apps/details?id=com.superhero.cordova"
                 target="_blank">
                 <img src="${imageGooglePlay}">
               </a>`;
     },
     appleStoreLink() {
-      return `<a 
-              href="https://apps.apple.com/bg/app/superhero-wallet/id1502786641" 
+      return `<a
+              href="https://apps.apple.com/bg/app/superhero-wallet/id1502786641"
               target="_blank">
               <img src="${imageAppleStore}">
             </a>`;
     },
     chromeLinkWithImage() {
-      return `<a 
+      return `<a
                 href="https://chrome.google.com
-                /webstore/detail/superhero/mnhmmkepfddpifjkamaligfeemcbhdne" 
+                /webstore/detail/superhero/mnhmmkepfddpifjkamaligfeemcbhdne"
                 target="_blank">
                 <img src="${imageChromeBrowser}">
               </a>`;
     },
     chromeLink() {
-      return `<a 
+      return `<a
                 href="https://chrome.google.com
-                /webstore/detail/superhero/mnhmmkepfddpifjkamaligfeemcbhdne" 
+                /webstore/detail/superhero/mnhmmkepfddpifjkamaligfeemcbhdne"
                 target="_blank">
                 here
               </a>`;
     },
     firefoxLinkWithImage() {
-      return `<a 
-                href="https://addons.mozilla.org/en-US/firefox/addon/superhero-wallet/" 
+      return `<a
+                href="https://addons.mozilla.org/en-US/firefox/addon/superhero-wallet/"
                 target="_blank">
                 <img src="${imageFirefoxBrowser}">
               </a>`;
     },
     firefoxLink() {
-      return `<a 
-                href="https://addons.mozilla.org/en-US/firefox/addon/superhero-wallet/" 
+      return `<a
+                href="https://addons.mozilla.org/en-US/firefox/addon/superhero-wallet/"
                 target="_blank">
                 here
               </a>`;

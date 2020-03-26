@@ -1,3 +1,4 @@
+
 <template>
   <a
     v-if="useDeepLinks"
@@ -6,12 +7,29 @@
     class="retip__content"
   >
     <img :src="showRetipIcon ? retipIcon : heartIcon">
-    <ae-amount :amount="amount" :round="2" class="vertical-align-mid"></ae-amount>
-    <fiat-value :amount="amount" class="vertical-align-mid"></fiat-value>
+    <ae-amount
+      :amount="amount"
+      :round="2"
+      class="vertical-align-mid"
+    />
+    <fiat-value
+      :amount="amount"
+      class="vertical-align-mid"
+    />
   </a>
-  <div v-else class="retip__wrapper">
-    <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
-    <div class="retip__container_wrapper" @:click.stop>
+  <div
+    v-else
+    class="retip__wrapper"
+  >
+    <div
+      v-if="show"
+      class="overlay"
+      @click="toggleRetip(false)"
+    />
+    <div
+      class="retip__container_wrapper"
+      @:click.stop
+    >
       <div
         class="retip__content"
         :class="[{ active: show }]"
@@ -27,14 +45,20 @@
           class="retip__icon retip__icon--retip"
           :src="retipIcon"
         >
-        <ae-amount :amount="amount" :round="2"></ae-amount>
-        <fiat-value :amount="amount"></fiat-value>
+        <ae-amount
+          :amount="amount"
+          :round="2"
+        />
+        <fiat-value :amount="amount" />
       </div>
-      <div class="retip__container" v-if="show">
-        <loading :show-loading="showLoading"/>
+      <div
+        v-if="show"
+        class="retip__container"
+      >
+        <loading :show-loading="showLoading" />
         <div
-          class="text-center mb-2"
           v-show="error && !showLoading"
+          class="text-center mb-2"
         >
           An error occurred while sending retip
         </div>
@@ -44,32 +68,35 @@
             class="input-group"
           >
             <input
+              v-model="title"
               type="text"
               class="form-control retip__message"
-              v-model="title"
               placeholder="Add message"
             >
           </div>
           <div class="input-group">
             <input
+              v-model.number="value"
               type="number"
               min="0"
               step="0.1"
-              v-model.number="value"
               class="form-control retip__value"
               aria-label="Default"
             >
             <div class="input-group-append">
               <span class="input-group-text append__ae">
                 <span class="ae">AE</span>
-                <fiat-value :displaySymbol="true" :amount="value"/>
+                <fiat-value
+                  :display-symbol="true"
+                  :amount="value"
+                />
               </span>
             </div>
             <div class="button-section">
               <button
                 v-if="!showRetipIcon"
                 class="btn btn-primary retip__button"
-                :disabled='!isDataValid'
+                :disabled="!isDataValid"
                 @click="sendTip()"
               >
                 Tip
@@ -77,7 +104,7 @@
               <button
                 v-else
                 class="btn btn-primary retip__button"
-                :disabled='!isDataValid'
+                :disabled="!isDataValid"
                 @click="retip()"
               >
                 Retip
@@ -103,6 +130,11 @@ import Loading from './Loading.vue';
 
 export default {
   name: 'Retip',
+  components: {
+    Loading,
+    FiatValue,
+    AeAmount,
+  },
   props: ['tipid', 'showRetipIcon', 'amount', 'tipurl'],
   data() {
     return {
@@ -116,11 +148,6 @@ export default {
       retipIcon,
       title: '',
     };
-  },
-  components: {
-    Loading,
-    FiatValue,
-    AeAmount,
   },
   computed: {
     eventPayload() {
@@ -139,6 +166,13 @@ export default {
       }
       return this.value > 0 && this.title.length > 0;
     },
+  },
+  created() {
+    EventBus.$on('showRetipForm', (payload) => {
+      if (payload !== this.eventPayload) {
+        this.show = false;
+      }
+    });
   },
   methods: {
     toggleRetip(showRetipForm) {
@@ -186,13 +220,6 @@ export default {
       this.fiatValue = 0.00;
       this.error = false;
     },
-  },
-  created() {
-    EventBus.$on('showRetipForm', (payload) => {
-      if (payload !== this.eventPayload) {
-        this.show = false;
-      }
-    });
   },
 };
 </script>

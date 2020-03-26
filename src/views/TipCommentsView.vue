@@ -1,47 +1,66 @@
 <template>
-<div>
-  <right-section></right-section>
-  <left-section></left-section>
-  <div class="container wrapper url__page">
-    <div class="actions-ribbon">
-      <router-link :to="{ name: 'home' }">
-        <img src="../assets/backArrow.svg">
-      </router-link>
-    </div>
-    <div class="tipped__url" v-if="tip">
-      <tip-record :tip="tip"></tip-record>
-    </div>
-    <div class="comment__section">
-      <p class="latest__comments">Latest comments</p>
-      <div class="d-flex">
-          <img class="mr-3 avatar" :src="avatar">
+  <div>
+    <right-section />
+    <left-section />
+    <div class="container wrapper url__page">
+      <div class="actions-ribbon">
+        <router-link :to="{ name: 'home' }">
+          <img src="../assets/backArrow.svg">
+        </router-link>
+      </div>
+      <div
+        v-if="tip"
+        class="tipped__url"
+      >
+        <tip-record :tip="tip" />
+      </div>
+      <div class="comment__section">
+        <p class="latest__comments">
+          Latest comments
+        </p>
+        <div class="d-flex">
+          <img
+            class="mr-3 avatar"
+            :src="avatar"
+          >
           <div class="input-group">
-            <input type="text" placeholder="Add comment" v-model="comment" class="form-control">
+            <input
+              v-model="comment"
+              type="text"
+              placeholder="Add comment"
+              class="form-control"
+            >
             <b-button
               size="sm"
-              @click="sendTipComment()"
               :disabled="comment.length === 0 || showLoading"
+              @click="sendTipComment()"
             >
-              {{$t('system.Send')}}
+              {{ $t('system.Send') }}
             </b-button>
           </div>
+        </div>
       </div>
+      <div class="comments__section">
+        <div
+          v-if="comments.length === 0 && !showLoading"
+          class="no-results text-center w-100"
+          :class="[error ? 'error' : '']"
+        >
+          {{ $t('pages.TipComments.NoResultsMsg') }}
+        </div>
 
-    </div>
-    <div class="comments__section">
-      <div
-        class="no-results text-center w-100"
-        v-bind:class="[error ? 'error' : '']"
-        v-if="comments.length === 0 && !showLoading"
-      >
-        {{$t('pages.TipComments.NoResultsMsg')}}
+        <tip-comment
+          v-for="(comment, index) in comments"
+          :key="index"
+          :comment="comment"
+        />
+        <div
+          v-if="showLoading"
+          class="text-center w-100 mt-3"
+        >
+          <loading :show-loading="true" />
+        </div>
       </div>
-
-      <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" />
-      <div class="text-center w-100 mt-3" v-if="showLoading">
-        <loading :show-loading="true" />
-      </div>
-    </div>
     </div>
   </div>
 </template>
@@ -89,6 +108,15 @@ export default {
       this.updateTip();
     },
   },
+  created() {
+    this.updateTip();
+    const loadUserAvatar = setInterval(() => {
+      if (this.isLoggedIn) {
+        this.avatar = this.getAvatar(this.account);
+        clearInterval(loadUserAvatar);
+      }
+    }, 500);
+  },
   methods: {
     getAvatar(address) {
       const userImage = Backend.getProfileImageUrl(address);
@@ -130,15 +158,6 @@ export default {
         this.showLoading = false;
       });
     },
-  },
-  created() {
-    this.updateTip();
-    const loadUserAvatar = setInterval(() => {
-      if (this.isLoggedIn) {
-        this.avatar = this.getAvatar(this.account);
-        clearInterval(loadUserAvatar);
-      }
-    }, 500);
   },
 };
 </script>

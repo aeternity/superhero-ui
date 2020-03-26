@@ -1,8 +1,22 @@
 <template>
-  <div class="expand-block" @click="toggleExpand(!expanded)" :class="{ expanded: expanded }">
-    <img :src="iconDrawer" class="arrow">
-    <div class="title" v-html="title"></div>
-    <div class="body" v-if="expanded" v-html="body"></div>
+  <div
+    class="expand-block"
+    :class="{ expanded: expanded }"
+    ,@click="toggleExpand(!expanded)"
+  >
+    <img
+      :src="iconDrawer"
+      class="arrow"
+    >
+    <div
+      class="title"
+      v-html="title"
+    />
+    <div
+      v-if="expanded"
+      class="body"
+      v-html="body"
+    />
   </div>
 </template>
 

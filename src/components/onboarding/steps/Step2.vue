@@ -8,7 +8,10 @@
     </div>
     <h1>
       Install Superhero Wallet<br>
-      A Tool for Good Built on <a href="https://aeternity.com/" target="_blank">aeternity Blockchain</a>
+      A Tool for Good Built on <a
+        href="https://aeternity.com/"
+        target="_blank"
+      >aeternity Blockchain</a>
     </h1>
     <p>
       Superhero empowers <span class="highlited">people supporting people</span><br>

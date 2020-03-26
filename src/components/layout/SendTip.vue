@@ -1,5 +1,5 @@
 <template>
-  <div class="tip__post" v-bind:class="{ active: !loading.wallet }">
+  <div class="tip__post" v-if="canTip" v-bind:class="{ active: !loading.wallet }">
     <form @submit.prevent>
       <div class="form-row">
         <label class="tip__post__label pl-2">Send Tip</label>
@@ -94,6 +94,7 @@ export default {
         title: '',
       },
       avatar,
+      canTip: false,
     };
   },
   methods: {
@@ -108,13 +109,11 @@ export default {
     clearTipForm() {
       this.sendTipForm = { amount: null, url: '', title: '' };
     },
-    getAvatar(address) {
-      return Backend.getProfileImageUrl(address);
-    },
   },
   async created() {
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
+        this.canTip = true;
         const userImage = Backend.getProfileImageUrl(this.account);
         if (userImage) {
           this.avatar = userImage;

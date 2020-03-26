@@ -46,7 +46,7 @@ describe('Home.vue', () => {
 
     it('new tip is visible', () => {
       cy
-        .contains(randomString, { timeout: 15000 })
+        .contains(randomString, { timeout: 50000 })
         .should('be.visible');
     });
 
@@ -82,7 +82,7 @@ describe('Home.vue', () => {
         .type('0.01')
         .get('.retip__container .retip__button')
         .click()
-        .wait('@dryRun', { requestTimeout: 30000 })
+        .wait('@dryRun', { requestTimeout: 50000 })
         .get('.retip__wrapper')
         .should('be.visible')
         .get('.retip__container')

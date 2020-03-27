@@ -8,75 +8,80 @@
     <ae-amount :amount="amount" :round="2" class="vertical-align-mid"></ae-amount>
     <fiat-value :amount="amount" class="vertical-align-mid"></fiat-value>
   </a>
-  <div v-else class="d-inline-block">
+  <div v-else class="d-inline-block retip__wrapper">
     <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
-    <div class="position-relative wrapper" v-on:click.stop>
-      <span @click="toggleRetip(!show)">
+    <div class="position-relative wrapper" @:click.stop>
+      <div
+        class="retip__content"
+        :class="[{ active: show }]"
+        @click="toggleRetip(!show)"
+      >
         <img
           v-if="!showRetipIcon"
-          class="retip__icon"
+          class="retip__icon retip__icon--tip"
           :src="heartIcon"
         >
         <img
           v-else
-          class="retip__icon"
+          class="retip__icon retip__icon--retip"
           :src="retipIcon"
         >
         <ae-amount :amount="amount" :round="2" class="vertical-align-mid"></ae-amount>
         <fiat-value :amount="amount" class="vertical-align-mid"></fiat-value>
-      </span>
-      <div class="clearfix retip__container" v-if="show">
-        <loading :show-loading="showLoading" />
+      </div>
+      <div class="retip__container" v-if="show">
+        <loading :show-loading="showLoading"/>
         <div
           class="text-center mb-2"
           v-show="error && !showLoading"
         >
-          An error occured while sending retip
+          An error occurred while sending retip
         </div>
         <div v-if="!showLoading">
           <div
             v-if="!showRetipIcon"
-            class="input-group mr-1 float-left hasmessage"
+            class="input-group"
           >
             <input
               type="text"
-              class="form-control"
+              class="form-control retip__message"
               v-model="title"
               placeholder="Add message"
             >
           </div>
-          <div class="input-group mr-1 float-left" :class="[!showRetipIcon ? 'hasmessage' : '']">
+          <div class="input-group">
             <input
               type="number"
               min="0"
               step="0.1"
               v-model.number="value"
-              class="form-control"
+              class="form-control retip__value"
               aria-label="Default"
             >
             <div class="input-group-append">
               <span class="input-group-text append__ae">
                 <span class="ae">AE</span>
-                <fiat-value :displaySymbol="true" :amount="value" />
+                <fiat-value :displaySymbol="true" :amount="value"/>
               </span>
             </div>
-          </div>
-          <button
-            v-if="showRetipIcon"
-            class="btn btn-primary retip__button float-right"
-            :disabled='!isDataValid'
-            @click="retip()"
-          >
-            Retip
-          </button>
-          <div class="button-section" v-else>
-            <button
-              class="btn btn-primary retip__button"
-              :disabled='!isDataValid'
-              @click="sendTip()"
-            >
-              Tip
-            </button>
+            <div class="button-section">
+              <button
+                v-if="!showRetipIcon"
+                class="btn btn-primary retip__button"
+                :disabled='!isDataValid'
+                @click="sendTip()"
+              >
+                Tip
+              </button>
+              <button
+                v-else
+                class="btn btn-primary retip__button"
+                :disabled='!isDataValid'
+                @click="retip()"
+              >
+                Retip
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -85,16 +90,15 @@
 </template>
 
 <script>
-import util, { IS_MOBILE_DEVICE, IS_FRAME } from '../utils/util';
-import aeternity from '../utils/aeternity';
-import { EventBus } from '../utils/eventBus';
-import FiatValue from './FiatValue.vue';
-import Loading from './Loading.vue';
 import heartIcon from '../assets/heart.svg';
 import retipIcon from '../assets/retipIcon.svg';
-import AeAmount from './AeAmount.vue';
+import aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
-
+import { EventBus } from '../utils/eventBus';
+import util, { IS_FRAME, IS_MOBILE_DEVICE } from '../utils/util';
+import AeAmount from './AeAmount.vue';
+import FiatValue from './FiatValue.vue';
+import Loading from './Loading.vue';
 
 export default {
   name: 'Retip',
@@ -194,89 +198,130 @@ export default {
 
 
 <style lang="scss" scoped>
-  .overlay{
-    position: fixed;
-    top: 0;
+  .overlay {
     bottom: 0;
     left: 0;
+    position: fixed;
     right: 0;
+    top: 0;
     z-index: 10;
   }
- .retip__icon{
-   &:hover{
-     cursor: pointer;
-   }
- }
- .wrapper{
-   z-index: 20;
-   display: inline-block;
- }
-.wrapper .input-group .input-group-append span.append__ae {
-    background: $background_color;
-    color: $light_font_color;
-}
-.button-section {
-  text-align: center;
-  button {
-    width: 100%;
-  }
-}
-.input-group{
-  border-radius: .25rem;
-  width: calc(100% - 4rem);
-  &.hasmessage {
-    width: 100%;
-    margin-bottom: .5rem;
-  }
-  .form-control{
-    &:focus{
-      box-shadow: none;
-    }
-    &[type=number]:focus{
-      border-right: none;
-    }
-    &[type=number]:focus~.input-group-append .input-group-text{
-      border: .05rem solid $custom_links_color;
-      border-left: none;
-    }
-  }
-  .input-group-append{
-    .ae{
-      color: $secondary_color;
-    }
-    span.append__ae {
-      font-size: 0.75rem;
-      cursor: default;
-    }
-  }
-}
-.retip__button{
-  margin-top: 0.1rem;
-  background-color: $custom_links_color;
-  color: $standard_font_color;
-  border: none;
-}
-.retip__container{
-  background-color: black;
-  border-radius: .5rem;
-  padding: 1rem;
-  position: absolute;
-  min-width: 19rem;
-}
 
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-    .input-group .form-control, .input-group .input-group-append span.append__ae{
-      font-size: .5rem;
+  .retip__icon:hover {
+    cursor: pointer;
+  }
+
+  .wrapper {
+    z-index: 20;
+  }
+
+  .currency-value,
+  .ae-amount {
+    align-items: center;
+    display: flex;
+    height: 1rem;
+  }
+
+  .retip__content {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    height: 1rem;
+    position: relative;
+
+    img {
+      height: 1rem;
+      margin-right: .2rem;
+      vertical-align: top;
+      width: 1rem;
     }
-    .retip__container{
+
+    &:hover img {
+      filter: brightness(1.3);
+    }
+  }
+
+  .ae-amount {
+    color: #fff;
+  }
+
+  .ae {
+    color: $secondary_color;
+  }
+
+  .button-section {
+    margin-left: .5rem;
+    text-align: center;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .retip__wrapper {
+    height: 1rem;
+  }
+
+  .retip__container {
+    background-color: black;
+    border-radius: .5rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: .25rem;
+    min-width: 19rem;
+    padding: 1rem;
+    position: absolute;
+
+    .form-control {
+      color: $custom_links_color;
+
+      &:focus {
+        box-shadow: none;
+      }
+
+      &[type=number]:focus {
+        border-right: none;
+      }
+
+      &[type=number]:focus ~ .input-group-append .input-group-text {
+        border: .05rem solid $custom_links_color;
+        border-left: none;
+      }
+    }
+
+    .retip__button {
+      background-color: $custom_links_color;
+      border: 1px solid $custom_links_color;
+      color: $standard_font_color;
+    }
+
+    .input-group {
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: .5rem;
+      }
+
+      .append__ae {
+        border-bottom-right-radius: .25rem;
+        border-top-right-radius: .25rem;
+
+        background: $background_color !important;
+        color: $light_font_color;
+        cursor: default;
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  @media only screen and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+    .retip__container {
       min-width: 13rem;
       padding: .5rem;
     }
-    .retip__button{
+
+    .retip__button {
       font-size: .5rem;
     }
-}
+  }
 </style>

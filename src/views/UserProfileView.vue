@@ -41,7 +41,7 @@
                   <img
                     :src="avatar"
                     :key="avatarEditImageKey"
-                    :onerror="`this.style.opacity=0`"
+                    :onerror="`this.className='fail'`"
                     alt=""
                   >
                   <span>Change Avatar</span>
@@ -60,7 +60,7 @@
                 :title="address"
                 target="_blank"
               >
-                <img :src="avatar" v-if="!editMode" :onerror="`this.style.opacity=0`" alt="">
+                <img :src="avatar" v-if="!editMode" :onerror="`this.className='fail'`" alt="">
               </a>
             </div>
             <div class="profile__info">
@@ -368,7 +368,6 @@ export default {
   .profile__page{
     color: $light_font_color;
     font-size: .75rem;
-    margin-top: .125rem;
     .count{
       font-size: .65rem;
     }
@@ -459,6 +458,7 @@ export default {
           width: 6.5rem;
           height: 6.5rem;
           border-radius: 3.25rem;
+          object-fit: cover;
         }
       }
       .profile__info, .profile__image{
@@ -501,6 +501,9 @@ export default {
       padding-left: 1rem;
       margin-top: .125rem;
       background-color: $actions_ribbon_background_color;
+      position: sticky;
+      z-index: 21;
+      top: 2.1rem;
       a{
         font-weight: 600;
         color: $light_font_color;
@@ -523,7 +526,7 @@ export default {
   }
   .comments__section{
     min-height: 5rem;
-    overflow-y: auto;
+
     .comment.tip__record{
       border-radius: unset;
     }

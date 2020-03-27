@@ -292,6 +292,10 @@ export default {
     a {
       font-size: .75rem;
       display: block;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 

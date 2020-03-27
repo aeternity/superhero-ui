@@ -16,7 +16,6 @@ import { wallet } from './utils/walletSearch';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import Util from './utils/util';
-import TipTopicUtil from './utils/tipTopicUtil';
 
 export default {
   name: 'App',
@@ -88,16 +87,15 @@ export default {
 
       // await fetch
       const [
-        stats, tips, chainNames, rates, oracleState,
+        stats, tips, chainNames, rates, oracleState, topics,
       ] = await Promise.all([
         Backend.getCacheStats(),
         Backend.getCacheTips('hot', this.page),
         Backend.getCacheChainNames(),
         Backend.getPrice(),
         Backend.getOracleCache(),
+        Backend.getTopicsCache(),
       ]);
-
-      const topics = TipTopicUtil.getTipTopics(tips);
 
       // async fetch
       this.reloadAsyncData(true, stats);
@@ -112,6 +110,7 @@ export default {
     },
     async reloadData() {
       this.addLoading('tips');
+
       const tips = await Util.range(1, this.page)
         .asyncMap(async (page) => Backend.getCacheTips(this.tipSortBy, page));
       this.removeLoading('tips');

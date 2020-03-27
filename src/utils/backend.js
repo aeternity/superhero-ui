@@ -44,6 +44,8 @@ export default class Backend {
 
   static getOracleCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/oracle`));
 
+  static getTopicsCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/topics`));
+
   cacheInvalidateTips = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/invalidate/tips`));
 
   getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));

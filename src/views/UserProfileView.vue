@@ -399,10 +399,6 @@ export default {
       display: flex;
     }
 
-    .tips__container {
-      padding: .15rem .5rem;
-    }
-
     .edit__button{
       position: absolute;
       top: -1.25rem;
@@ -611,6 +607,9 @@ export default {
             height: 4rem;
           }
         }
+      }
+      .tips__container {
+        padding: .15rem .5rem;
       }
       .edit__button{
         top: -1.5rem;

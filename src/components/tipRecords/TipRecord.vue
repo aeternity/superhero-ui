@@ -277,7 +277,7 @@ export default {
       filter: brightness(1.3);
     }
 
-    .tip__comments--hascomments {
+    &.tip__comments--hascomments {
       color: #fff;
     }
   }

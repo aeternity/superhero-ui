@@ -9,8 +9,7 @@
               <span class="chain__name" v-else-if="comment.chainName">{{comment.chainName}}</span>
               <span v-else :address="comment.author" class="address">{{comment.author}}</span>
             </router-link>
-            <span class="date"
-             v-bind:class="[userChainName || comment.chainName ? '' : 'wholeaddr']">
+            <span class="tip__date">
               <format-date :dateTimestamp="comment.createdAt"></format-date>
             </span>
           </div>
@@ -61,6 +60,67 @@ export default {
       height: initial;
       font-size: .7rem;
       font-weight: 400;
+    }
+  }
+
+  .tip__author {
+    align-items: center;
+    color: $light_font_color;
+    display: flex;
+    font-size: .8rem;
+    justify-content: space-between;
+
+    .tip__date {
+      display: inline-block;
+      font-size: .6rem;
+      text-align: right;
+    }
+
+    .address {
+      font-size: .6rem;
+    }
+
+    .address,
+    .chain__name {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+      word-break: break-all;
+    }
+
+    img {
+      border-radius: 50%;
+      flex-shrink: 0;
+      height: 2rem;
+      margin-right: 0.25rem;
+      object-fit: cover;
+      width: 2rem;
+    }
+
+    a {
+      align-items: center;
+      color: $light_font_color;
+      display: flex;
+      margin-right: 1rem;
+      overflow: hidden;
+
+      &:hover {
+        filter: brightness(1.3);
+      }
+    }
+
+    .chain__name {
+      color: #fff;
+    }
+
+    .tip__author_name {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      width: 100%;
     }
   }
 

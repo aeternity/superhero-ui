@@ -13,6 +13,7 @@ body {
   background-color: $background_color;
   color: $primary_color;
   font-family: 'Roboto', 'Helvetica', 'Arial', 'sans-serif';
+  overflow-x: hidden;
   overflow-y: overlay;
 }
 
@@ -107,7 +108,7 @@ a:hover{
   }
 }
 
-img.fail{
+img.fail {
   visibility: hidden;
 }
 

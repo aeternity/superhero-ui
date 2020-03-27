@@ -4,7 +4,7 @@
     <left-section></left-section>
     <loading class="mt-5" v-if="loading.initial" :show-loading="true" />
     <div v-else>
-    <div class="container profile__page">
+    <div class="profile__page">
       <div class="actions-ribbon">
         <router-link :to="{ name: 'home' }">
           <img src="../assets/backArrow.svg">
@@ -151,25 +151,25 @@
         >
           {{'There is no activity to display.'}}
         </div>
-          <div v-if="activeTab === 'tips'">
-            <div v-if="userTips.length">
-              <tip-record v-for="(tip,index) in userTips"
-                :key="index"
-                :tip="tip"
-                :fiatValue="tip.fiatValue"
-                :senderLink="openExplorer(tip.sender)">
-              </tip-record>
-            </div>
-          </div>
-          <div v-if="activeTab === 'comments'">
-            <tip-comment
-              v-for="(comment, index) in comments"
+        <div v-if="activeTab === 'tips'" class="tips__container">
+          <div v-if="userTips.length">
+            <tip-record v-for="(tip,index) in userTips"
               :key="index"
-              :userChainName="userChainName"
-              :comment="comment"
-              :senderLink="openExplorer(comment.author)"
-            />
+              :tip="tip"
+              :fiatValue="tip.fiatValue"
+              :senderLink="openExplorer(tip.sender)">
+            </tip-record>
           </div>
+        </div>
+        <div v-if="activeTab === 'comments'" class="tips__container">
+          <tip-comment
+            v-for="(comment, index) in comments"
+            :key="index"
+            :userChainName="userChainName"
+            :comment="comment"
+            :senderLink="openExplorer(comment.author)"
+          />
+        </div>
         <div class="mt-3" v-if="showLoading || loading.tips">
           <loading :show-loading="true" />
         </div>
@@ -394,6 +394,15 @@ export default {
       }
     }
 
+    .profile__editable {
+      align-items: center;
+      display: flex;
+    }
+
+    .tips__container {
+      padding: .15rem .5rem;
+    }
+
     .edit__button{
       position: absolute;
       top: -1.25rem;
@@ -461,13 +470,17 @@ export default {
           object-fit: cover;
         }
       }
-      .profile__info, .profile__image{
-        display: inline-block;
+      .profile__image {
+        display: flex;
       }
-      .profile__info{
+      .profile__info {
         width: calc(100% - 8.5rem);
+        display: flex;
+        flex-direction: column;
+
         .profile__displayname{
           font-size: 1.2rem;
+          height: 1.5rem;
         }
         .profile__username, .profile__displayname{
           margin-bottom: 0;

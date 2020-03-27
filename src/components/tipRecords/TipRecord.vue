@@ -469,7 +469,7 @@ export default {
       }
     }
 
-    .tip__url{
+    .tip__url {
       margin: 0 0 .4rem 0;
     }
 

@@ -20,6 +20,11 @@ import TipTopicUtil from './utils/tipTopicUtil';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      page: 1
+    };
+  },
   computed: {
     ...mapGetters(['settings', 'tipSortBy']),
   },
@@ -27,15 +32,13 @@ export default {
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
-    EventBus.$on('setTipSortBy', () => {
-      this.reloadData();
-    });
+
     await this.reloadData(true);
     setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
     ...mapActions([
-      'setLoggedInAccount', 'setTipsOrdering', 'updateTips',
+      'setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'addTips',
       'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames',
     ]),
@@ -77,15 +80,14 @@ export default {
       }
 
       // await fetch
-      const backend = new Backend();
       const [
         stats, tips, chainNames, rates, oracleState,
       ] = await Promise.all([
-        backend.getCacheStats(),
-        backend.getCacheTips(initial ? 'hot' : this.tipSortBy),
-        backend.getCacheChainNames(),
-        backend.getPrice(),
-        backend.getOracleCache(),
+        Backend.getCacheStats(),
+        Backend.getCacheTips(initial ? 'hot' : this.tipSortBy, this.page),
+        Backend.getCacheChainNames(),
+        Backend.getPrice(),
+        Backend.getOracleCache(),
       ]);
 
       const topics = TipTopicUtil.getTipTopics(tips);

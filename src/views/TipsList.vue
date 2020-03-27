@@ -155,6 +155,9 @@ export default {
       this.onSearchTopic(this.$route.query.searchTopicPhrase);
     }
   },
+  mounted() {
+    this.scroll();
+  },
   methods: {
     ...mapActions(['setTipSortBy']),
     onSearchTopic(data) {
@@ -162,6 +165,14 @@ export default {
     },
     openExplorer(address) {
       return this.explorerUrl + address;
+    },
+    scroll() {
+      window.onscroll = () => {
+        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+        if (bottomOfWindow) {
+          EventBus.$emit("loadMoreTips")
+        }
+      };
     },
   },
 };

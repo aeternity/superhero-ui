@@ -6,6 +6,7 @@ import {
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import ORACLE_INTERFACE from '../contracts/OracleServiceInterface.aes';
 import TippingContractUtil from './tippingContractUtil';
+import router from '../router';
 
 const aeternity = {
   client: null,
@@ -95,8 +96,13 @@ aeternity.initClient = async () => {
     try {
       aeternity.client = await aeternity.initStaticClient();
       result = await aeternity.initProvider();
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      router.push({
+        name: 'maintenance',
+        params: {
+          alert: err.toString(),
+        },
+      });
       result = false;
     }
   } else {

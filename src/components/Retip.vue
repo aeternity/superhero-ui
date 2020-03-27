@@ -218,21 +218,18 @@ export default {
   .currency-value,
   .ae-amount {
     align-items: center;
-    display: flex;
     height: 1rem;
   }
 
   .retip__content {
     align-items: center;
-    display: flex;
-    flex: 0 0 auto;
     height: 1rem;
     position: relative;
 
     img {
       height: 1rem;
       margin-right: .2rem;
-      vertical-align: top;
+      vertical-align: middle;
       width: 1rem;
     }
 

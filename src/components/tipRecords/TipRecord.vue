@@ -258,9 +258,6 @@ export default {
 
   .tip__comments,
   .tip__amount {
-    align-items: center;
-    display: flex;
-    flex: 0 0 auto;
     height: 1rem;
     margin-right: 1rem;
     margin-top: .9rem;
@@ -269,7 +266,7 @@ export default {
     img {
       height: 1rem;
       margin-right: .2rem;
-      vertical-align: top;
+      vertical-align: middle;
       width: 1rem;
     }
 

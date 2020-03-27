@@ -6,21 +6,23 @@
         alt=""
       >
     </div>
-    <h1>Welcome To The Superhero League!</h1>
+    <h1>Welcome to the Superhero League!</h1>
     <p>
-      Being all said and set you can now enter your account on<br>
-      <a href="https://superhero.com">Superhero.com</a> and set up your
-      personalized profile preferences.
-    </p>
-    <p v-if="!isLoggedIn">
-      *
-      <a @click="gotoStep(1)">Install wallet</a> and
-      <a @click="openWallet()">log in</a> to continue
+      You can now get in on the action by setting your<br>
+      personalized profile and preferences on
+      <a href="https://superhero.com">www.superhero.com</a>
     </p>
     <div class="step__footer">
       <button
         class="button"
-        :disabled="!isLoggedIn"
+        v-if="!isLoggedIn"
+        @click="nextStep()"
+      >
+        Create Profile
+      </button>
+      <button
+        class="button"
+        v-else
         @click="isLoggedIn && nextStep()"
       >
         Set Up Your Profile

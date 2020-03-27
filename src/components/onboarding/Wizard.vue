@@ -134,8 +134,10 @@ export default {
       // set step after the last to hide permanently (or until a new 'step' is added eventually):
       this.setWizardIsCollapsed(true);
 
+      this.setWizardCurrentStep(steps.length);
+
+
       if (this.account) {
-        this.setWizardCurrentStep(steps.length);
         this.$router.push({
           name: 'user-profile',
           params: {
@@ -145,7 +147,7 @@ export default {
         return;
       }
 
-      this.$router.push({ name: 'home' });
+      this.$router.push({ name: 'create-profile' });
     },
   },
 };
@@ -319,7 +321,18 @@ export default {
       }
     }
 
+    .highlited {
+      color: $standard_font_color;
+      font-weight: 500;
+    }
+
+    .important {
+      color: $secondary_color;
+      font-weight: 500;
+    }
+
     a {
+      color: $wizard_links;
       cursor: pointer;
       transition: all 0.2s;
 
@@ -340,14 +353,15 @@ export default {
       font-size: .8rem;
       line-height: 1.625;
       margin-bottom: 1rem;
-
+      text-align: center;
       a {
-        color: $custom_links_color;
+        color: $wizard_links;
         text-decoration: underline;
       }
     }
 
     ol, ul {
+      text-align: center;
       padding-left: 1rem;
       margin-bottom: 1rem;
     }

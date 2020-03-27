@@ -26,6 +26,7 @@ export default new Vuex.Store({
       tips: false,
       wallet: false,
       initial: false,
+      moreTips: false,
     },
     chainNames: [],
     wizardCurrentStep: 0,

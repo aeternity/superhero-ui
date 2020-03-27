@@ -68,6 +68,7 @@
             :fiat-value="tip.fiatValue"
             :sender-link="openExplorer(tip.sender)"
           />
+          <loading :show-loading="loading.moreTips" v-if="loading.moreTips" class="m-2"/>
         </div>
       </div>
       <div
@@ -169,9 +170,10 @@ export default {
     },
     scroll() {
       window.onscroll = () => {
-        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+        const bottomOfWindow = document.documentElement.scrollTop
+          + window.innerHeight === document.documentElement.offsetHeight;
         if (bottomOfWindow) {
-          EventBus.$emit("loadMoreTips")
+          EventBus.$emit('loadMoreTips');
         }
       };
     },

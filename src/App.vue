@@ -15,14 +15,14 @@ import aeternity from './utils/aeternity';
 import { wallet } from './utils/walletSearch';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
-import util from './utils/util';
+import Util from './utils/util';
 import TipTopicUtil from './utils/tipTopicUtil';
 
 export default {
   name: 'App',
   data() {
     return {
-      page: 1
+      page: 1,
     };
   },
   computed: {
@@ -34,9 +34,7 @@ export default {
     });
 
     EventBus.$on('loadMoreTips', async () => {
-      const tips = await Backend.getCacheTips(this.tipSortBy, this.page + 1);
-      if (tips.length > 0) this.page = this.page + 1;
-      this.addTips(tips);
+      this.loadMoreTips();
     });
     EventBus.$on('setTipSortBy', () => {
       window.scrollTo(0,0);
@@ -44,7 +42,7 @@ export default {
       this.reloadData();
     });
 
-    await this.reloadData(true);
+    await this.initialLoad(true);
     setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
@@ -60,7 +58,7 @@ export default {
           const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
           this.setLoggedInAccount({
             account: currentAccount,
-            balance: util.atomsToAe(balance).toFixed(2),
+            balance: Util.atomsToAe(balance).toFixed(2),
           });
           console.log('found wallet');
           resolve();
@@ -81,21 +79,19 @@ export default {
           console.error(e);
         });
     },
-    async reloadData(initial = false) {
+    async initialLoad() {
       this.addLoading('tips');
-      if (initial) {
-        this.addLoading('initial');
-        this.addLoading('wallet');
-        await aeternity.initClient();
-        this.initWallet();
-      }
+      this.addLoading('initial');
+      this.addLoading('wallet');
+      await aeternity.initClient();
+      this.initWallet();
 
       // await fetch
       const [
         stats, tips, chainNames, rates, oracleState,
       ] = await Promise.all([
         Backend.getCacheStats(),
-        Backend.getCacheTips(initial ? 'hot' : this.tipSortBy, this.page),
+        Backend.getCacheTips('hot', this.page),
         Backend.getCacheChainNames(),
         Backend.getPrice(),
         Backend.getOracleCache(),
@@ -104,7 +100,7 @@ export default {
       const topics = TipTopicUtil.getTipTopics(tips);
 
       // async fetch
-      this.reloadAsyncData(initial, stats);
+      this.reloadAsyncData(true, stats);
       this.updateTips(tips);
       this.updateTopics(topics);
       this.setChainNames(chainNames);
@@ -113,6 +109,20 @@ export default {
 
       this.removeLoading('tips');
       this.removeLoading('initial');
+    },
+    async reloadData() {
+      this.addLoading('tips');
+      const tips = await Util.range(1, this.page)
+        .asyncMap(async (page) => Backend.getCacheTips(this.tipSortBy, page));
+      this.removeLoading('tips');
+      this.updateTips(tips);
+    },
+    async loadMoreTips() {
+      this.addLoading('moreTips');
+      const tips = await Backend.getCacheTips(this.tipSortBy, this.page + 1);
+      if (tips.length > 0) this.page += 1;
+      this.removeLoading('moreTips');
+      this.addTips(tips);
     },
   },
 };

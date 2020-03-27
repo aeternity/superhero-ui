@@ -33,6 +33,17 @@ export default {
       this.reloadData();
     });
 
+    EventBus.$on('loadMoreTips', async () => {
+      const tips = await Backend.getCacheTips(this.tipSortBy, this.page + 1);
+      if (tips.length > 0) this.page = this.page + 1;
+      this.addTips(tips);
+    });
+    EventBus.$on('setTipSortBy', () => {
+      window.scrollTo(0,0);
+      this.page = 1;
+      this.reloadData();
+    });
+
     await this.reloadData(true);
     setInterval(() => this.reloadData(), 120 * 1000);
   },

@@ -148,6 +148,7 @@ export default {
   },
   async created() {
     EventBus.$on('searchTopic', (topic) => {
+      window.scrollTo(0,0);
       this.onSearchTopic(topic);
     });
 

@@ -34,6 +34,10 @@ export default {
     color: $text_content_color;
     font-size: .8rem;
     margin-top: .5rem;
+
+    p{
+      text-align: left;
+    }
   }
 
   .title {

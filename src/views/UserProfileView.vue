@@ -182,14 +182,17 @@
 <script>
 import { mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
+// eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+// eslint-disable-next-line import/no-cycle
 import { wallet } from '../utils/walletSearch';
 import FiatValue from '../components/FiatValue.vue';
 import AeAmount from '../components/AeAmount.vue';
+// eslint-disable-next-line import/no-cycle
 import Util from '../utils/util';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';

@@ -3,7 +3,7 @@
     <right-section></right-section>
     <left-section></left-section>
     <div class="container wrapper mt-2">
-      <div class="content">
+      <div class="content faq-page">
           <h1>Frequently Asked Questions</h1>
           <hr width="30%">
           <p>
@@ -91,9 +91,9 @@ export default {
       answerNine: `<p>
                     For assistance and to report issues regarding the Superhero wallet
                     or <a href="http://superhero.com" target="_blank">Superhero.com</a>,
-                    you may post comments and questions on
-                    <a href="https://forum.aeternity.com/" target="_blank">
-                      https://forum.aeternity.com/
+                    you may post comments and questions
+                    <a href="https://thesuperherowallet.typeform.com/to/cnbife" target="_blank">
+                      here
                     </a>
                   </p>
                   <p>
@@ -106,38 +106,37 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
-  .content {
+<style lang="scss">
+  .faq-page,
+  .tutorial-page {
     background-color: $light_color;
     padding: 2rem;
-  }
 
-  h1 {
-    font-size: 1.5rem;
-    color: $standard_font_color;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    font-size: .8rem;
-    color: $text_content_color;
-  }
-
-  h1,
-  p {
-    text-align: center;
-  }
-
-  a {
-    color: $custom_links_color;
-
-    &:hover {
-      filter: saturate(0.5) brightness(1.2);
+    h1 {
+      font-size: 1.5rem;
+      color: $standard_font_color;
+      margin-bottom: 1rem;
     }
-  }
 
-  hr {
-    background: $search_nav_border_color;
-    margin-bottom: 1rem;
+    p {
+      font-size: .8rem;
+      color: $text_content_color;
+    }
+
+    h1,
+    p {
+      text-align: center;
+    }
+    a {
+      color: $custom_links_color;
+
+      &:hover {
+        filter: saturate(0.5) brightness(1.2);
+      }
+    }
+    hr {
+      background: $search_nav_border_color;
+      margin-bottom: 1rem;
+    }
   }
 </style>

@@ -29,7 +29,7 @@
             </span>
           </router-link>
           <span class="tip__date">
-            <format-date :date-timestamp="comment.createdAt" />
+            <format-date :date-timestamp="new Date(comment.createdAt)" />
           </span>
         </div>
       </div>

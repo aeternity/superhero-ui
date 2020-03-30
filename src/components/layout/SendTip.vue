@@ -26,7 +26,7 @@
                 <span class="ae">AE&nbsp;</span>
                 <fiat-value
                   :display-symbol="true"
-                  :amount="sendTipForm.amount"
+                  :amount="sendTipForm.amount.toString()"
                 />
               </span>
             </div>
@@ -89,7 +89,7 @@ export default {
   data() {
     return {
       sendTipForm: {
-        amount: null,
+        amount: 0,
         url: '',
         title: '',
       },
@@ -130,7 +130,7 @@ export default {
       EventBus.$emit('reloadData');
     },
     clearTipForm() {
-      this.sendTipForm = { amount: null, url: '', title: '' };
+      this.sendTipForm = { amount: 0, url: '', title: '' };
     },
   },
 };

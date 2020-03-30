@@ -88,7 +88,7 @@
                 <span class="ae">AE</span>
                 <fiat-value
                   :display-symbol="true"
-                  :amount="value"
+                  :amount="value.toString()"
                 />
               </span>
             </div>
@@ -138,8 +138,8 @@ export default {
   props: {
     tipid: { type: Number, required: true },
     showRetipIcon: { type: Boolean },
-    amount: { type: Number, required: true },
-    tipurl: { type: String, required: true },
+    amount: { type: String, required: true },
+    tipurl: { type: String, default: '' },
   },
   data() {
     return {

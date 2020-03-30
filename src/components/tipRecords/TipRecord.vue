@@ -25,7 +25,7 @@
             </div>
           </router-link>
           <span class="tip__date">
-            <format-date :date-timestamp="tip.timestamp" />
+            <format-date :date-timestamp="new Date(tip.timestamp)" />
           </span>
         </div>
         <div

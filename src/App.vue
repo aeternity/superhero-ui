@@ -98,6 +98,14 @@ export default {
     },
   },
   async created() {
+    EventBus.$on('redirectMaintenance', (err) => {
+      this.$router.push({
+        name: 'maintenance',
+        params: {
+          alert: err.toString(),
+        },
+      });
+    });
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });

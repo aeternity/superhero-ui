@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import router from '../router';
+import { EventBus } from './eventBus';
 
 const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000000000000000000));
 const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
@@ -15,12 +15,7 @@ export const wrapTry = async (f) => {
       })),
     ]);
   } catch (err) {
-    router.push({
-      name: 'maintenance',
-      params: {
-        alert: err.toString(),
-      },
-    });
+    EventBus.$emit('redirectMaintenance', err);
     return null;
   }
 };

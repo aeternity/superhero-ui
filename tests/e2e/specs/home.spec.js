@@ -4,6 +4,7 @@ describe('Home.vue', () => {
   describe('Home page', () => {
     before(() => {
       cy.visit('/');
+      cy.wait(10000);
     });
 
     it('navigation link is active', () => {
@@ -42,6 +43,12 @@ describe('Home.vue', () => {
         .last()
         .type(randomString, { force: true })
         .get('.tip__send')
+        .click();
+    });
+
+    it('switch to latest tab', () => {
+      cy
+        .contains('Latest')
         .click();
     });
 

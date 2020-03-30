@@ -3,14 +3,15 @@
     v-if="useDeepLinks"
     :href="deepLink"
     target="_blank"
+    class="retip__content"
   >
     <img :src="showRetipIcon ? retipIcon : heartIcon">
     <ae-amount :amount="amount" :round="2" class="vertical-align-mid"></ae-amount>
     <fiat-value :amount="amount" class="vertical-align-mid"></fiat-value>
   </a>
-  <div v-else class="d-inline-block retip__wrapper">
+  <div v-else class="retip__wrapper">
     <div class="overlay" @click="toggleRetip(false)" v-if="show"></div>
-    <div class="position-relative wrapper" @:click.stop>
+    <div class="retip__container_wrapper" @:click.stop>
       <div
         class="retip__content"
         :class="[{ active: show }]"
@@ -26,8 +27,8 @@
           class="retip__icon retip__icon--retip"
           :src="retipIcon"
         >
-        <ae-amount :amount="amount" :round="2" class="vertical-align-mid"></ae-amount>
-        <fiat-value :amount="amount" class="vertical-align-mid"></fiat-value>
+        <ae-amount :amount="amount" :round="2"></ae-amount>
+        <fiat-value :amount="amount"></fiat-value>
       </div>
       <div class="retip__container" v-if="show">
         <loading :show-loading="showLoading"/>
@@ -211,7 +212,8 @@ export default {
     cursor: pointer;
   }
 
-  .wrapper {
+  .retip__container_wrapper {
+    position: relative;
     z-index: 20;
   }
 

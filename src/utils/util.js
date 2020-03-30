@@ -15,7 +15,7 @@ export const wrapTry = async (f) => {
       })),
     ]);
   } catch (err) {
-    EventBus.$emit('redirectMaintenance', err);
+    EventBus.$emit('backendError', err);
     return null;
   }
 };

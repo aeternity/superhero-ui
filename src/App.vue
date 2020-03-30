@@ -98,7 +98,7 @@ export default {
     },
   },
   async created() {
-    EventBus.$on('redirectMaintenance', (err) => {
+    EventBus.$on('backendError', (err) => {
       this.$router.push({
         name: 'maintenance',
         params: {

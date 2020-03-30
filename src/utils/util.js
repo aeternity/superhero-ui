@@ -21,7 +21,7 @@ export const wrapTry = async (f) => {
 
 const range = (start, end) => (new Array(end - start + 1)).fill(undefined).map((_, i) => i + start);
 
-// eslint-disable-next-line no-extend-native
+// eslint-disable-next-line no-extend-native, func-names
 Array.prototype.asyncMap = async function (asyncF) {
   return this.reduce(async (promiseAcc, cur) => {
     const acc = await promiseAcc;

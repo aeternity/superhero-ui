@@ -264,7 +264,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import Backend from '../utils/backend';
-import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
@@ -274,7 +273,7 @@ import AeAmount from '../components/AeAmount.vue';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
 import { MIDDLEWARE_URL } from '../config/constants';
-import TipsPagination from "../components/TipsPagination";
+import TipsPagination from '../components/TipsPagination.vue';
 
 const backendInstance = new Backend();
 
@@ -288,7 +287,6 @@ export default {
     TipComment,
     LeftSection,
     RightSection,
-    TipRecord,
   },
   props: {
     address: { type: String, required: true },
@@ -328,6 +326,7 @@ export default {
       if (this.activeTab === 'comments') {
         return this.comments.length === 0 && !this.showLoading && !this.loading.tips;
       }
+      return false;
     },
     avatar() {
       const userImage = this.getAvatar(this.address);
@@ -336,7 +335,7 @@ export default {
   },
   async created() {
     this.getProfile();
-    Backend.getCacheUserStats(this.address).then(stats => {
+    Backend.getCacheUserStats(this.address).then((stats) => {
       this.userStats = stats;
     });
     this.showLoading = true;

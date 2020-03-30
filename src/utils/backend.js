@@ -38,12 +38,15 @@ export default class Backend {
 
   static getCacheUserStats = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/cache/userStats?address=${address}`));
 
-  static getCacheTips = async (ordering, page, address = null) => wrapTry(async () => {
-    if (address) {
-      return fetch(`${BACKEND_URL}/cache/tips?ordering=${ordering}&page=${page}&address=${address}`);
-    }
-    return fetch(`${BACKEND_URL}/cache/tips?ordering=${ordering}&page=${page}`);
-  });
+  static getCacheTips = async (ordering, page, address = null, search = null) => wrapTry(
+    async () => {
+      let query = `?ordering=${ordering}&page=${page}`;
+      if (address) query += `&address=${address}`;
+      if (search) query += `&search=${encodeURIComponent(search)}`;
+
+      return fetch(`${BACKEND_URL}/cache/tips${query}`);
+    },
+  );
 
   static getCacheStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/stats`));
 

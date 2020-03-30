@@ -57,7 +57,7 @@
               </div>
             </div>
           </div>
-          <TipsPagination :tipSortBy="tipSortBy" />
+          <TipsPagination :tipSortBy="tipSortBy" :search="searchTerm"/>
         </div>
       </div>
       </div>
@@ -67,14 +67,13 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
-import TipRecord from '../components/tipRecords/TipRecord.vue';
 import SendTip from '../components/layout/SendTip.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
-import TipsPagination from '../components/TipsPagination';
+import TipsPagination from '../components/TipsPagination.vue';
 
 export default {
   name: 'TipsList',

@@ -17,7 +17,7 @@ module.exports = {
   chainWebpack: (config) => config
     .plugin('favicons')
     .use(FaviconsWebpackPlugin, [{
-      logo: path.resolve(__dirname, 'src/assets/commentsIcon.svg'),
+      logo: path.resolve(__dirname, 'src/assets/favicon.svg'),
       mode: 'webapp', // optional can be 'webapp' or 'light' - 'webapp' by default
       devMode: 'webapp', // optional can be 'webapp' or 'light' - 'light' by default
       publicPath: '/',

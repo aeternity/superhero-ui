@@ -3,8 +3,9 @@ describe('Home.vue', () => {
 
   describe('Home page', () => {
     before(() => {
-      cy.visit('/');
-      cy.wait(10000);
+      cy
+        .visit('/')
+        .wait(20000);
     });
 
     it('navigation link is active', () => {
@@ -43,12 +44,13 @@ describe('Home.vue', () => {
         .last()
         .type(randomString, { force: true })
         .get('.tip__send')
-        .click();
+        .click()
+        .wait(20000);
     });
 
     it('switch to latest tab', () => {
       cy
-        .contains('Latest')
+        .get('#sort-latest')
         .click();
     });
 

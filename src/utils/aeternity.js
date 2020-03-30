@@ -35,8 +35,9 @@ aeternity.initProvider = async () => {
       ],
       address: Cypress.env('publicKey'),
     });
-    await aeternity.initTippingContractIfNeeded();
-    await aeternity.contract.methods.migrate_balance(Cypress.env('publicKey'));
+    aeternity.initTippingContractIfNeeded().then(() => {
+      aeternity.contract.methods.migrate_balance(Cypress.env('publicKey'));
+    });
   }
 };
 

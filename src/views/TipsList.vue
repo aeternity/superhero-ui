@@ -46,6 +46,7 @@
                   {{ $t('pages.Home.SortingMostPopular') }}
                 </a>
                 <a
+                  id="sort-latest"
                   :class="{ active: tipSortBy === 'latest' }"
                   @click="setTipSortBy('latest')"
                 >

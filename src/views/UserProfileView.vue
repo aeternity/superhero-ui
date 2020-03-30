@@ -1,15 +1,11 @@
 <template>
   <div>
+    <mobile-navigation></mobile-navigation>
     <right-section></right-section>
     <left-section></left-section>
     <loading class="mt-5" v-if="loading.initial" :show-loading="true" />
     <div v-else>
     <div class="container profile__page">
-      <div class="actions-ribbon">
-        <router-link :to="{ name: 'home' }">
-          <img src="../assets/backArrow.svg">
-        </router-link>
-      </div>
       <div class="profile__section clearfix position-relative">
         <div class="text-center spinner__container w-100" v-if="showLoadingProfile">
           <div class="spinner-border text-primary" role="status">
@@ -187,6 +183,7 @@ import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
 import FiatValue from '../components/FiatValue.vue';
 import AeAmount from '../components/AeAmount.vue';
@@ -208,6 +205,7 @@ export default {
     LeftSection,
     RightSection,
     TipRecord,
+    MobileNavigation,
   },
   data() {
     return {
@@ -368,6 +366,7 @@ export default {
   .profile__page{
     color: $light_font_color;
     font-size: .75rem;
+    padding-top: .75rem;
     .count{
       font-size: .65rem;
     }
@@ -503,7 +502,7 @@ export default {
       background-color: $actions_ribbon_background_color;
       position: sticky;
       z-index: 21;
-      top: 2.1rem;
+      top: 0;
       a{
         font-weight: 600;
         color: $light_font_color;
@@ -572,6 +571,11 @@ export default {
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
     .profile__page{
+
+      .profile__actions {
+        top: 3.3rem;
+      }
+
       .profile__section{
         .row{
           padding-top: 2rem;

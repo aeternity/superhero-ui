@@ -1,8 +1,9 @@
 <template>
   <div>
+    <mobile-navigation></mobile-navigation>
     <right-section></right-section>
     <left-section></left-section>
-    <loading class="mt-5" v-if="loading.initial" :show-loading="true"/>
+    <loading class="initial-loading" v-if="loading.initial" :show-loading="true"/>
     <div v-else>
       <div class="actions__container container position-sticky">
       <div class="search__input__container">
@@ -13,7 +14,10 @@
           class="search__input"
           v-bind:placeholder="$t('pages.Home.SearchPlaceholder')"
         >
-        <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">&#x2715;</div>
+        <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">
+          <img :src="iconEraser">
+        </div>
+        <div @click="toggleMobileNavigation(false)" class="close-mobile-nav">&#x2715;</div>
       </div>
       </div>
       <loading :show-loading="loading.tips" class="loading-position"/>
@@ -73,10 +77,12 @@ import TipRecord from '../components/tipRecords/TipRecord.vue';
 import SendTip from '../components/layout/SendTip.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import { MIDDLEWARE_URL } from '../config/constants';
+import iconEraser from '../assets/iconEraser.svg';
 
 export default {
   name: 'TipsList',
@@ -89,6 +95,7 @@ export default {
         { value: 'en', text: 'English' },
         { value: 'zh', text: 'Chinese' },
       ],
+      iconEraser,
     };
   },
   computed: {
@@ -125,7 +132,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setTipSortBy']),
+    ...mapActions(['setTipSortBy', 'toggleMobileNavigation']),
     onSearchTopic(data) {
       this.searchTerm = data;
     },
@@ -140,6 +147,7 @@ export default {
     LeftSection,
     RightSection,
     SendTip,
+    MobileNavigation,
   },
   async created() {
     EventBus.$on('searchTopic', (topic) => {
@@ -239,9 +247,11 @@ export default {
     }
   }
 
-  .clear{
-    font-size: .75rem;
-    color: $standard_font_color;
+  .clear {
+    img {
+      height: .75rem;
+      width: .9rem;
+    }
     right: 1rem;
     @include vertical-align($position: absolute);
     z-index: 10;
@@ -250,10 +260,18 @@ export default {
     }
   }
 
-  .no-results{
+  .close-mobile-nav {
+    display: none;
+  }
+
+  .no-results {
     color: $standard_font_color;
     font-size: .75rem;
     margin-bottom: 4rem;
+  }
+
+  .initial-loading {
+    margin-top: 5rem;
   }
 
 @media only screen and (max-width: 768px){
@@ -295,7 +313,7 @@ export default {
   and (-webkit-min-device-pixel-ratio: 2) {
 
   .search__input{
-    padding: .5rem 2.5rem .5rem 1rem;
+    padding: .5rem 3.5rem .5rem 1rem;
   }
   .actions__container{
       width: 100%;
@@ -341,6 +359,30 @@ export default {
     .tips__container{
       padding: 0;
     }
+  }
+
+  .clear {
+    right: 2.5rem;
+
+    img{
+      vertical-align: baseline;
+    }
+  }
+
+  .close-mobile-nav {
+    display: block;
+    font-size: 1rem;
+    color: $standard_font_color;
+    right: 1rem;
+    @include vertical-align($position: absolute);
+    z-index: 10;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+  .send__tip__container {
+    display: none;
   }
 
 }

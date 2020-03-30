@@ -178,23 +178,24 @@ export default {
         opacity: 1;
       }
     }
+  }
+}
 
-    .footer {
-      font-size: .6rem;
+  .app__rightcolumn .footer,
+  .mobile-navigation .footer {
+    font-size: .6rem;
 
-      a {
-        cursor: pointer;
-        text-decoration: underline;
+    a {
+      cursor: pointer;
+      text-decoration: underline;
 
-        &.ae {
-          color: $secondary_color;
-          font-weight: lighter;
-          text-decoration: none;
-        }
+      &.ae {
+        color: $secondary_color;
+        font-weight: lighter;
+        text-decoration: none;
       }
     }
   }
-}
 
 @media (min-width: 768px) {
   .app__rightcolumn .content .section__body .section__item {

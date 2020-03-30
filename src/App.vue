@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 import aeternity from './utils/aeternity';
 import { wallet } from './utils/walletSearch';
 import Backend from './utils/backend';
@@ -28,26 +28,15 @@ export default {
     ...mapGetters(['settings', 'tipSortBy']),
   },
   async created() {
+    await this.initialLoad(true);
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
-
-    EventBus.$on('loadMoreTips', async () => {
-      this.loadMoreTips();
-    });
-    EventBus.$on('setTipSortBy', () => {
-      window.scrollTo(0,0);
-      this.page = 1;
-      this.reloadData();
-    });
-
-    await this.initialLoad(true);
     setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
     ...mapActions([
-      'setLoggedInAccount', 'setTipsOrdering', 'updateTips', 'addTips',
-      'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy',
+      'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames',
     ]),
     initWallet() {
@@ -67,7 +56,7 @@ export default {
         this.removeLoading('wallet');
       }).catch(console.error);
     },
-    async reloadAsyncData(initial, stats) {
+    async reloadAsyncData(stats) {
       // stats
       Promise.all([new Backend().getStats(), aeternity.client.height()])
         .then(([backendStats, height]) => {
@@ -78,19 +67,12 @@ export default {
           console.error(e);
         });
     },
-    async initialLoad() {
-      this.addLoading('tips');
-      this.addLoading('initial');
-      this.addLoading('wallet');
-      await aeternity.initClient();
-      this.initWallet();
-
+    async reloadData() {
       // await fetch
       const [
-        stats, tips, chainNames, rates, oracleState, topics,
+        stats, chainNames, rates, oracleState, topics,
       ] = await Promise.all([
         Backend.getCacheStats(),
-        Backend.getCacheTips('hot', this.page),
         Backend.getCacheChainNames(),
         Backend.getPrice(),
         Backend.getOracleCache(),
@@ -98,30 +80,21 @@ export default {
       ]);
 
       // async fetch
-      this.reloadAsyncData(true, stats);
-      this.updateTips(tips);
+      this.reloadAsyncData(stats);
       this.updateTopics(topics);
       this.setChainNames(chainNames);
       this.updateCurrencyRates(rates);
       this.setOracleState(oracleState);
+    },
+    async initialLoad() {
+      this.addLoading('initial');
+      this.addLoading('wallet');
+      await aeternity.initClient();
+      this.initWallet();
 
-      this.removeLoading('tips');
+      await this.reloadData();
+
       this.removeLoading('initial');
-    },
-    async reloadData() {
-      this.addLoading('tips');
-
-      const tips = await Util.range(1, this.page)
-        .asyncMap(async (page) => Backend.getCacheTips(this.tipSortBy, page));
-      this.removeLoading('tips');
-      this.updateTips(tips);
-    },
-    async loadMoreTips() {
-      this.addLoading('moreTips');
-      const tips = await Backend.getCacheTips(this.tipSortBy, this.page + 1);
-      if (tips.length > 0) this.page += 1;
-      this.removeLoading('moreTips');
-      this.addTips(tips);
     },
   },
 };

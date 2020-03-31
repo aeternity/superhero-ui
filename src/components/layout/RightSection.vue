@@ -33,12 +33,12 @@
           </div>
         </div>
       </div>
-      <div class="footer text-center">
+      <div class="footer">
         SuperHero is Open Source
-        <router-link class="ae" to="/terms">
+        <router-link class="footer-links" to="/terms">
           Terms
         </router-link>
-        <router-link class="ae" to="/privacy">
+        <router-link class="footer-links" to="/privacy">
           Privacy
         </router-link>
       </div>
@@ -184,12 +184,13 @@ export default {
   .app__rightcolumn .footer,
   .mobile-navigation .footer {
     font-size: .6rem;
+    text-align: center;
 
     a {
       cursor: pointer;
       text-decoration: underline;
 
-      &.ae {
+      &.footer-links {
         color: $secondary_color;
         font-weight: lighter;
         text-decoration: none;

@@ -2,7 +2,7 @@
   <div class="send-tip__modal"  v-if="isTipModalOpen">
     <div class="heading-section clearfix">
       <div class="title">
-        <img :src="heart">
+        <img src="../../assets/heart.svg">
         Tip
       </div>
       <div
@@ -19,18 +19,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import SendTip from '../layout/SendTip.vue';
-import heart from '../../assets/heart.svg';
 
 export default {
   name: 'MobileSendTipModal',
   props: ['open'],
   components: {
     SendTip,
-  },
-  data() {
-    return {
-      heart,
-    };
   },
   computed: {
     ...mapGetters(['isTipModalOpen']),

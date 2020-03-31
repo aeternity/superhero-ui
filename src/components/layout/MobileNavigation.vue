@@ -1,10 +1,10 @@
 <template>
   <div
     class="mobile-navigation clearfix"
-    :class="[
-      (open ? 'open' : ''),
-      ($route.name !== 'home' ? 'sticky' : ''),
-    ]"
+    :class="{
+        open: open,
+        sticky: $route.name !== 'home',
+    }"
     v-show="$route.name !== 'home' || !isMobileNavigationHidden"
   >
     <div
@@ -15,33 +15,32 @@
       &#x2715;
     </div>
     <navigation/>
-    <div class="mobile-actions">
+    <div class="mobile-actions" v-if="!open">
       <img
         class="tip"
-        :src="emptyHeart"
+        src="../../assets/emptyHeart.svg"
         @click="toggleTipModal(true)"
-        v-if="!open && $route.name === 'home'"
+        v-if="$route.name === 'home'"
         v-show="Object.keys(account).length && balance"
       >
       <img
         class="trigger-search"
-        :src="iconSearch"
+        src="../../assets/iconSearch.svg"
         @click="toggleMobileNavigation(true)"
-        v-if="!open && $route.name === 'home'"
+        v-if="$route.name === 'home'"
       >
       <img
         class="trigger-navigation"
-        :src="iconMobileMenu"
+        src="../../assets/iconMobileMenu.svg"
         @click="openNavigation(true)"
-        v-if="!open"
       >
     </div>
-    <div class="footer text-center" v-if="open">
+    <div class="footer" v-if="open">
       SuperHero is Open Source
-      <router-link class="ae" to="/terms">
+      <router-link class="footer-links" to="/terms">
         Terms
       </router-link>
-      <router-link class="ae" to="/privacy">
+      <router-link class="footer-links" to="/privacy">
         Privacy
       </router-link>
     </div>
@@ -52,9 +51,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import Navigation from './Navigation.vue';
-import iconMobileMenu from '../../assets/iconMobileMenu.svg';
-import iconSearch from '../../assets/iconSearch.svg';
-import emptyHeart from '../../assets/emptyHeart.svg';
 import MobileSendTipModal from '../modals/MobileSendTipModal.vue';
 
 export default {
@@ -65,9 +61,6 @@ export default {
   },
   data() {
     return {
-      iconMobileMenu,
-      iconSearch,
-      emptyHeart,
       open: false,
     };
   },

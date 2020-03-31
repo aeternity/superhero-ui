@@ -98,12 +98,9 @@ export default {
     },
   },
   async created() {
-    EventBus.$on('backendError', (err) => {
+    EventBus.$on('backendError', () => {
       this.$router.push({
         name: 'maintenance',
-        params: {
-          alert: err.toString(),
-        },
       });
     });
     EventBus.$on('reloadData', () => {

@@ -15,7 +15,7 @@ export const wrapTry = async (f) => {
       })),
     ]);
   } catch (err) {
-    EventBus.$emit('backendError', err);
+    EventBus.$emit('backendError');
     return null;
   }
 };

@@ -6,10 +6,10 @@
         <div class="mt-5">
           <div class="maintenance-alert">
             <h4 class="alert-heading">Oops!</h4>
-            <p>{{ alert }}</p>
+            <p>Superhero is Superpowering.</p>
+            <p> Hey, we're humans too. BRB. </p>
             <hr />
             <router-link :to="{ name: 'home' }">
-              <div class="navigation__item__image"></div>
               <span>Proceed to home page</span>
             </router-link>
           </div>
@@ -21,7 +21,6 @@
 
 <script>
 export default {
-  props: ['alert'],
   name: 'Maintenance',
 };
 </script>

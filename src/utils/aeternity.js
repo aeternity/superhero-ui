@@ -97,7 +97,7 @@ aeternity.initClient = async () => {
       aeternity.client = await aeternity.initStaticClient();
       result = await aeternity.initProvider();
     } catch (err) {
-      EventBus.$emit('backendError', err);
+      EventBus.$emit('backendError');
       result = false;
     }
   } else {

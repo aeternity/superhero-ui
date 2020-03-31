@@ -146,6 +146,7 @@ export default {
 .url__page{
   color: $light_font_color;
   font-size: .75rem;
+
   .avatar{
     width: 2rem;
     height: 2rem;
@@ -177,6 +178,7 @@ export default {
   .comment__section {
     background-color: $actions_ribbon_background_color;
     padding: 0.75rem 1rem;
+
     p {
       font-size: .75rem;
       text-transform: capitalize;

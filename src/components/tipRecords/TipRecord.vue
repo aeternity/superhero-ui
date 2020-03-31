@@ -43,6 +43,9 @@
           </div>
         </a>
       </div>
+      <div v-else class="tip__url">
+        <a :href="tip.url" :title="tip.url" class="text-ellipsis">{{tip.url}}</a>
+      </div>
       <div class="tip__footer">
         <div class="tip__footer_wrapper">
           <div class="tip__amount" title="Send AE to the same url" @click.stop>
@@ -277,8 +280,22 @@ export default {
       filter: brightness(1.3);
     }
 
-    .tip__comments--hascomments {
+    &.tip__comments--hascomments {
       color: #fff;
+    }
+  }
+
+  .tip__url {
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+    a {
+      font-size: .75rem;
+      display: block;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -454,6 +471,10 @@ export default {
           width: 1rem;
         }
       }
+    }
+
+    .tip__url {
+      margin: 0 0 .4rem 0;
     }
 
     .tip__article {

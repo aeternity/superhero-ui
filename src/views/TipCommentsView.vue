@@ -4,6 +4,11 @@
   <right-section></right-section>
   <left-section></left-section>
   <div class="container wrapper url__page">
+    <div class="actions-ribbon">
+      <router-link :to="{ name: 'home' }">
+        <img src="../assets/backArrow.svg">
+      </router-link>
+    </div>
     <div class="tipped__url" v-if="tip">
       <tip-record :tip="tip"></tip-record>
     </div>

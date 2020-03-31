@@ -6,6 +6,11 @@
     <loading class="mt-5" v-if="loading.initial" :show-loading="true" />
     <div v-else>
     <div class="profile__page">
+      <div class="actions-ribbon">
+        <router-link :to="{ name: 'home' }">
+          <img src="../assets/backArrow.svg">
+        </router-link>
+      </div>
       <div class="profile__section clearfix position-relative">
         <div class="text-center spinner__container w-100" v-if="showLoadingProfile">
           <div class="spinner-border text-primary" role="status">
@@ -511,7 +516,7 @@ export default {
       background-color: $actions_ribbon_background_color;
       position: sticky;
       z-index: 21;
-      top: 0;
+      top: 2.1rem;
       a{
         font-weight: 600;
         color: $light_font_color;

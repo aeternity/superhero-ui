@@ -15,7 +15,7 @@
           v-bind:placeholder="$t('pages.Home.SearchPlaceholder')"
         >
         <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">
-          <img :src="iconEraser">
+          <img src="../assets/iconEraser.svg">
         </div>
         <div @click="toggleMobileNavigation(false)" class="close-mobile-nav">&#x2715;</div>
       </div>
@@ -82,7 +82,6 @@ import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import { MIDDLEWARE_URL } from '../config/constants';
-import iconEraser from '../assets/iconEraser.svg';
 
 export default {
   name: 'TipsList',
@@ -95,7 +94,6 @@ export default {
         { value: 'en', text: 'English' },
         { value: 'zh', text: 'Chinese' },
       ],
-      iconEraser,
     };
   },
   computed: {

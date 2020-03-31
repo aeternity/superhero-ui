@@ -298,6 +298,7 @@ export default {
       showLoading: false,
       comments: [],
       error: false,
+      userStats: null,
       userName: this.address,
       editingDisplayName: '',
       editingDescription: '',

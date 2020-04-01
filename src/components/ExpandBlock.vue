@@ -2,7 +2,7 @@
   <div
     class="expand-block"
     :class="{ expanded: expanded }"
-    ,@click="toggleExpand(!expanded)"
+    @click="toggleExpand(!expanded)"
   >
     <img
       :src="iconDrawer"

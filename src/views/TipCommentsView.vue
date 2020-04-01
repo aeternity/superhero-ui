@@ -143,10 +143,10 @@ export default {
         signature: signedChallenge,
       };
 
-      EventBus.$emit('reloadData');
       const response = await backendInstance.sendTipComment(respondChallenge);
       this.comments.push(response);
       this.showLoading = false;
+      EventBus.$emit('reloadData');
       this.newComment = '';
     },
     updateTip() {

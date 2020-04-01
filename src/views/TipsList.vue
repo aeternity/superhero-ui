@@ -81,7 +81,6 @@ export default {
     TipsPagination,
     Onboarding,
     Loading,
-    TipRecord,
     LeftSection,
     RightSection,
     SendTip,

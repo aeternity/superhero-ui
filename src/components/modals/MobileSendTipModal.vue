@@ -28,7 +28,6 @@ export default {
   components: {
     SendTip,
   },
-  props: ['open'],
   computed: {
     ...mapGetters(['isTipModalOpen']),
   },

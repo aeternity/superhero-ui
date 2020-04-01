@@ -108,7 +108,8 @@ export default {
 
 <style lang="scss">
   .faq-page,
-  .tutorial-page {
+  .tutorial-page,
+  .mission-page {
     background-color: $light_color;
     padding: 2rem;
 

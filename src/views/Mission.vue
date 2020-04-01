@@ -61,11 +61,6 @@ export default {
     RightSection,
     MobileNavigation,
   },
-  data() {
-    return {
-
-    };
-  },
 };
 </script>
 

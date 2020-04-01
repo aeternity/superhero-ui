@@ -2,21 +2,21 @@
   <div
     class="expand-block"
     :class="{ expanded: expanded }"
-    ,@click="toggleExpand(!expanded)"
+    @click="toggleExpand(!expanded)"
   >
     <img
       :src="iconDrawer"
       class="arrow"
     >
-    <div
-      class="title"
-      v-html="title"
-    />
+    <div class="title">
+      <slot name="title" />
+    </div>
     <div
       v-if="expanded"
       class="body"
-      v-html="body"
-    />
+    >
+      <slot name="body" />
+    </div>
   </div>
 </template>
 
@@ -24,11 +24,7 @@
 import iconDrawer from '../assets/iconDrawer.svg';
 
 export default {
-  name: 'ExpandBlock',
-  props: {
-    title: { type: String, required: true },
-    body: { type: String, required: true },
-  },
+  name: 'ExpandableBlock',
   data() {
     return {
       expanded: false,

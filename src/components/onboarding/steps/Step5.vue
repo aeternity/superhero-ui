@@ -14,15 +14,15 @@
     </p>
     <div class="step__footer">
       <button
-        class="button"
         v-if="!isLoggedIn"
+        class="button"
         @click="nextStep()"
       >
         Create Profile
       </button>
       <button
-        class="button"
         v-else
+        class="button"
         @click="isLoggedIn && nextStep()"
       >
         Set Up Your Profile

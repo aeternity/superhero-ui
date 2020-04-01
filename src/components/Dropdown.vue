@@ -1,16 +1,20 @@
 <template>
   <div class="aggregator__dropdown">
-    <b-form-select v-model="selectedVal" :options="optionsVal" @change="method(selectedVal)" />
+    <b-form-select
+      v-model="selectedVal"
+      :options="optionsVal"
+      @change="method(selectedVal)"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'vue-dropdown',
+  name: 'VueDropdown',
   props: {
-    options: { type: Array },
-    selected: { type: String },
-    method: { type: Function },
+    options: { type: Array, default: null },
+    selected: { type: String, default: '' },
+    method: { type: Function, required: true },
   },
   data() {
     return {

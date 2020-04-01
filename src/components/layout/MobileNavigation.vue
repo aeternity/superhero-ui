@@ -1,33 +1,36 @@
 <template>
   <div
+    v-show="$route.name !== 'home' || !isMobileNavigationHidden"
     class="mobile-navigation clearfix"
     :class="{
-        open: open,
-        sticky: $route.name !== 'home',
+      open: open,
+      sticky: $route.name !== 'home',
     }"
-    v-show="$route.name !== 'home' || !isMobileNavigationHidden"
   >
     <div
-      class="close-navigation"
       v-if="open"
+      class="close-navigation"
       @click="openNavigation(false)"
     >
       &#x2715;
     </div>
-    <navigation/>
-    <div class="mobile-actions" v-if="!open">
+    <navigation />
+    <div
+      v-if="!open"
+      class="mobile-actions"
+    >
       <img
+        v-if="$route.name === 'home'"
+        v-show="Object.keys(account).length && balance"
         class="tip"
         src="../../assets/emptyHeart.svg"
         @click="toggleTipModal(true)"
-        v-if="$route.name === 'home'"
-        v-show="Object.keys(account).length && balance"
       >
       <img
+        v-if="$route.name === 'home'"
         class="trigger-search"
         src="../../assets/iconSearch.svg"
         @click="toggleMobileNavigation(true)"
-        v-if="$route.name === 'home'"
       >
       <img
         class="trigger-navigation"
@@ -35,16 +38,25 @@
         @click="openNavigation(true)"
       >
     </div>
-    <div class="footer" v-if="open">
+    <div
+      v-if="open"
+      class="footer"
+    >
       SuperHero is Open Source
-      <router-link class="footer-links" to="/terms">
+      <router-link
+        class="footer-links"
+        to="/terms"
+      >
         Terms
       </router-link>
-      <router-link class="footer-links" to="/privacy">
+      <router-link
+        class="footer-links"
+        to="/privacy"
+      >
         Privacy
       </router-link>
     </div>
-    <mobile-send-tip-modal></mobile-send-tip-modal>
+    <mobile-send-tip-modal />
   </div>
 </template>
 

@@ -1,24 +1,46 @@
 <template>
-    <div class="tip__record row position-relative comment">
-      <div class="tip__body">
-        <div class="clearfix">
-          <div class="tip__author" :title="comment.author">
-            <router-link :to="'/user-profile/' + comment.author">
-              <img :src="getAvatar(comment.author)">
-              <span class="chain__name" v-if="userChainName">{{userChainName}}</span>
-              <span class="chain__name" v-else-if="comment.chainName">{{comment.chainName}}</span>
-              <span v-else :address="comment.author" class="address">{{comment.author}}</span>
-            </router-link>
-            <span class="tip__date">
-              <format-date :dateTimestamp="comment.createdAt"></format-date>
+  <div class="tip__record row position-relative comment">
+    <div class="tip__body">
+      <div class="clearfix">
+        <div
+          class="tip__author"
+          :title="comment.author"
+        >
+          <router-link :to="'/user-profile/' + comment.author">
+            <img :src="getAvatar(comment.author)">
+            <span
+              v-if="userChainName"
+              class="chain__name"
+            >
+              {{ userChainName }}
             </span>
-          </div>
+            <span
+              v-else-if="comment.chainName"
+              class="chain__name"
+            >
+              {{ comment.chainName }}
+            </span>
+            <span
+              v-else
+              :address="comment.author"
+              class="address"
+            >
+              {{ comment.author }}
+            </span>
+          </router-link>
+          <span class="tip__date">
+            <format-date :date-timestamp="new Date(comment.createdAt)" />
+          </span>
         </div>
-          <div class="tip__note" :title="comment.text">
-              {{ comment.text }}
-          </div>
+      </div>
+      <div
+        class="tip__note"
+        :title="comment.text"
+      >
+        {{ comment.text }}
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -29,14 +51,17 @@ import defaultAvatar from '../../assets/userAvatar.svg';
 
 export default {
   name: 'TipComment',
-  props: ['comment', 'userChainName'],
+  components: {
+    FormatDate,
+  },
+  props: {
+    comment: { type: Object, required: true },
+    userChainName: { type: String, default: '' },
+  },
   data() {
     return {
       defaultAvatar,
     };
-  },
-  components: {
-    FormatDate,
   },
   methods: {
     getAvatar(address) {

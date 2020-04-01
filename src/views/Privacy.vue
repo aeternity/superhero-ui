@@ -1,8 +1,8 @@
 <template>
   <div>
-    <mobile-navigation></mobile-navigation>
-    <right-section></right-section>
-    <left-section></left-section>
+    <mobile-navigation />
+    <right-section />
+    <left-section />
     <div class="container wrapper mt-2">
       <div class="row content">
         <div class="col-sm-12">
@@ -150,13 +150,13 @@
             VI. Children and Privacy
             ▪ Superhero.com does not process information of persons under the age
             of obtaining full legal capacity
-             (in most countries 18 years old) due to the character of the Website and the Wallet.
+            (in most countries 18 years old) due to the character of the Website and the Wallet.
             ▪ Superhero.com will immediately delete any personal data referring
             to persons under the age of full
-              legal capacity.
+            legal capacity.
             ▪ We are not liable in any way
             if YOU provide false information about your age or use the
-              Website before YOU have turned the above-mentioned age.
+            Website before YOU have turned the above-mentioned age.
           </p>
           <p>
             VII. Breach measures

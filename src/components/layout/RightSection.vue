@@ -1,44 +1,69 @@
 <template>
   <div class="app__rightcolumn">
     <div class="content">
-      <div class="section wallet-install" :class="{ active: !isLoggedIn }" v-if="!loading.wallet">
+      <div
+        v-if="!loading.wallet"
+        class="section wallet-install"
+        :class="{ active: !isLoggedIn }"
+      >
         <div class="section__title">
-          <img src="../../assets/iconWallet.svg" />
+          <img src="../../assets/iconWallet.svg">
           Wallet
         </div>
         <div class="section__body clearfix">
-          <div><a :href="downloadUrl" target="_blank" class="button w-100">Install Wallet</a></div>
+          <div>
+            <a
+              :href="downloadUrl"
+              target="_blank"
+              class="button w-100"
+            >
+              Install Wallet
+            </a>
+          </div>
         </div>
       </div>
       <div class="section trending">
         <div class="section__title">
-          <img src="../../assets/iconTrending.svg" />
+          <img src="../../assets/iconTrending.svg">
           Trending
         </div>
         <div
+          v-if="!loading.tips"
           class="section__body topics-section"
           :class="{ active: topics.length > 0 }"
-          v-if="!loading.tips"
         >
-          <div class="section__item" v-for="([topic, data], idx) in topics" :key="idx">
+          <div
+            v-for="([topic, data], idx) in topics"
+            :key="idx"
+            class="section__item"
+          >
             <div class="topic-container text-ellipsis">
               <topic :topic="topic" />
             </div>
             <div>
               <span class="value">
-                <ae-amount :amount="data.amount" :round="2"></ae-amount>
+                <ae-amount
+                  :amount="data.amount"
+                  :round="2"
+                />
               </span>
-              <fiat-value :amount="data.amount"></fiat-value>
+              <fiat-value :amount="data.amount" />
             </div>
           </div>
         </div>
       </div>
       <div class="footer">
         SuperHero is Open Source
-        <router-link class="footer-links" to="/terms">
+        <router-link
+          class="ae"
+          to="/terms"
+        >
           Terms
         </router-link>
-        <router-link class="footer-links" to="/privacy">
+        <router-link
+          class="ae"
+          to="/privacy"
+        >
           Privacy
         </router-link>
       </div>

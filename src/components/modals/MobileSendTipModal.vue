@@ -1,5 +1,8 @@
 <template>
-  <div class="send-tip__modal"  v-if="isTipModalOpen">
+  <div
+    v-if="isTipModalOpen"
+    class="send-tip__modal"
+  >
     <div class="heading-section clearfix">
       <div class="title">
         <img src="../../assets/heart.svg">
@@ -9,10 +12,10 @@
         class="close-navigation"
         @click="toggleTipModal(false)"
       >
-      &#x2715;
+        &#x2715;
       </div>
     </div>
-    <send-tip></send-tip>
+    <send-tip />
   </div>
 </template>
 
@@ -22,10 +25,10 @@ import SendTip from '../layout/SendTip.vue';
 
 export default {
   name: 'MobileSendTipModal',
-  props: ['open'],
   components: {
     SendTip,
   },
+  props: ['open'],
   computed: {
     ...mapGetters(['isTipModalOpen']),
   },

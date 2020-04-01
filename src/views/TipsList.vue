@@ -1,52 +1,68 @@
 <template>
   <div>
-    <mobile-navigation></mobile-navigation>
-    <right-section></right-section>
-    <left-section></left-section>
-    <loading class="initial-loading" v-if="loading.initial" :show-loading="true"/>
+    <mobile-navigation />
+    <right-section />
+    <left-section />
+    <loading
+      v-if="loading.initial"
+      class="initial-loading"
+      :show-loading="true"
+    />
     <div v-else>
       <div class="actions__container container position-sticky">
-      <div class="search__input__container">
-        <input
-          type="text"
-          v-model="searchTerm"
-          @searchTopic="onSearchTopic"
-          class="search__input"
-          v-bind:placeholder="$t('pages.Home.SearchPlaceholder')"
-        >
-        <div v-if="searchTerm.length" @click="searchTerm = ''" class="clear">
-          <img src="../assets/iconEraser.svg">
+        <div class="search__input__container">
+          <input
+            v-model="searchTerm"
+            type="text"
+            class="search__input"
+            :placeholder="$t('pages.Home.SearchPlaceholder')"
+            @searchTopic="onSearchTopic"
+          >
+          <div
+            v-if="searchTerm.length"
+            class="clear"
+            @click="searchTerm = ''"
+          >
+            <img src="../assets/iconEraser.svg">
+          </div>
+          <div
+            class="close-mobile-nav"
+            @click="toggleMobileNavigation(false)"
+          >
+            &#x2715;
+          </div>
         </div>
-        <div @click="toggleMobileNavigation(false)" class="close-mobile-nav">&#x2715;</div>
       </div>
-      </div>
-      <loading :show-loading="loading.tips" class="loading-position"/>
+      <loading
+        :show-loading="loading.tips"
+        class="loading-position"
+      />
       <div class="container wrapper">
-        <onboarding v-if="!loading.initial && !loading.wallet && !isLoggedIn"/>
+        <onboarding v-if="!loading.initial && !loading.wallet && !isLoggedIn" />
         <div class="tips__container">
           <div class="send__tip__container">
-            <send-tip></send-tip>
+            <send-tip />
           </div>
           <div class="actions__container position-sticky">
             <div class="row">
               <div class="col-md-12 col-lg-12 col-sm-12 sorting">
                 <a
-                  v-on:click="setTipSortBy('hot')"
-                  v-bind:class="{ active: tipSortBy === 'hot' }"
+                  :class="{ active: tipSortBy === 'hot' }"
+                  @click="setTipSortBy('hot')"
                 >
-                  {{$t('pages.Home.SortingMostPopular')}}
+                  {{ $t('pages.Home.SortingMostPopular') }}
                 </a>
                 <a
-                  v-on:click="setTipSortBy('latest')"
-                  v-bind:class="{ active: tipSortBy === 'latest' }"
+                  :class="{ active: tipSortBy === 'latest' }"
+                  @click="setTipSortBy('latest')"
                 >
-                  {{$t('pages.Home.SortingLatest')}}
+                  {{ $t('pages.Home.SortingLatest') }}
                 </a>
                 <a
-                  v-on:click="setTipSortBy('highest')"
-                  v-bind:class="{ active: tipSortBy === 'highest' }"
+                  :class="{ active: tipSortBy === 'highest' }"
+                  @click="setTipSortBy('highest')"
                 >
-                  {{$t('pages.Home.SortingHighestRated')}}
+                  {{ $t('pages.Home.SortingHighestRated') }}
                 </a>
               </div>
             </div>
@@ -55,16 +71,16 @@
             v-for="(tip,index) in filteredTips"
             :key="index"
             :tip="tip"
-            :fiatValue="tip.fiatValue"
-            :senderLink="openExplorer(tip.sender)"
+            :fiat-value="tip.fiatValue"
+            :sender-link="openExplorer(tip.sender)"
           />
         </div>
       </div>
       <div
-        class="no-results text-center"
         v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0"
+        class="no-results text-center"
       >
-        {{$t('pages.Home.NoResultsMsg')}}
+        {{ $t('pages.Home.NoResultsMsg') }}
       </div>
     </div>
   </div>
@@ -85,6 +101,15 @@ import { MIDDLEWARE_URL } from '../config/constants';
 
 export default {
   name: 'TipsList',
+  components: {
+    Onboarding,
+    Loading,
+    TipRecord,
+    LeftSection,
+    RightSection,
+    SendTip,
+    MobileNavigation,
+  },
   data() {
     return {
       explorerUrl: `${MIDDLEWARE_URL}account/transactions/`,
@@ -129,24 +154,6 @@ export default {
       return [...convertResultToSet];
     },
   },
-  methods: {
-    ...mapActions(['setTipSortBy', 'toggleMobileNavigation']),
-    onSearchTopic(data) {
-      this.searchTerm = data;
-    },
-    openExplorer(address) {
-      return this.explorerUrl + address;
-    },
-  },
-  components: {
-    Onboarding,
-    Loading,
-    TipRecord,
-    LeftSection,
-    RightSection,
-    SendTip,
-    MobileNavigation,
-  },
   async created() {
     EventBus.$on('searchTopic', (topic) => {
       this.onSearchTopic(topic);
@@ -155,6 +162,15 @@ export default {
     if (this.$route.query.searchTopicPhrase) {
       this.onSearchTopic(this.$route.query.searchTopicPhrase);
     }
+  },
+  methods: {
+    ...mapActions(['setTipSortBy', 'toggleMobileNavigation']),
+    onSearchTopic(data) {
+      this.searchTerm = data;
+    },
+    openExplorer(address) {
+      return this.explorerUrl + address;
+    },
   },
 };
 </script>

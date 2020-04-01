@@ -125,8 +125,8 @@ export default {
       const amount = util.aeToAtoms(this.sendTipForm.amount);
       await aeternity.tip(this.sendTipForm.url, this.sendTipForm.title, amount)
         .catch(console.error);
-      this.clearTipForm();
       await new Backend().cacheInvalidateTips().catch(console.error);
+      this.clearTipForm();
       EventBus.$emit('reloadData');
     },
     clearTipForm() {

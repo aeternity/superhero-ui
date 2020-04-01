@@ -3,35 +3,24 @@ describe('Home.vue', () => {
 
   describe('Home page', () => {
     before(() => {
-      cy.visit('/');
+      cy
+        .visit('/');
     });
 
-    it('navigation link is active', () => {
+    it('creates new tip, navigates to home, sorts by latest, new tip is visible', () => {
       cy
         .get('.home > a')
-        .should('have.class', 'router-link-exact-active');
-    });
+        .should('have.class', 'router-link-exact-active')
 
-    it('shows aggregated data', () => {
-      cy
-        .get('.overview', { timeout: 15000 })
-        .should('be.visible');
-    });
+        .get('.overview', { timeout: 100000 })
+        .should('be.visible')
 
-    it('hides Wallet Install on wallet found', () => {
-      cy
         .get('.wallet-install')
-        .should('not.be.visible');
-    });
+        .should('not.be.visible')
 
-    it('shows Tip mask on wallet found', () => {
-      cy
         .get('.tip__post')
-        .should('be.visible');
-    });
+        .should('be.visible')
 
-    it('can create tip', () => {
-      cy
         .get('.form-control')
         .first()
         .type('0.1')
@@ -42,17 +31,24 @@ describe('Home.vue', () => {
         .last()
         .type(randomString, { force: true })
         .get('.tip__send')
-        .click();
-    });
+        .click()
+        .get('.form-control')
+        .last({ timeout: 50000 })
+        .should('not.have.value', randomString)
+        .get('.spinner-border', { timeout: 50000 })
+        .should('not.be.visible')
 
-    it('new tip is visible', () => {
-      cy
-        .contains(randomString, { timeout: 50000 })
-        .should('be.visible');
-    });
+        .get('#sort-latest')
+        .click()
+        .get('a.active')
+        .should('contain', 'Latest')
 
-    it('new tip can navigate to SingleTipView', () => {
-      cy
+        .get('.spinner-border', { timeout: 50000 })
+        .should('not.be.visible')
+        .get('.tip__note')
+        .first({ timeout: 50000 })
+        .should('contain', randomString)
+
         .contains(randomString)
         .click()
         .url()
@@ -68,31 +64,36 @@ describe('Home.vue', () => {
         .route('/v2/accounts/ak_fUq2NesPXcYZ1CcqBcGC3StpdnQw3iVxMA3YSeCNAwfN4myQk').as('getAccount');
     });
 
-    it('can retip tip', () => {
+    it('can retip a tip', () => {
       cy
-        .wait('@getAccount', { timeout: 15000 })
-      // Define route here so we do not trigger it while loading initially
-        .route('POST', '/v2/debug/transactions/dry-run')
-        .as('dryRun')
-        .get('.retip__wrapper .retip__icon--tip')
+        .wait('@getAccount', { timeout: 25000 })
+        .get('.retip__icon--retip ~ span > span:first-child', { timeout: 25000 })
+        .first()
+        .invoke('text')
+        .as('oldValue')
+        .get('.retip__icon--retip')
         .first()
         .click()
         .get('.retip__container')
         .should('be.visible')
-        .get('.retip__container input.retip__message')
-        .first()
-        .type(randomString)
         .get('.retip__container input.retip__value')
         .first()
         .type('0.01')
         .get('.retip__container .retip__button')
         .first()
         .click()
-        .wait('@dryRun', { requestTimeout: 50000 })
         .get('.retip__wrapper')
         .should('be.visible')
-        .get('.retip__container')
-        .should('not.be.visible');
+        .get('.retip__container', { timeout: 100000 })
+        .should('not.be.visible')
+        .get('.spinner-border', { timeout: 50000 })
+        .should('not.be.visible')
+        .get('@oldValue')
+        .then((oldValue) => cy
+          .get('.retip__icon--retip ~ span > span:first-child', { timeout: 15000 })
+          .first()
+          .invoke('text')
+          .should('not.equal', oldValue));
     });
   });
 });

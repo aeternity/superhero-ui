@@ -1,7 +1,7 @@
 <template>
   <div
     class="tip__record row"
-    ,@click="goToTip(tip.id)"
+    @click="goToTip(tip.id)"
   >
     <div class="tip__body">
       <div class="tip__description">
@@ -113,7 +113,7 @@
           <div
             class="tip__comments"
             :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
-            ,@click="goToTip(tip.id)"
+            @click="goToTip(tip.id)"
           >
             <img src="../../assets/commentsIcon.svg">
             <span>{{ tip.commentCount }}</span>

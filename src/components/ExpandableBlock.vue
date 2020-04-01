@@ -9,13 +9,13 @@
       class="arrow"
     >
     <div class="title">
-      <slot name="title" />
+      {{ title }}
     </div>
     <div
       v-if="expanded"
       class="body"
     >
-      <slot name="body" />
+      <slot />
     </div>
   </div>
 </template>
@@ -25,6 +25,9 @@ import iconDrawer from '../assets/iconDrawer.svg';
 
 export default {
   name: 'ExpandableBlock',
+  props: {
+    title: { type: String, required: false, default: '' },
+  },
   data() {
     return {
       expanded: false,

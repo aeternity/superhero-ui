@@ -1,5 +1,6 @@
 <template>
   <div>
+    <mobile-navigation />
     <right-section />
     <left-section />
     <div class="container wrapper">
@@ -251,6 +252,7 @@
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import ExpandableBlock from '../components/ExpandableBlock.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 
 export default {
   name: 'CreateProfile',
@@ -258,6 +260,7 @@ export default {
     LeftSection,
     RightSection,
     ExpandableBlock,
+    MobileNavigation,
   },
   computed: {
     chromeLink() {

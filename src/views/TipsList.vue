@@ -1,10 +1,11 @@
 <template>
   <div>
+    <mobile-navigation />
     <right-section />
     <left-section />
     <loading
       v-if="loading.initial"
-      class="mt-5"
+      class="initial-loading"
       :show-loading="true"
     />
     <div v-else>
@@ -21,6 +22,12 @@
             v-if="searchTerm.length"
             class="clear"
             @click="searchTerm = ''"
+          >
+            <img src="../assets/iconEraser.svg">
+          </div>
+          <div
+            class="close-mobile-nav"
+            @click="toggleMobileNavigation(false)"
           >
             &#x2715;
           </div>
@@ -73,6 +80,7 @@ import { mapGetters, mapActions } from 'vuex';
 import SendTip from '../components/layout/SendTip.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
@@ -87,6 +95,7 @@ export default {
     LeftSection,
     RightSection,
     SendTip,
+    MobileNavigation,
   },
   data() {
     return {
@@ -112,7 +121,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setTipSortBy']),
+    ...mapActions(['setTipSortBy', 'toggleMobileNavigation']),
     onSearchTopic(data) {
       this.searchTerm = data;
     },
@@ -199,9 +208,11 @@ export default {
     }
   }
 
-  .clear{
-    font-size: .75rem;
-    color: $standard_font_color;
+  .clear {
+    img {
+      height: .75rem;
+      width: .9rem;
+    }
     right: 1rem;
     @include vertical-align($position: absolute);
     z-index: 10;
@@ -210,10 +221,18 @@ export default {
     }
   }
 
-  .no-results{
+  .close-mobile-nav {
+    display: none;
+  }
+
+  .no-results {
     color: $standard_font_color;
     font-size: .75rem;
     margin-bottom: 4rem;
+  }
+
+  .initial-loading {
+    margin-top: 5rem;
   }
 
 @media only screen and (max-width: 768px){
@@ -249,7 +268,7 @@ export default {
   and (-webkit-min-device-pixel-ratio: 2) {
 
   .search__input{
-    padding: .5rem 2.5rem .5rem 1rem;
+    padding: .5rem 3.5rem .5rem 1rem;
   }
   .actions__container{
       width: 100%;
@@ -295,6 +314,30 @@ export default {
     .tips__container{
       padding: 0;
     }
+  }
+
+  .clear {
+    right: 2.5rem;
+
+    img{
+      vertical-align: baseline;
+    }
+  }
+
+  .close-mobile-nav {
+    display: block;
+    font-size: 1rem;
+    color: $standard_font_color;
+    right: 1rem;
+    @include vertical-align($position: absolute);
+    z-index: 10;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+  .send__tip__container {
+    display: none;
   }
 
 }

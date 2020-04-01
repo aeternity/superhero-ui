@@ -19,4 +19,5 @@ contract Tipping =
   payable stateful entrypoint retip : (tip_id) => unit
   payable stateful entrypoint pre_claim : (string, address) => unit
   stateful entrypoint claim : (string, address, bool) => unit
+  stateful entrypoint migrate_balance : (address) => unit
   entrypoint get_state : () => state

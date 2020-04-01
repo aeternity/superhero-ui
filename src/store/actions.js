@@ -10,9 +10,6 @@ export default {
   updateCurrencyRates({ commit }, payload) {
     commit(types.UPDATE_CURRENCY_RATES, payload);
   },
-  updateTips({ commit }, payload) {
-    commit(types.UPDATE_TIPS, payload);
-  },
   updateTopics({ commit }, payload) {
     commit(types.UPDATE_TOPICS, payload);
   },

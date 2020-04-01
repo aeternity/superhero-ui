@@ -34,15 +34,29 @@ export default class Backend {
 
   getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
 
-  getCacheTips = async (ordering) => wrapTry(async () => fetch(`${BACKEND_URL}/cache/tips?ordering=${ordering}`));
+  static getCacheTipById = async (id) => wrapTry(async () => fetch(`${BACKEND_URL}/cache/tip?id=${id}`));
 
-  getCacheStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/stats`));
+  static getCacheUserStats = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/cache/userStats?address=${address}`));
 
-  getCacheChainNames = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/chainnames`));
+  static getCacheTips = async (ordering, page, address = null, search = null) => wrapTry(
+    async () => {
+      let query = `?ordering=${ordering}&page=${page}`;
+      if (address) query += `&address=${address}`;
+      if (search) query += `&search=${encodeURIComponent(search)}`;
 
-  getPrice = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/price`));
+      return fetch(`${BACKEND_URL}/cache/tips${query}`);
+    },
+  );
 
-  getOracleCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/oracle`));
+  static getCacheStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/stats`));
+
+  static getCacheChainNames = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/chainnames`));
+
+  static getPrice = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/price`));
+
+  static getOracleCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/oracle`));
+
+  static getTopicsCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/topics`));
 
   cacheInvalidateTips = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/invalidate/tips`));
 

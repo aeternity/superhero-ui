@@ -122,6 +122,9 @@ export default {
 
     this.interval = setInterval(() => this.reloadData(), 120 * 1000);
   },
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
   methods: {
     getAvatar(address) {
       const userImage = Backend.getProfileImageUrl(address);
@@ -173,9 +176,6 @@ export default {
       await this.reloadData();
       this.showLoading = false;
     },
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
   },
 };
 </script>

@@ -1,17 +1,27 @@
 <template>
   <div>
-    <loading :show-loading="loadingTips" class="m-2 loading-position"/>
+    <loading
+      :show-loading="loadingTips"
+      class="m-2 loading-position"
+    />
     <div v-if="tips">
       <TipRecord
         v-for="(tip,index) in tips"
         :key="index"
         :tip="tip"
-        :fiatValue="tip.fiatValue"
-        :senderLink="openExplorer(tip.sender)"
+        :fiat-value="tip.fiatValue"
+        :sender-link="openExplorer(tip.sender)"
       />
-      <loading :show-loading="loadingMoreTips" v-if="loadingMoreTips" class="m-2"/>
-      <div class="no-results text-center m-2" v-if="tips.length === 0">
-        {{$t('pages.Home.NoResultsMsg')}}
+      <loading
+        v-if="loadingMoreTips"
+        :show-loading="loadingMoreTips"
+        class="m-2"
+      />
+      <div
+        v-if="tips.length === 0"
+        class="no-results text-center m-2"
+      >
+        {{ $t('pages.Home.NoResultsMsg') }}
       </div>
     </div>
   </div>
@@ -27,7 +37,15 @@ import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'TipsPagination',
-  props: ['tipSortBy', 'address', 'search'],
+  components: {
+    TipRecord,
+    Loading,
+  },
+  props: {
+    tipSortBy: { type: String, required: true },
+    address: { type: String, required: false, default: null },
+    search: { type: String, required: false, default: null },
+  },
   data() {
     return {
       loadingMoreTips: false,
@@ -35,10 +53,6 @@ export default {
       page: 1,
       tips: null,
     };
-  },
-  components: {
-    TipRecord,
-    Loading,
   },
   watch: {
     tipSortBy() {
@@ -51,6 +65,21 @@ export default {
       this.page = 1;
       this.loadData();
     },
+  },
+  async created() {
+    this.loadData();
+  },
+  mounted() {
+    this.scroll();
+
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+
+    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   methods: {
     async loadData() {
@@ -86,21 +115,6 @@ export default {
         }
       };
     },
-  },
-  async created() {
-    this.loadData();
-  },
-  mounted() {
-    this.scroll();
-
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
-    });
-
-    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
   },
 };
 </script>

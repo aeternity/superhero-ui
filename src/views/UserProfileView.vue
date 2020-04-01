@@ -232,31 +232,43 @@
             Comments
           </a>
         </div>
-      <div class="comments__section position-relative">
-          <div v-if="activeTab === 'tips'" class="tips__container">
-            <TipsPagination tipSortBy="latest" :address="address" />
+        <div class="comments__section position-relative">
+          <div
+            v-if="activeTab === 'tips'"
+            class="tips__container"
+          >
+            <TipsPagination
+              tip-sort-by="latest"
+              :address="address"
+            />
           </div>
-          <div v-if="activeTab === 'comments'" class="tips__container">
+          <div
+            v-if="activeTab === 'comments'"
+            class="tips__container"
+          >
             <div
+              v-if="showNoResultsMsg"
               class="no-results text-center w-100 mt-3"
               :class="[error ? 'error' : '']"
-              v-if="showNoResultsMsg"
             >
-              {{'There is no activity to display.'}}
+              {{ 'There is no activity to display.' }}
             </div>
             <tip-comment
               v-for="(comment, index) in comments"
               :key="index"
-              :userChainName="userChainName"
+              :user-chain-name="userChainName"
               :comment="comment"
-              :senderLink="openExplorer(comment.author)"
+              :sender-link="openExplorer(comment.author)"
             />
           </div>
-        <div class="mt-3" v-if="showLoading || loading.tips">
-          <loading :show-loading="true" />
+          <div
+            v-if="showLoading || loading.tips"
+            class="mt-3"
+          >
+            <loading :show-loading="true" />
+          </div>
         </div>
       </div>
-    </div>
     </div>
   </div>
 </template>

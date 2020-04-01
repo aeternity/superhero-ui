@@ -57,10 +57,13 @@
               </div>
             </div>
           </div>
-          <TipsPagination :tipSortBy="tipSortBy" :search="searchTerm"/>
+          <TipsPagination
+            :tip-sort-by="tipSortBy"
+            :search="searchTerm"
+          />
         </div>
       </div>
-      </div>
+    </div>
   </div>
 </template>
 

@@ -50,20 +50,17 @@ export default {
     return {
       loadingMoreTips: false,
       loadingTips: false,
+      endReached: false,
       page: 1,
       tips: null,
     };
   },
   watch: {
     tipSortBy() {
-      window.scrollTo(0, 0);
-      this.page = 1;
-      this.loadData();
+      this.startFromTop();
     },
     search() {
-      window.scrollTo(0, 0);
-      this.page = 1;
-      this.loadData();
+      this.startFromTop();
     },
   },
   async created() {
@@ -82,18 +79,30 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
+    async startFromTop() {
+      window.scrollTo(0, 0);
+      this.endReached = false;
+      this.page = 1;
+      this.loadData();
+    },
     async loadData() {
       this.loadingTips = true;
       this.tips = await Backend.getCacheTips(this.tipSortBy, this.page, this.address, this.search);
       this.loadingTips = false;
     },
     async loadMoreTips() {
-      this.loadingMoreTips = true;
-      const tips = await Backend
-        .getCacheTips(this.tipSortBy, this.page + 1, this.address, this.search);
-      this.tips = this.tips.concat(tips);
-      if (tips.length > 0) this.page += 1;
-      this.loadingMoreTips = false;
+      if (!this.endReached) {
+        this.loadingMoreTips = true;
+        const tips = await Backend
+          .getCacheTips(this.tipSortBy, this.page + 1, this.address, this.search);
+        this.tips = this.tips.concat(tips);
+        if (tips.length > 0) {
+          this.page += 1;
+        } else {
+          this.endReached = true;
+        }
+        this.loadingMoreTips = false;
+      }
     },
     async reloadData() {
       this.loadingTips = true;

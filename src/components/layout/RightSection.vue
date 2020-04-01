@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="footer text-center">
+      <div class="footer">
         SuperHero is Open Source
         <router-link
           class="ae"
@@ -203,23 +203,25 @@ export default {
         opacity: 1;
       }
     }
+  }
+}
 
-    .footer {
-      font-size: .6rem;
+  .app__rightcolumn .footer,
+  .mobile-navigation .footer {
+    font-size: .6rem;
+    text-align: center;
 
-      a {
-        cursor: pointer;
-        text-decoration: underline;
+    a {
+      cursor: pointer;
+      text-decoration: underline;
 
-        &.ae {
-          color: $secondary_color;
-          font-weight: lighter;
-          text-decoration: none;
-        }
+      &.footer-links {
+        color: $secondary_color;
+        font-weight: lighter;
+        text-decoration: none;
       }
     }
   }
-}
 
 @media (min-width: 768px) {
   .app__rightcolumn .content .section__body .section__item {

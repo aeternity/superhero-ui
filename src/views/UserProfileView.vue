@@ -1,5 +1,6 @@
 <template>
   <div>
+    <mobile-navigation />
     <right-section />
     <left-section />
     <loading
@@ -279,6 +280,7 @@ import Backend from '../utils/backend';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
 import FiatValue from '../components/FiatValue.vue';
 import AeAmount from '../components/AeAmount.vue';
@@ -299,6 +301,7 @@ export default {
     TipComment,
     LeftSection,
     RightSection,
+    MobileNavigation,
   },
   props: {
     address: { type: String, required: true },
@@ -437,6 +440,7 @@ export default {
   .profile__page{
     color: $light_font_color;
     font-size: .75rem;
+    padding-top: .75rem;
     .count{
       font-size: .65rem;
     }
@@ -650,6 +654,11 @@ export default {
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
     .profile__page{
+
+      .profile__actions {
+        top: 3.3rem;
+      }
+
       .profile__section{
         .row{
           padding-top: 2rem;

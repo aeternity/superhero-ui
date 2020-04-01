@@ -114,10 +114,10 @@
                   <span v-else>{{ address }}</span>
                 </a>
                 <div
-                  v-if="!editMode"
+                  v-if="!editMode && userStats"
                   class="count"
                 >
-                  {{ userTips.length }} Tips
+                  {{ userStats.tipsLength }} Tips
                 </div>
               </div>
               <div
@@ -160,7 +160,7 @@
           </div>
 
           <div
-            v-if="oracleState && tips && userStats"
+            v-if="userStats"
             class="stats"
           >
             <div class="stat">
@@ -235,30 +235,25 @@
         </div>
         <div class="comments__section position-relative">
           <div
-            v-if="showNoResultsMsg"
-            class="no-results text-center w-100 mt-3"
-            :class="[error ? 'error' : '']"
-          >
-            {{ 'There is no activity to display.' }}
-          </div>
-          <div
             v-if="activeTab === 'tips'"
             class="tips__container"
           >
-            <div v-if="userTips.length">
-              <tip-record
-                v-for="(userTip,index) in userTips"
-                :key="index"
-                :tip="userTip"
-                :fiat-value="userTip.fiatValue"
-                :sender-link="openExplorer(userTip.sender)"
-              />
-            </div>
+            <TipsPagination
+              tip-sort-by="latest"
+              :address="address"
+            />
           </div>
           <div
             v-if="activeTab === 'comments'"
             class="tips__container"
           >
+            <div
+              v-if="showNoResultsMsg"
+              class="no-results text-center w-100 mt-3"
+              :class="[error ? 'error' : '']"
+            >
+              {{ 'There is no activity to display.' }}
+            </div>
             <tip-comment
               v-for="(comment, index) in comments"
               :key="index"
@@ -281,9 +276,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import BigNumber from 'bignumber.js';
 import Backend from '../utils/backend';
-import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
@@ -291,23 +284,23 @@ import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
 import FiatValue from '../components/FiatValue.vue';
 import AeAmount from '../components/AeAmount.vue';
-import Util from '../utils/util';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
 import { MIDDLEWARE_URL } from '../config/constants';
+import TipsPagination from '../components/TipsPagination.vue';
 
 const backendInstance = new Backend();
 
 export default {
   name: 'TipCommentsView',
   components: {
+    TipsPagination,
     Loading,
     AeAmount,
     FiatValue,
     TipComment,
     LeftSection,
     RightSection,
-    TipRecord,
     MobileNavigation,
   },
   props: {
@@ -320,6 +313,7 @@ export default {
       showLoading: false,
       comments: [],
       error: false,
+      userStats: null,
       userName: this.address,
       editingDisplayName: '',
       editingDescription: '',
@@ -337,36 +331,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['current', 'account', 'tips', 'oracleState', 'chainNames', 'loading']),
-    userTips() {
-      return this.tips.filter((tip) => tip.sender === this.address);
-    },
-    userStats() {
-      const userReTips = this.tips
-        .flatMap((tip) => tip.retips.filter((retip) => retip.sender === this.address));
-      const totalTipAmount = Util.atomsToAe(this.userTips
-        .reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0))
-        .plus(userReTips.reduce((acc, tip) => acc.plus(tip.amount), new BigNumber(0)))).toFixed(2);
-
-      const claimedUrls = this.oracleState.success_claimed_urls
-        ? this.oracleState.success_claimed_urls
-          .filter(([, data]) => data.success && data.account === this.address).map(([url]) => url)
-        : [];
-      const unclaimedAmount = this.tips
-        .reduce((acc, tip) => (claimedUrls.includes(tip.url)
-          ? acc.plus(tip.total_unclaimed_amount)
-          : acc),
-        new BigNumber(0));
-
-      return {
-        tipsLength: this.userTips.length,
-        retipsLength: userReTips.length,
-        totalTipAmount,
-        claimedUrlsLength: claimedUrls.length,
-        unclaimedAmount,
-        userComments: this.userCommentCount,
-      };
-    },
+    ...mapGetters(['current', 'account', 'chainNames', 'loading']),
     isMyUserProfile() {
       return this.account === this.address;
     },
@@ -377,7 +342,7 @@ export default {
       if (this.activeTab === 'comments') {
         return this.comments.length === 0 && !this.showLoading && !this.loading.tips;
       }
-      return this.userTips.length === 0 && !this.showLoading && !this.loading.tips;
+      return false;
     },
     avatar() {
       const userImage = this.getAvatar(this.address);
@@ -386,6 +351,9 @@ export default {
   },
   async created() {
     this.getProfile();
+    Backend.getCacheUserStats(this.address).then((stats) => {
+      this.userStats = stats;
+    });
     this.showLoading = true;
     backendInstance.getAllComments().then((allComments) => {
       this.showLoading = false;

@@ -61,7 +61,6 @@ export default {
     color: $custom_links_color;
     font-size: .9rem;
     font-weight: 400;
-    font-weight: 400;
   }
 
   &:hover {

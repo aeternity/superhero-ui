@@ -12,9 +12,6 @@ export const getters = {
   isLoggedIn(state) {
     return state.isLoggedIn;
   },
-  tips(state) {
-    return state.tips;
-  },
   topics(state) {
     return state.topics;
   },

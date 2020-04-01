@@ -15,9 +15,6 @@ export default {
   [types.UPDATE_CURRENCY_RATES](state, payload) {
     state.currencyRates = payload;
   },
-  [types.UPDATE_TIPS](state, payload) {
-    state.tips = payload;
-  },
   [types.UPDATE_TOPICS](state, payload) {
     state.topics = payload;
   },

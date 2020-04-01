@@ -77,6 +77,7 @@ import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
+import { EventBus } from '../utils/eventBus';
 
 const backendInstance = new Backend();
 
@@ -98,13 +99,11 @@ export default {
       error: false,
       newComment: '',
       avatar: defaultAvatar,
+      tip: null,
     };
   },
   computed: {
-    ...mapGetters(['tips', 'settings', 'account', 'chainNames', 'isLoggedIn']),
-    tip() {
-      return this.tips.find((x) => x.id === parseInt(this.id, 10));
-    },
+    ...mapGetters(['settings', 'account', 'chainNames', 'isLoggedIn']),
   },
   watch: {
     tip() {
@@ -112,13 +111,22 @@ export default {
     },
   },
   created() {
-    this.updateTip();
+    this.loadTip();
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
         this.avatar = this.getAvatar(this.account);
         clearInterval(loadUserAvatar);
       }
     }, 500);
+
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+
+    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   methods: {
     getAvatar(address) {
@@ -144,6 +152,7 @@ export default {
       const response = await backendInstance.sendTipComment(respondChallenge);
       this.comments.push(response);
       this.showLoading = false;
+      EventBus.$emit('reloadData');
       this.newComment = '';
     },
     updateTip() {
@@ -160,6 +169,15 @@ export default {
         this.error = true;
         this.showLoading = false;
       });
+    },
+    async reloadData() {
+      this.tip = await Backend.getCacheTipById(this.id);
+      this.updateTip();
+    },
+    async loadTip() {
+      this.showLoading = true;
+      await this.reloadData();
+      this.showLoading = false;
     },
   },
 };

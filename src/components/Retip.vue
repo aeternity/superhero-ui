@@ -159,7 +159,7 @@ export default {
       return `${this.tipid}:${this.showRetipIcon}`;
     },
     deepLink() {
-      const url = new URL('https://mobile.z52da5wt.xyz/retip');
+      const url = new URL('https://wallet.superhero.com/retip');
       url.searchParams.set('id', this.tipid);
       url.searchParams.set('x-success', window.location);
       url.searchParams.set('x-cancel', window.location);

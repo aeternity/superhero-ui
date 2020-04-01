@@ -15,28 +15,28 @@ import aeternity from './utils/aeternity';
 import { wallet } from './utils/walletSearch';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
-import util from './utils/util';
-import TipTopicUtil from './utils/tipTopicUtil';
+import Util from './utils/util';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      page: 1,
+    };
+  },
   computed: {
     ...mapGetters(['settings', 'tipSortBy']),
   },
   async created() {
+    await this.initialLoad(true);
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
-    EventBus.$on('setTipSortBy', () => {
-      this.reloadData();
-    });
-    await this.reloadData(true);
     setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
     ...mapActions([
-      'setLoggedInAccount', 'setTipsOrdering', 'updateTips',
-      'updateTopics', 'updateStats', 'updateCurrencyRates', 'setTipSortBy',
+      'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames',
     ]),
     initWallet() {
@@ -46,7 +46,7 @@ export default {
           const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
           this.setLoggedInAccount({
             account: currentAccount,
-            balance: util.atomsToAe(balance).toFixed(2),
+            balance: Util.atomsToAe(balance).toFixed(2),
           });
           console.log('found wallet');
           resolve();
@@ -56,7 +56,7 @@ export default {
         this.removeLoading('wallet');
       }).catch(console.error);
     },
-    async reloadAsyncData(initial, stats) {
+    async reloadAsyncData(stats) {
       // stats
       Promise.all([new Backend().getStats(), aeternity.client.height()])
         .then(([backendStats, height]) => {
@@ -67,38 +67,33 @@ export default {
           console.error(e);
         });
     },
-    async reloadData(initial = false) {
-      this.addLoading('tips');
-      if (initial) {
-        this.addLoading('initial');
-        this.addLoading('wallet');
-        await aeternity.initClient();
-        this.initWallet();
-      }
-
+    async reloadData() {
       // await fetch
-      const backend = new Backend();
       const [
-        stats, tips, chainNames, rates, oracleState,
+        stats, chainNames, rates, oracleState, topics,
       ] = await Promise.all([
-        backend.getCacheStats(),
-        backend.getCacheTips(initial ? 'hot' : this.tipSortBy),
-        backend.getCacheChainNames(),
-        backend.getPrice(),
-        backend.getOracleCache(),
+        Backend.getCacheStats(),
+        Backend.getCacheChainNames(),
+        Backend.getPrice(),
+        Backend.getOracleCache(),
+        Backend.getTopicsCache(),
       ]);
 
-      const topics = TipTopicUtil.getTipTopics(tips);
-
       // async fetch
-      this.reloadAsyncData(initial, stats);
-      this.updateTips(tips);
+      this.reloadAsyncData(stats);
       this.updateTopics(topics);
       this.setChainNames(chainNames);
       this.updateCurrencyRates(rates);
       this.setOracleState(oracleState);
+    },
+    async initialLoad() {
+      this.addLoading('initial');
+      this.addLoading('wallet');
+      await aeternity.initClient();
+      this.initWallet();
 
-      this.removeLoading('tips');
+      await this.reloadData();
+
       this.removeLoading('initial');
     },
   },

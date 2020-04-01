@@ -1,6 +1,9 @@
 <template>
   <div class="overview">
-    <div class="overview__item" v-if="stats.total_tips_length">
+    <div
+      v-if="stats.total_tips_length"
+      class="overview__item"
+    >
       <div class="overview__value">
         {{ stats.total_tips_length }}
       </div>
@@ -8,7 +11,10 @@
         Tips Aggregated
       </div>
     </div>
-    <div class="overview__item" v-if="stats.comments">
+    <div
+      v-if="stats.comments"
+      class="overview__item"
+    >
       <div class="overview__value">
         {{ stats.comments.total }}
       </div>
@@ -16,7 +22,10 @@
         Comments
       </div>
     </div>
-    <div class="overview__item" v-if="stats.senders_length">
+    <div
+      v-if="stats.senders_length"
+      class="overview__item"
+    >
       <div class="overview__value">
         {{ stats.senders_length }}
       </div>
@@ -24,18 +33,33 @@
         Unique Tip Senders
       </div>
     </div>
-    <div class="overview__item" v-if="stats.total_amount">
+    <div
+      v-if="stats.total_amount"
+      class="overview__item"
+    >
       <div class="overview__value secondary">
-        <ae-amount :amount="stats.total_amount" :round="2"/>
+        <ae-amount
+          :amount="stats.total_amount"
+          :round="2"
+        />
       </div>
-      <div class="overview__value" v-if="stats.total_amount">
-        <fiat-value :amount="stats.total_amount" :withoutBrackets="true"/>
+      <div
+        v-if="stats.total_amount"
+        class="overview__value"
+      >
+        <fiat-value
+          :amount="stats.total_amount"
+          :without-brackets="true"
+        />
       </div>
       <div class="overview__label">
         Total Tips Value
       </div>
     </div>
-    <div class="overview__item" v-if="stats.height">
+    <div
+      v-if="stats.height"
+      class="overview__item"
+    >
       <div class="overview__value">
         {{ stats.height }}
       </div>

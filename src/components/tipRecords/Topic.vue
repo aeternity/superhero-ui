@@ -1,5 +1,11 @@
 <template>
-  <span @click="searchTopic(topic)" :title="topic" class="topic">{{topic}}</span>
+  <span
+    :title="topic"
+    class="topic"
+    @click="searchTopic(topic)"
+  >
+    {{ topic }}
+  </span>
 </template>
 
 <script>
@@ -7,7 +13,9 @@ import { EventBus } from '../../utils/eventBus';
 
 export default {
   name: 'Topic',
-  props: ['topic'],
+  props: {
+    topic: { type: String, required: true },
+  },
   methods: {
     searchTopic(topic) {
       if (this.$route.name !== 'home') {

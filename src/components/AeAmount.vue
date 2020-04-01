@@ -10,8 +10,10 @@ import BigNumber from 'bignumber.js';
 
 export default {
   name: 'AeAmount',
-  props: ['amount', 'round'],
-
+  props: {
+    amount: { type: String, required: true },
+    round: { type: Number, required: true },
+  },
   computed: {
     roundedAmount() {
       if (!this.amount) {

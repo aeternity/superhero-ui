@@ -1,13 +1,7 @@
-import { BACKEND_URL, MIDDLEWARE_URL } from '../config/constants';
+import { BACKEND_URL } from '../config/constants';
 import { wrapTry } from './util';
 
 export default class Backend {
-  tipOrder = async () => wrapTry(async () => fetch(`${BACKEND_URL}/tiporder`));
-
-  tipPreview = async () => wrapTry(async () => fetch(`${BACKEND_URL}/linkpreview`));
-
-  getLangTips = async (lang = 'en') => wrapTry(async () => fetch(`${BACKEND_URL}/language/${lang}`));
-
   getTipComments = async (tipId) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/tip/${encodeURIComponent(tipId)}`));
 
   sendTipComment = async (postParam) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/`, {
@@ -40,15 +34,17 @@ export default class Backend {
 
   getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
 
-  getCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache`));
+  getCacheTips = async (ordering) => wrapTry(async () => fetch(`${BACKEND_URL}/cache/tips?ordering=${ordering}`));
+
+  getCacheStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/stats`));
+
+  getCacheChainNames = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/chainnames`));
+
+  getPrice = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/price`));
 
   getOracleCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/oracle`));
 
   cacheInvalidateTips = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/invalidate/tips`));
-
-  getChainNameFromAddress = async () => wrapTry(async () => fetch(`${MIDDLEWARE_URL}/middleware/names/active`));
-
-  getCommentCounts = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/tips/`));
 
   getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));
 

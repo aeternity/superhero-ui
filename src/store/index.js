@@ -16,14 +16,12 @@ export default new Vuex.Store({
     settings: {
       currency: 'eur',
     },
-    tips: [],
     topics: {},
     stats: {},
     tipSortBy: 'hot',
     isLoggedIn: false,
     oracleState: {},
     loading: {
-      tips: false,
       wallet: false,
       initial: false,
     },

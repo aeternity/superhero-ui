@@ -2,7 +2,7 @@
   <div
     class="expand-block"
     :class="{ expanded: expanded }"
-    ,@click="toggleExpand(!expanded)"
+    @click="toggleExpand(!expanded)"
   >
     <img
       :src="iconDrawer"
@@ -60,7 +60,6 @@ export default {
   .title {
     color: $custom_links_color;
     font-size: .9rem;
-    font-weight: 400;
     font-weight: 400;
   }
 

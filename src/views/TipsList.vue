@@ -26,10 +26,6 @@
           </div>
         </div>
       </div>
-      <loading
-        :show-loading="loading.tips"
-        class="loading-position"
-      />
       <div class="container wrapper">
         <onboarding v-if="!loading.initial && !loading.wallet && !isLoggedIn" />
         <div class="tips__container">
@@ -61,20 +57,11 @@
               </div>
             </div>
           </div>
-          <tip-record
-            v-for="(tip,index) in filteredTips"
-            :key="index"
-            :tip="tip"
-            :fiat-value="tip.fiatValue"
-            :sender-link="openExplorer(tip.sender)"
+          <TipsPagination
+            :tip-sort-by="tipSortBy"
+            :search="searchTerm"
           />
         </div>
-      </div>
-      <div
-        v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0"
-        class="no-results text-center"
-      >
-        {{ $t('pages.Home.NoResultsMsg') }}
       </div>
     </div>
   </div>
@@ -83,28 +70,26 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
-import TipRecord from '../components/tipRecords/TipRecord.vue';
 import SendTip from '../components/layout/SendTip.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
-import { MIDDLEWARE_URL } from '../config/constants';
+import TipsPagination from '../components/TipsPagination.vue';
 
 export default {
   name: 'TipsList',
   components: {
+    TipsPagination,
     Onboarding,
     Loading,
-    TipRecord,
     LeftSection,
     RightSection,
     SendTip,
   },
   data() {
     return {
-      explorerUrl: `${MIDDLEWARE_URL}account/transactions/`,
       searchTerm: '',
       activeLang: 'en',
       languagesOptions: [
@@ -114,40 +99,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['tips', 'tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
-    filteredTips() {
-      if (this.searchTerm.trim().length === 0) {
-        return this.tips;
-      }
-      const term = this.searchTerm.toLowerCase();
-
-      const urlSearchResults = this.tips.filter((tip) => {
-        if (typeof tip.url !== 'undefined') {
-          return tip.url.toLowerCase().includes(term);
-        }
-        return false;
-      });
-      const senderSearchResults = this.tips.filter((tip) => {
-        if (typeof tip.sender !== 'undefined') {
-          return tip.sender.toLowerCase().includes(term);
-        }
-        return false;
-      });
-      const noteSearchResults = this.tips.filter((tip) => {
-        if (typeof tip.title !== 'undefined') {
-          return tip.title.toLowerCase().includes(term);
-        }
-        return false;
-      });
-      // We convert the result array to Set in order to remove duplicate records
-      const convertResultToSet = new Set(
-        [...urlSearchResults, ...senderSearchResults, ...noteSearchResults],
-      );
-      return [...convertResultToSet];
-    },
+    ...mapGetters(['tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
   },
   async created() {
     EventBus.$on('searchTopic', (topic) => {
+      window.scrollTo(0, 0);
       this.onSearchTopic(topic);
     });
 
@@ -159,9 +115,6 @@ export default {
     ...mapActions(['setTipSortBy']),
     onSearchTopic(data) {
       this.searchTerm = data;
-    },
-    openExplorer(address) {
-      return this.explorerUrl + address;
     },
   },
 };
@@ -187,13 +140,6 @@ export default {
     }
   }
 
-  .loading-position {
-    position: fixed;
-    left: 50%;
-    transform: translate( -50%);
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
   .send__tip__container{
     margin-bottom: .15rem;
   }
@@ -293,12 +239,6 @@ export default {
     .input-group{
       margin-bottom: 0;
     }
-  }
-}
-
-@media (min-width: 992px) {
-  .loading-position {
-    left: calc(50% - 3rem);
   }
 }
 

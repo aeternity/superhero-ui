@@ -1,5 +1,6 @@
 <template>
   <div>
+    <mobile-navigation />
     <right-section />
     <left-section />
     <div class="container wrapper mt-2">
@@ -51,12 +52,14 @@
 <script>
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 
 export default {
   name: 'FAQ',
   components: {
     LeftSection,
     RightSection,
+    MobileNavigation,
   },
   data() {
     return {

@@ -1,71 +1,97 @@
 <template>
   <div>
-    <right-section></right-section>
-    <left-section></left-section>
-    <loading class="mt-5" v-if="loading.initial" :show-loading="true" />
+    <right-section />
+    <left-section />
+    <loading
+      v-if="loading.initial"
+      class="mt-5"
+      :show-loading="true"
+    />
     <div v-else>
-    <div class="profile__page">
-      <div class="actions-ribbon">
-        <router-link :to="{ name: 'home' }">
-          <img src="../assets/backArrow.svg">
-        </router-link>
-      </div>
-      <div class="profile__section clearfix position-relative">
-        <div class="text-center spinner__container w-100" v-if="showLoadingProfile">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
+      <div class="profile__page">
+        <div class="actions-ribbon">
+          <router-link :to="{ name: 'home' }">
+            <img src="../assets/backArrow.svg">
+          </router-link>
         </div>
-        <div class="row" :class="[showLoadingProfile ? 'invisible' : '']">
-          <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
-            <a
-              class="edit__button button small"
-              @click="toggleEditMode()"
-              v-if="!editMode && isMyUserProfile"
-              title="Edit Profile"
+        <div class="profile__section clearfix position-relative">
+          <div
+            v-if="showLoadingProfile"
+            class="text-center spinner__container w-100"
+          >
+            <div
+              class="spinner-border text-primary"
+              role="status"
             >
-              Edit Profile
-            </a>
-            <div class="profile__image position-relative" >
-              <div class="overlay" v-if="showLoadingAvatar"></div>
-              <loading
-                :show-loading="showLoadingAvatar && editMode"
-                class="position-absolute"
-              />
-              <label
-                v-if="editMode"
-                class="profile__image--edit"
-                :class="[showLoadingAvatar ? 'blurred' : '']"
-                :title="address"
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div
+            class="row"
+            :class="[showLoadingProfile ? 'invisible' : '']"
+          >
+            <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
+              <a
+                v-if="!editMode && isMyUserProfile"
+                class="edit__button button small"
+                title="Edit Profile"
+                @click="toggleEditMode()"
               >
+                Edit Profile
+              </a>
+              <div class="profile__image position-relative">
+                <div
+                  v-if="showLoadingAvatar"
+                  class="overlay"
+                />
+                <loading
+                  :show-loading="showLoadingAvatar && editMode"
+                  class="position-absolute"
+                />
+                <label
+                  v-if="editMode"
+                  class="profile__image--edit"
+                  :class="[showLoadingAvatar ? 'blurred' : '']"
+                  :title="address"
+                >
                   <img
-                    :src="avatar"
                     :key="avatarEditImageKey"
+                    :src="avatar"
                     :onerror="`this.className='fail'`"
                     alt=""
                   >
                   <span>Change Avatar</span>
-                <input
-                  id="file-input"
-                  type="file"
-                  name="avatar"
-                  accept="image/png, image/jpeg"
-                  @change="uploadImage($event)"
+                  <input
+                    id="file-input"
+                    type="file"
+                    name="avatar"
+                    accept="image/png, image/jpeg"
+                    @change="uploadImage($event)"
+                  >
+                </label>
+                <a
+                  v-else
+                  :class="[showLoadingAvatar ? 'blurred' : '']"
+                  :href="openExplorer(address)"
+                  :title="address"
+                  target="_blank"
                 >
-              </label>
-              <a
-                v-else
-                :class="[showLoadingAvatar ? 'blurred' : '']"
-                :href="openExplorer(address)"
-                :title="address"
-                target="_blank"
-              >
-                <img :src="avatar" v-if="!editMode" :onerror="`this.className='fail'`" alt="">
-              </a>
-            </div>
-            <div class="profile__info">
-              <h1 class="profile__displayname" v-if="!editMode">{{profile.displayName}}</h1>
-              <!-- <div class="input-group" v-if="editMode">
+                  <img
+                    v-if="!editMode"
+                    :src="avatar"
+                    :onerror="`this.className='fail'`"
+                    alt=""
+                  >
+                </a>
+              </div>
+              <div class="profile__info">
+                <h1
+                  v-if="!editMode"
+                  class="profile__displayname"
+                >
+                  {{ profile.displayName }}
+                </h1>
+                <!-- <div class="input-group" v-if="editMode">
                 <input
                   type="text"
                   v-model="profile.displayName"
@@ -73,108 +99,181 @@
                   placeholder="Edit Display Name"
                 >
               </div> -->
-              <a
-                class="profile__username"
-                target="_blank"
-                :href="openExplorer(address)"
-                v-if="!editMode" :title="address"
-              >
-                <span class="chain"  v-if="userChainName">{{userChainName}}</span>
-                <span v-else>{{address}}</span>
-              </a>
-              <div class="count" v-if="!editMode">{{userTips.length}} Tips</div>
-            </div>
-            <div class="profile__description" v-if="!editMode">{{profile.biography}}</div>
-            <div class="input-group description" v-if="editMode">
-              <textarea
-                class="form-control"
-                v-model="profile.biography"
-                rows="3"
-                placeholder="Edit Biography"
+                <a
+                  v-if="!editMode"
+                  class="profile__username"
+                  target="_blank"
+                  :href="openExplorer(address)"
+                  :title="address"
                 >
-              </textarea>
+                  <span
+                    v-if="userChainName"
+                    class="chain"
+                  >{{ userChainName }}</span>
+                  <span v-else>{{ address }}</span>
+                </a>
+                <div
+                  v-if="!editMode"
+                  class="count"
+                >
+                  {{ userTips.length }} Tips
+                </div>
+              </div>
+              <div
+                v-if="!editMode"
+                class="profile__description"
+              >
+                {{ profile.biography }}
+              </div>
+              <div
+                v-if="editMode"
+                class="input-group description"
+              >
+                <textarea
+                  v-model="profile.biography"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Edit Biography"
+                />
+              </div>
+              <div
+                v-if="editMode"
+                class="mt-2 mb-2"
+              >
+                <button
+                  type="button"
+                  class="btn btn-dark mr-2"
+                  @click="resetEditedValues()"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-dark"
+                  @click="saveProfile()"
+                >
+                  Save
+                </button>
+              </div>
             </div>
-            <div class="mt-2 mb-2" v-if="editMode">
-              <button type="button" @click="resetEditedValues()" class="btn btn-dark mr-2">
-                Cancel
-              </button>
-              <button type="button" @click="saveProfile()" class="btn btn-dark">Save</button>
+          </div>
+
+          <div
+            v-if="oracleState && tips && userStats"
+            class="stats"
+          >
+            <div class="stat">
+              <div class="stat-title">
+                Tips Sent
+              </div>
+              <div class="stat-value">
+                {{ userStats.tipsLength }}
+              </div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">
+                Retips Sent
+              </div>
+              <div class="stat-value">
+                {{ userStats.retipsLength }}
+              </div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">
+                Total Sent Amount
+              </div>
+              <div class="stat-value">
+                <ae-amount
+                  :amount="userStats.totalTipAmount"
+                  :round="2"
+                />
+                <fiat-value :amount="userStats.totalTipAmount" />
+              </div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">
+                Comments
+              </div>
+              <div class="stat-value">
+                {{ userStats.userComments }}
+              </div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">
+                Claimed Urls
+              </div>
+              <div class="stat-value">
+                {{ userStats.claimedUrlsLength }}
+              </div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">
+                Unclaimed Amount
+              </div>
+              <div class="stat-value">
+                <ae-amount
+                  :amount="userStats.unclaimedAmount"
+                  :round="2"
+                />
+                <fiat-value :amount="userStats.unclaimedAmount" />
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="stats" v-if="oracleState && tips && userStats">
-          <div class="stat">
-            <div class="stat-title">Tips Sent</div>
-            <div class="stat-value">{{userStats.tipsLength}}</div>
-          </div>
-          <div class="stat">
-            <div class="stat-title">Retips Sent</div>
-            <div class="stat-value">{{userStats.retipsLength}}</div>
-          </div>
-          <div class="stat">
-            <div class="stat-title">Total Sent Amount</div>
-            <div class="stat-value">
-              <ae-amount :amount="userStats.totalTipAmount" :round="2"></ae-amount>
-              <fiat-value :amount="userStats.totalTipAmount"></fiat-value>
-            </div>
-          </div>
-          <div class="stat">
-            <div class="stat-title">Comments</div>
-            <div class="stat-value">{{userStats.userComments}}</div>
-          </div>
-          <div class="stat">
-            <div class="stat-title">Claimed Urls</div>
-            <div class="stat-value">{{userStats.claimedUrlsLength}}</div>
-          </div>
-          <div class="stat">
-            <div class="stat-title">Unclaimed Amount</div>
-            <div class="stat-value">
-              <ae-amount :amount="userStats.unclaimedAmount" :round="2"></ae-amount>
-              <fiat-value :amount="userStats.unclaimedAmount"></fiat-value>
-            </div>
-          </div>
-        </div>
-
-      </div>
         <div class="profile__actions">
-          <a :class="{ active: activeTab === 'tips' }" @click="setActiveTab('tips')">Tips</a>
-          <a :class="{ active: activeTab === 'comments' }" @click="setActiveTab('comments')">
+          <a
+            :class="{ active: activeTab === 'tips' }"
+            @click="setActiveTab('tips')"
+          >Tips</a>
+          <a
+            :class="{ active: activeTab === 'comments' }"
+            @click="setActiveTab('comments')"
+          >
             Comments
           </a>
         </div>
-      <div class="comments__section position-relative">
-        <div
-          class="no-results text-center w-100 mt-3"
-          :class="[error ? 'error' : '']"
-          v-if="showNoResultsMsg"
-        >
-          {{'There is no activity to display.'}}
-        </div>
-        <div v-if="activeTab === 'tips'" class="tips__container">
-          <div v-if="userTips.length">
-            <tip-record v-for="(tip,index) in userTips"
+        <div class="comments__section position-relative">
+          <div
+            v-if="showNoResultsMsg"
+            class="no-results text-center w-100 mt-3"
+            :class="[error ? 'error' : '']"
+          >
+            {{ 'There is no activity to display.' }}
+          </div>
+          <div
+            v-if="activeTab === 'tips'"
+            class="tips__container"
+          >
+            <div v-if="userTips.length">
+              <tip-record
+                v-for="(userTip,index) in userTips"
+                :key="index"
+                :tip="userTip"
+                :fiat-value="userTip.fiatValue"
+                :sender-link="openExplorer(userTip.sender)"
+              />
+            </div>
+          </div>
+          <div
+            v-if="activeTab === 'comments'"
+            class="tips__container"
+          >
+            <tip-comment
+              v-for="(comment, index) in comments"
               :key="index"
-              :tip="tip"
-              :fiatValue="tip.fiatValue"
-              :senderLink="openExplorer(tip.sender)">
-            </tip-record>
+              :user-chain-name="userChainName"
+              :comment="comment"
+              :sender-link="openExplorer(comment.author)"
+            />
+          </div>
+          <div
+            v-if="showLoading || loading.tips"
+            class="mt-3"
+          >
+            <loading :show-loading="true" />
           </div>
         </div>
-        <div v-if="activeTab === 'comments'" class="tips__container">
-          <tip-comment
-            v-for="(comment, index) in comments"
-            :key="index"
-            :userChainName="userChainName"
-            :comment="comment"
-            :senderLink="openExplorer(comment.author)"
-          />
-        </div>
-        <div class="mt-3" v-if="showLoading || loading.tips">
-          <loading :show-loading="true" />
-        </div>
       </div>
-    </div>
     </div>
   </div>
 </template>
@@ -198,7 +297,6 @@ import { MIDDLEWARE_URL } from '../config/constants';
 const backendInstance = new Backend();
 
 export default {
-  props: ['address'],
   name: 'TipCommentsView',
   components: {
     Loading,
@@ -208,6 +306,9 @@ export default {
     LeftSection,
     RightSection,
     TipRecord,
+  },
+  props: {
+    address: { type: String, required: true },
   },
   data() {
     return {
@@ -280,6 +381,19 @@ export default {
       return userImage || this.defaultAvatar;
     },
   },
+  async created() {
+    this.getProfile();
+    this.showLoading = true;
+    backendInstance.getAllComments().then((allComments) => {
+      this.showLoading = false;
+      this.error = false;
+      this.comments = allComments.filter((comment) => comment.author === this.address);
+    }).catch((e) => {
+      console.error(e);
+      this.error = true;
+      this.showLoading = false;
+    });
+  },
   methods: {
     updateAvatarImageKey() {
       this.avatarEditImageKey += 1;
@@ -343,19 +457,6 @@ export default {
       // use the new avatar with cache-bust
       this.updateAvatarImageKey();
     },
-  },
-  async created() {
-    this.getProfile();
-    this.showLoading = true;
-    backendInstance.getAllComments().then((allComments) => {
-      this.showLoading = false;
-      this.error = false;
-      this.comments = allComments.filter((comment) => comment.author === this.address);
-    }).catch((e) => {
-      console.error(e);
-      this.error = true;
-      this.showLoading = false;
-    });
   },
 };
 </script>

@@ -2,36 +2,45 @@
   <div class="navigation">
     <div class="logo">
       <router-link :to="{ name: 'home' }">
-        <img alt="" src="../../assets/headerLogo.svg">
+        <img
+          alt=""
+          src="../../assets/headerLogo.svg"
+        >
       </router-link>
     </div>
     <div class="navigation__item home">
       <router-link :to="{ name: 'home' }">
-        <div class="navigation__item__image"></div>
+        <div class="navigation__item__image" />
         <span>Home</span>
       </router-link>
     </div>
     <div class="navigation__item trending">
       <router-link :to="{ name: 'home' }">
-        <div class="navigation__item__image"></div>
+        <div class="navigation__item__image" />
         <span>Trending</span>
       </router-link>
     </div>
-    <div class="navigation__item profile" v-if="isLoggedIn">
-      <router-link :to="{ name: 'user-profile', params: { address: this.account } }">
-        <div class="navigation__item__image"></div>
+    <div
+      v-if="isLoggedIn"
+      class="navigation__item profile"
+    >
+      <router-link :to="{ name: 'user-profile', params: { address: account } }">
+        <div class="navigation__item__image" />
         <span>My Profile</span>
       </router-link>
     </div>
-    <div class="navigation__item profile" v-else>
+    <div
+      v-else
+      class="navigation__item profile"
+    >
       <router-link :to="{ name: 'create-profile' }">
-        <div class="navigation__item__image"></div>
+        <div class="navigation__item__image" />
         <span>Create Profile</span>
       </router-link>
     </div>
     <div class="navigation__item faq">
       <router-link :to="{ name: 'faq' }">
-        <div class="navigation__item__image"></div>
+        <div class="navigation__item__image" />
         <span>FAQ</span>
       </router-link>
     </div>

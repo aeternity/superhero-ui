@@ -1,8 +1,8 @@
 <template>
   <div class="app__leftcolumn">
     <div class="content">
-      <navigation/>
-      <overview/>
+      <navigation />
+      <overview />
     </div>
   </div>
 </template>

@@ -1,61 +1,109 @@
 <template>
-  <div @click="goToTip(tip.id)" class="tip__record row">
+  <div
+    class="tip__record row"
+    ,@click="goToTip(tip.id)"
+  >
     <div class="tip__body">
       <div class="tip__description">
-        <div class="tip__author" :title="tip.sender" @click.stop>
+        <div
+          class="tip__author"
+          :title="tip.sender"
+          @click.stop
+        >
           <router-link :to="'/user-profile/' + tip.sender">
             <img :src="getAvatar(tip.sender)">
             <div class="tip__author_name">
-              <span v-if="tip.chainName" class="chain__name">{{ tip.chainName }}</span>
-              <span v-else class="chain__name"></span>
+              <span
+                v-if="tip.chainName"
+                class="chain__name"
+              >{{ tip.chainName }}</span>
+              <span
+                v-else
+                class="chain__name"
+              />
               <span class="address">{{ tip.sender }}</span>
             </div>
           </router-link>
           <span class="tip__date">
-            <format-date :dateTimestamp="tip.timestamp"></format-date>
+            <format-date :date-timestamp="new Date(tip.timestamp)" />
           </span>
         </div>
-        <div class="tip__note pr-2" @click.stop>
-          <tip-title :tip="tip" :goToTip="goToTip"></tip-title>
+        <div
+          class="tip__note pr-2"
+          @click.stop
+        >
+          <tip-title
+            :tip="tip"
+            :go-to-tip="goToTip"
+          />
         </div>
       </div>
-      <div class="tip__article" v-if="isPreviewToBeVisualized(tip)">
-        <a :href="tip.url" target="_blank" @click.stop>
+      <div
+        v-if="isPreviewToBeVisualized(tip)"
+        class="tip__article"
+      >
+        <a
+          :href="tip.url"
+          target="_blank"
+          @click.stop
+        >
           <div class="tip__article--hasresults">
-            <img :src="tipPreviewImage" :onerror="`this.className='fail'`" :loading="`lazy`">
+            <img
+              :src="tipPreviewImage"
+              :onerror="`this.className='fail'`"
+              :loading="`lazy`"
+            >
             <div class="tip__article__content">
               <h2
                 class="title text-ellipsis"
-                :title="tipPreviewTitle">
+                :title="tipPreviewTitle"
+              >
                 {{ tipPreviewTitle }}
               </h2>
               <div
                 class="description"
-                :title="tipPreviewDescription">
+                :title="tipPreviewDescription"
+              >
                 {{ tipPreviewDescription }}
               </div>
               <div
                 class="domain text-ellipsis"
-                :title="tipPreviewDomain">
+                :title="tipPreviewDomain"
+              >
                 {{ tipPreviewDomain }}
               </div>
             </div>
           </div>
         </a>
       </div>
-      <div v-else class="tip__url">
-        <a :href="tip.url" :title="tip.url" class="text-ellipsis">{{tip.url}}</a>
+      <div
+        v-else
+        class="tip__url"
+      >
+        <a
+          :href="tip.url"
+          :title="tip.url"
+          class="text-ellipsis"
+        >{{ tip.url }}</a>
       </div>
       <div class="tip__footer">
         <div class="tip__footer_wrapper">
-          <div class="tip__amount" title="Send AE to the same url" @click.stop>
+          <div
+            class="tip__amount"
+            title="Send AE to the same url"
+            @click.stop
+          >
             <retip
               :tipid="tip.id"
               :tipurl="tip.url"
               :amount="tip.amount_ae"
             />
           </div>
-          <div class="tip__amount" title="Send AE to this post" @click.stop>
+          <div
+            class="tip__amount"
+            title="Send AE to this post"
+            @click.stop
+          >
             <retip
               :tipid="tip.id"
               :show-retip-icon="true"
@@ -65,7 +113,8 @@
           <div
             class="tip__comments"
             :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
-            @click="goToTip(tip.id)">
+            ,@click="goToTip(tip.id)"
+          >
             <img src="../../assets/commentsIcon.svg">
             <span>{{ tip.commentCount }}</span>
           </div>
@@ -84,16 +133,20 @@ import TipTitle from './TipTitle.vue';
 
 export default {
   name: 'TipRecord',
-  props: ['tip', 'foundWallet', 'senderLink'],
-  data() {
-    return {
-      defaultAvatar,
-    };
-  },
   components: {
     Retip,
     TipTitle,
     FormatDate,
+  },
+  props: {
+    tip: { type: Object, required: true },
+    foundWallet: { type: Boolean },
+    senderLink: { type: String, default: '' },
+  },
+  data() {
+    return {
+      defaultAvatar,
+    };
   },
   computed: {
     tipPreviewDescription() {

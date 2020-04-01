@@ -1,5 +1,6 @@
 <template>
   <div>
+    <mobile-navigation />
     <right-section />
     <left-section />
     <div class="container wrapper">
@@ -303,6 +304,7 @@
 <script>
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import ExpandBlock from '../components/ExpandBlock.vue';
 import imageAppleStore from '../assets/imageAppleStore.svg';
 import imageGooglePlay from '../assets/imageGooglePlay.svg';
@@ -315,6 +317,7 @@ export default {
     LeftSection,
     RightSection,
     ExpandBlock,
+    MobileNavigation,
   },
   computed: {
     superheroLink() {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <mobile-navigation />
     <right-section />
     <left-section />
     <div class="container wrapper mt-2">
@@ -71,6 +72,7 @@
 <script>
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import ExpandBlock from '../components/ExpandBlock.vue';
 
 export default {
@@ -79,6 +81,7 @@ export default {
     LeftSection,
     RightSection,
     ExpandBlock,
+    MobileNavigation,
   },
   data() {
     return {
@@ -112,6 +115,7 @@ export default {
   .mission-page {
     background-color: $light_color;
     padding: 2rem;
+    margin-top: .75rem;
 
     h1 {
       font-size: 1.5rem;

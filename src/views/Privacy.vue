@@ -1,5 +1,6 @@
 <template>
   <div>
+    <mobile-navigation />
     <right-section />
     <left-section />
     <div class="container wrapper mt-2">
@@ -179,12 +180,14 @@
 <script>
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 
 export default {
   name: 'Privacy',
   components: {
     LeftSection,
     RightSection,
+    MobileNavigation,
   },
 };
 </script>
@@ -199,4 +202,12 @@ export default {
     min-height: 4rem;
   }
 
+  @media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .content {
+      padding: 1rem;
+    }
+  }
 </style>

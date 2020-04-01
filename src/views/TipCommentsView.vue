@@ -1,5 +1,6 @@
 <template>
   <div>
+    <mobile-navigation />
     <right-section />
     <left-section />
     <div class="container wrapper url__page">
@@ -72,6 +73,7 @@ import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
@@ -87,6 +89,7 @@ export default {
     TipComment,
     LeftSection,
     RightSection,
+    MobileNavigation,
   },
   data() {
     return {

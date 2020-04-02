@@ -133,21 +133,12 @@ export default {
     },
     async sendTipComment() {
       this.showLoading = true;
-
-      const postData = {
-        tipId: this.tip.id,
-        text: this.newComment,
-        author: wallet.client.rpcClient.getCurrentAccount(),
-      };
-
-      const responseChallenge = await Backend.sendTipComment(postData);
-      const signedChallenge = await wallet.signMessage(responseChallenge.challenge);
-      const respondChallenge = {
-        challenge: responseChallenge.challenge,
-        signature: signedChallenge,
-      };
-
-      const response = await Backend.sendTipComment(respondChallenge);
+      const response = await Backend.sendTipComment(
+        this.tip.id,
+        this.newComment,
+        wallet.client.rpcClient.getCurrentAccount(),
+        (data) => wallet.signMessage(data),
+      );
       this.comments.push(response);
       this.showLoading = false;
       EventBus.$emit('reloadData');

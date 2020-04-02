@@ -33,7 +33,7 @@ export default {
 
 <style lang="scss" scoped>
   .topic{
-    color: #67B6F7;
+    color: $custom_links_color;
     &:hover{
       cursor: pointer;
     }

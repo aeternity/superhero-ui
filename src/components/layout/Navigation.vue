@@ -66,11 +66,11 @@ export default {
 
 <style lang="scss">
   .logo {
-    height: 1.9rem;
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.25rem;
 
     img {
-      width: 8rem;
+      width: 9.2rem;
+      height: 2.1rem;
     }
   }
 
@@ -82,7 +82,7 @@ export default {
 
   .navigation__item {
     font-size: .93rem;
-    margin-bottom: 1rem;
+    margin-bottom: .75rem;
 
     a {
       align-items: center;

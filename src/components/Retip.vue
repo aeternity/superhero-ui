@@ -6,7 +6,7 @@
     target="_blank"
     class="retip__content"
   >
-    <img :src="showRetipIcon ? retipIcon : heartIcon">
+    <img :src="iconTip">
     <ae-amount
       :amount="amount"
       :round="2"
@@ -36,14 +36,8 @@
         @click="toggleRetip(!show)"
       >
         <img
-          v-if="!showRetipIcon"
-          class="retip__icon retip__icon--tip"
-          :src="heartIcon"
-        >
-        <img
-          v-else
           class="retip__icon retip__icon--retip"
-          :src="retipIcon"
+          :src="iconTip"
         >
         <ae-amount
           :amount="amount"
@@ -63,17 +57,6 @@
           An error occurred while sending retip
         </div>
         <div v-if="!showLoading">
-          <div
-            v-if="!showRetipIcon"
-            class="input-group"
-          >
-            <input
-              v-model="title"
-              type="text"
-              class="form-control retip__message"
-              placeholder="Add message"
-            >
-          </div>
           <div class="input-group">
             <input
               v-model.number="value"
@@ -92,24 +75,13 @@
                 />
               </span>
             </div>
-            <div class="button-section">
-              <button
-                v-if="!showRetipIcon"
-                class="btn btn-primary retip__button"
-                :disabled="!isDataValid"
-                @click="sendTip()"
-              >
-                Tip
-              </button>
-              <button
-                v-else
-                class="btn btn-primary retip__button"
-                :disabled="!isDataValid"
-                @click="retip()"
-              >
-                Retip
-              </button>
-            </div>
+            <button
+              class="btn btn-primary retip__button"
+              :disabled="!isDataValid"
+              @click="retip()"
+            >
+              Retip
+            </button>
           </div>
         </div>
       </div>
@@ -118,7 +90,7 @@
 </template>
 
 <script>
-import heartIcon from '../assets/heart.svg';
+import iconTip from '../assets/iconTip.svg';
 import retipIcon from '../assets/retipIcon.svg';
 import aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
@@ -149,14 +121,13 @@ export default {
       showLoading: false,
       error: true,
       useDeepLinks: IS_MOBILE_DEVICE && !IS_FRAME,
-      heartIcon,
+      iconTip,
       retipIcon,
-      title: '',
     };
   },
   computed: {
     eventPayload() {
-      return `${this.tipid}:${this.showRetipIcon}`;
+      return `${this.tipid}:${this.show}`;
     },
     deepLink() {
       const url = new URL('https://wallet.superhero.com/retip');
@@ -166,10 +137,7 @@ export default {
       return url;
     },
     isDataValid() {
-      if (this.showRetipIcon) {
-        return this.value > 0;
-      }
-      return this.value > 0 && this.title.length > 0;
+      return this.value > 0;
     },
   },
   created() {
@@ -203,25 +171,8 @@ export default {
           this.error = true;
         });
     },
-    async sendTip() {
-      const amount = util.aeToAtoms(this.value);
-      this.showLoading = true;
-      await aeternity.tip(this.tipurl, this.title, amount)
-        .then(async () => {
-          await new Backend().cacheInvalidateTips().catch(console.error);
-          EventBus.$emit('reloadData');
-          this.showLoading = false;
-          this.error = false;
-          this.show = false;
-        }).catch((e) => {
-          console.error(e);
-          this.showLoading = false;
-          this.error = true;
-        });
-    },
     resetForm() {
       this.value = 0;
-      this.title = '';
       this.fiatValue = 0.00;
       this.error = false;
     },
@@ -264,7 +215,7 @@ export default {
     position: relative;
 
     img {
-      height: 1rem;
+      height: .7rem;
       margin-right: .2rem;
       vertical-align: top;
       width: 1rem;
@@ -273,10 +224,6 @@ export default {
     &:hover img {
       filter: brightness(1.3);
     }
-  }
-
-  .ae-amount {
-    color: #fff;
   }
 
   .ae {
@@ -324,9 +271,10 @@ export default {
     }
 
     .retip__button {
-      background-color: $custom_links_color;
-      border: 1px solid $custom_links_color;
+      background-color: $secondary_color;
+      border: 1px solid $secondary_color;
       color: $standard_font_color;
+      margin-left: .5rem;
     }
 
     .input-group {

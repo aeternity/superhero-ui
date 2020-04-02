@@ -85,7 +85,10 @@
                   >
                 </a>
               </div>
-              <div class="profile__info">
+              <div
+                v-if="!editMode"
+                class="profile__info"
+              >
                 <h1
                   v-if="!editMode"
                   class="profile__displayname"
@@ -126,36 +129,36 @@
               >
                 {{ profile.biography }}
               </div>
-              <div
-                v-if="editMode"
-                class="input-group description"
+            </div>
+            <div
+              v-if="editMode"
+              class="input-group description"
+            >
+              <textarea
+                v-model="profile.biography"
+                class="form-control"
+                rows="3"
+                placeholder="Edit Biography"
+              />
+            </div>
+            <div
+              v-if="editMode"
+              class="edit__buttons"
+            >
+              <button
+                type="button"
+                class="button small"
+                @click="resetEditedValues()"
               >
-                <textarea
-                  v-model="profile.biography"
-                  class="form-control"
-                  rows="3"
-                  placeholder="Edit Biography"
-                />
-              </div>
-              <div
-                v-if="editMode"
-                class="mt-2 mb-2"
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="button small primary"
+                @click="saveProfile()"
               >
-                <button
-                  type="button"
-                  class="btn btn-dark mr-2"
-                  @click="resetEditedValues()"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-dark"
-                  @click="saveProfile()"
-                >
-                  Save
-                </button>
-              </div>
+                Save
+              </button>
             </div>
           </div>
 
@@ -467,6 +470,14 @@ export default {
       }
     }
 
+    .edit__buttons {
+      margin: .5rem 1rem;
+
+      button {
+        margin-right: .75rem;
+      }
+    }
+
     .profile__editable {
       align-items: center;
       display: flex;
@@ -487,7 +498,11 @@ export default {
         margin-right: -1rem;
       }
       .input-group.description{
-        margin-bottom: 1rem;
+        margin: .5rem 1rem;
+
+        textarea {
+          min-height: 4rem;
+        }
       }
       .profile__image{
         margin-right: .5rem;

@@ -1,17 +1,19 @@
 <template>
   <div>
-    <div class="container wrapper mt-2">
+    <div class="maintenance container wrapper mt-2">
       <div class="p-5 content text-center">
-        <img alt src="../assets/headerLogo.svg" />
-        <div class="mt-5">
-          <div class="maintenance-alert">
-            <h4 class="alert-heading">Oops!</h4>
-            <p>Superhero is Superpowering.</p>
-            <p> Hey, we're humans too. BRB. </p>
-            <hr />
-            <router-link :to="{ name: 'home' }">
-              <span>Proceed to home page</span>
-            </router-link>
+        <div v-if="view === 'recharge'">
+          <div class="recharge">
+            <h1>We're recharging our powers.</h1>
+            <div class="gif" />
+            <h2>We'll be up, up and away in no time.</h2>
+          </div>
+        </div>
+        <div v-if="view === 'cleaning'">
+          <div class="cleaning">
+            <h1>Cleaning up the HQ.</h1>
+            <div class="gif2" />
+            <h2>We'll be flying again in a few minutes.</h2>
           </div>
         </div>
       </div>
@@ -22,31 +24,66 @@
 <script>
 export default {
   name: 'Maintenance',
+  data() {
+    return {
+      // cleaning or recharge
+      view: 'recharge',
+    };
+  },
 };
 </script>
 
 
 <style lang="scss" scoped>
-.maintenance-alert {
-  padding: 3rem;
-  color: $standard_font_color;
-  background-color: $light_color;
-  border-color: $light_color;
-
-  p {
-    color: #ccc;
+.recharge {
+  h1 {
+    font-size: 55px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    line-height: 80px;
+    margin: 50px 0;
   }
-
-  hr {
-    border-color: #ccc;
+  .gif {
+    background: url('../assets/recharge.gif') center center;
+    display: block;
+    height: 190px;
+    width: 208px;
+    margin: 0 auto;
+    position: relative;
   }
-
-  .alert-heading {
-    color: $secondary_color;
+  h2 {
+    font-size: 35px !important;
+    line-height: 55px;
+    color: #3290E2;
+    text-align: center;
+    margin: 50px 0;
   }
+}
 
-  .router-link-active {
-    color: $custom_links_color;
+.cleaning {
+  h1 {
+    font-size: 55px;
+    font-weight: bold;
+    color: #3290E2;
+    text-align: center;
+    line-height: 80px;
+    margin: 50px 0;
+  }
+  .gif2 {
+    background: url('../assets/ShieldFill.svg') center center;
+    display: block;
+    height: 220px;
+    width: 255px;
+    margin: 0 auto;
+    position: relative;
+  }
+  h2 {
+    font-size: 35px !important;
+    line-height: 55px;
+    color: white;
+    text-align: center;
+    margin: 50px 0;
   }
 }
 </style>

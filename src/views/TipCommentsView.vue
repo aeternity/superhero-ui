@@ -79,8 +79,6 @@ import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
 import { EventBus } from '../utils/eventBus';
 
-const backendInstance = new Backend();
-
 export default {
   name: 'TipCommentsView',
   components: {
@@ -142,21 +140,21 @@ export default {
         author: wallet.client.rpcClient.getCurrentAccount(),
       };
 
-      const responseChallenge = await backendInstance.sendTipComment(postData);
+      const responseChallenge = await Backend.sendTipComment(postData);
       const signedChallenge = await wallet.signMessage(responseChallenge.challenge);
       const respondChallenge = {
         challenge: responseChallenge.challenge,
         signature: signedChallenge,
       };
 
-      const response = await backendInstance.sendTipComment(respondChallenge);
+      const response = await Backend.sendTipComment(respondChallenge);
       this.comments.push(response);
       this.showLoading = false;
       EventBus.$emit('reloadData');
       this.newComment = '';
     },
     updateTip() {
-      backendInstance.getTipComments(this.id).then((response) => {
+      Backend.getTipComments(this.id).then((response) => {
         this.error = false;
         this.comments = response.map((comment) => {
           const newComment = comment;

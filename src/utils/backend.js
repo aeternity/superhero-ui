@@ -2,37 +2,37 @@ import { BACKEND_URL } from '../config/constants';
 import { wrapTry } from './util';
 
 export default class Backend {
-  getTipComments = async (tipId) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/tip/${encodeURIComponent(tipId)}`));
+  static getTipComments = async (tipId) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/tip/${encodeURIComponent(tipId)}`));
 
-  sendTipComment = async (postParam) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/`, {
+  static sendTipComment = async (postParam) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/`, {
     method: 'post',
     body: JSON.stringify(postParam),
     headers: { 'Content-Type': 'application/json' },
   }));
 
-  getAllComments = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/`));
+  static getAllComments = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/`));
 
-  getProfile = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/profile/${address}`));
+  static getProfile = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/profile/${address}`));
 
-  sendProfileData = async (postParam) => wrapTry(async () => fetch(`${BACKEND_URL}/profile`, {
+  static sendProfileData = async (postParam) => wrapTry(async () => fetch(`${BACKEND_URL}/profile`, {
     method: 'post',
     body: JSON.stringify(postParam),
     headers: { 'Content-Type': 'application/json' },
   }));
 
-  setProfileImage = async (address, data, image = true) => wrapTry(async () => {
+  static setProfileImage = async (address, data, image = true) => wrapTry(async () => {
     const request = {
       method: 'post',
       body: image ? data : JSON.stringify(data),
     };
     Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
     console.log(request);
-    return fetch(this.getProfileImageUrl(address), request);
+    return fetch(Backend.getProfileImageUrl(address), request);
   });
 
-  getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
+  static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 
-  getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
+  static getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
 
   static getCacheTipById = async (id) => wrapTry(async () => fetch(`${BACKEND_URL}/cache/tip?id=${id}`));
 
@@ -58,9 +58,9 @@ export default class Backend {
 
   static getTopicsCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/topics`));
 
-  cacheInvalidateTips = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/invalidate/tips`));
+  static cacheInvalidateTips = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/invalidate/tips`));
 
-  getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));
+  static getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));
 
   static getTipPreviewUrl = (previewLink) => `${BACKEND_URL}${previewLink}`;
 

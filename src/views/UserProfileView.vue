@@ -289,8 +289,6 @@ import defaultAvatar from '../assets/userAvatar.svg';
 import { MIDDLEWARE_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
 
-const backendInstance = new Backend();
-
 export default {
   name: 'TipCommentsView',
   components: {
@@ -355,7 +353,7 @@ export default {
       this.userStats = stats;
     });
     this.showLoading = true;
-    backendInstance.getAllComments().then((allComments) => {
+    Backend.getAllComments().then((allComments) => {
       this.showLoading = false;
       this.error = false;
       this.comments = allComments.filter((comment) => comment.author === this.address);
@@ -388,22 +386,22 @@ export default {
         author: wallet.client.rpcClient.getCurrentAccount(),
       };
 
-      const response = await backendInstance.sendProfileData(postData);
+      const response = await Backend.sendProfileData(postData);
       const signedChallenge = await wallet.signMessage(response.challenge);
       const respondChallenge = {
         challenge: response.challenge,
         signature: signedChallenge,
       };
 
-      await backendInstance.sendProfileData(respondChallenge);
+      await Backend.sendProfileData(respondChallenge);
       this.resetEditedValues();
     },
     getProfile() {
-      backendInstance.getCommentCountForAddress(this.address).then((userComment) => {
+      Backend.getCommentCountForAddress(this.address).then((userComment) => {
         this.userCommentCount = userComment.count;
       }).catch(console.error);
 
-      backendInstance.getProfile(this.address).then((profile) => {
+      Backend.getProfile(this.address).then((profile) => {
         this.profile = profile;
       }).catch(console.error);
     },
@@ -415,14 +413,14 @@ export default {
       data.append('name', 'image');
       data.append('image', event.target.files[0]);
 
-      const setImage = await backendInstance.setProfileImage(this.account, data);
+      const setImage = await Backend.setProfileImage(this.account, data);
       const signedChallenge = await wallet.signMessage(setImage.challenge);
       const respondChallenge = {
         challenge: setImage.challenge,
         signature: signedChallenge,
       };
 
-      await backendInstance.setProfileImage(this.account, respondChallenge, false)
+      await Backend.setProfileImage(this.account, respondChallenge, false)
         .catch(console.error);
 
       // use the new avatar with cache-bust

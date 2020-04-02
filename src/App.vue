@@ -58,7 +58,7 @@ export default {
     },
     async reloadAsyncData(stats) {
       // stats
-      Promise.all([new Backend().getStats(), aeternity.client.height()])
+      Promise.all([Backend.getStats(), aeternity.client.height()])
         .then(([backendStats, height]) => {
           const newStats = { ...stats, ...backendStats, height };
           this.updateStats(newStats);

@@ -192,7 +192,7 @@ export default {
       this.showLoading = true;
       await aeternity.retip(this.tipid, amount)
         .then(async () => {
-          await new Backend().cacheInvalidateTips().catch(console.error);
+          await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');
           this.showLoading = false;
           this.error = false;
@@ -208,7 +208,7 @@ export default {
       this.showLoading = true;
       await aeternity.tip(this.tipurl, this.title, amount)
         .then(async () => {
-          await new Backend().cacheInvalidateTips().catch(console.error);
+          await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');
           this.showLoading = false;
           this.error = false;

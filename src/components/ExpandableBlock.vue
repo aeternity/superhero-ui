@@ -8,15 +8,15 @@
       :src="iconDrawer"
       class="arrow"
     >
-    <div
-      class="title"
-      v-html="title"
-    />
+    <div class="title">
+      {{ title }}
+    </div>
     <div
       v-if="expanded"
       class="body"
-      v-html="body"
-    />
+    >
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -24,10 +24,9 @@
 import iconDrawer from '../assets/iconDrawer.svg';
 
 export default {
-  name: 'ExpandBlock',
+  name: 'ExpandableBlock',
   props: {
-    title: { type: String, required: true },
-    body: { type: String, required: true },
+    title: { type: String, required: false, default: '' },
   },
   data() {
     return {

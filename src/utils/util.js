@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { EventBus } from './eventBus';
 
 const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000000000000000000));
 const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
@@ -13,8 +14,8 @@ export const wrapTry = async (promise) => {
         setTimeout(reject, 3000, 'TIMEOUT');
       })),
     ]);
-  } catch (e) {
-    console.error('backend error', e);
+  } catch (err) {
+    EventBus.$emit('backendError');
     return null;
   }
 };

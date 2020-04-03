@@ -6,6 +6,7 @@ import {
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import ORACLE_INTERFACE from '../contracts/OracleServiceInterface.aes';
 import TippingContractUtil from './tippingContractUtil';
+import { EventBus } from './eventBus';
 
 const aeternity = {
   client: null,
@@ -94,8 +95,8 @@ aeternity.initClient = async () => {
     try {
       aeternity.client = await aeternity.initStaticClient();
       result = await aeternity.initProvider();
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      EventBus.$emit('backendError');
       result = false;
     }
   } else {

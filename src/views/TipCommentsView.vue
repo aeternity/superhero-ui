@@ -68,12 +68,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+// eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import { USE_DEEP_LINKS } from '../utils/util';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+// eslint-disable-next-line import/no-cycle
 import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';

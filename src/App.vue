@@ -33,6 +33,11 @@ export default {
       this.reloadData();
     });
     setInterval(() => this.reloadData(), 120 * 1000);
+    EventBus.$on('backendError', () => {
+      this.$router.push({
+        name: 'maintenance',
+      });
+    });
   },
   methods: {
     ...mapActions([

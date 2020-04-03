@@ -10,25 +10,14 @@ script:
 before_deploy: scripts/before-deploy.sh
 
 deploy:
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN
-    keep_history: true
-    local_dir: dist
-    repo: $DEPLOY_REPO
-    target_branch: master
-    name: $DEPLOY_NAME
-    email: $DEPLOY_EMAIL
-    on:
-      branch: superhero-production
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN
-    keep_history: true
-    local_dir: dist
-    repo: $DEPLOY_REPO_STAGE
-    target_branch: master
-    name: $DEPLOY_NAME
-    email: $DEPLOY_EMAIL
-    on:
-      branch: feature/layout-superhero
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  local_dir: dist
+  repo: $DEPLOY_REPO
+  target_branch: master
+  name: $DEPLOY_NAME
+  email: $DEPLOY_EMAIL
+  on:
+    condition: $DEPLOY_REPO

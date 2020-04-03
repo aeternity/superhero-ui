@@ -40,7 +40,7 @@
             <div class="topic-container text-ellipsis">
               <topic :topic="topic" />
             </div>
-            <div>
+            <div class="amount">
               <span class="value">
                 <ae-amount
                   :amount="data.amount"
@@ -99,11 +99,10 @@ export default {
 
 <style lang="scss">
 .topics-section {
-  max-height: 0;
   transition: max-height 0.25s ease-in;
 
   &.active {
-    max-height: 15rem;
+    max-height: 25rem;
   }
 }
 
@@ -127,7 +126,11 @@ export default {
           display: flex;
 
           & > div {
-            width: 50%;
+            &.amount {
+              width: 52%;
+            }
+
+            width: 48%;
           }
         }
 
@@ -151,7 +154,7 @@ export default {
     }
 
     .section__body {
-      padding: .25rem 1rem 1rem 1rem;
+      padding: .25rem 1rem .25rem 1rem;
 
       .section__item {
         font-size: .75rem;

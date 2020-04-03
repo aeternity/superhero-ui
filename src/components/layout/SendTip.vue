@@ -4,10 +4,10 @@
     class="tip__post"
     :class="{ active: !loading.wallet }"
   >
+    <div class="tip__post__label">
+      <label>Send New Tip</label>
+    </div>
     <form @submit.prevent>
-      <div class="form-row">
-        <label class="tip__post__label pl-2">Send New Tip</label>
-      </div>
       <div class="form-group">
         <img
           :src="avatar"
@@ -159,11 +159,6 @@ export default {
         }
       }
 
-      .tip__post__label {
-        font-weight: 600;
-        color: $standard_font_color;
-      }
-
       .form-group {
         margin-bottom: 0;
         .input-group{
@@ -227,6 +222,19 @@ export default {
 
     .avatar {
       vertical-align: middle;
+    }
+
+
+    .tip__post__label {
+      font-weight: 600;
+      font-size: .8rem;
+      color: $standard_font_color;
+      padding: .75rem 1rem;
+      background-color: $light_color;
+
+      label {
+        margin-bottom: 0;
+      }
     }
   }
 

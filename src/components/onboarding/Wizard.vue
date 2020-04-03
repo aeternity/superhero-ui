@@ -131,10 +131,10 @@ export default {
       this.setWizardCurrentStep(index);
     },
     finalStep() {
-      // set step after the last to hide permanently (or until a new 'step' is added eventually):
       this.setWizardIsCollapsed(true);
 
       if (this.account && this.account.length) {
+        // set step after the last to hide permanently (or until a new 'step' is added eventually):
         this.setWizardCurrentStep(steps.length);
         this.$router.push({
           name: 'user-profile',

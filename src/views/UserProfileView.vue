@@ -37,9 +37,7 @@
                 class="edit__button button small"
                 title="Edit Profile"
                 @click="toggleEditMode()"
-              >
-                Edit Profile
-              </a>
+              >Edit Profile</a>
               <div class="profile__image position-relative">
                 <div
                   v-if="showLoadingAvatar"
@@ -59,7 +57,7 @@
                     :key="avatarEditImageKey"
                     :src="avatar"
                     :onerror="`this.className='fail'`"
-                    alt=""
+                    alt
                   >
                   <span>Change Avatar</span>
                   <input
@@ -81,7 +79,7 @@
                     v-if="!editMode"
                     :src="avatar"
                     :onerror="`this.className='fail'`"
-                    alt=""
+                    alt
                   >
                 </a>
               </div>
@@ -102,7 +100,7 @@
                   class="form-control"
                   placeholder="Edit Display Name"
                 >
-              </div> -->
+                </div>-->
                 <a
                   v-if="!editMode"
                   class="profile__username"
@@ -123,12 +121,12 @@
                   {{ userStats.tipsLength }} Tips
                 </div>
               </div>
-              <div
-                v-if="!editMode"
-                class="profile__description"
-              >
-                {{ profile.biography }}
-              </div>
+            </div>
+            <div
+              v-if="!editMode"
+              class="profile__description"
+            >
+              {{ profile.biography }}
             </div>
             <div
               v-if="editMode"
@@ -232,9 +230,7 @@
           <a
             :class="{ active: activeTab === 'comments' }"
             @click="setActiveTab('comments')"
-          >
-            Comments
-          </a>
+          >Comments</a>
         </div>
         <div class="comments__section position-relative">
           <div
@@ -292,8 +288,6 @@ import defaultAvatar from '../assets/userAvatar.svg';
 import { MIDDLEWARE_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
 
-const backendInstance = new Backend();
-
 export default {
   name: 'TipCommentsView',
   components: {
@@ -343,7 +337,9 @@ export default {
     },
     showNoResultsMsg() {
       if (this.activeTab === 'comments') {
-        return this.comments.length === 0 && !this.showLoading && !this.loading.tips;
+        return (
+          this.comments.length === 0 && !this.showLoading && !this.loading.tips
+        );
       }
       return false;
     },
@@ -358,15 +354,19 @@ export default {
       this.userStats = stats;
     });
     this.showLoading = true;
-    backendInstance.getAllComments().then((allComments) => {
-      this.showLoading = false;
-      this.error = false;
-      this.comments = allComments.filter((comment) => comment.author === this.address);
-    }).catch((e) => {
-      console.error(e);
-      this.error = true;
-      this.showLoading = false;
-    });
+    Backend.getAllComments()
+      .then((allComments) => {
+        this.showLoading = false;
+        this.error = false;
+        this.comments = allComments.filter(
+          (comment) => comment.author === this.address,
+        );
+      })
+      .catch((e) => {
+        console.error(e);
+        this.error = true;
+        this.showLoading = false;
+      });
   },
   methods: {
     updateAvatarImageKey() {
@@ -391,24 +391,28 @@ export default {
         author: wallet.client.rpcClient.getCurrentAccount(),
       };
 
-      const response = await backendInstance.sendProfileData(postData);
+      const response = await Backend.sendProfileData(postData);
       const signedChallenge = await wallet.signMessage(response.challenge);
       const respondChallenge = {
         challenge: response.challenge,
         signature: signedChallenge,
       };
 
-      await backendInstance.sendProfileData(respondChallenge);
+      await Backend.sendProfileData(respondChallenge);
       this.resetEditedValues();
     },
     getProfile() {
-      backendInstance.getCommentCountForAddress(this.address).then((userComment) => {
-        this.userCommentCount = userComment.count;
-      }).catch(console.error);
+      Backend.getCommentCountForAddress(this.address)
+        .then((userComment) => {
+          this.userCommentCount = userComment.count;
+        })
+        .catch(console.error);
 
-      backendInstance.getProfile(this.address).then((profile) => {
-        this.profile = profile;
-      }).catch(console.error);
+      Backend.getProfile(this.address)
+        .then((profile) => {
+          this.profile = profile;
+        })
+        .catch(console.error);
     },
     getAvatar(address) {
       return Backend.getProfileImageUrl(address);
@@ -418,15 +422,18 @@ export default {
       data.append('name', 'image');
       data.append('image', event.target.files[0]);
 
-      const setImage = await backendInstance.setProfileImage(this.account, data);
+      const setImage = await Backend.setProfileImage(this.account, data);
       const signedChallenge = await wallet.signMessage(setImage.challenge);
       const respondChallenge = {
         challenge: setImage.challenge,
         signature: signedChallenge,
       };
 
-      await backendInstance.setProfileImage(this.account, respondChallenge, false)
-        .catch(console.error);
+      await Backend.setProfileImage(
+        this.account,
+        respondChallenge,
+        false,
+      ).catch(console.error);
 
       // use the new avatar with cache-bust
       this.updateAvatarImageKey();
@@ -437,65 +444,77 @@ export default {
 
 
 <style lang="scss" scoped>
-  #file-input{
-    display: none;
+#file-input {
+  display: none;
+}
+.profile__page {
+  color: $light_font_color;
+  font-size: 0.75rem;
+  padding-top: 0.75rem;
+  .count {
+    font-size: 0.65rem;
   }
-  .profile__page{
-    color: $light_font_color;
-    font-size: .75rem;
-    padding-top: .75rem;
-    .count{
-      font-size: .65rem;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: auto auto auto;
-      background-color: $light_color;
-      padding: .5rem 1rem .5rem 1rem;
+  .stats {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: $light_color;
+    padding: 0.5rem 1rem 0.5rem 1rem;
 
-      .stat {
-        padding: .5rem;
+    .stat {
+      padding: 0.5rem;
 
-        .stat-title {
-          font-size: .7rem;
-          font-weight: 600;
-          color: $tip_note_color;
-        }
+      .stat-title {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: $tip_note_color;
+      }
 
-        .stat-value {
-          font-size: .9rem;
-          color: $secondary_color;
-          font-weight: 400;
-        }
+      .stat-value {
+        font-size: 0.9rem;
+        color: $secondary_color;
+        font-weight: 400;
       }
     }
+  }
 
-    .edit__buttons {
-      margin: .5rem 1rem;
+  .edit__buttons {
+    margin: .5rem 1rem;
 
-      button {
-        margin-right: .75rem;
+    button {
+      margin-right: .75rem;
+    }
+  }
+
+  .profile__editable {
+    align-items: center;
+    display: flex;
+  }
+
+  .edit__button {
+    position: absolute;
+    top: -1.25rem;
+    right: 0.5rem;
+  }
+  .profile__section {
+    background-color: $actions_ribbon_background_color;
+    .spinner__container {
+      top: 40%;
+    }
+    .row {
+      padding: 1.75rem 1rem 1rem 1rem;
+      margin-right: -1rem;
+    }
+    .input-group.description {
+      margin-bottom: 1rem;
+    }
+    .profile__image {
+      margin-right: 0.5rem;
+      vertical-align: super;
+      .spinner__container {
+        top: 30%;
       }
-    }
-
-    .profile__editable {
-      align-items: center;
-      display: flex;
-    }
-
-    .edit__button{
-      position: absolute;
-      top: -1.25rem;
-      right: .5rem;
-    }
-    .profile__section{
-      background-color: $actions_ribbon_background_color;
-      .spinner__container{
-        top: 40%;
-      }
-      .row{
-        padding: 1.75rem 1rem 1rem 1rem;
-        margin-right: -1rem;
+      .blurred {
+        opacity: 0.4;
       }
       .input-group.description{
         margin: .5rem 1rem;
@@ -504,160 +523,161 @@ export default {
           min-height: 4rem;
         }
       }
-      .profile__image{
-        margin-right: .5rem;
-        vertical-align: super;
-        .spinner__container{
-          top: 30%;
-        }
-        .blurred{
-          opacity: .4;
-        }
-        .overlay{
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          z-index: 10;
-        }
-        .profile__image--edit {
-          cursor: pointer;
+      
+      .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+      }
+      .profile__image--edit {
+        cursor: pointer;
+        display: flex;
+        position: relative;
+
+        span {
+          align-items: center;
+          color: $standard_font_color;
           display: flex;
-          position: relative;
+          height: 100%;
+          justify-content: center;
+          position: absolute;
+          text-align: center;
+          top: 0;
+          width: 100%;
+        }
+        img {
+          opacity: 0.2;
+        }
 
-          span {
-            align-items: center;
-            color: $standard_font_color;
-            display: flex;
-            height: 100%;
-            justify-content: center;
-            position: absolute;
-            text-align: center;
-            top: 0;
-            width: 100%;
-          }
+        &:hover {
           img {
-            opacity: .2;
-          }
-
-          &:hover {
-            img {
-              filter: grayscale(1);
-            }
-          }
-        }
-        img{
-          width: 6.5rem;
-          height: 6.5rem;
-          border-radius: 3.25rem;
-          object-fit: cover;
-        }
-      }
-      .profile__image {
-        display: flex;
-      }
-      .profile__info {
-        width: calc(100% - 8.5rem);
-        display: flex;
-        flex-direction: column;
-
-        .profile__displayname{
-          font-size: 1.2rem;
-          height: 1.5rem;
-        }
-        .profile__username, .profile__displayname{
-          margin-bottom: 0;
-        }
-        .profile__username{
-          display: block;
-          color: $tip_note_color;
-          font-size: .6rem;
-          word-break: break-all;
-          font-weight: 400;
-          .chain{
-            font-size: .8rem;
+            filter: grayscale(1);
           }
         }
       }
-    }
-    .profile__meta{
-      font-size: .6rem;
-      background-color: $thumbnail_background_color;
-      margin: -.5rem 0 -1rem 0;
-      border-top-right-radius: .25rem;
-      padding: 0;
-      &>.row.mobile{
-        display: none;
-      }
-      .value{
-        color: $secondary_color;
+      img {
+        width: 6.5rem;
+        height: 6.5rem;
+        border-radius: 3.25rem;
+        object-fit: cover;
       }
     }
-    .profile__actions{
-      padding-left: 1rem;
-      margin-top: .125rem;
-      background-color: $actions_ribbon_background_color;
-      position: sticky;
-      z-index: 21;
-      top: 2.1rem;
-      a{
-        font-weight: 600;
-        color: $light_font_color;
-        padding: .5rem;
-        display: inline-block;
-        margin-right: .5rem;
-        &:last-child{
-          margin-right: 0;
-        }
-        &:hover{
-          color: $primary_color;
-          cursor: pointer;
-        }
-        &.active{
-          color: $custom_links_color;
-          border-bottom: .1rem solid $custom_links_color;
+    .profile__image {
+      display: flex;
+    }
+    .profile__info {
+      width: calc(100% - 8.5rem);
+      display: flex;
+      flex-direction: column;
+
+      .profile__displayname {
+        font-size: 1.2rem;
+        height: 1.5rem;
+      }
+      .profile__username,
+      .profile__displayname {
+        margin-bottom: 0;
+      }
+      .profile__username {
+        display: block;
+        color: $tip_note_color;
+        font-size: 0.6rem;
+        word-break: break-all;
+        font-weight: 400;
+        .chain {
+          font-size: 0.8rem;
         }
       }
     }
   }
-  .comments__section{
-    min-height: 5rem;
-
-    .comment.tip__record{
-      border-radius: unset;
+  .profile__meta {
+    font-size: 0.6rem;
+    background-color: $thumbnail_background_color;
+    margin: -0.5rem 0 -1rem 0;
+    border-top-right-radius: 0.25rem;
+    padding: 0;
+    & > .row.mobile {
+      display: none;
+    }
+    .value {
+      color: $secondary_color;
     }
   }
-
-  .no-results{
-    color: $standard_font_color;
-    font-size: .75rem;
-    text-align: center;
-    &.error{
-      color: red;
+  .profile__actions {
+    padding-left: 1rem;
+    margin-top: 0.125rem;
+    background-color: $actions_ribbon_background_color;
+    position: sticky;
+    z-index: 21;
+    top: 2.1rem;
+    a {
+      font-weight: 600;
+      color: $light_font_color;
+      padding: 0.5rem;
+      display: inline-block;
+      margin-right: 0.5rem;
+      &:last-child {
+        margin-right: 0;
+      }
+      &:hover {
+        color: $primary_color;
+        cursor: pointer;
+      }
+      &.active {
+        color: $custom_links_color;
+        border-bottom: 0.1rem solid $custom_links_color;
+      }
     }
   }
+}
+.comments__section {
+  min-height: 5rem;
 
-  .profile__description {
-    padding: .5rem 0;
-    color: $tip_note_color;
+  .comment.tip__record {
+    border-radius: unset;
   }
+}
 
-@media only screen and (max-width: 768px){
-  .profile__page .profile__meta{
+.no-results {
+  color: $standard_font_color;
+  font-size: 0.75rem;
+  text-align: center;
+  &.error {
+    color: red;
+  }
+}
+
+.description {
+  margin: .5rem 1rem;
+
+  textarea {
+    min-height: 4rem;
+  }
+}
+
+.profile__description {
+  margin: .5rem 1rem;
+  color: $tip_note_color;
+}
+
+@media only screen and (max-width: 768px) {
+  .profile__page .profile__meta {
     margin-top: 0;
     border-top-right-radius: 0;
   }
-  .profile__page .profile__section>.row{
-    padding-left: .75rem;
+  .profile__page .profile__section > .row {
+    padding-left: 0.75rem;
   }
-  .profile__page .profile__meta>.row{
+  .profile__page .profile__meta > .row {
     display: none;
-    &.mobile{
+    &.mobile {
       display: flex;
       padding-bottom: 0;
-      & .row{
-        padding-bottom: .5rem;
+      & .row {
+        padding-bottom: 0.5rem;
         padding-top: 0;
       }
     }
@@ -665,53 +685,52 @@ export default {
 }
 
 @media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-    .profile__page{
+and (min-device-width: 320px)
+and (max-device-width: 480px)
+and (-webkit-min-device-pixel-ratio: 2) {
+  .profile__page {
+    .profile__actions {
+      top: 3.3rem;
+    }
 
-      .profile__actions {
-        top: 3.3rem;
+    .profile__section {
+      .row {
+        padding-top: 2rem;
       }
-
-      .profile__section{
-        .row{
-          padding-top: 2rem;
-        }
-        .profile__info {
-          width: calc(100% - 4.5rem);
-          vertical-align: middle;
-          .profile__username {
-            font-size: .5rem;
-            .chain{
-              font-size: .6rem;
-            }
-          }
-        }
-        .profile__image{
-          .spinner__container{
-            top: 22%;
-          }
-          .profile__image--edit > div{
-            top: 20%;
-          }
-          img{
-            width: 4rem;
-            height: 4rem;
+      .profile__info {
+        width: calc(100% - 4.5rem);
+        vertical-align: middle;
+        .profile__username {
+          font-size: 0.5rem;
+          .chain {
+            font-size: 0.6rem;
           }
         }
       }
-      .tips__container {
-        padding: .15rem .5rem;
-      }
-      .edit__button{
-        top: -1.5rem;
-        right: .25rem;
-        font-size: .6rem;
-      }
-      .stats .stat .stat-value{
-        font-size: .6rem;
+      .profile__image {
+        .spinner__container {
+          top: 22%;
+        }
+        .profile__image--edit > div {
+          top: 20%;
+        }
+        img {
+          width: 4rem;
+          height: 4rem;
+        }
       }
     }
+    .tips__container {
+      padding: 0.15rem 0.5rem;
+    }
+    .edit__button {
+      top: -1.5rem;
+      right: 0.25rem;
+      font-size: 0.6rem;
+    }
+    .stats .stat .stat-value {
+      font-size: 0.6rem;
+    }
   }
+}
 </style>

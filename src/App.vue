@@ -33,6 +33,11 @@ export default {
       this.reloadData();
     });
     setInterval(() => this.reloadData(), 120 * 1000);
+    EventBus.$on('backendError', () => {
+      this.$router.push({
+        name: 'maintenance',
+      });
+    });
   },
   methods: {
     ...mapActions([
@@ -58,7 +63,7 @@ export default {
     },
     async reloadAsyncData(stats) {
       // stats
-      Promise.all([new Backend().getStats(), aeternity.client.height()])
+      Promise.all([Backend.getStats(), aeternity.client.height()])
         .then(([backendStats, height]) => {
           const newStats = { ...stats, ...backendStats, height };
           this.updateStats(newStats);

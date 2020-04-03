@@ -1,7 +1,7 @@
 
 <template>
   <a
-    v-if="useDeepLinks"
+    v-if="USE_DEEP_LINKS"
     :href="deepLink"
     target="_blank"
     class="retip__content"
@@ -91,11 +91,10 @@
 
 <script>
 import iconTip from '../assets/iconTip.svg';
-import retipIcon from '../assets/retipIcon.svg';
 import aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import util, { IS_FRAME, IS_MOBILE_DEVICE } from '../utils/util';
+import util, { USE_DEEP_LINKS } from '../utils/util';
 import AeAmount from './AeAmount.vue';
 import FiatValue from './FiatValue.vue';
 import Loading from './Loading.vue';
@@ -109,7 +108,6 @@ export default {
   },
   props: {
     tipid: { type: Number, required: true },
-    showRetipIcon: { type: Boolean },
     amount: { type: String, required: true },
     tipurl: { type: String, default: '' },
   },
@@ -120,9 +118,8 @@ export default {
       show: false,
       showLoading: false,
       error: true,
-      useDeepLinks: IS_MOBILE_DEVICE && !IS_FRAME,
+      USE_DEEP_LINKS,
       iconTip,
-      retipIcon,
     };
   },
   computed: {
@@ -130,7 +127,7 @@ export default {
       return `${this.tipid}:${this.show}`;
     },
     deepLink() {
-      const url = new URL('https://wallet.superhero.com/retip');
+      const url = new URL(`${process.env.VUE_APP_WALLET_URL}/retip`);
       url.searchParams.set('id', this.tipid);
       url.searchParams.set('x-success', window.location);
       url.searchParams.set('x-cancel', window.location);
@@ -160,7 +157,7 @@ export default {
       this.showLoading = true;
       await aeternity.retip(this.tipid, amount)
         .then(async () => {
-          await new Backend().cacheInvalidateTips().catch(console.error);
+          await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');
           this.showLoading = false;
           this.error = false;

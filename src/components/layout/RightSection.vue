@@ -112,7 +112,7 @@ export default {
   font-size: .75rem;
 
   .content {
-    max-width: 17rem;
+    max-width: 18rem;
 
     .section {
       background-color: $article_content_color;
@@ -139,6 +139,10 @@ export default {
           &::-webkit-scrollbar {
             display: none;
           }
+        }
+
+        .currency-value {
+          font-size: .7rem;
         }
       }
     }

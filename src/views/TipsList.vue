@@ -26,6 +26,13 @@
             <img src="../assets/iconEraser.svg">
           </div>
           <div
+            v-if="!searchTerm.length"
+            class="search-icon"
+            @click="searchTerm = ''"
+          >
+            <img src="../assets/iconSearch.svg">
+          </div>
+          <div
             class="close-mobile-nav"
             @click="toggleMobileNavigation(false)"
           >
@@ -146,6 +153,10 @@ export default {
     width: 100%;
     &:focus{
       border: .05rem solid $custom_links_color;
+
+      &~.search-icon {
+        display: none;
+      }
     }
   }
 
@@ -208,14 +219,22 @@ export default {
     }
   }
 
+  .search-icon, .clear{
+    @include vertical-align($position: absolute);
+    right: 1rem;
+    z-index: 10;
+  }
+
+  .search-icon img {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
   .clear {
     img {
       height: .75rem;
       width: .9rem;
     }
-    right: 1rem;
-    @include vertical-align($position: absolute);
-    z-index: 10;
     &:hover{
       cursor: pointer;
     }
@@ -266,6 +285,9 @@ export default {
   and (min-device-width: 320px)
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
+  .search-icon {
+    display: none;
+  }
 
   .search__input{
     padding: .5rem 3.5rem .5rem 1rem;

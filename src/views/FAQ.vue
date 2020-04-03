@@ -109,6 +109,9 @@
         <expandable-block :title="'What do I do to cash out?'">
           We got you on your way with all your tips. Check out Cashing Out in our tutorial.
         </expandable-block>
+        <expandable-block :title="'Can I use my Base æpp wallet for my Superhero wallet?'">
+          Yes. Just choose "Retrieve Existing Account" and input your Base æpp wallet’s seed phrase.
+        </expandable-block>
         <expandable-block :title="'What about other wallets?'">
           So long as you have the private keys/seed phrase for the AE address,
           you can use it on Superhero through the Retrieve Account option at start-up.
@@ -119,7 +122,7 @@
           by sending AE form your other wallets to your Superhero wallet address.
         </expandable-block>
         <expandable-block
-          :title="'Can I use  an AE address from a centralized exchange for my Superhero wallet?'"
+          :title="'Can I use an AE address from a centralized exchange for my Superhero wallet?'"
         >
           No. For centralized exchanges, the exchange holds custody of users'
           private keys. This means that the user cannot use the AE address on
@@ -132,6 +135,18 @@
         <expandable-block :title="'Can I edit my profile?'">
           Currently, users can only add short descriptions for their profile.
           But don’t despair—profile photos and avatars are coming soon!
+        </expandable-block>
+        <expandable-block :title="'Do I have to add my wallet address to every Tweet?'">
+          Yes. At the moment, the wallet is not able to fetch the wallet address from
+          a Twitter profile through a Tweet.  So you would have to add your wallet
+          address to every Tweet. Hopefully, this will be improved later.
+        </expandable-block>
+        <expandable-block
+          :title="`If the owner of the URL I tipped doesn’t have an
+                  AE address on their site, will they still receive their tips?`"
+        >
+          Yes, as soon as they create a Superhero wallet and add their wallet
+          address to their URL, tips they’ve received in the past will be added into their wallet.
         </expandable-block>
         <expandable-block :title="'Can I get support? My question isn’t answered here…'">
           Need assistance? Report technical issue? Post feedback? Suggestion?  Get help.<br>

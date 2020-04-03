@@ -40,7 +40,7 @@
             <div class="topic-container text-ellipsis">
               <topic :topic="topic" />
             </div>
-            <div>
+            <div class="amount">
               <span class="value">
                 <ae-amount
                   :amount="data.amount"
@@ -52,21 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="footer">
-        SuperHero is Open Source
-        <router-link
-          class="footer-links"
-          to="/terms"
-        >
-          Terms
-        </router-link>
-        <router-link
-          class="footer-links"
-          to="/privacy"
-        >
-          Privacy
-        </router-link>
-      </div>
+      <footer-section />
     </div>
   </div>
 </template>
@@ -77,6 +63,7 @@ import { detect } from 'detect-browser';
 import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
 import Topic from '../tipRecords/Topic.vue';
+import FooterSection from './FooterSection.vue';
 
 export default {
   name: 'RightSection',
@@ -84,6 +71,7 @@ export default {
     Topic,
     FiatValue,
     AeAmount,
+    FooterSection,
   },
   data() {
     return {
@@ -111,11 +99,10 @@ export default {
 
 <style lang="scss">
 .topics-section {
-  max-height: 0;
   transition: max-height 0.25s ease-in;
 
   &.active {
-    max-height: 15rem;
+    max-height: 25rem;
   }
 }
 
@@ -124,7 +111,7 @@ export default {
   font-size: .75rem;
 
   .content {
-    max-width: 17rem;
+    max-width: 18rem;
 
     .section {
       background-color: $article_content_color;
@@ -139,11 +126,16 @@ export default {
           display: flex;
 
           & > div {
-            width: 50%;
+            &.amount {
+              width: 52%;
+            }
+
+            width: 48%;
           }
         }
 
         .section__body {
+          padding-bottom: .25rem;
           -ms-overflow-style: none;
           overflow-y: auto;
           scrollbar-width: none;
@@ -151,6 +143,10 @@ export default {
           &::-webkit-scrollbar {
             display: none;
           }
+        }
+
+        .currency-value {
+          font-size: .7rem;
         }
       }
     }
@@ -206,22 +202,12 @@ export default {
   }
 }
 
-  .app__rightcolumn .footer,
-  .mobile-navigation .footer {
-    font-size: .6rem;
-    text-align: center;
-
-    a {
-      cursor: pointer;
-      text-decoration: underline;
-
-      &.footer-links {
-        color: $standard_font_color;
-        font-weight: lighter;
-        text-decoration: none;
-      }
-    }
+//Fixes issue: Smaller screens cut part of the footer
+@media (max-width: 1280px) {
+  .topics-section.active {
+    max-height: 12rem;
   }
+}
 
 @media (min-width: 768px) {
   .app__rightcolumn .content .section__body .section__item {

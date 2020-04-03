@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
 
-if [[ $DOMAIN != "" ]]; then
-  echo $DOMAIN > dist/CNAME
+if [[ $CNAME != "" ]]; then
+  echo $CNAME > dist/CNAME
 fi

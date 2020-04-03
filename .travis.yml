@@ -20,4 +20,5 @@ deploy:
   name: $DEPLOY_NAME
   email: $DEPLOY_EMAIL
   on:
+    all_branches: true
     condition: $DEPLOY_REPO

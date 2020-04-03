@@ -67,6 +67,17 @@
         Latest Block
       </div>
     </div>
+    <div
+      v-if="stats.height"
+      class="overview__item"
+    >
+      <div class="overview__label">
+        Powered by
+      </div>
+      <div class="overview__value">
+        <img src="../../assets/aeternityLogo.svg">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -89,7 +100,7 @@ export default {
 
 <style lang="scss">
   .overview {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 
   .overview__item {
@@ -136,6 +147,10 @@ export default {
 
     .overview__item {
       margin-bottom: 1.9rem;
+    }
+
+    .overview {
+      margin-top: 2rem;
     }
   }
 </style>

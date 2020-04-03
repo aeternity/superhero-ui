@@ -28,15 +28,6 @@
             <format-date :date-timestamp="new Date(tip.timestamp)" />
           </span>
         </div>
-        <div
-          class="tip__note pr-2"
-          @click.stop
-        >
-          <tip-title
-            :tip="tip"
-            :go-to-tip="goToTip"
-          />
-        </div>
       </div>
       <div
         v-if="isPreviewToBeVisualized(tip)"
@@ -48,11 +39,6 @@
           @click.stop
         >
           <div class="tip__article--hasresults">
-            <img
-              :src="tipPreviewImage"
-              :onerror="`this.className='fail'`"
-              :loading="`lazy`"
-            >
             <div class="tip__article__content">
               <h2
                 class="title text-ellipsis"
@@ -67,12 +53,34 @@
                 {{ tipPreviewDescription }}
               </div>
               <div
-                class="domain text-ellipsis"
-                :title="tipPreviewDomain"
+                class="site__url text-ellipsis"
+                :title="tip.url"
               >
-                {{ tipPreviewDomain }}
+                <img src="../../assets/externalLink.svg">
+                {{ tip.url }}
+              </div>
+              <div
+                class="tip__amount"
+              >
+                <img
+                  class="retip__icon retip__icon--retip"
+                  src="../../assets/iconTip.svg"
+                >
+                <ae-amount
+                  :amount="tip.amount_ae"
+                  :round="2"
+                />
+                <fiat-value
+                  :amount="tip.amount_ae"
+                />
               </div>
             </div>
+            <img
+              :src="tipPreviewImage"
+              :onerror="`this.className='fail'`"
+              :loading="`lazy`"
+              class="preview__image"
+            >
           </div>
         </a>
       </div>
@@ -86,19 +94,17 @@
           class="text-ellipsis"
         >{{ tip.url }}</a>
       </div>
+      <div
+        class="tip__note pr-2"
+        @click.stop
+      >
+        <tip-title
+          :tip="tip"
+          :go-to-tip="goToTip"
+        />
+      </div>
       <div class="tip__footer">
         <div class="tip__footer_wrapper">
-          <div
-            class="tip__amount"
-            title="Send AE to the same url"
-            @click.stop
-          >
-            <retip
-              :tipid="tip.id"
-              :tipurl="tip.url"
-              :amount="tip.amount_ae"
-            />
-          </div>
           <div
             class="tip__amount"
             title="Send AE to this post"
@@ -106,7 +112,6 @@
           >
             <retip
               :tipid="tip.id"
-              :show-retip-icon="true"
               :amount="tip.retip_amount_ae"
             />
           </div>
@@ -130,6 +135,8 @@ import Backend from '../../utils/backend';
 import Retip from '../Retip.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
+import AeAmount from '../AeAmount.vue';
+import FiatValue from '../FiatValue.vue';
 
 export default {
   name: 'TipRecord',
@@ -137,6 +144,8 @@ export default {
     Retip,
     TipTitle,
     FormatDate,
+    AeAmount,
+    FiatValue,
   },
   props: {
     tip: { type: Object, required: true },
@@ -158,11 +167,6 @@ export default {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
 
       return this.tip.preview.title ? this.tip.preview.title : '';
-    },
-    tipPreviewDomain() {
-      if (!this.isPreviewToBeVisualized(this.tip)) return '';
-
-      return this.tip.preview.responseUrl ? new URL(this.tip.preview.responseUrl).hostname : '';
     },
     tipPreviewImage() {
       return this.isPreviewToBeVisualized(this.tip) && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
@@ -201,6 +205,17 @@ export default {
     &:hover {
       cursor: pointer;
     }
+
+    .ae-amount {
+      color: $standard_font_color;
+      font-size: .8rem;
+    }
+
+    .currency-value {
+      color: $light_font_color;
+      margin-left: .1rem;
+      font-size: .7rem;
+    }
   }
 
   .tip__body {
@@ -214,7 +229,7 @@ export default {
     display: flex;
     font-size: .8rem;
     justify-content: space-between;
-    padding: 0 1rem .5rem 1rem;
+    padding: 0 1rem .9rem 1rem;
 
     .tip__date {
       display: inline-block;
@@ -223,7 +238,7 @@ export default {
     }
 
     .address {
-      font-size: .6rem;
+      font-size: .65rem;
     }
 
     .address,
@@ -273,8 +288,9 @@ export default {
     @include truncate-overflow-mx(4);
 
     color: $tip_note_color;
-    font-size: .8rem;;
-    margin-bottom: .5rem;
+    font-size: .8rem;
+    margin-top: .85rem;
+    margin-bottom: .8rem;
     padding-left: 1rem;
 
     .title .topic {
@@ -291,7 +307,7 @@ export default {
     border-bottom-right-radius: .25rem;
     color: $light_font_color;
     font-size: .8rem;
-    padding: 0 1rem 1rem;
+    padding: 0 1rem .75rem;
   }
 
   .tip__footer_wrapper {
@@ -308,6 +324,7 @@ export default {
   }
 
   .tip__comments {
+    margin-left: 20%;
     cursor: pointer;
     order: 4;
   }
@@ -319,22 +336,26 @@ export default {
     flex: 0 0 auto;
     height: 1rem;
     margin-right: 1rem;
-    margin-top: .9rem;
     position: relative;
 
     img {
-      height: 1rem;
+      height: .7rem;
       margin-right: .2rem;
       vertical-align: top;
       width: 1rem;
     }
 
-    &:hover img {
-      filter: brightness(1.3);
-    }
-
     &.tip__comments--hascomments {
       color: #fff;
+    }
+  }
+
+  .tip__comments{
+    &:hover img{
+      filter: brightness(1.3);
+    }
+    img {
+      height: 1rem;
     }
   }
 
@@ -355,12 +376,12 @@ export default {
   .tip__article {
     background-color: $thumbnail_background_color;
     background-image: url("../../assets/defaultImg.svg");
-    background-position: 14% center;
+    background-position: 95% center;
     background-repeat: no-repeat;
     background-size: 30%;
     border-radius: .5rem;
     font-size: .75rem;
-    height: 9rem;
+    height: 10.5rem;
     margin-left: 1rem;
     margin-right: 1rem;
     min-height: 5.9rem;
@@ -368,47 +389,63 @@ export default {
     padding: 0;
     position: relative;
 
-    img {
+    .preview__image {
       background-color: $thumbnail_background_color;
-      height: 9rem;
+      height: 10.5rem;
       object-fit: cover;
     }
 
     .tip__article__content {
       color: #babac0;
       font-size: .75rem;
-      height: 9rem;
+      height: 10.5rem;
       line-height: 1.1rem;
-      padding: .7rem 1rem;
+      padding: .85rem 1rem .8rem 1rem;
 
       .title {
         display: block;
-        font-size: inherit;
-        font-weight: 700;
-        margin-bottom: .25rem;
+        font-size: .8rem;
+        font-weight: 500;
+        margin-bottom: .15rem;
+        color: $tip_note_color;
       }
 
       .description {
-        @include truncate-overflow-mx(5);
-        margin-bottom: .25rem;
+        @include truncate-overflow-mx(4);
+        margin-bottom: .35rem;
+        color: $preview_description_font_color;
       }
     }
 
     .tip__article--hasresults {
       display: flex;
 
-      img {
-        flex: 0 0 50%;
-        max-width: 50%;
-        min-width: 50%;
-        width: 50%;
+      .preview__image {
+        flex: 0 0 35%;
+        max-width: 35%;
+        min-width: 35%;
+        width: 35%;
       }
 
       .tip__article__content {
-        flex: 0 0 50%;
-        max-width: 50%;
-        min-width: 50%;
-        width: 50%;
+        flex: 0 0 65%;
+        max-width: 65%;
+        min-width: 65%;
+        width: 65%;
+      }
+    }
+
+    .site__url {
+      color: $light_font_color;
+      font-weight: 500;
+      margin-bottom: .45rem;
+
+      img {
+        width: .625rem;
+        height: .625rem;
+        vertical-align: top;
+        margin-right: .2rem;
+        vertical-align: baseline;
       }
     }
 
@@ -420,7 +457,7 @@ export default {
         background-color: #32343e;
       }
 
-      .domain {
+      .site__url {
         text-decoration: underline;
       }
 
@@ -491,7 +528,7 @@ export default {
       max-width: calc(100% + 1rem);
       width: calc(100% + 1rem);
 
-      .domain {
+      .site__url {
         text-decoration: underline;
       }
     }

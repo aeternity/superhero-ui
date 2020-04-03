@@ -5,7 +5,7 @@
   >
     <div class="heading-section clearfix">
       <div class="title">
-        <img src="../../assets/heart.svg">
+        <img src="../../assets/iconTip.svg">
         Tip
       </div>
       <div
@@ -61,7 +61,8 @@ export default {
       .tip__post form .form-group {
         margin-bottom: .75rem;
 
-        input {
+        input,
+        .input-group-text {
           height: 2.85rem
         }
       }

@@ -55,13 +55,13 @@
       <div class="footer">
         SuperHero is Open Source
         <router-link
-          class="ae"
+          class="footer-links"
           to="/terms"
         >
           Terms
         </router-link>
         <router-link
-          class="ae"
+          class="footer-links"
           to="/privacy"
         >
           Privacy
@@ -216,7 +216,7 @@ export default {
       text-decoration: underline;
 
       &.footer-links {
-        color: $secondary_color;
+        color: $standard_font_color;
         font-weight: lighter;
         text-decoration: none;
       }

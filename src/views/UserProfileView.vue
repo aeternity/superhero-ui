@@ -83,7 +83,10 @@
                   >
                 </a>
               </div>
-              <div class="profile__info">
+              <div
+                v-if="!editMode"
+                class="profile__info"
+              >
                 <h1
                   v-if="!editMode"
                   class="profile__displayname"
@@ -118,42 +121,42 @@
                   {{ userStats.tipsLength }} Tips
                 </div>
               </div>
-              <div
-                v-if="!editMode"
-                class="profile__description"
+            </div>
+            <div
+              v-if="!editMode"
+              class="profile__description"
+            >
+              {{ profile.biography }}
+            </div>
+            <div
+              v-if="editMode"
+              class="input-group description"
+            >
+              <textarea
+                v-model="profile.biography"
+                class="form-control"
+                rows="3"
+                placeholder="Edit Biography"
+              />
+            </div>
+            <div
+              v-if="editMode"
+              class="edit__buttons"
+            >
+              <button
+                type="button"
+                class="button small"
+                @click="resetEditedValues()"
               >
-                {{ profile.biography }}
-              </div>
-              <div
-                v-if="editMode"
-                class="input-group description"
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="button small primary"
+                @click="saveProfile()"
               >
-                <textarea
-                  v-model="profile.biography"
-                  class="form-control"
-                  rows="3"
-                  placeholder="Edit Biography"
-                />
-              </div>
-              <div
-                v-if="editMode"
-                class="mt-2 mb-2"
-              >
-                <button
-                  type="button"
-                  class="btn btn-dark mr-2"
-                  @click="resetEditedValues()"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-dark"
-                  @click="saveProfile()"
-                >
-                  Save
-                </button>
-              </div>
+                Save
+              </button>
             </div>
           </div>
 
@@ -474,6 +477,14 @@ export default {
     }
   }
 
+  .edit__buttons {
+    margin: .5rem 1rem;
+
+    button {
+      margin-right: .75rem;
+    }
+  }
+
   .profile__editable {
     align-items: center;
     display: flex;
@@ -505,6 +516,14 @@ export default {
       .blurred {
         opacity: 0.4;
       }
+      .input-group.description{
+        margin: .5rem 1rem;
+
+        textarea {
+          min-height: 4rem;
+        }
+      }
+
       .overlay {
         position: absolute;
         top: 0;
@@ -631,8 +650,16 @@ export default {
   }
 }
 
+.description {
+  margin: .5rem 1rem;
+
+  textarea {
+    min-height: 4rem;
+  }
+}
+
 .profile__description {
-  padding: 0.5rem 0;
+  margin: .5rem 1rem;
   color: $tip_note_color;
 }
 

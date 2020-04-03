@@ -326,13 +326,8 @@ export default {
       font-weight: 500;
     }
 
-    .important {
-      color: $secondary_color;
-      font-weight: 500;
-    }
-
     a {
-      color: $wizard_links;
+      color: $custom_links_color;
       cursor: pointer;
       transition: all 0.2s;
 
@@ -355,7 +350,7 @@ export default {
       margin-bottom: 1rem;
       text-align: center;
       a {
-        color: $wizard_links;
+        color: $custom_links_color;
         text-decoration: underline;
       }
     }

@@ -4,13 +4,33 @@
     class="tip__post"
     :class="{ active: !loading.wallet }"
   >
+    <div class="tip__post__label">
+      <label>Send New Tip</label>
+    </div>
     <form @submit.prevent>
-      <div class="form-row">
-        <label class="tip__post__label pl-2">Send Tip</label>
+      <div class="form-group">
+        <img
+          :src="avatar"
+          class="avatar mr-3"
+        >
+        <input
+          v-model="sendTipForm.title"
+          type="text"
+          class="form-control comment"
+          placeholder="Add message"
+        >
       </div>
       <div class="form-row">
-        <div class="form-group col-md-5">
-          <div class="input-group mb-2">
+        <div class="form-group col-md-8">
+          <input
+            v-model.trim="sendTipForm.url"
+            type="text"
+            class="form-control"
+            placeholder="Enter URL"
+          >
+        </div>
+        <div class="form-group col-md-4">
+          <div class="input-group">
             <input
               v-model.number="sendTipForm.amount"
               type="number"
@@ -32,26 +52,6 @@
             </div>
           </div>
         </div>
-        <div class="form-group col-md-7">
-          <input
-            v-model.trim="sendTipForm.url"
-            type="text"
-            class="form-control mb-2"
-            placeholder="Enter URL"
-          >
-        </div>
-      </div>
-      <div class="form-group mb-3">
-        <img
-          :src="avatar"
-          class="avatar mr-3"
-        >
-        <input
-          v-model="sendTipForm.title"
-          type="text"
-          class="form-control comment"
-          placeholder="Add message"
-        >
       </div>
       <div class="text-right">
         <button
@@ -59,14 +59,9 @@
           class="btn btn-primary tip__send"
           @click="sendTip()"
         >
-          Tip
+          <img src="../../assets/iconDiamond.svg">
+          <span>Tip</span>
         </button>
-
-        <!-- <div class="col-sm-4 tip__post__balance pl-2">
-                 <span>{{ balance }} AE
-                   <fiat-value v-if="balance" :amount="balance"></fiat-value>
-                 </span>
-        </div> -->
       </div>
     </form>
   </div>
@@ -153,20 +148,15 @@ export default {
 
       span.append__ae {
         font-size: 0.75rem;
-        background: $background_color;
+        background: $buttons_background;
         cursor: default;
         & .ae{
           color: $secondary_color;
         }
         &:hover {
-          background: $background_color;
+          background: $buttons_background;
           cursor: default;
         }
-      }
-
-      .tip__post__label {
-        font-weight: 600;
-        color: $standard_font_color;
       }
 
       .form-group {
@@ -184,12 +174,14 @@ export default {
           }
           &.comment{
             display: inline-block;
-            width: calc(100% - 3.25rem);
+            width: calc(100% - 3.01rem);
           }
-          background-color: $background_color;
+          background-color: $buttons_background;
           color: $standard_font_color;
           font-size: .75rem;
           border: .05rem solid transparent;
+          height: 2.2rem;
+          margin-bottom: 1rem;
           &:focus{
              border: .05rem solid $custom_links_color;
           }
@@ -208,14 +200,40 @@ export default {
         height: 2rem;
         border-radius: 1rem;
       }
+    }
+    .tip__send {
+      padding: .55rem 2.87rem .65rem 2.87rem;
+      color:$standard_font_color;
+      background-color: $secondary_color;
+      border: none;
+      font-size: .75rem;
+      font-weight: 600;
 
-      .tip__send {
-        padding: .6rem 2.45rem .7rem 2.45rem;
-        color:$standard_font_color;
-        background-color: $custom_links_color;
-        border: none;
-        font-size: .75rem;
-        font-weight: 600;
+      span {
+        vertical-align: inherit;
+        margin-left: .2rem;
+      }
+
+      img {
+        vertical-align: inherit;
+        height: .7rem;
+      }
+    }
+
+    .avatar {
+      vertical-align: middle;
+    }
+
+
+    .tip__post__label {
+      font-weight: 600;
+      font-size: .8rem;
+      color: $standard_font_color;
+      padding: .75rem 1rem;
+      background-color: $light_color;
+
+      label {
+        margin-bottom: 0;
       }
     }
   }

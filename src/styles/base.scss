@@ -61,6 +61,16 @@ a:hover{
   &.small {
     padding: .425rem 1rem .425rem 1rem;
   }
+
+  &.primary {
+    color: $secondary_color;
+    border: .05rem solid $secondary_color;
+
+    &:hover {
+      color: $custom_links_color;
+      border: .05rem solid $custom_links_color;
+    }
+  }
 }
 
 .input-group, .form-group {
@@ -79,15 +89,17 @@ a:hover{
   padding-right: 0;
 
   .form-control {
-    background-color: $background_color;
+    background-color: $buttons_background;
     border: 1px solid $white_color;
     color: $standard_font_color;
     font-size: .75rem;
+    height: 2.2rem;
   }
 
   .input-group-text {
     background-color: $search_icon_backgound;
     border: 1px solid $white_color;
+    height: 2.2rem;
 
     &:hover {
       background-color: $primary_color;

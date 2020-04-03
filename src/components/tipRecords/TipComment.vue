@@ -74,17 +74,23 @@ export default {
 
 
 <style lang="scss" scoped>
-  .comment.tip__record{
+  .comment.tip__record {
     padding-bottom: 0;
     margin-bottom: .5rem;
     border-radius: .5rem;
     background-color: $light_color;
-    .tip__body .tip__note{
-      padding: .5rem 1rem .5rem 1rem;
+
+    .tip__body .tip__note {
+      padding: .35rem 1rem 1rem 1rem;
       color: $comment_text_color;
       height: initial;
       font-size: .7rem;
       font-weight: 400;
+      margin: 0;
+    }
+
+    .tip__author {
+      padding-bottom: 0;
     }
   }
 

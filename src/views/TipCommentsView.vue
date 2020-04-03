@@ -17,7 +17,7 @@
       </div>
       <div class="comment__section">
         <p class="latest__comments">
-          Latest comments
+          Latest Replies
         </p>
         <div class="d-flex">
           <img
@@ -28,17 +28,19 @@
             <input
               v-model="newComment"
               type="text"
-              placeholder="Add comment"
-              class="form-control"
+              placeholder="Add reply"
+              class="form-control reply__input"
             >
-            <b-button
-              size="sm"
-              :disabled="newComment.length === 0 || showLoading"
-              @click="sendTipComment()"
-            >
-              {{ $t('system.Send') }}
-            </b-button>
           </div>
+        </div>
+        <div class="send-comment">
+          <button
+            class="btn btn-primary"
+            :disabled="newComment.length === 0 || showLoading"
+            @click="sendTipComment()"
+          >
+            Reply
+          </button>
         </div>
       </div>
       <div class="comments__section">
@@ -220,7 +222,7 @@ export default {
   }
   .comment__section {
     background-color: $actions_ribbon_background_color;
-    padding: 0.75rem 1rem;
+    padding: .75rem 1rem 0 1rem;
 
     p {
       font-size: .75rem;
@@ -228,6 +230,22 @@ export default {
       margin-bottom: 0.7rem;
       color: white;
       font-weight: 600;
+    }
+  }
+
+  .reply__input {
+    width: 100%;
+  }
+
+  .send-comment {
+    margin-top: .5rem;
+    text-align: right;
+
+    button {
+      padding: .55rem 2.87rem .65rem 2.87rem;
+      background-color: $secondary_color;
+      color: $standard_font_color;
+      border: none;
     }
   }
 }

@@ -69,6 +69,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Backend from '../utils/backend';
+import { USE_DEEP_LINKS } from '../utils/util';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
@@ -78,8 +79,6 @@ import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
 import { EventBus } from '../utils/eventBus';
-
-const backendInstance = new Backend();
 
 export default {
   name: 'TipCommentsView',
@@ -134,29 +133,29 @@ export default {
       return userImage || this.avatar;
     },
     async sendTipComment() {
+      if (USE_DEEP_LINKS) {
+        const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
+        url.searchParams.set('id', this.tip.id);
+        url.searchParams.set('text', this.newComment);
+        url.searchParams.set('x-success', window.location);
+        url.searchParams.set('x-cancel', window.location);
+        window.location = url;
+        return;
+      }
       this.showLoading = true;
-
-      const postData = {
-        tipId: this.tip.id,
-        text: this.newComment,
-        author: wallet.client.rpcClient.getCurrentAccount(),
-      };
-
-      const responseChallenge = await backendInstance.sendTipComment(postData);
-      const signedChallenge = await wallet.signMessage(responseChallenge.challenge);
-      const respondChallenge = {
-        challenge: responseChallenge.challenge,
-        signature: signedChallenge,
-      };
-
-      const response = await backendInstance.sendTipComment(respondChallenge);
+      const response = await Backend.sendTipComment(
+        this.tip.id,
+        this.newComment,
+        wallet.client.rpcClient.getCurrentAccount(),
+        (data) => wallet.signMessage(data),
+      );
       this.comments.push(response);
       this.showLoading = false;
       EventBus.$emit('reloadData');
       this.newComment = '';
     },
     updateTip() {
-      backendInstance.getTipComments(this.id).then((response) => {
+      Backend.getTipComments(this.id).then((response) => {
         this.error = false;
         this.comments = response.map((comment) => {
           const newComment = comment;

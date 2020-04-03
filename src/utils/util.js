@@ -2,10 +2,10 @@ import BigNumber from 'bignumber.js';
 
 const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000000000000000000));
 const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
-export const wrapTry = async (f) => {
+export const wrapTry = async (promise) => {
   try {
     return Promise.race([
-      f().then((res) => {
+      promise.then((res) => {
         if (!res.ok) throw new Error(`Request failed with ${res.status}`);
         return res.json();
       }),
@@ -45,6 +45,7 @@ export const currencySigns = {
 
 export const IS_MOBILE_DEVICE = window.navigator.userAgent.includes('Mobi');
 export const IS_FRAME = window.parent !== window;
+export const USE_DEEP_LINKS = IS_MOBILE_DEVICE && !IS_FRAME;
 
 export default {
   atomsToAe,

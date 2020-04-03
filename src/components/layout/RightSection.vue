@@ -194,6 +194,13 @@ export default {
   }
 }
 
+//Fixes issue: Smaller screens cut part of the footer
+@media (max-width: 1280px) {
+  .topics-section.active {
+    max-height: 12rem;
+  }
+}
+
 @media (min-width: 768px) {
   .app__rightcolumn .content .section__body .section__item {
     font-size: .65rem;

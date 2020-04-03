@@ -135,6 +135,7 @@ export default {
         }
 
         .section__body {
+          padding-bottom: .25rem;
           -ms-overflow-style: none;
           overflow-y: auto;
           scrollbar-width: none;
@@ -158,7 +159,7 @@ export default {
     }
 
     .section__body {
-      padding: .25rem 1rem .25rem 1rem;
+      padding: .25rem 1rem 1rem 1rem;
 
       .section__item {
         font-size: .75rem;

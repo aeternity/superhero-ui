@@ -1,52 +1,77 @@
 import { BACKEND_URL } from '../config/constants';
 import { wrapTry } from './util';
 
+const backendFetch = (path, ...args) => wrapTry(fetch(`${BACKEND_URL}/${path}`, ...args));
+
 export default class Backend {
-  getTipComments = async (tipId) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/tip/${encodeURIComponent(tipId)}`));
+  static getTipComments = async (tipId) => backendFetch(`comment/api/tip/${encodeURIComponent(tipId)}`);
 
-  sendTipComment = async (postParam) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/`, {
+  static async sendTipComment(tipId, text, author, signCb) {
+    const sendComment = async (postParam) => backendFetch('comment/api/', {
+      method: 'post',
+      body: JSON.stringify(postParam),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    const responseChallenge = await sendComment({ tipId, text, author });
+    const signedChallenge = await signCb(responseChallenge.challenge);
+    const respondChallenge = {
+      challenge: responseChallenge.challenge,
+      signature: signedChallenge,
+    };
+
+    return sendComment(respondChallenge);
+  }
+
+  static getAllComments = async () => backendFetch('comment/api/');
+
+  static getProfile = async (address) => backendFetch(`profile/${address}`);
+
+  static sendProfileData = async (postParam) => backendFetch('profile', {
     method: 'post',
     body: JSON.stringify(postParam),
     headers: { 'Content-Type': 'application/json' },
-  }));
+  });
 
-  getAllComments = async () => wrapTry(async () => fetch(`${BACKEND_URL}/comment/api/`));
-
-  getProfile = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/profile/${address}`));
-
-  sendProfileData = async (postParam) => wrapTry(async () => fetch(`${BACKEND_URL}/profile`, {
-    method: 'post',
-    body: JSON.stringify(postParam),
-    headers: { 'Content-Type': 'application/json' },
-  }));
-
-  setProfileImage = async (address, data, image = true) => wrapTry(async () => {
+  static setProfileImage = async (address, data, image = true) => {
     const request = {
       method: 'post',
       body: image ? data : JSON.stringify(data),
     };
     Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
     console.log(request);
-    return fetch(this.getProfileImageUrl(address), request);
-  });
+    return wrapTry(fetch(Backend.getProfileImageUrl(address), request));
+  };
 
-  getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
+  static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 
-  getStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/static/stats/`));
+  static getStats = async () => backendFetch('static/stats/');
 
-  getCacheTips = async (ordering) => wrapTry(async () => fetch(`${BACKEND_URL}/cache/tips?ordering=${ordering}`));
+  static getCacheTipById = async (id) => backendFetch(`cache/tip?id=${id}`);
 
-  getCacheStats = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/stats`));
+  static getCacheUserStats = async (address) => backendFetch(`cache/userStats?address=${address}`);
 
-  getCacheChainNames = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/chainnames`));
+  static getCacheTips = async (ordering, page, address = null, search = null) => {
+    let query = `?ordering=${ordering}&page=${page}`;
+    if (address) query += `&address=${address}`;
+    if (search) query += `&search=${encodeURIComponent(search)}`;
 
-  getPrice = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/price`));
+    return backendFetch(`cache/tips${query}`);
+  };
 
-  getOracleCache = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/oracle`));
+  static getCacheStats = async () => backendFetch('cache/stats');
 
-  cacheInvalidateTips = async () => wrapTry(async () => fetch(`${BACKEND_URL}/cache/invalidate/tips`));
+  static getCacheChainNames = async () => backendFetch('cache/chainnames');
 
-  getCommentCountForAddress = async (address) => wrapTry(async () => fetch(`${BACKEND_URL}/comment/count/author/${address}`));
+  static getPrice = async () => backendFetch('cache/price');
+
+  static getOracleCache = async () => backendFetch('cache/oracle');
+
+  static getTopicsCache = async () => backendFetch('cache/topics');
+
+  static cacheInvalidateTips = async () => backendFetch('cache/invalidate/tips');
+
+  static getCommentCountForAddress = async (address) => backendFetch(`comment/count/author/${address}`);
 
   static getTipPreviewUrl = (previewLink) => `${BACKEND_URL}${previewLink}`;
 

@@ -15,9 +15,6 @@ export default {
   [types.UPDATE_CURRENCY_RATES](state, payload) {
     state.currencyRates = payload;
   },
-  [types.UPDATE_TIPS](state, payload) {
-    state.tips = payload;
-  },
   [types.UPDATE_TOPICS](state, payload) {
     state.topics = payload;
   },
@@ -41,6 +38,12 @@ export default {
   },
   [types.SET_WIZARD_IS_COLLAPSED](state, payload) {
     state.wizardIsCollapsed = payload;
+  },
+  [types.TOGGLE_MOBILE_NAVIGATION](state, payload) {
+    state.hideMobileNavigation = payload;
+  },
+  [types.TOGGLE_TIP_MODAL](state, payload) {
+    state.openTipModal = payload;
   },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {

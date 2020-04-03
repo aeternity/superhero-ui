@@ -27,18 +27,17 @@ aeternity.initProvider = async () => {
   // TESTING
   if (typeof Cypress !== 'undefined') {
     aeternity.contractAddress = 'ct_2GRP3xp7KWrKtZSnYfdcLnreRWrntWf5aTsxtLqpBHp71EFc3i';
-    aeternity.oracleContract = {
-      methods: {
-        get_state: async () => ({ success_claimed_urls: [] }),
-      },
-    };
+    aeternity.oracleContractAddress = 'ct_gAmsWu28jMniDJrdDnZ3FobCTZNVg1DQRSyeQF95Hux6rtdG';
     aeternity.client = await Universal({
       compilerUrl: 'https://latest.compiler.aepps.com',
-      nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],
+      nodes: [{ name: 'testnet', instance: await Node({ url: 'https://testnet.aeternity.io', internalUrl: 'https://testnet.aeternity.io' }) }],
       accounts: [
         MemoryAccount({ keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey') } }),
       ],
       address: Cypress.env('publicKey'),
+    });
+    aeternity.initTippingContractIfNeeded().then(() => {
+      aeternity.contract.methods.migrate_balance(Cypress.env('publicKey'));
     });
   }
 };

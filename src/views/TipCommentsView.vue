@@ -1,5 +1,6 @@
 <template>
   <div>
+    <mobile-navigation />
     <right-section />
     <left-section />
     <div class="container wrapper url__page">
@@ -69,16 +70,17 @@
 import { mapGetters } from 'vuex';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
+import { USE_DEEP_LINKS } from '../utils/util';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 // eslint-disable-next-line import/no-cycle
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
-
-const backendInstance = new Backend();
+import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'TipCommentsView',
@@ -88,6 +90,7 @@ export default {
     TipComment,
     LeftSection,
     RightSection,
+    MobileNavigation,
   },
   data() {
     return {
@@ -97,13 +100,11 @@ export default {
       error: false,
       newComment: '',
       avatar: defaultAvatar,
+      tip: null,
     };
   },
   computed: {
-    ...mapGetters(['tips', 'settings', 'account', 'chainNames', 'isLoggedIn']),
-    tip() {
-      return this.tips.find((x) => x.id === parseInt(this.id, 10));
-    },
+    ...mapGetters(['settings', 'account', 'chainNames', 'isLoggedIn']),
   },
   watch: {
     tip() {
@@ -111,13 +112,22 @@ export default {
     },
   },
   created() {
-    this.updateTip();
+    this.loadTip();
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
         this.avatar = this.getAvatar(this.account);
         clearInterval(loadUserAvatar);
       }
     }, 500);
+
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+
+    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   methods: {
     getAvatar(address) {
@@ -125,28 +135,29 @@ export default {
       return userImage || this.avatar;
     },
     async sendTipComment() {
+      if (USE_DEEP_LINKS) {
+        const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
+        url.searchParams.set('id', this.tip.id);
+        url.searchParams.set('text', this.newComment);
+        url.searchParams.set('x-success', window.location);
+        url.searchParams.set('x-cancel', window.location);
+        window.location = url;
+        return;
+      }
       this.showLoading = true;
-
-      const postData = {
-        tipId: this.tip.id,
-        text: this.newComment,
-        author: wallet.client.rpcClient.getCurrentAccount(),
-      };
-
-      const responseChallenge = await backendInstance.sendTipComment(postData);
-      const signedChallenge = await wallet.signMessage(responseChallenge.challenge);
-      const respondChallenge = {
-        challenge: responseChallenge.challenge,
-        signature: signedChallenge,
-      };
-
-      const response = await backendInstance.sendTipComment(respondChallenge);
+      const response = await Backend.sendTipComment(
+        this.tip.id,
+        this.newComment,
+        wallet.client.rpcClient.getCurrentAccount(),
+        (data) => wallet.signMessage(data),
+      );
       this.comments.push(response);
       this.showLoading = false;
+      EventBus.$emit('reloadData');
       this.newComment = '';
     },
     updateTip() {
-      backendInstance.getTipComments(this.id).then((response) => {
+      Backend.getTipComments(this.id).then((response) => {
         this.error = false;
         this.comments = response.map((comment) => {
           const newComment = comment;
@@ -159,6 +170,15 @@ export default {
         this.error = true;
         this.showLoading = false;
       });
+    },
+    async reloadData() {
+      this.tip = await Backend.getCacheTipById(this.id);
+      this.updateTip();
+    },
+    async loadTip() {
+      this.showLoading = true;
+      await this.reloadData();
+      this.showLoading = false;
     },
   },
 };

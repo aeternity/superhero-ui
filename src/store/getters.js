@@ -12,9 +12,6 @@ export const getters = {
   isLoggedIn(state) {
     return state.isLoggedIn;
   },
-  tips(state) {
-    return state.tips;
-  },
   topics(state) {
     return state.topics;
   },
@@ -41,5 +38,11 @@ export const getters = {
   },
   wizardIsCollapsed(state) {
     return state.wizardIsCollapsed;
+  },
+  isMobileNavigationHidden(state) {
+    return state.hideMobileNavigation;
+  },
+  isTipModalOpen(state) {
+    return state.openTipModal;
   },
 };

@@ -1,10 +1,11 @@
 <template>
   <div>
+    <mobile-navigation />
     <right-section />
     <left-section />
     <loading
       v-if="loading.initial"
-      class="mt-5"
+      class="initial-loading"
       :show-loading="true"
     />
     <div v-else>
@@ -22,14 +23,16 @@
             class="clear"
             @click="searchTerm = ''"
           >
+            <img src="../assets/iconEraser.svg">
+          </div>
+          <div
+            class="close-mobile-nav"
+            @click="toggleMobileNavigation(false)"
+          >
             &#x2715;
           </div>
         </div>
       </div>
-      <loading
-        :show-loading="loading.tips"
-        class="loading-position"
-      />
       <div class="container wrapper">
         <onboarding v-if="!loading.initial && !loading.wallet && !isLoggedIn" />
         <div class="tips__container">
@@ -46,6 +49,7 @@
                   {{ $t('pages.Home.SortingMostPopular') }}
                 </a>
                 <a
+                  id="sort-latest"
                   :class="{ active: tipSortBy === 'latest' }"
                   @click="setTipSortBy('latest')"
                 >
@@ -60,20 +64,11 @@
               </div>
             </div>
           </div>
-          <tip-record
-            v-for="(tip,index) in filteredTips"
-            :key="index"
-            :tip="tip"
-            :fiat-value="tip.fiatValue"
-            :sender-link="openExplorer(tip.sender)"
+          <TipsPagination
+            :tip-sort-by="tipSortBy"
+            :search="searchTerm"
           />
         </div>
-      </div>
-      <div
-        v-if="filteredTips !== null && !loading.tips && filteredTips.length === 0"
-        class="no-results text-center"
-      >
-        {{ $t('pages.Home.NoResultsMsg') }}
       </div>
     </div>
   </div>
@@ -82,28 +77,28 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
-import TipRecord from '../components/tipRecords/TipRecord.vue';
 import SendTip from '../components/layout/SendTip.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
-import { MIDDLEWARE_URL } from '../config/constants';
+import TipsPagination from '../components/TipsPagination.vue';
 
 export default {
   name: 'TipsList',
   components: {
+    TipsPagination,
     Onboarding,
     Loading,
-    TipRecord,
     LeftSection,
     RightSection,
     SendTip,
+    MobileNavigation,
   },
   data() {
     return {
-      explorerUrl: `${MIDDLEWARE_URL}account/transactions/`,
       searchTerm: '',
       activeLang: 'en',
       languagesOptions: [
@@ -113,40 +108,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['tips', 'tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
-    filteredTips() {
-      if (this.searchTerm.trim().length === 0) {
-        return this.tips;
-      }
-      const term = this.searchTerm.toLowerCase();
-
-      const urlSearchResults = this.tips.filter((tip) => {
-        if (typeof tip.url !== 'undefined') {
-          return tip.url.toLowerCase().includes(term);
-        }
-        return false;
-      });
-      const senderSearchResults = this.tips.filter((tip) => {
-        if (typeof tip.sender !== 'undefined') {
-          return tip.sender.toLowerCase().includes(term);
-        }
-        return false;
-      });
-      const noteSearchResults = this.tips.filter((tip) => {
-        if (typeof tip.title !== 'undefined') {
-          return tip.title.toLowerCase().includes(term);
-        }
-        return false;
-      });
-      // We convert the result array to Set in order to remove duplicate records
-      const convertResultToSet = new Set(
-        [...urlSearchResults, ...senderSearchResults, ...noteSearchResults],
-      );
-      return [...convertResultToSet];
-    },
+    ...mapGetters(['tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
   },
   async created() {
     EventBus.$on('searchTopic', (topic) => {
+      window.scrollTo(0, 0);
       this.onSearchTopic(topic);
     });
 
@@ -155,12 +121,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setTipSortBy']),
+    ...mapActions(['setTipSortBy', 'toggleMobileNavigation']),
     onSearchTopic(data) {
       this.searchTerm = data;
-    },
-    openExplorer(address) {
-      return this.explorerUrl + address;
     },
   },
 };
@@ -186,13 +149,6 @@ export default {
     }
   }
 
-  .loading-position {
-    position: fixed;
-    left: 50%;
-    transform: translate( -50%);
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
   .send__tip__container{
     margin-bottom: .15rem;
   }
@@ -252,9 +208,11 @@ export default {
     }
   }
 
-  .clear{
-    font-size: .75rem;
-    color: $standard_font_color;
+  .clear {
+    img {
+      height: .75rem;
+      width: .9rem;
+    }
     right: 1rem;
     @include vertical-align($position: absolute);
     z-index: 10;
@@ -263,10 +221,18 @@ export default {
     }
   }
 
-  .no-results{
+  .close-mobile-nav {
+    display: none;
+  }
+
+  .no-results {
     color: $standard_font_color;
     font-size: .75rem;
     margin-bottom: 4rem;
+  }
+
+  .initial-loading {
+    margin-top: 5rem;
   }
 
 @media only screen and (max-width: 768px){
@@ -295,12 +261,6 @@ export default {
   }
 }
 
-@media (min-width: 992px) {
-  .loading-position {
-    left: calc(50% - 3rem);
-  }
-}
-
 //Smallest devices Portrait and Landscape
 @media only screen
   and (min-device-width: 320px)
@@ -308,7 +268,7 @@ export default {
   and (-webkit-min-device-pixel-ratio: 2) {
 
   .search__input{
-    padding: .5rem 2.5rem .5rem 1rem;
+    padding: .5rem 3.5rem .5rem 1rem;
   }
   .actions__container{
       width: 100%;
@@ -354,6 +314,30 @@ export default {
     .tips__container{
       padding: 0;
     }
+  }
+
+  .clear {
+    right: 2.5rem;
+
+    img{
+      vertical-align: baseline;
+    }
+  }
+
+  .close-mobile-nav {
+    display: block;
+    font-size: 1rem;
+    color: $standard_font_color;
+    right: 1rem;
+    @include vertical-align($position: absolute);
+    z-index: 10;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+  .send__tip__container {
+    display: none;
   }
 
 }

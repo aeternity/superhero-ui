@@ -6,6 +6,7 @@ import Terms from './views/Terms.vue';
 import Privacy from './views/Privacy.vue';
 import FAQ from './views/FAQ.vue';
 import Maintenance from './views/Maintenance.vue';
+import Mission from './views/Mission.vue';
 import CreateProfile from './views/CreateProfile.vue';
 
 const guardTipComments = (to, from, next) => {
@@ -83,12 +84,21 @@ const routes = [
       title: 'Maintenance',
     },
   },
+  {
+    path: '/mission',
+    name: 'mission',
+    component: Mission,
+    meta: {
+      title: 'Mission Page',
+    },
+  },
 ];
 
 const router = new Router({ mode: 'hash', routes });
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - Superhero.com`;
+  window.scrollTo(0, 0);
   next();
 });
 

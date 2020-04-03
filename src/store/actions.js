@@ -10,9 +10,6 @@ export default {
   updateCurrencyRates({ commit }, payload) {
     commit(types.UPDATE_CURRENCY_RATES, payload);
   },
-  updateTips({ commit }, payload) {
-    commit(types.UPDATE_TIPS, payload);
-  },
   updateTopics({ commit }, payload) {
     commit(types.UPDATE_TOPICS, payload);
   },
@@ -42,5 +39,11 @@ export default {
   },
   setWizardIsCollapsed({ commit }, payload) {
     commit(types.SET_WIZARD_IS_COLLAPSED, Boolean(payload));
+  },
+  toggleMobileNavigation({ commit }, payload) {
+    commit(types.TOGGLE_MOBILE_NAVIGATION, Boolean(payload));
+  },
+  toggleTipModal({ commit }, payload) {
+    commit(types.TOGGLE_TIP_MODAL, Boolean(payload));
   },
 };

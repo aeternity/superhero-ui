@@ -3,14 +3,20 @@
     <div v-if="view === 'recharge'">
       <div class="recharge">
         <h1>We're recharging our powers.</h1>
-        <img class="maintenance--image" src="../assets/recharge.gif">
+        <img
+          class="maintenance--image"
+          src="../assets/recharge.gif"
+        >
         <h2>We'll be up, up and away in no time.</h2>
       </div>
     </div>
     <div v-if="view === 'cleaning'">
       <div class="cleaning">
         <h1>Cleaning up the HQ.</h1>
-        <img class="maintenance--image" src="../assets/ShieldFill.svg">
+        <img
+          class="maintenance--image"
+          src="../assets/ShieldFill.svg"
+        >
         <h2>We'll be flying again in a few minutes.</h2>
       </div>
     </div>

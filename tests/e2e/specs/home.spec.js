@@ -1,5 +1,8 @@
 describe('Home.vue', () => {
   const randomString = [...Array(20)].map(() => Math.random().toString(36)[2]).join('');
+  const testTipAmount = 0.1;
+  const testRetipAmount = 0.01;
+  const testUrl = 'https://aeternity.com';
 
   describe('Home page', () => {
     before(() => {
@@ -7,7 +10,7 @@ describe('Home.vue', () => {
         .visit('/');
     });
 
-    it('creates new tip, navigates to home, sorts by latest, new tip is visible', () => {
+    it('creates new tip, navigates to home, sorts by latest, new tip is visible, can retip a tip', () => {
       cy
         .get('.home > a')
         .should('have.class', 'router-link-exact-active')
@@ -23,50 +26,41 @@ describe('Home.vue', () => {
 
         .get('.form-control')
         .first()
-        .type('0.1')
+        .type(testTipAmount)
         .get('.form-control')
         .eq(1)
-        .type('https://aeternity.com')
+        .type(testUrl)
         .get('.form-control')
         .last()
         .type(randomString, { force: true })
         .get('.tip__send')
         .click()
+        .wait(10000)
+        .then(($btn) => {
+          if (!$btn.is(':disabled')) {
+            cy.wrap($btn).click();
+          }
+        });
+
+      cy
         .get('.form-control')
-        .last({ timeout: 50000 })
+        .last({ timeout: 100000 })
         .should('not.have.value', randomString)
-        .get('.spinner-border', { timeout: 50000 })
-        .should('not.be.visible')
 
         .get('#sort-latest')
         .click()
         .get('a.active')
         .should('contain', 'Latest')
 
-        .get('.spinner-border', { timeout: 50000 })
-        .should('not.be.visible')
         .get('.tip__note')
-        .first({ timeout: 50000 })
+        .first({ timeout: 100000 })
         .should('contain', randomString)
 
         .contains(randomString)
         .click()
         .url()
-        .should('contain', '/tip/');
-    });
-  });
+        .should('contain', '/tip/')
 
-  describe('Retip', () => {
-    before(() => {
-      cy
-        .visit('/')
-        .server()
-        .route('/v2/accounts/ak_fUq2NesPXcYZ1CcqBcGC3StpdnQw3iVxMA3YSeCNAwfN4myQk').as('getAccount');
-    });
-
-    it('can retip a tip', () => {
-      cy
-        .wait('@getAccount', { timeout: 25000 })
         .get('.retip__icon--retip ~ span > span:first-child', { timeout: 25000 })
         .first()
         .invoke('text')
@@ -78,20 +72,25 @@ describe('Home.vue', () => {
         .should('be.visible')
         .get('.retip__container input.retip__value')
         .first()
-        .type('0.01')
+        .type(testRetipAmount)
         .get('.retip__container .retip__button')
         .first()
         .click()
         .get('.retip__wrapper')
         .should('be.visible')
-        .get('.retip__container', { timeout: 100000 })
-        .should('not.be.visible')
-        .get('.spinner-border', { timeout: 50000 })
-        .should('not.be.visible')
+        .wait(15000)
+        .get('body')
+        .then(($body) => {
+          if (!$body.find('div.retip__container')) {
+            console.log($body.find('div.navigation__item.home'));
+            cy.wrap($body.find('div.navigation__item.home > a > span')[0]).click({ force: true });
+          }
+        });
+      cy
         .get('@oldValue')
         .then((oldValue) => cy
-          .get('.retip__icon--retip ~ span > span:first-child', { timeout: 15000 })
-          .first()
+          .get('.retip__icon--retip ~ span > span:first-child')
+          .first({ timeout: 50000 })
           .invoke('text')
           .should('not.equal', oldValue));
     });

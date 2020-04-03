@@ -23,7 +23,7 @@
         v-if="$route.name === 'home'"
         v-show="Object.keys(account).length && balance"
         class="tip"
-        src="../../assets/emptyHeart.svg"
+        src="../../assets/iconDiamond.svg"
         @click="toggleTipModal(true)"
       >
       <img
@@ -105,6 +105,10 @@ export default {
 
       img {
         margin-left: 1rem
+      }
+
+      .tip {
+        height: .9rem;
       }
     }
 

@@ -523,7 +523,7 @@ export default {
           min-height: 4rem;
         }
       }
-      
+
       .overlay {
         position: absolute;
         top: 0;

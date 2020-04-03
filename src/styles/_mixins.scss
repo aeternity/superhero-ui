@@ -1,3 +1,5 @@
+// This file is included multiple times in every scss file and component, do not put any rendered styles
+
 @mixin vertical-align($position: relative) {
   position: $position;
   top: 50%;

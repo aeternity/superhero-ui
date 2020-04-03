@@ -1,123 +1,215 @@
 <template>
-  <div class="container url__page">
-    <div class="actions-ribbon">
-      <div class="row">
-         <a class="back-url col-md-6 col-sm-12" href="/"><img src="../assets/backArrow.svg">{{$t('pages.TipComments.BackTo')}}<span> AE</span> {{$t('pages.TipComments.records')}}</a> 
-        <!-- <div class="col-md-6 col-sm-12 text-right sorting">
-          <a>Date</a>
-          <a>AE Records</a>
-          <a>Comments</a>
-          <a>All</a>
-        </div> -->
+  <div>
+    <mobile-navigation />
+    <right-section />
+    <left-section />
+    <div class="container wrapper url__page">
+      <div class="actions-ribbon">
+        <router-link :to="{ name: 'home' }">
+          <img src="../assets/backArrow.svg">
+        </router-link>
       </div>
-    </div>
-    <div class="tipped__url">
-      <tip-record :tip="tip" :defaultCurrency="defaultCurrency" :fiatValue="tip.fiatValue" @updateComment="onUpdateComment" :senderLink="openExplorer(tip.sender)"></tip-record>
-    </div>
-    <div class="comments__section position-relative">
-      <div class="no-results text-center w-100" v-bind:class="[error == true? 'error' : '']" v-if="comments.length == 0 && !loading">{{$t('pages.TipComments.NoResultsMsg')}}</div>
-      <tip-comment v-for="(comment, index) in comments" :key="index"  :comment="comment" :senderLink="openExplorer(comment.author)"></tip-comment>
-      <div class="text-center spinner__container w-100" v-if="loading">
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
+      <div
+        v-if="tip"
+        class="tipped__url"
+      >
+        <tip-record :tip="tip" />
+      </div>
+      <div class="comment__section">
+        <p class="latest__comments">
+          Latest Replies
+        </p>
+        <div class="d-flex">
+          <img
+            class="mr-3 avatar"
+            :src="avatar"
+          >
+          <div class="input-group">
+            <input
+              v-model="newComment"
+              type="text"
+              placeholder="Add reply"
+              class="form-control reply__input"
+            >
+          </div>
+        </div>
+        <div class="send-comment">
+          <button
+            class="btn btn-primary"
+            :disabled="newComment.length === 0 || showLoading"
+            @click="sendTipComment()"
+          >
+            Reply
+          </button>
         </div>
       </div>
-       <!-- <tip-comment v-if="tip != undefined" :tip="tip"></tip-comment> -->
-      <!-- <retip-component v-if="tip != undefined" :tip="tip"></retip-component>  -->
+      <div class="comments__section">
+        <div
+          v-if="comments.length === 0 && !showLoading"
+          class="no-results text-center w-100"
+          :class="[error ? 'error' : '']"
+        >
+          {{ $t('pages.TipComments.NoResultsMsg') }}
+        </div>
+
+        <tip-comment
+          v-for="(comment, index) in comments"
+          :key="index"
+          :comment="comment"
+        />
+        <div
+          v-if="showLoading"
+          class="text-center w-100 mt-3"
+        >
+          <loading :show-loading="true" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import Backend from "../utils/backend";
-  import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
-  import TipComment from "../components/tipRecords/TipCommentComponent.vue"
-  import RetipComment from "../components/tipRecords/RetipComponent.vue"
+import { mapGetters } from 'vuex';
+// eslint-disable-next-line import/no-cycle
+import Backend from '../utils/backend';
+import { USE_DEEP_LINKS } from '../utils/util';
+import TipRecord from '../components/tipRecords/TipRecord.vue';
+import TipComment from '../components/tipRecords/TipComment.vue';
+import LeftSection from '../components/layout/LeftSection.vue';
+import RightSection from '../components/layout/RightSection.vue';
+// eslint-disable-next-line import/no-cycle
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import { wallet } from '../utils/walletSearch';
+import Loading from '../components/Loading.vue';
+import defaultAvatar from '../assets/userAvatar.svg';
+import { EventBus } from '../utils/eventBus';
 
-  const backendInstance = new Backend();
-
-  export default {
-    name: 'TipCommentsView',
-    components: {
-      'tip-record': TipRecord,
-      'tip-comment': TipComment,
-      'retip-component': RetipComment,
+export default {
+  name: 'TipCommentsView',
+  components: {
+    Loading,
+    TipRecord,
+    TipComment,
+    LeftSection,
+    RightSection,
+    MobileNavigation,
+  },
+  data() {
+    return {
+      id: this.$route.params.id,
+      showLoading: true,
+      comments: [],
+      error: false,
+      newComment: '',
+      avatar: defaultAvatar,
+      tip: null,
+    };
+  },
+  computed: {
+    ...mapGetters(['settings', 'account', 'chainNames', 'isLoggedIn']),
+  },
+  watch: {
+    tip() {
+      this.updateTip();
     },
-    props: ['tipData'],
-     data() {
-      return {
-        explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
-        tip: this.tipData,
-        defaultCurrency: 'eur',
-        loading: false,
-        comments: [],
-        error: false
+  },
+  created() {
+    this.loadTip();
+    const loadUserAvatar = setInterval(() => {
+      if (this.isLoggedIn) {
+        this.avatar = this.getAvatar(this.account);
+        clearInterval(loadUserAvatar);
       }
-    },
-    methods: {
+    }, 500);
 
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+
+    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
+  methods: {
+    getAvatar(address) {
+      const userImage = Backend.getProfileImageUrl(address);
+      return userImage || this.avatar;
     },
-    methods: {
-      openExplorer(address) {
-        return this.explorerUrl + address
-      },
-      onUpdateComment(data){
-        this.comments.push(data);
+    async sendTipComment() {
+      if (USE_DEEP_LINKS) {
+        const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
+        url.searchParams.set('id', this.tip.id);
+        url.searchParams.set('text', this.newComment);
+        url.searchParams.set('x-success', window.location);
+        url.searchParams.set('x-cancel', window.location);
+        window.location = url;
+        return;
       }
+      this.showLoading = true;
+      const response = await Backend.sendTipComment(
+        this.tip.id,
+        this.newComment,
+        wallet.client.rpcClient.getCurrentAccount(),
+        (data) => wallet.signMessage(data),
+      );
+      this.comments.push(response);
+      this.showLoading = false;
+      EventBus.$emit('reloadData');
+      this.newComment = '';
     },
-    created(){
-      this.loading = true;
-      backendInstance.getTipComments(this.tip.tipId).then((response) => {
-        this.loading = false;
+    updateTip() {
+      Backend.getTipComments(this.id).then((response) => {
         this.error = false;
-        if(typeof response !== 'undefined' && response.length > 0){
-          this.comments = response;
-        }
-      }).catch(err => {
+        this.comments = response.map((comment) => {
+          const newComment = comment;
+          newComment.chainName = this.chainNames[newComment.author];
+          return newComment;
+        });
+        this.showLoading = false;
+      }).catch((e) => {
+        console.error(e);
         this.error = true;
-        this.loading = false;
+        this.showLoading = false;
       });
-    }
-  }
+    },
+    async reloadData() {
+      this.tip = await Backend.getCacheTipById(this.id);
+      this.updateTip();
+    },
+    async loadTip() {
+      this.showLoading = true;
+      await this.reloadData();
+      this.showLoading = false;
+    },
+  },
+};
 </script>
 
 
 <style lang="scss" scoped>
-  @import "../styles/base";
 .url__page{
   color: $light_font_color;
   font-size: .75rem;
-  .actions-ribbon{
-    padding: 1rem .5rem .5rem .5rem;
-    .sorting a{
-      margin-right: .5rem;
-      &:last-child{
-        margin-right: 0;
+
+  .avatar{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+  }
+  .input-group{
+    width: calc(100% - 2.5rem)
+  }
+  .tipped__url{
+    .tip__record{
+      margin-bottom: 0;
+      &.row{
+        background-color: $actions_ribbon_background_color;
       }
     }
   }
-  .tipped__url{
-    border-bottom: .065rem solid $secondary_color;
-    .tip__record{
-      margin-bottom: 0;
-    }
-  } 
-  .back-url,.sorting a{
-    cursor: pointer;
-  }
-  .back-url{
-    span{
-      color: $secondary_color;
-    }
-    img{
-      width: 1rem;
-      margin-right: .25rem;
-    }
-  }
   .comments__section{
-    min-height: 65vh;
-    background-color: $tip_list_background_color;
-    overflow-y: auto;
+    background-color: $actions_ribbon_background_color;
     padding: 1rem;
   }
   .no-results{
@@ -128,9 +220,33 @@
       color: red;
     }
   }
-  .spinner__container,.no-results{
-    left: 0;
-    @include vertical-align($position: absolute);
+  .comment__section {
+    background-color: $actions_ribbon_background_color;
+    padding: .75rem 1rem 0 1rem;
+
+    p {
+      font-size: .75rem;
+      text-transform: capitalize;
+      margin-bottom: 0.7rem;
+      color: white;
+      font-weight: 600;
+    }
+  }
+
+  .reply__input {
+    width: 100%;
+  }
+
+  .send-comment {
+    margin-top: .5rem;
+    text-align: right;
+
+    button {
+      padding: .55rem 2.87rem .65rem 2.87rem;
+      background-color: $secondary_color;
+      color: $standard_font_color;
+      border: none;
+    }
   }
 }
 </style>

@@ -1,31 +1,60 @@
-import Util from './util'
-import CONTRACT_TIP_ANY from '../contracts/WaelletTipAnyBasicInterface.aes'
-import { Node, Universal, Aepp, MemoryAccount } from '@aeternity/aepp-sdk/es';
+/* globals Cypress */
+
+import {
+  Aepp, MemoryAccount, Node, Universal,
+} from '@aeternity/aepp-sdk/es';
+import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
+import ORACLE_INTERFACE from '../contracts/OracleServiceInterface.aes';
+import TippingContractUtil from './tippingContractUtil';
+import { EventBus } from './eventBus';
 
 const aeternity = {
   client: null,
   contract: null,
-  contractAddress: 'ct_cT9mSpx9989Js39ag45fih2daephb7YsicsvNdUdEB156gT5C'
+  contractAddress: 'ct_2AfnEfCSZCTEkxL5Yoi4Yfq6fF7YapHRaFKDJK3THMXMBspp5z',
+  oracleContract: null,
+  oracleContractAddress: 'ct_2VpQ1QGXy7KA2rsQmC4QraFKwQam3Ksqq3cAK8KHUNwhoiQkL',
 };
 
-const timeout = async (promise) => {
-  return Promise.race([
-    promise,
-    new Promise(resolve =>
-      setTimeout(() => {
-        resolve('TIMEOUT');
-      }, 30000))
-  ]);
+const timeout = async (promise) => Promise.race([
+  promise,
+  new Promise((resolve) => setTimeout(() => {
+    resolve('TIMEOUT');
+  }, 30000)),
+]);
+
+aeternity.initProvider = async () => {
+  // TESTING
+  if (typeof Cypress !== 'undefined') {
+    aeternity.contractAddress = 'ct_2GRP3xp7KWrKtZSnYfdcLnreRWrntWf5aTsxtLqpBHp71EFc3i';
+    aeternity.oracleContractAddress = 'ct_gAmsWu28jMniDJrdDnZ3FobCTZNVg1DQRSyeQF95Hux6rtdG';
+    aeternity.client = await Universal({
+      compilerUrl: 'https://latest.compiler.aepps.com',
+      nodes: [{ name: 'testnet', instance: await Node({ url: 'https://testnet.aeternity.io', internalUrl: 'https://testnet.aeternity.io' }) }],
+      accounts: [
+        MemoryAccount({ keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey') } }),
+      ],
+      address: Cypress.env('publicKey'),
+    });
+    aeternity.initTippingContractIfNeeded().then(() => {
+      aeternity.contract.methods.migrate_balance(Cypress.env('publicKey'));
+    });
+  }
 };
 
-aeternity.initProvider = async (force = false) => {
-  try {
-    if (force || aeternity.contractAddress && !aeternity.contract)
-      aeternity.contract = await aeternity.client.getContractInstance(CONTRACT_TIP_ANY, {contractAddress: aeternity.contractAddress});
-    return true;
-  } catch (e) {
-    console.error(e);
-    return false
+aeternity.initTippingContractIfNeeded = async () => {
+  if (!aeternity.client) throw new Error('Init sdk first');
+  if (!aeternity.contract) {
+    aeternity.contract = await aeternity.client
+      .getContractInstance(TIPPING_INTERFACE, { contractAddress: aeternity.contractAddress });
+  }
+};
+
+aeternity.initOracleContractIfNeeded = async () => {
+  if (!aeternity.client) throw new Error('Init sdk first');
+  if (!aeternity.oracleContract) {
+    aeternity.oracleContract = await aeternity.client
+      .getContractInstance(ORACLE_INTERFACE, { contractAddress: aeternity.oracleContractAddress });
   }
 };
 
@@ -39,27 +68,21 @@ aeternity.initMobileBaseAepp = async () => {
   }
 };
 
-aeternity.initStaticClient = async () => {
-  return Universal({
-    compilerUrl: 'https://compiler.aepps.com',
-    nodes: [
-      {
-        name: 'mainnet',
-        instance: await Node({
-          url: 'https://sdk-mainnet.aepps.com',
-          internalUrl: 'https://sdk-mainnet.aepps.com',
-        })
-      }]
-  });
-};
+aeternity.initStaticClient = async () => Universal({
+  compilerUrl: 'https://latest.compiler.aepps.com',
+  nodes: [
+    {
+      name: 'mainnet',
+      instance: await Node({
+        url: 'https://sdk-mainnet.aepps.com',
+        internalUrl: 'https://sdk-mainnet.aepps.com',
+      }),
+    }],
+});
 
-aeternity.hasActiveWallet = () => {
-  return !!aeternity.client;
-};
+aeternity.hasActiveWallet = () => !!aeternity.client;
 
-aeternity.isTestnet = () => {
-  return aeternity.networkId !== 'ae_mainnet';
-};
+aeternity.isTestnet = () => aeternity.networkId !== 'ae_mainnet';
 
 /**
  * Initializes the aeternity sdk to be imported in other occasions
@@ -68,24 +91,12 @@ aeternity.isTestnet = () => {
 aeternity.initClient = async () => {
   let result = true;
 
-  if (process && process.env && process.env.PRIVATE_KEY && process.env.PUBLIC_KEY) {
-    aeternity.client = await Universal({
-      compilerUrl: 'https://compiler.aepps.com',
-      nodes: [{ name: 'testnet', instance: await Node({ url: 'https://sdk-testnet.aepps.com', internalUrl: 'https://sdk-testnet.aepps.com' }) }],
-      accounts: [
-        MemoryAccount({ keypair: { secretKey: process.env.PRIVATE_KEY, publicKey: process.env.PUBLIC_KEY } }),
-      ],
-      address: process.env.PUBLIC_KEY,
-    });
-    return await aeternity.initProvider();
-  }
-
   if (!aeternity.client) {
     try {
       aeternity.client = await aeternity.initStaticClient();
       result = await aeternity.initProvider();
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      EventBus.$emit('backendError');
       result = false;
     }
   } else {
@@ -94,28 +105,35 @@ aeternity.initClient = async () => {
   return result;
 };
 
-const parseTips = (tips) => {
-  return tips.map(([tip, data]) => {
-    data.url = tip[0];
-    data.tipId = tip[0] + "," + tip[1];
-    data.amount = Util.atomsToAe(data.amount);
-    return data;
-  });
+aeternity.getOracleState = async () => {
+  await aeternity.initOracleContractIfNeeded();
+
+  const state = await aeternity.oracleContract.methods.get_state();
+  return state.decodedResult;
 };
 
 aeternity.getTips = async () => {
-  const contractState = (await aeternity.contract.methods.get_state()).decodedResult;
-  return parseTips(contractState.tips);
+  await aeternity.initTippingContractIfNeeded();
+
+  const result = await aeternity.contract.methods.get_state();
+  return TippingContractUtil.getTipsRetips(result.decodedResult);
 };
 
-aeternity.getTip = async (id) => {
-  const tips = await aeternity.getTips();
-  return tips.find(tip => tip.tipId === id);
+aeternity.retip = async (id, amount) => {
+  await aeternity.initTippingContractIfNeeded();
+
+  return aeternity.contract.methods.retip(id, { amount });
+};
+
+aeternity.tip = async (url, title, amount) => {
+  await aeternity.initTippingContractIfNeeded();
+
+  return aeternity.contract.methods.tip(url, title, { amount });
 };
 
 aeternity.verifyAddress = async () => {
   const currAddress = await aeternity.client.address();
-  return currAddress !== aeternity.address
+  return currAddress !== aeternity.address;
 };
 
-export default aeternity
+export default aeternity;

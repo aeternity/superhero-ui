@@ -1,46 +1,167 @@
-@import "variables";
-@import "mixins";
-
 //Bootstrap customizations go here:
 $theme-colors: (
   "primary": $primary_color,
   "light": $light_color
-); 
+);
 
+@import "fonts";
 @import "node_modules/bootstrap/scss/bootstrap";
 @import 'node_modules/bootstrap-vue/src/index.scss';
 
 /* Global Styles */
-body{
-  font-family: 'Roboto', 'Helvetica', 'Arial', 'sans-serif';
+body {
   background-color: $background_color;
+  color: $primary_color;
+  font-family: 'Roboto', 'Helvetica', 'Arial', 'sans-serif';
+  overflow-x: hidden;
+  overflow-y: overlay;
 }
 
-.btn{
+a:hover{
+  text-decoration: none;
+}
+
+.btn {
   font-size: .75rem;
-  &.btn-light{
+
+  &.btn-light {
     color: $primary_color;
   }
 }
 
-.app-container{
-  margin: 0 auto;
-  width: 90vw;
-  padding: 3.5rem 0;
-}
-
- .articles-section{
-  width: $article_section_width;
- }
-
- .content-area{
-  width: calc(100% - #{$article_section_width});
- }
-
- /* Helpers */
- .text-ellipsis{
-  white-space: nowrap;
+/* Helpers */
+.text-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+.vertical-align-mid {
+  vertical-align: middle;
+}
+
+.button, a.button {
+  background: transparent;
+  border: .05rem solid $standard_font_color;
+  border-radius: .25rem;
+  color: $standard_font_color;
+  display: inline-block;
+  font-size: .75rem;
+  font-weight: 600;
+  padding: .625rem 2.15rem .725rem 2.15rem;
+  text-align: center;
+
+  &:hover {
+    border: .05rem solid $custom_links_color;
+    color: $custom_links_color;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  &.small {
+    padding: .425rem 1rem .425rem 1rem;
+  }
+
+  &.primary {
+    color: $secondary_color;
+    border: .05rem solid $secondary_color;
+
+    &:hover {
+      color: $custom_links_color;
+      border: .05rem solid $custom_links_color;
+    }
+  }
+}
+
+.input-group, .form-group {
+  .form-control {
+    border: .05rem solid transparent;
+    box-shadow: none;
+
+    &:focus {
+      border: .05rem solid $custom_links_color;
+    }
+  }
+}
+
+.input-group {
+  padding-left: 0;
+  padding-right: 0;
+
+  .form-control {
+    background-color: $buttons_background;
+    border: 1px solid $white_color;
+    color: $standard_font_color;
+    font-size: .75rem;
+    height: 2.2rem;
+  }
+
+  .input-group-text {
+    background-color: $search_icon_backgound;
+    border: 1px solid $white_color;
+    height: 2.2rem;
+
+    &:hover {
+      background-color: $primary_color;
+      cursor: pointer;
+
+      .fas.fa-search {
+        color: $search_icon_hover_color;
+      }
+    }
+
+    &:active {
+      background-color: $secondary_color;
+    }
+  }
+
+  .fas.fa-search {
+    color: $standard_font_color;
+  }
+}
+
+img.fail {
+  visibility: hidden;
+}
+
+//To be extended
+.actions-ribbon{
+  padding: .5rem .5rem .5rem .5rem;
+  background-color: $article_content_color;
+  position: sticky;
+  top: 0;
+  z-index: 21;
+
+  img{
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header__body.container {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .actions-ribbon {
+      display: none;
+    }
+  }

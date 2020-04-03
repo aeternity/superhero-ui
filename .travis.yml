@@ -1,12 +1,24 @@
 dist: xenial
-sudo: false
 
 language: node_js
 node_js: '12'
 
-jobs:
-  include:
-    - stage: aepp
-      script:
-        - npm install
-        - npm run test
+script:
+  - npm run test
+  - npm run build
+
+before_deploy: scripts/before-deploy.sh
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  local_dir: dist
+  repo: $DEPLOY_REPO
+  target_branch: master
+  name: $DEPLOY_NAME
+  email: $DEPLOY_EMAIL
+  on:
+    all_branches: true
+    condition: $DEPLOY_REPO

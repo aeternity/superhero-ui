@@ -1,307 +1,190 @@
 <template>
   <div>
-    <div class="container header">
-    <h2 class="text-center mt-3">{{$t('pages.Home.HeaderTitle')}}</h2>
-    <p class="text-center">
-      {{$t('pages.Home.HeaderDescription')}}
-      <br> {{$t('pages.Home.HeaderDescription2')}} <a href="https://waellet.com">{{$t('pages.Home.HeaderDescriptionLink')}}</a> {{$t('pages.Home.HeaderDescription3')}}
-    </p>
-    </div>
-    <div class="actions__container">
-      <div class="container">
-        <div class="row">
-          <div class="input-group col-md-12 col-lg-6 col-sm-12">
-            <input type="text" v-model="searchTerm" class="form-control" v-bind:placeholder="$t('pages.Home.SearchPlaceholder')">
-             <!-- <dropdown-component
-              :options="languagesOptions"
-              :selected="'en'"
-              :method="switchLanguage"
-            ></dropdown-component> -->
+    <mobile-navigation />
+    <right-section />
+    <left-section />
+    <loading
+      v-if="loading.initial"
+      class="initial-loading"
+      :show-loading="true"
+    />
+    <div v-else>
+      <div class="actions__container container position-sticky">
+        <div class="search__input__container">
+          <input
+            v-model="searchTerm"
+            type="text"
+            class="search__input"
+            :placeholder="$t('pages.Home.SearchPlaceholder')"
+            @searchTopic="onSearchTopic"
+          >
+          <div
+            v-if="searchTerm.length"
+            class="clear"
+            @click="searchTerm = ''"
+          >
+            <img src="../assets/iconEraser.svg">
           </div>
-          <div class="col-md-12 col-lg-6 col-sm-12 sorting">
-            <a v-if="this.tipsOrdering" v-on:click="sort('hot')"
-                v-bind:class="{ active: sorting === 'hot' }"> {{$t('pages.Home.SortingHot')}}</a>
-            <a v-on:click="sort('latest')" v-bind:class="{ active: sorting === 'latest' }">{{$t('pages.Home.SortingLatest')}}</a>
-            <a v-on:click="sort('highest')" v-bind:class="{ active: sorting === 'highest' }">
-              {{$t('pages.Home.SortingHighestRated')}}
-            </a>
+          <div
+            class="close-mobile-nav"
+            @click="toggleMobileNavigation(false)"
+          >
+            &#x2715;
           </div>
         </div>
+      </div>
+      <div class="container wrapper">
+        <onboarding v-if="!loading.initial && !loading.wallet && !isLoggedIn" />
+        <div class="tips__container">
+          <div class="send__tip__container">
+            <send-tip />
+          </div>
+          <div class="actions__container position-sticky">
+            <div class="row">
+              <div class="col-md-12 col-lg-12 col-sm-12 sorting">
+                <a
+                  :class="{ active: tipSortBy === 'hot' }"
+                  @click="setTipSortBy('hot')"
+                >
+                  {{ $t('pages.Home.SortingMostPopular') }}
+                </a>
+                <a
+                  id="sort-latest"
+                  :class="{ active: tipSortBy === 'latest' }"
+                  @click="setTipSortBy('latest')"
+                >
+                  {{ $t('pages.Home.SortingLatest') }}
+                </a>
+                <a
+                  :class="{ active: tipSortBy === 'highest' }"
+                  @click="setTipSortBy('highest')"
+                >
+                  {{ $t('pages.Home.SortingHighestRated') }}
+                </a>
+              </div>
+            </div>
+          </div>
+          <TipsPagination
+            :tip-sort-by="tipSortBy"
+            :search="searchTerm"
+          />
         </div>
-    </div>
-    <div class="text-center spinner__container" v-bind:class="{ active: !showLoading }">
-      <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <div class="container wrapper">
-     <div class="tips__container">
-       <tip-record v-for="(tip,index) in filteredTips" :key="index" :tip="tip" :foundWallet="foundWallet" :retip="retip" :defaultCurrency="defaultCurrency" :fiatValue="tip.fiatValue" :senderLink="openExplorer(tip.sender)"></tip-record>
-      </div>
-    </div>
-    <div class="no-results text-center" v-if="filteredTips !== null && !showLoading && filteredTips.length === 0">{{$t('pages.Home.NoResultsMsg')}}</div>
   </div>
 </template>
 
 <script>
-  import aeternity from '../utils/aeternity';
-  import {wallet} from '../utils/walletSearch.js'
-  import Backend from "../utils/backend";
-  import Currency from "../utils/currency";
-  import util from "../utils/util";
+import { mapGetters, mapActions } from 'vuex';
 
-  import Dropdown from "../components/DropdownComponent.vue"
+import SendTip from '../components/layout/SendTip.vue';
+import LeftSection from '../components/layout/LeftSection.vue';
+import RightSection from '../components/layout/RightSection.vue';
+import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import { EventBus } from '../utils/eventBus';
+import Loading from '../components/Loading.vue';
+import Onboarding from '../components/onboarding/Wizard.vue';
+import TipsPagination from '../components/TipsPagination.vue';
 
-  import {langs, fetchAndSetLocale} from '../utils/i18nHelper'
+export default {
+  name: 'TipsList',
+  components: {
+    TipsPagination,
+    Onboarding,
+    Loading,
+    LeftSection,
+    RightSection,
+    SendTip,
+    MobileNavigation,
+  },
+  data() {
+    return {
+      searchTerm: '',
+      activeLang: 'en',
+      languagesOptions: [
+        { value: 'en', text: 'English' },
+        { value: 'zh', text: 'Chinese' },
+      ],
+    };
+  },
+  computed: {
+    ...mapGetters(['tipSortBy', 'account', 'balance', 'isLoggedIn', 'loading']),
+  },
+  async created() {
+    EventBus.$on('searchTopic', (topic) => {
+      window.scrollTo(0, 0);
+      this.onSearchTopic(topic);
+    });
 
-  import TipRecord from "../components/tipRecords/TipRecordComponent.vue"
-
-  export default {
-    name: 'TipsList',
-    data() {
-      return {
-        explorerUrl: 'https://mainnet.aeternal.io/account/transactions/',
-        showLoading: true,
-        tips: null,
-        tipsOrdering: null,
-        searchTerm: '',
-        sorting: "latest",
-        foundWallet: false,
-        activeLang: 'en',
-        languagesOptions: [
-          { value: 'en', text: 'English' },
-          { value: 'zh', text: 'Chinese' },
-        ],
-        defaultCurrency: 'eur',
-        currencies: [
-          { value: 'eur', text: 'EUR'},
-          { value: 'cny', text: 'YEN'},
-          { value: 'usd', text: 'USD'},
-        ]
-      }
+    if (this.$route.query.searchTopicPhrase) {
+      this.onSearchTopic(this.$route.query.searchTopicPhrase);
+    }
+  },
+  methods: {
+    ...mapActions(['setTipSortBy', 'toggleMobileNavigation']),
+    onSearchTopic(data) {
+      this.searchTerm = data;
     },
-    computed: {
-      filteredTips() {
-        if (this.searchTerm.trim().length === 0) {
-          return this.tips
-        }
-        let term = this.searchTerm.toLowerCase();
-
-        let urlSearchResults = this.tips.filter(tip => {
-          if (typeof tip.url !== 'undefined') {
-            return tip.url.toLowerCase().includes(term)
-          }
-          return false
-        })
-        let senderSearchResults = this.tips.filter(tip => {
-          if (typeof tip.sender !== 'undefined') {
-            return tip.sender.toLowerCase().includes(term)
-          }
-          return false
-        })
-        let noteSearchResults = this.tips.filter(tip => {
-          if (typeof tip.note !== 'undefined') {
-            return tip.note.toLowerCase().includes(term)
-          }
-          return false
-        })
-        //We convert the result array to Set in order to remove duplicate records
-        let convertResultToSet = new Set([...urlSearchResults, ...senderSearchResults, ...noteSearchResults]);
-        return [...convertResultToSet];
-      }
-    },
-    methods: {
-      openExplorer(address) {
-        return this.explorerUrl + address
-      },
-      switchLanguage(languageChoose) {
-        fetchAndSetLocale(languageChoose);
-        this.activeLang = languageChoose;
-        if(languageChoose === 'zh'){
-          this.defaultCurrency = 'cny';
-        }else{
-          this.defaultCurrency = 'eur';
-        }
-        this.reloadData();
-      },
-      sort(sorting) {
-        this.sorting = sorting;
-
-        switch (this.sorting) {
-          case "hot":
-            this.tips.sort((a, b) => b.score - a.score);
-            break;
-          case "latest":
-            this.tips.sort((a, b) => b.received_at - a.received_at);
-            break;
-          case "highest":
-            this.tips.sort((a, b) => b.amount - a.amount);
-            break;
-        }
-      },
-      async retip(url) {
-        const amount = util.aeToAtoms(prompt("Tip Amount in AE?"));
-        this.showLoading = true;
-        await aeternity.contract.methods.tip(url, undefined, {amount: amount}).catch(console.error);
-        this.reloadData();
-      },
-      async asyncAddCurrency() {
-        new Currency().getRates().then(rates => {
-          this.tips = this.tips.map(tip => {
-            tip.fiatValue = (tip.amount * rates.aeternity[this.defaultCurrency]).toFixed(2);
-            return tip;
-          }).filter(tip => tip.amount * (rates.aeternity['usd']).toFixed(2) > 0.01);
-        }).catch(console.error);
-      },
-      async reloadData(initial = false) {
-        this.showLoading = true;
-        const fetchTips = async () => {
-          if (initial) {
-            await aeternity.initClient();
-            wallet.init(() => {
-              this.foundWallet = true;
-              console.log("found wallet")
-            }).catch(console.error);
-          }
-          return aeternity.getTips().catch(console.error);
-        };
-
-        const backendInstance = new Backend();
-        const fetchOrdering = backendInstance.tipOrder().catch(console.error);
-        const fetchTipsPreview = backendInstance.tipPreview().catch(console.error);
-        const fetchLangTips = backendInstance.getLangTips(this.activeLang).catch(console.error);
-        let [tips, tipOrdering, tipsPreview, langTips] = await Promise.all([fetchTips(), fetchOrdering, fetchTipsPreview, fetchLangTips]);
-        this.tipsOrdering = tipOrdering;
-        this.tipsPreview = tipsPreview;
-
-        // add score from backend to tips
-        if (this.tipsOrdering) {
-          const blacklistedTipIds = tipOrdering.map(order => order.id);
-          const filteredTips = tips.filter(tip => blacklistedTipIds.includes(tip.tipId));
-          tips = filteredTips.map(tip => {
-            const orderItem = tipOrdering.find(order => order.id === tip.tipId);
-            tip.score = orderItem ? orderItem.score : 0;
-            return tip;
-          });
-          if (initial) this.sorting = "hot";
-        }
-
-        // filter tips by language from backend
-//        if (langTips) tips = tips.filter(tip => langTips.some(url => tip.url === url));
-
-        // add preview to tips from backend
-        if (this.tipsPreview) {
-          tips = tips.map(tip => {
-            tip.preview = tipsPreview.find(preview => preview.requestUrl === tip.url);
-            return tip;
-          });
-        }
-
-        this.tips = tips;
-
-        this.asyncAddCurrency();
-        this.sort(this.sorting);
-        this.showLoading = false;
-      }
-    },
-    components: {
-      'dropdown-component': Dropdown,
-      'tip-record': TipRecord
-    },
-    async created() {
-      await this.reloadData(true);
-      setInterval(() => this.reloadData(), 120 * 1000);
-    },
-  }
+  },
+};
 </script>
 
 
 <style lang="scss" scoped>
-  @import "../styles/base";
-
-  .header{
-    h2{
-      color: $standard_font_color;
-    }
-    p{
-      color: $light_font_color;
-    }
-    a{
-      color: $custom_links_color;
-    }
-  }
-  .search-icon {
-    height: 1rem;
+  .search__input__container{
+    margin-bottom: .15rem;
+    position: relative;
   }
 
-  .spinner__container{
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    max-height: 200px;
-    opacity: 100%;
-    transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
-    position: fixed;
-    left: 50%;
-    transform: translate( -50%);
-    z-index: 3;
-    &.active {
-      max-height: 0;
-      opacity: 0;
+  .search__input{
+    font-size: .75rem;
+    color: $standard_font_color;
+    background-color: $article_content_color;
+    padding: 1.05rem 2.5rem 1.05rem 1rem;
+    border: .05rem solid transparent;
+    outline: none;
+    width: 100%;
+    &:focus{
+      border: .05rem solid $custom_links_color;
     }
+  }
+
+  .send__tip__container{
+    margin-bottom: .15rem;
   }
   .container.wrapper{
+    padding-top: 0;
+    margin-top: -0.125rem;
     min-height: 4rem;
   }
    .actions__container{
-      position: sticky;
-      position: -webkit-sticky;
+      padding: 0;
       top: 0;
-      z-index: 2;
-      width: 100%;
+      &:nth-child(2){
+        top: 3.2rem;
+      }
+      z-index: 100;
       font-size: .75rem;
-      margin: 0 1rem 0 0;
+      background-color: $background_color;
+      .form-control{
+        padding-right: 1.25rem;
+      }
+      .container{
+        padding: 0;
+      }
       .row{
-        padding: .5rem 1rem .5rem 1rem;
         background-color: $actions_ribbon_background_color;
-        border-top-right-radius: .25rem;
-        border-top-left-radius: .25rem;
         margin: 0;
       }
-      .input-group{
-        padding-left: 0;
-        padding-right: 0;
-        .form-control{
-          background-color: $background_color;
-          color: $standard_font_color;
-          font-size: .75rem;
-          border: 1px solid $white_color;
-        }
-        .input-group-text{
-          background-color: $search_icon_backgound;
-          border: 1px solid $white_color;
-          &:hover{
-            cursor: pointer;
-            background-color: $primary_color;
-            .fas.fa-search{
-              color: $search_icon_hover_color;
-            }
-          }
-          &:active{
-             background-color: $secondary_color;
-          }
-        }
-        .fas.fa-search{
-          color: $standard_font_color;
-        }
-      }
       .sorting{
-        border-radius: .25rem;
-        color: $light_font_color;
-        text-align: right;
+        text-align: left;
         padding-left: 1rem;
-        padding: .45rem 0 .45rem .45rem;
         a{
-          margin-right: .5rem;
+          font-weight: 600;
+          display: inline-block;
+          padding: .625rem 0;
+          margin-right: 1rem;
+          color: $light_font_color;
           &:last-child{
             margin-right: 0;
           }
@@ -309,35 +192,48 @@
             color: $primary_color;
             cursor: pointer;
           }
-          &:active{
-            color: $secondary_color;
-          }
         }
         a.active{
-          color: $secondary_color;
+          color: $custom_links_color;
+          border-bottom: .1rem solid $custom_links_color;
         }
       }
-    }
+  }
   .tips__container{
     width: 100%;
-    background-color: $tip_list_background_color;
-    padding: 1rem;
+    background-color: $background_color;
+    padding-top: 0.1rem;
     &:empty{
       visibility: hidden;
     }
   }
 
-  .no-results{
+  .clear {
+    img {
+      height: .75rem;
+      width: .9rem;
+    }
+    right: 1rem;
+    @include vertical-align($position: absolute);
+    z-index: 10;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+  .close-mobile-nav {
+    display: none;
+  }
+
+  .no-results {
     color: $standard_font_color;
     font-size: .75rem;
     margin-bottom: 4rem;
   }
 
-@media only screen and (max-width: 1024px){
-   .actions__container .sorting{
-    padding-top: .45rem;
+  .initial-loading {
+    margin-top: 5rem;
   }
-}
 
 @media only screen and (max-width: 768px){
   .actions__container .input-group{
@@ -371,21 +267,31 @@
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
 
+  .search__input{
+    padding: .5rem 3.5rem .5rem 1rem;
+  }
   .actions__container{
-      width: 100vw;
-      max-width: 100vw;
-      padding: .5rem .5rem 0 .5rem;
+      width: 100%;
+      padding-top: .5rem;
       background-color: $actions_ribbon_background_color;
       overflow-x: hidden;
+      z-index: 100;
+      padding-bottom: .5rem;
+      &:nth-child(2){
+        width: 100vw;
+        margin-left: -.2rem;
+        top: 3.35rem;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
       .container,.row{
         padding: 0;
       }
-
       .sorting{
         width: -webkit-fill-available;
         width: -moz-available;
         background-color: #1D1D23;
-        margin: .5rem -1rem 0 -1rem;
+        margin: 0 -1rem 0 -1rem;
         text-align: center;
         padding-bottom: 0;
         padding-left: .5rem;
@@ -397,18 +303,41 @@
           padding-bottom: .45rem;
           margin-right: 0;
           &.active{
-            border-bottom: .075rem solid $secondary_color;
+            border-bottom: .075rem solid $custom_links_color;
             margin-bottom: -.075rem;
           }
         }
       }
     }
   .container.wrapper{
-    padding: 1rem .25rem 0 .25rem;
+    padding: .15rem .25rem 0 .25rem;
     .tips__container{
       padding: 0;
-      background-color: $background_color;
     }
+  }
+
+  .clear {
+    right: 2.5rem;
+
+    img{
+      vertical-align: baseline;
+    }
+  }
+
+  .close-mobile-nav {
+    display: block;
+    font-size: 1rem;
+    color: $standard_font_color;
+    right: 1rem;
+    @include vertical-align($position: absolute);
+    z-index: 10;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+  .send__tip__container {
+    display: none;
   }
 
 }

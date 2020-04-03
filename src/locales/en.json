@@ -6,17 +6,17 @@
       "HeaderDescription2": "To start tipping and receiving tips install the",
       "HeaderDescriptionLink": "waellet",
       "HeaderDescription3": "extension",
-      "SearchPlaceholder": "Search for a tip record...",
+      "SearchPlaceholder": "Search Superhero",
       "SortingLatest": "Latest",
       "SortingHighestRated": "Highest Rated",
-      "SortingHot": "Hot",
+      "SortingMostPopular": "Most Popular",
       "FooterPrivacyPolicy": "Privacy policy",
       "FooterTermsOfService": "Legal Imprint",
       "ReportABug": "Report a bug",
       "NoResultsMsg": "There are no results found"
     },
     "TipComments":{
-      "NoResultsMsg": "There are no comments for this tip",
+      "NoResultsMsg": "There are no comments",
       "BackTo": "Back to",
       "records": "records"
     }

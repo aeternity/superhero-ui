@@ -52,21 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="footer">
-        SuperHero is Open Source
-        <router-link
-          class="footer-links"
-          to="/terms"
-        >
-          Terms
-        </router-link>
-        <router-link
-          class="footer-links"
-          to="/privacy"
-        >
-          Privacy
-        </router-link>
-      </div>
+      <footer-section />
     </div>
   </div>
 </template>
@@ -77,6 +63,7 @@ import { detect } from 'detect-browser';
 import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
 import Topic from '../tipRecords/Topic.vue';
+import FooterSection from './FooterSection.vue';
 
 export default {
   name: 'RightSection',
@@ -84,6 +71,7 @@ export default {
     Topic,
     FiatValue,
     AeAmount,
+    FooterSection,
   },
   data() {
     return {
@@ -205,23 +193,6 @@ export default {
     }
   }
 }
-
-  .app__rightcolumn .footer,
-  .mobile-navigation .footer {
-    font-size: .6rem;
-    text-align: center;
-
-    a {
-      cursor: pointer;
-      text-decoration: underline;
-
-      &.footer-links {
-        color: $standard_font_color;
-        font-weight: lighter;
-        text-decoration: none;
-      }
-    }
-  }
 
 @media (min-width: 768px) {
   .app__rightcolumn .content .section__body .section__item {

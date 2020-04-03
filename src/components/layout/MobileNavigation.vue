@@ -38,24 +38,7 @@
         @click="openNavigation(true)"
       >
     </div>
-    <div
-      v-if="open"
-      class="footer"
-    >
-      SuperHero is Open Source
-      <router-link
-        class="footer-links"
-        to="/terms"
-      >
-        Terms
-      </router-link>
-      <router-link
-        class="footer-links"
-        to="/privacy"
-      >
-        Privacy
-      </router-link>
-    </div>
+    <footer-section v-if="open" />
     <mobile-send-tip-modal />
   </div>
 </template>
@@ -64,12 +47,14 @@
 import { mapGetters, mapActions } from 'vuex';
 import Navigation from './Navigation.vue';
 import MobileSendTipModal from '../modals/MobileSendTipModal.vue';
+import FooterSection from './FooterSection.vue';
 
 export default {
   name: 'MobileNavigation',
   components: {
     Navigation,
     MobileSendTipModal,
+    FooterSection,
   },
   data() {
     return {

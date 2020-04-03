@@ -74,8 +74,13 @@
       <div class="overview__label">
         Powered by
       </div>
-      <div class="overview__value">
-        <img src="../../assets/aeternityLogo.svg">
+      <div class="overview__value aeternity-logo">
+        <a
+          href="https://aeternity.com/"
+          target="_blank"
+        >
+          <img src="../../assets/aeternityLogo.svg">
+        </a>
       </div>
     </div>
   </div>
@@ -130,6 +135,11 @@ export default {
     font-weight: 400;
     line-height: .75rem;
     text-transform: none;
+  }
+
+  .aeternity-logo:hover {
+    filter: brightness(1.3);
+    cursor: pointer;
   }
 
   @media only screen and (min-width: 1440px) {

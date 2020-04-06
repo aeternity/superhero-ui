@@ -165,25 +165,14 @@ export default {
     cursor: pointer;
   }
 
-  @media only screen and (min-width: 1440px) {
+  @media only screen and (max-width: 1280px) {
     .overview__value {
-      font-size: 1.6rem;
-      line-height: 1.6rem;
-      padding-bottom: 0.3rem;
-    }
-
-    .overview__label {
-      color: $light_font_color;
       font-size: .75rem;
-      text-transform: none;
+      line-height: .75rem;
     }
 
     .overview__item {
-      margin-bottom: 1.9rem;
-    }
-
-    .overview {
-      margin-top: 2rem;
+      margin-bottom: .4rem;
     }
   }
 </style>

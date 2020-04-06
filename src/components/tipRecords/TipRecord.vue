@@ -107,7 +107,7 @@
         <div class="tip__footer_wrapper">
           <div
             class="tip__amount"
-            title="Send AE to this post"
+            title="Send AE to this URL"
             @click.stop
           >
             <retip

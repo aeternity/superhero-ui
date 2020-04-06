@@ -54,14 +54,13 @@
         </div>
       </div>
       <div class="text-right">
-        <button
+        <ae-button
           :disabled="!isSendTipDataValid"
-          class="btn btn-primary tip__send"
+          :src="IconDiamond"
           @click="sendTip()"
         >
-          <img src="../../assets/iconDiamond.svg">
-          <span>Tip</span>
-        </button>
+          Tip
+        </ae-button>
       </div>
     </form>
   </div>
@@ -75,11 +74,14 @@ import aeternity from '../../utils/aeternity';
 import { EventBus } from '../../utils/eventBus';
 import avatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
+import AeButton from '../AeButton.vue';
+import IconDiamond from '../../assets/iconDiamond.svg';
 
 export default {
   name: 'SendTip',
   components: {
     FiatValue,
+    AeButton,
   },
   data() {
     return {
@@ -90,6 +92,7 @@ export default {
       },
       avatar,
       canTip: false,
+      IconDiamond,
     };
   },
   computed: {
@@ -201,23 +204,9 @@ export default {
         border-radius: 1rem;
       }
     }
-    .tip__send {
+    .ae-button {
       padding: .55rem 2.87rem .65rem 2.87rem;
-      color:$standard_font_color;
-      background-color: $secondary_color;
-      border: none;
-      font-size: .75rem;
       font-weight: 600;
-
-      span {
-        vertical-align: inherit;
-        margin-left: .2rem;
-      }
-
-      img {
-        vertical-align: inherit;
-        height: .7rem;
-      }
     }
 
     .avatar {

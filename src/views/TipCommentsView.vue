@@ -34,13 +34,12 @@
           </div>
         </div>
         <div class="send-comment">
-          <button
-            class="btn btn-primary"
+          <ae-button
             :disabled="newComment.length === 0 || showLoading"
             @click="sendTipComment()"
           >
             Reply
-          </button>
+          </ae-button>
         </div>
       </div>
       <div class="comments__section">
@@ -83,6 +82,7 @@ import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
 import { EventBus } from '../utils/eventBus';
+import AeButton from '../components/AeButton.vue';
 
 export default {
   name: 'TipCommentsView',
@@ -93,6 +93,7 @@ export default {
     LeftSection,
     RightSection,
     MobileNavigation,
+    AeButton,
   },
   data() {
     return {
@@ -241,11 +242,8 @@ export default {
     margin-top: .5rem;
     text-align: right;
 
-    button {
+    .ae-button {
       padding: .55rem 2.87rem .65rem 2.87rem;
-      background-color: $secondary_color;
-      color: $standard_font_color;
-      border: none;
     }
   }
 }

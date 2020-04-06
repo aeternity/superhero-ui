@@ -75,13 +75,12 @@
                 />
               </span>
             </div>
-            <button
-              class="btn btn-primary retip__button"
+            <ae-button
               :disabled="!isDataValid"
               @click="retip()"
             >
               Retip
-            </button>
+            </ae-button>
           </div>
         </div>
       </div>
@@ -98,6 +97,7 @@ import util, { USE_DEEP_LINKS } from '../utils/util';
 import AeAmount from './AeAmount.vue';
 import FiatValue from './FiatValue.vue';
 import Loading from './Loading.vue';
+import AeButton from './AeButton.vue';
 
 export default {
   name: 'Retip',
@@ -105,6 +105,7 @@ export default {
     Loading,
     FiatValue,
     AeAmount,
+    AeButton,
   },
   props: {
     tipid: { type: Number, required: true },
@@ -267,10 +268,7 @@ export default {
       }
     }
 
-    .retip__button {
-      background-color: $secondary_color;
-      border: 1px solid $secondary_color;
-      color: $standard_font_color;
+    .ae-button {
       margin-left: .5rem;
     }
 

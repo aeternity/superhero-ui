@@ -57,6 +57,29 @@
       </div>
     </div>
     <div
+      v-if="stats.total_claimed_amount"
+      class="overview__item"
+    >
+      <div class="overview__value secondary">
+        <ae-amount
+          :amount="stats.total_claimed_amount"
+          :round="2"
+        />
+      </div>
+      <div
+        v-if="stats.total_claimed_amount"
+        class="overview__value"
+      >
+        <fiat-value
+          :amount="stats.total_claimed_amount"
+          :without-brackets="true"
+        />
+      </div>
+      <div class="overview__label">
+        Total Tips Claimed
+      </div>
+    </div>
+    <div
       v-if="stats.height"
       class="overview__item"
     >

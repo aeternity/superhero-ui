@@ -285,7 +285,7 @@ import FiatValue from '../components/FiatValue.vue';
 import AeAmount from '../components/AeAmount.vue';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
-import { MIDDLEWARE_URL } from '../config/constants';
+import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
 
 export default {
@@ -305,7 +305,7 @@ export default {
   },
   data() {
     return {
-      explorerUrl: `${MIDDLEWARE_URL}account/transactions/`,
+      explorerUrl: `${EXPLORER_URL}account/transactions/`,
       tip: this.tipData,
       showLoading: false,
       comments: [],

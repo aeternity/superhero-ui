@@ -7,7 +7,9 @@
     "build:stats": "vue-cli-service build --report-json",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint --no-fix",
+    "lint:vue": "vue-cli-service lint --no-fix",
+    "lint:css": "stylelint **/*.{css,scss,vue}",
+    "lint": "npm run lint:vue && npm run lint:css",
     "test": "npm run lint && npm run test:unit",
     "test:withe2e": "npm run lint && npm run test:unit && npm run test:e2e -- --headless"
   },

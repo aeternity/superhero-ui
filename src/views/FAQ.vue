@@ -16,7 +16,7 @@
         </p>
         <expandable-block :title="'What is Superhero?'">
           Superhero is a P2P (Peer-to-Peer) platform for social sharing.
-          <br>The mission of Superhero is to empowering people to support people,
+          <br>The mission of Superhero is to empower people to support people,
           without intermediaries.
           <br>
           <router-link

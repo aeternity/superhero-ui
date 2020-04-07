@@ -126,10 +126,11 @@ img.fail {
 
 //To be extended
 .actions-ribbon{
-  padding: .5rem .5rem .5rem .5rem;
+  padding: 1.05rem 2.5rem 1.05rem 1rem;
   background-color: $article_content_color;
   position: sticky;
   top: 0;
+  line-height: .75rem;
   z-index: 21;
 
   img{

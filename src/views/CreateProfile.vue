@@ -114,7 +114,7 @@
           <ul>
             <li>
               Open your Superhero wallet extension.
-              The button <img src="../assets/iconExtension.svg">
+              The button <img src="../assets/favicon.svg">
               should be in the
               upper right of your browser tool bar.<br>
             </li>

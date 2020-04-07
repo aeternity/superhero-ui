@@ -111,7 +111,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
   .step__wallets {
     align-items: center;

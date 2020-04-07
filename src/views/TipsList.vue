@@ -154,10 +154,6 @@ export default {
 
   &:focus {
     border: 0.05rem solid $custom_links_color;
-
-    & ~ .search-icon {
-      display: none;
-    }
   }
 }
 
@@ -247,6 +243,10 @@ export default {
   height: 1.25rem;
 }
 
+.search__input:focus ~ .search-icon {
+  display: none;
+}
+
 .clear {
   img {
     height: 0.75rem;
@@ -272,32 +272,15 @@ export default {
   margin-top: 5rem;
 }
 
-@media only screen and (max-width: 768px) {
-  .actions__container .input-group {
-    margin-bottom: 1rem;
-    padding-right: 0;
-  }
-
+@media only screen
+  and (max-width: 768px)
+  and (max-width: 600px) {
   .actions__container {
     padding-bottom: 0;
 
     .input-group {
       margin-bottom: 0;
-    }
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .actions__container .input-group {
-    margin-bottom: 1rem;
-    padding-right: 0;
-  }
-
-  .actions__container {
-    padding-bottom: 0;
-
-    .input-group {
-      margin-bottom: 0;
+      padding-right: 0;
     }
   }
 }

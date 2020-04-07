@@ -66,6 +66,11 @@ export default {
     cursor: pointer;
   }
 
+  .arrow {
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
   &.expanded {
     .arrow {
       transform: rotate(90deg);
@@ -74,11 +79,6 @@ export default {
     .title {
       color: $standard_font_color;
     }
-  }
-
-  .arrow {
-    margin-right: 0.5rem;
-    vertical-align: middle;
   }
 
   a {

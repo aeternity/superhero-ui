@@ -183,7 +183,6 @@ export default {
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
   .comment.tip__record {
-    padding-bottom: 0;
     padding: 0.5rem;
 
     .tip__body {

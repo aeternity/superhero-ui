@@ -513,6 +513,7 @@ export default {
     }
 
     .profile__image {
+      display: flex;
       margin-right: 0.5rem;
       vertical-align: super;
 
@@ -578,10 +579,6 @@ export default {
         border-radius: 3.25rem;
         object-fit: cover;
       }
-    }
-
-    .profile__image {
-      display: flex;
     }
 
     .profile__info {

@@ -325,12 +325,6 @@ export default {
     order: 3;
   }
 
-  .tip__comments {
-    margin-left: 20%;
-    cursor: pointer;
-    order: 4;
-  }
-
   .tip__comments,
   .tip__amount {
     align-items: center;
@@ -353,12 +347,16 @@ export default {
   }
 
   .tip__comments {
-    &:hover img {
-      filter: brightness(1.3);
-    }
+    margin-left: 20%;
+    cursor: pointer;
+    order: 4;
 
     img {
       height: 1rem;
+    }
+
+    &:hover img {
+      filter: brightness(1.3);
     }
   }
 
@@ -447,7 +445,6 @@ export default {
       img {
         width: 0.625rem;
         height: 0.625rem;
-        vertical-align: top;
         margin-right: 0.2rem;
         vertical-align: baseline;
       }
@@ -515,7 +512,9 @@ export default {
   }
 
   //Smallest devices Portrait and Landscape
-  @media only screen and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  @media only screen
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2) {
     .tip__body {
       padding: 0;
     }
@@ -527,10 +526,17 @@ export default {
     }
 
     .tip__article {
-      margin-left: -0.5rem;
-      margin-right: -1rem;
+      margin-left: 0;
       max-width: calc(100% + 1rem);
       width: calc(100% + 1rem);
+
+      .tip__article__content {
+        line-height: 1.1rem;
+
+        .description {
+          @include truncate-overflow-mx(5);
+        }
+      }
 
       .site__url {
         text-decoration: underline;
@@ -569,19 +575,6 @@ export default {
 
     .tip__url {
       margin: 0 0 0.4rem 0;
-    }
-
-    .tip__article {
-      margin-left: 0;
-      width: 100%;
-
-      .tip__article__content {
-        line-height: 1.1rem;
-
-        .description {
-          @include truncate-overflow-mx(5);
-        }
-      }
     }
   }
 </style>

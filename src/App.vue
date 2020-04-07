@@ -4,7 +4,7 @@
       ref="wrapper"
       class="min-h-screen wrapper"
     >
-      <router-view />
+      <router-view :key="$route.fullPath" />
     </div>
   </div>
 </template>

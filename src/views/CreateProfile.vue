@@ -154,14 +154,13 @@
             And voila— tips can be collected and added to your wallet balance.<br>
             In some cases, there may be slight delays in collecting tips.<br>
             Give it a few minutes and try opening your wallet again.<br>
-            If the problem persists, you may ask questions through
+            If the problem persists, you may ask questions through this
             <a
               href="https://thesuperherowallet.typeform.com/to/cnbife"
               target="_blank"
             >
-              this Forum
+              feedback form.
             </a>
-            thread.
           </p>
         </expandable-block>
         <expandable-block :title="'CASHING OUT'">

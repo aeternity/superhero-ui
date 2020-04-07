@@ -149,19 +149,19 @@ export default {
 
 .app__rightcolumn {
   color: $light_font_color;
-  font-size: .75rem;
+  font-size: 0.75rem;
 
   .content {
     max-width: 18rem;
 
     .section {
       background-color: $article_content_color;
-      border-radius: .5rem;
+      border-radius: 0.5rem;
       margin-bottom: 1rem;
 
       &.trending {
-        margin-bottom: .5rem;
-        padding-bottom: .5rem;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
 
         .section__item {
           display: flex;
@@ -176,7 +176,7 @@ export default {
         }
 
         .section__body {
-          padding-bottom: .25rem;
+          padding-bottom: 0.25rem;
           -ms-overflow-style: none;
           overflow-y: auto;
           scrollbar-width: none;
@@ -187,7 +187,7 @@ export default {
         }
 
         .currency-value {
-          font-size: .7rem;
+          font-size: 0.7rem;
         }
       }
     }
@@ -196,17 +196,15 @@ export default {
       color: $standard_font_color;
       font-size: 1rem;
       font-weight: 600;
-      padding: .65rem .75rem;
+      padding: 0.65rem 0.75rem;
     }
 
     .section__body {
-      padding: .25rem 1rem 1rem 1rem;
+      padding: 0.25rem 1rem 1rem 1rem;
 
       .section__item {
-        font-size: .75rem;
-
-        margin: .5rem 0;
-
+        font-size: 0.75rem;
+        margin: 0.5rem 0;
         text-transform: none;
 
         &:first-child {
@@ -226,6 +224,7 @@ export default {
         color: $standard_font_color;
       }
     }
+
     .wallet-install {
       margin-bottom: 1rem;
       max-height: 400px;
@@ -234,14 +233,14 @@ export default {
 
       .account {
         color: $light_font_color;
-        font-size: .52rem;
-        padding: 0 .2rem;
+        font-size: 0.52rem;
+        padding: 0 0.2rem;
       }
 
       .balance {
         font-size: 1.3rem;
         color: $standard_font_color;
-        width: calc(100% - 8rem)
+        width: calc(100% - 8rem);
       }
 
       .section__body > div {
@@ -269,13 +268,13 @@ export default {
 
 @media (min-width: 768px) {
   .app__rightcolumn .content .section__body .section__item {
-    font-size: .65rem;
+    font-size: 0.65rem;
   }
 }
 
 @media (min-width: 992px) {
   .app__rightcolumn .content .section__body .section__item {
-    font-size: .75rem;
+    font-size: 0.75rem;
   }
 }
 </style>

@@ -118,14 +118,17 @@ export default {
 
 <style lang="scss">
   @import "styles/layout";
+
   .min-h-screen {
     min-height: 100vh;
     min-width: 100%;
     padding-bottom: 0;
   }
+
   #app {
     font-family: Roboto, Helvetica, Arial, sans-serif;
   }
+
   .supportedbrowser--alert {
     text-align: center;
     line-height: 3rem;

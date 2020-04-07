@@ -138,143 +138,165 @@ export default {
 
 
 <style lang="scss" scoped>
-  .search__input__container{
-    margin-bottom: .15rem;
-    position: relative;
-  }
+.search__input__container {
+  margin-bottom: 0.15rem;
+  position: relative;
+}
 
-  .search__input{
-    font-size: .75rem;
-    color: $standard_font_color;
-    background-color: $article_content_color;
-    padding: 1.05rem 2.5rem 1.05rem 1rem;
-    border: .05rem solid transparent;
-    outline: none;
-    width: 100%;
-    &:focus{
-      border: .05rem solid $custom_links_color;
+.search__input {
+  font-size: 0.75rem;
+  color: $standard_font_color;
+  background-color: $article_content_color;
+  padding: 1.05rem 2.5rem 1.05rem 1rem;
+  border: 0.05rem solid transparent;
+  outline: none;
+  width: 100%;
 
-      &~.search-icon {
-        display: none;
-      }
+  &:focus {
+    border: 0.05rem solid $custom_links_color;
+
+    & ~ .search-icon {
+      display: none;
     }
   }
+}
 
-  .send__tip__container{
-    margin-bottom: .15rem;
+.send__tip__container {
+  margin-bottom: 0.15rem;
+}
+
+.container.wrapper {
+  padding-top: 0;
+  margin-top: -0.125rem;
+  min-height: 4rem;
+}
+
+.actions__container {
+  padding: 0;
+  top: 0;
+
+  &:nth-child(2) {
+    top: 3.2rem;
   }
-  .container.wrapper{
-    padding-top: 0;
-    margin-top: -0.125rem;
-    min-height: 4rem;
+
+  z-index: 100;
+  font-size: 0.75rem;
+  background-color: $background_color;
+
+  .form-control {
+    padding-right: 1.25rem;
   }
-   .actions__container{
-      padding: 0;
-      top: 0;
-      &:nth-child(2){
-        top: 3.2rem;
-      }
-      z-index: 100;
-      font-size: .75rem;
-      background-color: $background_color;
-      .form-control{
-        padding-right: 1.25rem;
-      }
-      .container{
-        padding: 0;
-      }
-      .row{
-        background-color: $actions_ribbon_background_color;
-        margin: 0;
-      }
-      .sorting{
-        text-align: left;
-        padding-left: 1rem;
-        a{
-          font-weight: 600;
-          display: inline-block;
-          padding: .625rem 0;
-          margin-right: 1rem;
-          color: $light_font_color;
-          &:last-child{
-            margin-right: 0;
-          }
-          &:hover{
-            color: $primary_color;
-            cursor: pointer;
-          }
-        }
-        a.active{
-          color: $custom_links_color;
-          border-bottom: .1rem solid $custom_links_color;
-        }
-      }
+
+  .container {
+    padding: 0;
   }
-  .tips__container{
-    width: 100%;
-    background-color: $background_color;
-    padding-top: 0.1rem;
-    &:empty{
-      visibility: hidden;
+
+  .row {
+    background-color: $actions_ribbon_background_color;
+    margin: 0;
+  }
+
+  .sorting {
+    text-align: left;
+    padding-left: 1rem;
+
+    a {
+      font-weight: 600;
+      display: inline-block;
+      padding: 0.625rem 0;
+      margin-right: 1rem;
+      color: $light_font_color;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover {
+        color: $primary_color;
+        cursor: pointer;
+      }
+    }
+
+    a.active {
+      color: $custom_links_color;
+      border-bottom: 0.1rem solid $custom_links_color;
     }
   }
+}
 
-  .search-icon, .clear{
-    @include vertical-align($position: absolute);
-    right: 1rem;
-    z-index: 10;
+.tips__container {
+  width: 100%;
+  background-color: $background_color;
+  padding-top: 0.1rem;
+
+  &:empty {
+    visibility: hidden;
+  }
+}
+
+.search-icon,
+.clear {
+  @include vertical-align($position: absolute);
+
+  right: 1rem;
+  z-index: 10;
+}
+
+.search-icon img {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.clear {
+  img {
+    height: 0.75rem;
+    width: 0.9rem;
   }
 
-  .search-icon img {
-    width: 1.25rem;
-    height: 1.25rem;
+  &:hover {
+    cursor: pointer;
   }
+}
 
-  .clear {
-    img {
-      height: .75rem;
-      width: .9rem;
-    }
-    &:hover{
-      cursor: pointer;
-    }
-  }
+.close-mobile-nav {
+  display: none;
+}
 
-  .close-mobile-nav {
-    display: none;
-  }
+.no-results {
+  color: $standard_font_color;
+  font-size: 0.75rem;
+  margin-bottom: 4rem;
+}
 
-  .no-results {
-    color: $standard_font_color;
-    font-size: .75rem;
-    margin-bottom: 4rem;
-  }
+.initial-loading {
+  margin-top: 5rem;
+}
 
-  .initial-loading {
-    margin-top: 5rem;
-  }
-
-@media only screen and (max-width: 768px){
-  .actions__container .input-group{
+@media only screen and (max-width: 768px) {
+  .actions__container .input-group {
     margin-bottom: 1rem;
     padding-right: 0;
   }
-  .actions__container{
+
+  .actions__container {
     padding-bottom: 0;
-    .input-group{
+
+    .input-group {
       margin-bottom: 0;
     }
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .actions__container .input-group{
+  .actions__container .input-group {
     margin-bottom: 1rem;
     padding-right: 0;
   }
-  .actions__container{
+
+  .actions__container {
     padding-bottom: 0;
-    .input-group{
+
+    .input-group {
       margin-bottom: 0;
     }
   }
@@ -289,51 +311,60 @@ export default {
     display: none;
   }
 
-  .search__input{
-    padding: .5rem 3.5rem .5rem 1rem;
+  .search__input {
+    padding: 0.5rem 3.5rem 0.5rem 1rem;
   }
-  .actions__container{
-      width: 100%;
-      padding-top: .5rem;
-      background-color: $actions_ribbon_background_color;
-      overflow-x: hidden;
-      z-index: 100;
-      padding-bottom: .5rem;
-      &:nth-child(2){
-        width: 100vw;
-        margin-left: -.2rem;
-        top: 3.35rem;
-        padding-top: 0;
-        padding-bottom: 0;
-      }
-      .container,.row{
-        padding: 0;
-      }
-      .sorting{
-        width: -webkit-fill-available;
-        width: -moz-available;
-        background-color: #1D1D23;
-        margin: 0 -1rem 0 -1rem;
-        text-align: center;
-        padding-bottom: 0;
-        padding-left: .5rem;
-        border-bottom: .075rem solid $search_nav_border_color;
-        a{
-          cursor: pointer;
-          width: 32.5%;
-          display: inline-block;
-          padding-bottom: .45rem;
-          margin-right: 0;
-          &.active{
-            border-bottom: .075rem solid $custom_links_color;
-            margin-bottom: -.075rem;
-          }
+
+  .actions__container {
+    width: 100%;
+    padding-top: 0.5rem;
+    background-color: $actions_ribbon_background_color;
+    overflow-x: hidden;
+    z-index: 100;
+    padding-bottom: 0.5rem;
+
+    &:nth-child(2) {
+      width: 100vw;
+      margin-left: -0.2rem;
+      top: 3.35rem;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .container,
+    .row {
+      padding: 0;
+    }
+
+    .sorting {
+      width: -webkit-fill-available;
+      width: -moz-available;
+      background-color: #1d1d23;
+      margin: 0 -1rem 0 -1rem;
+      text-align: center;
+      padding-bottom: 0;
+      padding-left: 0.5rem;
+      border-bottom: 0.075rem solid $search_nav_border_color;
+
+      a {
+        cursor: pointer;
+        width: 32.5%;
+        display: inline-block;
+        padding-bottom: 0.45rem;
+        margin-right: 0;
+
+        &.active {
+          border-bottom: 0.075rem solid $custom_links_color;
+          margin-bottom: -0.075rem;
         }
       }
     }
-  .container.wrapper{
-    padding: .15rem .25rem 0 .25rem;
-    .tips__container{
+  }
+
+  .container.wrapper {
+    padding: 0.15rem 0.25rem 0 0.25rem;
+
+    .tips__container {
       padding: 0;
     }
   }
@@ -341,7 +372,7 @@ export default {
   .clear {
     right: 2.5rem;
 
-    img{
+    img {
       vertical-align: baseline;
     }
   }
@@ -351,9 +382,12 @@ export default {
     font-size: 1rem;
     color: $standard_font_color;
     right: 1rem;
+
     @include vertical-align($position: absolute);
+
     z-index: 10;
-    &:hover{
+
+    &:hover {
       cursor: pointer;
     }
   }
@@ -361,6 +395,5 @@ export default {
   .send__tip__container {
     display: none;
   }
-
 }
 </style>

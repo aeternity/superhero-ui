@@ -220,8 +220,8 @@ export default {
     position: relative;
 
     img {
-      height: .7rem;
-      margin-right: .2rem;
+      height: 0.7rem;
+      margin-right: 0.2rem;
       vertical-align: top;
       width: 1rem;
     }
@@ -236,7 +236,7 @@ export default {
   }
 
   .button-section {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
     text-align: center;
 
     button {
@@ -250,10 +250,10 @@ export default {
 
   .retip__container {
     background-color: black;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     display: flex;
     flex-wrap: wrap;
-    margin-top: .25rem;
+    margin-top: 0.25rem;
     min-width: 19rem;
     padding: 1rem;
     position: absolute;
@@ -270,26 +270,25 @@ export default {
       }
 
       &[type=number]:focus ~ .input-group-append .input-group-text {
-        border: .05rem solid $custom_links_color;
+        border: 0.05rem solid $custom_links_color;
         border-left: none;
       }
     }
 
     .ae-button {
-      margin-left: .5rem;
+      margin-left: 0.5rem;
     }
 
     .input-group {
       width: 100%;
 
       &:not(:last-child) {
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
       }
 
       .append__ae {
-        border-bottom-right-radius: .25rem;
-        border-top-right-radius: .25rem;
-
+        border-bottom-right-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
         background: $background_color !important;
         color: $light_font_color;
         cursor: default;
@@ -301,11 +300,11 @@ export default {
   @media only screen and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
     .retip__container {
       min-width: 13rem;
-      padding: .5rem;
+      padding: 0.5rem;
     }
 
     .retip__button {
-      font-size: .5rem;
+      font-size: 0.5rem;
     }
   }
 </style>

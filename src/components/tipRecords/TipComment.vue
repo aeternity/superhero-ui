@@ -36,7 +36,7 @@
           </router-link>
           <span class="tip__date">
             <format-date
-              :date-timestamp="dateToBeFormatted"
+              :date-timestamp="formatDate"
             />
           </span>
         </div>
@@ -72,7 +72,7 @@ export default {
     };
   },
   computed: {
-    dateToBeFormatted() {
+    formatDate() {
       return new Date(this.comment.createdAt.substring(0, this.comment.createdAt.length - 8));
     },
   },

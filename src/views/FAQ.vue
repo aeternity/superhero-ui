@@ -159,12 +159,14 @@
           address to their URL, tips they’ve received in the past will be added into their wallet.
         </expandable-block>
         <expandable-block :title="'Can I get support? My question isn’t answered here…'">
-          Need assistance? Report technical issue? Post feedback? Suggestion? Get help.
-          <br>People supporting people with answers in Superhero’s
+          Need assistance? Report technical issue? Post feedback? Suggestion?
+          <br>Please use this
           <a
             href="https://thesuperherowallet.typeform.com/to/cnbife"
             target="_blank"
-          >&lt;Forum&gt;</a>
+          >
+            feedback form,
+          </a>we will shortly get back to you so you can use your Superpowers.
         </expandable-block>
       </div>
     </div>

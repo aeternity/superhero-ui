@@ -153,7 +153,7 @@ export default {
   }
 
   .overview__label {
-    color: $light_font_color;
+    color: $tip_note_color;
     font-size: .75rem;
     font-weight: 400;
     line-height: .75rem;

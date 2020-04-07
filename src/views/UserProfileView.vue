@@ -450,7 +450,6 @@ export default {
 .profile__page {
   color: $light_font_color;
   font-size: 0.75rem;
-  padding-top: 0.75rem;
   .count {
     font-size: 0.65rem;
   }
@@ -612,7 +611,7 @@ export default {
     background-color: $actions_ribbon_background_color;
     position: sticky;
     z-index: 21;
-    top: 3.1rem;
+    top: 3rem;
     a {
       font-weight: 600;
       color: $light_font_color;

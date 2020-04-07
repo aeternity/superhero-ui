@@ -61,6 +61,7 @@
               </div>
               <div
                 class="tip__amount"
+                :title="`Initial tip`"
               >
                 <img
                   class="retip__icon retip__icon--retip"
@@ -107,12 +108,10 @@
         <div class="tip__footer_wrapper">
           <div
             class="tip__amount"
-            title="Send AE to this URL"
             @click.stop
           >
             <retip
-              :tipid="tip.id"
-              :amount="tip.retip_amount_ae"
+              :tip="tip"
             />
           </div>
           <div

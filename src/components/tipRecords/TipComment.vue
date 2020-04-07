@@ -1,7 +1,13 @@
 <template>
-  <div class="tip__record row position-relative comment">
+  <div
+    class="tip__record row position-relative comment"
+    @click="goToURLPage(comment.tipId)"
+  >
     <div class="tip__body">
-      <div class="clearfix">
+      <div
+        class="clearfix"
+        @click.stop
+      >
         <div
           class="tip__author"
           :title="comment.author"
@@ -29,7 +35,9 @@
             </span>
           </router-link>
           <span class="tip__date">
-            <format-date :date-timestamp="new Date(comment.createdAt)" />
+            <format-date
+              :date-timestamp="dateToBeFormatted"
+            />
           </span>
         </div>
       </div>
@@ -63,10 +71,23 @@ export default {
       defaultAvatar,
     };
   },
+  computed: {
+    dateToBeFormatted() {
+      return new Date(this.comment.createdAt.substring(0, this.comment.createdAt.length - 8));
+    },
+  },
   methods: {
     getAvatar(address) {
       const userImage = Backend.getProfileImageUrl(address);
       return userImage || this.defaultAvatar;
+    },
+    goToURLPage(id) {
+      this.$router.push({
+        name: 'tip',
+        params: {
+          id,
+        },
+      });
     },
   },
 };

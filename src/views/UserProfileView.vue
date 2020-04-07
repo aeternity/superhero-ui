@@ -612,7 +612,7 @@ export default {
     background-color: $actions_ribbon_background_color;
     position: sticky;
     z-index: 21;
-    top: 2.1rem;
+    top: 3.1rem;
     a {
       font-weight: 600;
       color: $light_font_color;
@@ -690,7 +690,7 @@ and (max-device-width: 480px)
 and (-webkit-min-device-pixel-ratio: 2) {
   .profile__page {
     .profile__actions {
-      top: 3.3rem;
+      top: 3.1rem;
     }
 
     .profile__section {

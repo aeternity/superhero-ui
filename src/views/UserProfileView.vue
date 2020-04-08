@@ -123,10 +123,10 @@
               class="input-group delete-avatar"
             >
               <span
-              @click="deleteAvatar()"
+                @click="deleteAvatar()"
               >Delete avatar</span>
             </div>
-            
+
             <div
               v-if="!editMode"
               class="profile__description"

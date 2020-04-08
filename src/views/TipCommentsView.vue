@@ -23,7 +23,7 @@
           <Avatar
             v-if="address"
             :address="address"
-            class="mr-3 avatar"
+            class="mr-3"
           />
           <div class="input-group">
             <input
@@ -191,12 +191,12 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 .url__page{
   color: $light_font_color;
   font-size: .75rem;
 
-  .avatar{
+  .avatar, .user-identicon svg{
     width: 2rem;
     height: 2rem;
     border-radius: 50%;

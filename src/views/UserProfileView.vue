@@ -632,36 +632,37 @@ export default {
       }
     }
   }
-}
-.comments__section {
-  min-height: 5rem;
+  .comments__section {
+    min-height: 5rem;
 
-  .comment.tip__record {
-    border-radius: unset;
+    .comment.tip__record {
+      border-radius: unset;
+    }
+  }
+
+  .no-results {
+    color: $standard_font_color;
+    font-size: 0.75rem;
+    text-align: center;
+    &.error {
+      color: red;
+    }
+  }
+
+  .description {
+    margin: .5rem 1rem;
+
+    textarea {
+      min-height: 4rem;
+    }
+  }
+
+  .profile__description {
+    margin: .5rem 1rem;
+    color: $tip_note_color;
   }
 }
 
-.no-results {
-  color: $standard_font_color;
-  font-size: 0.75rem;
-  text-align: center;
-  &.error {
-    color: red;
-  }
-}
-
-.description {
-  margin: .5rem 1rem;
-
-  textarea {
-    min-height: 4rem;
-  }
-}
-
-.profile__description {
-  margin: .5rem 1rem;
-  color: $tip_note_color;
-}
 
 @media only screen and (max-width: 768px) {
   .profile__page .profile__meta {

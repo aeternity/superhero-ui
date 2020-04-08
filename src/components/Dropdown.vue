@@ -1,5 +1,9 @@
 <template>
-  <div class="aggregator__dropdown">
+  <div class="dropdown">
+    <div class="display">
+      {{ displayValue }}
+      <img src="../assets/carretDown.svg">
+    </div>
     <b-form-select
       v-model="selectedVal"
       :options="optionsVal"
@@ -22,22 +26,47 @@ export default {
       optionsVal: this.options,
     };
   },
+  computed: {
+    displayValue() {
+      const selectedOption = this.optionsVal.find((option) => option.value === this.selectedVal);
+      return selectedOption ? selectedOption.text : '';
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.aggregator__dropdown{
+.dropdown {
   display: inline-block;
-  margin: unset;
-  select{
-    background: none;
-    background-color: $background_color;
-    color: $primary_color;
+  position: relative;
+  min-width: 6rem;
+
+  .display {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    color: $standard_font_color;
     font-size: .75rem;
-    border: none;
-    &:focus{
-      color: $primary_color;
+    background-color: $light_color;
+    padding: .6rem 1rem .7rem .8rem;
+    border-radius: .25rem;
+    line-height: .9rem;
+    min-height: 2.2rem;
+
+    img {
+      @include vertical-align(absolute);
+      right: .5rem;
     }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  select {
+    opacity: 0;
+  }
+  &:hover {
   }
 }
 </style>

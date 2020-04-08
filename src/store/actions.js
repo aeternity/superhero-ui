@@ -46,4 +46,7 @@ export default {
   toggleTipModal({ commit }, payload) {
     commit(types.TOGGLE_TIP_MODAL, Boolean(payload));
   },
+  updateCurrency({ commit }, payload) {
+    commit(types.UPDATE_CURRENCY, payload);
+  },
 };

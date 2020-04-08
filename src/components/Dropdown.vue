@@ -66,7 +66,5 @@ export default {
   select {
     opacity: 0;
   }
-  &:hover {
-  }
 }
 </style>

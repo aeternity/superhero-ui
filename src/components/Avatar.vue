@@ -1,3 +1,4 @@
+<!-- eslint-disable-next-line vue/no-v-html -->
 <template>
   <img
     v-if="!error"
@@ -5,9 +6,9 @@
     @error="error = true"
   >
   <div
-    v-html="identicon" 
-    class="user-identicon" 
-    v-else />
+    v-else
+    class="user-identicon"
+    v-html="identicon" />
 </template>
 
 <script>

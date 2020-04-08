@@ -21,7 +21,6 @@
         </p>
         <div class="d-flex">
           <Avatar
-            v-if="address"
             :address="address"
             class="avatar mr-3"
           />

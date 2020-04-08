@@ -22,7 +22,7 @@ export default {
   props: {
     address: {
       type: [String, Object],
-      required: true,
+      default: null,
     },
   },
   data: () => ({

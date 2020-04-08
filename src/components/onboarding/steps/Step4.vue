@@ -12,12 +12,13 @@
     </h1>
     <p>
       After your Superhero wallet is installed<br>
-      <span class="important">1. Paste any URL</span> you want to support.<br>
-      <span class="important">2. Add a message</span> if you want.
+      <span class="highlited">1. Visit the URL</span> you want to support.<br>
+      <span class="highlited">2. Click Send tip</span> in your wallet.<br>
+      <span class="highlited">3. Enter tip amount</span> and optionally a message.
     </p>
     <p class="highlited">
       You can directly support any person's content, cause,<br>
-      project at any URL with no middleman.<br>
+      project that have a public URL with no middleman.<br>
       (Yes - ANY URL on the web or on <a href="https://superhero.com">www.superhero.com</a>.)
     </p>
     <div class="step__footer">

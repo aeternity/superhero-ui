@@ -8,7 +8,8 @@
   <div
     v-else
     class="user-identicon"
-    v-html="identicon" />
+    v-html="identicon"
+  />
 </template>
 
 <script>

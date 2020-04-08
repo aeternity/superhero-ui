@@ -9,7 +9,10 @@
     </div>
     <form @submit.prevent>
       <div class="form-group">
-        <Avatar :address="account" class="mr-3" />
+        <Avatar
+          :address="account"
+          class="mr-3"
+        />
         <input
           v-model="sendTipForm.title"
           type="text"

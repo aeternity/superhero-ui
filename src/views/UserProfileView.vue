@@ -53,7 +53,7 @@
                   :class="[showLoadingAvatar ? 'blurred' : '']"
                   :title="address"
                 >
-                  <Avatar 
+                  <Avatar
                     :key="avatarEditImageKey"
                     :address="address"
                   />
@@ -73,7 +73,7 @@
                   :title="address"
                   target="_blank"
                 >
-                  <Avatar 
+                  <Avatar
                     :key="!editMode"
                     :address="address"
                   />
@@ -283,7 +283,7 @@ import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
-import Avatar from '../components/Avatar';
+import Avatar from '../components/Avatar.vue';
 
 export default {
   name: 'TipCommentsView',

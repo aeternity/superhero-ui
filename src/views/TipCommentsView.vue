@@ -81,7 +81,6 @@ import RightSection from '../components/layout/RightSection.vue';
 import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
-import defaultAvatar from '../assets/userAvatar.svg';
 import { EventBus } from '../utils/eventBus';
 import AeButton from '../components/AeButton.vue';
 import Avatar from '../components/Avatar.vue';

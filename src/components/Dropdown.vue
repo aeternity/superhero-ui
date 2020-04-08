@@ -1,10 +1,14 @@
 <template>
-  <div class="aggregator__dropdown">
-    <b-form-select
-      v-model="selectedVal"
-      :options="optionsVal"
-      @change="method(selectedVal)"
-    />
+  <div class="dropdown">
+    <div class="display">
+      {{ displayValue }}
+      <img src="../assets/carretDown.svg">
+      <b-form-select
+        v-model="selectedVal"
+        :options="optionsVal"
+        @change="method(selectedVal)"
+      />
+    </div>
   </div>
 </template>
 
@@ -22,22 +26,51 @@ export default {
       optionsVal: this.options,
     };
   },
+  computed: {
+    displayValue() {
+      const selectedOption = this.optionsVal.find((option) => option.value === this.selectedVal);
+      return selectedOption ? selectedOption.text : '';
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.aggregator__dropdown{
+.dropdown {
   display: inline-block;
-  margin: unset;
-  select{
-    background: none;
-    background-color: $background_color;
-    color: $primary_color;
+  position: relative;
+  min-width: 6rem;
+
+  .display {
+    text-align: center;
+    position: relative;
+    color: $standard_font_color;
     font-size: .75rem;
-    border: none;
-    &:focus{
-      color: $primary_color;
+    background-color: $light_color;
+    padding: .6rem 2.2rem .6rem .85rem;
+    border-radius: .25rem;
+    line-height: .9rem;
+    min-height: 2.2rem;
+    display: flex;
+    align-items: center;
+
+    img {
+      position: absolute;
+      right: .85rem;
     }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  select {
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 </style>

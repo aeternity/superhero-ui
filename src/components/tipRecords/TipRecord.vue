@@ -451,11 +451,11 @@ export default {
     }
 
     &:hover {
-      background-color: #32343e;
+      background-color: #2a2a34;
       cursor: pointer;
 
       img {
-        background-color: #32343e;
+        background-color: #2a2a34;
       }
 
       .site__url {

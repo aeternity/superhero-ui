@@ -20,10 +20,10 @@
           Latest Replies
         </p>
         <div class="d-flex">
-          <img
-            class="mr-3 avatar"
-            :src="avatar"
-          >
+          <Avatar
+            :address="address"
+            class="avatar mr-3"
+          />
           <div class="input-group">
             <input
               v-model="newComment"
@@ -80,9 +80,9 @@ import RightSection from '../components/layout/RightSection.vue';
 import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
-import defaultAvatar from '../assets/userAvatar.svg';
 import { EventBus } from '../utils/eventBus';
 import AeButton from '../components/AeButton.vue';
+import Avatar from '../components/Avatar.vue';
 
 export default {
   name: 'TipCommentsView',
@@ -94,6 +94,7 @@ export default {
     RightSection,
     MobileNavigation,
     AeButton,
+    Avatar,
   },
   data() {
     return {
@@ -102,7 +103,7 @@ export default {
       comments: [],
       error: false,
       newComment: '',
-      avatar: defaultAvatar,
+      address: null,
       tip: null,
     };
   },
@@ -118,7 +119,7 @@ export default {
     this.loadTip();
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
-        this.avatar = this.getAvatar(this.account);
+        this.address = this.account;
         clearInterval(loadUserAvatar);
       }
     }, 500);
@@ -188,12 +189,12 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 .url__page{
   color: $light_font_color;
   font-size: .75rem;
 
-  .avatar{
+  .avatar, .user-identicon svg{
     width: 2rem;
     height: 2rem;
     border-radius: 50%;

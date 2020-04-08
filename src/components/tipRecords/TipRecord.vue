@@ -11,7 +11,7 @@
           @click.stop
         >
           <router-link :to="'/user-profile/' + tip.sender">
-            <img :src="getAvatar(tip.sender)">
+            <Avatar :address="tip.sender" />
             <div class="tip__author_name">
               <span
                 v-if="tip.chainName"
@@ -136,6 +136,7 @@ import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import AeAmount from '../AeAmount.vue';
 import FiatValue from '../FiatValue.vue';
+import Avatar from '../Avatar.vue';
 
 export default {
   name: 'TipRecord',
@@ -145,6 +146,7 @@ export default {
     FormatDate,
     AeAmount,
     FiatValue,
+    Avatar,
   },
   props: {
     tip: { type: Object, required: true },
@@ -250,7 +252,8 @@ export default {
       word-break: break-all;
     }
 
-    img {
+    img,
+    svg {
       border-radius: 50%;
       flex-shrink: 0;
       height: 2rem;

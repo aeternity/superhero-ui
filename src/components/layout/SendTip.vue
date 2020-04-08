@@ -9,10 +9,10 @@
     </div>
     <form @submit.prevent>
       <div class="form-group">
-        <img
-          :src="avatar"
+        <Avatar
+          :address="account"
           class="avatar mr-3"
-        >
+        />
         <input
           v-model="sendTipForm.title"
           type="text"
@@ -76,12 +76,14 @@ import avatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
 import AeButton from '../AeButton.vue';
 import IconDiamond from '../../assets/iconDiamond.svg';
+import Avatar from '../Avatar.vue';
 
 export default {
   name: 'SendTip',
   components: {
     FiatValue,
     AeButton,
+    Avatar,
   },
   data() {
     return {
@@ -134,7 +136,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .tip__post {
     background-color: $actions_ribbon_background_color;
     max-height: 0;
@@ -198,7 +200,7 @@ export default {
         }
       }
 
-      .avatar{
+      .avatar, .user-identicon svg{
         width: 2rem;
         height: 2rem;
         border-radius: 1rem;

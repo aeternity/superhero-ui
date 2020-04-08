@@ -1,7 +1,7 @@
 <!-- eslint-disable-next-line vue/no-v-html -->
 <template>
   <img
-    v-if="!error"
+    v-if="!error && avatar"
     :src="avatar"
     @error="error = true"
   >
@@ -32,7 +32,7 @@ export default {
   computed: {
     avatar() {
       const userImage = Backend.getProfileImageUrl(this.address);
-      return !this.address ? this.defaultAvatar : userImage;
+      return this.address ? userImage : null;
     },
     identicon() {
       jdenticon.config = IDENTICON_CONFIG;

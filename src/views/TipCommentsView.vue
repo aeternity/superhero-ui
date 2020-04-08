@@ -23,7 +23,7 @@
           <Avatar
             v-if="address"
             :address="address"
-            class="mr-3"
+            class="avatar mr-3"
           />
           <div class="input-group">
             <input

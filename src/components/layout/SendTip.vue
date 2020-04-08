@@ -11,7 +11,7 @@
       <div class="form-group">
         <Avatar
           :address="account"
-          class="mr-3"
+          class="avatar mr-3"
         />
         <input
           v-model="sendTipForm.title"

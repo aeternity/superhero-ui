@@ -3,6 +3,7 @@
   <img
     v-if="!error && avatar"
     :src="avatar"
+    loading="lazy"
     @error="error = true"
   >
   <div

@@ -107,7 +107,10 @@ export default {
     ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
       return Object.keys(this.currencyRates.aeternity)
-        .map((key) => ({ text: `${this.getFiatVal(this.currencyRates.aeternity[key])}${key.toUpperCase()}`, value: key }));
+        .map((key) => ({
+          text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
+          value: key,
+        }));
     },
     downloadUrl() {
       if (this.browser) {

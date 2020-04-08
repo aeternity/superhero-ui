@@ -3,12 +3,12 @@
     <div class="display">
       {{ displayValue }}
       <img src="../assets/carretDown.svg">
+      <b-form-select
+        v-model="selectedVal"
+        :options="optionsVal"
+        @change="method(selectedVal)"
+      />
     </div>
-    <b-form-select
-      v-model="selectedVal"
-      :options="optionsVal"
-      @change="method(selectedVal)"
-    />
   </div>
 </template>
 
@@ -43,19 +43,20 @@ export default {
 
   .display {
     text-align: center;
-    width: 100%;
-    position: absolute;
+    position: relative;
     color: $standard_font_color;
     font-size: .75rem;
     background-color: $light_color;
-    padding: .6rem 1rem .7rem .8rem;
+    padding: .6rem 2.2rem .6rem .85rem;
     border-radius: .25rem;
     line-height: .9rem;
     min-height: 2.2rem;
+    display: flex;
+    align-items: center;
 
     img {
-      @include vertical-align(absolute);
-      right: .5rem;
+      position: absolute;
+      right: .85rem;
     }
 
     &:hover {
@@ -64,7 +65,12 @@ export default {
   }
 
   select {
+    bottom: 0;
+    left: 0;
     opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 </style>

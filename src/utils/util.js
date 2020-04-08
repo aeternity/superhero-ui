@@ -38,6 +38,10 @@ Array.prototype.asyncMap = async function (asyncF) {
   }, Promise.resolve([]));
 };
 
+export const supportedBrowsers = [
+  'chrome', 'firefox',
+];
+
 export const currencySigns = {
   eur: '€',
   usd: '$',

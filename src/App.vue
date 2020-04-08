@@ -4,6 +4,12 @@
       ref="wrapper"
       class="min-h-screen wrapper"
     >
+      <div
+        v-if="isSupportedBrowser"
+        class="supportedbrowser--alert"
+      >
+        Alert - unsupported browser
+      </div>
       <router-view :key="$route.fullPath" />
     </div>
   </div>
@@ -11,11 +17,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { detect } from 'detect-browser';
 import aeternity from './utils/aeternity';
 import { wallet } from './utils/walletSearch';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
-import Util from './utils/util';
+import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
 
 export default {
   name: 'App',
@@ -26,6 +33,10 @@ export default {
   },
   computed: {
     ...mapGetters(['settings', 'tipSortBy']),
+    isSupportedBrowser() {
+      const browser = detect();
+      return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));
+    },
   },
   async created() {
     await this.initialLoad(true);
@@ -114,5 +125,9 @@ export default {
   }
   #app {
     font-family: Roboto, Helvetica, Arial, sans-serif;
+  }
+  .supportedbrowser--alert {
+    text-align: center;
+    line-height: 3rem;
   }
 </style>

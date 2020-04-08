@@ -15,7 +15,7 @@
         <div
           v-if="wizardIsCollapsed"
           :key="wizardIsCollapsed"
-          class="onboarding__container"
+          class="onboarding__container collapsed"
         >
           <div class="onboarding__nav">
             <div class="onboarding__start">
@@ -31,7 +31,7 @@
         <div
           v-else
           :key="wizardIsCollapsed"
-          class="wizard__container"
+          class="onboarding__container"
         >
           <div class="onboarding__nav">
             <div class="onboarding__tabs">
@@ -186,6 +186,10 @@ export default {
   .onboarding__container {
     border: 1px dashed $light_font_color;
     margin: .2rem 0 .15rem;
+
+    &.collapsed {
+      border: 0;
+    }
   }
 
   .onboarding__nav {
@@ -198,8 +202,8 @@ export default {
   }
 
   .onboarding__start {
-    margin-top: 1rem;
-    padding-bottom: 1rem;
+    margin-top: 0.4rem;
+    padding-bottom: 0.4rem;
 
     .button {
       background: url("../../assets/wizardChevron.svg") no-repeat 1rem center;

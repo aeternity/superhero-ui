@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="container wrapper">
-        <onboarding v-if="!loading.initial && !loading.wallet && !isLoggedIn" />
+        <onboarding />
         <div class="tips__container">
           <div class="send__tip__container">
             <send-tip />

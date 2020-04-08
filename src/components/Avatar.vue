@@ -14,7 +14,6 @@
 
 <script>
 import jdenticon from 'jdenticon';
-import defaultAvatar from '../assets/userAvatar.svg';
 import Backend from '../utils/backend';
 import { IDENTICON_CONFIG } from '../utils/util';
 
@@ -26,7 +25,6 @@ export default {
     },
   },
   data: () => ({
-    defaultAvatar,
     error: false,
   }),
   computed: {

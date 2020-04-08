@@ -20,7 +20,7 @@
   <div
     v-else
     class="retip__wrapper"
-    :title="isTipped ? 'Total tips (you tipped too)' : 'Total tips (click to retip the same URL)' "
+    :title="isTipped ? 'Total tips (you tipped too)' : 'Total tips (click to retip the same URL)'"
   >
     <div
       v-if="show"

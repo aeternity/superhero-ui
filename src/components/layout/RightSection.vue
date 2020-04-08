@@ -106,13 +106,8 @@ export default {
   computed: {
     ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
-      let dropdownOptions = [];
-      let fiatVal = '';
-      dropdownOptions = Object.keys(this.currencyRates.aeternity).map((key) => {
-        fiatVal = `${this.getFiatVal(this.currencyRates.aeternity[key])}${key.toUpperCase()}`;
-        return { text: fiatVal, value: key };
-      });
-      return dropdownOptions;
+      return Object.keys(this.currencyRates.aeternity)
+        .map((key) => ({ text: `${this.getFiatVal(this.currencyRates.aeternity[key])}${key.toUpperCase()}`, value: key }));
     },
     downloadUrl() {
       if (this.browser) {

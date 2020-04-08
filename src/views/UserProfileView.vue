@@ -53,12 +53,10 @@
                   :class="[showLoadingAvatar ? 'blurred' : '']"
                   :title="address"
                 >
-                  <img
+                  <Avatar 
                     :key="avatarEditImageKey"
-                    :src="avatar"
-                    :onerror="`this.className='fail'`"
-                    alt
-                  >
+                    :address="address"
+                  />
                   <span>Change Avatar</span>
                   <input
                     id="file-input"
@@ -75,12 +73,10 @@
                   :title="address"
                   target="_blank"
                 >
-                  <img
-                    v-if="!editMode"
-                    :src="avatar"
-                    :onerror="`this.className='fail'`"
-                    alt
-                  >
+                  <Avatar 
+                    :key="!editMode"
+                    :address="address"
+                  />
                 </a>
               </div>
               <div
@@ -287,6 +283,7 @@ import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
+import Avatar from '../components/Avatar';
 
 export default {
   name: 'TipCommentsView',
@@ -299,6 +296,7 @@ export default {
     LeftSection,
     RightSection,
     MobileNavigation,
+    Avatar,
   },
   props: {
     address: { type: String, required: true },
@@ -443,7 +441,7 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 #file-input {
   display: none;
 }
@@ -547,17 +545,20 @@ export default {
           top: 0;
           width: 100%;
         }
-        img {
+        img,
+        .user-identicon svg {
           opacity: 0.2;
         }
 
         &:hover {
-          img {
+          img,
+          .user-identicon svg {
             filter: grayscale(1);
           }
         }
       }
-      img {
+      img,
+      .user-identicon svg {
         width: 6.5rem;
         height: 6.5rem;
         border-radius: 3.25rem;

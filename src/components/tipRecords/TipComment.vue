@@ -13,7 +13,7 @@
           :title="comment.author"
         >
           <router-link :to="'/user-profile/' + comment.author">
-            <img :src="getAvatar(comment.author)">
+            <Avatar :address="comment.author" />
             <span
               v-if="userChainName"
               class="chain__name"
@@ -56,11 +56,13 @@
 import FormatDate from './FormatDate.vue';
 import Backend from '../../utils/backend';
 import defaultAvatar from '../../assets/userAvatar.svg';
+import Avatar from '../Avatar.vue';
 
 export default {
   name: 'TipComment',
   components: {
     FormatDate,
+    Avatar,
   },
   props: {
     comment: { type: Object, required: true },

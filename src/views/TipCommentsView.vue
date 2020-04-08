@@ -20,10 +20,11 @@
           Latest Replies
         </p>
         <div class="d-flex">
-          <img
+          <Avatar
+            v-if="address"
+            :address="address"
             class="mr-3 avatar"
-            :src="avatar"
-          >
+          />
           <div class="input-group">
             <input
               v-model="newComment"
@@ -83,6 +84,7 @@ import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
 import { EventBus } from '../utils/eventBus';
 import AeButton from '../components/AeButton.vue';
+import Avatar from '../components/Avatar.vue';
 
 export default {
   name: 'TipCommentsView',
@@ -94,6 +96,7 @@ export default {
     RightSection,
     MobileNavigation,
     AeButton,
+    Avatar,
   },
   data() {
     return {
@@ -102,7 +105,7 @@ export default {
       comments: [],
       error: false,
       newComment: '',
-      avatar: defaultAvatar,
+      address: null,
       tip: null,
     };
   },
@@ -118,7 +121,7 @@ export default {
     this.loadTip();
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
-        this.avatar = this.getAvatar(this.account);
+        this.address = this.account;
         clearInterval(loadUserAvatar);
       }
     }, 500);

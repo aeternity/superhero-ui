@@ -9,10 +9,7 @@
     </div>
     <form @submit.prevent>
       <div class="form-group">
-        <img
-          :src="avatar"
-          class="avatar mr-3"
-        >
+        <Avatar :address="account" class="avatar mr-3" />
         <input
           v-model="sendTipForm.title"
           type="text"
@@ -76,12 +73,14 @@ import avatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
 import AeButton from '../AeButton.vue';
 import IconDiamond from '../../assets/iconDiamond.svg';
+import Avatar from '../Avatar.vue';
 
 export default {
   name: 'SendTip',
   components: {
     FiatValue,
     AeButton,
+    Avatar,
   },
   data() {
     return {

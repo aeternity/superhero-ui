@@ -52,6 +52,18 @@ export const IS_MOBILE_DEVICE = window.navigator.userAgent.includes('Mobi');
 export const IS_FRAME = window.parent !== window;
 export const USE_DEEP_LINKS = IS_MOBILE_DEVICE && !IS_FRAME;
 
+export const IDENTICON_CONFIG = {
+  lightness: {
+    color: [0.4, 1.0],
+    grayscale: [0.5, 1.0],
+  },
+  saturation: {
+    color: 1.0,
+    grayscale: 1.0,
+  },
+  backColor: '#12121bff',
+};
+
 export default {
   atomsToAe,
   aeToAtoms,

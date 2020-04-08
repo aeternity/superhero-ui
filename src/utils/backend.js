@@ -43,6 +43,15 @@ export default class Backend {
     return wrapTry(fetch(Backend.getProfileImageUrl(address), request));
   };
 
+  static deleteProfileImage = async (address, postParam = false) => {
+    const request = {
+      method: 'delete',
+    };
+    Object.assign(request, postParam && { body: JSON.stringify(postParam) });
+    console.log(request);
+    return wrapTry(fetch(`${BACKEND_URL}/profile/image/${address}`, request));
+  };
+
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 
   static getStats = async () => backendFetch('static/stats/');

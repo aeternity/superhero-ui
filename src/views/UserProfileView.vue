@@ -119,6 +119,15 @@
               </div>
             </div>
             <div
+              v-if="editMode"
+              class="input-group delete-avatar"
+            >
+              <span
+              @click="deleteAvatar()"
+              >Delete avatar</span>
+            </div>
+            
+            <div
               v-if="!editMode"
               class="profile__description"
             >
@@ -399,6 +408,17 @@ export default {
       await Backend.sendProfileData(respondChallenge);
       this.resetEditedValues();
     },
+    async deleteAvatar() {
+      const response = await Backend.deleteProfileImage(this.account);
+      const signedChallenge = await wallet.signMessage(response.challenge);
+      const respondChallenge = {
+        challenge: response.challenge,
+        signature: signedChallenge,
+      };
+
+      await Backend.deleteProfileImage(this.account, respondChallenge);
+      this.resetEditedValues();
+    },
     getProfile() {
       Backend.getCommentCountForAddress(this.address)
         .then((userComment) => {
@@ -500,6 +520,15 @@ export default {
     .row {
       padding: 1.75rem 1rem 1rem 1rem;
       margin-right: -1rem;
+    }
+    .input-group.delete-avatar {
+      margin-left: 1rem;
+      span {
+        &:hover {
+          color: white;
+          cursor: pointer;
+        }
+      }
     }
     .input-group.description {
       margin-bottom: 1rem;

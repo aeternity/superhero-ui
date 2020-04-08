@@ -1,4 +1,4 @@
-<!-- eslint-disable-next-line vue/no-v-html -->
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <img
     v-if="!error && avatar"

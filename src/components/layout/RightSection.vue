@@ -108,7 +108,7 @@ export default {
     currencyDropdownOptions() {
       return Object.keys(this.currencyRates.aeternity)
         .map((key) => ({
-          text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
+          text: `~${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
           value: key,
         }));
     },

@@ -146,10 +146,6 @@ export default {
         display: none;
       }
 
-      .navigation__item.trending {
-        display: none;
-      }
-
       .navigation__item {
         display: block;
         min-width: 8rem;

@@ -111,14 +111,13 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
   .step__wallets {
     align-items: center;
     display: flex;
     height: 2rem;
     justify-content: center;
-    margin: .5rem 0 2rem;
+    margin: 0.5rem 0 2rem;
     width: 100%;
 
     a {

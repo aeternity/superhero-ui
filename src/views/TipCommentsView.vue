@@ -190,44 +190,52 @@ export default {
 
 
 <style lang="scss">
-.url__page{
+.url__page {
   color: $light_font_color;
-  font-size: .75rem;
+  font-size: 0.75rem;
 
-  .avatar, .user-identicon svg{
+  .avatar,
+  .user-identicon svg {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
   }
-  .input-group{
-    width: calc(100% - 2.5rem)
+
+  .input-group {
+    width: calc(100% - 2.5rem);
   }
-  .tipped__url{
-    .tip__record{
+
+  .tipped__url {
+    .tip__record {
       margin-bottom: 0;
-      &.row{
+
+      &.row {
         background-color: $actions_ribbon_background_color;
       }
     }
   }
-  .comments__section{
+
+  .comments__section {
     background-color: $actions_ribbon_background_color;
     padding: 1rem;
   }
-  .no-results{
+
+  .no-results {
     color: $standard_font_color;
-    font-size: .75rem;
+    font-size: 0.75rem;
     text-align: center;
-    &.error{
+
+    &.error {
       color: red;
     }
   }
+
   .comment__section {
     background-color: $actions_ribbon_background_color;
-    padding: .75rem 1rem 0 1rem;
+    padding: 0.75rem 1rem 0 1rem;
 
     p {
-      font-size: .75rem;
+      font-size: 0.75rem;
       text-transform: capitalize;
       margin-bottom: 0.7rem;
       color: white;
@@ -240,11 +248,11 @@ export default {
   }
 
   .send-comment {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     text-align: right;
 
     .ae-button {
-      padding: .55rem 2.87rem .65rem 2.87rem;
+      padding: 0.55rem 2.87rem 0.65rem 2.87rem;
     }
   }
 }

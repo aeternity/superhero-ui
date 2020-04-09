@@ -45,18 +45,18 @@ export default {
     text-align: center;
     position: relative;
     color: $standard_font_color;
-    font-size: .75rem;
+    font-size: 0.75rem;
     background-color: $light_color;
-    padding: .6rem 2.2rem .6rem .85rem;
-    border-radius: .25rem;
-    line-height: .9rem;
+    padding: 0.6rem 2.2rem 0.6rem 0.85rem;
+    border-radius: 0.25rem;
+    line-height: 0.9rem;
     min-height: 2.2rem;
     display: flex;
     align-items: center;
 
     img {
       position: absolute;
-      right: .85rem;
+      right: 0.85rem;
     }
 
     &:hover {

@@ -81,8 +81,8 @@ export default {
   }
 
   .navigation__item {
-    font-size: .93rem;
-    margin-bottom: .75rem;
+    font-size: 0.93rem;
+    margin-bottom: 0.75rem;
 
     a {
       align-items: center;
@@ -94,10 +94,12 @@ export default {
     //TODO: Should be removed when Trending page is added
     &.trending .router-link-exact-active {
       color: $standard_font_color;
-      &:hover{
+
+      &:hover {
         color: $custom_links_color;
       }
     }
+
     a:hover,
     .router-link-exact-active {
       color: $custom_links_color;
@@ -108,7 +110,7 @@ export default {
   .navigation__item__image {
     display: inline-block;
     height: 1.3rem;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     width: 1.3rem;
 
     .home & {
@@ -130,6 +132,7 @@ export default {
     .faq & {
       background-image: url('../../assets/iconHelp.svg');
     }
+
     a:hover &,
     .router-link-exact-active & {
       .home & {
@@ -148,7 +151,8 @@ export default {
         background-image: url('../../assets/iconHelpActive.svg');
       }
     }
-    .navigation__item.trending  a:hover &{
+
+    .navigation__item.trending a:hover & {
       background-image: url('../../assets/iconTrendingActive.svg');
     }
   }

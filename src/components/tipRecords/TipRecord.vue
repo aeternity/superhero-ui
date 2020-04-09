@@ -209,13 +209,13 @@ export default {
 
     .ae-amount {
       color: $standard_font_color;
-      font-size: .8rem;
+      font-size: 0.8rem;
     }
 
     .currency-value {
       color: $light_font_color;
-      margin-left: .1rem;
-      font-size: .7rem;
+      margin-left: 0.1rem;
+      font-size: 0.7rem;
     }
   }
 
@@ -228,18 +228,18 @@ export default {
     align-items: center;
     color: $light_font_color;
     display: flex;
-    font-size: .8rem;
+    font-size: 0.8rem;
     justify-content: space-between;
-    padding: 0 1rem .9rem 1rem;
+    padding: 0 1rem 0.9rem 1rem;
 
     .tip__date {
       display: inline-block;
-      font-size: .6rem;
+      font-size: 0.6rem;
       text-align: right;
     }
 
     .address {
-      font-size: .65rem;
+      font-size: 0.65rem;
     }
 
     .address,
@@ -290,9 +290,9 @@ export default {
     @include truncate-overflow-mx(4);
 
     color: $tip_note_color;
-    font-size: .8rem;
-    margin-top: .85rem;
-    margin-bottom: .8rem;
+    font-size: 0.8rem;
+    margin-top: 0.85rem;
+    margin-bottom: 0.8rem;
     padding-left: 1rem;
 
     .title .topic {
@@ -305,11 +305,11 @@ export default {
   }
 
   .tip__footer {
-    border-bottom-left-radius: .25rem;
-    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
     color: $light_font_color;
-    font-size: .8rem;
-    padding: 0 1rem .75rem;
+    font-size: 0.8rem;
+    padding: 0 1rem 0.75rem;
   }
 
   .tip__footer_wrapper {
@@ -318,17 +318,11 @@ export default {
   }
 
   // separator
-  .tip__footer_wrapper:after {
+  .tip__footer_wrapper::after {
     content: '';
     flex-basis: 1rem;
     height: 1rem;
     order: 3;
-  }
-
-  .tip__comments {
-    margin-left: 20%;
-    cursor: pointer;
-    order: 4;
   }
 
   .tip__comments,
@@ -341,8 +335,8 @@ export default {
     position: relative;
 
     img {
-      height: .7rem;
-      margin-right: .2rem;
+      height: 0.7rem;
+      margin-right: 0.2rem;
       vertical-align: top;
       width: 1rem;
     }
@@ -352,12 +346,17 @@ export default {
     }
   }
 
-  .tip__comments{
-    &:hover img{
-      filter: brightness(1.3);
-    }
+  .tip__comments {
+    margin-left: 20%;
+    cursor: pointer;
+    order: 4;
+
     img {
       height: 1rem;
+    }
+
+    &:hover img {
+      filter: brightness(1.3);
     }
   }
 
@@ -366,7 +365,7 @@ export default {
     margin-right: 1rem;
 
     a {
-      font-size: .75rem;
+      font-size: 0.75rem;
       display: block;
 
       &:hover {
@@ -381,8 +380,8 @@ export default {
     background-position: 95% center;
     background-repeat: no-repeat;
     background-size: 30%;
-    border-radius: .5rem;
-    font-size: .75rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
     height: 10.5rem;
     margin-left: 1rem;
     margin-right: 1rem;
@@ -399,22 +398,23 @@ export default {
 
     .tip__article__content {
       color: #babac0;
-      font-size: .75rem;
+      font-size: 0.75rem;
       height: 10.5rem;
       line-height: 1.1rem;
-      padding: .85rem 1rem .8rem 1rem;
+      padding: 0.85rem 1rem 0.8rem 1rem;
 
       .title {
         display: block;
-        font-size: .8rem;
+        font-size: 0.8rem;
         font-weight: 500;
-        margin-bottom: .15rem;
+        margin-bottom: 0.15rem;
         color: $tip_note_color;
       }
 
       .description {
         @include truncate-overflow-mx(4);
-        margin-bottom: .35rem;
+
+        margin-bottom: 0.35rem;
         color: $preview_description_font_color;
       }
     }
@@ -440,13 +440,12 @@ export default {
     .site__url {
       color: $light_font_color;
       font-weight: 500;
-      margin-bottom: .45rem;
+      margin-bottom: 0.45rem;
 
       img {
-        width: .625rem;
-        height: .625rem;
-        vertical-align: top;
-        margin-right: .2rem;
+        width: 0.625rem;
+        height: 0.625rem;
+        margin-right: 0.2rem;
         vertical-align: baseline;
       }
     }
@@ -486,49 +485,58 @@ export default {
     }
 
     .tip__note {
-      font-size: .75rem;
+      font-size: 0.75rem;
     }
 
     .tip__article {
       .tip__article__content {
-        font-size: .75rem;
+        font-size: 0.75rem;
       }
     }
   }
 
   @media only screen and (max-width: 600px) {
     .tip__note {
-      font-size: .75rem;
+      font-size: 0.75rem;
     }
 
     .tip__footer .tip__amount img {
-      width: .7rem;
+      width: 0.7rem;
     }
 
     .tip__article {
       .tip__article__content {
-        font-size: .65rem;
+        font-size: 0.65rem;
       }
     }
   }
 
   //Smallest devices Portrait and Landscape
-  @media only screen and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  @media only screen
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2) {
     .tip__body {
       padding: 0;
     }
 
     .tip__record {
-      margin-bottom: .5rem;
-      padding: .5rem .5rem .5rem .5rem;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem 0.5rem 0.5rem 0.5rem;
       position: relative;
     }
 
     .tip__article {
-      margin-left: -.5rem;
-      margin-right: -1rem;
+      margin-left: 0;
       max-width: calc(100% + 1rem);
       width: calc(100% + 1rem);
+
+      .tip__article__content {
+        line-height: 1.1rem;
+
+        .description {
+          @include truncate-overflow-mx(5);
+        }
+      }
 
       .site__url {
         text-decoration: underline;
@@ -536,7 +544,7 @@ export default {
     }
 
     .tip__author {
-      font-size: .6rem;
+      font-size: 0.6rem;
       padding-left: 0;
       padding-right: 0;
 
@@ -546,7 +554,7 @@ export default {
       }
 
       .address {
-        font-size: .55rem;
+        font-size: 0.55rem;
       }
     }
 
@@ -555,7 +563,7 @@ export default {
     }
 
     .tip__footer {
-      font-size: .65rem;
+      font-size: 0.65rem;
       padding: 0;
 
       .tip__amount {
@@ -566,20 +574,7 @@ export default {
     }
 
     .tip__url {
-      margin: 0 0 .4rem 0;
-    }
-
-    .tip__article {
-      margin-left: 0;
-      width: 100%;
-
-      .tip__article__content {
-        line-height: 1.1rem;
-
-        .description {
-          @include truncate-overflow-mx(5);
-        }
-      }
+      margin: 0 0 0.4rem 0;
     }
   }
 </style>

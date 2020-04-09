@@ -214,6 +214,7 @@ export default {
   p {
     text-align: center;
   }
+
   a {
     color: $custom_links_color;
 
@@ -221,6 +222,7 @@ export default {
       filter: saturate(0.5) brightness(1.2);
     }
   }
+
   hr {
     background: $search_nav_border_color;
     margin-bottom: 1rem;

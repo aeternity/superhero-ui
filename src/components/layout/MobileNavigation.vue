@@ -80,7 +80,7 @@ export default {
     top: 0;
     background-color: $background_color;
     color: $light_font_color;
-    padding: .75rem .6rem .75rem 1rem;
+    padding: 0.75rem 0.6rem 0.75rem 1rem;
     display: none;
 
     &.sticky {
@@ -99,16 +99,16 @@ export default {
     .mobile-actions {
       display: inline-block;
       float: right;
-      max-width: fit-content;;
+      max-width: fit-content;
       text-align: right;
       width: 100%;
 
       img {
-        margin-left: 1rem
+        margin-left: 1rem;
       }
 
       .tip {
-        height: .9rem;
+        height: 0.9rem;
       }
     }
 
@@ -154,14 +154,13 @@ export default {
         display: block;
         min-width: 8rem;
       }
-
     }
   }
 
   @media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+    and (min-device-width: 320px)
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2) {
     .mobile-navigation {
       display: block;
     }

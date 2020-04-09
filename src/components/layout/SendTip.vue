@@ -149,15 +149,17 @@ export default {
     }
 
     form {
-      padding: .6rem 1rem 1rem 1rem;
+      padding: 0.6rem 1rem 1rem 1rem;
 
       span.append__ae {
         font-size: 0.75rem;
         background: $buttons_background;
         cursor: default;
-        & .ae{
+
+        & .ae {
           color: $secondary_color;
         }
+
         &:hover {
           background: $buttons_background;
           cursor: default;
@@ -166,29 +168,35 @@ export default {
 
       .form-group {
         margin-bottom: 0;
-        .input-group{
-          border-radius: .25rem;
+
+        .input-group {
+          border-radius: 0.25rem;
         }
+
         input {
-          &[type=number]:focus{
+          &[type=number]:focus {
             border-right: none;
           }
-          &[type=number]:focus~.input-group-append .input-group-text{
-            border: .05rem solid $custom_links_color;
+
+          &[type=number]:focus ~ .input-group-append .input-group-text {
+            border: 0.05rem solid $custom_links_color;
             border-left: none;
           }
-          &.comment{
+
+          &.comment {
             display: inline-block;
             width: calc(100% - 3.01rem);
           }
+
           background-color: $buttons_background;
           color: $standard_font_color;
-          font-size: .75rem;
-          border: .05rem solid transparent;
+          font-size: 0.75rem;
+          border: 0.05rem solid transparent;
           height: 2.2rem;
           margin-bottom: 1rem;
-          &:focus{
-             border: .05rem solid $custom_links_color;
+
+          &:focus {
+            border: 0.05rem solid $custom_links_color;
           }
         }
       }
@@ -196,18 +204,20 @@ export default {
       .tip__post__balance {
         span {
           font-size: 0.75rem;
-          color:$standard_font_color;
+          color: $standard_font_color;
         }
       }
 
-      .avatar, .user-identicon svg{
+      .avatar,
+      .user-identicon svg {
         width: 2rem;
         height: 2rem;
         border-radius: 1rem;
       }
     }
+
     .ae-button {
-      padding: .55rem 2.87rem .65rem 2.87rem;
+      padding: 0.55rem 2.87rem 0.65rem 2.87rem;
       font-weight: 600;
     }
 
@@ -215,12 +225,11 @@ export default {
       vertical-align: middle;
     }
 
-
     .tip__post__label {
       font-weight: 600;
-      font-size: .8rem;
+      font-size: 0.8rem;
       color: $standard_font_color;
-      padding: .75rem 1rem;
+      padding: 0.75rem 1rem;
       background-color: $light_color;
 
       label {

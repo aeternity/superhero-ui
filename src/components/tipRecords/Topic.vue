@@ -32,9 +32,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .topic{
+  .topic {
     color: $custom_links_color;
-    &:hover{
+
+    &:hover {
       cursor: pointer;
     }
   }

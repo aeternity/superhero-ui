@@ -45,6 +45,9 @@ export default {
   [types.TOGGLE_TIP_MODAL](state, payload) {
     state.openTipModal = payload;
   },
+  [types.UPDATE_CURRENCY](state, payload) {
+    state.settings.currency = payload;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

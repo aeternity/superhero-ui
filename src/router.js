@@ -19,7 +19,9 @@ const guardTipComments = (to, from, next) => {
 };
 
 const guardCommentView = (to, from, next) => {
-  if (to.name === 'comment' && typeof to.params.id !== 'undefined') {
+  if (to.name === 'comment'
+      && typeof to.params.id !== 'undefined'
+      && typeof to.params.tipId !== 'undefined') {
     next();
   } else {
     next('/');
@@ -34,6 +36,16 @@ const routes = [
     meta: { title: 'Home' },
   },
   {
+    path: '/tip/:id/comment/:id',
+    name: 'comment',
+    component: SingleCommentView,
+    meta: {
+      title: 'Comment View',
+    },
+    props: true,
+    beforeEnter: guardCommentView,
+  },
+  {
     path: '/tip/:id',
     name: 'tip',
     component: TipCommentsView,
@@ -42,16 +54,6 @@ const routes = [
     },
     props: true,
     beforeEnter: guardTipComments,
-  },
-  {
-    path: '/comment/:id',
-    name: 'comment',
-    component: SingleCommentView,
-    meta: {
-      title: 'Comment View',
-    },
-    props: true,
-    beforeEnter: guardCommentView,
   },
   {
     path: '/user-profile/:address',

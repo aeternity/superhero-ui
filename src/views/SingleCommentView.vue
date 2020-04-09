@@ -103,7 +103,7 @@ export default {
       newComment: '',
       address: null,
       comment: null,
-      tip: null,
+      tipId: this.$route.params.tipId,
     };
   },
   computed: {

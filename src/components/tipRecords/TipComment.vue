@@ -1,7 +1,7 @@
 <template>
   <div
     class="tip__record row position-relative comment"
-    @click="goToURLPage(comment.tipId)"
+    @click="goToCommentPage(comment.tipId, comment.id)"
   >
     <div class="tip__body">
       <div
@@ -83,10 +83,11 @@ export default {
       const userImage = Backend.getProfileImageUrl(address);
       return userImage || this.defaultAvatar;
     },
-    goToURLPage(id) {
+    goToCommentPage(tipId, id) {
       this.$router.push({
-        name: 'tip',
+        name: 'comment',
         params: {
+          tipId,
           id,
         },
       });

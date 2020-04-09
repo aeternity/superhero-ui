@@ -8,9 +8,18 @@ import FAQ from './views/FAQ.vue';
 import Maintenance from './views/Maintenance.vue';
 import Mission from './views/Mission.vue';
 import CreateProfile from './views/CreateProfile.vue';
+import SingleCommentView from './views/SingleCommentView.vue';
 
 const guardTipComments = (to, from, next) => {
   if (to.name === 'tip' && typeof to.params.id !== 'undefined') {
+    next();
+  } else {
+    next('/');
+  }
+};
+
+const guardCommentView = (to, from, next) => {
+  if (to.name === 'comment' && typeof to.params.id !== 'undefined') {
     next();
   } else {
     next('/');
@@ -33,6 +42,16 @@ const routes = [
     },
     props: true,
     beforeEnter: guardTipComments,
+  },
+  {
+    path: '/comment/:id',
+    name: 'comment',
+    component: SingleCommentView,
+    meta: {
+      title: 'Comment View',
+    },
+    props: true,
+    beforeEnter: guardCommentView,
   },
   {
     path: '/user-profile/:address',

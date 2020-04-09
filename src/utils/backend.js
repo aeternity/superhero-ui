@@ -46,6 +46,9 @@ export default class Backend {
   static deleteProfileImage = async (address, postParam = false) => {
     const request = {
       method: 'delete',
+      headers: {
+        'Content-Type': 'application/json'
+      },
     };
     Object.assign(request, postParam && { body: JSON.stringify(postParam) });
     console.log(request);

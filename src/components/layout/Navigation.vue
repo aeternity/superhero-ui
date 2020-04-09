@@ -14,12 +14,6 @@
         <span>Home</span>
       </router-link>
     </div>
-    <div class="navigation__item trending">
-      <router-link :to="{ name: 'home' }">
-        <div class="navigation__item__image" />
-        <span>Trending</span>
-      </router-link>
-    </div>
     <div class="navigation__item mission">
       <router-link :to="{ name: 'mission' }">
         <div class="navigation__item__image" />
@@ -91,14 +85,6 @@ export default {
       display: flex;
       line-height: 1;
     }
-    //TODO: Should be removed when Trending page is added
-    &.trending .router-link-exact-active {
-      color: $standard_font_color;
-
-      &:hover {
-        color: $custom_links_color;
-      }
-    }
 
     a:hover,
     .router-link-exact-active {
@@ -115,10 +101,6 @@ export default {
 
     .home & {
       background-image: url('../../assets/iconHome.svg');
-    }
-
-    .trending & {
-      background-image: url('../../assets/iconTrending.svg');
     }
 
     .profile & {
@@ -150,10 +132,6 @@ export default {
       .faq & {
         background-image: url('../../assets/iconHelpActive.svg');
       }
-    }
-
-    .navigation__item.trending a:hover & {
-      background-image: url('../../assets/iconTrendingActive.svg');
     }
   }
 

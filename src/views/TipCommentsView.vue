@@ -208,13 +208,13 @@ export default {
       margin-bottom: 0;
 
       &.row {
-        background-color: $actions_ribbon_background_color;
+        background-color: $light_color;
       }
     }
   }
 
   .comments__section {
-    background-color: $actions_ribbon_background_color;
+    background-color: $light_color;
     padding: 1rem;
   }
 
@@ -229,7 +229,7 @@ export default {
   }
 
   .comment__section {
-    background-color: $actions_ribbon_background_color;
+    background-color: $light_color;
     padding: 0.75rem 1rem 0 1rem;
 
     p {

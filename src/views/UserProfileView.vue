@@ -10,11 +10,7 @@
     />
     <div v-else>
       <div class="profile__page">
-        <div class="actions-ribbon">
-          <router-link :to="{ name: 'home' }">
-            <img src="../assets/backArrow.svg">
-          </router-link>
-        </div>
+        <back-button-ribbon />
         <div class="profile__section clearfix position-relative">
           <div
             v-if="showLoadingProfile"
@@ -284,6 +280,7 @@ import defaultAvatar from '../assets/userAvatar.svg';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
 import Avatar from '../components/Avatar.vue';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 
 export default {
   name: 'TipCommentsView',
@@ -297,6 +294,7 @@ export default {
     RightSection,
     MobileNavigation,
     Avatar,
+    BackButtonRibbon,
   },
   props: {
     address: { type: String, required: true },

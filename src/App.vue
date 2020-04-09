@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    @mousedown="saveScrollPosition()"
+  >
     <div
       ref="wrapper"
       class="min-h-screen wrapper"
@@ -10,7 +13,9 @@
       >
         Alert - unsupported browser
       </div>
-      <router-view :key="$route.fullPath" />
+      <keep-alive :max="5">
+        <router-view :key="$route.fullPath" />
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -29,6 +34,7 @@ export default {
   data() {
     return {
       page: 1,
+      savedScrolls: [],
     };
   },
   computed: {
@@ -48,6 +54,14 @@ export default {
       this.$router.push({
         name: 'maintenance',
       });
+    });
+    this.$router.afterEach((to) => {
+      setTimeout(
+        () => {
+          document.scrollingElement.scrollTop = this.savedScrolls[to.fullPath] || 0;
+        },
+        100,
+      );
     });
   },
   methods: {
@@ -111,6 +125,9 @@ export default {
       await this.reloadData();
 
       this.removeLoading('initial');
+    },
+    saveScrollPosition() {
+      this.savedScrolls[this.$route.fullPath] = document.scrollingElement.scrollTop;
     },
   },
 };

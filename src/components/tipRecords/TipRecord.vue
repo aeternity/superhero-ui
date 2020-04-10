@@ -78,7 +78,7 @@
             </div>
             <img
               :src="tipPreviewImage"
-              :onerror="`this.className='fail'`"
+              :onerror="`this.className+=' fail'`"
               :loading="`lazy`"
               class="preview__image"
             >
@@ -451,11 +451,11 @@ export default {
     }
 
     &:hover {
-      background-color: #2a2a34;
+      background-color: $thumbnail_background_color_alt;
       cursor: pointer;
 
-      img {
-        background-color: #2a2a34;
+      .preview__image {
+        background-color: $thumbnail_background_color_alt;
       }
 
       .site__url {

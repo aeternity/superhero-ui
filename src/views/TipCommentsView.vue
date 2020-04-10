@@ -208,13 +208,29 @@ export default {
       margin-bottom: 0;
 
       &.row {
-        background-color: $actions_ribbon_background_color;
+        background-color: $thumbnail_background_color;
+      }
+    }
+  }
+
+  .tip__article {
+    background-color: $thumbnail_background_color_alt;
+
+    .preview__image {
+      background-color: $thumbnail_background_color_alt;
+    }
+
+    &:hover {
+      background-color: #373843;
+
+      .preview__image {
+        background-color: #373843;
       }
     }
   }
 
   .comments__section {
-    background-color: $actions_ribbon_background_color;
+    background-color: $thumbnail_background_color;
     padding: 1rem;
   }
 
@@ -229,7 +245,7 @@ export default {
   }
 
   .comment__section {
-    background-color: $actions_ribbon_background_color;
+    background-color: $thumbnail_background_color;
     padding: 0.75rem 1rem 0 1rem;
 
     p {

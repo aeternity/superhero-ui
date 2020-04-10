@@ -606,6 +606,19 @@ export default {
         }
       }
     }
+
+    .description {
+      margin: 0.5rem 1rem;
+
+      textarea {
+        min-height: 4rem;
+      }
+    }
+
+    .profile__description {
+      margin: 0.5rem 1rem;
+      color: $tip_note_color;
+    }
   }
 
   .profile__meta {
@@ -673,18 +686,6 @@ export default {
     }
   }
 
-  .description {
-    margin: 0.5rem 1rem;
-
-    textarea {
-      min-height: 4rem;
-    }
-  }
-
-  .profile__description {
-    margin: 0.5rem 1rem;
-    color: $tip_note_color;
-  }
 }
 
 @media only screen and (max-width: 768px) {

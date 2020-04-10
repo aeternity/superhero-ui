@@ -42,14 +42,15 @@ export default {
 
 <style lang="scss" scoped>
 .input-group {
-  border: .05rem solid $buttons_background;
+  border: 0.05rem solid $buttons_background;
   border-radius: 0.25rem;
 
   &:focus-within {
-    border: .05rem solid $custom_links_color;
+    border: 0.05rem solid $custom_links_color;
   }
 
-  input, input ~ .input-group-append > span.append__ae {
+  input,
+  input ~ .input-group-append > span.append__ae {
     border: 0;
 
     &:focus {

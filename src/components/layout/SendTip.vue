@@ -135,17 +135,17 @@ export default {
         margin-bottom: 0;
 
         input {
-          &.comment{
-            display: inline-block;
-            width: calc(100% - 3.01rem);
-          }
-
           background-color: $buttons_background;
           color: $standard_font_color;
           font-size: 0.75rem;
           border: 0.05rem solid transparent;
           height: 2.2rem;
           margin-bottom: 1rem;
+
+          &.comment {
+            display: inline-block;
+            width: calc(100% - 3.01rem);
+          }
 
           &:focus {
             border: 0.05rem solid $custom_links_color;
@@ -189,5 +189,4 @@ export default {
       }
     }
   }
-
 </style>

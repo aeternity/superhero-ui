@@ -1,8 +1,26 @@
 
 <template>
+  <a
+    v-if="USE_DEEP_LINKS"
+    :href="deepLink"
+    target="_blank"
+    class="tip__content"
+  >
+    <img :src="iconTip">
+    <ae-amount
+      :amount="tip.retip_amount_ae.toString()"
+      :round="2"
+      class="vertical-align-mid"
+    />
+    <fiat-value
+      :amount="tip.retip_amount_ae.toString()"
+      class="vertical-align-mid"
+    />
+  </a>
   <div
+    v-else
     class="tip-url__wrapper"
-    :title="isTipped ? 'Total tips (you tipped too)' : 'Total tips (click to retip the same URL)'"
+    title="Total amount of retips"
   >
     <div
       v-if="show"
@@ -23,10 +41,10 @@
           :src="iconTip"
         >
         <ae-amount
-          :amount="tip.total_amount"
+          :amount="tip.retip_amount_ae"
           :round="2"
         />
-        <fiat-value :amount="tip.total_amount.toString()" />
+        <fiat-value :amount="tip.retip_amount_ae.toString()" />
       </div>
       <div
         v-if="show"
@@ -107,13 +125,13 @@ export default {
     eventPayload() {
       return `${this.tip.id}:${this.show}`;
     },
-    // deepLink() {
-    //   const url = new URL(`${process.env.VUE_APP_WALLET_URL}/retip`);
-    //   url.searchParams.set('id', this.tip.id);
-    //   url.searchParams.set('x-success', window.location);
-    //   url.searchParams.set('x-cancel', window.location);
-    //   return url;
-    // },
+    deepLink() {
+      const url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
+      url.searchParams.set('id', this.tip.id);
+      url.searchParams.set('x-success', window.location);
+      url.searchParams.set('x-cancel', window.location);
+      return url;
+    },
     isSendMessageDataValid() {
       return this.message.trim().length > 0 && !this.value;
     },
@@ -154,14 +172,13 @@ export default {
     async sendTip() {
       const amount = util.aeToAtoms(this.value);
       this.showLoading = true;
-      await aeternity.tip(this.tip.url, this.title, amount)
+      await aeternity.tip(`${window.location.origin}/#/tip/${this.tip.id}`, this.message, amount)
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');
           this.showLoading = false;
           this.error = false;
           this.show = false;
-          debugger;
         }).catch((e) => {
           console.error(e);
           this.showLoading = false;

@@ -171,7 +171,8 @@ export default {
 </script>
 
 <style lang="scss">
-  .retip__content {
+  .retip__content,
+  .tip__content {
     align-items: center;
     display: flex;
     flex: 0 0 auto;

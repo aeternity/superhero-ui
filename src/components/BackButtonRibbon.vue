@@ -13,7 +13,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 .actions-ribbon {
   padding: 1.05rem 2.5rem 1.05rem 1rem;

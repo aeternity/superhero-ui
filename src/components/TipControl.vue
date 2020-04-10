@@ -59,7 +59,7 @@
         </div>
         <form
           v-if="!showLoading"
-          @onsubmit="submitAction()"
+          @submit.prevent
         >
           <div
             class="input-group"
@@ -75,6 +75,7 @@
             <ae-input-amount v-model="value" />
             <ae-button
               :disabled="!(isSendTipDataValid || isSendMessageDataValid)"
+              @click="submitAction()"
             >
               Tip
             </ae-button>

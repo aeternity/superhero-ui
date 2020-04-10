@@ -135,6 +135,11 @@ export default {
         margin-bottom: 0;
 
         input {
+          &.comment {
+            display: inline-block;
+            width: calc(100% - 3.01rem);
+          }
+
           background-color: $buttons_background;
           color: $standard_font_color;
           font-size: 0.75rem;

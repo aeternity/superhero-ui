@@ -4,68 +4,83 @@
     v-if="USE_DEEP_LINKS"
     :href="deepLink"
     target="_blank"
-    class="retip__content"
+    class="tip__content"
   >
     <img :src="iconTip">
     <ae-amount
-      :amount="tip.total_amount"
+      :amount="tip.retip_amount_ae.toString()"
       :round="2"
       class="vertical-align-mid"
     />
     <fiat-value
-      :amount="tip.total_amount.toString()"
+      :amount="tip.retip_amount_ae.toString()"
       class="vertical-align-mid"
     />
   </a>
   <div
     v-else
-    class="retip__wrapper"
-    :title="isTipped ? 'Total tips (you tipped too)' : 'Total tips (click to retip the same URL)'"
+    class="tip-url__wrapper"
+    title="Total amount of retips"
   >
     <div
       v-if="show"
       class="overlay"
-      @click="toggleRetip(false)"
+      @click="toggleTip(false)"
     />
     <div
-      class="retip__container_wrapper"
+      class="tip__container_wrapper"
       @:click.stop
     >
       <div
         class="retip__content"
         :class="[{ active: show }]"
-        @click="toggleRetip(!show)"
+        @click="toggleTip(!show)"
       >
         <img
-          class="retip__icon retip__icon--retip"
+          class="tip__icon"
           :src="iconTip"
         >
         <ae-amount
-          :amount="tip.total_amount"
+          :amount="tip.retip_amount_ae"
           :round="2"
         />
-        <fiat-value :amount="tip.total_amount.toString()" />
+        <fiat-value :amount="tip.retip_amount_ae.toString()" />
       </div>
       <div
         v-if="show"
-        class="retip__container"
+        class="tip__container"
       >
         <loading :show-loading="showLoading" />
         <div
           v-show="error && !showLoading"
           class="text-center mb-2"
         >
-          An error occurred while sending retip
+          An error occurred while sending tip
         </div>
-        <div v-if="!showLoading">
-          <ae-input-amount v-model="value" />
-          <ae-button
-            :disabled="!isDataValid"
-            @click="retip()"
+        <form
+          v-if="!showLoading"
+          @submit.prevent
+        >
+          <div
+            class="input-group"
           >
-            Retip
-          </ae-button>
-        </div>
+            <input
+              v-model="message"
+              type="text"
+              class="form-control tip__message"
+              placeholder="Add message"
+            >
+          </div>
+          <div class="amount__row">
+            <ae-input-amount v-model="value" />
+            <ae-button
+              :disabled="!(isSendTipDataValid || isSendMessageDataValid)"
+              @click="submitAction()"
+            >
+              Tip
+            </ae-button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -84,9 +99,10 @@ import FiatValue from './FiatValue.vue';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
+import { wallet } from '../utils/walletSearch';
 
 export default {
-  name: 'Retip',
+  name: 'TipControl',
   components: {
     Loading,
     FiatValue,
@@ -105,6 +121,7 @@ export default {
       showLoading: false,
       error: true,
       USE_DEEP_LINKS,
+      message: '',
     };
   },
   computed: {
@@ -113,14 +130,17 @@ export default {
       return `${this.tip.id}:${this.show}`;
     },
     deepLink() {
-      const url = new URL(`${process.env.VUE_APP_WALLET_URL}/retip`);
+      const url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
       url.searchParams.set('id', this.tip.id);
       url.searchParams.set('x-success', window.location);
       url.searchParams.set('x-cancel', window.location);
       return url;
     },
-    isDataValid() {
-      return this.value > 0;
+    isSendMessageDataValid() {
+      return this.message.trim().length > 0 && !this.value;
+    },
+    isSendTipDataValid() {
+      return this.value > 0 && this.message.trim().length > 0;
     },
     isTipped() {
       return !this.loading
@@ -132,23 +152,31 @@ export default {
     },
   },
   created() {
-    EventBus.$on('showRetipForm', (payload) => {
+    EventBus.$on('showTipForm', (payload) => {
       if (payload !== this.eventPayload) {
         this.show = false;
       }
     });
   },
   methods: {
-    toggleRetip(showRetipForm) {
-      this.show = showRetipForm;
-      if (showRetipForm) {
-        EventBus.$emit('showRetipForm', this.eventPayload);
+    submitAction() {
+      if (this.isSendMessageDataValid) {
+        this.sendTipComment();
+      } else if (this.isSendTipDataValid) {
+        this.sendTip();
+      }
+    },
+    toggleTip(showTipForm) {
+      this.show = showTipForm;
+      if (showTipForm) {
+        EventBus.$emit('showTipForm', this.eventPayload);
         this.resetForm();
       }
     },
-    async retip() {
+    async sendTip() {
+      const amount = util.aeToAtoms(this.value);
       this.showLoading = true;
-      await aeternity.retip(this.tip.id, util.aeToAtoms(this.value))
+      await aeternity.tip(`${window.location.origin}/#/tip/${this.tip.id}`, this.message, amount)
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');
@@ -161,7 +189,28 @@ export default {
           this.error = true;
         });
     },
+    async sendTipComment() {
+      if (USE_DEEP_LINKS) {
+        const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
+        url.searchParams.set('id', this.tip.id);
+        url.searchParams.set('text', this.message);
+        url.searchParams.set('x-success', window.location);
+        url.searchParams.set('x-cancel', window.location);
+        window.location = url;
+        return;
+      }
+      this.showLoading = true;
+      await Backend.sendTipComment(
+        this.tip.id,
+        this.message,
+        wallet.client.rpcClient.getCurrentAccount(),
+        (data) => wallet.signMessage(data),
+      );
+      this.showLoading = false;
+      this.resetForm();
+    },
     resetForm() {
+      this.message = '';
       this.value = 0;
       this.fiatValue = 0.00;
       this.error = false;
@@ -170,101 +219,16 @@ export default {
 };
 </script>
 
-<style lang="scss">
-  .retip__content,
-  .tip__content {
-    align-items: center;
+<style lang="scss" scoped>
+  .tip__message {
+    margin-bottom: 0.5rem;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  .amount__row {
     display: flex;
-    flex: 0 0 auto;
-    height: 1rem;
-    position: relative;
-
-    img {
-      height: 0.7rem;
-      margin-right: 0.2rem;
-      vertical-align: top;
-      width: 1rem;
-    }
-
-    &:hover img {
-      filter: brightness(1.3);
-    }
-  }
-
-  .retip__wrapper,
-  .tip-url__wrapper {
-    height: 1rem;
-
-    .overlay {
-      bottom: 0;
-      left: 0;
-      position: fixed;
-      right: 0;
-      top: 0;
-      z-index: 10;
-    }
-
-    .retip__icon:hover,
-    .tip__icon:hover {
-      cursor: pointer;
-    }
-
-    .retip__container_wrapper,
-    .tip__container_wrapper {
-      position: relative;
-      z-index: 20;
-    }
-
-    .currency-value,
-    .ae-amount {
-      align-items: center;
-      display: flex;
-      height: 1rem;
-    }
-
-    .ae {
-      color: $secondary_color;
-    }
-
-    .button-section {
-      margin-left: 0.5rem;
-      text-align: center;
-
-      button {
-        width: 100%;
-      }
-    }
-
-    .retip__container,
-    .tip__container {
-      background-color: black;
-      border-radius: 0.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 0.25rem;
-      min-width: 19rem;
-      padding: 1rem;
-      position: absolute;
-
-      & > div:not(.spinner__container) {
-        display: flex;
-
-        /deep/ .input-group .form-control {
-          color: $custom_links_color;
-        }
-      }
-
-      .ae-button {
-        margin-left: 0.5rem;
-      }
-    }
-  }
-
-  @media only screen and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
-    .retip__container,
-    .tip__container {
-      min-width: 13rem;
-      padding: 0.5rem;
-    }
   }
 </style>

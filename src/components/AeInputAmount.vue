@@ -11,7 +11,7 @@
       aria-label="Default"
       aria-describedby="inputGroup-sizing-mn"
       @input="$emit('input', $event.target.value)"
-    >
+    />
     <div class="input-group-append">
       <span class="input-group-text append__ae">
         <span class="ae">AE&nbsp;</span>

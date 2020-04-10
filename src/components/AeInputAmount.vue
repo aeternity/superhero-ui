@@ -1,7 +1,7 @@
 <template>
   <div class="input-group">
     <input
-      v-model="amount"
+      :value="value"
       v-bind="$attrs"
       type="number"
       :min="min"

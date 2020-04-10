@@ -36,7 +36,7 @@ const routes = [
     meta: { title: 'Home' },
   },
   {
-    path: '/tip/:id/comment/:id',
+    path: '/tip/:tipId/comment/:id',
     name: 'comment',
     component: SingleCommentView,
     meta: {

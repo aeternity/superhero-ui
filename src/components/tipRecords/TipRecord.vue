@@ -35,7 +35,7 @@
       >
         <a
           target="_blank"
-          @click="goToUrl(tip.url)"
+          :href="tip.url"
           @click.stop
         >
           <div class="tip__article--hasresults">
@@ -62,7 +62,7 @@
               <div
                 class="tip__amount"
                 :title="`Initial tip`"
-                @click.stop
+                @click.prevent
               >
                 <retip
                   :tip="tip"
@@ -184,9 +184,6 @@ export default {
           id,
         },
       });
-    },
-    goToUrl(url) {
-      window.open(url, '_blank');
     },
   },
 };

@@ -57,7 +57,7 @@
           An error occurred while sending retip
         </div>
         <div v-if="!showLoading">
-          <ae-input-amount v-model.number="value" />
+          <ae-input-amount v-model="value" />
           <ae-button
             :disabled="!isDataValid"
             @click="retip()"

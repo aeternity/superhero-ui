@@ -30,7 +30,7 @@
           >
         </div>
         <div class="col-md-4">
-          <ae-input-amount v-model.number="sendTipForm.amount" />
+          <ae-input-amount v-model="sendTipForm.amount" />
         </div>
       </div>
       <div class="text-right">

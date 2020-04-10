@@ -34,8 +34,8 @@
         class="tip__article"
       >
         <a
-          :href="tip.url"
           target="_blank"
+          @click="goToUrl(tip.url)"
           @click.stop
         >
           <div class="tip__article--hasresults">
@@ -62,17 +62,10 @@
               <div
                 class="tip__amount"
                 :title="`Initial tip`"
+                @click.stop
               >
-                <img
-                  class="retip__icon retip__icon--retip"
-                  src="../../assets/iconTip.svg"
-                >
-                <ae-amount
-                  :amount="tip.amount_ae"
-                  :round="2"
-                />
-                <fiat-value
-                  :amount="tip.amount_ae.toString()"
+                <retip
+                  :tip="tip"
                 />
               </div>
             </div>
@@ -110,7 +103,7 @@
             class="tip__amount"
             @click.stop
           >
-            <retip
+            <TipControl
               :tip="tip"
             />
           </div>
@@ -132,10 +125,9 @@
 import defaultAvatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
 import Retip from '../Retip.vue';
+import TipControl from '../TipControl.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
-import AeAmount from '../AeAmount.vue';
-import FiatValue from '../FiatValue.vue';
 import Avatar from '../Avatar.vue';
 
 export default {
@@ -144,9 +136,8 @@ export default {
     Retip,
     TipTitle,
     FormatDate,
-    AeAmount,
-    FiatValue,
     Avatar,
+    TipControl,
   },
   props: {
     tip: { type: Object, required: true },
@@ -193,6 +184,9 @@ export default {
           id,
         },
       });
+    },
+    goToUrl(url) {
+      window.open(url, '_blank');
     },
   },
 };
@@ -386,7 +380,6 @@ export default {
     margin-left: 1rem;
     margin-right: 1rem;
     min-height: 5.9rem;
-    overflow: hidden;
     padding: 0;
     position: relative;
 

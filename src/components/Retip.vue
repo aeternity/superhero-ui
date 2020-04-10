@@ -180,8 +180,13 @@ export default {
     z-index: 10;
   }
 
-  .retip__icon:hover {
+  .retip__icon {
     cursor: pointer;
+    height: 1rem;
+    margin-right: 0.2rem;
+    padding: 0.1rem 0;
+    vertical-align: top;
+    width: 1rem;
   }
 
   .retip__container_wrapper {
@@ -203,14 +208,7 @@ export default {
     height: 1rem;
     position: relative;
 
-    img {
-      height: 0.7rem;
-      margin-right: 0.2rem;
-      vertical-align: top;
-      width: 1rem;
-    }
-
-    &:hover img {
+    &:hover .retip__icon {
       filter: brightness(1.3);
     }
   }

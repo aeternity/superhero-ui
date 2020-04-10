@@ -242,7 +242,7 @@ export default {
     padding: 1rem;
     position: absolute;
 
-    & > div {
+    & > div:not(.spinner__container)  {
       display: flex;
 
       /deep/ .input-group .form-control {

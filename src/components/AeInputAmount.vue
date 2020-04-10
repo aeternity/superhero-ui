@@ -35,7 +35,7 @@ export default {
   props: {
     min: { type: Number, default: 0 },
     step: { type: Number, default: 0.1 },
-    value: { type: [ Number,String], required: true },
+    value: { type: [Number, String], required: true },
   },
 };
 </script>

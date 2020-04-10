@@ -1,4 +1,3 @@
-
 <template>
   <a
     v-if="USE_DEEP_LINKS"
@@ -70,7 +69,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
@@ -240,7 +238,7 @@ export default {
     padding: 1rem;
     position: absolute;
 
-    & > div:not(.spinner__container)  {
+    & > div:not(.spinner__container) {
       display: flex;
 
       /deep/ .input-group .form-control {

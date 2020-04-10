@@ -71,7 +71,7 @@
             </div>
             <img
               :src="tipPreviewImage"
-              :onerror="`this.className='fail'`"
+              :onerror="`this.className+=' fail'`"
               :loading="`lazy`"
               class="preview__image"
             >
@@ -112,7 +112,10 @@
             :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
             @click="goToTip(tip.id)"
           >
-            <img src="../../assets/commentsIcon.svg">
+            <img
+              class="comment__icon"
+              src="../../assets/commentsIcon.svg"
+            >
             <span>{{ tip.commentCount }}</span>
           </div>
         </div>
@@ -281,9 +284,10 @@ export default {
     @include truncate-overflow-mx(4);
 
     color: $tip_note_color;
-    font-size: 0.8rem;
-    margin-top: 0.85rem;
+    font-size: 0.85rem;
+    line-height: 1.1rem;
     margin-bottom: 0.8rem;
+    margin-top: 0.85rem;
     padding-left: 1rem;
 
     .title .topic {
@@ -293,6 +297,21 @@ export default {
         text-decoration: underline;
       }
     }
+  }
+
+  .retip__icon {
+    height: 1rem;
+    margin-right: 0.2rem;
+    vertical-align: top;
+    padding: 0.1rem 0;
+    width: 1rem;
+  }
+
+  .comment__icon {
+    height: 1rem;
+    margin-right: 0.2rem;
+    vertical-align: top;
+    width: 1rem;
   }
 
   .tip__footer {
@@ -324,13 +343,6 @@ export default {
     height: 1rem;
     margin-right: 1rem;
     position: relative;
-
-    img {
-      height: 0.7rem;
-      margin-right: 0.2rem;
-      vertical-align: top;
-      width: 1rem;
-    }
 
     &.tip__comments--hascomments {
       color: #fff;
@@ -428,24 +440,26 @@ export default {
     }
 
     .site__url {
+      align-items: center;
       color: $light_font_color;
+      display: flex;
       font-weight: 500;
       margin-bottom: 0.45rem;
 
       img {
-        width: 0.625rem;
-        height: 0.625rem;
-        margin-right: 0.2rem;
-        vertical-align: baseline;
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.335rem;
+        padding: 0.135rem 0;
       }
     }
 
     &:hover {
-      background-color: #2a2a34;
+      background-color: $thumbnail_background_color_alt;
       cursor: pointer;
 
-      img {
-        background-color: #2a2a34;
+      .preview__image {
+        background-color: $thumbnail_background_color_alt;
       }
 
       .site__url {

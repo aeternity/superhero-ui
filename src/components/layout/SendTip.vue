@@ -147,6 +147,11 @@ export default {
           height: 2.2rem;
           margin-bottom: 1rem;
 
+          &.comment {
+            display: inline-block;
+            width: calc(100% - 3.01rem);
+          }
+
           &:focus {
             border: 0.05rem solid $custom_links_color;
           }
@@ -189,5 +194,4 @@ export default {
       }
     }
   }
-
 </style>

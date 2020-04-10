@@ -1,4 +1,3 @@
-
 <template>
   <a
     v-if="USE_DEEP_LINKS"
@@ -70,7 +69,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
@@ -170,23 +168,45 @@ export default {
 };
 </script>
 
-<style lang="scss">
-  .retip__content,
-  .tip__content {
+<style lang="scss" scoped>
+  .overlay {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 10;
+  }
+
+  .retip__icon {
+    cursor: pointer;
+    height: 1rem;
+    margin-right: 0.2rem;
+    padding: 0.1rem 0;
+    vertical-align: top;
+    width: 1rem;
+  }
+
+  .retip__container_wrapper {
+    position: relative;
+    z-index: 20;
+  }
+
+  .currency-value,
+  .ae-amount {
+    align-items: center;
+    display: flex;
+    height: 1rem;
+  }
+
+  .retip__content {
     align-items: center;
     display: flex;
     flex: 0 0 auto;
     height: 1rem;
     position: relative;
 
-    img {
-      height: 0.7rem;
-      margin-right: 0.2rem;
-      vertical-align: top;
-      width: 1rem;
-    }
-
-    &:hover img {
+    &:hover .retip__icon {
       filter: brightness(1.3);
     }
   }
@@ -218,6 +238,7 @@ export default {
     .currency-value,
     .ae-amount {
       align-items: center;
+    & > div:not(.spinner__container) {
       display: flex;
       height: 1rem;
     }

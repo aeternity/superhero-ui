@@ -36,11 +36,6 @@ export default {
     min: { type: Number, default: 0 },
     step: { type: Number, default: 0.1 },
   },
-  data() {
-    return {
-      amount: 0,
-    };
-  },
 };
 </script>
 

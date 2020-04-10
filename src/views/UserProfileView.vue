@@ -685,7 +685,6 @@ export default {
       color: red;
     }
   }
-
 }
 
 @media only screen and (max-width: 768px) {

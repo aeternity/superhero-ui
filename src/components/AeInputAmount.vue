@@ -16,7 +16,7 @@
       <span class="input-group-text append__ae">
         <span class="ae">AE&nbsp;</span>
         <fiat-value
-          :display-symbol="true"
+          display-symbol
           :amount="amount.toString()"
         />
       </span>

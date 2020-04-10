@@ -57,26 +57,29 @@
         >
           An error occurred while sending tip
         </div>
-        <div
+        <form
           v-if="!showLoading"
-          class="input-group"
+          @onsubmit="submitAction()"
         >
-          <input
-            v-model="message"
-            type="text"
-            class="form-control tip__message"
-            placeholder="Add message"
+          <div
+            class="input-group"
           >
-        </div>
-        <div v-if="!showLoading">
-          <ae-input-amount v-model="value" />
-          <ae-button
-            :disabled="!(isSendTipDataValid || isSendMessageDataValid)"
-            @click="submitAction()"
-          >
-            Tip
-          </ae-button>
-        </div>
+            <input
+              v-model="message"
+              type="text"
+              class="form-control tip__message"
+              placeholder="Add message"
+            >
+          </div>
+          <div class="amount__row">
+            <ae-input-amount v-model="value" />
+            <ae-button
+              :disabled="!(isSendTipDataValid || isSendMessageDataValid)"
+            >
+              Tip
+            </ae-button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -216,7 +219,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tip__message {
-  margin-bottom: 0.5rem;
-}
+  .tip__message {
+    margin-bottom: 0.5rem;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  .amount__row {
+    display: flex;
+  }
 </style>

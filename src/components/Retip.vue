@@ -234,7 +234,6 @@ export default {
       }
     }
 
-
     .retip__container,
     .tip__container {
       background-color: black;
@@ -246,7 +245,7 @@ export default {
       padding: 1rem;
       position: absolute;
 
-      & > div:not(.spinner__container)  {
+      & > div:not(.spinner__container) {
         display: flex;
 
         /deep/ .input-group .form-control {

@@ -135,7 +135,7 @@ export default {
         margin-bottom: 0;
 
         input {
-          &.comment{
+          &.comment {
             display: inline-block;
             width: calc(100% - 3.01rem);
           }

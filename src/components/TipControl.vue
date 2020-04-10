@@ -200,6 +200,6 @@ export default {
 
 <style lang="scss" scoped>
 .tip__message {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 </style>

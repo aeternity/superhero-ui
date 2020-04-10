@@ -49,7 +49,8 @@ export default {
     border: .05rem solid $custom_links_color;
   }
 
-  input, input ~ .input-group-append > span.append__ae {
+  input,
+  input ~ .input-group-append > span.append__ae {
     border: 0;
 
     &:focus {

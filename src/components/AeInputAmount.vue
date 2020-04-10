@@ -17,7 +17,7 @@
         <span class="ae">AE&nbsp;</span>
         <fiat-value
           display-symbol
-          :amount="amount.toString()"
+          :amount="value"
         />
       </span>
     </div>

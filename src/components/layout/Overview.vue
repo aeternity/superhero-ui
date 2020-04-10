@@ -57,6 +57,29 @@
       </div>
     </div>
     <div
+      v-if="stats.total_claimed_amount"
+      class="overview__item"
+    >
+      <div class="overview__value secondary">
+        <ae-amount
+          :amount="stats.total_claimed_amount"
+          :round="2"
+        />
+      </div>
+      <div
+        v-if="stats.total_claimed_amount"
+        class="overview__value"
+      >
+        <fiat-value
+          :amount="stats.total_claimed_amount"
+          :without-brackets="true"
+        />
+      </div>
+      <div class="overview__label">
+        Total Tips Claimed
+      </div>
+    </div>
+    <div
       v-if="stats.height"
       class="overview__item"
     >
@@ -109,7 +132,7 @@ export default {
   }
 
   .overview__item {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   .overview__value {
@@ -123,17 +146,19 @@ export default {
       padding-bottom: 0;
     }
 
-    .currency, .currency-sign, .ae {
-      font-size: .8rem;
-      padding-left: .25rem;
+    .currency,
+    .currency-sign,
+    .ae {
+      font-size: 0.8rem;
+      padding-left: 0.25rem;
     }
   }
 
   .overview__label {
-    color: $light_font_color;
-    font-size: .75rem;
+    color: $tip_note_color;
+    font-size: 0.75rem;
     font-weight: 400;
-    line-height: .75rem;
+    line-height: 0.75rem;
     text-transform: none;
   }
 
@@ -142,25 +167,14 @@ export default {
     cursor: pointer;
   }
 
-  @media only screen and (min-width: 1440px) {
+  @media only screen and (max-width: 1280px) {
     .overview__value {
-      font-size: 1.6rem;
-      line-height: 1.6rem;
-      padding-bottom: 0.3rem;
-    }
-
-    .overview__label {
-      color: $light_font_color;
-      font-size: .75rem;
-      text-transform: none;
+      font-size: 0.75rem;
+      line-height: 0.75rem;
     }
 
     .overview__item {
-      margin-bottom: 1.9rem;
-    }
-
-    .overview {
-      margin-top: 2rem;
+      margin-bottom: 0.4rem;
     }
   }
 </style>

@@ -15,7 +15,7 @@
         <div
           v-if="wizardIsCollapsed"
           :key="wizardIsCollapsed"
-          class="onboarding__container"
+          class="onboarding__container collapsed"
         >
           <div class="onboarding__nav">
             <div class="onboarding__start">
@@ -31,7 +31,7 @@
         <div
           v-else
           :key="wizardIsCollapsed"
-          class="wizard__container"
+          class="onboarding__container"
         >
           <div class="onboarding__nav">
             <div class="onboarding__tabs">
@@ -163,20 +163,21 @@ export default {
     .button {
       background-color: inherit;
       border: 1px solid $custom_links_color;
-      border-radius: .25rem;
+      border-radius: 0.25rem;
       color: $custom_links_color;
-      font-size: .75rem;
+      font-size: 0.75rem;
       font-weight: 700;
       justify-self: center;
       line-height: 1.125;
-      padding: .65rem 1rem;
+      padding: 0.65rem 1rem;
       transition: filter 0.1s;
 
       &[disabled] {
-        border: 1px solid #BBBBBE;
-        color: #BBBBBE;
-        opacity: .3;
+        border: 1px solid #bbbbbe;
+        color: #bbbbbe;
+        opacity: 0.3;
       }
+
       &:hover:not([disabled]) {
         filter: saturate(0.5) brightness(1.2);
       }
@@ -185,7 +186,11 @@ export default {
 
   .onboarding__container {
     border: 1px dashed $light_font_color;
-    margin: .2rem 0 .15rem;
+    margin: 0.2rem 0 0.15rem;
+
+    &.collapsed {
+      border: 0;
+    }
   }
 
   .onboarding__nav {
@@ -198,13 +203,13 @@ export default {
   }
 
   .onboarding__start {
-    margin-top: 1rem;
-    padding-bottom: 1rem;
+    margin-top: 0.4rem;
+    padding-bottom: 0.4rem;
 
     .button {
       background: url("../../assets/wizardChevron.svg") no-repeat 1rem center;
       line-height: 1;
-      padding: .65rem .9rem .65rem 2.2rem;
+      padding: 0.65rem 0.9rem 0.65rem 2.2rem;
     }
   }
 
@@ -215,7 +220,7 @@ export default {
     width: 100%;
 
     // blank space to separate the close button
-    &:after {
+    &::after {
       content: ' ';
       flex-grow: 1;
       order: 99;
@@ -228,7 +233,7 @@ export default {
     border-bottom: 2px solid $custom_links_color;
     color: $custom_links_color;
     font-size: 0.6rem;
-    padding: 1rem .5rem;
+    padding: 1rem 0.5rem;
     position: relative;
     white-space: nowrap;
 
@@ -237,7 +242,7 @@ export default {
     }
 
     // superhero icon
-    &:after {
+    &::after {
       border-bottom: 2px solid #67b6f7;
       bottom: -1rem;
       content: url("../../assets/activeTabIcon.svg");
@@ -245,7 +250,7 @@ export default {
       justify-content: flex-end;
       position: absolute;
       left: 100%;
-      transition: opacity .2s;
+      transition: opacity 0.2s;
       opacity: 0;
       width: 0;
       margin-left: -1rem;
@@ -254,7 +259,7 @@ export default {
     &.active {
       color: #fff;
 
-      &:after {
+      &::after {
         opacity: 1;
         left: 100%;
       }
@@ -277,16 +282,16 @@ export default {
     border: 0;
     color: #fff;
     font-size: 0.8rem;
-    height: .9rem;
+    height: 0.9rem;
     justify-self: flex-end;
-    margin: 1rem .75rem 1rem 0;
+    margin: 1rem 0.75rem 1rem 0;
     order: 100;
     padding: 0;
-    width: .9rem;
+    width: 0.9rem;
     transition: opacity 0.2s;
 
     &:hover {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
 
@@ -342,24 +347,26 @@ export default {
     }
 
     p {
-      font-size: .8rem;
+      font-size: 0.8rem;
       line-height: 1.625;
       margin-bottom: 1rem;
       text-align: center;
+
       a {
         color: $custom_links_color;
         text-decoration: underline;
       }
     }
 
-    ol, ul {
+    ol,
+    ul {
       text-align: center;
       padding-left: 1rem;
       margin-bottom: 1rem;
     }
 
     li {
-      font-size: .8rem;
+      font-size: 0.8rem;
       line-height: 1.75;
     }
 
@@ -370,11 +377,11 @@ export default {
       font-weight: 700;
       line-height: 1.66;
       min-height: 4rem;
-      padding: .5rem .5rem .5rem 2.5rem;
+      padding: 0.5rem 0.5rem 0.5rem 2.5rem;
       position: relative;
       text-align: center;
 
-      &:before {
+      &::before {
         content: url("../../assets/quote.svg");
         height: 1.5rem;
         left: 0;
@@ -392,8 +399,8 @@ export default {
         left: -1.5rem;
         position: relative;
 
-        &:before,
-        &:after {
+        &::before,
+        &::after {
           border-bottom: 2px solid #4d4e56;
           content: '';
           height: 0;
@@ -406,18 +413,18 @@ export default {
 
   @media (min-width: 992px) {
     .button {
-      padding: .65rem 2.5rem;
+      padding: 0.65rem 2.5rem;
     }
 
     .onboarding__start {
       .button {
-        padding: .65rem .9rem .65rem 2rem;
+        padding: 0.65rem 0.9rem 0.65rem 2rem;
       }
     }
 
     .onboarding_tab {
       font-size: 0.8rem;
-      padding: 1rem .5rem 1rem 1rem;
+      padding: 1rem 0.5rem 1rem 1rem;
 
       &:first-child {
         padding-left: 1.5rem;
@@ -435,14 +442,15 @@ export default {
 
   // transition styles
   .component-fade-enter-active {
-    transition: all .3s;
+    transition: all 0.3s;
   }
 
   .component-fade-leave-active {
-    transition: all .1s;
+    transition: all 0.1s;
   }
 
-  .component-fade-enter, .component-fade-leave-to {
+  .component-fade-enter,
+  .component-fade-leave-to {
     opacity: 0;
   }
 </style>

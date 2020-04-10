@@ -9,7 +9,7 @@
     <h1>Welcome to the Superhero League!</h1>
     <p>
       You can now get in on the action by setting your<br>
-      personalized profile and preferences on
+      personalized profile and preferences for
       <a href="https://superhero.com">www.superhero.com</a>
     </p>
     <div class="step__footer">

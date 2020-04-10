@@ -9,10 +9,10 @@
     </div>
     <form @submit.prevent>
       <div class="form-group">
-        <img
-          :src="avatar"
+        <Avatar
+          :address="account"
           class="avatar mr-3"
-        >
+        />
         <input
           v-model="sendTipForm.title"
           type="text"
@@ -29,39 +29,18 @@
             placeholder="Enter URL"
           >
         </div>
-        <div class="form-group col-md-4">
-          <div class="input-group">
-            <input
-              v-model.number="sendTipForm.amount"
-              type="number"
-              min="0"
-              step="0.1"
-              placeholder="Amount"
-              class="form-control"
-              aria-label="Default"
-              aria-describedby="inputGroup-sizing-mn"
-            >
-            <div class="input-group-append">
-              <span class="input-group-text append__ae">
-                <span class="ae">AE&nbsp;</span>
-                <fiat-value
-                  :display-symbol="true"
-                  :amount="sendTipForm.amount.toString()"
-                />
-              </span>
-            </div>
-          </div>
+        <div class="col-md-4">
+          <ae-input-amount v-model="sendTipForm.amount" />
         </div>
       </div>
       <div class="text-right">
-        <button
+        <ae-button
           :disabled="!isSendTipDataValid"
-          class="btn btn-primary tip__send"
+          :src="IconDiamond"
           @click="sendTip()"
         >
-          <img src="../../assets/iconDiamond.svg">
-          <span>Tip</span>
-        </button>
+          Tip
+        </ae-button>
       </div>
     </form>
   </div>
@@ -69,17 +48,22 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import FiatValue from '../FiatValue.vue';
+import AeInputAmount from '../AeInputAmount.vue';
 import util from '../../utils/util';
 import aeternity from '../../utils/aeternity';
 import { EventBus } from '../../utils/eventBus';
 import avatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
+import AeButton from '../AeButton.vue';
+import IconDiamond from '../../assets/iconDiamond.svg';
+import Avatar from '../Avatar.vue';
 
 export default {
   name: 'SendTip',
   components: {
-    FiatValue,
+    AeInputAmount,
+    AeButton,
+    Avatar,
   },
   data() {
     return {
@@ -90,6 +74,7 @@ export default {
       },
       avatar,
       canTip: false,
+      IconDiamond,
     };
   },
   computed: {
@@ -131,7 +116,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .tip__post {
     background-color: $actions_ribbon_background_color;
     max-height: 0;
@@ -144,46 +129,26 @@ export default {
     }
 
     form {
-      padding: .6rem 1rem 1rem 1rem;
-
-      span.append__ae {
-        font-size: 0.75rem;
-        background: $buttons_background;
-        cursor: default;
-        & .ae{
-          color: $secondary_color;
-        }
-        &:hover {
-          background: $buttons_background;
-          cursor: default;
-        }
-      }
+      padding: 0.6rem 1rem 1rem 1rem;
 
       .form-group {
         margin-bottom: 0;
-        .input-group{
-          border-radius: .25rem;
-        }
+
         input {
-          &[type=number]:focus{
-            border-right: none;
-          }
-          &[type=number]:focus~.input-group-append .input-group-text{
-            border: .05rem solid $custom_links_color;
-            border-left: none;
-          }
-          &.comment{
+          &.comment {
             display: inline-block;
             width: calc(100% - 3.01rem);
           }
+
           background-color: $buttons_background;
           color: $standard_font_color;
-          font-size: .75rem;
-          border: .05rem solid transparent;
+          font-size: 0.75rem;
+          border: 0.05rem solid transparent;
           height: 2.2rem;
           margin-bottom: 1rem;
-          &:focus{
-             border: .05rem solid $custom_links_color;
+
+          &:focus {
+            border: 0.05rem solid $custom_links_color;
           }
         }
       }
@@ -191,45 +156,32 @@ export default {
       .tip__post__balance {
         span {
           font-size: 0.75rem;
-          color:$standard_font_color;
+          color: $standard_font_color;
         }
       }
 
-      .avatar{
+      .avatar,
+      .user-identicon svg {
         width: 2rem;
         height: 2rem;
         border-radius: 1rem;
       }
     }
-    .tip__send {
-      padding: .55rem 2.87rem .65rem 2.87rem;
-      color:$standard_font_color;
-      background-color: $secondary_color;
-      border: none;
-      font-size: .75rem;
+
+    .ae-button {
+      padding: 0.55rem 2.87rem 0.65rem 2.87rem;
       font-weight: 600;
-
-      span {
-        vertical-align: inherit;
-        margin-left: .2rem;
-      }
-
-      img {
-        vertical-align: inherit;
-        height: .7rem;
-      }
     }
 
     .avatar {
       vertical-align: middle;
     }
 
-
     .tip__post__label {
       font-weight: 600;
-      font-size: .8rem;
+      font-size: 0.8rem;
       color: $standard_font_color;
-      padding: .75rem 1rem;
+      padding: 0.75rem 1rem;
       background-color: $light_color;
 
       label {

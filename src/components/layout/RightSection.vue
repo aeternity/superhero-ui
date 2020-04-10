@@ -2,16 +2,20 @@
   <div class="app__rightcolumn">
     <div class="content">
       <div
-        v-if="!loading.wallet"
         class="section wallet-install"
-        :class="{ active: !isLoggedIn }"
       >
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
           Wallet
+          <div
+            v-if="isLoggedIn"
+            class="account"
+          >
+            {{ account }}
+          </div>
         </div>
-        <div class="section__body clearfix">
-          <div>
+        <div class="section__body">
+          <div v-if="!isLoggedIn">
             <a
               :href="downloadUrl"
               target="_blank"
@@ -19,6 +23,24 @@
             >
               Install Wallet
             </a>
+          </div>
+          <div v-else>
+            <div
+              class="balance text-ellipsis"
+              :title="getFiatVal(balance) + ' AE'"
+            >
+              <ae-amount
+                :amount="balance"
+                :round="2"
+              />
+            </div>
+            <div class="choose-fiat">
+              <dropdown
+                :options="currencyDropdownOptions"
+                :method="selectCurrency"
+                :selected="settings.currency"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -58,12 +80,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { detect } from 'detect-browser';
+import BigNumber from 'bignumber.js';
 import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
 import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
+import Dropdown from '../Dropdown.vue';
 
 export default {
   name: 'RightSection',
@@ -72,6 +96,7 @@ export default {
     FiatValue,
     AeAmount,
     FooterSection,
+    Dropdown,
   },
   data() {
     return {
@@ -79,7 +104,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['topics', 'loading', 'isLoggedIn']),
+    ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
+    currencyDropdownOptions() {
+      return Object.keys(this.currencyRates.aeternity)
+        .map((key) => ({
+          text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
+          value: key,
+        }));
+    },
     downloadUrl() {
       if (this.browser) {
         switch (this.browser.name) {
@@ -92,6 +124,15 @@ export default {
         }
       }
       return '//github.com/aeternity/superhero-wallet/releases/latest/';
+    },
+  },
+  methods: {
+    ...mapActions(['updateCurrency']),
+    selectCurrency(selectedCurrency) {
+      this.updateCurrency(selectedCurrency);
+    },
+    getFiatVal(value) {
+      return new BigNumber(value).toFixed(2);
     },
   },
 };
@@ -108,19 +149,19 @@ export default {
 
 .app__rightcolumn {
   color: $light_font_color;
-  font-size: .75rem;
+  font-size: 0.75rem;
 
   .content {
     max-width: 18rem;
 
     .section {
       background-color: $article_content_color;
-      border-radius: .5rem;
+      border-radius: 0.5rem;
       margin-bottom: 1rem;
 
       &.trending {
-        margin-bottom: .5rem;
-        padding-bottom: .5rem;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
 
         .section__item {
           display: flex;
@@ -135,7 +176,7 @@ export default {
         }
 
         .section__body {
-          padding-bottom: .25rem;
+          padding-bottom: 0.25rem;
           -ms-overflow-style: none;
           overflow-y: auto;
           scrollbar-width: none;
@@ -146,7 +187,7 @@ export default {
         }
 
         .currency-value {
-          font-size: .7rem;
+          font-size: 0.7rem;
         }
       }
     }
@@ -155,17 +196,15 @@ export default {
       color: $standard_font_color;
       font-size: 1rem;
       font-weight: 600;
-      padding: .65rem .75rem;
+      padding: 0.65rem 0.75rem;
     }
 
     .section__body {
-      padding: .25rem 1rem 1rem 1rem;
+      padding: 0.25rem 1rem 1rem 1rem;
 
       .section__item {
-        font-size: .75rem;
-
-        margin: .5rem 0;
-
+        font-size: 0.75rem;
+        margin: 0.5rem 0;
         text-transform: none;
 
         &:first-child {
@@ -185,18 +224,36 @@ export default {
         color: $standard_font_color;
       }
     }
-    .wallet-install {
-      display: none;
-      margin-bottom: 0;
-      max-height: 0;
-      opacity: 0;
-      transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
 
-      &.active {
-        display: block;
-        margin-bottom: 1rem;
-        max-height: 400px;
-        opacity: 1;
+    .wallet-install {
+      margin-bottom: 1rem;
+      max-height: 400px;
+      transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
+      display: block;
+
+      .account {
+        color: $light_font_color;
+        font-size: 0.52rem;
+        padding: 0 0.2rem;
+      }
+
+      .balance {
+        font-size: 1.3rem;
+        color: $standard_font_color;
+        width: calc(100% - 8rem);
+      }
+
+      .section__body > div {
+        display: flex;
+      }
+
+      .dropdown {
+        max-width: 8rem;
+      }
+
+      .choose-fiat {
+        width: 8rem;
+        text-align: right;
       }
     }
   }
@@ -211,13 +268,13 @@ export default {
 
 @media (min-width: 768px) {
   .app__rightcolumn .content .section__body .section__item {
-    font-size: .65rem;
+    font-size: 0.65rem;
   }
 }
 
 @media (min-width: 992px) {
   .app__rightcolumn .content .section__body .section__item {
-    font-size: .75rem;
+    font-size: 0.75rem;
   }
 }
 </style>

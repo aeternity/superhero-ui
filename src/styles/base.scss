@@ -12,17 +12,17 @@ $theme-colors: (
 body {
   background-color: $background_color;
   color: $primary_color;
-  font-family: 'Roboto', 'Helvetica', 'Arial', 'sans-serif';
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   overflow-x: hidden;
   overflow-y: overlay;
 }
 
-a:hover{
+a:hover {
   text-decoration: none;
 }
 
 .btn {
-  font-size: .75rem;
+  font-size: 0.75rem;
 
   &.btn-light {
     color: $primary_color;
@@ -40,46 +40,48 @@ a:hover{
   vertical-align: middle;
 }
 
-.button, a.button {
+.button,
+a.button {
   background: transparent;
-  border: .05rem solid $standard_font_color;
-  border-radius: .25rem;
+  border: 0.05rem solid $standard_font_color;
+  border-radius: 0.25rem;
   color: $standard_font_color;
   display: inline-block;
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  padding: .625rem 2.15rem .725rem 2.15rem;
+  padding: 0.625rem 2.15rem 0.725rem 2.15rem;
   text-align: center;
 
   &:hover {
-    border: .05rem solid $custom_links_color;
+    border: 0.05rem solid $custom_links_color;
     color: $custom_links_color;
     cursor: pointer;
     text-decoration: none;
   }
 
   &.small {
-    padding: .425rem 1rem .425rem 1rem;
+    padding: 0.425rem 1rem 0.425rem 1rem;
   }
 
   &.primary {
     color: $secondary_color;
-    border: .05rem solid $secondary_color;
+    border: 0.05rem solid $secondary_color;
 
     &:hover {
       color: $custom_links_color;
-      border: .05rem solid $custom_links_color;
+      border: 0.05rem solid $custom_links_color;
     }
   }
 }
 
-.input-group, .form-group {
+.input-group,
+.form-group {
   .form-control {
-    border: .05rem solid transparent;
+    border: 0.05rem solid transparent;
     box-shadow: none;
 
     &:focus {
-      border: .05rem solid $custom_links_color;
+      border: 0.05rem solid $custom_links_color;
     }
   }
 }
@@ -92,7 +94,7 @@ a:hover{
     background-color: $buttons_background;
     border: 1px solid $white_color;
     color: $standard_font_color;
-    font-size: .75rem;
+    font-size: 0.75rem;
     height: 2.2rem;
   }
 
@@ -124,20 +126,6 @@ img.fail {
   visibility: hidden;
 }
 
-//To be extended
-.actions-ribbon{
-  padding: .5rem .5rem .5rem .5rem;
-  background-color: $article_content_color;
-  position: sticky;
-  top: 0;
-  z-index: 21;
-
-  img{
-    width: 1rem;
-    height: 1rem;
-  }
-}
-
 @media only screen and (max-width: 768px) {
   .header__body.container {
     display: block;
@@ -156,12 +144,3 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
-
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-    .actions-ribbon {
-      display: none;
-    }
-  }

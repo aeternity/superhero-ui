@@ -10,11 +10,7 @@
     />
     <div v-else>
       <div class="profile__page">
-        <div class="actions-ribbon">
-          <router-link :to="{ name: 'home' }">
-            <img src="../assets/backArrow.svg">
-          </router-link>
-        </div>
+        <back-button-ribbon />
         <div class="profile__section clearfix position-relative">
           <div
             v-if="showLoadingProfile"
@@ -53,12 +49,10 @@
                   :class="[showLoadingAvatar ? 'blurred' : '']"
                   :title="address"
                 >
-                  <img
+                  <Avatar
                     :key="avatarEditImageKey"
-                    :src="avatar"
-                    :onerror="`this.className='fail'`"
-                    alt
-                  >
+                    :address="address"
+                  />
                   <span>Change Avatar</span>
                   <input
                     id="file-input"
@@ -75,12 +69,10 @@
                   :title="address"
                   target="_blank"
                 >
-                  <img
-                    v-if="!editMode"
-                    :src="avatar"
-                    :onerror="`this.className='fail'`"
-                    alt
-                  >
+                  <Avatar
+                    :key="!editMode"
+                    :address="address"
+                  />
                 </a>
               </div>
               <div
@@ -285,8 +277,10 @@ import FiatValue from '../components/FiatValue.vue';
 import AeAmount from '../components/AeAmount.vue';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
-import { MIDDLEWARE_URL } from '../config/constants';
+import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
+import Avatar from '../components/Avatar.vue';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 
 export default {
   name: 'TipCommentsView',
@@ -299,13 +293,15 @@ export default {
     LeftSection,
     RightSection,
     MobileNavigation,
+    Avatar,
+    BackButtonRibbon,
   },
   props: {
     address: { type: String, required: true },
   },
   data() {
     return {
-      explorerUrl: `${MIDDLEWARE_URL}account/transactions/`,
+      explorerUrl: `${EXPLORER_URL}account/transactions/`,
       tip: this.tipData,
       showLoading: false,
       comments: [],
@@ -443,17 +439,19 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 #file-input {
   display: none;
 }
+
 .profile__page {
   color: $light_font_color;
   font-size: 0.75rem;
-  padding-top: 0.75rem;
+
   .count {
     font-size: 0.65rem;
   }
+
   .stats {
     display: grid;
     grid-template-columns: auto auto auto;
@@ -478,10 +476,10 @@ export default {
   }
 
   .edit__buttons {
-    margin: .5rem 1rem;
+    margin: 0.5rem 1rem;
 
     button {
-      margin-right: .75rem;
+      margin-right: 0.75rem;
     }
   }
 
@@ -495,29 +493,38 @@ export default {
     top: -1.25rem;
     right: 0.5rem;
   }
+
   .profile__section {
     background-color: $actions_ribbon_background_color;
+
     .spinner__container {
       top: 40%;
     }
+
     .row {
       padding: 1.75rem 1rem 1rem 1rem;
       margin-right: -1rem;
     }
+
     .input-group.description {
       margin-bottom: 1rem;
     }
+
     .profile__image {
+      display: flex;
       margin-right: 0.5rem;
       vertical-align: super;
+
       .spinner__container {
         top: 30%;
       }
+
       .blurred {
         opacity: 0.4;
       }
-      .input-group.description{
-        margin: .5rem 1rem;
+
+      .input-group.description {
+        margin: 0.5rem 1rem;
 
         textarea {
           min-height: 4rem;
@@ -532,6 +539,7 @@ export default {
         right: 0;
         z-index: 10;
       }
+
       .profile__image--edit {
         cursor: pointer;
         display: flex;
@@ -548,26 +556,29 @@ export default {
           top: 0;
           width: 100%;
         }
-        img {
+
+        img,
+        .user-identicon svg {
           opacity: 0.2;
         }
 
         &:hover {
-          img {
+          img,
+          .user-identicon svg {
             filter: grayscale(1);
           }
         }
       }
-      img {
+
+      img,
+      .user-identicon svg {
         width: 6.5rem;
         height: 6.5rem;
         border-radius: 3.25rem;
         object-fit: cover;
       }
     }
-    .profile__image {
-      display: flex;
-    }
+
     .profile__info {
       width: calc(100% - 8.5rem);
       display: flex;
@@ -577,90 +588,103 @@ export default {
         font-size: 1.2rem;
         height: 1.5rem;
       }
+
       .profile__username,
       .profile__displayname {
         margin-bottom: 0;
       }
+
       .profile__username {
         display: block;
         color: $tip_note_color;
         font-size: 0.6rem;
         word-break: break-all;
         font-weight: 400;
+
         .chain {
           font-size: 0.8rem;
         }
       }
     }
+
+    .description {
+      margin: 0.5rem 1rem;
+
+      textarea {
+        min-height: 4rem;
+      }
+    }
+
+    .profile__description {
+      margin: 0.5rem 1rem;
+      color: $tip_note_color;
+    }
   }
+
   .profile__meta {
     font-size: 0.6rem;
     background-color: $thumbnail_background_color;
     margin: -0.5rem 0 -1rem 0;
     border-top-right-radius: 0.25rem;
     padding: 0;
+
     & > .row.mobile {
       display: none;
     }
+
     .value {
       color: $secondary_color;
     }
   }
+
   .profile__actions {
     padding-left: 1rem;
     margin-top: 0.125rem;
     background-color: $actions_ribbon_background_color;
     position: sticky;
     z-index: 21;
-    top: 2.1rem;
+    top: 3.1rem;
+
     a {
       font-weight: 600;
       color: $light_font_color;
       padding: 0.5rem;
       display: inline-block;
       margin-right: 0.5rem;
+
       &:last-child {
         margin-right: 0;
       }
+
       &:hover {
         color: $primary_color;
         cursor: pointer;
       }
+
       &.active {
         color: $custom_links_color;
         border-bottom: 0.1rem solid $custom_links_color;
       }
     }
   }
-}
-.comments__section {
-  min-height: 5rem;
 
-  .comment.tip__record {
-    border-radius: unset;
+  .comments__section {
+    min-height: 5rem;
+
+    .comment.tip__record {
+      border-radius: unset;
+    }
   }
-}
 
-.no-results {
-  color: $standard_font_color;
-  font-size: 0.75rem;
-  text-align: center;
-  &.error {
-    color: red;
+  .no-results {
+    color: $standard_font_color;
+    font-size: 0.75rem;
+    text-align: center;
+
+    &.error {
+      color: red;
+    }
   }
-}
-
-.description {
-  margin: .5rem 1rem;
-
-  textarea {
-    min-height: 4rem;
-  }
-}
-
-.profile__description {
-  margin: .5rem 1rem;
-  color: $tip_note_color;
 }
 
 @media only screen and (max-width: 768px) {
@@ -668,14 +692,18 @@ export default {
     margin-top: 0;
     border-top-right-radius: 0;
   }
+
   .profile__page .profile__section > .row {
     padding-left: 0.75rem;
   }
+
   .profile__page .profile__meta > .row {
     display: none;
+
     &.mobile {
       display: flex;
       padding-bottom: 0;
+
       & .row {
         padding-bottom: 0.5rem;
         padding-top: 0;
@@ -685,49 +713,58 @@ export default {
 }
 
 @media only screen
-and (min-device-width: 320px)
-and (max-device-width: 480px)
-and (-webkit-min-device-pixel-ratio: 2) {
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
   .profile__page {
     .profile__actions {
-      top: 3.3rem;
+      top: 3rem;
     }
 
     .profile__section {
       .row {
         padding-top: 2rem;
       }
+
       .profile__info {
         width: calc(100% - 4.5rem);
         vertical-align: middle;
+
         .profile__username {
           font-size: 0.5rem;
+
           .chain {
             font-size: 0.6rem;
           }
         }
       }
+
       .profile__image {
         .spinner__container {
           top: 22%;
         }
+
         .profile__image--edit > div {
           top: 20%;
         }
+
         img {
           width: 4rem;
           height: 4rem;
         }
       }
     }
+
     .tips__container {
       padding: 0.15rem 0.5rem;
     }
+
     .edit__button {
       top: -1.5rem;
       right: 0.25rem;
       font-size: 0.6rem;
     }
+
     .stats .stat .stat-value {
       font-size: 0.6rem;
     }

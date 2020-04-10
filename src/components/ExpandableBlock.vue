@@ -48,17 +48,17 @@ export default {
 
   .body {
     color: $text_content_color;
-    font-size: .8rem;
-    margin-top: .5rem;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
 
-    p{
+    p {
       text-align: left;
     }
   }
 
   .title {
     color: $custom_links_color;
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: 400;
   }
 
@@ -66,9 +66,14 @@ export default {
     cursor: pointer;
   }
 
+  .arrow {
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
   &.expanded {
     .arrow {
-        transform: rotate(90deg)
+      transform: rotate(90deg);
     }
 
     .title {
@@ -76,10 +81,6 @@ export default {
     }
   }
 
-  .arrow {
-    margin-right: .5rem;
-    vertical-align: middle;
-  }
   a {
     color: $custom_links_color;
 

@@ -41,7 +41,7 @@ export default {
 
 <style lang="scss">
   .footer {
-    font-size: .6rem;
+    font-size: 0.6rem;
     text-align: center;
 
     a {
@@ -58,17 +58,17 @@ export default {
     .footer-btns {
       text-decoration: none;
       margin-top: 1.3rem;
-      line-height: .9rem;
+      line-height: 0.9rem;
       text-align: center;
-      padding-top: .6rem;
-      padding-bottom: .7rem;
+      padding-top: 0.6rem;
+      padding-bottom: 0.7rem;
       width: 7rem;
-      display:inline-block;
-      border-radius: .25rem;
+      display: inline-block;
+      border-radius: 0.25rem;
     }
 
     .venture {
-      border: .05rem solid $standard_font_color;
+      border: 0.05rem solid $standard_font_color;
 
       img {
         width: 6rem;
@@ -82,7 +82,7 @@ export default {
     .feedback {
       background-color: $custom_links_color;
       color: $background_color;
-      font-size: .75rem;
+      font-size: 0.75rem;
       font-weight: 600;
       margin-right: 1rem;
 

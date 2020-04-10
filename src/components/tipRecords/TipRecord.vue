@@ -72,7 +72,7 @@
                   :round="2"
                 />
                 <fiat-value
-                  :amount="tip.amount_ae"
+                  :amount="tip.amount_ae.toString()"
                 />
               </div>
             </div>

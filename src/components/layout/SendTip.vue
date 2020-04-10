@@ -29,28 +29,8 @@
             placeholder="Enter URL"
           >
         </div>
-        <div class="form-group col-md-4">
-          <div class="input-group">
-            <input
-              v-model.number="sendTipForm.amount"
-              type="number"
-              min="0"
-              step="0.1"
-              placeholder="Amount"
-              class="form-control"
-              aria-label="Default"
-              aria-describedby="inputGroup-sizing-mn"
-            >
-            <div class="input-group-append">
-              <span class="input-group-text append__ae">
-                <span class="ae">AE&nbsp;</span>
-                <fiat-value
-                  :display-symbol="true"
-                  :amount="sendTipForm.amount.toString()"
-                />
-              </span>
-            </div>
-          </div>
+        <div class="col-md-4">
+          <ae-input-amount v-model="sendTipForm.amount" />
         </div>
       </div>
       <div class="text-right">
@@ -68,7 +48,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import FiatValue from '../FiatValue.vue';
+import AeInputAmount from '../AeInputAmount.vue';
 import util from '../../utils/util';
 import aeternity from '../../utils/aeternity';
 import { EventBus } from '../../utils/eventBus';
@@ -81,7 +61,7 @@ import Avatar from '../Avatar.vue';
 export default {
   name: 'SendTip',
   components: {
-    FiatValue,
+    AeInputAmount,
     AeButton,
     Avatar,
   },
@@ -151,39 +131,11 @@ export default {
     form {
       padding: 0.6rem 1rem 1rem 1rem;
 
-      span.append__ae {
-        font-size: 0.75rem;
-        background: $buttons_background;
-        cursor: default;
-
-        & .ae {
-          color: $secondary_color;
-        }
-
-        &:hover {
-          background: $buttons_background;
-          cursor: default;
-        }
-      }
-
       .form-group {
         margin-bottom: 0;
 
-        .input-group {
-          border-radius: 0.25rem;
-        }
-
         input {
-          &[type=number]:focus {
-            border-right: none;
-          }
-
-          &[type=number]:focus ~ .input-group-append .input-group-text {
-            border: 0.05rem solid $custom_links_color;
-            border-left: none;
-          }
-
-          &.comment {
+          &.comment{
             display: inline-block;
             width: calc(100% - 3.01rem);
           }

@@ -13,7 +13,7 @@
       class="vertical-align-mid"
     />
     <fiat-value
-      :amount="tip.total_amount"
+      :amount="tip.total_amount.toString()"
       class="vertical-align-mid"
     />
   </a>
@@ -44,7 +44,7 @@
           :amount="tip.total_amount"
           :round="2"
         />
-        <fiat-value :amount="tip.total_amount" />
+        <fiat-value :amount="tip.total_amount.toString()" />
       </div>
       <div
         v-if="show"
@@ -58,31 +58,13 @@
           An error occurred while sending retip
         </div>
         <div v-if="!showLoading">
-          <div class="input-group">
-            <input
-              v-model.number="value"
-              type="number"
-              min="0"
-              step="0.1"
-              class="form-control retip__value"
-              aria-label="Default"
-            >
-            <div class="input-group-append">
-              <span class="input-group-text append__ae">
-                <span class="ae">AE</span>
-                <fiat-value
-                  :display-symbol="true"
-                  :amount="value.toString()"
-                />
-              </span>
-            </div>
-            <ae-button
-              :disabled="!isDataValid"
-              @click="retip()"
-            >
-              Retip
-            </ae-button>
-          </div>
+          <ae-input-amount v-model="value" />
+          <ae-button
+            :disabled="!isDataValid"
+            @click="retip()"
+          >
+            Retip
+          </ae-button>
         </div>
       </div>
     </div>
@@ -99,6 +81,7 @@ import { EventBus } from '../utils/eventBus';
 import util, { USE_DEEP_LINKS } from '../utils/util';
 import AeAmount from './AeAmount.vue';
 import FiatValue from './FiatValue.vue';
+import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 
@@ -107,6 +90,7 @@ export default {
   components: {
     Loading,
     FiatValue,
+    AeInputAmount,
     AeAmount,
     AeButton,
   },
@@ -258,42 +242,16 @@ export default {
     padding: 1rem;
     position: absolute;
 
-    .form-control {
-      color: $custom_links_color;
+    & > div:not(.spinner__container)  {
+      display: flex;
 
-      &:focus {
-        box-shadow: none;
-      }
-
-      &[type=number]:focus {
-        border-right: none;
-      }
-
-      &[type=number]:focus ~ .input-group-append .input-group-text {
-        border: 0.05rem solid $custom_links_color;
-        border-left: none;
+      /deep/ .input-group .form-control {
+        color: $custom_links_color;
       }
     }
 
     .ae-button {
       margin-left: 0.5rem;
-    }
-
-    .input-group {
-      width: 100%;
-
-      &:not(:last-child) {
-        margin-bottom: 0.5rem;
-      }
-
-      .append__ae {
-        border-bottom-right-radius: 0.25rem;
-        border-top-right-radius: 0.25rem;
-        background: $background_color !important;
-        color: $light_font_color;
-        cursor: default;
-        font-size: 0.75rem;
-      }
     }
   }
 

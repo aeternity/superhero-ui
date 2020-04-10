@@ -4,11 +4,7 @@
     <right-section />
     <left-section />
     <div class="container wrapper url__page">
-      <div class="actions-ribbon">
-        <router-link :to="{ name: 'home' }">
-          <img src="../assets/backArrow.svg">
-        </router-link>
-      </div>
+      <back-button-ribbon />
       <div
         v-if="tip"
         class="tipped__url"
@@ -83,6 +79,7 @@ import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
 import AeButton from '../components/AeButton.vue';
 import Avatar from '../components/Avatar.vue';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 
 export default {
   name: 'TipCommentsView',
@@ -95,6 +92,7 @@ export default {
     MobileNavigation,
     AeButton,
     Avatar,
+    BackButtonRibbon,
   },
   data() {
     return {

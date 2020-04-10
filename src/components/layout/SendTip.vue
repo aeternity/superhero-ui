@@ -9,10 +9,10 @@
     </div>
     <form @submit.prevent>
       <div class="form-group">
-        <img
-          :src="avatar"
+        <Avatar
+          :address="account"
           class="avatar mr-3"
-        >
+        />
         <input
           v-model="sendTipForm.title"
           type="text"
@@ -56,12 +56,14 @@ import avatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
 import AeButton from '../AeButton.vue';
 import IconDiamond from '../../assets/iconDiamond.svg';
+import Avatar from '../Avatar.vue';
 
 export default {
   name: 'SendTip',
   components: {
     AeInputAmount,
     AeButton,
+    Avatar,
   },
   data() {
     return {
@@ -114,7 +116,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .tip__post {
     background-color: $actions_ribbon_background_color;
     max-height: 0;
@@ -127,7 +129,7 @@ export default {
     }
 
     form {
-      padding: .6rem 1rem 1rem 1rem;
+      padding: 0.6rem 1rem 1rem 1rem;
 
       .form-group {
         margin-bottom: 0;
@@ -137,14 +139,16 @@ export default {
             display: inline-block;
             width: calc(100% - 3.01rem);
           }
+
           background-color: $buttons_background;
           color: $standard_font_color;
-          font-size: .75rem;
-          border: .05rem solid transparent;
+          font-size: 0.75rem;
+          border: 0.05rem solid transparent;
           height: 2.2rem;
           margin-bottom: 1rem;
-          &:focus{
-             border: .05rem solid $custom_links_color;
+
+          &:focus {
+            border: 0.05rem solid $custom_links_color;
           }
         }
       }
@@ -152,18 +156,20 @@ export default {
       .tip__post__balance {
         span {
           font-size: 0.75rem;
-          color:$standard_font_color;
+          color: $standard_font_color;
         }
       }
 
-      .avatar{
+      .avatar,
+      .user-identicon svg {
         width: 2rem;
         height: 2rem;
         border-radius: 1rem;
       }
     }
+
     .ae-button {
-      padding: .55rem 2.87rem .65rem 2.87rem;
+      padding: 0.55rem 2.87rem 0.65rem 2.87rem;
       font-weight: 600;
     }
 
@@ -171,12 +177,11 @@ export default {
       vertical-align: middle;
     }
 
-
     .tip__post__label {
       font-weight: 600;
-      font-size: .8rem;
+      font-size: 0.8rem;
       color: $standard_font_color;
-      padding: .75rem 1rem;
+      padding: 0.75rem 1rem;
       background-color: $light_color;
 
       label {

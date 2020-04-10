@@ -8,18 +8,19 @@
   >
     <img :src="iconTip">
     <ae-amount
-      :amount="amount"
+      :amount="tip.total_amount"
       :round="2"
       class="vertical-align-mid"
     />
     <fiat-value
-      :amount="amount"
+      :amount="tip.total_amount.toString()"
       class="vertical-align-mid"
     />
   </a>
   <div
     v-else
     class="retip__wrapper"
+    :title="isTipped ? 'Total tips (you tipped too)' : 'Total tips (click to retip the same URL)'"
   >
     <div
       v-if="show"
@@ -40,10 +41,10 @@
           :src="iconTip"
         >
         <ae-amount
-          :amount="amount"
+          :amount="tip.total_amount"
           :round="2"
         />
-        <fiat-value :amount="amount" />
+        <fiat-value :amount="tip.total_amount.toString()" />
       </div>
       <div
         v-if="show"
@@ -71,7 +72,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
+import iconTipped from '../assets/iconTipped.svg';
 import aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
@@ -92,9 +95,7 @@ export default {
     AeButton,
   },
   props: {
-    tipid: { type: Number, required: true },
-    amount: { type: String, required: true },
-    tipurl: { type: String, default: '' },
+    tip: { type: Object, required: true },
   },
   data() {
     return {
@@ -104,22 +105,30 @@ export default {
       showLoading: false,
       error: true,
       USE_DEEP_LINKS,
-      iconTip,
     };
   },
   computed: {
+    ...mapGetters(['account', 'balance', 'isLoggedIn', 'loading']),
     eventPayload() {
-      return `${this.tipid}:${this.show}`;
+      return `${this.tip.id}:${this.show}`;
     },
     deepLink() {
       const url = new URL(`${process.env.VUE_APP_WALLET_URL}/retip`);
-      url.searchParams.set('id', this.tipid);
+      url.searchParams.set('id', this.tip.id);
       url.searchParams.set('x-success', window.location);
       url.searchParams.set('x-cancel', window.location);
       return url;
     },
     isDataValid() {
       return this.value > 0;
+    },
+    isTipped() {
+      return !this.loading
+        || (this.tip.sender === this.account)
+        || this.tip.retips.filter((retip) => retip.sender === this.account).length > 0;
+    },
+    iconTip() {
+      return this.isTipped ? iconTipped : iconTip;
     },
   },
   created() {
@@ -138,9 +147,8 @@ export default {
       }
     },
     async retip() {
-      const amount = util.aeToAtoms(this.value);
       this.showLoading = true;
-      await aeternity.retip(this.tipid, amount)
+      await aeternity.retip(this.tip.id, util.aeToAtoms(this.value))
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');
@@ -161,7 +169,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
   .overlay {
@@ -197,8 +204,8 @@ export default {
     position: relative;
 
     img {
-      height: .7rem;
-      margin-right: .2rem;
+      height: 0.7rem;
+      margin-right: 0.2rem;
       vertical-align: top;
       width: 1rem;
     }
@@ -213,7 +220,7 @@ export default {
   }
 
   .button-section {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
     text-align: center;
 
     button {
@@ -227,10 +234,10 @@ export default {
 
   .retip__container {
     background-color: black;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     display: flex;
     flex-wrap: wrap;
-    margin-top: .25rem;
+    margin-top: 0.25rem;
     min-width: 19rem;
     padding: 1rem;
     position: absolute;
@@ -244,18 +251,18 @@ export default {
     }
 
     .ae-button {
-      margin-left: .5rem;
+      margin-left: 0.5rem;
     }
   }
 
   @media only screen and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
     .retip__container {
       min-width: 13rem;
-      padding: .5rem;
+      padding: 0.5rem;
     }
 
     .retip__button {
-      font-size: .5rem;
+      font-size: 0.5rem;
     }
   }
 </style>

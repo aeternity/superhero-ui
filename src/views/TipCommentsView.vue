@@ -4,11 +4,7 @@
     <right-section />
     <left-section />
     <div class="container wrapper url__page">
-      <div class="actions-ribbon">
-        <router-link :to="{ name: 'home' }">
-          <img src="../assets/backArrow.svg">
-        </router-link>
-      </div>
+      <back-button-ribbon />
       <div
         v-if="tip"
         class="tipped__url"
@@ -20,10 +16,10 @@
           Latest Replies
         </p>
         <div class="d-flex">
-          <img
-            class="mr-3 avatar"
-            :src="avatar"
-          >
+          <Avatar
+            :address="address"
+            class="avatar mr-3"
+          />
           <div class="input-group">
             <input
               v-model="newComment"
@@ -80,9 +76,10 @@ import RightSection from '../components/layout/RightSection.vue';
 import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
-import defaultAvatar from '../assets/userAvatar.svg';
 import { EventBus } from '../utils/eventBus';
 import AeButton from '../components/AeButton.vue';
+import Avatar from '../components/Avatar.vue';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 
 export default {
   name: 'TipCommentsView',
@@ -94,6 +91,8 @@ export default {
     RightSection,
     MobileNavigation,
     AeButton,
+    Avatar,
+    BackButtonRibbon,
   },
   data() {
     return {
@@ -102,7 +101,7 @@ export default {
       comments: [],
       error: false,
       newComment: '',
-      avatar: defaultAvatar,
+      address: null,
       tip: null,
     };
   },
@@ -118,7 +117,7 @@ export default {
     this.loadTip();
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
-        this.avatar = this.getAvatar(this.account);
+        this.address = this.account;
         clearInterval(loadUserAvatar);
       }
     }, 500);
@@ -188,45 +187,53 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
-.url__page{
+<style lang="scss">
+.url__page {
   color: $light_font_color;
-  font-size: .75rem;
+  font-size: 0.75rem;
 
-  .avatar{
+  .avatar,
+  .user-identicon svg {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
   }
-  .input-group{
-    width: calc(100% - 2.5rem)
+
+  .input-group {
+    width: calc(100% - 2.5rem);
   }
-  .tipped__url{
-    .tip__record{
+
+  .tipped__url {
+    .tip__record {
       margin-bottom: 0;
-      &.row{
+
+      &.row {
         background-color: $actions_ribbon_background_color;
       }
     }
   }
-  .comments__section{
+
+  .comments__section {
     background-color: $actions_ribbon_background_color;
     padding: 1rem;
   }
-  .no-results{
+
+  .no-results {
     color: $standard_font_color;
-    font-size: .75rem;
+    font-size: 0.75rem;
     text-align: center;
-    &.error{
+
+    &.error {
       color: red;
     }
   }
+
   .comment__section {
     background-color: $actions_ribbon_background_color;
-    padding: .75rem 1rem 0 1rem;
+    padding: 0.75rem 1rem 0 1rem;
 
     p {
-      font-size: .75rem;
+      font-size: 0.75rem;
       text-transform: capitalize;
       margin-bottom: 0.7rem;
       color: white;
@@ -239,11 +246,11 @@ export default {
   }
 
   .send-comment {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     text-align: right;
 
     .ae-button {
-      padding: .55rem 2.87rem .65rem 2.87rem;
+      padding: 0.55rem 2.87rem 0.65rem 2.87rem;
     }
   }
 }

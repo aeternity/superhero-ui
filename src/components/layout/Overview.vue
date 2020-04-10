@@ -132,7 +132,7 @@ export default {
   }
 
   .overview__item {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   .overview__value {
@@ -146,17 +146,19 @@ export default {
       padding-bottom: 0;
     }
 
-    .currency, .currency-sign, .ae {
-      font-size: .8rem;
-      padding-left: .25rem;
+    .currency,
+    .currency-sign,
+    .ae {
+      font-size: 0.8rem;
+      padding-left: 0.25rem;
     }
   }
 
   .overview__label {
     color: $tip_note_color;
-    font-size: .75rem;
+    font-size: 0.75rem;
     font-weight: 400;
-    line-height: .75rem;
+    line-height: 0.75rem;
     text-transform: none;
   }
 
@@ -167,12 +169,12 @@ export default {
 
   @media only screen and (max-width: 1280px) {
     .overview__value {
-      font-size: .75rem;
-      line-height: .75rem;
+      font-size: 0.75rem;
+      line-height: 0.75rem;
     }
 
     .overview__item {
-      margin-bottom: .4rem;
+      margin-bottom: 0.4rem;
     }
   }
 </style>

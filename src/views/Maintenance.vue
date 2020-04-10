@@ -40,6 +40,7 @@ export default {
 .maintenance {
   margin: 4rem auto;
   padding: 1rem;
+
   h1 {
     font-size: 55px;
     font-weight: bold;
@@ -47,30 +48,35 @@ export default {
     line-height: 80px;
     margin: 50px 0;
   }
+
   h2 {
     font-size: 35px !important;
     line-height: 55px;
     text-align: center;
     margin: 50px 0;
   }
+
   .maintenance--image {
     display: block;
     margin: 0 auto;
   }
 }
+
 .recharge {
   h1 {
     color: white;
   }
+
   h2 {
-    color: #3290E2;
+    color: #3290e2;
   }
 }
 
 .cleaning {
   h1 {
-    color: #3290E2;
+    color: #3290e2;
   }
+
   h2 {
     color: white;
   }

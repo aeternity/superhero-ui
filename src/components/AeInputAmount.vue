@@ -17,7 +17,7 @@
         <span class="ae">AE&nbsp;</span>
         <fiat-value
           display-symbol
-          :amount="value"
+          :amount="value.toString()"
         />
       </span>
     </div>
@@ -35,7 +35,7 @@ export default {
   props: {
     min: { type: Number, default: 0 },
     step: { type: Number, default: 0.1 },
-    value: { type: String, required: true },
+    value: { type: [ Number,String], required: true },
   },
 };
 </script>

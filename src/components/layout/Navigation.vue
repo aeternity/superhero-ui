@@ -8,7 +8,10 @@
         >
       </router-link>
     </div>
-    <div class="navigation__item home">
+    <div
+      class="navigation__item home"
+      @click="scrollTop()"
+    >
       <router-link :to="{ name: 'home' }">
         <div class="navigation__item__image" />
         <span>Home</span>
@@ -23,6 +26,7 @@
     <div
       v-if="isLoggedIn"
       class="navigation__item profile"
+      @click="scrollTop()"
     >
       <router-link :to="{ name: 'user-profile', params: { address: account } }">
         <div class="navigation__item__image" />
@@ -32,6 +36,7 @@
     <div
       v-else
       class="navigation__item profile"
+      @click="scrollTop()"
     >
       <router-link :to="{ name: 'create-profile' }">
         <div class="navigation__item__image" />
@@ -54,6 +59,11 @@ export default {
   name: 'Navigation',
   computed: {
     ...mapGetters(['account', 'isLoggedIn']),
+  },
+  methods: {
+    scrollTop() {
+      document.scrollingElement.scrollTop = 0;
+    },
   },
 };
 </script>

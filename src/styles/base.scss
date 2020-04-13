@@ -81,7 +81,7 @@ a.button {
     box-shadow: none;
 
     &:focus {
-      border: 0.05rem solid $custom_links_color;
+      border: 0.05rem solid $secondary_color;
     }
   }
 }

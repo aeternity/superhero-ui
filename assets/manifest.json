@@ -1,7 +1,7 @@
 {
-  "name": "Example Aepp",
-  "short_name": "Example Aepp",
-  "description": "Example Description.",
+  "name": "You Do Not Need A Cape To Be A Hero",
+  "short_name": "You Do Not Need A Cape To Be A Hero",
+  "description": "You Do Not Need A Cape To Be A Hero",
   "dir": "auto",
   "lang": "en-US",
   "display": "standalone",

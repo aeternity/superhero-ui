@@ -16,7 +16,7 @@ deploy:
     keep_history: true
     local_dir: dist
     repo: $DEPLOY_REPO
-    target_branch: master
+    target_branch: $DEPLOY_TARGET_BRANCH
     name: $DEPLOY_NAME
     email: $DEPLOY_EMAIL
     on:

@@ -196,8 +196,8 @@
               here </a>.
           </p>
           <p>
-            You can claim as many names on Superhero as you want. But as a rule, you must have a
-            minimum of XX AE in your wallet.
+            You can claim as many names on Superhero as you want. But as a rule, you must have
+            enough AE in your wallet to cover the initial price for the selected name.
           </p>
         </expandable-block>
         <expandable-block :title="'SUPERHERO PROFILE NAME'">

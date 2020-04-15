@@ -41,8 +41,8 @@
               target="_blank"
             > here </a><br>
             Add the extension to your browser.<br>
-            Then the Superhero icon should appear on the upper right corner of your Chrome browser
-            tool bar.
+            Then the Superhero icon should appear on the upper right corner of your browser
+            toolbar.
           </p>
         </expandable-block>
         <expandable-block :title="'CREATING YOUR WALLET'">

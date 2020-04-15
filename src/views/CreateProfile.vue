@@ -115,7 +115,7 @@
               On the next screen, fill in the required fields. Enter the amount of tips you want to
               send, and add a message telling the receiver why they’re awesome.
             </li>
-            <li>Click <span class="highlited">Send</span> tip.</li>
+            <li>Click the <span class="highlited">Send Tip</span> button below.</li>
             <li>
               On the next screen, review the details of your tip.
             </li>

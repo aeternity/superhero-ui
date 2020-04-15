@@ -64,7 +64,8 @@
                 :title="`Initial tip`"
                 @click.prevent
               >
-                <retip
+                <TipInput
+                  is-retip
                   :tip="tip"
                 />
               </div>
@@ -103,7 +104,7 @@
             class="tip__amount"
             @click.stop
           >
-            <TipControl
+            <TipInput
               :tip="tip"
             />
           </div>
@@ -126,8 +127,7 @@
 
 <script>
 import Backend from '../../utils/backend';
-import Retip from '../Retip.vue';
-import TipControl from '../TipControl.vue';
+import TipInput from '../TipInput.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import Avatar from '../Avatar.vue';
@@ -135,11 +135,10 @@ import Avatar from '../Avatar.vue';
 export default {
   name: 'TipRecord',
   components: {
-    Retip,
     TipTitle,
     FormatDate,
     Avatar,
-    TipControl,
+    TipInput,
   },
   props: {
     tip: { type: Object, required: true },

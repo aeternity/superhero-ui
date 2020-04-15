@@ -195,10 +195,6 @@ export default {
     border-radius: 50%;
   }
 
-  .input-group {
-    width: calc(100% - 2.5rem);
-  }
-
   .tipped__url {
     .tip__record {
       margin-bottom: 0;

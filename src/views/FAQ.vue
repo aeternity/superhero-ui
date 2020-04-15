@@ -32,12 +32,14 @@
           <a
             href="https://aeternity.com/"
             target="_blank"
-          >aeternity blockchain</a>. <br>Anyone,
-          anywhere may use the platform. <br>Other websites may use the platform. <br>All have
-          uncensored, equal ability to be Superhero. <br>As P2P – the only ones who are not part
-          of Superhero intermediaries. <br>No 3 <sup>rd</sup> party custodians will control
-          content, or your ability to tip or receive tips. <br>Superhero is you and you and you
-          and you… Without any “them” in-between.
+          >aeternity blockchain</a>.<br>
+          Anyone, anywhere may use the platform.<br>
+          Other websites may use the platform.<br>
+          All have uncensored, equal ability to be Superhero.<br>
+          As P2P – the only ones who are not part of Superhero intermediaries.<br>
+          No 3 <sup>rd</sup> party custodians will control content,
+          or your ability to tip or receive tips.<br>
+          Superhero is you and you and you and you… Without any “them” in-between.
         </expandable-block>
         <expandable-block :title="'How does Superhero work?'">
           Superhero is built on aeternity blockchain.

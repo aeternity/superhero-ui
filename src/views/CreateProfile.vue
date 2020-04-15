@@ -110,7 +110,7 @@
               <img src="../assets/iconExtension.svg"> should be in the upper right of your browser
               toolbar.<br>
             </li>
-            <li>Click <span class="highlited">Tip</span> someone.</li>
+            <li>Click <span class="highlited">Send Tip</span></li>
             <li>
               On the next screen, fill in the required fields. Enter the amount of tips you want to
               send, and add a message telling the receiver why they’re awesome.

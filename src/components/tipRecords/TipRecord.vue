@@ -16,7 +16,9 @@
               <span
                 v-if="tip.chainName"
                 class="chain__name"
-              >{{ tip.chainName }}</span>
+              >
+                {{ tip.chainName }}
+              </span>
               <span
                 v-else
                 class="chain__name"
@@ -87,7 +89,9 @@
           :href="tip.url"
           :title="tip.url"
           class="text-ellipsis"
-        >{{ tip.url }}</a>
+        >
+          {{ tip.url }}
+        </a>
       </div>
       <div
         class="tip__note pr-2"
@@ -487,14 +491,9 @@ export default {
       right: -50%;
     }
 
-    .tip__note {
+    .tip__note,
+    .tip__article .tip__article__content {
       font-size: 0.75rem;
-    }
-
-    .tip__article {
-      .tip__article__content {
-        font-size: 0.75rem;
-      }
     }
   }
 
@@ -507,10 +506,8 @@ export default {
       width: 0.7rem;
     }
 
-    .tip__article {
-      .tip__article__content {
-        font-size: 0.65rem;
-      }
+    .tip__article .tip__article__content {
+      font-size: 0.65rem;
     }
   }
 
@@ -569,10 +566,8 @@ export default {
       font-size: 0.65rem;
       padding: 0;
 
-      .tip__amount {
-        img {
-          width: 1rem;
-        }
+      .tip__amount img {
+        width: 1rem;
       }
     }
 

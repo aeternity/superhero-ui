@@ -77,7 +77,9 @@
         <a
           :href="href"
           target="_blank"
-        >Tutorial</a>
+        >
+          Tutorial
+        </a>
       </router-link>
       &
       <router-link
@@ -87,7 +89,9 @@
         <a
           :href="href"
           target="_blank"
-        >FAQ</a>
+        >
+          FAQ
+        </a>
       </router-link>
     </p>
     <div class="step__footer">

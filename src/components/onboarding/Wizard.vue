@@ -416,10 +416,8 @@ export default {
       padding: 0.65rem 2.5rem;
     }
 
-    .onboarding__start {
-      .button {
-        padding: 0.65rem 0.9rem 0.65rem 2rem;
-      }
+    .onboarding__start .button {
+      padding: 0.65rem 0.9rem 0.65rem 2rem;
     }
 
     .onboarding_tab {
@@ -431,12 +429,8 @@ export default {
       }
     }
 
-    .step__content {
-      p {
-        a {
-          text-decoration: none;
-        }
-      }
+    .step__content p a {
+      text-decoration: none;
     }
   }
 

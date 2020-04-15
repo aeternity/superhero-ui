@@ -32,7 +32,9 @@
           <a
             href="https://aeternity.com/"
             target="_blank"
-          >aeternity blockchain</a>.<br>
+          >
+            aeternity blockchain
+          </a>.<br>
           Anyone, anywhere may use the platform.<br>
           Other websites may use the platform.<br>
           All have uncensored, equal ability to be Superhero.<br>
@@ -109,7 +111,9 @@
             <a
               :href="href"
               target="_blank"
-            >tutorial.</a>
+            >
+              tutorial.
+            </a>
           </router-link>
         </expandable-block>
         <expandable-block :title="'Can I use my Base æpp wallet for my Superhero wallet?'">

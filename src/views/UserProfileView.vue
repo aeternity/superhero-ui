@@ -33,7 +33,9 @@
                 class="edit__button button small"
                 title="Edit Profile"
                 @click="toggleEditMode()"
-              >Edit Profile</a>
+              >
+                Edit Profile
+              </a>
               <div class="profile__image position-relative">
                 <div
                   v-if="showLoadingAvatar"
@@ -103,7 +105,9 @@
                   <span
                     v-if="userChainName"
                     class="chain"
-                  >{{ userChainName }}</span>
+                  >
+                    {{ userChainName }}
+                  </span>
                   <span v-else>{{ address }}</span>
                 </a>
                 <div

@@ -195,13 +195,11 @@ export default {
     border-radius: 50%;
   }
 
-  .tipped__url {
-    .tip__record {
-      margin-bottom: 0;
+  .tipped__url .tip__record {
+    margin-bottom: 0;
 
-      &.row {
-        background-color: $thumbnail_background_color;
-      }
+    &.row {
+      background-color: $thumbnail_background_color;
     }
   }
 

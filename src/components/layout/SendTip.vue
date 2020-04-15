@@ -164,11 +164,9 @@ export default {
         }
       }
 
-      .tip__post__balance {
-        span {
-          font-size: 0.75rem;
-          color: $standard_font_color;
-        }
+      .tip__post__balance span {
+        font-size: 0.75rem;
+        color: $standard_font_color;
       }
 
       .avatar,

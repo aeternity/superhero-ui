@@ -11,8 +11,8 @@
           if you can't find the answer of you question below visit our
           <router-link to="/create-profile">
             Tutorial Page
-          </router-link>to <br>receive more
-          information about using Superhero platform and wallet.
+          </router-link> to<br>
+          receive more information about using Superhero platform and wallet.
         </p>
         <expandable-block :title="'What is Superhero?'">
           Superhero is a P2P (Peer-to-Peer) platform for social sharing.

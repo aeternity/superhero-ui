@@ -108,7 +108,7 @@
             <li>
               Open your Superhero wallet extension. The button
               <img src="../assets/iconExtension.svg"> should be in the upper right of your browser
-              tool bar.<br>
+              toolbar.<br>
             </li>
             <li>Click <span class="highlited">Tip</span> someone.</li>
             <li>

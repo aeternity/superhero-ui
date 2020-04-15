@@ -31,7 +31,7 @@
             to Firefox. Confirm by clicking
             <span class="highlited">Add</span> again in the message prompt.<br>
             Then the Superhero icon should appear on the upper right corner of your Firefox browser
-            tool bar.<br>
+            toolbar.<br>
           </p>
           <p>
             For Chrome, Brave, and Opera:<br>
@@ -41,8 +41,7 @@
               target="_blank"
             > here </a><br>
             Add the extension to your browser.<br>
-            Then the Superhero icon should appear on the upper right corner of your browser
-            toolbar.
+            Then the Superhero icon should appear on the upper right corner of your browser toolbar.
           </p>
         </expandable-block>
         <expandable-block :title="'CREATING YOUR WALLET'">
@@ -92,7 +91,8 @@
           </p>
           <ul>
             <li>
-              <b>Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place.</b>
+              <b>Write down the 12 words displayed on a piece of paper and keep it in a safe and
+                secret place.</b>
             </li>
           </ul>
           <p>

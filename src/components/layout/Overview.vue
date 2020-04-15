@@ -37,21 +37,11 @@
       v-if="stats.total_amount"
       class="overview__item"
     >
-      <div class="overview__value secondary">
-        <ae-amount
-          :amount="stats.total_amount"
-          :round="2"
-        />
-      </div>
-      <div
-        v-if="stats.total_amount"
+      <ae-amount-fiat
+        :amount="stats.total_amount"
+        without-brackets
         class="overview__value"
-      >
-        <fiat-value
-          :amount="stats.total_amount"
-          :without-brackets="true"
-        />
-      </div>
+      />
       <div class="overview__label">
         Total Tips Value
       </div>
@@ -60,21 +50,11 @@
       v-if="stats.total_claimed_amount"
       class="overview__item"
     >
-      <div class="overview__value secondary">
-        <ae-amount
-          :amount="stats.total_claimed_amount"
-          :round="2"
-        />
-      </div>
-      <div
-        v-if="stats.total_claimed_amount"
+      <ae-amount-fiat
+        :amount="stats.total_claimed_amount"
+        without-brackets
         class="overview__value"
-      >
-        <fiat-value
-          :amount="stats.total_claimed_amount"
-          :without-brackets="true"
-        />
-      </div>
+      />
       <div class="overview__label">
         Total Tips Claimed
       </div>
@@ -111,14 +91,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import FiatValue from '../FiatValue.vue';
-import AeAmount from '../AeAmount.vue';
+import AeAmountFiat from '../AeAmountFiat.vue';
 
 export default {
   name: 'Overview',
   components: {
-    FiatValue,
-    AeAmount,
+    AeAmountFiat,
   },
   computed: {
     ...mapGetters(['stats']),
@@ -146,6 +124,17 @@ export default {
       padding-bottom: 0;
     }
 
+    &.ae-amount-fiat {
+      display: flex;
+      flex-direction: column;
+      color: $secondary_color;
+
+      .currency-value {
+        font-size: 1rem;
+        color: $custom_links_color;
+      }
+    }
+
     .currency,
     .currency-sign,
     .ae {
@@ -168,7 +157,8 @@ export default {
   }
 
   @media only screen and (max-width: 1280px) {
-    .overview__value {
+    .overview__value,
+    .ae-amount-fiat.overview__value .currency-value {
       font-size: 0.75rem;
       line-height: 0.75rem;
     }

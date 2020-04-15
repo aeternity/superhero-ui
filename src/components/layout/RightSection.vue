@@ -62,15 +62,7 @@
             <div class="topic-container text-ellipsis">
               <topic :topic="topic" />
             </div>
-            <div class="amount">
-              <span class="value">
-                <ae-amount
-                  :amount="data.amount"
-                  :round="2"
-                />
-              </span>
-              <fiat-value :amount="data.amount" />
-            </div>
+            <ae-amount-fiat :amount="data.amount" />
           </div>
         </div>
       </div>
@@ -83,8 +75,8 @@
 import { mapGetters, mapActions } from 'vuex';
 import { detect } from 'detect-browser';
 import BigNumber from 'bignumber.js';
-import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
+import AeAmountFiat from '../AeAmountFiat.vue';
 import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
 import Dropdown from '../Dropdown.vue';
@@ -93,8 +85,8 @@ export default {
   name: 'RightSection',
   components: {
     Topic,
-    FiatValue,
     AeAmount,
+    AeAmountFiat,
     FooterSection,
     Dropdown,
   },
@@ -167,8 +159,12 @@ export default {
           display: flex;
 
           & > div {
-            &.amount {
+            &.ae-amount-fiat {
               width: 52%;
+
+              .ae-amount {
+                color: $standard_font_color;
+              }
             }
 
             width: 48%;
@@ -184,10 +180,6 @@ export default {
           &::-webkit-scrollbar {
             display: none;
           }
-        }
-
-        .currency-value {
-          font-size: 0.7rem;
         }
       }
     }
@@ -218,10 +210,6 @@ export default {
 
       .tag {
         color: $custom_links_color;
-      }
-
-      .value {
-        color: $standard_font_color;
       }
     }
 

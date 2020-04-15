@@ -6,11 +6,7 @@
     class="tip__content"
   >
     <img :src="iconTip">
-    <ae-amount
-      :amount="amount"
-      :round="2"
-    />
-    <fiat-value :amount="amount" />
+    <ae-amount-fiat :amount="amount" />
   </a>
   <div
     v-else
@@ -35,11 +31,7 @@
           class="tip__icon"
           :src="iconTip"
         >
-        <ae-amount
-          :amount="amount"
-          :round="2"
-        />
-        <fiat-value :amount="amount" />
+        <ae-amount-fiat :amount="amount" />
       </div>
       <div
         v-if="show"
@@ -90,21 +82,19 @@ import aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import util, { USE_DEEP_LINKS } from '../utils/util';
-import AeAmount from './AeAmount.vue';
-import FiatValue from './FiatValue.vue';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
+import AeAmountFiat from './AeAmountFiat.vue';
 import { wallet } from '../utils/walletSearch';
 
 export default {
   name: 'TipInput',
   components: {
     Loading,
-    FiatValue,
     AeInputAmount,
-    AeAmount,
     AeButton,
+    AeAmountFiat,
   },
   props: {
     tip: { type: Object, required: true },

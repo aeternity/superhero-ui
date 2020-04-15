@@ -176,13 +176,10 @@
               <div class="stat-title">
                 Total Sent Amount
               </div>
-              <div class="stat-value">
-                <ae-amount
-                  :amount="userStats.totalTipAmount"
-                  :round="2"
-                />
-                <fiat-value :amount="userStats.totalTipAmount" />
-              </div>
+              <ae-amount-fiat
+                class="stat-value"
+                :amount="userStats.totalTipAmount"
+              />
             </div>
             <div class="stat">
               <div class="stat-title">
@@ -204,13 +201,10 @@
               <div class="stat-title">
                 Unclaimed Amount
               </div>
-              <div class="stat-value">
-                <ae-amount
-                  :amount="userStats.unclaimedAmount"
-                  :round="2"
-                />
-                <fiat-value :amount="userStats.unclaimedAmount" />
-              </div>
+              <ae-amount-fiat
+                class="stat-value"
+                :amount="userStats.unclaimedAmount"
+              />
             </div>
           </div>
         </div>
@@ -273,8 +267,7 @@ import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
-import FiatValue from '../components/FiatValue.vue';
-import AeAmount from '../components/AeAmount.vue';
+import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
 import defaultAvatar from '../assets/userAvatar.svg';
 import { EXPLORER_URL } from '../config/constants';
@@ -288,8 +281,7 @@ export default {
   components: {
     TipsPagination,
     Loading,
-    AeAmount,
-    FiatValue,
+    AeAmountFiat,
     TipComment,
     LeftSection,
     RightSection,
@@ -481,7 +473,8 @@ export default {
         color: $tip_note_color;
       }
 
-      .stat-value {
+      .stat-value,
+      .stat-value /deep/ .currency-value {
         font-size: 0.9rem;
         color: $secondary_color;
         font-weight: 400;
@@ -644,10 +637,6 @@ export default {
 
     & > .row.mobile {
       display: none;
-    }
-
-    .value {
-      color: $secondary_color;
     }
   }
 

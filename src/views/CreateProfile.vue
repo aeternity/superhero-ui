@@ -92,9 +92,7 @@
           </p>
           <ul>
             <li>
-              <b>Write down the 12 words displayed on a piece of paper to keep in a safe place only
-                you can find.
-              </b>
+              <b>Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place.</b>
             </li>
           </ul>
           <p>

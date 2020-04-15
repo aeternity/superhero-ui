@@ -25,7 +25,7 @@
     <p class="highlited">
       To start, you'll need a wallet. It's free. It's easy.<br>
       <span class="important">
-        Click a browser extensions or a mobile app
+        Click a browser extension or a mobile app
       </span>
       <br>
       to install the Superhero wallet:

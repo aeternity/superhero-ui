@@ -4,6 +4,7 @@
       :value="value"
       v-bind="$attrs"
       type="number"
+      inputmode="decimal"
       :min="min"
       :step="step"
       placeholder="Amount"
@@ -11,7 +12,7 @@
       aria-label="Default"
       aria-describedby="inputGroup-sizing-mn"
       @input="$emit('input', $event.target.value)"
-    />
+    >
     <div class="input-group-append">
       <span class="input-group-text append__ae">
         <span class="ae">AE&nbsp;</span>
@@ -46,7 +47,7 @@ export default {
   border-radius: 0.25rem;
 
   &:focus-within {
-    border: 0.05rem solid $custom_links_color;
+    border: 0.05rem solid $secondary_color;
   }
 
   input,

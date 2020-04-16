@@ -248,10 +248,6 @@ export default {
 
       & > div:not(.spinner__container) {
         display: flex;
-
-        /deep/ .input-group .form-control {
-          color: $custom_links_color;
-        }
       }
 
       .ae-button {

@@ -131,6 +131,29 @@ export default {
     form {
       padding: 0.6rem 1rem 1rem 1rem;
 
+      .form-row {
+        margin: 1rem 0 1rem 0;
+
+        .form-group {
+          border: 0.05rem solid $buttons_background;
+          border-radius: 0.25rem;
+          padding: 0;
+
+          input,
+          input:focus {
+            border: 0;
+          }
+
+          &:focus-within {
+            border-color: $secondary_color;
+          }
+        }
+
+        .col-md-4 {
+          padding-right: 0;
+        }
+      }
+
       .form-group {
         margin-bottom: 0;
 
@@ -143,13 +166,7 @@ export default {
           background-color: $buttons_background;
           color: $standard_font_color;
           font-size: 0.75rem;
-          border: 0.05rem solid transparent;
           height: 2.2rem;
-          margin-bottom: 1rem;
-
-          &:focus {
-            border: 0.05rem solid $custom_links_color;
-          }
         }
       }
 

@@ -281,6 +281,7 @@ import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
 import Avatar from '../components/Avatar.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
+import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'TipCommentsView',
@@ -344,25 +345,18 @@ export default {
       return userImage || this.defaultAvatar;
     },
   },
-  async created() {
-    this.getProfile();
-    Backend.getCacheUserStats(this.address).then((stats) => {
-      this.userStats = stats;
+  mounted() {
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
     });
-    this.showLoading = true;
-    Backend.getAllComments()
-      .then((allComments) => {
-        this.showLoading = false;
-        this.error = false;
-        this.comments = allComments.filter(
-          (comment) => comment.author === this.address,
-        );
-      })
-      .catch((e) => {
-        console.error(e);
-        this.error = true;
-        this.showLoading = false;
-      });
+
+    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
+  async created() {
+    this.reloadData();
   },
   methods: {
     updateAvatarImageKey() {
@@ -396,6 +390,26 @@ export default {
 
       await Backend.sendProfileData(respondChallenge);
       this.resetEditedValues();
+    },
+    reloadData() {
+      this.getProfile();
+      Backend.getCacheUserStats(this.address).then((stats) => {
+        this.userStats = stats;
+      });
+      this.showLoading = true;
+      Backend.getAllComments()
+        .then((allComments) => {
+          this.showLoading = false;
+          this.error = false;
+          this.comments = allComments.filter(
+            (comment) => comment.author === this.address,
+          );
+        })
+        .catch((e) => {
+          console.error(e);
+          this.error = true;
+          this.showLoading = false;
+        });
     },
     getProfile() {
       Backend.getCommentCountForAddress(this.address)

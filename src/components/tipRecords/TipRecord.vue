@@ -77,7 +77,7 @@
         </a>
       </div>
       <div
-        v-else
+        v-else-if="embedlyPreview(tip)"
         class="tip__url"
       >
         <a
@@ -89,6 +89,16 @@
           data-card-via=""
           data-card-recommend="0"
           data-card-key="57b5154650e74bf19e4f106468d90770"
+        >{{ tip.url }}</a>
+      </div>
+      <div
+        v-else
+        class="tip__url"
+      >
+        <a
+          :href="tip.url"
+          :title="tip.url"
+          class="text-ellipsis"
         >{{ tip.url }}</a>
       </div>
       <div
@@ -179,7 +189,7 @@ export default {
       return (
         tip.url.indexOf('youtube') > -1
         || tip.url.indexOf('youtu.be') > -1
-        || tip.url.indexOf('twitter') > -1
+        || (tip.url.indexOf('twitter') > -1 && tip.url.indexOf('status') > -1)
         || tip.url.indexOf('facebook') > -1
       );
     },

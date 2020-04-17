@@ -54,8 +54,6 @@
 <script>
 
 import FormatDate from './FormatDate.vue';
-import Backend from '../../utils/backend';
-import defaultAvatar from '../../assets/userAvatar.svg';
 import Avatar from '../Avatar.vue';
 
 export default {
@@ -68,21 +66,12 @@ export default {
     comment: { type: Object, required: true },
     userChainName: { type: String, default: '' },
   },
-  data() {
-    return {
-      defaultAvatar,
-    };
-  },
   computed: {
     formatDate() {
       return new Date(this.comment.createdAt.substring(0, this.comment.createdAt.length - 8));
     },
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.defaultAvatar;
-    },
     goToURLPage(id) {
       this.$router.push({
         name: 'tip',

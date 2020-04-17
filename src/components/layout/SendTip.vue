@@ -52,7 +52,6 @@ import AeInputAmount from '../AeInputAmount.vue';
 import util from '../../utils/util';
 import aeternity from '../../utils/aeternity';
 import { EventBus } from '../../utils/eventBus';
-import avatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
 import AeButton from '../AeButton.vue';
 import IconDiamond from '../../assets/iconDiamond.svg';
@@ -72,7 +71,6 @@ export default {
         url: '',
         title: '',
       },
-      avatar,
       canTip: false,
       IconDiamond,
     };
@@ -92,10 +90,6 @@ export default {
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
         this.canTip = true;
-        const userImage = Backend.getProfileImageUrl(this.account);
-        if (userImage) {
-          this.avatar = userImage;
-        }
         clearInterval(loadUserAvatar);
       }
     }, 1000);

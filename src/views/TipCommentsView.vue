@@ -132,10 +132,6 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.avatar;
-    },
     async sendTipComment() {
       if (USE_DEEP_LINKS) {
         const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);

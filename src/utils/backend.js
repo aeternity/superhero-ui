@@ -43,8 +43,6 @@ export default class Backend {
     return wrapTry(fetch(Backend.getProfileImageUrl(address), request));
   };
 
-  static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
-
   static getStats = async () => backendFetch('static/stats/');
 
   static getCacheTipById = async (id) => backendFetch(`cache/tip?id=${id}`);

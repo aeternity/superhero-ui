@@ -125,7 +125,6 @@
 </template>
 
 <script>
-import defaultAvatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
 import Retip from '../Retip.vue';
 import TipControl from '../TipControl.vue';
@@ -147,11 +146,6 @@ export default {
     foundWallet: { type: Boolean },
     senderLink: { type: String, default: '' },
   },
-  data() {
-    return {
-      defaultAvatar,
-    };
-  },
   computed: {
     tipPreviewDescription() {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
@@ -168,10 +162,6 @@ export default {
     },
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.defaultAvatar;
-    },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
         && typeof tip.preview !== 'undefined'

@@ -276,7 +276,6 @@ import { wallet } from '../utils/walletSearch';
 import FiatValue from '../components/FiatValue.vue';
 import AeAmount from '../components/AeAmount.vue';
 import Loading from '../components/Loading.vue';
-import defaultAvatar from '../assets/userAvatar.svg';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
 import Avatar from '../components/Avatar.vue';
@@ -321,7 +320,6 @@ export default {
         biography: '',
         displayName: '',
       },
-      defaultAvatar,
     };
   },
   computed: {
@@ -339,10 +337,6 @@ export default {
         );
       }
       return false;
-    },
-    avatar() {
-      const userImage = this.getAvatar(this.address);
-      return userImage || this.defaultAvatar;
     },
   },
   mounted() {
@@ -423,9 +417,6 @@ export default {
           this.profile = profile;
         })
         .catch(console.error);
-    },
-    getAvatar(address) {
-      return Backend.getProfileImageUrl(address);
     },
     async uploadImage(event) {
       const data = new FormData();

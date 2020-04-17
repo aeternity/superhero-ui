@@ -115,7 +115,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['tipSortBy', 'balance', 'isLoggedIn', 'loading']),
+    ...mapGetters(['tipSortBy', 'loading']),
   },
   async created() {
     EventBus.$on('searchTopic', (topic) => {

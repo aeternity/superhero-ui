@@ -100,7 +100,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['loading', 'account', 'isLoggedIn', 'wizardCurrentStep', 'wizardIsCollapsed']),
+    ...mapGetters(['account', 'wizardCurrentStep', 'wizardIsCollapsed']),
     shouldShowWizard() {
       return this.wizardCurrentStep * 1 < steps.length;
     },

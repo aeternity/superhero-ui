@@ -323,7 +323,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['current', 'account', 'chainNames', 'loading']),
+    ...mapGetters(['account', 'chainNames', 'loading']),
     isMyUserProfile() {
       return this.account === this.address;
     },

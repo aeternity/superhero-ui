@@ -106,7 +106,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['settings', 'account', 'chainNames', 'isLoggedIn']),
+    ...mapGetters(['account', 'chainNames', 'isLoggedIn']),
   },
   watch: {
     tip() {

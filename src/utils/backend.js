@@ -39,7 +39,6 @@ export default class Backend {
       body: image ? data : JSON.stringify(data),
     };
     Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
-    console.log(request);
     return wrapTry(fetch(Backend.getProfileImageUrl(address), request));
   };
 
@@ -51,7 +50,6 @@ export default class Backend {
       },
     };
     Object.assign(request, postParam && { body: JSON.stringify(postParam) });
-    console.log(request);
     return wrapTry(fetch(`${BACKEND_URL}/profile/image/${address}`, request));
   };
 

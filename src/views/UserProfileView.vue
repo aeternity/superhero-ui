@@ -416,8 +416,12 @@ export default {
         signature: signedChallenge,
       };
 
-      await Backend.deleteProfileImage(this.account, respondChallenge);
+      await Backend.deleteProfileImage(this.account, respondChallenge).catch(console.error);
+      
       this.resetEditedValues();
+
+      // use the new avatar with cache-bust
+      this.updateAvatarImageKey();
     },
     getProfile() {
       Backend.getCommentCountForAddress(this.address)

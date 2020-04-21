@@ -123,9 +123,11 @@ export default {
       url.searchParams.set('x-cancel', window.location);
       return url;
     },
+    isMessageValid() {
+      return this.message.trim().length > 0;
+    },
     isDataValid() {
-      const isMessageValid = this.message.trim().length > 0;
-      return (this.value > 0 && (this.isRetip || isMessageValid)) || isMessageValid;
+      return (this.value > 0 && (this.isRetip || this.isMessageValid)) || this.isMessageValid;
     },
     isTipped() {
       return !this.loading
@@ -158,9 +160,9 @@ export default {
   },
   methods: {
     submitAction() {
-      if (!this.isRetip && this.isSendMessageDataValid) {
+      if (!this.isRetip && this.isMessageValid && !this.value) {
         this.sendTipComment();
-      } else if (this.isSendTipDataValid) {
+      } else if (this.isDataValid) {
         this.sendTip();
       }
     },
@@ -176,7 +178,7 @@ export default {
       const amount = util.aeToAtoms(this.value);
       (this.isRetip
         ? aeternity.retip(this.tip.id, amount)
-        : await aeternity.tip(`${window.location.origin}/#/tip/${this.tip.id}`, this.message, amount))
+        : aeternity.tip(`${window.location.origin}/#/tip/${this.tip.id}`, this.message, amount))
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');

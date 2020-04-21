@@ -15,7 +15,7 @@
     </router-link>
     <div>
       <a
-        href="https://thesuperherowallet.typeform.com/to/cnbife"
+        href="https://form.jotform.com/201075183408046"
         target="_blank"
         class="feedback footer-btns"
       >

@@ -139,7 +139,7 @@
             Give it a few minutes and try opening your wallet again.<br>
             If the problem persists, you may ask questions through this
             <a
-              href="https://thesuperherowallet.typeform.com/to/cnbife"
+              href="https://form.jotform.com/201075183408046"
               target="_blank"
             >
               feedback form.

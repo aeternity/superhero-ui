@@ -158,7 +158,7 @@
           Need assistance? Report technical issue? Post feedback? Suggestion?
           <br>Please use this
           <a
-            href="https://thesuperherowallet.typeform.com/to/cnbife"
+            href="https://form.jotform.com/201075183408046"
             target="_blank"
           >
             feedback form, </a>we will shortly get back to you so you can use your Superpowers.

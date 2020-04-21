@@ -162,7 +162,10 @@ export default {
     submitAction() {
       if (!this.isRetip && this.isMessageValid && !this.value) {
         this.sendTipComment();
-      } else if (this.isDataValid) {
+        return;
+      }
+
+      if (this.isDataValid) {
         this.sendTip();
       }
     },

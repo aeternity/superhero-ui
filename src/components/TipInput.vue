@@ -112,7 +112,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['account', 'loading']),
+    ...mapGetters(['account', 'loading', 'stats']),
     eventPayload() {
       return `${this.tip.id}:${this.show}`;
     },
@@ -130,17 +130,25 @@ export default {
       return (this.value > 0 && (this.isRetip || this.isMessageValid)) || this.isMessageValid;
     },
     isTipped() {
-      return !this.loading
-        || (this.tip.sender === this.account)
-        || this.tip.retips.filter((retip) => retip.sender === this.account).length > 0;
+      if (!this.stats || !this.derivedTipStats) {
+        return false;
+      }
+      return this.derivedTipStats.senders.find((sender) => sender === this.account);
     },
     iconTip() {
       return this.isTipped ? iconTipped : iconTip;
     },
+    derivedTipStats() {
+      if (!this.stats || !this.stats.by_url) {
+        return false;
+      }
+      if (this.isRetip) {
+        return this.stats.by_url.find((tipStats) => tipStats.url === this.tip.url);
+      }
+      return this.stats.by_url.find((tipStats) => tipStats.url === `${window.location.origin}/#/tip/${this.tip.id}`);
+    },
     amount() {
-      return this.isRetip
-        ? this.tip.total_amount
-        : this.tip.retip_amount_ae;
+      return this.derivedTipStats ? this.derivedTipStats.total_amount : '0';
     },
     title() {
       if (this.isRetip) {
@@ -148,7 +156,7 @@ export default {
           ? 'Total tips (you tipped too)'
           : 'Total tips (click to retip the same URL)';
       }
-      return 'Total amount of retips';
+      return 'Total amount of tips';
     },
   },
   created() {

@@ -534,6 +534,7 @@ export default {
 
     .input-group.delete-avatar {
       margin-left: 1rem;
+
       span {
         &:hover {
           color: white;

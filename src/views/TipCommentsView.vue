@@ -4,11 +4,7 @@
     <right-section />
     <left-section />
     <div class="container wrapper url__page">
-      <div class="actions-ribbon">
-        <router-link :to="{ name: 'home' }">
-          <img src="../assets/backArrow.svg">
-        </router-link>
-      </div>
+      <back-button-ribbon />
       <div
         v-if="tip"
         class="tipped__url"
@@ -83,6 +79,7 @@ import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
 import AeButton from '../components/AeButton.vue';
 import Avatar from '../components/Avatar.vue';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 
 export default {
   name: 'TipCommentsView',
@@ -95,6 +92,7 @@ export default {
     MobileNavigation,
     AeButton,
     Avatar,
+    BackButtonRibbon,
   },
   data() {
     return {
@@ -108,7 +106,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['settings', 'account', 'chainNames', 'isLoggedIn']),
+    ...mapGetters(['account', 'chainNames', 'isLoggedIn']),
   },
   watch: {
     tip() {
@@ -134,10 +132,6 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.avatar;
-    },
     async sendTipComment() {
       if (USE_DEEP_LINKS) {
         const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
@@ -201,22 +195,32 @@ export default {
     border-radius: 50%;
   }
 
-  .input-group {
-    width: calc(100% - 2.5rem);
+  .tipped__url .tip__record {
+    margin-bottom: 0;
+
+    &.row {
+      background-color: $thumbnail_background_color;
+    }
   }
 
-  .tipped__url {
-    .tip__record {
-      margin-bottom: 0;
+  .tip__article {
+    background-color: $thumbnail_background_color_alt;
 
-      &.row {
-        background-color: $actions_ribbon_background_color;
+    .preview__image {
+      background-color: $thumbnail_background_color_alt;
+    }
+
+    &:hover {
+      background-color: #373843;
+
+      .preview__image {
+        background-color: #373843;
       }
     }
   }
 
   .comments__section {
-    background-color: $actions_ribbon_background_color;
+    background-color: $thumbnail_background_color;
     padding: 1rem;
   }
 
@@ -231,7 +235,7 @@ export default {
   }
 
   .comment__section {
-    background-color: $actions_ribbon_background_color;
+    background-color: $thumbnail_background_color;
     padding: 0.75rem 1rem 0 1rem;
 
     p {

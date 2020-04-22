@@ -8,16 +8,13 @@
         >
       </router-link>
     </div>
-    <div class="navigation__item home">
+    <div
+      class="navigation__item home"
+      @click="scrollTop()"
+    >
       <router-link :to="{ name: 'home' }">
         <div class="navigation__item__image" />
         <span>Home</span>
-      </router-link>
-    </div>
-    <div class="navigation__item trending">
-      <router-link :to="{ name: 'home' }">
-        <div class="navigation__item__image" />
-        <span>Trending</span>
       </router-link>
     </div>
     <div class="navigation__item mission">
@@ -29,6 +26,7 @@
     <div
       v-if="isLoggedIn"
       class="navigation__item profile"
+      @click="scrollTop()"
     >
       <router-link :to="{ name: 'user-profile', params: { address: account } }">
         <div class="navigation__item__image" />
@@ -38,6 +36,7 @@
     <div
       v-else
       class="navigation__item profile"
+      @click="scrollTop()"
     >
       <router-link :to="{ name: 'create-profile' }">
         <div class="navigation__item__image" />
@@ -60,6 +59,11 @@ export default {
   name: 'Navigation',
   computed: {
     ...mapGetters(['account', 'isLoggedIn']),
+  },
+  methods: {
+    scrollTop() {
+      document.scrollingElement.scrollTop = 0;
+    },
   },
 };
 </script>
@@ -91,14 +95,6 @@ export default {
       display: flex;
       line-height: 1;
     }
-    //TODO: Should be removed when Trending page is added
-    &.trending .router-link-exact-active {
-      color: $standard_font_color;
-
-      &:hover {
-        color: $custom_links_color;
-      }
-    }
 
     a:hover,
     .router-link-exact-active {
@@ -115,10 +111,6 @@ export default {
 
     .home & {
       background-image: url('../../assets/iconHome.svg');
-    }
-
-    .trending & {
-      background-image: url('../../assets/iconTrending.svg');
     }
 
     .profile & {
@@ -150,10 +142,6 @@ export default {
       .faq & {
         background-image: url('../../assets/iconHelpActive.svg');
       }
-    }
-
-    .navigation__item.trending a:hover & {
-      background-image: url('../../assets/iconTrendingActive.svg');
     }
   }
 

@@ -16,7 +16,9 @@
               <span
                 v-if="tip.chainName"
                 class="chain__name"
-              >{{ tip.chainName }}</span>
+              >
+                {{ tip.chainName }}
+              </span>
               <span
                 v-else
                 class="chain__name"
@@ -34,8 +36,8 @@
         class="tip__article"
       >
         <a
-          :href="tip.url"
           target="_blank"
+          :href="tip.url"
           @click.stop
         >
           <div class="tip__article--hasresults">
@@ -62,23 +64,17 @@
               <div
                 class="tip__amount"
                 :title="`Initial tip`"
+                @click.prevent
               >
-                <img
-                  class="retip__icon retip__icon--retip"
-                  src="../../assets/iconTip.svg"
-                >
-                <ae-amount
-                  :amount="tip.amount_ae"
-                  :round="2"
-                />
-                <fiat-value
-                  :amount="tip.amount_ae"
+                <TipInput
+                  is-retip
+                  :tip="tip"
                 />
               </div>
             </div>
             <img
               :src="tipPreviewImage"
-              :onerror="`this.className='fail'`"
+              :onerror="`this.className+=' fail'`"
               :loading="`lazy`"
               class="preview__image"
             >
@@ -93,7 +89,9 @@
           :href="tip.url"
           :title="tip.url"
           class="text-ellipsis"
-        >{{ tip.url }}</a>
+        >
+          {{ tip.url }}
+        </a>
       </div>
       <div
         class="tip__note pr-2"
@@ -110,7 +108,7 @@
             class="tip__amount"
             @click.stop
           >
-            <retip
+            <TipInput
               :tip="tip"
             />
           </div>
@@ -119,7 +117,10 @@
             :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
             @click="goToTip(tip.id)"
           >
-            <img src="../../assets/commentsIcon.svg">
+            <img
+              class="comment__icon"
+              src="../../assets/commentsIcon.svg"
+            >
             <span>{{ tip.commentCount }}</span>
           </div>
         </div>
@@ -129,34 +130,24 @@
 </template>
 
 <script>
-import defaultAvatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
-import Retip from '../Retip.vue';
+import TipInput from '../TipInput.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
-import AeAmount from '../AeAmount.vue';
-import FiatValue from '../FiatValue.vue';
 import Avatar from '../Avatar.vue';
 
 export default {
   name: 'TipRecord',
   components: {
-    Retip,
     TipTitle,
     FormatDate,
-    AeAmount,
-    FiatValue,
     Avatar,
+    TipInput,
   },
   props: {
     tip: { type: Object, required: true },
     foundWallet: { type: Boolean },
     senderLink: { type: String, default: '' },
-  },
-  data() {
-    return {
-      defaultAvatar,
-    };
   },
   computed: {
     tipPreviewDescription() {
@@ -174,10 +165,6 @@ export default {
     },
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.defaultAvatar;
-    },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
         && typeof tip.preview !== 'undefined'
@@ -290,9 +277,10 @@ export default {
     @include truncate-overflow-mx(4);
 
     color: $tip_note_color;
-    font-size: 0.8rem;
-    margin-top: 0.85rem;
+    font-size: 0.85rem;
+    line-height: 1.1rem;
     margin-bottom: 0.8rem;
+    margin-top: 0.85rem;
     padding-left: 1rem;
 
     .title .topic {
@@ -302,6 +290,21 @@ export default {
         text-decoration: underline;
       }
     }
+  }
+
+  .retip__icon {
+    height: 1rem;
+    margin-right: 0.2rem;
+    vertical-align: top;
+    padding: 0.1rem 0;
+    width: 1rem;
+  }
+
+  .comment__icon {
+    height: 1rem;
+    margin-right: 0.2rem;
+    vertical-align: top;
+    width: 1rem;
   }
 
   .tip__footer {
@@ -333,13 +336,6 @@ export default {
     height: 1rem;
     margin-right: 1rem;
     position: relative;
-
-    img {
-      height: 0.7rem;
-      margin-right: 0.2rem;
-      vertical-align: top;
-      width: 1rem;
-    }
 
     &.tip__comments--hascomments {
       color: #fff;
@@ -386,7 +382,6 @@ export default {
     margin-left: 1rem;
     margin-right: 1rem;
     min-height: 5.9rem;
-    overflow: hidden;
     padding: 0;
     position: relative;
 
@@ -438,24 +433,26 @@ export default {
     }
 
     .site__url {
+      align-items: center;
       color: $light_font_color;
+      display: flex;
       font-weight: 500;
       margin-bottom: 0.45rem;
 
       img {
-        width: 0.625rem;
-        height: 0.625rem;
-        margin-right: 0.2rem;
-        vertical-align: baseline;
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.335rem;
+        padding: 0.135rem 0;
       }
     }
 
     &:hover {
-      background-color: #2a2a34;
+      background-color: $thumbnail_background_color_alt;
       cursor: pointer;
 
-      img {
-        background-color: #2a2a34;
+      .preview__image {
+        background-color: $thumbnail_background_color_alt;
       }
 
       .site__url {
@@ -484,14 +481,9 @@ export default {
       right: -50%;
     }
 
-    .tip__note {
+    .tip__note,
+    .tip__article .tip__article__content {
       font-size: 0.75rem;
-    }
-
-    .tip__article {
-      .tip__article__content {
-        font-size: 0.75rem;
-      }
     }
   }
 
@@ -504,10 +496,8 @@ export default {
       width: 0.7rem;
     }
 
-    .tip__article {
-      .tip__article__content {
-        font-size: 0.65rem;
-      }
+    .tip__article .tip__article__content {
+      font-size: 0.65rem;
     }
   }
 
@@ -566,10 +556,8 @@ export default {
       font-size: 0.65rem;
       padding: 0;
 
-      .tip__amount {
-        img {
-          width: 1rem;
-        }
+      .tip__amount img {
+        width: 1rem;
       }
     }
 

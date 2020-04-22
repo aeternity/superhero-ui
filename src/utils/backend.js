@@ -48,9 +48,9 @@ export default class Backend {
       headers: {
         'Content-Type': 'application/json'
       },
+      ...postParam && { body: JSON.stringify(postParam) },
     };
-    Object.assign(request, postParam && { body: JSON.stringify(postParam) });
-    return wrapTry(fetch(`${BACKEND_URL}/profile/image/${address}`, request));
+    return backendFetch(`profile/image/${address}`, request);
   };
 
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;

@@ -46,7 +46,7 @@ export default class Backend {
     const request = {
       method: 'delete',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       ...postParam && { body: JSON.stringify(postParam) },
     };

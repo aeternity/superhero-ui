@@ -399,7 +399,7 @@ export default {
       };
 
       await Backend.deleteProfileImage(this.account, respondChallenge).catch(console.error);
-      
+
       this.resetEditedValues();
 
       // use the new avatar with cache-bust

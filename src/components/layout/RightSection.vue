@@ -36,6 +36,7 @@
             </div>
             <div class="choose-fiat">
               <dropdown
+                v-if="currencyDropdownOptions"
                 :options="currencyDropdownOptions"
                 :method="selectCurrency"
                 :selected="settings.currency"

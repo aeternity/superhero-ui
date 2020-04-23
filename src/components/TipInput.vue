@@ -133,7 +133,7 @@ export default {
       if (!this.stats || !this.derivedTipStats) {
         return false;
       }
-      return this.derivedTipStats.senders.find((sender) => sender === this.account);
+      return this.derivedTipStats.senders.find((sender) => sender === this.account) !== null;
     },
     iconTip() {
       return this.isTipped ? iconTipped : iconTip;

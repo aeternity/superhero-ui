@@ -87,56 +87,56 @@ export default {
 </script>
 
 <style lang="scss">
-  .overview {
-    margin-top: 1.2rem;
+.overview {
+  margin-top: 1.2rem;
+}
+
+.overview__item {
+  margin-bottom: 0.5rem;
+}
+
+.overview__value {
+  color: $custom_links_color;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  font-weight: 400;
+
+  &.secondary {
+    color: $secondary_color;
+    padding-bottom: 0;
   }
 
-  .overview__item {
-    margin-bottom: 0.5rem;
-  }
+  &.ae-amount-fiat {
+    display: flex;
+    flex-direction: column;
+    color: $standard_font_color;
 
-  .overview__value {
-    color: $custom_links_color;
-    font-size: 1rem;
-    line-height: 1.2rem;
-    font-weight: 400;
-
-    &.secondary {
-      color: $secondary_color;
-      padding-bottom: 0;
-    }
-
-    &.ae-amount-fiat {
-      display: flex;
-      flex-direction: column;
-      color: $standard_font_color;
-
-      .currency-value {
-        font-size: 0.7rem;
-        line-height: 1rem;
-        color: $light_font_color;
-      }
-    }
-
-    .currency,
-    .currency-sign,
-    .ae {
+    .currency-value {
       font-size: 0.7rem;
-      line-height: 0.8;
-      padding-left: 0.25rem;
-    }
-
-    &.latest-block {
-      color: $secondary_color;
+      line-height: 1rem;
+      color: $light_font_color;
     }
   }
 
-  .overview__label {
-    color: $light_font_color;
+  .currency,
+  .currency-sign,
+  .ae {
     font-size: 0.7rem;
-    font-weight: 400;
-    text-transform: none;
+    line-height: 0.8;
+    padding-left: 0.25rem;
   }
+
+  &.latest-block {
+    color: $secondary_color;
+  }
+}
+
+.overview__label {
+  color: $light_font_color;
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-transform: none;
+}
 
 @media only screen and (max-width: 1280px) {
   .overview__value {

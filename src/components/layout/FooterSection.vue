@@ -75,7 +75,7 @@ export default {
 
     .footer-btns {
       text-decoration: none;
-      margin-bottom: .85rem;
+      margin-bottom: 0.85rem;
       line-height: 0.9rem;
       text-align: center;
       padding-top: 0.6rem;
@@ -100,7 +100,7 @@ export default {
     .support {
       font-size: 0.75rem;
       font-weight: 600;
-      line-height: .9rem;
+      line-height: 0.9rem;
 
       &:hover {
         color: $standard_font_color;
@@ -126,13 +126,14 @@ export default {
       img {
         height: 0.65rem;
       }
+
       &:hover {
         filter: brightness(1.3);
       }
     }
 
     .terms-links {
-      margin-top: .85rem;
+      margin-top: 0.85rem;
     }
   }
 </style>

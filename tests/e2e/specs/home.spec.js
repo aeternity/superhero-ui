@@ -1,5 +1,8 @@
 describe('Home.vue', () => {
   const randomString = [...Array(20)].map(() => Math.random().toString(36)[2]).join('');
+  const testTipAmount = 0.1;
+  const testTipUrl = 'https://aeternity.com';
+  const testRetipAmount = 0.01;
 
   describe('Home page', () => {
     before(() => {
@@ -12,41 +15,61 @@ describe('Home.vue', () => {
         .get('.home > a')
         .should('have.class', 'router-link-exact-active')
 
-        .get('.overview', { timeout: 100000 })
+        .get('.overview', { timeout: 10000 })
         .should('be.visible')
 
-        .get('.wallet-install')
-        .should('not.be.visible')
+        .get('.balance.text-ellipsis', { timeout: 20000 })
+        .should('be.visible')
 
         .get('.tip__post')
         .should('be.visible')
 
-        .get('.form-control')
+        .get('.form-control.comment')
         .first()
-        .type('0.1')
+        .type(randomString)
         .get('.form-control')
         .eq(1)
-        .type('https://aeternity.com')
+        .type(testTipUrl)
         .get('.form-control')
         .last()
-        .type(randomString, { force: true })
-        .get('.tip__send')
+        .clear()
+        .type(testTipAmount, { force: true })
+        .get('.text-right> .ae-button')
+        .wait(1000)
         .click()
-        .get('.form-control')
-        .last({ timeout: 50000 })
+        .wait(10000)
+        .then(($btn) => {
+          if (!$btn.is(':disabled')) { // We unable to tip from one account at the same time
+            cy.wait(25000);
+            cy
+              .get('.form-control.comment')
+              .first()
+              .clear()
+              .type(randomString)
+              .get('.form-control')
+              .eq(1)
+              .clear()
+              .type(testTipUrl)
+              .get('.form-control')
+              .last()
+              .clear()
+              .type(testTipAmount, { force: true })
+              .get('.text-right> .ae-button')
+              .wait(1000)
+              .click();
+          }
+        });
+      cy
+        .get('.form-control.comment')
+        .first({ timeout: 50000 })
         .should('not.have.value', randomString)
-        .get('.spinner-border', { timeout: 50000 })
-        .should('not.be.visible')
 
         .get('#sort-latest')
         .click()
         .get('a.active')
         .should('contain', 'Latest')
 
-        .get('.spinner-border', { timeout: 50000 })
-        .should('not.be.visible')
-        .get('.tip__note')
-        .first({ timeout: 50000 })
+        .get('.tip__note', { timeout: 50000 })
         .should('contain', randomString)
 
         .contains(randomString)
@@ -54,43 +77,31 @@ describe('Home.vue', () => {
         .url()
         .should('contain', '/tip/');
     });
-  });
-
-  describe('Retip', () => {
-    before(() => {
-      cy
-        .visit('/')
-        .server()
-        .route('/v2/accounts/ak_fUq2NesPXcYZ1CcqBcGC3StpdnQw3iVxMA3YSeCNAwfN4myQk').as('getAccount');
-    });
 
     it('can retip a tip', () => {
       cy
-        .wait('@getAccount', { timeout: 25000 })
-        .get('.retip__icon--retip ~ span > span:first-child', { timeout: 25000 })
+        .get('.tip__amount .ae-amount-fiat > span:first-child', { timeout: 25000 })
         .first()
         .invoke('text')
         .as('oldValue')
-        .get('.retip__icon--retip')
+        .get('.tip__amount .ae-amount-fiat')
         .first()
         .click()
-        .get('.retip__container')
+        .get('.tip__container')
         .should('be.visible')
-        .get('.retip__container input.retip__value')
+        .get('.tip__container input.form-control')
         .first()
-        .type('0.01')
-        .get('.retip__container .retip__button')
+        .clear()
+        .type(testRetipAmount)
+        .get('.tip__container .ae-button')
         .first()
+        .wait(1000)
         .click()
-        .get('.retip__wrapper')
-        .should('be.visible')
-        .get('.retip__container', { timeout: 100000 })
-        .should('not.be.visible')
-        .get('.spinner-border', { timeout: 50000 })
+        .get('.tip__container', { timeout: 100000 })
         .should('not.be.visible')
         .get('@oldValue')
         .then((oldValue) => cy
-          .get('.retip__icon--retip ~ span > span:first-child', { timeout: 15000 })
+          .get('.tip__amount .ae-amount-fiat > span:first-child', { timeout: 15000 })
           .first()
           .invoke('text')
           .should('not.equal', oldValue));

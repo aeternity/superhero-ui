@@ -7,10 +7,8 @@ describe('TipRecord.vue', () => {
     cy
       .get('.title', { timeout: 15000 })
       .should('be.visible')
-      .get('.retip__wrapper')
-      .should('be.visible')
-      .get('.retip__wrapper')
-      .should('contain.text', '0.1');
+      .get('.preview__image')
+      .should('be.visible');
   });
 
   const randomString = [...Array(20)].map(() => Math.random().toString(36)[2]).join('');

@@ -140,7 +140,7 @@ export default {
     },
     derivedTipStats() {
       if (!this.stats || !this.stats.by_url) {
-        return false;
+        return 0;
       }
       if (this.isRetip) {
         return this.stats.by_url.find((tipStats) => tipStats.url === this.tip.url);

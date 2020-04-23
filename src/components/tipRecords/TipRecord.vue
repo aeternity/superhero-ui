@@ -115,7 +115,6 @@
           <div
             class="tip__comments"
             :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
-            @click="goToTip(tip.id)"
           >
             <img
               class="comment__icon"

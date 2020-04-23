@@ -98,11 +98,14 @@ export default {
   computed: {
     ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
-      return Object.keys(this.currencyRates.aeternity)
-        .map((key) => ({
-          text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
-          value: key,
-        }));
+      if (this.currencyRates) {
+        return Object.keys(this.currencyRates.aeternity)
+          .map((key) => ({
+            text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
+            value: key,
+          }));
+      }
+      return null;
     },
     downloadUrl() {
       if (this.browser) {

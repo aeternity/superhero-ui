@@ -39,9 +39,21 @@ export default class Backend {
       body: image ? data : JSON.stringify(data),
     };
     Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
-    console.log(request);
     return wrapTry(fetch(Backend.getProfileImageUrl(address), request));
   };
+
+  static deleteProfileImage = async (address, postParam = false) => {
+    const request = {
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      ...postParam && { body: JSON.stringify(postParam) },
+    };
+    return backendFetch(`profile/image/${address}`, request);
+  };
+
+  static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 
   static getStats = async () => backendFetch('static/stats/');
 

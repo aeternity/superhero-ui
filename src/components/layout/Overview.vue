@@ -39,7 +39,6 @@
     >
       <ae-amount-fiat
         :amount="stats.total_amount"
-        without-brackets
         class="overview__value"
       />
       <div class="overview__label">
@@ -52,7 +51,6 @@
     >
       <ae-amount-fiat
         :amount="stats.total_claimed_amount"
-        without-brackets
         class="overview__value"
       />
       <div class="overview__label">
@@ -63,27 +61,11 @@
       v-if="stats.height"
       class="overview__item"
     >
-      <div class="overview__value">
+      <div class="overview__value latest-block">
         {{ stats.height }}
       </div>
       <div class="overview__label">
         Latest Block
-      </div>
-    </div>
-    <div
-      v-if="stats.height"
-      class="overview__item"
-    >
-      <div class="overview__label">
-        Powered by
-      </div>
-      <div class="overview__value aeternity-logo">
-        <a
-          href="https://aeternity.com/"
-          target="_blank"
-        >
-          <img src="../../assets/aeternityLogo.svg">
-        </a>
       </div>
     </div>
   </div>
@@ -106,7 +88,7 @@ export default {
 
 <style lang="scss">
   .overview {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
   }
 
   .overview__item {
@@ -116,8 +98,8 @@ export default {
   .overview__value {
     color: $custom_links_color;
     font-size: 1rem;
-    font-weight: 300;
-    line-height: 1rem;
+    line-height: 1.2rem;
+    font-weight: 400;
 
     &.secondary {
       color: $secondary_color;
@@ -127,44 +109,42 @@ export default {
     &.ae-amount-fiat {
       display: flex;
       flex-direction: column;
-      color: $secondary_color;
+      color: $standard_font_color;
 
       .currency-value {
-        font-size: 1rem;
-        color: $custom_links_color;
+        font-size: 0.7rem;
+        line-height: 1rem;
+        color: $light_font_color;
       }
     }
 
     .currency,
     .currency-sign,
     .ae {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
+      line-height: 0.8;
       padding-left: 0.25rem;
+    }
+
+    &.latest-block {
+      color: $secondary_color;
     }
   }
 
   .overview__label {
-    color: $tip_note_color;
-    font-size: 0.75rem;
+    color: $light_font_color;
+    font-size: 0.7rem;
     font-weight: 400;
-    line-height: 0.75rem;
     text-transform: none;
   }
 
-  .aeternity-logo:hover {
-    filter: brightness(1.3);
-    cursor: pointer;
+@media only screen and (max-width: 1280px) {
+  .overview__value {
+    line-height: 1.1rem;
   }
 
-  @media only screen and (max-width: 1280px) {
-    .overview__value,
-    .ae-amount-fiat.overview__value .currency-value {
-      font-size: 0.75rem;
-      line-height: 0.75rem;
-    }
-
-    .overview__item {
-      margin-bottom: 0.4rem;
-    }
+  .overview__item {
+    margin-bottom: 0.4rem;
   }
+}
 </style>

@@ -29,7 +29,7 @@
           >
             <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
               <a
-                v-if="!editMode && isMyUserProfile"
+                v-if="!editMode && account === address"
                 class="edit__button button small"
                 title="Edit Profile"
                 @click="toggleEditMode()"
@@ -316,9 +316,6 @@ export default {
       comments: [],
       error: false,
       userStats: null,
-      userName: this.address,
-      editingDisplayName: '',
-      editingDescription: '',
       editMode: false,
       showLoadingProfile: false,
       showLoadingAvatar: false,
@@ -333,9 +330,6 @@ export default {
   },
   computed: {
     ...mapGetters(['account', 'chainNames', 'loading']),
-    isMyUserProfile() {
-      return this.account === this.address;
-    },
     userChainName() {
       return this.chainNames[this.address];
     },

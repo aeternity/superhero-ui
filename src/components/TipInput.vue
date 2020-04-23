@@ -145,7 +145,7 @@ export default {
       if (this.isRetip) {
         return this.stats.by_url.find((tipStats) => tipStats.url === this.tip.url);
       }
-      return this.stats.by_url.find((tipStats) => tipStats.url === `${window.location.origin}/#/tip/${this.tip.id}`);
+      return this.stats.by_url.find((tipStats) => tipStats.url === `https://beta.superhero.com/#/tip/${this.tip.id}`);
     },
     amount() {
       return this.derivedTipStats ? this.derivedTipStats.total_amount : '0';

@@ -189,7 +189,7 @@ export default {
       const amount = util.aeToAtoms(this.value);
       (this.isRetip
         ? aeternity.retip(this.tip.id, amount)
-        : aeternity.tip(`${window.location.origin}/#/tip/${this.tip.id}`, this.message, amount))
+        : aeternity.tip(`https://beta.superhero.com/#/tip/${this.tip.id}`, this.message, amount))
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');

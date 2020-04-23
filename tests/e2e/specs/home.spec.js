@@ -37,7 +37,7 @@ describe('Home.vue', () => {
         .get('.text-right> .ae-button')
         .wait(1000)
         .click()
-        .wait(10000)
+        .wait(5000)
         .then(($btn) => {
           if (!$btn.is(':disabled')) { // We unable to tip from one account at the same time
             cy.wait(25000);

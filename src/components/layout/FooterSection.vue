@@ -61,27 +61,23 @@ export default {
     font-size: 0.55rem;
     text-align: center;
 
-    a {
-      cursor: pointer;
-      text-decoration: underline;
-
-      &.footer-links {
-        color: $standard_font_color;
-        font-weight: lighter;
-        text-decoration: none;
-      }
-    }
-
     .footer-btns {
       text-decoration: none;
       margin-bottom: 0.85rem;
-      line-height: 0.9rem;
       text-align: center;
-      padding-top: 0.6rem;
-      padding-bottom: 0.7rem;
+      padding: 0.6rem;
       width: 8rem;
       display: inline-block;
       border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 0.9rem;
+
+      &:hover {
+        color: $standard_font_color;
+        border: 0.05rem solid $standard_font_color;
+        cursor: pointer;
+      }
     }
 
     .support {
@@ -93,19 +89,6 @@ export default {
       border: 0.05rem solid $custom_links_color;
       color: $custom_links_color;
       margin-right: 1rem;
-    }
-
-    .feedback,
-    .support {
-      font-size: 0.75rem;
-      font-weight: 600;
-      line-height: 0.9rem;
-
-      &:hover {
-        color: $standard_font_color;
-        border: 0.05rem solid $standard_font_color;
-        cursor: pointer;
-      }
     }
 
     .venture {

@@ -172,7 +172,7 @@ export default {
   }
 
   .overview__label {
-    line-height: .9rem;
+    line-height: 0.9rem;
   }
 
   .overview__item {

@@ -76,11 +76,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['loading', 'account', 'isLoggedIn']),
+    ...mapGetters(['loading', 'account', 'isLoggedIn', 'minTipAmount']),
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
-      return this.sendTipForm.amount > 0
+      return this.sendTipForm.amount > this.minTipAmount
           && this.sendTipForm.url.length > 0
           && this.sendTipForm.title.length > 0
           && urlRegex.test(this.sendTipForm.url);

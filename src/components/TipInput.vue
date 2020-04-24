@@ -112,7 +112,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['account', 'loading']),
+    ...mapGetters(['account', 'loading', 'minTipAmount']),
     eventPayload() {
       return `${this.tip.id}:${this.show}`;
     },
@@ -127,7 +127,8 @@ export default {
       return this.message.trim().length > 0;
     },
     isDataValid() {
-      return (this.value > 0 && (this.isRetip || this.isMessageValid)) || this.isMessageValid;
+      return ((this.value > this.minTipAmount) && (this.isRetip || this.isMessageValid))
+              || (this.isMessageValid && !this.value);
     },
     isTipped() {
       return !this.loading

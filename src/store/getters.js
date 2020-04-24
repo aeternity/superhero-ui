@@ -45,4 +45,7 @@ export const getters = {
   isTipModalOpen(state) {
     return state.openTipModal;
   },
+  minTipAmount(state) {
+    return state.minTipAmount;
+  },
 };

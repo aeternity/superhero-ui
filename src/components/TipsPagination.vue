@@ -6,8 +6,8 @@
     />
     <div v-if="tips">
       <TipRecord
-        v-for="(tip,index) in tips"
-        :key="index"
+        v-for="tip in tips"
+        :key="tip.id"
         :tip="tip"
         :fiat-value="tip.fiatValue"
         :sender-link="openExplorer(tip.sender)"

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 import { detect } from 'detect-browser';
 import aeternity from './utils/aeternity';
 import { wallet } from './utils/walletSearch';
@@ -38,7 +38,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['settings', 'tipSortBy']),
     isSupportedBrowser() {
       const browser = detect();
       return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));

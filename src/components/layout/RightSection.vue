@@ -36,6 +36,7 @@
             </div>
             <div class="choose-fiat">
               <dropdown
+                v-if="currencyDropdownOptions"
                 :options="currencyDropdownOptions"
                 :method="selectCurrency"
                 :selected="settings.currency"
@@ -62,15 +63,7 @@
             <div class="topic-container text-ellipsis">
               <topic :topic="topic" />
             </div>
-            <div class="amount">
-              <span class="value">
-                <ae-amount
-                  :amount="data.amount"
-                  :round="2"
-                />
-              </span>
-              <fiat-value :amount="data.amount" />
-            </div>
+            <ae-amount-fiat :amount="data.amount" />
           </div>
         </div>
       </div>
@@ -83,8 +76,8 @@
 import { mapGetters, mapActions } from 'vuex';
 import { detect } from 'detect-browser';
 import BigNumber from 'bignumber.js';
-import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
+import AeAmountFiat from '../AeAmountFiat.vue';
 import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
 import Dropdown from '../Dropdown.vue';
@@ -93,8 +86,8 @@ export default {
   name: 'RightSection',
   components: {
     Topic,
-    FiatValue,
     AeAmount,
+    AeAmountFiat,
     FooterSection,
     Dropdown,
   },
@@ -106,11 +99,14 @@ export default {
   computed: {
     ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
-      return Object.keys(this.currencyRates.aeternity)
-        .map((key) => ({
-          text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
-          value: key,
-        }));
+      if (this.currencyRates && this.currencyRates.aeternity) {
+        return Object.keys(this.currencyRates.aeternity)
+          .map((key) => ({
+            text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
+            value: key,
+          }));
+      }
+      return null;
     },
     downloadUrl() {
       if (this.browser) {
@@ -160,15 +156,19 @@ export default {
       margin-bottom: 1rem;
 
       &.trending {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.85rem;
         padding-bottom: 0.5rem;
 
         .section__item {
           display: flex;
 
           & > div {
-            &.amount {
+            &.ae-amount-fiat {
               width: 52%;
+
+              .ae-amount {
+                color: $standard_font_color;
+              }
             }
 
             width: 48%;
@@ -184,10 +184,6 @@ export default {
           &::-webkit-scrollbar {
             display: none;
           }
-        }
-
-        .currency-value {
-          font-size: 0.7rem;
         }
       }
     }
@@ -219,14 +215,10 @@ export default {
       .tag {
         color: $custom_links_color;
       }
-
-      .value {
-        color: $standard_font_color;
-      }
     }
 
     .wallet-install {
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
       max-height: 400px;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       display: block;
@@ -262,7 +254,7 @@ export default {
 //Fixes issue: Smaller screens cut part of the footer
 @media (max-width: 1280px) {
   .topics-section.active {
-    max-height: 12rem;
+    max-height: 10rem;
   }
 }
 

@@ -52,7 +52,6 @@ import AeInputAmount from '../AeInputAmount.vue';
 import util from '../../utils/util';
 import aeternity from '../../utils/aeternity';
 import { EventBus } from '../../utils/eventBus';
-import avatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
 import AeButton from '../AeButton.vue';
 import IconDiamond from '../../assets/iconDiamond.svg';
@@ -72,17 +71,16 @@ export default {
         url: '',
         title: '',
       },
-      avatar,
       canTip: false,
       IconDiamond,
     };
   },
   computed: {
-    ...mapGetters(['balance', 'loading', 'account', 'isLoggedIn']),
+    ...mapGetters(['loading', 'account', 'isLoggedIn', 'minTipAmount']),
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
-      return this.sendTipForm.amount > 0
+      return this.sendTipForm.amount > this.minTipAmount
           && this.sendTipForm.url.length > 0
           && this.sendTipForm.title.length > 0
           && urlRegex.test(this.sendTipForm.url);
@@ -92,10 +90,6 @@ export default {
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
         this.canTip = true;
-        const userImage = Backend.getProfileImageUrl(this.account);
-        if (userImage) {
-          this.avatar = userImage;
-        }
         clearInterval(loadUserAvatar);
       }
     }, 1000);
@@ -131,6 +125,29 @@ export default {
     form {
       padding: 0.6rem 1rem 1rem 1rem;
 
+      .form-row {
+        margin: 1rem 0 1rem 0;
+
+        .form-group {
+          border: 0.05rem solid $buttons_background;
+          border-radius: 0.25rem;
+          padding: 0;
+
+          input,
+          input:focus {
+            border: 0;
+          }
+
+          &:focus-within {
+            border-color: $secondary_color;
+          }
+        }
+
+        .col-md-4 {
+          padding-right: 0;
+        }
+      }
+
       .form-group {
         margin-bottom: 0;
 
@@ -143,21 +160,13 @@ export default {
           background-color: $buttons_background;
           color: $standard_font_color;
           font-size: 0.75rem;
-          border: 0.05rem solid transparent;
           height: 2.2rem;
-          margin-bottom: 1rem;
-
-          &:focus {
-            border: 0.05rem solid $custom_links_color;
-          }
         }
       }
 
-      .tip__post__balance {
-        span {
-          font-size: 0.75rem;
-          color: $standard_font_color;
-        }
+      .tip__post__balance span {
+        font-size: 0.75rem;
+        color: $standard_font_color;
       }
 
       .avatar,

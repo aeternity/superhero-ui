@@ -29,11 +29,13 @@
           >
             <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
               <a
-                v-if="!editMode && isMyUserProfile"
+                v-if="!editMode && account === address"
                 class="edit__button button small"
                 title="Edit Profile"
                 @click="toggleEditMode()"
-              >Edit Profile</a>
+              >
+                Edit Profile
+              </a>
               <div class="profile__image position-relative">
                 <div
                   v-if="showLoadingAvatar"
@@ -103,7 +105,9 @@
                   <span
                     v-if="userChainName"
                     class="chain"
-                  >{{ userChainName }}</span>
+                  >
+                    {{ userChainName }}
+                  </span>
                   <span v-else>{{ address }}</span>
                 </a>
                 <div
@@ -114,6 +118,15 @@
                 </div>
               </div>
             </div>
+            <div
+              v-if="editMode"
+              class="input-group delete-avatar"
+            >
+              <span @click="deleteAvatar()">
+                Delete avatar
+              </span>
+            </div>
+
             <div
               v-if="!editMode"
               class="profile__description"
@@ -176,13 +189,10 @@
               <div class="stat-title">
                 Total Sent Amount
               </div>
-              <div class="stat-value">
-                <ae-amount
-                  :amount="userStats.totalTipAmount"
-                  :round="2"
-                />
-                <fiat-value :amount="userStats.totalTipAmount" />
-              </div>
+              <ae-amount-fiat
+                class="stat-value"
+                :amount="userStats.totalTipAmount"
+              />
             </div>
             <div class="stat">
               <div class="stat-title">
@@ -204,13 +214,10 @@
               <div class="stat-title">
                 Unclaimed Amount
               </div>
-              <div class="stat-value">
-                <ae-amount
-                  :amount="userStats.unclaimedAmount"
-                  :round="2"
-                />
-                <fiat-value :amount="userStats.unclaimedAmount" />
-              </div>
+              <ae-amount-fiat
+                class="stat-value"
+                :amount="userStats.unclaimedAmount"
+              />
             </div>
           </div>
         </div>
@@ -218,11 +225,15 @@
           <a
             :class="{ active: activeTab === 'tips' }"
             @click="setActiveTab('tips')"
-          >Tips</a>
+          >
+            Tips
+          </a>
           <a
             :class="{ active: activeTab === 'comments' }"
             @click="setActiveTab('comments')"
-          >Comments</a>
+          >
+            Comments
+          </a>
         </div>
         <div class="comments__section position-relative">
           <div
@@ -273,22 +284,20 @@ import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import MobileNavigation from '../components/layout/MobileNavigation.vue';
 import { wallet } from '../utils/walletSearch';
-import FiatValue from '../components/FiatValue.vue';
-import AeAmount from '../components/AeAmount.vue';
+import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
-import defaultAvatar from '../assets/userAvatar.svg';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
 import Avatar from '../components/Avatar.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
+import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'TipCommentsView',
   components: {
     TipsPagination,
     Loading,
-    AeAmount,
-    FiatValue,
+    AeAmountFiat,
     TipComment,
     LeftSection,
     RightSection,
@@ -307,9 +316,6 @@ export default {
       comments: [],
       error: false,
       userStats: null,
-      userName: this.address,
-      editingDisplayName: '',
-      editingDescription: '',
       editMode: false,
       showLoadingProfile: false,
       showLoadingAvatar: false,
@@ -320,14 +326,10 @@ export default {
         biography: '',
         displayName: '',
       },
-      defaultAvatar,
     };
   },
   computed: {
-    ...mapGetters(['current', 'account', 'chainNames', 'loading']),
-    isMyUserProfile() {
-      return this.account === this.address;
-    },
+    ...mapGetters(['account', 'chainNames', 'loading']),
     userChainName() {
       return this.chainNames[this.address];
     },
@@ -339,30 +341,19 @@ export default {
       }
       return false;
     },
-    avatar() {
-      const userImage = this.getAvatar(this.address);
-      return userImage || this.defaultAvatar;
-    },
+  },
+  mounted() {
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+
+    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   async created() {
-    this.getProfile();
-    Backend.getCacheUserStats(this.address).then((stats) => {
-      this.userStats = stats;
-    });
-    this.showLoading = true;
-    Backend.getAllComments()
-      .then((allComments) => {
-        this.showLoading = false;
-        this.error = false;
-        this.comments = allComments.filter(
-          (comment) => comment.author === this.address,
-        );
-      })
-      .catch((e) => {
-        console.error(e);
-        this.error = true;
-        this.showLoading = false;
-      });
+    this.reloadData();
   },
   methods: {
     updateAvatarImageKey() {
@@ -397,6 +388,41 @@ export default {
       await Backend.sendProfileData(respondChallenge);
       this.resetEditedValues();
     },
+    async deleteAvatar() {
+      const response = await Backend.deleteProfileImage(this.account);
+      const signedChallenge = await wallet.signMessage(response.challenge);
+      const respondChallenge = {
+        challenge: response.challenge,
+        signature: signedChallenge,
+      };
+
+      await Backend.deleteProfileImage(this.account, respondChallenge).catch(console.error);
+
+      this.resetEditedValues();
+
+      // use the new avatar with cache-bust
+      this.updateAvatarImageKey();
+    },
+    reloadData() {
+      this.getProfile();
+      Backend.getCacheUserStats(this.address).then((stats) => {
+        this.userStats = stats;
+      });
+      this.showLoading = true;
+      Backend.getAllComments()
+        .then((allComments) => {
+          this.showLoading = false;
+          this.error = false;
+          this.comments = allComments.filter(
+            (comment) => comment.author === this.address,
+          );
+        })
+        .catch((e) => {
+          console.error(e);
+          this.error = true;
+          this.showLoading = false;
+        });
+    },
     getProfile() {
       Backend.getCommentCountForAddress(this.address)
         .then((userComment) => {
@@ -409,9 +435,6 @@ export default {
           this.profile = profile;
         })
         .catch(console.error);
-    },
-    getAvatar(address) {
-      return Backend.getProfileImageUrl(address);
     },
     async uploadImage(event) {
       const data = new FormData();
@@ -467,7 +490,8 @@ export default {
         color: $tip_note_color;
       }
 
-      .stat-value {
+      .stat-value,
+      .stat-value /deep/ .currency-value {
         font-size: 0.9rem;
         color: $secondary_color;
         font-weight: 400;
@@ -504,6 +528,17 @@ export default {
     .row {
       padding: 1.75rem 1rem 1rem 1rem;
       margin-right: -1rem;
+    }
+
+    .input-group.delete-avatar {
+      margin-left: 1rem;
+
+      span {
+        &:hover {
+          color: white;
+          cursor: pointer;
+        }
+      }
     }
 
     .input-group.description {
@@ -630,10 +665,6 @@ export default {
 
     & > .row.mobile {
       display: none;
-    }
-
-    .value {
-      color: $secondary_color;
     }
   }
 

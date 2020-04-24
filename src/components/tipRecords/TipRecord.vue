@@ -16,7 +16,9 @@
               <span
                 v-if="tip.chainName"
                 class="chain__name"
-              >{{ tip.chainName }}</span>
+              >
+                {{ tip.chainName }}
+              </span>
               <span
                 v-else
                 class="chain__name"
@@ -64,7 +66,8 @@
                 :title="`Initial tip`"
                 @click.prevent
               >
-                <retip
+                <TipInput
+                  is-retip
                   :tip="tip"
                 />
               </div>
@@ -86,7 +89,9 @@
           :href="tip.url"
           :title="tip.url"
           class="text-ellipsis"
-        >{{ tip.url }}</a>
+        >
+          {{ tip.url }}
+        </a>
       </div>
       <div
         class="tip__note pr-2"
@@ -103,14 +108,13 @@
             class="tip__amount"
             @click.stop
           >
-            <TipControl
+            <TipInput
               :tip="tip"
             />
           </div>
           <div
             class="tip__comments"
             :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
-            @click="goToTip(tip.id)"
           >
             <img
               class="comment__icon"
@@ -125,10 +129,8 @@
 </template>
 
 <script>
-import defaultAvatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
-import Retip from '../Retip.vue';
-import TipControl from '../TipControl.vue';
+import TipInput from '../TipInput.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import Avatar from '../Avatar.vue';
@@ -136,21 +138,15 @@ import Avatar from '../Avatar.vue';
 export default {
   name: 'TipRecord',
   components: {
-    Retip,
     TipTitle,
     FormatDate,
     Avatar,
-    TipControl,
+    TipInput,
   },
   props: {
     tip: { type: Object, required: true },
     foundWallet: { type: Boolean },
     senderLink: { type: String, default: '' },
-  },
-  data() {
-    return {
-      defaultAvatar,
-    };
   },
   computed: {
     tipPreviewDescription() {
@@ -168,10 +164,6 @@ export default {
     },
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.defaultAvatar;
-    },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
         && typeof tip.preview !== 'undefined'
@@ -488,14 +480,9 @@ export default {
       right: -50%;
     }
 
-    .tip__note {
+    .tip__note,
+    .tip__article .tip__article__content {
       font-size: 0.75rem;
-    }
-
-    .tip__article {
-      .tip__article__content {
-        font-size: 0.75rem;
-      }
     }
   }
 
@@ -508,10 +495,8 @@ export default {
       width: 0.7rem;
     }
 
-    .tip__article {
-      .tip__article__content {
-        font-size: 0.65rem;
-      }
+    .tip__article .tip__article__content {
+      font-size: 0.65rem;
     }
   }
 
@@ -570,10 +555,8 @@ export default {
       font-size: 0.65rem;
       padding: 0;
 
-      .tip__amount {
-        img {
-          width: 1rem;
-        }
+      .tip__amount img {
+        width: 1rem;
       }
     }
 

@@ -62,7 +62,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['isMobileNavigationHidden', 'isTipModalOpen', 'balance', 'account']),
+    ...mapGetters(['isMobileNavigationHidden', 'balance', 'account']),
   },
   methods: {
     ...mapActions(['toggleMobileNavigation', 'toggleTipModal']),

@@ -106,7 +106,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['settings', 'account', 'chainNames', 'isLoggedIn']),
+    ...mapGetters(['account', 'chainNames', 'isLoggedIn']),
   },
   watch: {
     tip() {
@@ -132,10 +132,6 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.avatar;
-    },
     async sendTipComment() {
       if (USE_DEEP_LINKS) {
         const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
@@ -199,17 +195,11 @@ export default {
     border-radius: 50%;
   }
 
-  .input-group {
-    width: calc(100% - 2.5rem);
-  }
+  .tipped__url .tip__record {
+    margin-bottom: 0;
 
-  .tipped__url {
-    .tip__record {
-      margin-bottom: 0;
-
-      &.row {
-        background-color: $thumbnail_background_color;
-      }
+    &.row {
+      background-color: $thumbnail_background_color;
     }
   }
 

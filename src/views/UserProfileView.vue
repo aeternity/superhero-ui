@@ -122,9 +122,9 @@
               v-if="editMode"
               class="input-group delete-avatar"
             >
-              <span
-                @click="deleteAvatar()"
-              >Delete avatar</span>
+              <span @click="deleteAvatar()">
+                Delete avatar
+              </span>
             </div>
 
             <div
@@ -225,11 +225,15 @@
           <a
             :class="{ active: activeTab === 'tips' }"
             @click="setActiveTab('tips')"
-          >Tips</a>
+          >
+            Tips
+          </a>
           <a
             :class="{ active: activeTab === 'comments' }"
             @click="setActiveTab('comments')"
-          >Comments</a>
+          >
+            Comments
+          </a>
         </div>
         <div class="comments__section position-relative">
           <div

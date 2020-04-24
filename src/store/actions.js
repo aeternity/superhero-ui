@@ -9,7 +9,7 @@ export default {
   },
   updateCurrencyRates({ commit }, payload) {
     commit(types.UPDATE_CURRENCY_RATES, payload);
-    if(payload.aeternity && payload.aeternity.usd){
+    if (payload.aeternity && payload.aeternity.usd) {
       commit(types.SET_MIN_TIP_AMOUNT, +(0.01 * (1 / payload.aeternity.usd)).toFixed(2));
     }
   },

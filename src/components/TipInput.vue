@@ -127,9 +127,8 @@ export default {
       return this.message.trim().length > 0;
     },
     isDataValid() {
-      return (this.value > this.minTipAmount
-              && (this.isRetip || this.isMessageValid)) 
-              || this.isMessageValid && !this.value;
+      return ((this.value > this.minTipAmount) && (this.isRetip || this.isMessageValid))
+              || (this.isMessageValid && !this.value);
     },
     isTipped() {
       return !this.loading

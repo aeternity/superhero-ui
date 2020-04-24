@@ -99,7 +99,7 @@ export default {
   computed: {
     ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
-      if (this.currencyRates) {
+      if (this.currencyRates && this.currencyRates.aeternity) {
         return Object.keys(this.currencyRates.aeternity)
           .map((key) => ({
             text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,

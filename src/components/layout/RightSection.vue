@@ -156,7 +156,7 @@ export default {
       margin-bottom: 1rem;
 
       &.trending {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.85rem;
         padding-bottom: 0.5rem;
 
         .section__item {
@@ -218,7 +218,7 @@ export default {
     }
 
     .wallet-install {
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
       max-height: 400px;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       display: block;
@@ -254,7 +254,7 @@ export default {
 //Fixes issue: Smaller screens cut part of the footer
 @media (max-width: 1280px) {
   .topics-section.active {
-    max-height: 12rem;
+    max-height: 10rem;
   }
 }
 

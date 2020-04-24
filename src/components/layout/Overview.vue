@@ -168,7 +168,11 @@ export default {
 
 @media only screen and (max-width: 1280px) {
   .overview__value {
-    line-height: 1.1rem;
+    line-height: 1rem;
+  }
+
+  .overview__label {
+    line-height: .9rem;
   }
 
   .overview__item {

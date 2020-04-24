@@ -39,7 +39,9 @@
             <a
               :href="chromeLink"
               target="_blank"
-            > here </a><br>
+            >
+              here
+            </a><br>
             Add the extension to your browser.<br>
             Then the Superhero icon should appear on the upper right corner of your browser toolbar.
           </p>

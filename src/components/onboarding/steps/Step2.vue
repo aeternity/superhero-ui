@@ -12,7 +12,9 @@
       <a
         href="https://aeternity.com/"
         target="_blank"
-      >&aelig;ternity Blockchain</a>
+      >
+        &aelig;ternity Blockchain
+      </a>
     </h1>
     <p>
       Superhero empowers <span class="highlited">people supporting people,</span><br>

@@ -6,7 +6,7 @@
         target="_blank"
         class="feedback footer-btns"
       >
-        Give Feedback
+        Send Feedback
       </a>
       <a
         href="https://thesuperherowallet.typeform.com/to/vh8Ffu"

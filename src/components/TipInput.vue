@@ -258,7 +258,6 @@ export default {
 
     .tip__container_wrapper {
       position: relative;
-      z-index: 20;
     }
 
     .tip__container {
@@ -270,6 +269,7 @@ export default {
       min-width: 19rem;
       padding: 1rem;
       position: absolute;
+      z-index: 10;
 
       & > div:not(.spinner__container) {
         display: flex;

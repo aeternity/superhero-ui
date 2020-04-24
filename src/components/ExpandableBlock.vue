@@ -2,14 +2,18 @@
   <div
     class="expand-block"
     :class="{ expanded: expanded }"
-    @click="toggleExpand(!expanded)"
   >
-    <img
-      :src="iconDrawer"
-      class="arrow"
+    <div
+      class="heading"
+      @click="toggleExpand(!expanded)"
     >
-    <div class="title">
-      {{ title }}
+      <img
+        :src="iconDrawer"
+        class="arrow"
+      >
+      <div class="title">
+        {{ title }}
+      </div>
     </div>
     <div
       v-if="expanded"
@@ -62,10 +66,6 @@ export default {
     font-weight: 400;
   }
 
-  &:hover {
-    cursor: pointer;
-  }
-
   .arrow {
     margin-right: 0.5rem;
     vertical-align: middle;
@@ -87,6 +87,10 @@ export default {
     &:hover {
       filter: saturate(0.5) brightness(1.2);
     }
+  }
+
+  .heading:hover {
+    cursor: pointer;
   }
 }
 </style>

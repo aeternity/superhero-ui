@@ -17,13 +17,12 @@
       </a>
     </div>
     <div>
-      SuperHero is Open Source. Powered by
+      SuperHero is
       <a
-        href="https://aeternity.com/"
+        href="https://github.com/aeternity/superhero-ui/"
         target="_blank"
-        class="aeternity-logo"
       >
-        <img src="../../assets/aeternityLogo.svg">
+        Open Source.
       </a>
     </div>
     <div class="terms-links">
@@ -105,17 +104,6 @@ export default {
       &:hover {
         color: $standard_font_color;
         border: 0.05rem solid $standard_font_color;
-        cursor: pointer;
-      }
-    }
-
-    .aeternity-logo {
-      img {
-        height: 0.55rem;
-      }
-
-      &:hover {
-        filter: brightness(1.3);
         cursor: pointer;
       }
     }

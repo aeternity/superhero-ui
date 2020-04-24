@@ -67,6 +67,16 @@
       <div class="overview__label">
         Latest Block
       </div>
+      <div class="poweredby__label">
+        Powered by
+        <a
+          href="https://aeternity.com/"
+          target="_blank"
+          class="aeternity-logo"
+        >
+          <img src="../../assets/aeternityLogo.svg">
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -136,6 +146,24 @@ export default {
   font-size: 0.7rem;
   font-weight: 400;
   text-transform: none;
+}
+
+.poweredby__label {
+  color: $standard_font_color;
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.aeternity-logo {
+  img {
+    height: 0.55rem;
+  }
+
+  &:hover {
+    filter: brightness(1.3);
+    cursor: pointer;
+  }
 }
 
 @media only screen and (max-width: 1280px) {

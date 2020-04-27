@@ -35,51 +35,51 @@
         v-if="isPreviewToBeVisualized(tip)"
         class="tip__article"
       >
-        <a
-          target="_blank"
-          :href="tip.url"
-          @click.stop
-        >
-          <div class="tip__article--hasresults">
-            <div class="tip__article__content">
-              <h2
-                class="title text-ellipsis"
-                :title="tipPreviewTitle"
-              >
-                {{ tipPreviewTitle }}
-              </h2>
-              <div
-                class="description"
-                :title="tipPreviewDescription"
-              >
-                {{ tipPreviewDescription }}
-              </div>
-              <div
-                class="site__url text-ellipsis"
-                :title="tip.url"
+        <div class="tip__article--hasresults">
+          <div class="tip__article__content">
+            <h2
+              class="title text-ellipsis"
+              :title="tipPreviewTitle"
+            >
+              {{ tipPreviewTitle }}
+            </h2>
+            <div
+              class="description"
+              :title="tipPreviewDescription"
+            >
+              {{ tipPreviewDescription }}
+            </div>
+            <div
+              class="site__url text-ellipsis"
+              :title="tip.url"
+            >
+              <a
+                target="_blank"
+                :href="tip.url"
+                @click.stop
               >
                 <img src="../../assets/externalLink.svg">
                 {{ tip.url }}
-              </div>
-              <div
-                class="tip__amount"
-                :title="`Initial tip`"
-                @click.prevent
-              >
-                <TipInput
-                  is-retip
-                  :tip="tip"
-                />
-              </div>
+              </a>
             </div>
-            <img
-              :src="tipPreviewImage"
-              :onerror="`this.className+=' fail'`"
-              :loading="`lazy`"
-              class="preview__image"
+            <div
+              class="tip__amount"
+              :title="`Initial tip`"
+              @click.stop
             >
+              <TipInput
+                is-retip
+                :tip="tip"
+              />
+            </div>
           </div>
-        </a>
+          <img
+            :src="tipPreviewImage"
+            :onerror="`this.className+=' fail'`"
+            :loading="`lazy`"
+            class="preview__image"
+          >
+        </div>
       </div>
       <div
         v-else
@@ -433,7 +433,6 @@ export default {
 
     .site__url {
       align-items: center;
-      color: $light_font_color;
       display: flex;
       font-weight: 500;
       margin-bottom: 0.45rem;
@@ -444,6 +443,14 @@ export default {
         margin-right: 0.335rem;
         padding: 0.135rem 0;
       }
+
+      a {
+        color: $light_font_color;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
 
     &:hover {
@@ -452,10 +459,6 @@ export default {
 
       .preview__image {
         background-color: $thumbnail_background_color_alt;
-      }
-
-      .site__url {
-        text-decoration: underline;
       }
 
       .tip__article__content {

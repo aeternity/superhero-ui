@@ -21,7 +21,6 @@
     >
       <img
         v-if="$route.name === 'tips'"
-        v-show="Object.keys(account).length && balance"
         class="tip"
         src="../../assets/iconDiamond.svg"
         @click="toggleTipModal(true)"

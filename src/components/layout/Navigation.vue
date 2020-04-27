@@ -1,7 +1,7 @@
 <template>
   <div class="navigation">
     <div class="logo">
-      <router-link :to="{ name: 'home' }">
+      <router-link :to="{ name: 'tips' }">
         <img
           alt=""
           src="../../assets/headerLogo.svg"
@@ -9,12 +9,12 @@
       </router-link>
     </div>
     <div
-      class="navigation__item home"
+      class="navigation__item tips"
       @click="scrollTop()"
     >
-      <router-link :to="{ name: 'home' }">
+      <router-link :to="{ name: 'tips' }">
         <div class="navigation__item__image" />
-        <span>Home</span>
+        <span>Tips</span>
       </router-link>
     </div>
     <div class="navigation__item mission">
@@ -109,8 +109,8 @@ export default {
     margin-right: 0.5rem;
     width: 1.3rem;
 
-    .home & {
-      background-image: url('../../assets/iconHome.svg');
+    .tips & {
+      background-image: url('../../assets/iconTips.svg');
     }
 
     .profile & {
@@ -127,8 +127,8 @@ export default {
 
     a:hover &,
     .router-link-exact-active & {
-      .home & {
-        background-image: url('../../assets/iconHomeActive.svg');
+      .tips & {
+        background-image: url('../../assets/iconTipsActive.svg');
       }
 
       .profile & {

@@ -15,7 +15,7 @@
             v-model="searchTerm"
             type="text"
             class="search__input"
-            :placeholder="$t('pages.Home.SearchPlaceholder')"
+            :placeholder="$t('pages.Tips.SearchPlaceholder')"
             @searchTopic="onSearchTopic"
           >
           <div
@@ -53,20 +53,20 @@
                   :class="{ active: tipSortBy === 'hot' }"
                   @click="setTipSortBy('hot')"
                 >
-                  {{ $t('pages.Home.SortingMostPopular') }}
+                  {{ $t('pages.Tips.SortingMostPopular') }}
                 </a>
                 <a
                   id="sort-latest"
                   :class="{ active: tipSortBy === 'latest' }"
                   @click="setTipSortBy('latest')"
                 >
-                  {{ $t('pages.Home.SortingLatest') }}
+                  {{ $t('pages.Tips.SortingLatest') }}
                 </a>
                 <a
                   :class="{ active: tipSortBy === 'highest' }"
                   @click="setTipSortBy('highest')"
                 >
-                  {{ $t('pages.Home.SortingHighestRated') }}
+                  {{ $t('pages.Tips.SortingHighestRated') }}
                 </a>
               </div>
             </div>

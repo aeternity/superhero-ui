@@ -20,9 +20,9 @@ const guardTipComments = (to, from, next) => {
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'tips',
     component: TipsList,
-    meta: { title: 'Home' },
+    meta: { title: 'Tips' },
   },
   {
     path: '/tip/:id',

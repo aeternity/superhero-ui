@@ -1,10 +1,10 @@
 <template>
   <div
-    v-show="$route.name !== 'home' || !isMobileNavigationHidden"
+    v-show="$route.name !== 'tips' || !isMobileNavigationHidden"
     class="mobile-navigation clearfix"
     :class="{
       open: open,
-      sticky: $route.name !== 'home',
+      sticky: $route.name !== 'tips',
     }"
   >
     <div
@@ -20,14 +20,14 @@
       class="mobile-actions"
     >
       <img
-        v-if="$route.name === 'home'"
+        v-if="$route.name === 'tips'"
         v-show="Object.keys(account).length && balance"
         class="tip"
         src="../../assets/iconDiamond.svg"
         @click="toggleTipModal(true)"
       >
       <img
-        v-if="$route.name === 'home'"
+        v-if="$route.name === 'tips'"
         class="trigger-search"
         src="../../assets/iconSearch.svg"
         @click="toggleMobileNavigation(true)"

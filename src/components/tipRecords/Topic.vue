@@ -18,9 +18,9 @@ export default {
   },
   methods: {
     searchTopic(topic) {
-      if (this.$route.name !== 'home') {
+      if (this.$route.name !== 'tips') {
         this.$router.push({
-          name: 'home',
+          name: 'tips',
           query: { searchTopicPhrase: topic },
         });
       } else {

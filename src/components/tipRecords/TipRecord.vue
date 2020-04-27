@@ -388,6 +388,8 @@ export default {
       background-color: $thumbnail_background_color;
       height: 10.5rem;
       object-fit: cover;
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
     }
 
     .tip__article__content {
@@ -520,7 +522,7 @@ export default {
     .tip__article {
       margin-left: 0;
       max-width: calc(100% + 1rem);
-      width: calc(100% + 1rem);
+      width: 100%;
 
       .tip__article__content {
         line-height: 1.1rem;

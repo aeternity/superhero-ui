@@ -190,6 +190,7 @@ export default {
           this.showLoading = false;
           this.error = false;
           this.show = false;
+          this.resetForm();
         }).catch((e) => {
           console.error(e);
           this.showLoading = false;

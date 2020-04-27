@@ -38,9 +38,9 @@
       class="navigation__item profile"
       @click="scrollTop()"
     >
-      <router-link :to="{ name: 'create-profile' }">
+      <router-link :to="{ name: 'install-wallet' }">
         <div class="navigation__item__image" />
-        <span>Create Profile</span>
+        <span>Install Wallet</span>
       </router-link>
     </div>
     <div class="navigation__item faq">

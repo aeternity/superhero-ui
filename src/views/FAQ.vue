@@ -9,7 +9,7 @@
         <hr width="30%">
         <p>
           if you can't find the answer of you question below visit our
-          <router-link to="/create-profile">
+          <router-link to="/install-wallet">
             Tutorial Page
           </router-link> to<br>
           receive more information about using Superhero platform and wallet.
@@ -63,7 +63,7 @@
         <expandable-block :title="'How do I get started on Superhero?'">
           We’ll walk you through it step by step
           <router-link
-            :to="{ name: 'create-profile' }"
+            :to="{ name: 'install-wallet' }"
             target="_blank"
           >
             in our tutorial
@@ -106,7 +106,7 @@
           We got you on your way with all your tips. Check out Cashing Out in our
           <router-link
             v-slot="{ href }"
-            to="/create-profile"
+            to="/install-wallet"
           >
             <a
               :href="href"

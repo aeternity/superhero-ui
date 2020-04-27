@@ -4,6 +4,7 @@
     :href="deepLink"
     target="_blank"
     class="tip__content"
+    @click.stop
   >
     <img :src="iconTip">
     <ae-amount-fiat :amount="amount" />

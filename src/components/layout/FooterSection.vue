@@ -17,13 +17,16 @@
       </a>
     </div>
     <div>
-      SuperHero is
+      Superhero is
       <a
         href="https://github.com/aeternity/superhero-ui/"
         target="_blank"
+        class="gh-link"
       >
-        Open Source.
+        Open Source
+        <img src="../../assets/ghLogo.svg">
       </a>
+      and you are invited to contribute
     </div>
     <div class="terms-links">
       <router-link
@@ -105,6 +108,19 @@ export default {
 
     .terms-links {
       margin-top: 0.85rem;
+    }
+
+    .gh-link {
+      img {
+        width: 0.65rem;
+        height: 0.65rem;
+      }
+
+      &:hover {
+        img {
+          filter: brightness(0.8);
+        }
+      }
     }
   }
 </style>

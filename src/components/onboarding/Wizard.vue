@@ -144,7 +144,7 @@ export default {
         });
         return;
       }
-      this.$router.push({ name: 'create-profile' });
+      this.$router.push({ name: 'tutorial' });
     },
   },
 };

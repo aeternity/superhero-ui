@@ -18,7 +18,7 @@
         class="button"
         @click="nextStep()"
       >
-        Create Profile
+        Install Wallet
       </button>
       <button
         v-else

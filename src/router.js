@@ -59,11 +59,11 @@ const routes = [
     },
   },
   {
-    path: '/create-profile',
-    name: 'create-profile',
+    path: '/tutorial',
+    name: 'tutorial',
     component: CreateProfile,
     meta: {
-      title: 'Create Profile',
+      title: 'Tutorial Page',
     },
   },
   {

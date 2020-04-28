@@ -110,12 +110,13 @@ export default {
       newComment: '',
       address: null,
       tip: null,
+      USE_DEEP_LINKS,
     };
   },
   computed: {
     ...mapGetters(['account', 'chainNames', 'isLoggedIn', 'loading']),
     canTip() {
-      return this.isLoggedIn && !this.loading.wallet && !this.showLoading;
+      return this.USE_DEEP_LINKS || (this.isLoggedIn && !this.loading.wallet && !this.showLoading);
     },
   },
   watch: {
@@ -143,7 +144,7 @@ export default {
   },
   methods: {
     async sendTipComment() {
-      if (USE_DEEP_LINKS) {
+      if (this.USE_DEEP_LINKS) {
         const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
         url.searchParams.set('id', this.tip.id);
         url.searchParams.set('text', this.newComment);

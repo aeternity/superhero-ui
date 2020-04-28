@@ -20,14 +20,14 @@
       class="mobile-actions"
     >
       <img
-        v-if="!this.USE_DEEP_LINKS && $route.name === 'tips'"
+        v-if="!USE_DEEP_LINKS && $route.name === 'tips'"
         v-show="Object.keys(account).length && balance"
         class="tip"
         src="../../assets/iconDiamond.svg"
         @click="toggleTipModal(true)"
       >
       <a
-        v-else-if="this.USE_DEEP_LINKS && $route.name === 'tips'"
+        v-else-if="USE_DEEP_LINKS && $route.name === 'tips'"
         :href="deepLink"
         target="_blank"
       >
@@ -70,7 +70,7 @@ export default {
   data() {
     return {
       open: false,
-      USE_DEEP_LINKS
+      USE_DEEP_LINKS,
     };
   },
   computed: {

@@ -1,7 +1,7 @@
-describe('Home.vue', () => {
+describe('Tips.vue', () => {
   const randomString = [...Array(20)].map(() => Math.random().toString(36)[2]).join('');
 
-  describe('Home page', () => {
+  describe('Tips page', () => {
     before(() => {
       cy
         .visit('/');
@@ -9,7 +9,7 @@ describe('Home.vue', () => {
 
     it('creates new tip, navigates to home, sorts by latest, new tip is visible', () => {
       cy
-        .get('.home > a')
+        .get('.tips > a')
         .should('have.class', 'router-link-exact-active')
 
         .get('.overview', { timeout: 100000 })

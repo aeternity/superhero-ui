@@ -6,7 +6,6 @@ import Terms from './views/Terms.vue';
 import Privacy from './views/Privacy.vue';
 import FAQ from './views/FAQ.vue';
 import Maintenance from './views/Maintenance.vue';
-import Mission from './views/Mission.vue';
 import CreateProfile from './views/CreateProfile.vue';
 
 const guardTipComments = (to, from, next) => {
@@ -20,9 +19,9 @@ const guardTipComments = (to, from, next) => {
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'tips',
     component: TipsList,
-    meta: { title: 'Home' },
+    meta: { title: 'Tips' },
   },
   {
     path: '/tip/:id',
@@ -60,11 +59,11 @@ const routes = [
     },
   },
   {
-    path: '/create-profile',
-    name: 'create-profile',
+    path: '/tutorial',
+    name: 'tutorial',
     component: CreateProfile,
     meta: {
-      title: 'Create Profile',
+      title: 'Tutorial Page',
     },
   },
   {
@@ -82,14 +81,6 @@ const routes = [
     component: Maintenance,
     meta: {
       title: 'Maintenance',
-    },
-  },
-  {
-    path: '/mission',
-    name: 'mission',
-    component: Mission,
-    meta: {
-      title: 'Mission Page',
     },
   },
 ];

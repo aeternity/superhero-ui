@@ -9,7 +9,7 @@
         <hr width="30%">
         <p>
           if you can't find the answer of you question below visit our
-          <router-link to="/create-profile">
+          <router-link to="/tutorial">
             Tutorial Page
           </router-link> to<br>
           receive more information about using Superhero platform and wallet.
@@ -18,13 +18,6 @@
           Superhero is a P2P (Peer-to-Peer) platform for social sharing.
           <br>The mission of Superhero is to empower people to support people, without
           intermediaries.
-          <br>
-          <router-link
-            :to="{ name: 'mission' }"
-            target="_blank"
-          >
-            Read our mission >
-          </router-link>
         </expandable-block>
         <expandable-block :title="'Who is Superhero?'">
           Superhero is an open-source project.
@@ -63,7 +56,7 @@
         <expandable-block :title="'How do I get started on Superhero?'">
           We’ll walk you through it step by step
           <router-link
-            :to="{ name: 'create-profile' }"
+            :to="{ name: 'tutorial' }"
             target="_blank"
           >
             in our tutorial
@@ -106,7 +99,7 @@
           We got you on your way with all your tips. Check out Cashing Out in our
           <router-link
             v-slot="{ href }"
-            to="/create-profile"
+            to="/tutorial"
           >
             <a
               :href="href"
@@ -187,8 +180,7 @@ export default {
 
 <style lang="scss">
 .faq-page,
-.tutorial-page,
-.mission-page {
+.tutorial-page {
   background-color: $light_color;
   padding: 2rem;
   margin-top: 0.75rem;

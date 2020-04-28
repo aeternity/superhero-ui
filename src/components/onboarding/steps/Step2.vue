@@ -74,7 +74,7 @@
       Learn more:
       <router-link
         v-slot="{ href }"
-        to="/create-profile"
+        to="/tutorial"
       >
         <a
           :href="href"

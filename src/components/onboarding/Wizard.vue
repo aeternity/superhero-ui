@@ -23,7 +23,7 @@
                 class="button"
                 @click="setWizardIsCollapsed(false)"
               >
-                Join Superhero League
+                Join Superhero
               </button>
             </div>
           </div>
@@ -144,7 +144,7 @@ export default {
         });
         return;
       }
-      this.$router.push({ name: 'create-profile' });
+      this.$router.push({ name: 'tutorial' });
     },
   },
 };

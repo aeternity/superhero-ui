@@ -23,7 +23,7 @@
                 class="button"
                 @click="setWizardIsCollapsed(false)"
               >
-                Join Superhero League
+                Join Superhero
               </button>
             </div>
           </div>

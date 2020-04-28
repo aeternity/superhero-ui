@@ -232,14 +232,14 @@ export default {
     align-items: center;
     display: flex;
     flex: 0 0 auto;
-    height: 1rem;
     position: relative;
 
     img {
       height: 0.7rem;
-      margin-right: 0.2rem;
-      vertical-align: top;
+      margin-right: 0.3rem;
+      margin-bottom: 0.1rem;
       width: 1rem;
+      flex: 0;
     }
 
     &:hover img {

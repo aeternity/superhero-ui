@@ -50,21 +50,21 @@
               {{ tipPreviewDescription }}
             </div>
             <div
-              class="site__url text-ellipsis"
+              class="site__url"
               :title="tip.url"
             >
               <a
+                class="text-ellipsis"
                 target="_blank"
                 :href="tip.url"
                 @click.stop
               >
                 <img src="../../assets/externalLink.svg">
-                {{ tip.url }}
+                <span class="text-ellipsis">{{ tip.url }}</span>
               </a>
             </div>
             <div
               class="tip__amount"
-              :title="`Initial tip`"
               @click.stop
             >
               <TipInput
@@ -196,6 +196,10 @@ export default {
     .ae-amount {
       color: $standard_font_color;
       font-size: 0.8rem;
+    }
+
+    .ae-amount-fiat {
+      align-items: center;
     }
 
     .currency-value {
@@ -335,6 +339,7 @@ export default {
     height: 1rem;
     margin-right: 1rem;
     position: relative;
+    width: max-content;
 
     &.tip__comments--hascomments {
       color: #fff;
@@ -396,6 +401,8 @@ export default {
       height: 10.5rem;
       line-height: 1.1rem;
       padding: 0.85rem 1rem 0.8rem 1rem;
+      display: flex;
+      flex-direction: column;
 
       .title {
         display: block;
@@ -432,8 +439,9 @@ export default {
     }
 
     .site__url {
-      align-items: center;
+      align-items: start;
       display: flex;
+      flex-grow: 1;
       font-weight: 500;
       margin-bottom: 0.45rem;
 
@@ -442,10 +450,14 @@ export default {
         height: 1rem;
         margin-right: 0.335rem;
         padding: 0.135rem 0;
+        flex: 0;
       }
 
       a {
         color: $light_font_color;
+        display: inline-flex;
+        height: 1rem;
+        max-width: 100%;
 
         &:hover {
           text-decoration: underline;

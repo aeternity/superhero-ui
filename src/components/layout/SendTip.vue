@@ -207,7 +207,7 @@ export default {
     .install-wallet-warning {
       text-align: right;
       font-size: 0.75rem;
-      color: $light_font_color;
+      color: $warning_font_color;
       margin-bottom: 0.5rem;
     }
   }

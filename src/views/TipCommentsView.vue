@@ -35,7 +35,7 @@
             v-if="!canTip"
             class="install-wallet-warning"
           >
-            The wallet should be installed and active in order to comment.
+            You need to have a wallet installed and active in order to comment.
           </div>
           <ae-button
             :disabled="!canTip || newComment.length === 0"

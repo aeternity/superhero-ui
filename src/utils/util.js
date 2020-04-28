@@ -39,7 +39,7 @@ Array.prototype.asyncMap = async function (asyncF) {
 };
 
 export const supportedBrowsers = [
-  'chrome', 'firefox',
+  'chrome', 'firefox', 'opera', 'vivaldi', 'brave', 'edge-chromium',
 ];
 
 export const currencySigns = {

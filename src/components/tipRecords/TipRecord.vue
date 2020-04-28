@@ -441,7 +441,7 @@ export default {
     }
 
     .site__url {
-      align-items: start;
+      align-items: flex-start;
       display: flex;
       flex-grow: 1;
       font-weight: 500;

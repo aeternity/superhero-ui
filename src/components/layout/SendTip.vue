@@ -203,13 +203,12 @@ export default {
         margin-bottom: 0;
       }
     }
-
-    .install-wallet-warning {
-      text-align: right;
-      font-size: 0.75rem;
-      color: $warning_font_color;
-      margin-bottom: 0.5rem;
-    }
   }
 
+  .install-wallet-warning {
+    text-align: right;
+    font-size: 0.75rem;
+    color: $warning_font_color;
+    margin-bottom: 0.5rem;
+  }
 </style>

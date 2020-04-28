@@ -18,13 +18,6 @@
           Superhero is a P2P (Peer-to-Peer) platform for social sharing.
           <br>The mission of Superhero is to empower people to support people, without
           intermediaries.
-          <br>
-          <router-link
-            :to="{ name: 'mission' }"
-            target="_blank"
-          >
-            Read our mission >
-          </router-link>
         </expandable-block>
         <expandable-block :title="'Who is Superhero?'">
           Superhero is an open-source project.
@@ -187,8 +180,7 @@ export default {
 
 <style lang="scss">
 .faq-page,
-.tutorial-page,
-.mission-page {
+.tutorial-page {
   background-color: $light_color;
   padding: 2rem;
   margin-top: 0.75rem;

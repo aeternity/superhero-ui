@@ -17,12 +17,6 @@
         <span>Tips</span>
       </router-link>
     </div>
-    <div class="navigation__item mission">
-      <router-link :to="{ name: 'mission' }">
-        <div class="navigation__item__image" />
-        <span>Mission</span>
-      </router-link>
-    </div>
     <div
       v-if="isLoggedIn"
       class="navigation__item profile"
@@ -117,10 +111,6 @@ export default {
       background-image: url('../../assets/iconUser.svg');
     }
 
-    .mission & {
-      background-image: url('../../assets/iconMission.svg');
-    }
-
     .faq & {
       background-image: url('../../assets/iconHelp.svg');
     }
@@ -133,10 +123,6 @@ export default {
 
       .profile & {
         background-image: url('../../assets/iconUserActive.svg');
-      }
-
-      .mission & {
-        background-image: url('../../assets/iconMissionActive.svg');
       }
 
       .faq & {

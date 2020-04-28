@@ -67,6 +67,16 @@ export default {
       }
     }
 
+    .input-group .form-control,
+    .input-group-append,
+    .input-group-text {
+      height: 2.85rem;
+    }
+
+    .col-md-4 {
+      padding-left: 0;
+    }
+
     .tip__post form .tip__send {
       width: calc(100% - 2rem);
       position: absolute;

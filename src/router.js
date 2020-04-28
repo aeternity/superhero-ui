@@ -60,11 +60,11 @@ const routes = [
     },
   },
   {
-    path: '/install-wallet',
-    name: 'install-wallet',
+    path: '/tutorial',
+    name: 'tutorial',
     component: CreateProfile,
     meta: {
-      title: 'Install the Wallet',
+      title: 'Tutorial Page',
     },
   },
   {

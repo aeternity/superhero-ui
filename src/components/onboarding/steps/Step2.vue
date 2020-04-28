@@ -74,7 +74,7 @@
       Learn more:
       <router-link
         v-slot="{ href }"
-        to="/install-wallet"
+        to="/tutorial"
       >
         <a
           :href="href"

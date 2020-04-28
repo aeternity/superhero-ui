@@ -144,7 +144,7 @@ export default {
         });
         return;
       }
-      this.$router.push({ name: 'install-wallet' });
+      this.$router.push({ name: 'tutorial' });
     },
   },
 };

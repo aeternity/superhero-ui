@@ -27,7 +27,7 @@
           <div v-else>
             <div
               class="balance text-ellipsis"
-              :title="getFiatVal(balance) + ' AE'"
+              :title="roundAE(balance) + ' AE'"
             >
               <ae-amount
                 :amount="balance"
@@ -99,10 +99,10 @@ export default {
   computed: {
     ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
-      if (this.currencyRates && this.currencyRates.aeternity) {
+      if (this.currencyRates && this.currencyRates.aeternity && this.balance) {
         return Object.keys(this.currencyRates.aeternity)
           .map((key) => ({
-            text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
+            text: `${this.getFiatVal(this.balance, this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
             value: key,
           }));
       }
@@ -127,8 +127,11 @@ export default {
     selectCurrency(selectedCurrency) {
       this.updateCurrency(selectedCurrency);
     },
-    getFiatVal(value) {
+    roundAE(value) {
       return new BigNumber(value).toFixed(2);
+    },
+    getFiatVal(value, rate) {
+      return new BigNumber(value).multipliedBy(rate).toFixed(2);
     },
   },
 };

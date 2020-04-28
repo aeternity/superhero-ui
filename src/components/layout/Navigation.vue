@@ -33,16 +33,6 @@
         <span>My Profile</span>
       </router-link>
     </div>
-    <div
-      v-else
-      class="navigation__item profile"
-      @click="scrollTop()"
-    >
-      <router-link :to="{ name: 'tutorial' }">
-        <div class="navigation__item__image" />
-        <span>Tutorial</span>
-      </router-link>
-    </div>
     <div class="navigation__item faq">
       <router-link :to="{ name: 'faq' }">
         <div class="navigation__item__image" />

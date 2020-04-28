@@ -41,7 +41,7 @@
         v-if="!canTip"
         class="install-wallet-warning"
       >
-        The wallet should be installed and active in order to tip.
+        You need to have a wallet installed and active in order to tip.
       </div>
       <div class="text-right">
         <ae-button

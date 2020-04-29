@@ -285,15 +285,32 @@ export default {
   }
 }
 
+@media (max-width: 991px) {
+  .close-mobile-nav {
+    display: block;
+    font-size: 1rem;
+    color: $standard_font_color;
+    right: 1rem;
+
+    @include vertical-align($position: absolute);
+
+    z-index: 10;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .search-icon {
+    display: none;
+  }
+}
+
 //Smallest devices Portrait and Landscape
 @media only screen
   and (min-device-width: 320px)
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
-  .search-icon {
-    display: none;
-  }
-
   .search__input {
     padding: 0.5rem 3.5rem 0.5rem 1rem;
   }
@@ -357,21 +374,6 @@ export default {
 
     img {
       vertical-align: baseline;
-    }
-  }
-
-  .close-mobile-nav {
-    display: block;
-    font-size: 1rem;
-    color: $standard_font_color;
-    right: 1rem;
-
-    @include vertical-align($position: absolute);
-
-    z-index: 10;
-
-    &:hover {
-      cursor: pointer;
     }
   }
 

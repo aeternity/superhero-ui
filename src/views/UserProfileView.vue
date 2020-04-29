@@ -36,6 +36,11 @@
               >
                 Edit Profile
               </a>
+              <TipInput
+                v-if="!editMode"
+                :user-address="address"
+                class="tip__user"
+              />
               <div class="profile__image position-relative">
                 <div
                   v-if="showLoadingAvatar"
@@ -291,6 +296,7 @@ import TipsPagination from '../components/TipsPagination.vue';
 import Avatar from '../components/Avatar.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import { EventBus } from '../utils/eventBus';
+import TipInput from '../components/TipInput.vue';
 
 export default {
   name: 'TipCommentsView',
@@ -304,6 +310,7 @@ export default {
     MobileNavigation,
     Avatar,
     BackButtonRibbon,
+    TipInput,
   },
   props: {
     address: { type: String, required: true },
@@ -513,9 +520,18 @@ export default {
   }
 
   .edit__button {
-    position: absolute;
     top: -1.25rem;
     right: 0.5rem;
+  }
+
+  .tip__user {
+    top: 1rem;
+    right: 1.5rem;
+  }
+
+  .tip__user,
+  .edit__button {
+    position: absolute;
   }
 
   .profile__section {
@@ -794,6 +810,11 @@ export default {
       top: -1.5rem;
       right: 0.25rem;
       font-size: 0.6rem;
+    }
+
+    .tip__user {
+      top: -1.25rem;
+      right: 6rem;
     }
 
     .stats .stat .stat-value {

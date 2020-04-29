@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { get } from 'lodash-es';
 import Loading from './Loading.vue';
 import Backend from '../utils/backend';
 import { MIDDLEWARE_URL } from '../config/constants';
@@ -90,7 +91,7 @@ export default {
     async loadData() {
       this.loadingTips = true;
       this.tips = await Backend.getCacheTips(this.tipSortBy, this.page, this.address, this.search);
-      this.lastTipId = this.tips[this.tips.length - 1].id;
+      this.lastTipId = get(this.tips[this.tips.length - 1], 'id');
       this.loadingTips = false;
     },
     async loadMoreTips() {

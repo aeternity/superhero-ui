@@ -193,7 +193,7 @@ export default {
 
 @media only screen
   and (min-device-width: 320px)
-    and (max-device-width: 480px)
+  and (max-device-width: 480px)
     and (-webkit-min-device-pixel-ratio: 2) {
   .mobile-navigation {
     width: 100%;

@@ -17,7 +17,7 @@
     @click.stop
   >
     <img :src="iconTip">
-    <span class="tip-user-text">Tip User</span>
+    <span class="tip-user-text">Tip</span>
   </a>
   <div
     v-else
@@ -55,7 +55,7 @@
           class="tip__icon"
           :src="iconTip"
         >
-        <span class="tip-user-text">Tip User</span>
+        <span class="tip-user-text">Tip</span>
       </div>
       <div
         v-if="show"

@@ -81,6 +81,9 @@ export default {
   beforeDestroy() {
     clearInterval(this.interval);
   },
+  activated() {
+    this.scroll();
+  },
   methods: {
     async startFromTop() {
       window.scrollTo(0, 0);

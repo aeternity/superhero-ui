@@ -1,6 +1,6 @@
 <template>
   <a
-    v-if="USE_DEEP_LINKS"
+    v-if="USE_DEEP_LINKS && !userAddress"
     :href="deepLink"
     target="_blank"
     class="tip__content"
@@ -8,6 +8,16 @@
   >
     <img :src="iconTip">
     <ae-amount-fiat :amount="amount" />
+  </a>
+  <a
+    v-else-if="USE_DEEP_LINKS && userAddress"
+    :href="userProfileDeepLink"
+    target="_blank"
+    class="tip__content"
+    @click.stop
+  >
+    <img :src="iconTip">
+    <span class="tip-user-text">Tip</span>
   </a>
   <div
     v-else
@@ -24,6 +34,7 @@
       @:click.stop
     >
       <div
+        v-if="!userAddress"
         class="tip__content"
         :class="[{ active: show }]"
         ,@click="toggleTip(!show)"
@@ -33,6 +44,18 @@
           :src="iconTip"
         >
         <ae-amount-fiat :amount="amount" />
+      </div>
+      <div
+        v-else
+        class="tip__content user"
+        :class="[{ active: show }]"
+        @click="toggleTip(!show)"
+      >
+        <img
+          class="tip__icon"
+          :src="iconTip"
+        >
+        <span class="tip-user-text">Tip</span>
       </div>
       <div
         v-if="show"
@@ -63,10 +86,18 @@
           <div class="amount__row">
             <ae-input-amount v-model="value" />
             <ae-button
+              v-if="!userAddress"
               :disabled="!isDataValid"
               @click="submitAction()"
             >
               {{ isRetip ? 'Retip' : 'Tip' }}
+            </ae-button>
+            <ae-button
+              v-else
+              :disabled="!isUserDataValid"
+              @click="submitAction()"
+            >
+              {{ 'Tip' }}
             </ae-button>
           </div>
         </form>
@@ -98,8 +129,9 @@ export default {
     AeAmountFiat,
   },
   props: {
-    tip: { type: Object, required: true },
+    tip: { type: Object, default: null },
     isRetip: { type: Boolean },
+    userAddress: { type: String, default: '' },
   },
   data() {
     return {
@@ -113,9 +145,26 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['account', 'loading', 'minTipAmount']),
+    ...mapGetters(['account', 'loading', 'minTipAmount', 'stats']),
     eventPayload() {
-      return `${this.tip.id}:${this.show}`;
+      if (!this.userAddress) {
+        return `${this.tip.id}:${this.show}`;
+      }
+      return null;
+    },
+    userProfileDeepLink() {
+      const url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
+      url.searchParams.set('url',
+        `${encodeURIComponent(`https://superhero.com/#/user-profile/${this.userAddress}`)}`);
+      url.searchParams.set('x-success', window.location);
+      url.searchParams.set('x-cancel', window.location);
+      return url;
+    },
+    derivedUserTipStats() {
+      if (!this.stats || !this.stats.by_url) {
+        return null;
+      }
+      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/#/user-profile/${this.userAddress}`);
     },
     deepLink() {
       const url = new URL(`${process.env.VUE_APP_WALLET_URL}/${this.isRetip ? 'retip' : 'tip'}`);
@@ -131,10 +180,19 @@ export default {
       return ((this.value > this.minTipAmount) && (this.isRetip || this.isMessageValid))
               || (this.isMessageValid && !this.value);
     },
+    isUserDataValid() {
+      return this.value > this.minTipAmount && this.isMessageValid;
+    },
     isTipped() {
+      if (this.userAddress) {
+        if (!this.stats || !this.derivedUserTipStats) {
+          return false;
+        }
+        return this.derivedUserTipStats.senders.find((sender) => sender === this.account) !== null;
+      }
       return !this.loading
-        || (this.tip.sender === this.account)
-        || this.tip.retips.filter((retip) => retip.sender === this.account).length > 0;
+          || (this.tip.sender === this.account)
+          || this.tip.retips.filter((retip) => retip.sender === this.account).length > 0;
     },
     iconTip() {
       return this.isTipped ? iconTipped : iconTip;
@@ -145,7 +203,9 @@ export default {
         : this.tip.retip_amount_ae;
     },
     title() {
-      if (this.isRetip) {
+      if (this.userAddress) {
+        return 'Tip User';
+      } if (this.isRetip) {
         return this.isTipped
           ? 'Total tips (you tipped too)'
           : 'Total tips (click to retip the same URL)';
@@ -162,6 +222,11 @@ export default {
   },
   methods: {
     submitAction() {
+      if (this.userAddress) {
+        this.tipUser();
+        return;
+      }
+
       if (!this.isRetip && this.isMessageValid && !this.value) {
         this.sendTipComment();
         return;
@@ -174,16 +239,33 @@ export default {
     toggleTip(showTipForm) {
       this.show = showTipForm;
       if (showTipForm) {
-        EventBus.$emit('showTipForm', this.eventPayload);
+        if (!this.userAddress) {
+          EventBus.$emit('showTipForm', this.eventPayload);
+        }
         this.resetForm();
       }
+    },
+    tipUser() {
+      this.showLoading = true;
+      const amount = util.aeToAtoms(this.value);
+      aeternity.tip(`https://superhero.com/#/user-profile/${this.userAddress}`, this.message, amount)
+        .then(() => {
+          this.showLoading = false;
+          this.error = false;
+          this.show = false;
+          this.resetForm();
+        }).catch((e) => {
+          console.error(e);
+          this.showLoading = false;
+          this.error = true;
+        });
     },
     async sendTip() {
       this.showLoading = true;
       const amount = util.aeToAtoms(this.value);
       (this.isRetip
         ? aeternity.retip(this.tip.id, amount)
-        : aeternity.tip(`${window.location.origin}/#/tip/${this.tip.id}`, this.message, amount))
+        : aeternity.tip(`https://superhero.com/#/tip/${this.tip.id}`, this.message, amount))
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');
@@ -281,6 +363,24 @@ export default {
       .ae-button {
         margin-left: 0.5rem;
       }
+    }
+
+    .tip__content.user ~ .tip__container {
+      right: 0;
+    }
+
+    .tip__content.user {
+      .tip__icon {
+        margin-top: 0.2rem;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .tip-user-text {
+      color: $standard_font_color;
     }
   }
 

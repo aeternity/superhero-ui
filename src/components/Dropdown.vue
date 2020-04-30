@@ -1,7 +1,12 @@
 <template>
   <div class="dropdown">
     <div class="display">
-      {{ displayValue }}
+      <div
+        class="text-ellipsis"
+        :title="displayValue"
+      >
+        {{ displayValue }}
+      </div>
       <img src="../assets/carretDown.svg">
       <b-form-select
         v-model="selectedVal"
@@ -61,6 +66,10 @@ export default {
 
     &:hover {
       cursor: pointer;
+    }
+
+    & > div {
+      display: inline-block;
     }
   }
 

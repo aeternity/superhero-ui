@@ -26,12 +26,19 @@
               type="text"
               :placeholder="$t('views.TipCommentsView.AddReply')"
               class="form-control reply__input"
+              :disabled="!canTip"
             >
           </div>
         </div>
         <div class="send-comment">
+          <div
+            v-if="!canTip"
+            class="install-wallet-warning"
+          >
+            You need to have a wallet installed and active in order to comment.
+          </div>
           <ae-button
-            :disabled="newComment.length === 0 || showLoading"
+            :disabled="!canTip || newComment.length === 0"
             @click="sendTipComment()"
           >
             {{ $t('views.TipCommentsView.Reply') }}
@@ -103,10 +110,14 @@ export default {
       newComment: '',
       address: null,
       tip: null,
+      USE_DEEP_LINKS,
     };
   },
   computed: {
-    ...mapGetters(['account', 'chainNames', 'isLoggedIn']),
+    ...mapGetters(['account', 'chainNames', 'isLoggedIn', 'loading']),
+    canTip() {
+      return this.USE_DEEP_LINKS || (this.isLoggedIn && !this.loading.wallet && !this.showLoading);
+    },
   },
   watch: {
     tip() {
@@ -133,7 +144,7 @@ export default {
   },
   methods: {
     async sendTipComment() {
-      if (USE_DEEP_LINKS) {
+      if (this.USE_DEEP_LINKS) {
         const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
         url.searchParams.set('id', this.tip.id);
         url.searchParams.set('text', this.newComment);

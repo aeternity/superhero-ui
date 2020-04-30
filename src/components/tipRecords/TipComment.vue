@@ -6,34 +6,37 @@
     <div class="tip__body">
       <div
         class="clearfix"
-        @click.stop
       >
         <div
           class="tip__author"
           :title="comment.author"
         >
-          <router-link :to="'/user-profile/' + comment.author">
-            <Avatar :address="comment.author" />
-            <span
-              v-if="userChainName"
-              class="chain__name"
+          <span @click.stop>
+            <router-link
+              :to="'/user-profile/' + comment.author"
             >
-              {{ userChainName }}
-            </span>
-            <span
-              v-else-if="comment.chainName"
-              class="chain__name"
-            >
-              {{ comment.chainName }}
-            </span>
-            <span
-              v-else
-              :address="comment.author"
-              class="address"
-            >
-              {{ comment.author }}
-            </span>
-          </router-link>
+              <Avatar :address="comment.author" />
+              <span
+                v-if="userChainName"
+                class="chain__name"
+              >
+                {{ userChainName }}
+              </span>
+              <span
+                v-else-if="comment.chainName"
+                class="chain__name"
+              >
+                {{ comment.chainName }}
+              </span>
+              <span
+                v-else
+                :address="comment.author"
+                class="address"
+              >
+                {{ comment.author }}
+              </span>
+            </router-link>
+          </span>
           <span class="tip__date">
             <format-date
               :date-timestamp="formatDate"

@@ -90,6 +90,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
   .mobile-navigation {
     position: fixed;

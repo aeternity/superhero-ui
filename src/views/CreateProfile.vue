@@ -243,6 +243,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';

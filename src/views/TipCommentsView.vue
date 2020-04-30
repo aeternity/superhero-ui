@@ -183,7 +183,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss">
 .url__page {
   color: $light_font_color;

@@ -131,7 +131,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 .search__input__container {
   margin-bottom: 0.15rem;

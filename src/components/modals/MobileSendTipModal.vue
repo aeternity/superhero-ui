@@ -36,6 +36,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .send-tip__modal {
   display: none;

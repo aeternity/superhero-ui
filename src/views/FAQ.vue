@@ -45,11 +45,9 @@
           tangible difference in the real world.
         </expandable-block>
         <expandable-block :title="'How does tipping on Superhero work?'">
-          The first Superpower launched on Superhero is a Wallet to tip any url.
-          <br>You can get tips at your URL. <br>And you can send a tip to any URL you want.
-          <br>ANY URL. <br>Yes, any URL you want - regardless of whether the URL owner has
-          installed the wallet or not.
-          <br>
+          The first Superpower launched on Superhero is a Wallet to tip a url.
+          <br>You can get tips at your URL. And you can send a tip to a URL you want.
+          <br>Regardless of whether the URL owner has installed the wallet or not.
           <br>All you need to give, collect, or claim tips in ae is a Superhero Wallet of your
           own.
         </expandable-block>
@@ -82,7 +80,8 @@
         <expandable-block
           :title="'Where can I send tips with Superhero? (Even URLs off Superhero?)'"
         >
-          Yes. ANY URL. Superhero will hold any tips sent a URL for one year.
+          You can send tips to urls in the web. Superhero will hold any tips sent to
+          a URL for one year.
         </expandable-block>
         <expandable-block
           :title="'Where does a tip go if there are more than one wallet to a URL?'"
@@ -96,7 +95,7 @@
           After one (1) year, unclaimed tips can be retrieved by the tip senders.
         </expandable-block>
         <expandable-block :title="'What do I do to cash out?'">
-          We got you on your way with all your tips. Check out Cashing Out in our
+          We got you on your way with all your tips. Check out how to Withdraw in our
           <router-link
             v-slot="{ href }"
             to="/tutorial"

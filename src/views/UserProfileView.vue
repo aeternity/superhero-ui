@@ -520,12 +520,9 @@ export default {
   }
 
   .edit__button {
+    position: absolute;
     top: -1.25rem;
     right: 0.5rem;
-  }
-
-  .edit__button {
-    position: absolute;
   }
 
   .profile__section {

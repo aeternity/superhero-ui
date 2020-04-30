@@ -6,40 +6,42 @@
         target="_blank"
         class="feedback footer-btns"
       >
-        Send Feedback
+        {{ $t('components.layout.FooterSection.SendFeedback') }}
       </a>
       <a
         href="https://thesuperherowallet.typeform.com/to/vh8Ffu"
         target="_blank"
         class="footer-btns support"
       >
-        Support
+        {{ $t('components.layout.FooterSection.Support') }}
       </a>
     </div>
     <div>
-      Superhero is
-      <a
-        href="https://github.com/aeternity/superhero-ui/"
-        target="_blank"
-        class="gh-link"
-      >
-        Open Source
-        <img src="../../assets/ghLogo.svg">
-      </a>
-      and you are invited to contribute
+      <i18n path="components.layout.FooterSection.FooterInfo" tag="p">
+        <template v-slot:openSource>
+          <a
+            href="https://github.com/aeternity/superhero-ui/"
+            target="_blank"
+            class="gh-link"
+          >
+            {{ $t('components.layout.FooterSection.OpenSource') }}
+            <img src="../../assets/ghLogo.svg">
+          </a>
+        </template>
+      </i18n>
     </div>
     <div class="terms-links">
       <router-link
         class="footer-links"
         to="/terms"
       >
-        Terms
+        {{ $t('components.layout.FooterSection.Terms') }}
       </router-link>
       <router-link
         class="footer-links"
         to="/privacy"
       >
-        Privacy
+        {{ $t('components.layout.FooterSection.Privacy') }}
       </router-link>
       <a
         class="venture"

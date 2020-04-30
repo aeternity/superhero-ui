@@ -20,7 +20,7 @@
               class="spinner-border text-primary"
               role="status"
             >
-              <span class="sr-only">Loading...</span>
+              <span class="sr-only">{{ $t('views.UserProfileView.Loading') }}</span>
             </div>
           </div>
           <div
@@ -34,7 +34,7 @@
                 title="Edit Profile"
                 @click="toggleEditMode()"
               >
-                Edit Profile
+                {{ $t('views.UserProfileView.EditProfile') }}
               </a>
               <div class="profile__image position-relative">
                 <div
@@ -55,7 +55,7 @@
                     :key="avatarEditImageKey"
                     :address="address"
                   />
-                  <span>Change Avatar</span>
+                  <span>{{ $t('views.UserProfileView.ChangeAvatar') }}</span>
                   <input
                     id="file-input"
                     type="file"
@@ -114,7 +114,7 @@
                   v-if="!editMode && userStats"
                   class="count"
                 >
-                  {{ userStats.tipsLength }} Tips
+                  {{ userStats.tipsLength }} {{ $t('views.UserProfileView.Tips') }}
                 </div>
               </div>
             </div>
@@ -123,7 +123,7 @@
               class="input-group delete-avatar"
             >
               <span @click="deleteAvatar()">
-                Delete avatar
+                {{ $t('views.UserProfileView.DeleteAvatar') }}
               </span>
             </div>
 
@@ -141,7 +141,7 @@
                 v-model="profile.biography"
                 class="form-control"
                 rows="3"
-                placeholder="Edit Biography"
+                :placeholder="$t('views.UserProfileView.EditBiography')"
               />
             </div>
             <div
@@ -153,14 +153,14 @@
                 class="button small"
                 @click="resetEditedValues()"
               >
-                Cancel
+                {{ $t('views.UserProfileView.Cancel') }}
               </button>
               <button
                 type="button"
                 class="button small primary"
                 @click="saveProfile()"
               >
-                Save
+                {{ $t('views.UserProfileView.Save') }}
               </button>
             </div>
           </div>
@@ -171,7 +171,7 @@
           >
             <div class="stat">
               <div class="stat-title">
-                Tips Sent
+                {{ $t('views.UserProfileView.TipsSent') }}
               </div>
               <div class="stat-value">
                 {{ userStats.tipsLength }}
@@ -179,7 +179,7 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                Retips Sent
+                {{ $t('views.UserProfileView.RetipsSent') }}
               </div>
               <div class="stat-value">
                 {{ userStats.retipsLength }}
@@ -187,7 +187,7 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                Total Sent Amount
+                {{ $t('views.UserProfileView.TotalSentAmount') }}
               </div>
               <ae-amount-fiat
                 class="stat-value"
@@ -196,7 +196,7 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                Comments
+                {{ $t('views.UserProfileView.Comments') }}
               </div>
               <div class="stat-value">
                 {{ userStats.userComments }}
@@ -204,7 +204,7 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                Claimed Urls
+                {{ $t('views.UserProfileView.ClaimedUrls') }}
               </div>
               <div class="stat-value">
                 {{ userStats.claimedUrlsLength }}
@@ -212,7 +212,7 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                Unclaimed Amount
+                {{ $t('views.UserProfileView.UnclaimedAmount') }}
               </div>
               <ae-amount-fiat
                 class="stat-value"
@@ -226,13 +226,13 @@
             :class="{ active: activeTab === 'tips' }"
             @click="setActiveTab('tips')"
           >
-            Tips
+            {{ $t('views.UserProfileView.Tips') }}
           </a>
           <a
             :class="{ active: activeTab === 'comments' }"
             @click="setActiveTab('comments')"
           >
-            Comments
+            {{ $t('views.UserProfileView.Comments') }}
           </a>
         </div>
         <div class="comments__section position-relative">
@@ -254,7 +254,7 @@
               class="no-results text-center w-100 mt-3"
               :class="[error ? 'error' : '']"
             >
-              {{ 'There is no activity to display.' }}
+              {{ $t('views.UserProfileView.NoActivity') }}
             </div>
             <tip-comment
               v-for="(comment, index) in comments"

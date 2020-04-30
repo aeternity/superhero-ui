@@ -43,7 +43,7 @@
           v-show="error && !showLoading"
           class="text-center mb-2"
         >
-          An error occurred while sending tip
+          {{ $t('components.TipInput.error') }}
         </div>
         <form
           v-if="!showLoading"
@@ -57,7 +57,7 @@
               v-model="message"
               type="text"
               class="form-control tip__message"
-              placeholder="Add message"
+              :placeholder="$t('components.TipInput.addMessage')"
             >
           </div>
           <div class="amount__row">

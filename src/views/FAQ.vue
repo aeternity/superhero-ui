@@ -5,156 +5,145 @@
     <left-section />
     <div class="container wrapper mt-2">
       <div class="content faq-page">
-        <h1>Frequently Asked Questions</h1>
+        <h1>{{ $t('views.FAQ.header') }}</h1>
         <hr width="30%">
-        <p>
-          if you can't find the answer of you question below visit our
-          <router-link to="/tutorial">
-            Tutorial Page
-          </router-link> to<br>
-          receive more information about using Superhero platform and wallet.
-        </p>
-        <expandable-block :title="'What is Superhero?'">
-          Superhero is a P2P (Peer-to-Peer) platform for social sharing.
-          <br>The mission of Superhero is to empower people to support people, without
-          intermediaries.
+        <i18n path="views.FAQ.subheader" tag="p">
+          <template v-slot:router>
+            <router-link to="/tutorial">
+              {{ $t('views.FAQ.tutorialPage') }}
+            </router-link>
+          </template>
+        </i18n>
+        <expandable-block :title="$t('views.FAQ.question_1')">
+          <i18n path="views.FAQ.question_1_info" tag="p">
+            <template v-slot:br>
+              <br>
+            </template>
+          </i18n>
         </expandable-block>
-        <expandable-block :title="'Who is Superhero?'">
-          Superhero is an open-source project.
-          <br>It is a tool for good built on
-          <a
-            href="https://aeternity.com/"
-            target="_blank"
-          >
-            aeternity blockchain
-          </a>.<br>
-          Anyone, anywhere may use the platform.<br>
-          Other websites may use the platform.<br>
-          All have uncensored, equal ability to be Superhero.<br>
-          As P2P – the only ones who are not part of Superhero intermediaries.<br>
-          No 3 <sup>rd</sup> party custodians will control content,
-          or your ability to tip or receive tips.<br>
-          Superhero is you and you and you and you… Without any “them” in-between.
+        <expandable-block :title="$t('views.FAQ.question_2')">
+          <i18n path="views.FAQ.question_2_info" tag="p">
+            <template v-slot:aeternitycom>
+              <a href="https://aeternity.com/" target="_blank" > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
+            </template>
+            <template v-slot:sup>
+              3<sup>rd</sup>
+            </template>
+            <template v-slot:br>
+              <br>
+            </template>
+          </i18n>
         </expandable-block>
-        <expandable-block :title="'How does Superhero work?'">
-          Superhero is built on aeternity blockchain.
-          <br>Because it is built on blockchain, actions are transparent. <br>Because it is
-          built on the blockchain, actions are published forever. <br>Blockchain has promised a
-          more free and decentralized future for society. <br>Superhero used blockchain as its
-          foundation to make that promise a reality. <br>Superhero is an online community making a
-          tangible difference in the real world.
+        <expandable-block :title="$t('views.FAQ.question_3')">
+          <i18n path="views.FAQ.question_3_info" tag="p">
+            <template v-slot:br>
+              <br>
+            </template>
+          </i18n>
         </expandable-block>
-        <expandable-block :title="'How does tipping on Superhero work?'">
-          The first Superpower launched on Superhero is a Wallet to tip any url.
-          <br>You can get tips at your URL. <br>And you can send a tip to any URL you want.
-          <br>ANY URL. <br>Yes, any URL you want - regardless of whether the URL owner has
-          installed the wallet or not.
-          <br>
-          <br>All you need to give, collect, or claim tips in ae is a Superhero Wallet of your
-          own.
+        <expandable-block :title="$t('views.FAQ.question_4')">
+          <i18n path="views.FAQ.question_4_info" tag="p">
+            <template v-slot:br>
+              <br>
+            </template>
+          </i18n>
         </expandable-block>
-        <expandable-block :title="'How do I get started on Superhero?'">
-          We’ll walk you through it step by step
-          <router-link
-            :to="{ name: 'tutorial' }"
-            target="_blank"
-          >
-            in our tutorial
-          </router-link>
+        <expandable-block :title="$t('views.FAQ.question_5')">
+          <i18n path="views.FAQ.question_5_info" tag="p">
+            <template v-slot:router>
+              <router-link
+                :to="{ name: 'tutorial' }"
+                target="_blank"
+              >
+                {{ $t('views.FAQ.ourTutorial') }}
+              </router-link>
+            </template>
+          </i18n>
         </expandable-block>
-        <expandable-block :title="'What does it cost? (How’s it free!?!)'">
-          Superhero does not take any fees from its users to join.
-          <br>Superhero does not take any commissions from tips. <br>Superhero is a non-profit,
-          social impact project.
+        <expandable-block :title="$t('views.FAQ.question_6')">
+          <i18n path="views.FAQ.question_6_info" tag="p">
+            <template v-slot:br>
+              <br>
+            </template>
+          </i18n>
         </expandable-block>
-        <expandable-block :title="'Where can I get tips with Superhero?'">
-          Use Superhero alone to give / accept a tip of ae.
-          <br>Used Superhero alongside other existing fiat-based tools to additionally give /
-          accept a tip in ae.
-          <br>
-          <br>On Superhero’s platform, join a community posting, commenting, and tipping each
-          other directly. <br>Off Superhero’s platform, add a Superhero button or link to your
-          site so anyone can tip you directly. <br>On Superhero’s site and in the world wide web
-          beyond Superhero’s site – build your support or give support without having any 3rd
-          parties control your content or tips. <br>So long as a URL is live, it can be tipped.
-          <br>And so long as you have access to your Superhero Wallet, your tips are yours.
+        <expandable-block :title="$t('views.FAQ.question_7')">
+          <i18n path="views.FAQ.question_7_info" tag="p">
+            <template v-slot:br>
+              <br>
+            </template>
+          </i18n>
         </expandable-block>
-        <expandable-block
-          :title="'Where can I send tips with Superhero? (Even URLs off Superhero?)'"
-        >
-          Yes. ANY URL. Superhero will hold any tips sent a URL for one year.
+        <expandable-block :title="$t('views.FAQ.question_8')">
+          {{ $t('views.FAQ.question_8_info') }}
         </expandable-block>
-        <expandable-block
-          :title="'Where does a tip go if there are more than one wallet to a URL?'"
-        >
-          The first wallet address among the addresses on the page to claim the tip, gets the tip.
+        <expandable-block :title="$t('views.FAQ.question_9')">
+          {{ $t('views.FAQ.question_9_info') }}
         </expandable-block>
-        <expandable-block :title="'When do I have to claim my tips?'">
-          Tips must be claimed within one (1) year.
+        <expandable-block :title="$t('views.FAQ.question_10')">
+          {{ $t('views.FAQ.question_10_info') }}
         </expandable-block>
-        <expandable-block :title="'What happens if a tip isn’t claimed?'">
-          After one (1) year, unclaimed tips can be retrieved by the tip senders.
+        <expandable-block :title="$t('views.FAQ.question_11')">
+          {{ $t('views.FAQ.question_11_info') }}
         </expandable-block>
-        <expandable-block :title="'What do I do to cash out?'">
-          We got you on your way with all your tips. Check out Cashing Out in our
-          <router-link
-            v-slot="{ href }"
-            to="/tutorial"
-          >
-            <a
-              :href="href"
-              target="_blank"
-            >
-              tutorial.
-            </a>
-          </router-link>
+        <expandable-block :title="$t('views.FAQ.question_12')">
+          <i18n path="views.FAQ.question_12_info" tag="p">
+            <template v-slot:router>
+              <router-link
+                v-slot="{ href }"
+                to="/tutorial"
+              >
+                <a
+                  :href="href"
+                  target="_blank"
+                >
+                  {{ $t('views.FAQ.tutorial') }}
+                </a>
+              </router-link>
+            </template>
+          </i18n>
         </expandable-block>
-        <expandable-block :title="'Can I use my Base æpp wallet for my Superhero wallet?'">
-          Yes. Just choose "Retrieve Existing Account" and input your Base æpp wallet’s seed phrase.
+        <expandable-block :title="$t('views.FAQ.question_13')">
+          {{ $t('views.FAQ.question_13_info') }}
         </expandable-block>
-        <expandable-block :title="'What about other wallets?'">
-          So long as you have the private keys/seed phrase for the AE address, you can use it on
-          Superhero through the Retrieve Account option at start-up. For some wallets, the seed
-          phrase is not in the user’s custody. In this case, the AE address cannot be used for
-          Superhero.
-          <br>
-          <br>You can simply Generate a New Wallet on Superhero and top it up by sending AE form
-          your other wallets to your Superhero wallet address.
+        <expandable-block :title="$t('views.FAQ.question_14')">
+          <i18n path="views.FAQ.question_14_info" tag="p">
+            <template v-slot:br>
+              <br>
+            </template>
+          </i18n>
         </expandable-block>
-        <expandable-block
-          :title="'Can I use an AE address from a centralized exchange for my Superhero wallet?'"
-        >
-          No. For centralized exchanges, the exchange holds custody of users' private keys. This
-          means that the user cannot use the AE address on Superhero because he/she does not have
-          the private keys/seed phrase to retrieve the account.
-          <br>
-          <br>You can simply Generate a New Wallet on Superhero and top it up by sending AE form
-          your other wallets to your Superhero wallet address.
+        <expandable-block :title="$t('views.FAQ.question_15')">
+          <i18n path="views.FAQ.question_15_info" tag="p">
+            <template v-slot:br>
+              <br>
+            </template>
+          </i18n>
         </expandable-block>
-        <expandable-block :title="'Can I edit my profile?'">
-          Currently, users can only add short descriptions for their profile. But don’t
-          despair—profile photos and avatars are coming soon!
+        <expandable-block :title="$t('views.FAQ.question_16')">
+          {{ $t('views.FAQ.question_16_info') }}
         </expandable-block>
-        <expandable-block :title="'Do I have to add my wallet address to every Tweet?'">
-          No, as long as your twitter profile contains your .chain name linked to your Superhero
-          wallet or Superhero wallet ae address visible in the bio, tips sent to your awesome tweets
-          URL`s can be delivered to your wallet.
+        <expandable-block :title="$t('views.FAQ.question_17')">
+          {{ $t('views.FAQ.question_17_info') }}
         </expandable-block>
-        <expandable-block
-          :title="`If the owner of the URL I tipped doesn’t have an
-                  AE address on their site, will they still receive their tips?`"
-        >
-          Yes, as soon as they create a Superhero wallet and add their wallet address to their URL,
-          tips they’ve received in the past will be added into their wallet.
+        <expandable-block :title="$t('views.FAQ.question_18')">
+          {{ $t('views.FAQ.question_18_info') }}
         </expandable-block>
-        <expandable-block :title="'Can I get support? My question isn’t answered here…'">
-          Need assistance? Report technical issue? Post feedback? Suggestion?
-          <br>Please use this
-          <a
-            href="https://form.jotform.com/201075183408046"
-            target="_blank"
-          >
-            feedback form, </a>we will shortly get back to you so you can use your Superpowers.
+        <expandable-block :title="$t('views.FAQ.question_19')">
+          <i18n path="views.FAQ.question_19_info" tag="p">
+            <template v-slot:br>
+              <br>
+            </template>
+          </i18n>
+          <i18n path="views.FAQ.question_19_info" tag="p">
+            <template v-slot:a>
+              <a
+                href="https://form.jotform.com/201075183408046"
+                target="_blank"
+              >
+                {{ $t('views.FAQ.feedbackForm') }}, </a>
+            </template>
+          </i18n>
         </expandable-block>
       </div>
     </div>

@@ -21,7 +21,7 @@
         v-if="tips.length === 0"
         class="no-results text-center m-2"
       >
-        {{ $t('pages.Tips.NoResultsMsg') }}
+        {{ $t('components.TipsPagination.NoResultsMsg') }}
       </div>
     </div>
   </div>

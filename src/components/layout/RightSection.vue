@@ -6,7 +6,7 @@
       >
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
-          Wallet
+          {{ $t('components.layout.RightSection.Wallet') }}
           <div
             v-if="isLoggedIn"
             class="account"
@@ -21,7 +21,7 @@
               target="_blank"
               class="button w-100"
             >
-              Install Wallet
+              {{ $t('components.layout.RightSection.InstallWallet') }}
             </a>
           </div>
           <div v-else>
@@ -48,7 +48,7 @@
       <div class="section trending">
         <div class="section__title">
           <img src="../../assets/iconTrending.svg">
-          Trending
+          {{ $t('components.layout.RightSection.Trending') }}
         </div>
         <div
           v-if="!loading.tips"

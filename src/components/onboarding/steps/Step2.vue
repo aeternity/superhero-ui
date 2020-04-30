@@ -6,32 +6,48 @@
         alt=""
       >
     </div>
-    <h1>
-      Install Superhero Wallet<br>
-      A Tool for Good Built on
-      <a
-        href="https://aeternity.com/"
-        target="_blank"
-      >
-        &aelig;ternity Blockchain
-      </a>
-    </h1>
-    <p>
-      Superhero empowers <span class="highlited">people supporting people,</span><br>
-      including the ability to transfer AE cryptocurrency P2P.<br>
-      <span class="highlited">Send tips </span>
-      directly to your fav creators, causes, projects...<br>
-      <span class="highlited">Receive tips</span> directly from your fans.<br>
-      <span class="highlited">Get or give help</span> to any URL on the web as you please.<br>
-    </p>
-    <p class="highlited">
-      To start, you'll need a wallet. It's free. It's easy.<br>
-      <span class="important">
-        Click a browser extension or a mobile app
-      </span>
-      <br>
-      to install the Superhero wallet:
-    </p>
+    <i18n path="components.onboarding.steps.step2.header" tag="h1">
+      <template v-slot:br>
+        <br>
+      </template>
+      <template v-slot:a>
+        <a
+          href="https://aeternity.com/"
+          target="_blank"
+        >
+          &aelig;ternity Blockchain
+        </a>
+      </template>
+    </i18n>
+    <i18n path="components.onboarding.steps.step2.subheader" tag="p">
+      <template v-slot:br>
+        <br>
+      </template>
+      <template v-slot:peopleSupportingPeople>
+        <span class="highlited">{{ $t('components.onboarding.steps.step2.peopleSupportingPeople') }}</span>
+      </template>
+      <template v-slot:sendTips>
+        <span class="highlited">{{ $t('components.onboarding.steps.step2.sendTips') }}</span>
+      </template>
+      <template v-slot:receiveTips>
+        <span class="highlited">{{ $t('components.onboarding.steps.step2.receiveTips') }}</span>
+      </template>
+      <template v-slot:getOrGiveHelp>
+        <span class="highlited">{{ $t('components.onboarding.steps.step2.getOrGiveHelp') }}</span>
+      </template>
+    </i18n>
+    <i18n
+      class="highlited"
+      path="components.onboarding.steps.step2.bolder"
+      tag="p"
+    >
+      <template v-slot:br>
+        <br>
+      </template>
+      <template v-slot:click>
+        <span class="highlited">{{ $t('components.onboarding.steps.step2.click') }}</span>
+      </template>
+    </i18n>
     <div class="step__wallets">
       <a
         href="https://addons.mozilla.org/en-US/firefox/addon/superhero-wallet/"
@@ -71,7 +87,7 @@
       </a>
     </div>
     <p>
-      Learn more:
+      {{ $t('components.onboarding.steps.step2.learnMore') }}
       <router-link
         v-slot="{ href }"
         to="/tutorial"
@@ -80,7 +96,7 @@
           :href="href"
           target="_blank"
         >
-          Tutorial
+          {{ $t('components.onboarding.steps.step2.tutorial') }}
         </a>
       </router-link>
       &
@@ -92,7 +108,7 @@
           :href="href"
           target="_blank"
         >
-          FAQ
+          {{ $t('components.onboarding.steps.step2.FAQ') }}
         </a>
       </router-link>
     </p>
@@ -101,7 +117,7 @@
         class="button"
         @click="nextStep()"
       >
-        Next
+        {{ $t('components.onboarding.steps.step2.next') }}
       </button>
     </div>
   </div>

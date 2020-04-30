@@ -5,7 +5,7 @@
     :class="{ active: !loading.wallet }"
   >
     <div class="tip__post__label">
-      <label>Send New Tip</label>
+      <label>{{ $t('components.layout.SendTip.SendNewTip') }}</label>
     </div>
     <form @submit.prevent>
       <div class="form-group">
@@ -17,7 +17,7 @@
           v-model="sendTipForm.title"
           type="text"
           class="form-control comment"
-          placeholder="Add message"
+          :placeholder="$t('components.layout.SendTip.AddMessage')"
         >
       </div>
       <div class="form-row">
@@ -26,7 +26,7 @@
             v-model.trim="sendTipForm.url"
             type="text"
             class="form-control"
-            placeholder="Enter URL"
+            :placeholder="$t('components.layout.SendTip.EnterURL')"
           >
         </div>
         <div class="col-md-4">
@@ -39,7 +39,7 @@
           :src="IconDiamond"
           @click="sendTip()"
         >
-          Tip
+          {{ $t('components.layout.SendTip.Tip') }}
         </ae-button>
       </div>
     </form>

@@ -17,7 +17,7 @@
     <div
       v-if="show"
       class="overlay"
-      @click="toggleTip(false)"
+      ,@click="toggleTip(false)"
     />
     <div
       class="tip__container_wrapper"
@@ -26,7 +26,7 @@
       <div
         class="tip__content"
         :class="[{ active: show }]"
-        @click="toggleTip(!show)"
+        ,@click="toggleTip(!show)"
       >
         <img
           class="tip__icon"

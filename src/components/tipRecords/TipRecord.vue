@@ -1,7 +1,7 @@
 <template>
   <div
     class="tip__record row"
-    @click="goToTip(tip.id)"
+    ,@click="goToTip(tip.id)"
   >
     <div class="tip__body">
       <div class="tip__description">

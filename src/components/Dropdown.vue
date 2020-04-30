@@ -6,7 +6,7 @@
       <b-form-select
         v-model="selectedVal"
         :options="optionsVal"
-        @change="method(selectedVal)"
+        ,@change="method(selectedVal)"
       />
     </div>
   </div>

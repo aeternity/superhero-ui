@@ -17,7 +17,10 @@
       </a>
     </div>
     <div>
-      <i18n path="components.layout.FooterSection.FooterInfo" tag="p">
+      <i18n
+        path="components.layout.FooterSection.FooterInfo"
+        tag="p"
+      >
         <template v-slot:openSource>
           <a
             href="https://github.com/aeternity/superhero-ui/"

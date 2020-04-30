@@ -6,7 +6,10 @@
         alt=""
       >
     </div>
-    <i18n path="components.onboarding.steps.step2.header" tag="h1">
+    <i18n
+      path="components.onboarding.steps.step2.header"
+      tag="h1"
+    >
       <template v-slot:br>
         <br>
       </template>
@@ -19,12 +22,17 @@
         </a>
       </template>
     </i18n>
-    <i18n path="components.onboarding.steps.step2.subheader" tag="p">
+    <i18n
+      path="components.onboarding.steps.step2.subheader"
+      tag="p"
+    >
       <template v-slot:br>
         <br>
       </template>
       <template v-slot:peopleSupportingPeople>
-        <span class="highlited">{{ $t('components.onboarding.steps.step2.peopleSupportingPeople') }}</span>
+        <span class="highlited">
+          {{ $t('components.onboarding.steps.step2.peopleSupportingPeople') }}
+        </span>
       </template>
       <template v-slot:sendTips>
         <span class="highlited">{{ $t('components.onboarding.steps.step2.sendTips') }}</span>

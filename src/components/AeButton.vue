@@ -3,7 +3,7 @@
     :disabled="disabled"
     class="btn btn-primary ae-button"
     type="submit"
-    @click="$emit('click', $event)"
+    ,@click="$emit('click', $event)"
   >
     <img
       v-if="src"

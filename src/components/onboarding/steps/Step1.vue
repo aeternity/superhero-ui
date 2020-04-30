@@ -6,7 +6,10 @@
         alt=""
       >
     </div>
-    <i18n path="components.onboarding.steps.step1.header" tag="h1">
+    <i18n
+      path="components.onboarding.steps.step1.header"
+      tag="h1"
+    >
       <template v-slot:br>
         <br>
       </template>
@@ -26,8 +29,11 @@
       </span>
       {{ $t('components.onboarding.steps.step1.cutOurIntermediaries') }}<br>
       {{ $t('components.onboarding.steps.step1.SendingorReceiving') }}
-      <span class="important">{{ $t('components.onboarding.steps.step1.noWaitTime') }}</span> {{ $t('components.onboarding.steps.step1.Transfers') }}<br>
-      {{ $t('components.onboarding.steps.step1.instant') }} <span class="important">{{ $t('components.onboarding.steps.step1.noCensorship') }}</span> {{ $t('components.onboarding.steps.step1.No3rdParty') }}<br>
+      <span class="important">{{ $t('components.onboarding.steps.step1.noWaitTime') }}</span>
+      {{ $t('components.onboarding.steps.step1.Transfers') }}<br>
+      {{ $t('components.onboarding.steps.step1.instant') }}
+      <span class="important">{{ $t('components.onboarding.steps.step1.noCensorship') }}</span>
+      {{ $t('components.onboarding.steps.step1.No3rdParty') }}<br>
       {{ $t('components.onboarding.steps.step1.keepIP') }}
     </p>
     <p class="highlited">

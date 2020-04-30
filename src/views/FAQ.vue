@@ -7,7 +7,10 @@
       <div class="content faq-page">
         <h1>{{ $t('views.FAQ.header') }}</h1>
         <hr width="30%">
-        <i18n path="views.FAQ.subheader" tag="p">
+        <i18n
+          path="views.FAQ.subheader"
+          tag="p"
+        >
           <template v-slot:router>
             <router-link to="/tutorial">
               {{ $t('views.FAQ.tutorialPage') }}
@@ -15,16 +18,25 @@
           </template>
         </i18n>
         <expandable-block :title="$t('views.FAQ.question_1')">
-          <i18n path="views.FAQ.question_1_info" tag="p">
+          <i18n
+            path="views.FAQ.question_1_info"
+            tag="p"
+          >
             <template v-slot:br>
               <br>
             </template>
           </i18n>
         </expandable-block>
         <expandable-block :title="$t('views.FAQ.question_2')">
-          <i18n path="views.FAQ.question_2_info" tag="p">
+          <i18n
+            path="views.FAQ.question_2_info"
+            tag="p"
+          >
             <template v-slot:aeternitycom>
-              <a href="https://aeternity.com/" target="_blank" > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
+              <a
+                href="https://aeternity.com/"
+                target="_blank"
+              > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
             </template>
             <template v-slot:sup>
               3<sup>rd</sup>
@@ -35,21 +47,30 @@
           </i18n>
         </expandable-block>
         <expandable-block :title="$t('views.FAQ.question_3')">
-          <i18n path="views.FAQ.question_3_info" tag="p">
+          <i18n
+            path="views.FAQ.question_3_info"
+            tag="p"
+          >
             <template v-slot:br>
               <br>
             </template>
           </i18n>
         </expandable-block>
         <expandable-block :title="$t('views.FAQ.question_4')">
-          <i18n path="views.FAQ.question_4_info" tag="p">
+          <i18n
+            path="views.FAQ.question_4_info"
+            tag="p"
+          >
             <template v-slot:br>
               <br>
             </template>
           </i18n>
         </expandable-block>
         <expandable-block :title="$t('views.FAQ.question_5')">
-          <i18n path="views.FAQ.question_5_info" tag="p">
+          <i18n
+            path="views.FAQ.question_5_info"
+            tag="p"
+          >
             <template v-slot:router>
               <router-link
                 :to="{ name: 'tutorial' }"
@@ -61,14 +82,20 @@
           </i18n>
         </expandable-block>
         <expandable-block :title="$t('views.FAQ.question_6')">
-          <i18n path="views.FAQ.question_6_info" tag="p">
+          <i18n
+            path="views.FAQ.question_6_info"
+            tag="p"
+          >
             <template v-slot:br>
               <br>
             </template>
           </i18n>
         </expandable-block>
         <expandable-block :title="$t('views.FAQ.question_7')">
-          <i18n path="views.FAQ.question_7_info" tag="p">
+          <i18n
+            path="views.FAQ.question_7_info"
+            tag="p"
+          >
             <template v-slot:br>
               <br>
             </template>
@@ -87,7 +114,10 @@
           {{ $t('views.FAQ.question_11_info') }}
         </expandable-block>
         <expandable-block :title="$t('views.FAQ.question_12')">
-          <i18n path="views.FAQ.question_12_info" tag="p">
+          <i18n
+            path="views.FAQ.question_12_info"
+            tag="p"
+          >
             <template v-slot:router>
               <router-link
                 v-slot="{ href }"
@@ -107,14 +137,20 @@
           {{ $t('views.FAQ.question_13_info') }}
         </expandable-block>
         <expandable-block :title="$t('views.FAQ.question_14')">
-          <i18n path="views.FAQ.question_14_info" tag="p">
+          <i18n
+            path="views.FAQ.question_14_info"
+            tag="p"
+          >
             <template v-slot:br>
               <br>
             </template>
           </i18n>
         </expandable-block>
         <expandable-block :title="$t('views.FAQ.question_15')">
-          <i18n path="views.FAQ.question_15_info" tag="p">
+          <i18n
+            path="views.FAQ.question_15_info"
+            tag="p"
+          >
             <template v-slot:br>
               <br>
             </template>
@@ -130,12 +166,18 @@
           {{ $t('views.FAQ.question_18_info') }}
         </expandable-block>
         <expandable-block :title="$t('views.FAQ.question_19')">
-          <i18n path="views.FAQ.question_19_info" tag="p">
+          <i18n
+            path="views.FAQ.question_19_info"
+            tag="p"
+          >
             <template v-slot:br>
               <br>
             </template>
           </i18n>
-          <i18n path="views.FAQ.question_19_info" tag="p">
+          <i18n
+            path="views.FAQ.question_19_info"
+            tag="p"
+          >
             <template v-slot:a>
               <a
                 href="https://form.jotform.com/201075183408046"

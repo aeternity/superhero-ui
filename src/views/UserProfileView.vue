@@ -224,13 +224,13 @@
         <div class="profile__actions">
           <a
             :class="{ active: activeTab === 'tips' }"
-            @click="setActiveTab('tips')"
+            ,@click="setActiveTab('tips')"
           >
             {{ $t('views.UserProfileView.Tips') }}
           </a>
           <a
             :class="{ active: activeTab === 'comments' }"
-            @click="setActiveTab('comments')"
+            ,@click="setActiveTab('comments')"
           >
             {{ $t('views.UserProfileView.Comments') }}
           </a>

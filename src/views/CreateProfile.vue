@@ -29,7 +29,8 @@
             {{ $t('views.CreateProfile.01.info_6') }}
             <span class="highlited">{{ $t('views.CreateProfile.01.info_7') }}</span>
             {{ $t('views.CreateProfile.01.info_8') }}
-            <span class="highlited">{{ $t('views.CreateProfile.01.info_9') }}</span> {{ $t('views.CreateProfile.01.info_10') }}<br>
+            <span class="highlited">{{ $t('views.CreateProfile.01.info_9') }}</span>
+            {{ $t('views.CreateProfile.01.info_10') }}<br>
             {{ $t('views.CreateProfile.01.info_11') }}<br>
           </p>
           <p>
@@ -48,7 +49,8 @@
         <expandable-block :title="$t('views.CreateProfile.02.title')">
           <p>
             {{ $t('views.CreateProfile.02.info_0') }}<br>
-            {{ $t('views.CreateProfile.02.info_1') }} <span class="highlited">{{ $t('views.CreateProfile.02.info_2') }}</span><br>
+            {{ $t('views.CreateProfile.02.info_1') }}
+            <span class="highlited">{{ $t('views.CreateProfile.02.info_2') }}</span><br>
             {{ $t('views.CreateProfile.02.info_3') }}<br>
             {{ $t('views.CreateProfile.02.info_4') }}<br>
           </p>
@@ -73,7 +75,8 @@
           </p>
           <ul>
             <li>
-              {{ $t('views.CreateProfile.03.info_7') }} <span class="highlited">{{ $t('views.CreateProfile.03.info_8') }}</span>
+              {{ $t('views.CreateProfile.03.info_7') }}
+              <span class="highlited">{{ $t('views.CreateProfile.03.info_8') }}</span>
               {{ $t('views.CreateProfile.03.info_9') }}
             </li>
             <li>
@@ -105,15 +108,26 @@
               {{ $t('views.CreateProfile.04.info_2') }}
               <img src="../assets/iconExtension.svg"> {{ $t('views.CreateProfile.04.info_3') }}<br>
             </li>
-            <li>{{ $t('views.CreateProfile.04.info_4') }} <span class="highlited">{{ $t('views.CreateProfile.04.info_5') }}</span></li>
+            <li>
+              {{ $t('views.CreateProfile.04.info_4') }}
+              <span class="highlited">{{ $t('views.CreateProfile.04.info_5') }}</span>
+            </li>
             <li>
               {{ $t('views.CreateProfile.04.info_6') }}
             </li>
-            <li>{{ $t('views.CreateProfile.04.info_7') }} <span class="highlited">{{ $t('views.CreateProfile.04.info_8') }}</span> {{ $t('views.CreateProfile.04.info_9') }}</li>
+            <li>
+              {{ $t('views.CreateProfile.04.info_7') }}
+              <span class="highlited">{{ $t('views.CreateProfile.04.info_8') }}</span>
+              {{ $t('views.CreateProfile.04.info_9') }}
+            </li>
             <li>
               {{ $t('views.CreateProfile.04.info_10') }}
             </li>
-            <li>{{ $t('views.CreateProfile.04.info_11') }} <span class="highlited">{{ $t('views.CreateProfile.04.info_12') }}</span> {{ $t('views.CreateProfile.04.info_13') }}</li>
+            <li>
+              {{ $t('views.CreateProfile.04.info_11') }}
+              <span class="highlited">{{ $t('views.CreateProfile.04.info_12') }}</span>
+              {{ $t('views.CreateProfile.04.info_13') }}
+            </li>
           </ul>
         </expandable-block>
         <expandable-block :title="$t('views.CreateProfile.05.title')">
@@ -143,7 +157,10 @@
             {{ $t('views.CreateProfile.06.info_0') }}
           </p>
           <ul>
-            <li>{{ $t('views.CreateProfile.06.info_1') }} <span class="highlited">{{ $t('views.CreateProfile.06.info_2') }}</span></li>
+            <li>
+              {{ $t('views.CreateProfile.06.info_1') }}
+              <span class="highlited">{{ $t('views.CreateProfile.06.info_2') }}</span>
+            </li>
             <li>{{ $t('views.CreateProfile.06.info_3') }}</li>
             <li>{{ $t('views.CreateProfile.06.info_4') }}</li>
             <li>{{ $t('views.CreateProfile.06.info_5') }}</li>
@@ -161,13 +178,24 @@
             {{ $t('views.CreateProfile.07.info_3') }}
           </p>
           <ul>
-            <li>{{ $t('views.CreateProfile.07.info_4') }} <span class="highlited">{{ $t('views.CreateProfile.07.info_5') }}</span> {{ $t('views.CreateProfile.07.info_6') }}</li>
-            <li>{{ $t('views.CreateProfile.07.info_7') }} <span class="highlited">{{ $t('views.CreateProfile.07.info_8') }}</span>.</li>
             <li>
-              {{ $t('views.CreateProfile.07.info_9') }} <span class="highlited">{{ $t('views.CreateProfile.07.info_10') }}</span>
+              {{ $t('views.CreateProfile.07.info_4') }}
+              <span class="highlited">{{ $t('views.CreateProfile.07.info_5') }}</span>
+              {{ $t('views.CreateProfile.07.info_6') }}
+            </li>
+            <li>
+              {{ $t('views.CreateProfile.07.info_7') }}
+              <span class="highlited">{{ $t('views.CreateProfile.07.info_8') }}</span>.
+            </li>
+            <li>
+              {{ $t('views.CreateProfile.07.info_9') }}
+              <span class="highlited">{{ $t('views.CreateProfile.07.info_10') }}</span>
               {{ $t('views.CreateProfile.07.info_11') }}
             </li>
-            <li>{{ $t('views.CreateProfile.07.info_12') }} <span class="highlited">+</span> {{ $t('views.CreateProfile.07.info_13') }}</li>
+            <li>
+              {{ $t('views.CreateProfile.07.info_12') }}
+              <span class="highlited">+</span> {{ $t('views.CreateProfile.07.info_13') }}
+            </li>
             <li>{{ $t('views.CreateProfile.07.info_14') }}</li>
           </ul>
           <p>
@@ -188,10 +216,15 @@
           </p>
           <ul>
             <li>
-              {{ $t('views.CreateProfile.08.info_1') }} <span class="highlited">{{ $t('views.CreateProfile.08.info_2') }}</span> {{ $t('views.CreateProfile.08.info_3') }}
+              {{ $t('views.CreateProfile.08.info_1') }}
+              <span class="highlited">{{ $t('views.CreateProfile.08.info_2') }}</span>
+              {{ $t('views.CreateProfile.08.info_3') }}
               <span class="highlited">{{ $t('views.CreateProfile.08.info_4') }}</span>.
             </li>
-            <li>{{ $t('views.CreateProfile.08.info_5') }} <span class="highlited">{{ $t('views.CreateProfile.08.info_6') }}</span>.</li>
+            <li>
+              {{ $t('views.CreateProfile.08.info_5') }}
+              <span class="highlited">{{ $t('views.CreateProfile.08.info_6') }}</span>.
+            </li>
             <li>
               {{ $t('views.CreateProfile.08.info_7') }}
               <span class="highlited">{{ $t('views.CreateProfile.08.info_8') }}</span>.
@@ -200,7 +233,8 @@
               {{ $t('views.CreateProfile.08.info_9') }}
             </li>
             <li>
-              {{ $t('views.CreateProfile.08.info_10') }} <span class="highlited">{{ $t('views.CreateProfile.08.info_11') }}</span>
+              {{ $t('views.CreateProfile.08.info_10') }}
+              <span class="highlited">{{ $t('views.CreateProfile.08.info_11') }}</span>
               {{ $t('views.CreateProfile.08.info_12') }}
             </li>
           </ul>

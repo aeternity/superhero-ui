@@ -1,7 +1,7 @@
 <template>
   <div
     class="tip__record row position-relative comment"
-    ,@click="goToURLPage(comment.tipId)"
+    @click="goToURLPage(comment.tipId)"
   >
     <div class="tip__body">
       <div

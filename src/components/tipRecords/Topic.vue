@@ -2,7 +2,7 @@
   <span
     :title="topic"
     class="topic"
-    ,@click="searchTopic(topic)"
+    @click="searchTopic(topic)"
   >
     {{ topic }}
   </span>

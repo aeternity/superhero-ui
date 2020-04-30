@@ -10,7 +10,7 @@
       </div>
       <div
         class="close-navigation"
-        ,@click="toggleTipModal(false)"
+        @click="toggleTipModal(false)"
       >
         &#x2715;
       </div>

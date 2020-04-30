@@ -2,7 +2,7 @@
   <div class="actions-ribbon">
     <img
       src="../assets/backArrow.svg"
-      ,@click="$router.go(-1)"
+      @click="$router.go(-1)"
     >
   </div>
 </template>

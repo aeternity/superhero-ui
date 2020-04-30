@@ -10,7 +10,7 @@
     <div
       v-if="open"
       class="close-navigation"
-      ,@click="openNavigation(false)"
+      @click="openNavigation(false)"
     >
       &#x2715;
     </div>
@@ -24,7 +24,7 @@
         v-show="Object.keys(account).length && balance"
         class="tip"
         src="../../assets/iconDiamond.svg"
-        ,@click="toggleTipModal(true)"
+        @click="toggleTipModal(true)"
       >
       <a
         v-else-if="USE_DEEP_LINKS && $route.name === 'tips'"
@@ -40,12 +40,12 @@
         v-if="$route.name === 'tips'"
         class="trigger-search"
         src="../../assets/iconSearch.svg"
-        ,@click="toggleMobileNavigation(true)"
+        @click="toggleMobileNavigation(true)"
       >
       <img
         class="trigger-navigation"
         src="../../assets/iconMobileMenu.svg"
-        ,@click="openNavigation(true)"
+        @click="openNavigation(true)"
       >
     </div>
     <footer-section v-if="open" />

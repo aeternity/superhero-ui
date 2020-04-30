@@ -11,7 +11,7 @@
       />
       <span
         v-else
-        ,@click="goToTip(tip.id)"
+        @click="goToTip(tip.id)"
       >
         {{ part.text }}
       </span>

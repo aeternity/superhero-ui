@@ -5,7 +5,7 @@
   >
     <div
       class="heading"
-      ,@click="toggleExpand(!expanded)"
+      @click="toggleExpand(!expanded)"
     >
       <img
         :src="iconDrawer"

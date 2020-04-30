@@ -34,7 +34,7 @@
           </div>
           <div
             class="close-mobile-nav"
-            ,@click="toggleMobileNavigation(false)"
+            @click="toggleMobileNavigation(false)"
           >
             &#x2715;
           </div>

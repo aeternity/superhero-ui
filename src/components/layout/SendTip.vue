@@ -1,8 +1,6 @@
 <template>
   <div
-    v-if="canTip"
     class="tip__post"
-    :class="{ active: !loading.wallet }"
   >
     <div class="tip__post__label">
       <label>Send New Tip</label>
@@ -10,6 +8,7 @@
     <form @submit.prevent>
       <div class="form-group">
         <Avatar
+          :key="avatarImageKey"
           :address="account"
           class="avatar mr-3"
         />
@@ -18,6 +17,7 @@
           type="text"
           class="form-control comment"
           placeholder="Add message"
+          :disabled="!canTip"
         >
       </div>
       <div class="form-row">
@@ -27,15 +27,25 @@
             type="text"
             class="form-control"
             placeholder="Enter URL"
+            :disabled="!canTip"
           >
         </div>
         <div class="col-md-4">
-          <ae-input-amount v-model="sendTipForm.amount" />
+          <ae-input-amount
+            v-model="sendTipForm.amount"
+            :disabled="!canTip"
+          />
         </div>
+      </div>
+      <div
+        v-if="!canTip"
+        class="install-wallet-warning"
+      >
+        You need to have a wallet installed and active in order to tip.
       </div>
       <div class="text-right">
         <ae-button
-          :disabled="!isSendTipDataValid"
+          :disabled="!canTip || !isSendTipDataValid"
           :src="IconDiamond"
           @click="sendTip()"
         >
@@ -71,8 +81,8 @@ export default {
         url: '',
         title: '',
       },
-      canTip: false,
       IconDiamond,
+      avatarImageKey: 1,
     };
   },
   computed: {
@@ -85,11 +95,14 @@ export default {
           && this.sendTipForm.title.length > 0
           && urlRegex.test(this.sendTipForm.url);
     },
+    canTip() {
+      return this.isLoggedIn && !this.loading.wallet;
+    },
   },
   async created() {
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
-        this.canTip = true;
+        this.avatarImageKey += 1;
         clearInterval(loadUserAvatar);
       }
     }, 1000);
@@ -113,14 +126,7 @@ export default {
 <style lang="scss">
   .tip__post {
     background-color: $actions_ribbon_background_color;
-    max-height: 0;
-    transition: max-height 0.25s ease-in;
-    opacity: 0;
-
-    &.active {
-      max-height: 400px;
-      opacity: 1;
-    }
+    max-height: 400px;
 
     form {
       padding: 0.6rem 1rem 1rem 1rem;
@@ -199,4 +205,10 @@ export default {
     }
   }
 
+  .install-wallet-warning {
+    text-align: right;
+    font-size: 0.75rem;
+    color: $warning_font_color;
+    margin-bottom: 0.5rem;
+  }
 </style>

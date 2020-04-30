@@ -11,6 +11,7 @@
       class="form-control"
       aria-label="Default"
       aria-describedby="inputGroup-sizing-mn"
+      :disabled="disabled"
       @input="$emit('input', $event.target.value)"
     >
     <div class="input-group-append">
@@ -40,6 +41,7 @@ export default {
     min: { type: Number, default: 0 },
     step: { type: Number, default: 0.1 },
     value: { type: [Number, String], required: true },
+    disabled: { type: Boolean },
   },
 };
 </script>

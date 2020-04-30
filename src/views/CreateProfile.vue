@@ -148,7 +148,7 @@
             </a>
           </p>
         </expandable-block>
-        <expandable-block :title="'CASHING OUT'">
+        <expandable-block :title="'WITHDRAW'">
           <p>
             To withdraw tips received, you can send tips to your AE wallet address in a crypto
             exchange that supports AE tokens (see list above).

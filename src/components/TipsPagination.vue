@@ -8,6 +8,7 @@
       <TipRecord
         v-for="tip in tips"
         :key="tip.id"
+        :ref="`tip-id-${tip.id}`"
         :tip="tip"
         :fiat-value="tip.fiatValue"
         :sender-link="openExplorer(tip.sender)"
@@ -28,6 +29,7 @@
 </template>
 
 <script>
+import { get } from 'lodash-es';
 import Loading from './Loading.vue';
 import Backend from '../utils/backend';
 import { MIDDLEWARE_URL } from '../config/constants';
@@ -53,6 +55,7 @@ export default {
       endReached: false,
       page: 1,
       tips: null,
+      lastTipId: -1,
     };
   },
   watch: {
@@ -78,6 +81,9 @@ export default {
   beforeDestroy() {
     clearInterval(this.interval);
   },
+  activated() {
+    this.scroll();
+  },
   methods: {
     async startFromTop() {
       window.scrollTo(0, 0);
@@ -88,6 +94,7 @@ export default {
     async loadData() {
       this.loadingTips = true;
       this.tips = await Backend.getCacheTips(this.tipSortBy, this.page, this.address, this.search);
+      this.lastTipId = get(this.tips[this.tips.length - 1], 'id');
       this.loadingTips = false;
     },
     async loadMoreTips() {
@@ -98,6 +105,7 @@ export default {
         this.tips = this.tips.concat(tips);
         if (tips.length > 0) {
           this.page += 1;
+          this.lastTipId = tips[tips.length - 1].id;
         } else {
           this.endReached = true;
         }
@@ -117,9 +125,13 @@ export default {
     },
     scroll() {
       window.onscroll = () => {
-        const bottomOfWindow = document.documentElement.scrollTop
-            + window.innerHeight === document.documentElement.offsetHeight;
-        if (bottomOfWindow) {
+        const isLastTipInViewport = this.lastTipId !== -1
+          && this.$refs[`tip-id-${this.lastTipId}`][0].$el
+            .getBoundingClientRect()
+            .bottom <= (window.innerHeight || document.documentElement.clientHeight);
+
+        if (isLastTipInViewport) {
+          this.lastTipId = -1;
           this.loadMoreTips();
         }
       };

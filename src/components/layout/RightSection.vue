@@ -20,6 +20,9 @@
               :href="downloadUrl"
               target="_blank"
               class="button w-100"
+              :title="['opera','vivaldi','brave','edge-chromium'].includes(browser.name)
+                ? 'You have to allow installation of Chrome extensions for your browser'
+                : 'Click here to install the browser extension'"
             >
               Install Wallet
             </a>
@@ -27,7 +30,7 @@
           <div v-else>
             <div
               class="balance text-ellipsis"
-              :title="getFiatVal(balance) + ' AE'"
+              :title="roundAE(balance) + ' AE'"
             >
               <ae-amount
                 :amount="balance"
@@ -99,10 +102,10 @@ export default {
   computed: {
     ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
-      if (this.currencyRates && this.currencyRates.aeternity) {
+      if (this.currencyRates && this.currencyRates.aeternity && this.balance) {
         return Object.keys(this.currencyRates.aeternity)
           .map((key) => ({
-            text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
+            text: `${this.getFiatVal(this.balance, this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
             value: key,
           }));
       }
@@ -114,6 +117,10 @@ export default {
           case 'firefox':
             return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
           case 'chrome':
+          case 'opera':
+          case 'vivaldi':
+          case 'brave': // might not be detected from browser-detect
+          case 'edge-chromium':
             return '//chrome.google.com/webstore/detail/mnhmmkepfddpifjkamaligfeemcbhdne/';
           default:
             break;
@@ -127,8 +134,11 @@ export default {
     selectCurrency(selectedCurrency) {
       this.updateCurrency(selectedCurrency);
     },
-    getFiatVal(value) {
+    roundAE(value) {
       return new BigNumber(value).toFixed(2);
+    },
+    getFiatVal(value, rate) {
+      return new BigNumber(value).multipliedBy(rate).toFixed(2);
     },
   },
 };

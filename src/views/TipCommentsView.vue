@@ -31,7 +31,7 @@
         </div>
         <div class="send-comment">
           <ae-button
-            :disabled="newComment.length === 0 || showLoading"
+            :disabled="newComment.length === 0"
             @click="sendTipComment()"
           >
             Reply
@@ -103,10 +103,11 @@ export default {
       newComment: '',
       address: null,
       tip: null,
+      USE_DEEP_LINKS,
     };
   },
   computed: {
-    ...mapGetters(['account', 'chainNames', 'isLoggedIn']),
+    ...mapGetters(['account', 'chainNames', 'isLoggedIn', 'loading']),
   },
   watch: {
     tip() {
@@ -133,7 +134,7 @@ export default {
   },
   methods: {
     async sendTipComment() {
-      if (USE_DEEP_LINKS) {
+      if (this.USE_DEEP_LINKS || !this.isLoggedIn) {
         const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
         url.searchParams.set('id', this.tip.id);
         url.searchParams.set('text', this.newComment);

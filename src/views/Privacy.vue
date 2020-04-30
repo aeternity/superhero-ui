@@ -22,7 +22,7 @@
 
           <p>
             This Privacy Policy (“Policy”) is applicable for the Superhero.com created
-            and operated Website https://beta.superhero.com/ (the “Website”),
+            and operated Website https://superhero.com/ (the “Website”),
             reflecting users’ donations and comments to content gives the possibility
             for other users to actively donate
             and comment on the news available on the newsfeed of the Website.

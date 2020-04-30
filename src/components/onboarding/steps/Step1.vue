@@ -12,7 +12,7 @@
     </h1>
     <p>
       The first Superpower of Superhero is to launch a<br>
-      <span class="important">P2P tool to receive or send a tip to any URL</span> with...
+      <span class="important">P2P tool to receive or send a tip to a URL</span> with...
     </p>
     <p>
       <span class="important">

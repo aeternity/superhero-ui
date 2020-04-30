@@ -19,7 +19,7 @@
     <p class="highlited">
       You can directly support any person's content, cause,<br>
       project that have a public URL with no middleman.<br>
-      (Yes - ANY URL on the web or on <a href="https://superhero.com">www.superhero.com</a>.)
+      (An URL on the web or on <a href="https://superhero.com">www.superhero.com</a>.)
     </p>
     <div class="step__footer">
       <button

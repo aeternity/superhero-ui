@@ -22,7 +22,7 @@
       <span class="highlited">Send tips </span>
       directly to your fav creators, causes, projects...<br>
       <span class="highlited">Receive tips</span> directly from your fans.<br>
-      <span class="highlited">Get or give help</span> to any URL on the web as you please.<br>
+      <span class="highlited">Get or give help</span> to a URL on the web as you please.<br>
     </p>
     <p class="highlited">
       To start, you'll need a wallet. It's free. It's easy.<br>

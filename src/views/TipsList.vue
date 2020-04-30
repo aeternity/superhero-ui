@@ -107,11 +107,6 @@ export default {
   data() {
     return {
       searchTerm: '',
-      activeLang: 'en',
-      languagesOptions: [
-        { value: 'en', text: 'English' },
-        { value: 'zh', text: 'Chinese' },
-      ],
     };
   },
   computed: {

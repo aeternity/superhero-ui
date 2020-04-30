@@ -55,6 +55,7 @@
 
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
+import Backend from '../../utils/backend';
 
 export default {
   name: 'TipComment',

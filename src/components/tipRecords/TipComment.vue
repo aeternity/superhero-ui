@@ -50,6 +50,13 @@
       >
         {{ comment.text }}
       </div>
+      <div
+        title="Replies"
+        class="tip__replies"
+      >
+        <img src="../../assets/iconReply.svg">
+        {{ comment.children.length }}
+      </div>
     </div>
   </div>
 </template>
@@ -102,7 +109,7 @@ export default {
   background-color: $light_color;
 
   .tip__body .tip__note {
-    padding: 0.35rem 1rem 1rem 1rem;
+    padding: 0.35rem 1rem 0.25rem 1rem;
     color: $comment_text_color;
     height: initial;
     font-size: 0.7rem;
@@ -176,6 +183,16 @@ export default {
   }
 }
 
+.tip__replies {
+  padding: 0.25rem 1rem 1rem 1rem;
+  color: $standard_font_color;
+  font-size:
+    0.8rem
+     img    {
+    height: 0.7rem;
+  }
+}
+
 @media only screen
   and (min-device-width: 320px)
   and (max-device-width: 480px)
@@ -191,6 +208,10 @@ export default {
         margin-bottom: 0;
         padding: 0;
       }
+    }
+
+    .tip__replies {
+      padding-left: 0;
     }
   }
 }

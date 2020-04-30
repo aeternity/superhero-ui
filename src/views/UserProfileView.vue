@@ -36,11 +36,6 @@
               >
                 Edit Profile
               </a>
-              <TipInput
-                v-if="!editMode"
-                :user-address="address"
-                class="tip__user"
-              />
               <div class="profile__image position-relative">
                 <div
                   v-if="showLoadingAvatar"
@@ -121,6 +116,11 @@
                 >
                   {{ userStats.tipsLength }} Tips
                 </div>
+                <TipInput
+                  v-if="!editMode"
+                  :user-address="address"
+                  class="tip__user"
+                />
               </div>
             </div>
             <div
@@ -524,12 +524,6 @@ export default {
     right: 0.5rem;
   }
 
-  .tip__user {
-    top: 1rem;
-    right: 1.5rem;
-  }
-
-  .tip__user,
   .edit__button {
     position: absolute;
   }

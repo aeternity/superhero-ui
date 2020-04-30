@@ -163,17 +163,17 @@ export default {
       if (this.userAddress) {
         url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
         url.searchParams.set('url',
-          `${encodeURIComponent(`https://superhero.com/#/user-profile/${this.userAddress}`)}`);
+          encodeURIComponent(`https://superhero.com/#/user-profile/${this.userAddress}`));
       } else if (this.isRetip) {
         url = new URL(`${process.env.VUE_APP_WALLET_URL}/retip`);
         url.searchParams.set('id', this.tip.id);
       } else {
         url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
         url.searchParams.set('url',
-          `${encodeURIComponent(`https://superhero.com/#/tip/${this.tip.id}`)}`);
+          encodeURIComponent(`https://superhero.com/#/tip/${this.tip.id}`));
       }
-      url.searchParams.set('x-success', `${encodeURIComponent(window.location)}`);
-      url.searchParams.set('x-cancel', `${encodeURIComponent(window.location)}`);
+      url.searchParams.set('x-success', encodeURIComponent(window.location));
+      url.searchParams.set('x-cancel', encodeURIComponent(window.location));
       return url;
     },
     isMessageValid() {

@@ -13,7 +13,7 @@
           </p>
 
           <p>
-            The service on http://youdonotneedacapetobeahero.com/ is provided by Superhero.com LVC, e-mail for correspondence: superherowallet@protonmail.com.
+            The service on https://superhero.com/ is provided by Superhero.com LVC, e-mail for correspondence: superherowallet@protonmail.com.
           </p>
 
           <p>
@@ -59,13 +59,13 @@
           <p>
             IV. Copyright notice regarding the Website
             The legal imprint is applicable for the following internet address:
-            http://www.youdonotneedacapetobeahero.com/ (hereinafter the “Website”).
+            https://superhero.com/ (hereinafter the “Website”).
             The Website belongs and is operated by Superhero.com .
             The concept for the Website, the layout of the Website
             and the integrated components and structures for its creation,
             including but not limited to logos, trademarks, domain names, codes,
             which appear in any way on the website or are accessible in any way through
-            the website: http://youdonotneedacapetobeahero.com/ are protected
+            the website: https://superhero.com/ are protected
             by the current laws with subject intellectual property.
             Therefore, they belong strictly and solely to Superhero.com
             and the use of any of the above-mentioned is a subject to prior authorisation.

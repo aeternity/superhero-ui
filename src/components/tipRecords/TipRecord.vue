@@ -16,7 +16,9 @@
               <span
                 v-if="tip.chainName"
                 class="chain__name"
-              >{{ tip.chainName }}</span>
+              >
+                {{ tip.chainName }}
+              </span>
               <span
                 v-else
                 class="chain__name"
@@ -33,57 +35,51 @@
         v-if="isPreviewToBeVisualized(tip)"
         class="tip__article"
       >
-        <a
-          :href="tip.url"
-          target="_blank"
-          @click.stop
-        >
-          <div class="tip__article--hasresults">
-            <div class="tip__article__content">
-              <h2
-                class="title text-ellipsis"
-                :title="tipPreviewTitle"
-              >
-                {{ tipPreviewTitle }}
-              </h2>
-              <div
-                class="description"
-                :title="tipPreviewDescription"
-              >
-                {{ tipPreviewDescription }}
-              </div>
-              <div
-                class="site__url text-ellipsis"
-                :title="tip.url"
+        <div class="tip__article--hasresults">
+          <div class="tip__article__content">
+            <h2
+              class="title text-ellipsis"
+              :title="tipPreviewTitle"
+            >
+              {{ tipPreviewTitle }}
+            </h2>
+            <div
+              class="description"
+              :title="tipPreviewDescription"
+            >
+              {{ tipPreviewDescription }}
+            </div>
+            <div
+              class="site__url"
+              :title="tip.url"
+            >
+              <a
+                class="text-ellipsis"
+                target="_blank"
+                :href="tip.url"
+                @click.stop
               >
                 <img src="../../assets/externalLink.svg">
-                {{ tip.url }}
-              </div>
-              <div
-                class="tip__amount"
-                :title="`Initial tip`"
-              >
-                <img
-                  class="retip__icon retip__icon--retip"
-                  src="../../assets/iconTip.svg"
-                >
-                <ae-amount
-                  :amount="tip.amount_ae"
-                  :round="2"
-                />
-                <fiat-value
-                  :amount="tip.amount_ae"
-                />
-              </div>
+                <span class="text-ellipsis">{{ tip.url }}</span>
+              </a>
             </div>
-            <img
-              :src="tipPreviewImage"
-              :onerror="`this.className='fail'`"
-              :loading="`lazy`"
-              class="preview__image"
+            <div
+              class="tip__amount"
+              @click.stop
             >
+              <TipInput
+                is-retip
+                :tip="tip"
+              />
+            </div>
           </div>
-        </a>
+          <img
+            :src="tipPreviewImage"
+            :onerror="`this.className+=' fail'`"
+            :loading="`lazy`"
+            class="preview__image"
+          >
+        </div>
       </div>
       <div
         v-else
@@ -93,7 +89,9 @@
           :href="tip.url"
           :title="tip.url"
           class="text-ellipsis"
-        >{{ tip.url }}</a>
+        >
+          {{ tip.url }}
+        </a>
       </div>
       <div
         class="tip__note pr-2"
@@ -110,16 +108,18 @@
             class="tip__amount"
             @click.stop
           >
-            <retip
+            <TipInput
               :tip="tip"
             />
           </div>
           <div
             class="tip__comments"
             :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
-            @click="goToTip(tip.id)"
           >
-            <img src="../../assets/commentsIcon.svg">
+            <img
+              class="comment__icon"
+              src="../../assets/commentsIcon.svg"
+            >
             <span>{{ tip.commentCount }}</span>
           </div>
         </div>
@@ -129,34 +129,24 @@
 </template>
 
 <script>
-import defaultAvatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
-import Retip from '../Retip.vue';
+import TipInput from '../TipInput.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
-import AeAmount from '../AeAmount.vue';
-import FiatValue from '../FiatValue.vue';
 import Avatar from '../Avatar.vue';
 
 export default {
   name: 'TipRecord',
   components: {
-    Retip,
     TipTitle,
     FormatDate,
-    AeAmount,
-    FiatValue,
     Avatar,
+    TipInput,
   },
   props: {
     tip: { type: Object, required: true },
     foundWallet: { type: Boolean },
     senderLink: { type: String, default: '' },
-  },
-  data() {
-    return {
-      defaultAvatar,
-    };
   },
   computed: {
     tipPreviewDescription() {
@@ -174,10 +164,6 @@ export default {
     },
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.defaultAvatar;
-    },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
         && typeof tip.preview !== 'undefined'
@@ -210,6 +196,10 @@ export default {
     .ae-amount {
       color: $standard_font_color;
       font-size: 0.8rem;
+    }
+
+    .ae-amount-fiat {
+      align-items: center;
     }
 
     .currency-value {
@@ -290,9 +280,10 @@ export default {
     @include truncate-overflow-mx(4);
 
     color: $tip_note_color;
-    font-size: 0.8rem;
-    margin-top: 0.85rem;
+    font-size: 0.85rem;
+    line-height: 1.1rem;
     margin-bottom: 0.8rem;
+    margin-top: 0.85rem;
     padding-left: 1rem;
 
     .title .topic {
@@ -302,6 +293,21 @@ export default {
         text-decoration: underline;
       }
     }
+  }
+
+  .retip__icon {
+    height: 1rem;
+    margin-right: 0.2rem;
+    vertical-align: top;
+    padding: 0.1rem 0;
+    width: 1rem;
+  }
+
+  .comment__icon {
+    height: 1rem;
+    margin-right: 0.2rem;
+    vertical-align: top;
+    width: 1rem;
   }
 
   .tip__footer {
@@ -333,13 +339,7 @@ export default {
     height: 1rem;
     margin-right: 1rem;
     position: relative;
-
-    img {
-      height: 0.7rem;
-      margin-right: 0.2rem;
-      vertical-align: top;
-      width: 1rem;
-    }
+    width: max-content;
 
     &.tip__comments--hascomments {
       color: #fff;
@@ -386,7 +386,6 @@ export default {
     margin-left: 1rem;
     margin-right: 1rem;
     min-height: 5.9rem;
-    overflow: hidden;
     padding: 0;
     position: relative;
 
@@ -394,6 +393,8 @@ export default {
       background-color: $thumbnail_background_color;
       height: 10.5rem;
       object-fit: cover;
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
     }
 
     .tip__article__content {
@@ -402,6 +403,8 @@ export default {
       height: 10.5rem;
       line-height: 1.1rem;
       padding: 0.85rem 1rem 0.8rem 1rem;
+      display: flex;
+      flex-direction: column;
 
       .title {
         display: block;
@@ -438,28 +441,38 @@ export default {
     }
 
     .site__url {
-      color: $light_font_color;
+      align-items: start;
+      display: flex;
+      flex-grow: 1;
       font-weight: 500;
       margin-bottom: 0.45rem;
 
       img {
-        width: 0.625rem;
-        height: 0.625rem;
-        margin-right: 0.2rem;
-        vertical-align: baseline;
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.335rem;
+        padding: 0.135rem 0;
+        flex: 0;
+      }
+
+      a {
+        color: $light_font_color;
+        display: inline-flex;
+        height: 1rem;
+        max-width: 100%;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
 
     &:hover {
-      background-color: #32343e;
+      background-color: $thumbnail_background_color_alt;
       cursor: pointer;
 
-      img {
-        background-color: #32343e;
-      }
-
-      .site__url {
-        text-decoration: underline;
+      .preview__image {
+        background-color: $thumbnail_background_color_alt;
       }
 
       .tip__article__content {
@@ -484,14 +497,9 @@ export default {
       right: -50%;
     }
 
-    .tip__note {
+    .tip__note,
+    .tip__article .tip__article__content {
       font-size: 0.75rem;
-    }
-
-    .tip__article {
-      .tip__article__content {
-        font-size: 0.75rem;
-      }
     }
   }
 
@@ -504,10 +512,8 @@ export default {
       width: 0.7rem;
     }
 
-    .tip__article {
-      .tip__article__content {
-        font-size: 0.65rem;
-      }
+    .tip__article .tip__article__content {
+      font-size: 0.65rem;
     }
   }
 
@@ -528,7 +534,7 @@ export default {
     .tip__article {
       margin-left: 0;
       max-width: calc(100% + 1rem);
-      width: calc(100% + 1rem);
+      width: 100%;
 
       .tip__article__content {
         line-height: 1.1rem;
@@ -566,10 +572,8 @@ export default {
       font-size: 0.65rem;
       padding: 0;
 
-      .tip__amount {
-        img {
-          width: 1rem;
-        }
+      .tip__amount img {
+        width: 1rem;
       }
     }
 

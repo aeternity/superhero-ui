@@ -48,6 +48,9 @@ export default {
   [types.UPDATE_CURRENCY](state, payload) {
     state.settings.currency = payload;
   },
+  [types.SET_MIN_TIP_AMOUNT](state, payload) {
+    state.minTipAmount = payload;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

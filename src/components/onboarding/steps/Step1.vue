@@ -15,7 +15,10 @@
       <span class="important">P2P tool to receive or send a tip to any URL</span> with...
     </p>
     <p>
-      <span class="important">Near zero transaction fees.</span> Cut out intermediaries,<br>
+      <span class="important">
+        Zero transaction fees by Superhero.com. Near zero fees collected by miners.
+      </span>
+      Cut out intermediaries,<br>
       profiting off sending or receiving support.
       <span class="important">No wait-time.</span> Transfers<br>
       are instant. <span class="important">No censorship.</span> No 3rd parties controlling the<br>
@@ -46,9 +49,8 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
-  p {
-    text-align: center;
-  }
+p {
+  text-align: center;
+}
 </style>

@@ -1,10 +1,10 @@
 <template>
   <div
-    v-show="$route.name !== 'home' || !isMobileNavigationHidden"
+    v-show="$route.name !== 'tips' || !isMobileNavigationHidden"
     class="mobile-navigation clearfix"
     :class="{
       open: open,
-      sticky: $route.name !== 'home',
+      sticky: $route.name !== 'tips',
     }"
   >
     <div
@@ -20,14 +20,24 @@
       class="mobile-actions"
     >
       <img
-        v-if="$route.name === 'home'"
+        v-if="!USE_DEEP_LINKS && $route.name === 'tips'"
         v-show="Object.keys(account).length && balance"
         class="tip"
         src="../../assets/iconDiamond.svg"
         @click="toggleTipModal(true)"
       >
+      <a
+        v-else-if="USE_DEEP_LINKS && $route.name === 'tips'"
+        :href="deepLink"
+        target="_blank"
+      >
+        <img
+          class="tip"
+          src="../../assets/iconDiamond.svg"
+        >
+      </a>
       <img
-        v-if="$route.name === 'home'"
+        v-if="$route.name === 'tips'"
         class="trigger-search"
         src="../../assets/iconSearch.svg"
         @click="toggleMobileNavigation(true)"
@@ -48,6 +58,7 @@ import { mapGetters, mapActions } from 'vuex';
 import Navigation from './Navigation.vue';
 import MobileSendTipModal from '../modals/MobileSendTipModal.vue';
 import FooterSection from './FooterSection.vue';
+import { USE_DEEP_LINKS } from '../../utils/util';
 
 export default {
   name: 'MobileNavigation',
@@ -59,10 +70,17 @@ export default {
   data() {
     return {
       open: false,
+      USE_DEEP_LINKS,
     };
   },
   computed: {
-    ...mapGetters(['isMobileNavigationHidden', 'isTipModalOpen', 'balance', 'account']),
+    ...mapGetters(['isMobileNavigationHidden', 'balance', 'account']),
+    deepLink() {
+      const url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
+      url.searchParams.set('x-success', window.location);
+      url.searchParams.set('x-cancel', window.location);
+      return url;
+    },
   },
   methods: {
     ...mapActions(['toggleMobileNavigation', 'toggleTipModal']),
@@ -143,10 +161,6 @@ export default {
       bottom: 0;
 
       .logo {
-        display: none;
-      }
-
-      .navigation__item.trending {
         display: none;
       }
 

@@ -1,47 +1,30 @@
 <template>
   <div class="navigation">
     <div class="logo">
-      <router-link :to="{ name: 'home' }">
+      <router-link :to="{ name: 'tips' }">
         <img
           alt=""
           src="../../assets/headerLogo.svg"
         >
       </router-link>
     </div>
-    <div class="navigation__item home">
-      <router-link :to="{ name: 'home' }">
+    <div
+      class="navigation__item tips"
+      @click="scrollTop()"
+    >
+      <router-link :to="{ name: 'tips' }">
         <div class="navigation__item__image" />
-        <span>Home</span>
-      </router-link>
-    </div>
-    <div class="navigation__item trending">
-      <router-link :to="{ name: 'home' }">
-        <div class="navigation__item__image" />
-        <span>Trending</span>
-      </router-link>
-    </div>
-    <div class="navigation__item mission">
-      <router-link :to="{ name: 'mission' }">
-        <div class="navigation__item__image" />
-        <span>Mission</span>
+        <span>Tips</span>
       </router-link>
     </div>
     <div
       v-if="isLoggedIn"
       class="navigation__item profile"
+      @click="scrollTop()"
     >
       <router-link :to="{ name: 'user-profile', params: { address: account } }">
         <div class="navigation__item__image" />
         <span>My Profile</span>
-      </router-link>
-    </div>
-    <div
-      v-else
-      class="navigation__item profile"
-    >
-      <router-link :to="{ name: 'create-profile' }">
-        <div class="navigation__item__image" />
-        <span>Create Profile</span>
       </router-link>
     </div>
     <div class="navigation__item faq">
@@ -60,6 +43,11 @@ export default {
   name: 'Navigation',
   computed: {
     ...mapGetters(['account', 'isLoggedIn']),
+  },
+  methods: {
+    scrollTop() {
+      document.scrollingElement.scrollTop = 0;
+    },
   },
 };
 </script>
@@ -91,14 +79,6 @@ export default {
       display: flex;
       line-height: 1;
     }
-    //TODO: Should be removed when Trending page is added
-    &.trending .router-link-exact-active {
-      color: $standard_font_color;
-
-      &:hover {
-        color: $custom_links_color;
-      }
-    }
 
     a:hover,
     .router-link-exact-active {
@@ -113,20 +93,12 @@ export default {
     margin-right: 0.5rem;
     width: 1.3rem;
 
-    .home & {
-      background-image: url('../../assets/iconHome.svg');
-    }
-
-    .trending & {
-      background-image: url('../../assets/iconTrending.svg');
+    .tips & {
+      background-image: url('../../assets/iconTips.svg');
     }
 
     .profile & {
       background-image: url('../../assets/iconUser.svg');
-    }
-
-    .mission & {
-      background-image: url('../../assets/iconMission.svg');
     }
 
     .faq & {
@@ -135,25 +107,17 @@ export default {
 
     a:hover &,
     .router-link-exact-active & {
-      .home & {
-        background-image: url('../../assets/iconHomeActive.svg');
+      .tips & {
+        background-image: url('../../assets/iconTipsActive.svg');
       }
 
       .profile & {
         background-image: url('../../assets/iconUserActive.svg');
       }
 
-      .mission & {
-        background-image: url('../../assets/iconMissionActive.svg');
-      }
-
       .faq & {
         background-image: url('../../assets/iconHelpActive.svg');
       }
-    }
-
-    .navigation__item.trending a:hover & {
-      background-image: url('../../assets/iconTrendingActive.svg');
     }
   }
 

@@ -39,8 +39,18 @@ export default class Backend {
       body: image ? data : JSON.stringify(data),
     };
     Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
-    console.log(request);
     return wrapTry(fetch(Backend.getProfileImageUrl(address), request));
+  };
+
+  static deleteProfileImage = async (address, postParam = false) => {
+    const request = {
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      ...postParam && { body: JSON.stringify(postParam) },
+    };
+    return backendFetch(`profile/image/${address}`, request);
   };
 
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
@@ -63,7 +73,9 @@ export default class Backend {
 
   static getCacheChainNames = async () => backendFetch('cache/chainnames');
 
-  static getPrice = async () => backendFetch('cache/price');
+  static getPrice = async () => wrapTry(fetch('https://api.coingecko.com/api/v3/simple/price?ids=aeternity&vs_currencies=usd,eur,cny'));
+  // quick workaround because of CORS issue in the backend.
+  // static getPrice = async () => backendFetch('cache/price');
 
   static getOracleCache = async () => backendFetch('cache/oracle');
 

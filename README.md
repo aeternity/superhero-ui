@@ -1,5 +1,11 @@
-# Tip aggregator / explorer
-display tips
+# Superhero UI
+
+[![Build Status](https://travis-ci.com/aeternity/superhero-wallet.svg?branch=develop)](https://travis-ci.com/aeternity/superhero-wallet)
+
+This repo contains the code for the superhero.com (currently https://superhero.com) tips aggregator.
+
+---
+The UI is fetching data from the tipping contract and is visualizing the data in an consumer-friendly way. This UI client can be self-hosted by anyone locally by following the instructions below.
 
 ## Project setup
 ```

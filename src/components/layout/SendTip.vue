@@ -1,8 +1,6 @@
 <template>
   <div
-    v-if="canTip"
     class="tip__post"
-    :class="{ active: !loading.wallet }"
   >
     <div class="tip__post__label">
       <label>Send New Tip</label>
@@ -10,6 +8,7 @@
     <form @submit.prevent>
       <div class="form-group">
         <Avatar
+          :key="avatarImageKey"
           :address="account"
           class="avatar mr-3"
         />
@@ -18,6 +17,7 @@
           type="text"
           class="form-control comment"
           placeholder="Add message"
+          :disabled="!canTip"
         >
       </div>
       <div class="form-row">
@@ -27,35 +27,25 @@
             type="text"
             class="form-control"
             placeholder="Enter URL"
+            :disabled="!canTip"
           >
         </div>
-        <div class="form-group col-md-4">
-          <div class="input-group">
-            <input
-              v-model.number="sendTipForm.amount"
-              type="number"
-              min="0"
-              step="0.1"
-              placeholder="Amount"
-              class="form-control"
-              aria-label="Default"
-              aria-describedby="inputGroup-sizing-mn"
-            >
-            <div class="input-group-append">
-              <span class="input-group-text append__ae">
-                <span class="ae">AE&nbsp;</span>
-                <fiat-value
-                  :display-symbol="true"
-                  :amount="sendTipForm.amount.toString()"
-                />
-              </span>
-            </div>
-          </div>
+        <div class="col-md-4">
+          <ae-input-amount
+            v-model="sendTipForm.amount"
+            :disabled="!canTip"
+          />
         </div>
+      </div>
+      <div
+        v-if="!canTip"
+        class="install-wallet-warning"
+      >
+        You need to have a wallet installed and active in order to tip.
       </div>
       <div class="text-right">
         <ae-button
-          :disabled="!isSendTipDataValid"
+          :disabled="!canTip || !isSendTipDataValid"
           :src="IconDiamond"
           @click="sendTip()"
         >
@@ -68,11 +58,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import FiatValue from '../FiatValue.vue';
+import AeInputAmount from '../AeInputAmount.vue';
 import util from '../../utils/util';
 import aeternity from '../../utils/aeternity';
 import { EventBus } from '../../utils/eventBus';
-import avatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
 import AeButton from '../AeButton.vue';
 import IconDiamond from '../../assets/iconDiamond.svg';
@@ -81,7 +70,7 @@ import Avatar from '../Avatar.vue';
 export default {
   name: 'SendTip',
   components: {
-    FiatValue,
+    AeInputAmount,
     AeButton,
     Avatar,
   },
@@ -92,30 +81,28 @@ export default {
         url: '',
         title: '',
       },
-      avatar,
-      canTip: false,
       IconDiamond,
+      avatarImageKey: 1,
     };
   },
   computed: {
-    ...mapGetters(['balance', 'loading', 'account', 'isLoggedIn']),
+    ...mapGetters(['loading', 'account', 'isLoggedIn', 'minTipAmount']),
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
-      return this.sendTipForm.amount > 0
+      return this.sendTipForm.amount > this.minTipAmount
           && this.sendTipForm.url.length > 0
           && this.sendTipForm.title.length > 0
           && urlRegex.test(this.sendTipForm.url);
+    },
+    canTip() {
+      return this.isLoggedIn && !this.loading.wallet;
     },
   },
   async created() {
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
-        this.canTip = true;
-        const userImage = Backend.getProfileImageUrl(this.account);
-        if (userImage) {
-          this.avatar = userImage;
-        }
+        this.avatarImageKey += 1;
         clearInterval(loadUserAvatar);
       }
     }, 1000);
@@ -139,50 +126,38 @@ export default {
 <style lang="scss">
   .tip__post {
     background-color: $actions_ribbon_background_color;
-    max-height: 0;
-    transition: max-height 0.25s ease-in;
-    opacity: 0;
-
-    &.active {
-      max-height: 400px;
-      opacity: 1;
-    }
+    max-height: 400px;
 
     form {
       padding: 0.6rem 1rem 1rem 1rem;
 
-      span.append__ae {
-        font-size: 0.75rem;
-        background: $buttons_background;
-        cursor: default;
+      .form-row {
+        margin: 1rem 0 1rem 0;
 
-        & .ae {
-          color: $secondary_color;
+        .form-group {
+          border: 0.05rem solid $buttons_background;
+          border-radius: 0.25rem;
+          padding: 0;
+
+          input,
+          input:focus {
+            border: 0;
+          }
+
+          &:focus-within {
+            border-color: $secondary_color;
+          }
         }
 
-        &:hover {
-          background: $buttons_background;
-          cursor: default;
+        .col-md-4 {
+          padding-right: 0;
         }
       }
 
       .form-group {
         margin-bottom: 0;
 
-        .input-group {
-          border-radius: 0.25rem;
-        }
-
         input {
-          &[type=number]:focus {
-            border-right: none;
-          }
-
-          &[type=number]:focus ~ .input-group-append .input-group-text {
-            border: 0.05rem solid $custom_links_color;
-            border-left: none;
-          }
-
           &.comment {
             display: inline-block;
             width: calc(100% - 3.01rem);
@@ -191,21 +166,13 @@ export default {
           background-color: $buttons_background;
           color: $standard_font_color;
           font-size: 0.75rem;
-          border: 0.05rem solid transparent;
           height: 2.2rem;
-          margin-bottom: 1rem;
-
-          &:focus {
-            border: 0.05rem solid $custom_links_color;
-          }
         }
       }
 
-      .tip__post__balance {
-        span {
-          font-size: 0.75rem;
-          color: $standard_font_color;
-        }
+      .tip__post__balance span {
+        font-size: 0.75rem;
+        color: $standard_font_color;
       }
 
       .avatar,
@@ -238,4 +205,10 @@ export default {
     }
   }
 
+  .install-wallet-warning {
+    text-align: right;
+    font-size: 0.75rem;
+    color: $warning_font_color;
+    margin-bottom: 0.5rem;
+  }
 </style>

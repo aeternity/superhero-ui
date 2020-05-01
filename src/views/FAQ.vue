@@ -22,6 +22,14 @@
             path="views.FAQ.question_1_info"
             tag="p"
           >
+          <template v-slot:router>
+            <router-link
+                :to="{ name: 'mission' }"
+                target="_blank"
+              >
+                {{ $t('views.FAQ.ourMission') }}
+            </router-link>
+          </template>
             <template v-slot:br>
               <br>
             </template>
@@ -211,6 +219,7 @@ export default {
 
 <style lang="scss">
 .faq-page,
+.mission-page,
 .tutorial-page {
   background-color: $light_color;
   padding: 2rem;

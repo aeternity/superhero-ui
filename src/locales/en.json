@@ -136,11 +136,11 @@
       "header": "Frequently Asked Questions",
       "subheader": "if you can't find the answer of you question below visit our {router} to receive more information about using Superhero platform and wallet.",
       "question_1": "What is Superhero?",
-      "question_1_info": "Superhero is a P2P (Peer-to-Peer) platform for social sharing. {br} The mission of Superhero is to empower people to support people, without intermediaries.",
+      "question_1_info": "Superhero is a P2P (Peer-to-Peer) platform for social sharing. {br} The mission of Superhero is to empower people to support people, without intermediaries. {br} {router}",
       "question_2": "Who is Superhero?",
       "question_2_info": "Superhero is an open-source project. {br} It is a tool for good built on {aeternitycom}. {br} Anyone, anywhere may use the platform.{br} Other websites may use the platform.{br} All have uncensored, equal ability to be Superhero.{br} As P2P – the only ones who are not part of Superhero intermediaries.{br} No {sup} party custodians will control content, or your ability to tip or receive tips.{br} Superhero is you and you and you and you… Without any “them” in-between.",
       "question_3": "How does Superhero work?",
-      "question_3_info": "Superhero is built on aeternity blockchain. {br}Because it is built on blockchain, actions are transparent. {br}Because it is built on the blockchain, actions are published forever. {br}Blockchain has promised a more free and decentralized future for society. {br}Superhero used blockchain as its foundation to make that promise a reality. {br}Superhero is an online community making a tangible difference in the real world.",
+      "question_3_info": "Superhero is built on aeternity blockchain. {br} Because it is built on blockchain, actions are transparent. {br}Because it is built on the blockchain, actions are published forever. {br}Blockchain has promised a more free and decentralized future for society. {br}Superhero used blockchain as its foundation to make that promise a reality. {br}Superhero is an online community making a tangible difference in the real world.",
       "question_4": "How does tipping on Superhero work?",
       "question_4_info": "The first Superpower launched on Superhero is a Wallet to tip any url. {br}You can get tips at your URL. {br}And you can send a tip to any URL you want. {br}ANY URL. {br}Yes, any URL you want - regardless of whether the URL owner has installed the wallet or not. {br} {br}All you need to give, collect, or claim tips in ae is a Superhero Wallet of your own.",
       "question_5": "How do I get started on Superhero?",
@@ -177,6 +177,7 @@
       "tutorial": "tutorial",
       "feedbackForm": "feedback form,",
       "ourTutorial": "in our tutorial",
+      "ourMission": "Read our mission >",
       "aeternityBlockchain": "aeternity blockchain"
     },
     "Maintenance": {

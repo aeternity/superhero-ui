@@ -11,190 +11,78 @@
           path="views.FAQ.subheader"
           tag="p"
         >
-          <template v-slot:router>
+          <template v-slot:tutorialPage>
             <router-link to="/tutorial">
               {{ $t('views.FAQ.tutorialPage') }}
             </router-link>
           </template>
         </i18n>
-        <expandable-block :title="$t('views.FAQ.question_1')">
-          <i18n
-            path="views.FAQ.question_1_info"
-            tag="p"
+
+        <template
+          v-for="(item, index) in
+            Object.keys($i18n.messages[$i18n.fallbackLocale].views.FAQ.questions).length"
+        >
+          <expandable-block
+            :key="index"
+            :title="$t('views.FAQ.questions')[index].title"
           >
-          <template v-slot:router>
-            <router-link
-                :to="{ name: 'mission' }"
-                target="_blank"
-              >
-                {{ $t('views.FAQ.ourMission') }}
-            </router-link>
-          </template>
-            <template v-slot:br>
-              <br>
-            </template>
-          </i18n>
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_2')">
-          <i18n
-            path="views.FAQ.question_2_info"
-            tag="p"
-          >
-            <template v-slot:aeternitycom>
-              <a
-                href="https://aeternity.com/"
-                target="_blank"
-              > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
-            </template>
-            <template v-slot:sup>
-              3<sup>rd</sup>
-            </template>
-            <template v-slot:br>
-              <br>
-            </template>
-          </i18n>
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_3')">
-          <i18n
-            path="views.FAQ.question_3_info"
-            tag="p"
-          >
-            <template v-slot:br>
-              <br>
-            </template>
-          </i18n>
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_4')">
-          <i18n
-            path="views.FAQ.question_4_info"
-            tag="p"
-          >
-            <template v-slot:br>
-              <br>
-            </template>
-          </i18n>
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_5')">
-          <i18n
-            path="views.FAQ.question_5_info"
-            tag="p"
-          >
-            <template v-slot:router>
-              <router-link
-                :to="{ name: 'tutorial' }"
-                target="_blank"
-              >
-                {{ $t('views.FAQ.ourTutorial') }}
-              </router-link>
-            </template>
-          </i18n>
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_6')">
-          <i18n
-            path="views.FAQ.question_6_info"
-            tag="p"
-          >
-            <template v-slot:br>
-              <br>
-            </template>
-          </i18n>
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_7')">
-          <i18n
-            path="views.FAQ.question_7_info"
-            tag="p"
-          >
-            <template v-slot:br>
-              <br>
-            </template>
-          </i18n>
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_8')">
-          {{ $t('views.FAQ.question_8_info') }}
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_9')">
-          {{ $t('views.FAQ.question_9_info') }}
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_10')">
-          {{ $t('views.FAQ.question_10_info') }}
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_11')">
-          {{ $t('views.FAQ.question_11_info') }}
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_12')">
-          <i18n
-            path="views.FAQ.question_12_info"
-            tag="p"
-          >
-            <template v-slot:router>
-              <router-link
-                v-slot="{ href }"
-                to="/tutorial"
-              >
-                <a
-                  :href="href"
+            <i18n
+              :key="index"
+              :path="getI18nPath(index)"
+              tag="p"
+            >
+              <template v-slot:mission>
+                <router-link
+                  :to="{ name: 'mission' }"
                   target="_blank"
                 >
-                  {{ $t('views.FAQ.tutorial') }}
+                  {{ $t('views.FAQ.ourMission') }}
+                </router-link>
+              </template>
+              <template v-slot:aeternityCom>
+                <a
+                  href="https://aeternity.com/"
+                  target="_blank"
+                > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
+              </template>
+              <template v-slot:ourTutorial>
+                <router-link
+                  :to="{ name: 'tutorial' }"
+                  target="_blank"
+                >
+                  {{ $t('views.FAQ.ourTutorial') }}
+                </router-link>
+              </template>
+              <template v-slot:tutorial>
+                <router-link
+                  v-slot="{ href }"
+                  to="/tutorial"
+                >
+                  <a
+                    :href="href"
+                    target="_blank"
+                  >
+                    {{ $t('views.FAQ.tutorial') }}
+                  </a>
+                </router-link>
+              </template>
+              <template v-slot:feedbackForm>
+                <a
+                  href="https://form.jotform.com/201075183408046"
+                  target="_blank"
+                >
+                  {{ $t('views.FAQ.feedbackForm') }}
                 </a>
-              </router-link>
-            </template>
-          </i18n>
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_13')">
-          {{ $t('views.FAQ.question_13_info') }}
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_14')">
-          <i18n
-            path="views.FAQ.question_14_info"
-            tag="p"
-          >
-            <template v-slot:br>
-              <br>
-            </template>
-          </i18n>
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_15')">
-          <i18n
-            path="views.FAQ.question_15_info"
-            tag="p"
-          >
-            <template v-slot:br>
-              <br>
-            </template>
-          </i18n>
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_16')">
-          {{ $t('views.FAQ.question_16_info') }}
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_17')">
-          {{ $t('views.FAQ.question_17_info') }}
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_18')">
-          {{ $t('views.FAQ.question_18_info') }}
-        </expandable-block>
-        <expandable-block :title="$t('views.FAQ.question_19')">
-          <i18n
-            path="views.FAQ.question_19_info"
-            tag="p"
-          >
-            <template v-slot:br>
-              <br>
-            </template>
-          </i18n>
-          <i18n
-            path="views.FAQ.question_19_info"
-            tag="p"
-          >
-            <template v-slot:a>
-              <a
-                href="https://form.jotform.com/201075183408046"
-                target="_blank"
-              >
-                {{ $t('views.FAQ.feedbackForm') }}, </a>
-            </template>
-          </i18n>
-        </expandable-block>
+              </template>
+              <template v-slot:sup>
+                3<sup>rd</sup>
+              </template>
+              <template v-slot:br>
+                <br>
+              </template>
+            </i18n>
+          </expandable-block>
+        </template>
       </div>
     </div>
   </div>
@@ -213,6 +101,11 @@ export default {
     RightSection,
     ExpandableBlock,
     MobileNavigation,
+  },
+  methods: {
+    getI18nPath(index) {
+      return `views.FAQ.questions[${index}].text`;
+    },
   },
 };
 </script>

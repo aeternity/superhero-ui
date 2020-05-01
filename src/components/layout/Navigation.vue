@@ -34,7 +34,10 @@
       </router-link>
     </div>
     <div class="navigation__item league">
-      <a href="https://league.superhero.com" target="_blank">
+      <a
+        href="https://league.superhero.com"
+        target="_blank"
+      >
         <div class="navigation__item__image" />
         <span>League</span>
       </a>

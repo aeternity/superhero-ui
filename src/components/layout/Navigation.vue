@@ -33,6 +33,12 @@
         <span>FAQ</span>
       </router-link>
     </div>
+    <div class="navigation__item league">
+      <a href="https://league.superhero.com" target="_blank">
+        <div class="navigation__item__image" />
+        <span>League</span>
+      </a>
+    </div>
   </div>
 </template>
 
@@ -103,6 +109,12 @@ export default {
 
     .faq & {
       background-image: url('../../assets/iconHelp.svg');
+    }
+
+    .league & {
+      background-image: url('../../assets/iconDiamond.svg');
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
     a:hover &,

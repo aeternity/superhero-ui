@@ -17,8 +17,8 @@
           >
             <i18n
               :key="index"
-              :path="getI18nPath(index)"
-              :tag="isTitle(index) ? 'h5' : 'p'"
+              :path="getI18nPath(index, 'Terms')"
+              :tag="isTitle(index, 'Terms') ? 'h5' : 'p'"
             />
           </template>
 
@@ -44,13 +44,13 @@ export default {
     MobileNavigation,
   },
   methods: {
-    getI18nPath(index) {
-      return this.isTitle(index)
-        ? `views.Terms.sections[${index}].title` : `views.Terms.sections[${index}].text`;
+    getI18nPath(index, page) {
+      return this.isTitle(index, page)
+        ? `views.${page}.sections[${index}].title` : `views.${page}.sections[${index}].text`;
     },
-    isTitle(index) {
+    isTitle(index, page) {
       return Object.prototype.hasOwnProperty.call(
-        Object.values(this.$i18n.messages[this.$i18n.fallbackLocale].views.Terms.sections)[index],
+        Object.values(this.$i18n.messages[this.$i18n.fallbackLocale].views[`${page}`].sections)[index],
         'title',
       );
     },

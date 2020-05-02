@@ -11,31 +11,17 @@
             {{ $t('views.Terms.subtitle') }}
           </p>
 
+          <template
+            v-for="(item, index) in
+              Object.keys($i18n.messages[$i18n.fallbackLocale].views.Terms.sections).length"
+          >
+            <i18n
+              :key="index"
+              :path="getI18nPath(index)"
+              :tag="isTitle(index) ? 'h5' : 'p'"
+            />
+          </template>
 
-          <div class="first">
-            <h5><b>{{ $t('views.Terms.first') }}</b></h5>
-            <p>
-              {{ $t('views.Terms.first_0') }}
-            </p>
-          </div>
-          <div class="second">
-            <h5><b>{{ $t('views.Terms.second') }}</b></h5>
-            <p>
-              {{ $t('views.Terms.second_0') }}
-            </p>
-          </div>
-          <div class="third">
-            <h5><b>{{ $t('views.Terms.third') }}</b></h5>
-            <p>
-              {{ $t('views.Terms.third_0') }}
-            </p>
-          </div>
-          <div class="fourth">
-            <h5><b>{{ $t('views.Terms.fourth') }}</b></h5>
-            <p>
-              {{ $t('views.Terms.fourth_0') }}
-            </p>
-          </div>
           <p>
             {{ $t('views.Terms.copyrights') }}
           </p>
@@ -56,6 +42,18 @@ export default {
     LeftSection,
     RightSection,
     MobileNavigation,
+  },
+  methods: {
+    getI18nPath(index) {
+      return this.isTitle(index)
+        ? `views.Terms.sections[${index}].title` : `views.Terms.sections[${index}].text`;
+    },
+    isTitle(index) {
+      return Object.prototype.hasOwnProperty.call(
+        Object.values(this.$i18n.messages[this.$i18n.fallbackLocale].views.Terms.sections)[index],
+        'title',
+      );
+    },
   },
 };
 </script>

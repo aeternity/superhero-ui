@@ -13,7 +13,7 @@
       </div>
       <div class="comment__section">
         <p class="latest__comments">
-          Latest Replies
+          {{ $t('views.TipCommentsView.LatestReplies') }}
         </p>
         <div class="d-flex">
           <Avatar
@@ -24,7 +24,7 @@
             <input
               v-model="newComment"
               type="text"
-              placeholder="Add reply"
+              :placeholder="$t('views.TipCommentsView.AddReply')"
               class="form-control reply__input"
             >
           </div>
@@ -34,7 +34,7 @@
             :disabled="newComment.length === 0"
             @click="sendTipComment()"
           >
-            Reply
+            {{ $t('views.TipCommentsView.Reply') }}
           </ae-button>
         </div>
       </div>
@@ -44,7 +44,7 @@
           class="no-results text-center w-100"
           :class="[error ? 'error' : '']"
         >
-          {{ $t('pages.TipComments.NoResultsMsg') }}
+          {{ $t('views.TipCommentsView.NoResultsMsg') }}
         </div>
 
         <tip-comment

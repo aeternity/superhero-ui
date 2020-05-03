@@ -23,7 +23,7 @@
                 class="button"
                 @click="setWizardIsCollapsed(false)"
               >
-                Join Superhero
+                {{ $t('components.onboarding.wizard.title') }}
               </button>
             </div>
           </div>

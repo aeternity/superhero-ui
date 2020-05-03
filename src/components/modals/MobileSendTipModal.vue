@@ -6,7 +6,7 @@
     <div class="heading-section clearfix">
       <div class="title">
         <img src="../../assets/iconTip.svg">
-        Tip
+        {{ $t('components.modals.MobileSendTipModal.Tip') }}
       </div>
       <div
         class="close-navigation"

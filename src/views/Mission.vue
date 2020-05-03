@@ -4,25 +4,30 @@
     <right-section />
     <left-section />
     <div class="container wrapper mt-2">
-      <div class="row content">
-        <div class="col-sm-12">
-          <h1>{{ $t('views.Privacy.title') }}</h1>
+      <div class="content mission-page">
+        <h1>{{ $t('views.Mission.header') }}</h1>
+        <hr width="30%">
 
-          <p>
-            {{ $t('views.Privacy.subtitle') }}
-          </p>
-
-          <template
+        <template
             v-for="(item, index) in
-              Object.keys($i18n.messages[$i18n.fallbackLocale].views.Privacy.sections).length"
+              Object.keys($i18n.messages[$i18n.fallbackLocale].views.Mission.sections).length"
           >
             <i18n
               :key="index"
-              :path="getI18nPath(index, 'Privacy')"
-              :tag="isTitle(index, 'Privacy') ? 'h5' : 'p'"
-            />
+              :path="getI18nPath(index, 'Mission')"
+              :tag="isTitle(index, 'Mission') ? 'h5' : 'p'"
+            >
+
+            <template v-slot:aeternityBlockchain>
+                <a
+                  href="https://aeternity.com/"
+                  target="_blank"
+                > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
+              </template>
+            </i18n>
           </template>
-        </div>
+        <h1>{{ $t('views.Mission.footer') }}</h1>
+        <p>{{ $t('views.Mission.footerContent') }}</p>
       </div>
     </div>
   </div>
@@ -34,7 +39,7 @@ import RightSection from '../components/layout/RightSection.vue';
 import MobileNavigation from '../components/layout/MobileNavigation.vue';
 
 export default {
-  name: 'Privacy',
+  name: 'FAQ',
   components: {
     LeftSection,
     RightSection,
@@ -56,21 +61,8 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
-  .content {
-    color: $primary_color;
-  }
-
-  .container.wrapper {
-    min-height: 4rem;
-  }
-
-  @media only screen
-    and (min-device-width: 320px)
-    and (max-device-width: 480px)
-    and (-webkit-min-device-pixel-ratio: 2) {
-    .content {
-      padding: 1rem;
-    }
+<style lang="scss">
+  .mission-page {
+    background-image: url('../assets/Mission.jpg');
   }
 </style>

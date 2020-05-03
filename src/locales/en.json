@@ -445,7 +445,10 @@
       "Navigation": {
         "Tips": "Tips",
         "MyProfile": "My Profile",
-        "FAQ": "FAQ"
+        "FAQ": "FAQ",
+        "Tutorial": "Tutorial",
+        "League": "League",
+        "Mission": "Mission"
       },
       "Overview": {
         "TipsAggregated": "Tips Aggregated",

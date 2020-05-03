@@ -7,7 +7,7 @@
       inputmode="decimal"
       :min="min"
       :step="step"
-      placeholder="Amount"
+      :placeholder="$t('system.Amount')"
       class="form-control"
       aria-label="Default"
       aria-describedby="inputGroup-sizing-mn"

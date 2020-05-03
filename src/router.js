@@ -1,12 +1,13 @@
 import Router from 'vue-router';
-import TipsList from './views/TipsList.vue';
-import TipCommentsView from './views/TipCommentsView.vue';
-import UserProfileView from './views/UserProfileView.vue';
-import Terms from './views/Terms.vue';
-import Privacy from './views/Privacy.vue';
+import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
 import Maintenance from './views/Maintenance.vue';
-import CreateProfile from './views/CreateProfile.vue';
+import Mission from './views/Mission.vue';
+import Privacy from './views/Privacy.vue';
+import Terms from './views/Terms.vue';
+import TipCommentsView from './views/TipCommentsView.vue';
+import TipsList from './views/TipsList.vue';
+import UserProfileView from './views/UserProfileView.vue';
 
 const guardTipComments = (to, from, next) => {
   if (to.name === 'tip' && typeof to.params.id !== 'undefined') {
@@ -64,6 +65,14 @@ const routes = [
     component: CreateProfile,
     meta: {
       title: 'Tutorial Page',
+    },
+  },
+  {
+    path: '/mission',
+    name: 'mission',
+    component: Mission,
+    meta: {
+      title: 'Mission Page',
     },
   },
   {

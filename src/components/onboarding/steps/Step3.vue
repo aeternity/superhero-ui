@@ -6,27 +6,43 @@
         alt=""
       >
     </div>
-    <h1>
-      Receive Tips:<br>
-      Making the Internet a Fairer Place
-    </h1>
-    <p>
-      After your Superhero wallet is installed:<br>
-      <span class="highlited">1. Paste your wallet address</span>
-      somewhere on your public site.<br>
-      <span class="highlited">2. Open your URL</span>
-      and you will instantly collect the received tips.
-    </p>
-    <p class="highlited">
-      People can directly support your content, cause project<br>
-      or you (for simply being you) without middlemen.
-    </p>
+    <i18n
+      path="components.onboarding.steps.step3.header"
+      tag="h1"
+    >
+      <template v-slot:br>
+        <br>
+      </template>
+    </i18n>
+    <i18n
+      path="components.onboarding.steps.step3.info"
+      tag="p"
+    >
+      <template v-slot:br>
+        <br>
+      </template>
+      <template v-slot:pasteYourWallet>
+        <span class="highlited">{{ $t('components.onboarding.steps.step3.pasteYourWallet') }}</span>
+      </template>
+      <template v-slot:openYourURL>
+        <span class="highlited">{{ $t('components.onboarding.steps.step3.openYourURL') }}</span>
+      </template>
+    </i18n>
+    <i18n
+      class="highlited"
+      path="components.onboarding.steps.step3.peaopleCanDirectlySupport"
+      tag="p"
+    >
+      <template v-slot:br>
+        <br>
+      </template>
+    </i18n>
     <div class="step__footer">
       <button
         class="button"
         @click="nextStep()"
       >
-        Next
+        {{ $t('components.onboarding.steps.step3.next') }}
       </button>
     </div>
   </div>

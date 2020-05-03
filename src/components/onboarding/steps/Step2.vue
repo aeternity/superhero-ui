@@ -18,7 +18,7 @@
           href="https://aeternity.com/"
           target="_blank"
         >
-          &aelig;ternity Blockchain
+          {{ $t('components.onboarding.steps.step2.aeternityBlockchain') }}
         </a>
       </template>
     </i18n>

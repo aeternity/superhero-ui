@@ -479,9 +479,9 @@
           "header": "Introducing Superhero:{br} {a} ",
           "socialPlatform": "A Social Platform With A Mission",
           "subheader": "The first Superpower of Superhero is to launch a",
-          "P2Ptool": "P2P tool to receive or send a tip to any URL",
+          "P2Ptool": "P2P tool to receive or send a tip to a URL",
           "with": "with...",
-          "zeroTxFees": "Zero transaction fees by Superhero.com. Near zero fees collected by miners.",
+          "zeroTxFees": " Near zero transaction fees.",
           "cutOurIntermediaries": "Cut out intermediaries,",
           "SendingorReceiving": "profiting off sending or receiving support.",
           "noWaitTime": "No wait-time.",
@@ -494,8 +494,8 @@
           "button": "Start Your Superhero Journey"
         },
         "step2": {
-          "header": "Install Superhero Wallet {br} {a}",
-          "subheader": "Superhero empowers {peopleSupportingPeople} {br} including the ability to transfer AE cryptocurrency P2P. {br} {sendTips} directly to your fav creators, causes, projects... {br} {receiveTips} directly from your fans. {br} {getOrGiveHelp} to any URL on the web as you please. {br}",
+          "header": "Install Superhero Wallet {br} A Tool for Good Built on {a}",
+          "subheader": "Superhero empowers {peopleSupportingPeople} {br} including the ability to transfer AE cryptocurrency P2P. {br} {sendTips} directly to your fav creators, causes, projects... {br} {receiveTips} directly from your fans. {br} {getOrGiveHelp} to any URL on the web you please. {br}",
           "peopleSupportingPeople": "people supporting people,",
           "sendTips": "Send tips",
           "receiveTips": "Receive tips",
@@ -505,29 +505,29 @@
           "learnMore": "Learn more:",
           "tutorial": "Tutorial",
           "FAQ": "FAQ",
-          "next": "Next"
+          "next": "Next",
+          "aeternityBlockchain": "aeternity blockchain"
         },
         "step3": {
           "header": "Receive Tips: {br} Making the Internet a Fairer Place",
-          "info": "After your Superhero wallet is installed:{br} {pasteYourWallet} somewhere on your public site.{br} {openYourURL} and you will instantly collect the received tips.",
+          "info": "After your Superhero wallet is installed:{br} {pasteYourWallet} to your URL.{br} {openYourURL} so your wallet can instantly collect.",
           "pasteYourWallet": "1. Paste your wallet address",
-          "openYourURL": "2. Open your URL",
-          "peaopleCanDirectlySupport": "People can directly support your content, cause project {br} or you (for simply being you) without middlemen.",
+          "openYourURL": "2. Load your URL",
+          "peaopleCanDirectlySupport": "People can directly support your content, cause project (or you for simply being you) with no middlemen.",
           "next": "Next"
         },
         "step4": {
           "header": "Send Tips: {br} Making the Internet a Better Place",
-          "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {clickSendTips} in your wallet. {br} {enterTipAmount} and optionally a message.",
-          "visitTheURL": "1. Visit the URL",
-          "clickSendTips": "2. Click Send tip",
-          "enterTipAmount": "3. Enter tip amount",
-          "youCanDirectlySupport": "You can directly support any person's content, cause, {br} project that have a public URL with no middleman. {br} (Yes - ANY URL on the web or on {superherocom}.)",
+          "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {addAMessage} if you want.",
+          "visitTheURL": "1. Paste any URL",
+          "addAMessage": "2. Add a message",
+          "youCanDirectlySupport": "You can directly support any person's content, cause, project at any public URL with no middleman.",
           "next": "Next"
         },
         "step5": {
           "header": "Welcome to the Superhero League!",
           "info": "You can now get in on the action by setting your {br} personalized profile and preferences for {superherocom}",
-          "installWallet": "Install Wallet",
+          "installWallet": "Create profile",
           "setUpProfile": "Set Up Your Profile"
         }
       },

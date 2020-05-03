@@ -74,6 +74,12 @@
                   {{ $t('views.FAQ.feedbackForm') }}
                 </a>
               </template>
+              <template v-slot:forum>
+                <a
+                  href="https://forum.aeternity.com/"
+                  target="_blank"
+                > {{ $t('views.FAQ.forum') }} </a>
+              </template>
               <template v-slot:sup>
                 3<sup>rd</sup>
               </template>

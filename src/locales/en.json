@@ -132,6 +132,31 @@
         "info_12": "to confirm the action."
       }
     },
+    "Mission": {
+      "header": "SUPERHERO: AN ORIGIN STORY WITH A MISSION",
+      "sections": [
+        {
+          "text": "In comics, Superheroes believe it’s their duty to help good triumph. Meanwhile - very real, modern times continually test humanity."
+        },
+        {
+          "text": "From artists to scientists, educators, medical groups, non-profit projects, social impact initiatives, community causes, animal welfare, environmental advocacy to the one inspiring you… We can (and do) make a difference every day to each other. People supporting people are contemporary Superheroes."
+        },
+        {
+          "text": "Superhero.com was conceived as a tangible way to celebrate the difference that can come from empowering people to support people, P2P, without intermediaries."
+        },
+        {
+          "text": "Superhero.com was built as an open source platform which shifts the control of people supporting people away from private entities back into public hands."
+        },
+        {
+          "text": "Those at {aeternityBlockchain} that brought Superhero.com to life are united in helping deliver on the promise of a better internet for all."
+        },
+        {
+          "text": "Welcome to a better virtual world – an internet with quantifiably more freedom to transact. We only have just begun to see where our superpowers of being humans that support each other can take us."
+        }
+      ],
+      "footer": "ARE YOU MAKING A DIFFERENCE?",
+      "footerContent": "Superhero.com a tool for good built on æternity blockchain"
+    },
     "FAQ": {
       "header": "Frequently Asked Questions",
       "subheader": "If you can't find the answer of you question below visit our {tutorialPage} to receive more information about using Superhero platform and wallet.",
@@ -142,15 +167,15 @@
         },
         {
           "title": "Who is Superhero?",
-          "text": "Superhero is an open-source project. {br} It is a tool for good built on {aeternityCom}. {br} Anyone, anywhere may use the platform.{br} Other websites may use the platform.{br} All have uncensored, equal ability to be Superhero.{br} As P2P – the only ones who are not part of Superhero intermediaries.{br} No {sup} party custodians will control content, or your ability to tip or receive tips.{br} Superhero is you and you and you and you… Without any “them” in-between."
+          "text": "Superhero is an open-source project. It is a tool for good built on {aeternityCom}. {br} Anyone, anywhere may use the platform.{br} Other websites may use the platform.{br} All have uncensored, equal ability to be Superhero.{br} Being P2P, the only ones not part of Superhero are intermediaries.{br} Superhero is you and you and you and you ... Without any “them” in-between."
         },
         {
           "title": "How does Superhero work?",
-          "text": "Superhero is built on aeternity blockchain. {br} Because it is built on blockchain, actions are transparent. {br}Because it is built on the blockchain, actions are published forever. {br}Blockchain has promised a more free and decentralized future for society. {br}Superhero used blockchain as its foundation to make that promise a reality. {br}Superhero is an online community making a tangible difference in the real world."
+          "text": "Superhero is built on aeternity blockchain. {br} Because it is built on blockchain, actions are transparent. {br}Because it is built on blockchain, actions are published forever. {br}Blockchain has promised a more free and decentralized future for society. {br}Superhero used blockchain as its foundation to make that promise a reality. {br}Superhero is an online community making a tangible difference in the real world."
         },
         {
           "title": "How does tipping on Superhero work?",
-          "text": "The first Superpower launched on Superhero is a Wallet to tip any url. {br}You can get tips at your URL. {br}And you can send a tip to any URL you want. {br}ANY URL. {br}Yes, any URL you want - regardless of whether the URL owner has installed the wallet or not. {br} {br}All you need to give, collect, or claim tips in ae is a Superhero Wallet of your own."
+          "text": "The first Superpower launched on Superhero is a Wallet to tip any url. {br}You can get tips trough URLs or online profiles you own. {br}And you can send a tip to other URLs. {br}URLs can be tipped - regardless of whether the URL owner has installed the wallet or not. {br}All you need to give, collect, or claim tips in AE is a Superhero Wallet of your own."
         },
         {
           "title": "How do I get started on Superhero?",
@@ -162,11 +187,11 @@
         },
         {
           "title": "Where can I get tips with Superhero?",
-          "text": "Use Superhero alone to give / accept a tip of ae. Used Superhero alongside other existing fiat-based tools to additionally give / accept a tip in ae. {br} {br}On Superhero’s platform, join a community posting, commenting, and tipping each other directly. {br}Off Superhero’s platform, add a Superhero button or link to your site so anyone can tip you directly. {br}On Superhero’s site and in the world wide web beyond Superhero’s site – build your support or give support without having any 3rd parties control your content or tips. {br}So long as a URL is live, it can be tipped. {br}And so long as you have access to your Superhero Wallet, your tips are yours."
+          "text": "Use Superhero alone to give / accept a tip of AE. Use Superhero alongside other existing fiat-based tools to additionally give / accept a tip in AE. {br} {br}On Superhero’s platform, join a community posting, commenting, and tipping each other directly. {br}Off Superhero’s platform, add a Superhero button or link to your site so anyone can tip you directly."
         },
         {
           "title": "Where can I send tips with Superhero? (Even URLs off Superhero?)",
-          "text": "Yes. ANY URL. Superhero will hold any tips sent a URL for one year."
+          "text": "Superhero will hold any tips sent a URL for the webpage's owner to claim."
         },
         {
           "title": "Where does a tip go if there are more than one wallet to a URL?",
@@ -181,8 +206,12 @@
           "text": "After one (1) year, unclaimed tips can be retrieved by the tip senders."
         },
         {
-          "title": "What do I do to cash out?",
-          "text": "We got you on your way with all your tips. Check out Withdraw in our {tutorial}."
+          "title": "How do I withdraw my tips?",
+          "text": "Check out Withdraw in our {tutorial}."
+        },
+        {
+          "title": "How do I document my tips?",
+          "text": "All transactions made trough Superhero are timestamped and recorded on the blockchain. These records are accessible to the public trough https://www.aeknow.org https://mainnet.aeternal.io and https://explorer.aeternity.io. Just type on your wallet address to view all transactions involving your wallet."
         },
         {
           "title": "Can I use my Base æpp wallet for my Superhero wallet?",
@@ -198,21 +227,22 @@
         },
         {
           "title": "Can I edit my profile?",
-          "text": "Currently, users can only add short descriptions for their profile. But don’t despair—profile photos and avatars are coming soon!"
+          "text": "Currently, users can only add short descriptions for their profile and set their avatar photo. We're continuously working on making profiles even better."
         },
         {
           "title": "Do I have to add my wallet address to every Tweet?",
-          "text": "No, as long as your twitter profile contains your .chain name linked to your Superhero wallet or Superhero wallet ae address visible in the bio, tips sent to your awesome tweets URL`s can be delivered to your wallet."
+          "text": "No. The Superhero wallet can detect the wallet address on a user's Twitter profile. No need to add it in the tweets."
         },
         {
           "title": "If the owner of the URL I tipped doesn’t have an AE address on their site, will they still receive their tips?",
-          "text": "Yes, as soon as they create a Superhero wallet and add their wallet address to their URL, tips they’ve received in the past will be added into their wallet."
+          "text": "Yes. As soon as the webpage owner creates a Superhero wallet and adds their wallet address to their URL, tips they’ve received in the past will be added into their wallet."
         },
         {
           "title": "Can I get support? My question isn’t answered here…",
-          "text": "Need assistance? Report technical issue? Post feedback? Suggestion? {br}Please use this {feedbackForm}, we will shortly get back to you so you can use your Superpowers."
+          "text": "Need assistance? Report technical issue? Post feedback? Suggestion? Find people supporting people with answers in Superhero's {forum}."
         }
       ],
+      "forum": "Forum",
       "tutorialPage": "Tutorial Page",
       "tutorial": "tutorial",
       "feedbackForm": "feedback form",

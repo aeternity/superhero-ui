@@ -5,45 +5,29 @@
     <left-section />
     <div class="container wrapper mt-2">
       <div class="content mission-page">
-        <h1>SUPERHERO: AN ORIGIN STORY WITH A MISSION</h1>
+        <h1>{{ $t('views.Mission.header') }}</h1>
         <hr width="30%">
-        <p>
-          In comics, Superheroes believe it’s their duty to help good triumph.<br>
-          Meanwhile - very real, modern times continually test humanity.
-        </p>
-        <p>
-          From artists to scientists, educators, medical groups,
-          non-profit projects, social impact initiatives, community
-          causes, animal welfare, environmental advocacy to the one inspiring you…<br>
-          We can (and do) make a difference every day to each other.<br>
-          People supporting people are contemporary Superheroes.<br>
-        </p>
-        <p>
-          Superhero.com was conceived as a tangible way to
-          celebrate the difference that can come from empowering
-          people to support people, P2P, without intermediaries.
-        </p>
-        <p>
-          Superhero.com was built as an open source platform
-          which shifts the control of people supporting people
-          away from private entities back into public hands.
-        </p>
-        <p>
-          Those at <span class="highlited">æternity blockchain</span> that brought Superhero.com
-          to life are united in helping deliver on the promise of a better internet for all.
-        </p>
-        <p>
-          Welcome to a better virtual world – an internet
-          with quantifiably more freedom to transact.<br>
-          We only have just begun to see where our superpowers
-          of being humans that support each other can take us.
-        </p>
-        <h1>ARE YOU MAKING A DIFFERENCE?</h1>
-        <p>
-          <b>Superhero.com</b><br>
-          a tool for good built on
-          <span class="highlited">æternity blockchain</span>
-        </p>
+
+        <template
+            v-for="(item, index) in
+              Object.keys($i18n.messages[$i18n.fallbackLocale].views.Mission.sections).length"
+          >
+            <i18n
+              :key="index"
+              :path="getI18nPath(index, 'Mission')"
+              :tag="isTitle(index, 'Mission') ? 'h5' : 'p'"
+            >
+
+            <template v-slot:aeternityBlockchain>
+                <a
+                  href="https://aeternity.com/"
+                  target="_blank"
+                > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
+              </template>
+            </i18n>
+          </template>
+        <h1>{{ $t('views.Mission.footer') }}</h1>
+        <p>{{ $t('views.Mission.footerContent') }}</p>
       </div>
     </div>
   </div>
@@ -60,6 +44,18 @@ export default {
     LeftSection,
     RightSection,
     MobileNavigation,
+  },
+  methods: {
+    getI18nPath(index, page) {
+      return this.isTitle(index, page)
+        ? `views.${page}.sections[${index}].title` : `views.${page}.sections[${index}].text`;
+    },
+    isTitle(index, page) {
+      return Object.prototype.hasOwnProperty.call(
+        Object.values(this.$i18n.messages[this.$i18n.fallbackLocale].views[`${page}`].sections)[index],
+        'title',
+      );
+    },
   },
 };
 </script>

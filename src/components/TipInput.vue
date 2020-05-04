@@ -1,23 +1,22 @@
 <template>
   <a
-    v-if="USE_DEEP_LINKS && !userAddress"
+    v-if="USE_DEEP_LINKS"
     :href="deepLink"
     target="_blank"
     class="tip__content"
     @click.stop
   >
     <img :src="iconTip">
-    <ae-amount-fiat :amount="amount" />
-  </a>
-  <a
-    v-else-if="USE_DEEP_LINKS && userAddress"
-    :href="deepLink"
-    target="_blank"
-    class="tip__content"
-    @click.stop
-  >
-    <img :src="iconTip">
-    <span class="tip-user-text">Tip</span>
+    <ae-amount-fiat
+      v-if="!userAddress"
+      :amount="amount"
+    />
+    <span
+      v-else
+      class="tip-user-text"
+    >
+      Tip
+    </span>
   </a>
   <div
     v-else

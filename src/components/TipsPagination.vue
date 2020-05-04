@@ -22,13 +22,14 @@
         v-if="tips.length === 0"
         class="no-results text-center m-2"
       >
-        {{ $t('pages.Tips.NoResultsMsg') }}
+        {{ $t('components.TipsPagination.NoResultsMsg') }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { get } from 'lodash-es';
 import Loading from './Loading.vue';
 import Backend from '../utils/backend';
 import { MIDDLEWARE_URL } from '../config/constants';
@@ -80,6 +81,9 @@ export default {
   beforeDestroy() {
     clearInterval(this.interval);
   },
+  activated() {
+    this.scroll();
+  },
   methods: {
     async startFromTop() {
       window.scrollTo(0, 0);
@@ -90,7 +94,7 @@ export default {
     async loadData() {
       this.loadingTips = true;
       this.tips = await Backend.getCacheTips(this.tipSortBy, this.page, this.address, this.search);
-      this.lastTipId = this.tips[this.tips.length - 1].id;
+      this.lastTipId = get(this.tips[this.tips.length - 1], 'id');
       this.loadingTips = false;
     },
     async loadMoreTips() {

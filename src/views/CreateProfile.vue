@@ -6,223 +6,236 @@
     <div class="container wrapper">
       <div class="content tutorial-page">
         <h1>
-          HOW TO USE SUPERHERO.COM: <br>
-          fully P2P tipping with no boundaries,<br>
-          no censorship - at near-zero fees
+          {{ $t('views.CreateProfile.header1') }} <br>
+          {{ $t('views.CreateProfile.header2') }} <br>
+          {{ $t('views.CreateProfile.header3') }}
         </h1>
         <hr width="30%">
-        <expandable-block :title="'HOW TO USE SUPERHERO'">
-          <p><b>Download and install the Superhero extension for your browser.</b></p>
+        <expandable-block :title="$t('views.CreateProfile.01.title')">
+          <p><b>{{ $t('views.CreateProfile.01.info_0') }}</b></p>
           <p />
           <p>
-            Superhero is currently available for Firefox and Chrome.<br>
-            (The Chrome extension can be used for Brave and Opera.)
+            {{ $t('views.CreateProfile.01.info_1') }}<br>
+            {{ $t('views.CreateProfile.01.info_2') }}
           </p>
           <p>
-            For Firefox:<br>
-            Get the add-on
+            {{ $t('views.CreateProfile.01.info_3') }}<br>
+            {{ $t('views.CreateProfile.01.info_4') }}
             <a
               href="https://addons.mozilla.org/en-US/firefox/addon/superhero-wallet/"
               target="_blank"
             >
-              here </a><br>
-            Click
-            <span class="highlited">Add</span>
-            to Firefox. Confirm by clicking
-            <span class="highlited">Add</span> again in the message prompt.<br>
-            Then the Superhero icon should appear on the upper right corner of your Firefox browser
-            toolbar.<br>
+              {{ $t('views.CreateProfile.01.info_5') }} </a><br>
+            {{ $t('views.CreateProfile.01.info_6') }}
+            <span class="highlited">{{ $t('views.CreateProfile.01.info_7') }}</span>
+            {{ $t('views.CreateProfile.01.info_8') }}
+            <span class="highlited">{{ $t('views.CreateProfile.01.info_9') }}</span>
+            {{ $t('views.CreateProfile.01.info_10') }}<br>
+            {{ $t('views.CreateProfile.01.info_11') }}<br>
           </p>
           <p>
-            For Chrome, Brave, and Opera:<br>
-            Get the extension
+            {{ $t('views.CreateProfile.01.info_12') }}<br>
+            {{ $t('views.CreateProfile.01.info_13') }}
             <a
               :href="chromeLink"
               target="_blank"
             >
-              here
+              {{ $t('views.CreateProfile.01.info_14') }}
             </a><br>
-            Add the extension to your browser.<br>
-            Then the Superhero icon should appear on the upper right corner of your browser toolbar.
+            {{ $t('views.CreateProfile.01.info_15') }}<br>
+            {{ $t('views.CreateProfile.01.info_16') }}
           </p>
         </expandable-block>
-        <expandable-block :title="'CREATING YOUR WALLET'">
+        <expandable-block :title="$t('views.CreateProfile.02.title')">
           <p>
-            Tick the checkbox to agree to the terms and conditions.<br>
-            Click <span class="highlited">CREATE A NEW WALLET.</span><br>
-            That’s it—your wallet is created!<br>
-            You can now start receiving tips from anyone through your wallet address.<br>
+            {{ $t('views.CreateProfile.02.info_0') }}<br>
+            {{ $t('views.CreateProfile.02.info_1') }}
+            <span class="highlited">{{ $t('views.CreateProfile.02.info_2') }}</span><br>
+            {{ $t('views.CreateProfile.02.info_3') }}<br>
+            {{ $t('views.CreateProfile.02.info_4') }}<br>
           </p>
           <p>
-            You can find your wallet address on your dashboard, right above your balance.<br>
-            It’s a random string of numbers and letters that starts with ak_.<br>
-            This wallet address is also referred to as a public key— it’s what others see as your
-            public ID by default.<br>
-            You can easily copy this by clicking the copy button right next to your wallet address.
+            {{ $t('views.CreateProfile.02.info_5') }}<br>
+            {{ $t('views.CreateProfile.02.info_6') }}<br>
+            {{ $t('views.CreateProfile.02.info_7') }}<br>
+            {{ $t('views.CreateProfile.02.info_8') }}
           </p>
         </expandable-block>
-        <expandable-block :title="'SECURING YOUR WALLET'">
+        <expandable-block :title="$t('views.CreateProfile.03.title')">
           <p>
-            With great freedom comes great responsibility.<br>
-            You’re in charge of keeping the keys to your account.<br>
-            There are no third-party custodians to store nor connect any password with any
-            account.<br>
-            The task of keeping the keys to your wallet is yours and yours alone, Superhero.
+            {{ $t('views.CreateProfile.03.info_0') }}<br>
+            {{ $t('views.CreateProfile.03.info_1') }}<br>
+            {{ $t('views.CreateProfile.03.info_2') }}<br>
+            {{ $t('views.CreateProfile.03.info_3') }}
           </p>
           <p>
-            Here’s how to secure and backup your wallet:<br>
-            Once you’re in your dashboard, you’ll get a series of words called a seed phrase.<br>
-            The seed phrase is somewhat like a password – it’s a unique set of words (in order)
-            which connects you to your wallet.<br>
+            {{ $t('views.CreateProfile.03.info_4') }}<br>
+            {{ $t('views.CreateProfile.03.info_5') }}<br>
+            {{ $t('views.CreateProfile.03.info_6') }}<br>
           </p>
           <ul>
             <li>
-              Click the <span class="highlited">hamburger menu</span>
-              on the upper right of your wallet.
+              {{ $t('views.CreateProfile.03.info_7') }}
+              <span class="highlited">{{ $t('views.CreateProfile.03.info_8') }}</span>
+              {{ $t('views.CreateProfile.03.info_9') }}
             </li>
             <li>
-              Go to Settings, choose Seed Phrase.
+              {{ $t('views.CreateProfile.03.info_10') }}
             </li>
             <li>
-              On the next screen, click Show seed phrase.
+              {{ $t('views.CreateProfile.03.info_11') }}
             </li>
           </ul>
           <p>
-            You’ll need this seed phrase to retrieve your wallet in case you lose access to the
-            extension for any reason (migrating to a new device, reinstalling browser, etc.)
+            {{ $t('views.CreateProfile.03.info_12') }}
           </p>
           <ul>
             <li>
-              <b>Write down the 12 words displayed on a piece of paper and keep it in a safe and
-                secret place.</b>
+              <b>{{ $t('views.CreateProfile.03.info_13') }}</b>
             </li>
           </ul>
           <p>
-            Simple as that.
+            {{ $t('views.CreateProfile.03.info_14') }}
           </p>
         </expandable-block>
-        <expandable-block :title="'SENDING TIPS'">
+        <expandable-block :title="$t('views.CreateProfile.04.title')">
           <p>
-            To send someone tips, make sure you are on the URL that you want to tip.<br>
-            The Superhero wallet will automatically detect the URL on your active tab.
+            {{ $t('views.CreateProfile.04.info_0') }}<br>
+            {{ $t('views.CreateProfile.04.info_1') }}
           </p>
           <ul>
             <li>
-              Open your Superhero wallet extension. The button
-              <img src="../assets/iconExtension.svg"> should be in the upper right of your browser
-              toolbar.<br>
+              {{ $t('views.CreateProfile.04.info_2') }}
+              <img src="../assets/iconExtension.svg"> {{ $t('views.CreateProfile.04.info_3') }}<br>
             </li>
-            <li>Click <span class="highlited">Send Tip</span></li>
             <li>
-              On the next screen, fill in the required fields. Enter the amount of tips you want to
-              send, and add a message telling the receiver why they’re awesome.
+              {{ $t('views.CreateProfile.04.info_4') }}
+              <span class="highlited">{{ $t('views.CreateProfile.04.info_5') }}</span>
             </li>
-            <li>Click the <span class="highlited">Send Tip</span> button below.</li>
             <li>
-              On the next screen, review the details of your tip.
+              {{ $t('views.CreateProfile.04.info_6') }}
             </li>
-            <li>Click <span class="highlited">Confirm</span> to complete the transaction.</li>
+            <li>
+              {{ $t('views.CreateProfile.04.info_7') }}
+              <span class="highlited">{{ $t('views.CreateProfile.04.info_8') }}</span>
+              {{ $t('views.CreateProfile.04.info_9') }}
+            </li>
+            <li>
+              {{ $t('views.CreateProfile.04.info_10') }}
+            </li>
+            <li>
+              {{ $t('views.CreateProfile.04.info_11') }}
+              <span class="highlited">{{ $t('views.CreateProfile.04.info_12') }}</span>
+              {{ $t('views.CreateProfile.04.info_13') }}
+            </li>
           </ul>
         </expandable-block>
-        <expandable-block :title="'RECEIVING TIPS'">
+        <expandable-block :title="$t('views.CreateProfile.05.title')">
           <p>
-            To receive tips yourself, copy your wallet address.
+            {{ $t('views.CreateProfile.05.info_0') }}
           </p>
           <p>
-            Then paste your wallet address onto the web page or profile that was tipped—it could be
-            a blog, a social media account, or any other online profile.<br>
-            Save this change and refresh the page.
+            {{ $t('views.CreateProfile.05.info_1') }}<br>
+            {{ $t('views.CreateProfile.05.info_2') }}
           </p>
           <p>
-            You can also add your wallet address in the source code of your web page.<br>
-            Once your wallet address is added to your web page, all you have to do is open your
-            Superhero wallet… And voila— tips can be collected and added to your wallet balance.<br>
-            In some cases, there may be slight delays in collecting tips.<br>
-            Give it a few minutes and try opening your wallet again.<br>
-            If the problem persists, you may ask questions through this
+            {{ $t('views.CreateProfile.05.info_3') }}<br>
+            {{ $t('views.CreateProfile.05.info_4') }}<br>
+            {{ $t('views.CreateProfile.05.info_5') }}<br>
+            {{ $t('views.CreateProfile.05.info_6') }}<br>
+            {{ $t('views.CreateProfile.05.info_7') }}
             <a
               href="https://form.jotform.com/201075183408046"
               target="_blank"
             >
-              feedback form.
+              {{ $t('views.CreateProfile.05.info_8') }}
             </a>
           </p>
         </expandable-block>
-        <expandable-block :title="'CASHING OUT'">
+        <expandable-block :title="$t('views.CreateProfile.06.title')">
           <p>
-            To withdraw tips received, you can send tips to your AE wallet address in a crypto
-            exchange that supports AE tokens (see list above).
+            {{ $t('views.CreateProfile.06.info_0') }}
           </p>
           <ul>
-            <li>Go to the hamburger menu. Click <span class="highlited">Withdraw.</span></li>
-            <li>Enter your wallet address from the crypto exchange of your choice.</li>
-            <li>Enter the amount you want to withdraw.</li>
-            <li>Review the transaction details. Hit Send.</li>
+            <li>
+              {{ $t('views.CreateProfile.06.info_1') }}
+              <span class="highlited">{{ $t('views.CreateProfile.06.info_2') }}</span>
+            </li>
+            <li>{{ $t('views.CreateProfile.06.info_3') }}</li>
+            <li>{{ $t('views.CreateProfile.06.info_4') }}</li>
+            <li>{{ $t('views.CreateProfile.06.info_5') }}</li>
           </ul>
           <p>
-            Tips can then be converted into other cryptocurrencies or fiat and transferred to your
-            local bank.<br>
-            Processes for exchanges may vary per country.
+            {{ $t('views.CreateProfile.06.info_6') }}<br>
+            {{ $t('views.CreateProfile.06.info_7') }}
           </p>
         </expandable-block>
-        <expandable-block :title="'GETTING A .CHAIN NAME'">
+        <expandable-block :title="$t('views.CreateProfile.07.title')">
           <p>
-            You can claim a .chain name through the Superhero wallet extension.<br>
-            A .chain name serves as an alternative to your wallet address, making it much easier for
-            other users to send you a tip.<br>
-            You can also use your .chain name as your profile name on Superhero.<br>
-            To claim a name through your Superhero wallet:
+            {{ $t('views.CreateProfile.07.info_0') }}<br>
+            {{ $t('views.CreateProfile.07.info_1') }}<br>
+            {{ $t('views.CreateProfile.07.info_2') }}<br>
+            {{ $t('views.CreateProfile.07.info_3') }}
           </p>
           <ul>
-            <li>Open the <span class="highlited">hamburger menu</span> on the upper right.</li>
-            <li>Click <span class="highlited">Names</span>.</li>
             <li>
-              On the <span class="highlited">Add New</span>
-              screen, type in your preferred name. Note that the suffix .chain is automatically
-              appended to your name. This is mandatory in the naming system.
+              {{ $t('views.CreateProfile.07.info_4') }}
+              <span class="highlited">{{ $t('views.CreateProfile.07.info_5') }}</span>
+              {{ $t('views.CreateProfile.07.info_6') }}
             </li>
-            <li>Click the <span class="highlited">+</span> button to proceed.</li>
-            <li>Click Confirm.</li>
+            <li>
+              {{ $t('views.CreateProfile.07.info_7') }}
+              <span class="highlited">{{ $t('views.CreateProfile.07.info_8') }}</span>.
+            </li>
+            <li>
+              {{ $t('views.CreateProfile.07.info_9') }}
+              <span class="highlited">{{ $t('views.CreateProfile.07.info_10') }}</span>
+              {{ $t('views.CreateProfile.07.info_11') }}
+            </li>
+            <li>
+              {{ $t('views.CreateProfile.07.info_12') }}
+              <span class="highlited">+</span> {{ $t('views.CreateProfile.07.info_13') }}
+            </li>
+            <li>{{ $t('views.CreateProfile.07.info_14') }}</li>
           </ul>
           <p>
-            Only numbers and letters are allowed in .chain names.<br>
-            Names longer than 12 characters can be claimed by the first to initiate a claim
-            transaction for that particular name.<br>
-            Names 12 characters or shorter are subject to auction.<br>
-            Shorter names are more expensive. Less characters mean longer auction times.<br>
-            For more information on the naming system, click
+            {{ $t('views.CreateProfile.07.info_15') }}
             <a
               href="https://aeternity.com/documentation-hub/protocol/AENS/"
               target="_blank"
             >
-              here </a>.
+              {{ $t('views.CreateProfile.07.info_16') }} </a>.
           </p>
           <p>
-            You can claim as many names on Superhero as you want. But as a rule, you must have
-            enough AE in your wallet to cover the initial price for the selected name.
+            {{ $t('views.CreateProfile.07.info_17') }}
           </p>
         </expandable-block>
-        <expandable-block :title="'SUPERHERO PROFILE NAME'">
+        <expandable-block :title="$t('views.CreateProfile.08.title')">
           <p>
-            To set a .chain name as your Superhero profile name:
+            {{ $t('views.CreateProfile.08.info_0') }}
           </p>
           <ul>
             <li>
-              Click the <span class="highlited">hamburger menu</span> and go to
-              <span class="highlited">Names</span>.
-            </li>
-            <li>Click <span class="highlited">Your Names</span>.</li>
-            <li>
-              Under your preferred Superhero .chain name, click
-              <span class="highlited">Set Name Pointer</span>.
+              {{ $t('views.CreateProfile.08.info_1') }}
+              <span class="highlited">{{ $t('views.CreateProfile.08.info_2') }}</span>
+              {{ $t('views.CreateProfile.08.info_3') }}
+              <span class="highlited">{{ $t('views.CreateProfile.08.info_4') }}</span>.
             </li>
             <li>
-              Paste the wallet address that you use on Superhero. Double check this wallet address
-              to make sure you have the right one.
+              {{ $t('views.CreateProfile.08.info_5') }}
+              <span class="highlited">{{ $t('views.CreateProfile.08.info_6') }}</span>.
             </li>
             <li>
-              Click <span class="highlited">Set Name Pointer</span>
-              to confirm the action.
+              {{ $t('views.CreateProfile.08.info_7') }}
+              <span class="highlited">{{ $t('views.CreateProfile.08.info_8') }}</span>.
+            </li>
+            <li>
+              {{ $t('views.CreateProfile.08.info_9') }}
+            </li>
+            <li>
+              {{ $t('views.CreateProfile.08.info_10') }}
+              <span class="highlited">{{ $t('views.CreateProfile.08.info_11') }}</span>
+              {{ $t('views.CreateProfile.08.info_12') }}
             </li>
           </ul>
         </expandable-block>

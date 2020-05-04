@@ -13,7 +13,7 @@
       </div>
       <div class="comment__section">
         <p class="latest__comments">
-          Latest Replies
+          {{ $t('views.TipCommentsView.LatestReplies') }}
         </p>
         <div class="d-flex">
           <Avatar
@@ -24,24 +24,17 @@
             <input
               v-model="newComment"
               type="text"
-              placeholder="Add reply"
+              :placeholder="$t('views.TipCommentsView.AddReply')"
               class="form-control reply__input"
-              :disabled="!canTip"
             >
           </div>
         </div>
         <div class="send-comment">
-          <div
-            v-if="!canTip"
-            class="install-wallet-warning"
-          >
-            You need to have a wallet installed and active in order to comment.
-          </div>
           <ae-button
-            :disabled="!canTip || newComment.length === 0"
+            :disabled="newComment.length === 0"
             @click="sendTipComment()"
           >
-            Reply
+            {{ $t('views.TipCommentsView.Reply') }}
           </ae-button>
         </div>
       </div>
@@ -51,7 +44,7 @@
           class="no-results text-center w-100"
           :class="[error ? 'error' : '']"
         >
-          {{ $t('pages.TipComments.NoResultsMsg') }}
+          {{ $t('views.TipCommentsView.NoResultsMsg') }}
         </div>
 
         <tip-comment
@@ -115,9 +108,6 @@ export default {
   },
   computed: {
     ...mapGetters(['account', 'chainNames', 'isLoggedIn', 'loading']),
-    canTip() {
-      return this.USE_DEEP_LINKS || (this.isLoggedIn && !this.loading.wallet && !this.showLoading);
-    },
   },
   watch: {
     tip() {
@@ -144,7 +134,7 @@ export default {
   },
   methods: {
     async sendTipComment() {
-      if (this.USE_DEEP_LINKS) {
+      if (this.USE_DEEP_LINKS || !this.isLoggedIn) {
         const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
         url.searchParams.set('id', this.tip.id);
         url.searchParams.set('text', this.newComment);

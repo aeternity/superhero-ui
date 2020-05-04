@@ -6,26 +6,32 @@
         alt=""
       >
     </div>
-    <h1>Welcome to the Superhero League!</h1>
-    <p>
-      You can now get in on the action by setting your<br>
-      personalized profile and preferences for
-      <a href="https://superhero.com">www.superhero.com</a>
-    </p>
+    <h1>{{ $t('components.onboarding.steps.step5.header') }}</h1>
+    <i18n
+      path="components.onboarding.steps.step5.info"
+      tag="p"
+    >
+      <template v-slot:br>
+        <br>
+      </template>
+      <template v-slot:superherocom>
+        <a href="https://superhero.com">www.superhero.com</a>
+      </template>
+    </i18n>
     <div class="step__footer">
       <button
         v-if="!isLoggedIn"
         class="button"
         @click="nextStep()"
       >
-        Install Wallet
+        {{ $t('components.onboarding.steps.step5.installWallet') }}
       </button>
       <button
         v-else
         class="button"
         @click="isLoggedIn && nextStep()"
       >
-        Set Up Your Profile
+        {{ $t('components.onboarding.steps.step5.setUpProfile') }}
       </button>
     </div>
   </div>

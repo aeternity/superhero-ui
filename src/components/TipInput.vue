@@ -11,7 +11,7 @@
   </a>
   <a
     v-else-if="USE_DEEP_LINKS && userAddress"
-    :href="userProfileDeepLink"
+    :href="deepLink"
     target="_blank"
     class="tip__content"
     @click.stop
@@ -66,7 +66,7 @@
           v-show="error && !showLoading"
           class="text-center mb-2"
         >
-          An error occurred while sending tip
+          {{ $t('components.TipInput.error') }}
         </div>
         <form
           v-if="!showLoading"
@@ -80,7 +80,7 @@
               v-model="message"
               type="text"
               class="form-control tip__message"
-              placeholder="Add message"
+              :placeholder="$t('components.TipInput.addMessage')"
             >
           </div>
           <div class="amount__row">
@@ -152,14 +152,6 @@ export default {
       }
       return null;
     },
-    userProfileDeepLink() {
-      const url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
-      url.searchParams.set('url',
-        `${encodeURIComponent(`https://superhero.com/#/user-profile/${this.userAddress}`)}`);
-      url.searchParams.set('x-success', window.location);
-      url.searchParams.set('x-cancel', window.location);
-      return url;
-    },
     derivedUserTipStats() {
       if (!this.stats || !this.stats.by_url) {
         return null;
@@ -167,10 +159,21 @@ export default {
       return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/#/user-profile/${this.userAddress}`);
     },
     deepLink() {
-      const url = new URL(`${process.env.VUE_APP_WALLET_URL}/${this.isRetip ? 'retip' : 'tip'}`);
-      url.searchParams.set('id', this.tip.id);
-      url.searchParams.set('x-success', window.location);
-      url.searchParams.set('x-cancel', window.location);
+      let url = '';
+      if (this.userAddress) {
+        url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
+        url.searchParams.set('url',
+          encodeURIComponent(`https://superhero.com/#/user-profile/${this.userAddress}`));
+      } else if (this.isRetip) {
+        url = new URL(`${process.env.VUE_APP_WALLET_URL}/retip`);
+        url.searchParams.set('id', this.tip.id);
+      } else {
+        url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
+        url.searchParams.set('url',
+          encodeURIComponent(`https://superhero.com/#/tip/${this.tip.id}`));
+      }
+      url.searchParams.set('x-success', encodeURIComponent(window.location));
+      url.searchParams.set('x-cancel', encodeURIComponent(window.location));
       return url;
     },
     isMessageValid() {

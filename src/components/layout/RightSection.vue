@@ -6,7 +6,7 @@
       >
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
-          Wallet
+          {{ $t('components.layout.RightSection.Wallet') }}
           <div
             v-if="isLoggedIn"
             class="account"
@@ -20,8 +20,11 @@
               :href="downloadUrl"
               target="_blank"
               class="button w-100"
+              :title="['opera','vivaldi','brave','edge-chromium'].includes(browser.name)
+                ? 'You have to allow installation of Chrome extensions for your browser'
+                : 'Click here to install the browser extension'"
             >
-              Install Wallet
+              {{ $t('components.layout.RightSection.InstallWallet') }}
             </a>
           </div>
           <div v-else>
@@ -48,7 +51,7 @@
       <div class="section trending">
         <div class="section__title">
           <img src="../../assets/iconTrending.svg">
-          Trending
+          {{ $t('components.layout.RightSection.Trending') }}
         </div>
         <div
           v-if="!loading.tips"
@@ -114,6 +117,10 @@ export default {
           case 'firefox':
             return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
           case 'chrome':
+          case 'opera':
+          case 'vivaldi':
+          case 'brave': // might not be detected from browser-detect
+          case 'edge-chromium':
             return '//chrome.google.com/webstore/detail/mnhmmkepfddpifjkamaligfeemcbhdne/';
           default:
             break;

@@ -13,7 +13,7 @@
       </div>
       <div class="comment__section">
         <p class="latest__comments">
-          Latest Replies
+          {{ $t('views.TipCommentsView.LatestReplies') }}
         </p>
         <div class="d-flex">
           <Avatar
@@ -41,7 +41,7 @@
             :disabled="newComment.length === 0 || !canTip"
             @click="sendTipComment()"
           >
-            Reply
+            {{ $t('views.TipCommentsView.Reply') }}
           </ae-button>
         </div>
       </div>

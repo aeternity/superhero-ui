@@ -11,7 +11,10 @@
           class="tip__author"
           :title="comment.author"
         >
-          <span @click.stop>
+          <span
+            class="user-display"
+            @click.stop
+          >
             <router-link
               :to="'/user-profile/' + comment.author"
             >
@@ -55,7 +58,7 @@
         class="tip__replies"
       >
         <img src="../../assets/iconReply.svg">
-        {{ comment.children.length }}
+        {{ childComments }}
       </div>
     </div>
   </div>
@@ -80,6 +83,12 @@ export default {
   computed: {
     formatDate() {
       return new Date(this.comment.createdAt.substring(0, this.comment.createdAt.length - 8));
+    },
+    childComments() {
+      if (this.comment && this.comment.children) {
+        return this.comment.children.length;
+      }
+      return 0;
     },
   },
   methods: {
@@ -183,12 +192,16 @@ export default {
   }
 }
 
+.user-display {
+  max-width: 85%;
+}
+
 .tip__replies {
   padding: 0.25rem 1rem 1rem 1rem;
   color: $standard_font_color;
   font-size:
     0.8rem
-     img    {
+    img    {
     height: 0.7rem;
   }
 }

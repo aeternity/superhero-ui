@@ -8,7 +8,7 @@
         {{ stats.total_tips_length }}
       </div>
       <div class="overview__label">
-        Tips Aggregated
+        {{ $t('components.layout.Overview.TipsAggregated') }}
       </div>
     </div>
     <div
@@ -19,7 +19,7 @@
         {{ stats.comments.total }}
       </div>
       <div class="overview__label">
-        Comments
+        {{ $t('components.layout.Overview.Comments') }}
       </div>
     </div>
     <div
@@ -30,7 +30,7 @@
         {{ stats.senders_length }}
       </div>
       <div class="overview__label">
-        Unique Tip Senders
+        {{ $t('components.layout.Overview.UniqueTipSenders') }}
       </div>
     </div>
     <div
@@ -42,7 +42,7 @@
         class="overview__value"
       />
       <div class="overview__label">
-        Total Tips Value
+        {{ $t('components.layout.Overview.TotalTipsValue') }}
       </div>
     </div>
     <div
@@ -54,7 +54,7 @@
         class="overview__value"
       />
       <div class="overview__label">
-        Total Tips Claimed
+        {{ $t('components.layout.Overview.TotalTipsClaimed') }}
       </div>
     </div>
     <div
@@ -65,10 +65,10 @@
         {{ stats.height }}
       </div>
       <div class="overview__label">
-        Latest Block
+        {{ $t('components.layout.Overview.LatestBlock') }}
       </div>
       <div class="poweredby__label">
-        Powered by
+        {{ $t('components.layout.Overview.PoweredBy') }}
         <a
           href="https://aeternity.com/"
           target="_blank"

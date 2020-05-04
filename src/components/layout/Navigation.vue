@@ -14,7 +14,7 @@
     >
       <router-link :to="{ name: 'tips' }">
         <div class="navigation__item__image" />
-        <span>Tips</span>
+        <span>{{ $t('components.layout.Navigation.Tips') }}</span>
       </router-link>
     </div>
     <div
@@ -24,13 +24,22 @@
     >
       <router-link :to="{ name: 'user-profile', params: { address: account } }">
         <div class="navigation__item__image" />
-        <span>My Profile</span>
+        <span>{{ $t('components.layout.Navigation.MyProfile') }}</span>
       </router-link>
+    </div>
+    <div class="navigation__item league">
+      <a
+        href="https://league.superhero.com"
+        target="_blank"
+      >
+        <div class="navigation__item__image" />
+        <span>{{ $t('components.layout.Navigation.League') }}</span>
+      </a>
     </div>
     <div class="navigation__item faq">
       <router-link :to="{ name: 'faq' }">
         <div class="navigation__item__image" />
-        <span>FAQ</span>
+        <span>{{ $t('components.layout.Navigation.FAQ') }}</span>
       </router-link>
     </div>
   </div>
@@ -103,6 +112,12 @@ export default {
 
     .faq & {
       background-image: url('../../assets/iconHelp.svg');
+    }
+
+    .league & {
+      background-image: url('../../assets/iconDiamond.svg');
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
     a:hover &,

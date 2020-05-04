@@ -6,33 +6,45 @@
         alt=""
       >
     </div>
-    <h1>
-      Introducing Superhero:<br>
-      <a>A Social Platform With A Mission</a>
-    </h1>
+    <i18n
+      path="components.onboarding.steps.step1.header"
+      tag="h1"
+    >
+      <template v-slot:br>
+        <br>
+      </template>
+      <template v-slot:a>
+        <a>{{ $t('components.onboarding.steps.step1.socialPlatform') }}</a>
+      </template>
+    </i18n>
     <p>
-      The first Superpower of Superhero is to launch a<br>
-      <span class="important">P2P tool to receive or send a tip to any URL</span> with...
+      {{ $t('components.onboarding.steps.step1.subheader') }}
+      <br>
+      <span class="important">{{ $t('components.onboarding.steps.step1.P2Ptool') }}</span>
+      {{ $t('components.onboarding.steps.step1.with') }}
     </p>
     <p>
       <span class="important">
-        Zero transaction fees by Superhero.com. Near zero fees collected by miners.
+        {{ $t('components.onboarding.steps.step1.zeroTxFees') }}
       </span>
-      Cut out intermediaries,<br>
-      profiting off sending or receiving support.
-      <span class="important">No wait-time.</span> Transfers<br>
-      are instant. <span class="important">No censorship.</span> No 3rd parties controlling the<br>
-      approval nor the release of tips. Keep your IP ownership.
+      {{ $t('components.onboarding.steps.step1.cutOurIntermediaries') }}<br>
+      {{ $t('components.onboarding.steps.step1.SendingorReceiving') }}
+      <span class="important">{{ $t('components.onboarding.steps.step1.noWaitTime') }}</span>
+      {{ $t('components.onboarding.steps.step1.Transfers') }}<br>
+      {{ $t('components.onboarding.steps.step1.instant') }}
+      <span class="important">{{ $t('components.onboarding.steps.step1.noCensorship') }}</span>
+      {{ $t('components.onboarding.steps.step1.No3rdParty') }}<br>
+      {{ $t('components.onboarding.steps.step1.keepIP') }}
     </p>
     <p class="highlited">
-      Welcome to a web where you can transact as you please!
+      {{ $t('components.onboarding.steps.step1.welcome') }}
     </p>
     <div class="step__footer">
       <button
         class="button"
         @click="nextStep"
       >
-        Start Your Superhero Journey
+        {{ $t('components.onboarding.steps.step1.button') }}
       </button>
     </div>
   </div>

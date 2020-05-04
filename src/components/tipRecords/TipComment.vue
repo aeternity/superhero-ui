@@ -199,9 +199,9 @@ export default {
 .tip__replies {
   padding: 0.25rem 1rem 1rem 1rem;
   color: $standard_font_color;
-  font-size:
-    0.8rem
-    img    {
+  font-size: 0.8rem;
+
+  img {
     height: 0.7rem;
   }
 }

@@ -162,6 +162,10 @@
       "subheader": "If you can't find the answer of you question below visit our {tutorialPage} to receive more information about using Superhero platform and wallet.",
       "questions": [
         { 
+          "title": "Test question?",
+          "text": "This is a test answer. {br} This should be next line."
+        },
+        { 
           "title": "What is Superhero?",
           "text": "Superhero is a P2P (Peer-to-Peer) platform for social sharing. {br} The mission of Superhero is to empower people to support people, without intermediaries. {br} {router}"
         },

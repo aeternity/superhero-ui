@@ -37,12 +37,6 @@
           />
         </div>
       </div>
-      <div
-        v-if="!canTip"
-        class="install-wallet-warning"
-      >
-        You need to have a wallet installed and active in order to tip.
-      </div>
       <div class="text-right">
         <ae-button
           :disabled="!canTip || !isSendTipDataValid"

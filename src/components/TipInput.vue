@@ -79,7 +79,7 @@
               v-model="message"
               type="text"
               class="form-control tip__message"
-              :placeholder="$t('components.TipInput.addMessage')"
+              :placeholder="$t('addMessage')"
             >
           </div>
           <div class="amount__row">
@@ -89,14 +89,14 @@
               :disabled="!isDataValid"
               @click="submitAction()"
             >
-              {{ isRetip ? 'Retip' : 'Tip' }}
+              {{ isRetip ? $t('components.TipInput.retip') : $t('tip') }}
             </ae-button>
             <ae-button
               v-else
               :disabled="!isUserDataValid"
               @click="submitAction()"
             >
-              {{ 'Tip' }}
+              {{ $t('tip') }}
             </ae-button>
           </div>
         </form>
@@ -118,6 +118,7 @@ import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 import { wallet } from '../utils/walletSearch';
+import { i18n } from '../utils/i18nHelper';
 
 export default {
   name: 'TipInput',
@@ -203,13 +204,13 @@ export default {
     },
     title() {
       if (this.userAddress) {
-        return 'Tip User';
+        return i18n.t('components.TipInput.tipUser');
       } if (this.isRetip) {
         return this.isTipped
-          ? 'Total tips (you tipped too)'
-          : 'Total tips (click to retip the same URL)';
+          ? i18n.t('components.TipInput.totalTipsWithYou')
+          : i18n.t('components.TipInput.totalTips');
       }
-      return 'Total amount of retips';
+      return i18n.t('components.TipInput.totalRetips');
     },
   },
   created() {

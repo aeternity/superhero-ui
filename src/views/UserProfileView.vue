@@ -20,7 +20,7 @@
               class="spinner-border text-primary"
               role="status"
             >
-              <span class="sr-only">{{ $t('views.UserProfileView.Loading') }}</span>
+              <span class="sr-only">{{ $t('loading') }}</span>
             </div>
           </div>
           <div
@@ -114,7 +114,7 @@
                   v-if="!editMode && userStats"
                   class="count"
                 >
-                  {{ userStats.tipsLength }} {{ $t('views.UserProfileView.Tips') }}
+                  {{ userStats.tipsLength }} {{ $t('tips') }}
                 </div>
                 <TipInput
                   v-if="!editMode"
@@ -158,7 +158,7 @@
                 class="button small"
                 @click="resetEditedValues()"
               >
-                {{ $t('views.UserProfileView.Cancel') }}
+                {{ $t('cancel') }}
               </button>
               <button
                 type="button"
@@ -201,7 +201,7 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                {{ $t('views.UserProfileView.Comments') }}
+                {{ $t('comments') }}
               </div>
               <div class="stat-value">
                 {{ userStats.userComments }}
@@ -231,13 +231,13 @@
             :class="{ active: activeTab === 'tips' }"
             @click="setActiveTab('tips')"
           >
-            {{ $t('views.UserProfileView.Tips') }}
+            {{ $t('tips') }}
           </a>
           <a
             :class="{ active: activeTab === 'comments' }"
             @click="setActiveTab('comments')"
           >
-            {{ $t('views.UserProfileView.Comments') }}
+            {{ $t('comments') }}
           </a>
         </div>
         <div class="comments__section position-relative">

@@ -19,7 +19,7 @@
         {{ stats.comments.total }}
       </div>
       <div class="overview__label">
-        {{ $t('components.layout.Overview.Comments') }}
+        {{ $t('comments') }}
       </div>
     </div>
     <div

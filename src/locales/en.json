@@ -1,9 +1,22 @@
 {
+  "loading": "Loading...",
+  "cancel": "Cancel",
+  "tip": "Tip",
+  "tips": "Tips",
+  "amount": "Amount",
+  "addMessage": "Add message",
+  "comments": "Comments",
+  "FAQ": "FAQ",
+  "noExtensionSupport": "Your browser does not support the Superhero extension. Tipping and commenting will be disabled.",
   "views": {
     "CreateProfile": {
       "header1": "HOW TO USE SUPERHERO.COM",
       "header2": "fully P2P tipping with no boundaries",
       "header3": "no censorship - at near-zero fees",
+      "click": "Click",
+      "add": "Add",
+      "here": "here",
+      "names": "Names",
       "01": {
         "title": "HOW TO USE SUPERHERO",
         "info_0": "Download and install the Superhero extension for your browser",
@@ -11,30 +24,24 @@
         "info_2": "(The Chrome extension can be used for Brave and Opera.)",
         "info_3": "For Firefox:",
         "info_4": "Get the add-on",
-        "info_5": "here",
-        "info_6": "Click",
-        "info_7": "Add",
-        "info_8": "to Firefox. Confirm by clicking",
-        "info_9": "Add",
-        "info_10": "again in the message prompt.",
-        "info_11": "Then the Superhero icon should appear on the upper right corner of your Firefox browser toolbar.",
-        "info_12": "For Chrome, Brave, and Opera:",
-        "info_13": "Get the extension",
-        "info_14": "here",
-        "info_15": "Add the extension to your browser",
-        "info_16": "Then the Superhero icon should appear on the upper right corner of your browser toolbar."
+        "info_5": "to Firefox. Confirm by clicking",
+        "info_6": "again in the message prompt.",
+        "info_7": "Then the Superhero icon should appear on the upper right corner of your Firefox browser toolbar.",
+        "info_8": "For Chrome, Brave, and Opera:",
+        "info_9": "Get the extension",
+        "info_10": "Add the extension to your browser",
+        "info_11": "Then the Superhero icon should appear on the upper right corner of your browser toolbar."
       },
       "02": {
         "title": "CREATING YOUR WALLET",
         "info_0": "Tick the checkbox to agree to the terms and conditions.",
-        "info_1": "Click",
-        "info_2": "CREATE A NEW WALLET.",
-        "info_3": "That’s it—your wallet is created!",
-        "info_4": "You can now start receiving tips from anyone through your wallet address.",
-        "info_5": "You can find your wallet address on your dashboard, right above your balance.",
-        "info_6": "It’s a random string of numbers and letters that starts with ak_.",
-        "info_7": "This wallet address is also referred to as a public key— it’s what others see as your public ID by default.",
-        "info_8": "You can easily copy this by clicking the copy button right next to your wallet address."
+        "info_1": "CREATE A NEW WALLET.",
+        "info_2": "That’s it—your wallet is created!",
+        "info_3": "You can now start receiving tips from anyone through your wallet address.",
+        "info_4": "You can find your wallet address on your dashboard, right above your balance.",
+        "info_5": "It’s a random string of numbers and letters that starts with ak_.",
+        "info_6": "This wallet address is also referred to as a public key— it’s what others see as your public ID by default.",
+        "info_7": "You can easily copy this by clicking the copy button right next to your wallet address."
       },
       "03": {
         "title": "SECURING YOUR WALLET",
@@ -60,16 +67,14 @@
         "info_1": "The Superhero wallet will automatically detect the URL on your active tab.",
         "info_2": "Open your Superhero wallet extension. The button",
         "info_3": "should be in the upper right of your browser toolbar.",
-        "info_4": "Click",
-        "info_5": "Send Tip",
-        "info_6": "On the next screen, fill in the required fields. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome.",
-        "info_7": "Click the",
-        "info_8": "Send Tip",
-        "info_9": "button below.",
-        "info_10": "On the next screen, review the details of your tip.",
-        "info_11": "Click",
-        "info_12": "Confirm",
-        "info_13": "to complete the transaction."
+        "info_4": "Send Tip",
+        "info_5": "On the next screen, fill in the required fields. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome.",
+        "info_6": "Click the",
+        "info_7": "Send Tip",
+        "info_8": "button below.",
+        "info_9": "On the next screen, review the details of your tip.",
+        "info_10": "Confirm",
+        "info_11": "to complete the transaction."
       },
       "05": {
         "title": "RECEIVING TIPS",
@@ -103,17 +108,14 @@
         "info_4": "Open the",
         "info_5": "hamburger menu",
         "info_6": "on the upper right.",
-        "info_7": "Click",
-        "info_8": "Names",
-        "info_9": "On the",
-        "info_10": "Add New",
-        "info_11": "screen, type in your preferred name. Note that the suffix .chain is automatically appended to your name. This is mandatory in the naming system.",
-        "info_12": "Click the",
-        "info_13": "button to proceed.",
-        "info_14": "Click Confirm.",
-        "info_15": "Only numbers and letters are allowed in .chain names. Names longer than 12 characters can be claimed by the first to initiate a claim transaction for that particular name. Names 12 characters or shorter are subject to auction. Shorter names are more expensive. Less characters mean longer auction times. For more information on the naming system, click",
-        "info_16": "here",
-        "info_17": "You can claim as many names on Superhero as you want. But as a rule, you must have enough AE in your wallet to cover the initial price for the selected name."
+        "info_7": "On the",
+        "info_8": "Add New",
+        "info_9": "screen, type in your preferred name. Note that the suffix .chain is automatically appended to your name. This is mandatory in the naming system.",
+        "info_10": "Click the",
+        "info_11": "button to proceed.",
+        "info_12": "Click Confirm.",
+        "info_13": "Only numbers and letters are allowed in .chain names. Names longer than 12 characters can be claimed by the first to initiate a claim transaction for that particular name. Names 12 characters or shorter are subject to auction. Shorter names are more expensive. Less characters mean longer auction times. For more information on the naming system, click",
+        "info_14": "You can claim as many names on Superhero as you want. But as a rule, you must have enough AE in your wallet to cover the initial price for the selected name."
       },
       "08": {
         "title": "SUPERHERO PROFILE NAME",
@@ -121,15 +123,12 @@
         "info_1": "Click the",
         "info_2": "hamburger menu",
         "info_3": "and go to",
-        "info_4": "Names",
-        "info_5": "Click",
-        "info_6": "Your Names",
-        "info_7": "Under your preferred Superhero .chain name, click",
+        "info_4": "Your Names",
+        "info_5": "Under your preferred Superhero .chain name, click",
+        "info_6": "Set Name Pointer",
+        "info_7": "Paste the wallet address that you use on Superhero. Double check this wallet address to make sure you have the right one.",
         "info_8": "Set Name Pointer",
-        "info_9": "Paste the wallet address that you use on Superhero. Double check this wallet address to make sure you have the right one.",
-        "info_10": "Click",
-        "info_11": "Set Name Pointer",
-        "info_12": "to confirm the action."
+        "info_9": "to confirm the action."
       }
     },
     "Mission": {
@@ -415,17 +414,13 @@
       "SortingMostPopular": "Most Popular"
     },
     "UserProfileView": {
-      "Loading": "Loading...",
       "EditProfile": "Edit Profile",
       "ChangeAvatar": "Change Avatar",
-      "Tips": "Tips",
       "DeleteAvatar": "Delete Avatar",
-      "Cancel": "Cancel",
       "Save": "Save",
       "TipsSent": "Tips Sent",
       "RetipsSent": "Retips Sent",
       "TotalSentAmount": "Total Sent Amount",
-      "Comments": "Comments",
       "ClaimedUrls": "Claimed Urls",
       "UnclaimedAmount": "Unclaimed Amount",
       "NoActivity": "There is no activity to display.",
@@ -443,16 +438,13 @@
         "Privacy": "Privacy"
       },
       "Navigation": {
-        "Tips": "Tips",
         "MyProfile": "My Profile",
-        "FAQ": "FAQ",
         "Tutorial": "Tutorial",
         "League": "League",
         "Mission": "Mission"
       },
       "Overview": {
         "TipsAggregated": "Tips Aggregated",
-        "Comments": "Comments",
         "UniqueTipSenders": "Unique Tip Senders",
         "TotalTipsValue": "Total Tips Value",
         "TotalTipsClaimed": "Total Tips Claimed",
@@ -461,23 +453,22 @@
       },
       "RightSection": {
         "Wallet": "Wallet",
+        "AllowInstallation": "You have to allow installation of Chrome extensions for your browser",
+        "InstallExtension": "Click here to install the browser extension",
         "InstallWallet": "Install Wallet",
         "Trending": "Trending"
       },
       "SendTip": {
         "SendNewTip": "Send New Tip",
-        "Tip": "Tip",
-        "EnterURL": "Enter URL",
-        "AddMessage": "Add message"
+        "EnterURL": "Enter URL"
       }
     },
     "modals": {
-      "MobileSendTipModal": {
-        "Tip": "Tip"
-      }
+      "MobileSendTipModal": {}
     },
     "onboarding": {
       "steps": {
+        "next": "Next",
         "step1": {
           "header": "Introducing Superhero:{br} {a} ",
           "socialPlatform": "A Social Platform With A Mission",
@@ -507,8 +498,6 @@
           "click": "Click a browser extension or a mobile app",
           "learnMore": "Learn more:",
           "tutorial": "Tutorial",
-          "FAQ": "FAQ",
-          "next": "Next",
           "aeternityBlockchain": "aeternity blockchain"
         },
         "step3": {
@@ -516,16 +505,14 @@
           "info": "After your Superhero wallet is installed:{br} {pasteYourWallet} to your URL.{br} {openYourURL} so your wallet can instantly collect.",
           "pasteYourWallet": "1. Paste your wallet address",
           "openYourURL": "2. Load your URL",
-          "peaopleCanDirectlySupport": "People can directly support your content, cause project (or you for simply being you) with no middlemen.",
-          "next": "Next"
+          "peaopleCanDirectlySupport": "People can directly support your content, cause project (or you for simply being you) with no middlemen."
         },
         "step4": {
           "header": "Send Tips: {br} Making the Internet a Better Place",
           "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {addAMessage} if you want.",
           "visitTheURL": "1. Paste any URL",
           "addAMessage": "2. Add a message",
-          "youCanDirectlySupport": "You can directly support any person's content, cause, project at any public URL with no middleman.",
-          "next": "Next"
+          "youCanDirectlySupport": "You can directly support any person's content, cause, project at any public URL with no middleman."
         },
         "step5": {
           "header": "Welcome to the Superhero League!",
@@ -551,17 +538,14 @@
     "Loading": {},
     "TipInput": {
       "error": "An error occurred while sending tip",
-      "addMessage": "Add message"
+      "retip": "Retip",
+      "tipUser": "Tip User",
+      "totalTipsWithYou": "Total tips (you tipped too)",
+      "totalTips": "Total tips (click to retip the same URL)",
+      "totalRetips": "Total amount of retips"
     },
     "TipsPagination": {
       "NoResultsMsg": "There are no results found"
     }
-  },
-  "system": {
-    "noPreview": "No Preview Available",
-    "by": "by",
-    "Send": "Send",
-    "Cancel": "Cancel",
-    "Amount": "Amount"
   }
 }

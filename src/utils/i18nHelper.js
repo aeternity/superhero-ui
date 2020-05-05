@@ -21,7 +21,7 @@ export const langs = {
     getMessages: () => require('../locales/en.json'),
   },
   zh: {
-    getMessages: () => require(/* webpackChunkName: "locale-en" */ '../locales/zh.json'),
+    getMessages: () => require(/* webpackChunkName: "locale-zh" */ '../locales/zh.json'),
   },
 };
 

@@ -35,7 +35,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 .maintenance {
   margin: 4rem auto;

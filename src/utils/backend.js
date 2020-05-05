@@ -73,9 +73,7 @@ export default class Backend {
 
   static getCacheChainNames = async () => backendFetch('cache/chainnames');
 
-  static getPrice = async () => wrapTry(fetch('https://api.coingecko.com/api/v3/simple/price?ids=aeternity&vs_currencies=usd,eur,cny'));
-  // quick workaround because of CORS issue in the backend.
-  // static getPrice = async () => backendFetch('cache/price');
+  static getPrice = async () => backendFetch('cache/price');
 
   static getOracleCache = async () => backendFetch('cache/oracle');
 

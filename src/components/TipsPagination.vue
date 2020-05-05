@@ -140,7 +140,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
   .loading-position {
     position: absolute;

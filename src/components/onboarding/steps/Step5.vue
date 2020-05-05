@@ -42,9 +42,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Step5',
-  computed: {
-    ...mapGetters(['isLoggedIn']),
-  },
+  computed: mapGetters(['isLoggedIn']),
   methods: {
     nextStep() {
       this.$emit('wizard:next', this);

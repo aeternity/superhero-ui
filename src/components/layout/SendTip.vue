@@ -16,7 +16,7 @@
           v-model="sendTipForm.title"
           type="text"
           class="form-control comment"
-          :placeholder="$t('components.layout.SendTip.AddMessage')"
+          :placeholder="$t('addMessage')"
           :disabled="!canTip"
         >
       </div>
@@ -43,7 +43,7 @@
           :src="IconDiamond"
           @click="sendTip()"
         >
-          {{ $t('components.layout.SendTip.Tip') }}
+          {{ $t('tip') }}
         </ae-button>
       </div>
     </form>

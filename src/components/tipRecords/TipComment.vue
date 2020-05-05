@@ -84,7 +84,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 .comment.tip__record {
   padding-bottom: 0;

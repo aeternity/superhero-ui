@@ -64,10 +64,24 @@ export const IDENTICON_CONFIG = {
   backColor: '#12121bff',
 };
 
+export const createDeepLinkUrl = ({ type, id, text }) => {
+  const url = new URL(`${process.env.VUE_APP_WALLET_URL}/${type}`);
+  if (id) {
+    url.searchParams.set('id', id);
+  }
+  if (text) {
+    url.searchParams.set('text', encodeURIComponent(text));
+  }
+  url.searchParams.set('x-success', encodeURIComponent(window.location));
+  url.searchParams.set('x-cancel', encodeURIComponent(window.location));
+  return url;
+};
+
 export default {
   atomsToAe,
   aeToAtoms,
   range,
   wrapTry,
   currencySigns,
+  createDeepLinkUrl,
 };

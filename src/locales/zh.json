@@ -1,33 +1,551 @@
 {
-  "pages": {
-    "Tips": {
-      "HeaderTitle": "提示浏览器",
-      "HeaderDescription": "欢迎使用aeternity Tips Explorer。",
-      "HeaderDescription2": "要开始给小费和接收小费，请安装",
-      "HeaderDescriptionLink": "瓦莱特",
-      "HeaderDescription3": "延期",
-      "SearchPlaceholder": "搜索提示记录...",
+  "loading": "Loading...",
+  "cancel": "取消",
+  "tip": "Tip",
+  "tips": "Tips",
+  "amount": "Amount",
+  "addMessage": "Add message",
+  "comments": "Comments",
+  "FAQ": "FAQ",
+  "noExtensionSupport": "Your browser does not support the Superhero extension. Tipping and commenting will be disabled.",
+  "views": {
+    "CreateProfile": {
+      "header1": "HOW TO USE SUPERHERO.COM",
+      "header2": "fully P2P tipping with no boundaries",
+      "header3": "no censorship - at near-zero fees",
+      "click": "Click",
+      "add": "Add",
+      "here": "here",
+      "names": "Names",
+      "01": {
+        "title": "HOW TO USE SUPERHERO",
+        "info_0": "Download and install the Superhero extension for your browser",
+        "info_1": "Superhero is currently available for Firefox and Chrome.",
+        "info_2": "(The Chrome extension can be used for Brave and Opera.)",
+        "info_3": "For Firefox:",
+        "info_4": "Get the add-on",
+        "info_5": "to Firefox. Confirm by clicking",
+        "info_6": "again in the message prompt.",
+        "info_7": "Then the Superhero icon should appear on the upper right corner of your Firefox browser toolbar.",
+        "info_8": "For Chrome, Brave, and Opera:",
+        "info_9": "Get the extension",
+        "info_10": "Add the extension to your browser",
+        "info_11": "Then the Superhero icon should appear on the upper right corner of your browser toolbar."
+      },
+      "02": {
+        "title": "CREATING YOUR WALLET",
+        "info_0": "Tick the checkbox to agree to the terms and conditions.",
+        "info_1": "CREATE A NEW WALLET.",
+        "info_2": "That’s it—your wallet is created!",
+        "info_3": "You can now start receiving tips from anyone through your wallet address.",
+        "info_4": "You can find your wallet address on your dashboard, right above your balance.",
+        "info_5": "It’s a random string of numbers and letters that starts with ak_.",
+        "info_6": "This wallet address is also referred to as a public key— it’s what others see as your public ID by default.",
+        "info_7": "You can easily copy this by clicking the copy button right next to your wallet address."
+      },
+      "03": {
+        "title": "SECURING YOUR WALLET",
+        "info_0": "With great freedom comes great responsibility.",
+        "info_1": "You’re in charge of keeping the keys to your account.",
+        "info_2": "There are no third-party custodians to store nor connect any password with any account.",
+        "info_3": "The task of keeping the keys to your wallet is yours and yours alone, Superhero.",
+        "info_4": "Here’s how to secure and backup your wallet:",
+        "info_5": "Once you’re in your dashboard, you’ll get a series of words called a seed phrase.",
+        "info_6": "The seed phrase is somewhat like a password – it’s a unique set of words (in order) which connects you to your wallet.",
+        "info_7": "Click the",
+        "info_8": "hamburger menu",
+        "info_9": "on the upper right of your wallet.",
+        "info_10": "Go to Settings, choose Seed Phrase.",
+        "info_11": "On the next screen, click Show seed phrase.",
+        "info_12": "You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)",
+        "info_13": "Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place.",
+        "info_14": "Simple as that."
+      },
+      "04": {
+        "title": "SENDING TIPS",
+        "info_0": "To send someone tips, make sure you are on the URL that you want to tip.",
+        "info_1": "The Superhero wallet will automatically detect the URL on your active tab.",
+        "info_2": "Open your Superhero wallet extension. The button",
+        "info_3": "should be in the upper right of your browser toolbar.",
+        "info_4": "Send Tip",
+        "info_5": "On the next screen, fill in the required fields. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome.",
+        "info_6": "Click the",
+        "info_7": "Send Tip",
+        "info_8": "button below.",
+        "info_9": "On the next screen, review the details of your tip.",
+        "info_10": "Confirm",
+        "info_11": "to complete the transaction."
+      },
+      "05": {
+        "title": "RECEIVING TIPS",
+        "info_0": "To receive tips yourself, copy your wallet address.",
+        "info_1": "Then paste your wallet address onto the web page or profile that was tipped—it could be a blog, a social media account, or any other online profile.",
+        "info_2": "Save this change and refresh the page.",
+        "info_3": "You can also add your wallet address in the source code of your web page.",
+        "info_4": "Once your wallet address is added to your web page, all you have to do is open your Superhero wallet… And voila— tips can be collected and added to your wallet balance.",
+        "info_5": "In some cases, there may be slight delays in collecting tips.",
+        "info_6": "Give it a few minutes and try opening your wallet again.",
+        "info_7": "If the problem persists, you may ask questions through this",
+        "info_8": "feedback form."
+      },
+      "06": {
+        "title": "CASHING OUT",
+        "info_0": "To withdraw tips received, you can send tips to your AE wallet address in a crypto exchange that supports AE tokens (see list above).",
+        "info_1": "Go to the hamburger menu. Click",
+        "info_2": "Withdraw.",
+        "info_3": "Enter your wallet address from the crypto exchange of your choice.",
+        "info_4": "Enter the amount you want to withdraw.",
+        "info_5": "Review the transaction details. Hit Send.",
+        "info_6": "Tips can then be converted into other cryptocurrencies or fiat and transferred to your local bank.",
+        "info_7": "Processes for exchanges may vary per country."
+      },
+      "07": {
+        "title": "GETTING A .CHAIN NAME",
+        "info_0": "You can claim a .chain name through the Superhero wallet extension.",
+        "info_1": "A .chain name serves as an alternative to your wallet address, making it much easier for other users to send you a tip.",
+        "info_2": "You can also use your .chain name as your profile name on Superhero.",
+        "info_3": "To claim a name through your Superhero wallet:",
+        "info_4": "Open the",
+        "info_5": "hamburger menu",
+        "info_6": "on the upper right.",
+        "info_7": "On the",
+        "info_8": "Add New",
+        "info_9": "screen, type in your preferred name. Note that the suffix .chain is automatically appended to your name. This is mandatory in the naming system.",
+        "info_10": "Click the",
+        "info_11": "button to proceed.",
+        "info_12": "Click Confirm.",
+        "info_13": "Only numbers and letters are allowed in .chain names. Names longer than 12 characters can be claimed by the first to initiate a claim transaction for that particular name. Names 12 characters or shorter are subject to auction. Shorter names are more expensive. Less characters mean longer auction times. For more information on the naming system, click",
+        "info_14": "You can claim as many names on Superhero as you want. But as a rule, you must have enough AE in your wallet to cover the initial price for the selected name."
+      },
+      "08": {
+        "title": "SUPERHERO PROFILE NAME",
+        "info_0": "To set a .chain name as your Superhero profile name:",
+        "info_1": "Click the",
+        "info_2": "hamburger menu",
+        "info_3": "and go to",
+        "info_4": "Your Names",
+        "info_5": "Under your preferred Superhero .chain name, click",
+        "info_6": "Set Name Pointer",
+        "info_7": "Paste the wallet address that you use on Superhero. Double check this wallet address to make sure you have the right one.",
+        "info_8": "Set Name Pointer",
+        "info_9": "to confirm the action."
+      }
+    },
+    "Mission": {
+      "header": "SUPERHERO: AN ORIGIN STORY WITH A MISSION",
+      "sections": [
+        {
+          "text": "In comics, Superheroes believe it’s their duty to help good triumph. Meanwhile - very real, modern times continually test humanity."
+        },
+        {
+          "text": "From artists to scientists, educators, medical groups, non-profit projects, social impact initiatives, community causes, animal welfare, environmental advocacy to the one inspiring you… We can (and do) make a difference every day to each other. People supporting people are contemporary Superheroes."
+        },
+        {
+          "text": "Superhero.com was conceived as a tangible way to celebrate the difference that can come from empowering people to support people, P2P, without intermediaries."
+        },
+        {
+          "text": "Superhero.com was built as an open source platform which shifts the control of people supporting people away from private entities back into public hands."
+        },
+        {
+          "text": "Those at {aeternityBlockchain} that brought Superhero.com to life are united in helping deliver on the promise of a better internet for all."
+        },
+        {
+          "text": "Welcome to a better virtual world – an internet with quantifiably more freedom to transact. We only have just begun to see where our superpowers of being humans that support each other can take us."
+        }
+      ],
+      "footer": "ARE YOU MAKING A DIFFERENCE?",
+      "footerContent": "Superhero.com a tool for good built on æternity blockchain"
+    },
+    "FAQ": {
+      "header": "Frequently Asked Questions",
+      "subheader": "If you can't find the answer of you question below visit our {tutorialPage} to receive more information about using Superhero platform and wallet.",
+      "questions": [
+        { 
+          "title": "What is Superhero?",
+          "text": "Superhero is a P2P (Peer-to-Peer) platform for social sharing. {br} The mission of Superhero is to empower people to support people, without intermediaries. {br} {router}"
+        },
+        {
+          "title": "Who is Superhero?",
+          "text": "Superhero is an open-source project. It is a tool for good built on {aeternityCom}. {br} Anyone, anywhere may use the platform.{br} Other websites may use the platform.{br} All have uncensored, equal ability to be Superhero.{br} Being P2P, the only ones not part of Superhero are intermediaries.{br} Superhero is you and you and you and you ... Without any “them” in-between."
+        },
+        {
+          "title": "How does Superhero work?",
+          "text": "Superhero is built on aeternity blockchain. {br} Because it is built on blockchain, actions are transparent. {br}Because it is built on blockchain, actions are published forever. {br}Blockchain has promised a more free and decentralized future for society. {br}Superhero used blockchain as its foundation to make that promise a reality. {br}Superhero is an online community making a tangible difference in the real world."
+        },
+        {
+          "title": "How does tipping on Superhero work?",
+          "text": "The first Superpower launched on Superhero is a Wallet to tip any url. {br}You can get tips trough URLs or online profiles you own. {br}And you can send a tip to other URLs. {br}URLs can be tipped - regardless of whether the URL owner has installed the wallet or not. {br}All you need to give, collect, or claim tips in AE is a Superhero Wallet of your own."
+        },
+        {
+          "title": "How do I get started on Superhero?",
+          "text": "We’ll walk you through it step by step {ourTutorial}."
+        },
+        {
+          "title": "What does it cost? (How’s it free!?!)",
+          "text": "Superhero does not take any fees from its users to join. {br} Superhero does not take any commissions from tips. {br} Superhero is a non-profit, social impact project."
+        },
+        {
+          "title": "Where can I get tips with Superhero?",
+          "text": "Use Superhero alone to give / accept a tip of AE. Use Superhero alongside other existing fiat-based tools to additionally give / accept a tip in AE. {br} {br}On Superhero’s platform, join a community posting, commenting, and tipping each other directly. {br}Off Superhero’s platform, add a Superhero button or link to your site so anyone can tip you directly."
+        },
+        {
+          "title": "Where can I send tips with Superhero? (Even URLs off Superhero?)",
+          "text": "Superhero will hold any tips sent a URL for the webpage's owner to claim."
+        },
+        {
+          "title": "Where does a tip go if there are more than one wallet to a URL?",
+          "text": "The first wallet address among the addresses on the page to claim the tip, gets the tip."
+        },
+        {
+          "title": "When do I have to claim my tips?",
+          "text": "Tips must be claimed within one (1) year."
+        },
+        {
+          "title": "What happens if a tip isn’t claimed?",
+          "text": "After one (1) year, unclaimed tips can be retrieved by the tip senders."
+        },
+        {
+          "title": "How do I withdraw my tips?",
+          "text": "Check out Withdraw in our {tutorial}."
+        },
+        {
+          "title": "How do I document my tips?",
+          "text": "All transactions made trough Superhero are timestamped and recorded on the blockchain. These records are accessible to the public trough https://www.aeknow.org https://mainnet.aeternal.io and https://explorer.aeternity.io. Just type on your wallet address to view all transactions involving your wallet."
+        },
+        {
+          "title": "Can I use my Base æpp wallet for my Superhero wallet?",
+          "text": "Yes. Just choose \"Retrieve Existing Account\" and input your Base æpp wallet’s seed phrase."
+        },
+        {
+          "title": "What about other wallets?",
+          "text": "So long as you have the private keys/seed phrase for the AE address, you can use it on Superhero through the Retrieve Account option at start-up. For some wallets, the seed phrase is not in the user’s custody. In this case, the AE address cannot be used for Superhero. {br} {br}You can simply Generate a New Wallet on Superhero and top it up by sending AE form your other wallets to your Superhero wallet address."
+        },
+        {
+          "title": "Can I use an AE address from a centralized exchange for my Superhero wallet?",
+          "text": "No. For centralized exchanges, the exchange holds custody of users' private keys. This means that the user cannot use the AE address on Superhero because he/she does not have the private keys/seed phrase to retrieve the account. {br} {br}You can simply Generate a New Wallet on Superhero and top it up by sending AE form your other wallets to your Superhero wallet address."
+        },
+        {
+          "title": "Can I edit my profile?",
+          "text": "Currently, users can only add short descriptions for their profile and set their avatar photo. We're continuously working on making profiles even better."
+        },
+        {
+          "title": "Do I have to add my wallet address to every Tweet?",
+          "text": "No. The Superhero wallet can detect the wallet address on a user's Twitter profile. No need to add it in the tweets."
+        },
+        {
+          "title": "If the owner of the URL I tipped doesn’t have an AE address on their site, will they still receive their tips?",
+          "text": "Yes. As soon as the webpage owner creates a Superhero wallet and adds their wallet address to their URL, tips they’ve received in the past will be added into their wallet."
+        },
+        {
+          "title": "Can I get support? My question isn’t answered here…",
+          "text": "Need assistance? Report technical issue? Post feedback? Suggestion? Find people supporting people with answers in Superhero's {forum}."
+        }
+      ],
+      "forum": "Forum",
+      "tutorialPage": "Tutorial Page",
+      "tutorial": "tutorial",
+      "feedbackForm": "feedback form",
+      "ourTutorial": "in our tutorial",
+      "ourMission": "Read our mission >",
+      "aeternityBlockchain": "aeternity blockchain"
+    },
+    "Maintenance": {
+      "RechargeTitle": "We're recharging our powers.",
+      "RechargeSubTitle": "We'll be up, up and away in no time.",
+      "CleaningTitle": "Cleaning up the HQ.",
+      "CleaningSubTitle": "We'll be flying again in a few minutes."
+    },
+    "Privacy": {
+      "title": "PRIVACY POLICY",
+      "subtitle": "The present Legal Imprint was created on 13th February 2020.",
+      "sections": [
+        {
+          "title": "I. Introduction"
+        },
+        { 
+          "text": "Superhero.com LVC, Dr. Grass Str 12, 9490 Vaduz, Liechtenstein (“Superhero.com”, “we”, “us” or “our”) is a company which takes your privacy and the security of your information as a User very seriously."
+        },
+        {
+          "text": "This Privacy Policy (“Policy”) is applicable for the Superhero.com created and operated Website https://superhero.com/ (the “Website”), reflecting users’ donations and comments to content gives the possibility for other users to actively donate and comment on the news available on the newsfeed of the Website."
+        },
+        {
+          "text": "If you have any questions regarding this Policy, please contact us at superherowallet@protonmail.com. If you do not agree to the terms of this Policy, please do not use the Website. Each time you use the Website, the current version of this Policy will apply. The new version of the Privacy Policy becomes effective from the day it is announced publicly on the Website unless stated otherwise. Accordingly, when You use the Website, You should check the date of this Policy (which appears at the top). If You continue to use the Website after the changes have been enforced, We shall consider this a given consent and acceptance to the modified content. If You do not agree to the new modifications, please contact Us for further assistance via the above-mentioned in the previous paragraph email address."
+        },
+        {
+          "title": "II. Definitions"
+        },
+        {
+          "text": "For the purposes of this Privacy Policy, the terms have the following meaning:"
+        },
+        {
+          "text": "„Data Controller“ means the person or body which, alone or jointly with others, determines the purposes and means of the processing of personal data;"
+        },
+        {
+          "text": "„Personal Data“ means any information relating to an identified or identifiable natural person (‘USER’);"
+        },
+        {
+          "text": "„Processing“ means any operation or set of operations which is performed on personal data;"
+        },
+        {
+          "text": "„Recipient“ means a natural or legal person, public authority, agency or another body, to which the personal data are disclosed, whether a third party or not;"
+        },
+        {
+          "text": "„Personal data breach“ means a breach of security leading to the accidental or unlawful destruction, loss, alteration, unauthorized disclosure of, or access to, personal data transmitted, stored or otherwise processed."
+        },
+        {
+          "title": "III. Personal data collection"
+        },
+        {
+          "text": "The personal data Superhero.com collects is minimized completely, selecting only those types of information, which are adequate, relevant and limited to what is necessary for the use of the Website."
+        },
+        {
+          "text": "Superhero.com collects two main groups of personal data according to their purpose:"
+        },
+        {
+          "text": "Personal data in relation to indirect identifiers The donations and comments are conducted via the Extension Superherowallet. The Superhero wallet is a blockchain based application on which an account address is generated for user identification. Once the donation and comment are processed, they appear on the Website with a hyperlink forwarding to the website the User has tipped. Furthermore, other Users on the Website can additionally donate and comment on news added to the Website. Therefore, the account address will appear on the Website. The account addresses can be treated as indirect identifiers. An indirect identifier is a value which cannot be used alone to identify a data subject, however, could be identifying if combined with other indirect identifiers. The processing is necessary for the purpose of provision of the Service- namely the Website. The retention period for the personal data is until termination of the Service provision."
+        },
+        {
+          "text": "Personal data in relation to User support and communication During the use of our Website, users may decide to contact the team in relation to website support, troubleshoot problems, questions, etc. The collection of the personal data is initiated by Users and they decide what type of personal data to include in the communication. Therefore, the legal basis for processing is that the User has given consent to the processing of their personal data for one or more specific purposes. The retention period is until the questions have been answered, assistance from the team has been provided, the problems have been solved or in any other case, until withdrawal of consent. Superhero.com may retent personal information for additional period of time, if it is required by law or for crime/breach/ infringement prevention and safety."
+        },
+        {
+          "title": "IV. Your rights:"
+        },
+        {
+          "text": "YOU have the right to:"
+        },
+        {
+          "text": "Request from Superhero.com access to the personal data that we hold about You in a portable format."
+        },
+        {
+          "text": "Request from Superhero.com correction of any collected personal data. he information may include only your personal data collection."
+        },
+        {
+          "text": "Receive a copy of your personal data in electronic format."
+        },
+        {
+          "text": "“The right to be forgotten” - You have the right to request the deletion of your personal data at any time where the retention of such data infringes relevant legislation."
+        },
+        {
+          "text": "Receive information from Us about Our activities in connection to your personal data, including the purposes of collection and storage, the period of time for storage, the methods of collecting, the presence of automated processing."
+        },
+        {
+          "text": "Receive your data and transfer them to another controller."
+        },
+        {
+          "text": "You have the right to lodge a complaint with a supervisory authority, in particular in the Member State of your habitual residence, place of work or place of the alleged infringement if You consider that there is personal data breach."
+        },
+        {
+          "title": "V. Sharing of Personal Information with Third Parties- Recipients"
+        },
+        {
+          "text": "We may disclose USERS’ identifiable personal information to third parties under special circumstances:"
+        },
+        {
+          "text": "(i) to comply with a legal requirement, judicial proceeding, court order, or legal process served on Superhero.com or its affiliates, (ii) to investigate a possible crime, such as fraud or identity theft; (iii) to Public Authorities in accordance with their legal obligation for the exercise of their official mission, such as tax and customs authorities, financial investigation units, independent administrative authorities, or financial marker authorities responsible for supervision of securities markets; (iv) in connection with the sale, purchase, business transition under any form, merger, dissolution, reorganization, liquidation of Superhero.com; We may have to disclose the information You have given us to the successor, who is part of the transition, (v) when We believe it is necessary to protect the rights, property, or safety of Superhero.com or other persons, or (vi) as otherwise required or permitted by law, including any contractual obligations of Superhero.com."
+        },
+        {
+          "title": "VI. Children and Privacy"
+        },
+        {
+          "text": "Superhero.com does not process information of persons under the age of obtaining full legal capacity (in most countries 18 years old) due to the character of the Website and the Wallet."
+        },
+        {
+          "text": "Superhero.com will immediately delete any personal data referring to persons under the age of full legal capacity."
+        },
+        {
+          "text": "We are not liable in any way if YOU provide false information about your age or use the Website before YOU have turned the above-mentioned age."
+        },
+        {
+          "title": "VII. Breach measures"
+        },
+        {
+          "text": "In case of breach, We will undertake every possible action according to the applicable legislation in an appropriate and timely manner, to avoid any material or non-material damage to Users and to protect the personal data of Users."
+        },
+        {
+          "title": "VIII. How Do I contact Superhero.com ?"
+        },
+        {
+          "text": "To contact us with your questions or comments regarding this Policy or the information collection and dissemination practices of Superhero.com relevant to your use of the Website, please email us at superherowallet@protonmail.com."
+        }
+      ]
+    },
+    "Terms": {
+      "title": "LEGAL IMPRINT",
+      "subtitle": "The present Legal Imprint was created on 13th February 2020.",
+      "sections": [
+        {
+          "title": "I. Company information"
+        },
+        {
+          "text": "The service on https://superhero.com/ is provided by Superhero.com LVC, e-mail for correspondence: superherowallet@protonmail.com."
+        },
+        {
+          "title": "II. Subject of activity"
+        },
+        {
+          "text": "Superhero.com developed a website which reflects as a newsfeed users’ donations and comments to news about anything they like on the internet and gives the possibility for other users to actively donate and comment on the news available on the newsfeed. This information hub enables users to incentivize informative and accurate updates about anything all over the world- whether created by news organizations or regular people. Therefore, due to the active role of users, the website is a platform on which real-time global updates about best content shared."
+        },
+        {
+          "title": "III. Copyright notice regarding third party links"
+        },
+        {
+          "text": "Please bear in mind that the Website’s main function is objectively and without interference to reflect donations and comments of users to third parties- organizations or regular people, sharing online news regarding best content. Therefore, Superhero.com is not the owner or author of the shared on the newsfeed news and does not in any way claim any rights over the materials in whole or partially. The materials published on the newsfeed are objects of intellectual property of the people or organizations claimed in the third-party links. In regard to third-party links, please bear in mind that by clicking on the available hyperlinks, users are forwarded to third-party websites. These third-party websites are not connected to Superhero.com and they have independent and separate policies regarding their use. Users should inform themselves about the rules applicable for each website and comply their online behaviour accordingly. Please note that the appearance of the links on the newsfeed is not under the control of Superhero.com but of users. Superhero.com accepts no responsibility or liability whatsoever with regard to the information provided by third parties and their hyperlink relation on the Website. The hyperlinks may forward to news regarding highly sensitive or inappropriate for some people content. Users click on the hyperlinks and visit the third-party websites on their own risk."
+        },
+        {
+          "title": "IV. Copyright notice regarding the Website"
+        },
+        {
+          "text": "The legal imprint is applicable for the following internet address: https://superhero.com/ (hereinafter the “Website”). The Website belongs and is operated by Superhero.com . The concept for the Website, the layout of the Website and the integrated components and structures for its creation, including but not limited to logos, trademarks, domain names, codes, which appear in any way on the website or are accessible in any way through the website: https://superhero.com/ are protected by the current laws with subject intellectual property. Therefore, they belong strictly and solely to Superhero.com and the use of any of the above-mentioned is a subject to prior authorisation. None of the above-mentioned can be reproduced, copied, edited, transmitted, downloaded or distributed in any way whatsoever partially or in whole, on any medium whatsoever, without the prior written consent of Superhero.com . Apart from this, the use for press requirements is allowed solely in compliance with intellectual property rights that are mentioned. The act of copying is authorised only for private, non-commercial, personal use on the personal technical devices of the user (including telephone, laptop, computer, tablet). The authorised use must not be denatured, modified, altered or changed in any way whatsoever."
+        }
+      ],
+      "copyrights": "“COPYRIGHT – 2020 – Superhero.com ALL RIGHTS RESERVED”. Superhero.com reserves its right to take every necessary legal action against any breach or infringement of its intellectual property rights. The rules mentioned above apply to databases on the website, which are protected under the Directive 96/9/EC of the European Parliament and the Council of 11 March 1996 on the legal protection of databases. For any additional questions, please contact Superhero.com team at: superherowallet@protonmail.com"
+    },
+    "TipCommentsView":{
+      "NoResultsMsg": "There are no comments",
+      "Reply": "Reply",
+      "records": "records",
+      "AddReply": "Add reply",
+      "LatestReplies": "Latest Replies"
+    },
+    "TipList": {
+      "SearchPlaceholder": "Search Superhero",
       "SortingLatest": "最新的",
       "SortingHighestRated": "获取♥币最高的 记录排序",
-      "SortingMostPopular": "最受欢迎",
-      "FooterPrivacyPolicy": "隐私条款",
-      "FooterTermsOfService": "服务条款",
-      "ReportABug": "报告错误",
-      "NoResultsMsg": "找不到结果"
+      "SortingMostPopular": "最受欢迎"
     },
-    "TipComments":{
-      "NoResultsMsg": "这个提示没有评论",
-      "BackTo": "回到",
-      "records": "记录"
+    "UserProfileView": {
+      "EditProfile": "Edit Profile",
+      "ChangeAvatar": "Change Avatar",
+      "DeleteAvatar": "Delete Avatar",
+      "Save": "Save",
+      "TipsSent": "Tips Sent",
+      "RetipsSent": "Retips Sent",
+      "TotalSentAmount": "Total Sent Amount",
+      "ClaimedUrls": "Claimed Urls",
+      "UnclaimedAmount": "Unclaimed Amount",
+      "NoActivity": "There is no activity to display.",
+      "EditBiography": "Edit Biography"
     }
   },
-  "reused": {
-    "commentsModalTitle": "留个评论"
-  },
-  "system": {
-    "noPreview": "无预览",
-    "by": "来自",
-    "Send": "发送",
-    "Cancel": "取消"
+  "components": {
+    "layout": {
+      "FooterSection": {
+        "SendFeedback": "Send Feedback",
+        "Support": "Support",
+        "FooterInfo": "Superhero is {openSource} and you are invited to contribute.",
+        "OpenSource": "Open Source",
+        "Terms": "Terms",
+        "Privacy": "Privacy"
+      },
+      "Navigation": {
+        "MyProfile": "My Profile",
+        "Tutorial": "Tutorial",
+        "League": "League",
+        "Mission": "Mission"
+      },
+      "Overview": {
+        "TipsAggregated": "Tips Aggregated",
+        "UniqueTipSenders": "Unique Tip Senders",
+        "TotalTipsValue": "Total Tips Value",
+        "TotalTipsClaimed": "Total Tips Claimed",
+        "LatestBlock": "Latest Block",
+        "PoweredBy": "Powered by"
+      },
+      "RightSection": {
+        "Wallet": "Wallet",
+        "AllowInstallation": "You have to allow installation of Chrome extensions for your browser",
+        "InstallExtension": "Click here to install the browser extension",
+        "InstallWallet": "Install Wallet",
+        "Trending": "Trending"
+      },
+      "SendTip": {
+        "SendNewTip": "Send New Tip",
+        "EnterURL": "Enter URL"
+      }
+    },
+    "modals": {
+      "MobileSendTipModal": {}
+    },
+    "onboarding": {
+      "steps": {
+        "next": "Next",
+        "step1": {
+          "header": "Introducing Superhero:{br} {a} ",
+          "socialPlatform": "A Social Platform With A Mission",
+          "subheader": "The first Superpower of Superhero is to launch a",
+          "P2Ptool": "P2P tool to receive or send a tip to a URL",
+          "with": "with...",
+          "zeroTxFees": " Near zero transaction fees.",
+          "cutOurIntermediaries": "Cut out intermediaries,",
+          "SendingorReceiving": "profiting off sending or receiving support.",
+          "noWaitTime": "No wait-time.",
+          "Transfers": "Transfers",
+          "instant": "are instant.",
+          "noCensorship": "No censorship.",
+          "No3rdParty": "No 3rd parties controlling the",
+          "keepIP": "approval nor the release of tips. Keep your IP ownership.",
+          "welcome": "Welcome to a web where you can transact as you please!",
+          "button": "Start Your Superhero Journey"
+        },
+        "step2": {
+          "header": "Install Superhero Wallet {br} A Tool for Good Built on {a}",
+          "subheader": "Superhero empowers {peopleSupportingPeople} {br} including the ability to transfer AE cryptocurrency P2P. {br} {sendTips} directly to your fav creators, causes, projects... {br} {receiveTips} directly from your fans. {br} {getOrGiveHelp} to any URL on the web you please. {br}",
+          "peopleSupportingPeople": "people supporting people,",
+          "sendTips": "Send tips",
+          "receiveTips": "Receive tips",
+          "getOrGiveHelp": "Get or give help",
+          "bolder": "To start, you'll need a wallet. It's free. It's easy. {br} {click} {br} to install the Superhero wallet:",
+          "click": "Click a browser extension or a mobile app",
+          "learnMore": "Learn more:",
+          "tutorial": "Tutorial",
+          "aeternityBlockchain": "aeternity blockchain"
+        },
+        "step3": {
+          "header": "Receive Tips: {br} Making the Internet a Fairer Place",
+          "info": "After your Superhero wallet is installed:{br} {pasteYourWallet} to your URL.{br} {openYourURL} so your wallet can instantly collect.",
+          "pasteYourWallet": "1. Paste your wallet address",
+          "openYourURL": "2. Load your URL",
+          "peaopleCanDirectlySupport": "People can directly support your content, cause project (or you for simply being you) with no middlemen."
+        },
+        "step4": {
+          "header": "Send Tips: {br} Making the Internet a Better Place",
+          "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {addAMessage} if you want.",
+          "visitTheURL": "1. Paste any URL",
+          "addAMessage": "2. Add a message",
+          "youCanDirectlySupport": "You can directly support any person's content, cause, project at any public URL with no middleman."
+        },
+        "step5": {
+          "header": "Welcome to the Superhero League!",
+          "info": "You can now get in on the action by setting your {br} personalized profile and preferences for {superherocom}",
+          "installWallet": "Create profile",
+          "setUpProfile": "Set Up Your Profile"
+        }
+      },
+      "wizard": {
+        "title": "Join Superhero"
+      }
+    },
+    "tipRecords": {},
+    "AeAmount": {},
+    "AeAmountFiat": {},
+    "AeButton": {},
+    "AeInputAmount": {},
+    "Avatar": {},
+    "BackButtonRibbon": {},
+    "Dropdown": {},
+    "ExpandableBlock": {},
+    "FiatValue": {},
+    "Loading": {},
+    "TipInput": {
+      "error": "An error occurred while sending tip",
+      "retip": "Retip",
+      "tipUser": "Tip User",
+      "totalTipsWithYou": "Total tips (you tipped too)",
+      "totalTips": "Total tips (click to retip the same URL)",
+      "totalRetips": "Total amount of retips"
+    },
+    "TipsPagination": {
+      "NoResultsMsg": "There are no results found"
+    }
   }
 }

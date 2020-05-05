@@ -109,9 +109,7 @@ export default {
       searchTerm: '',
     };
   },
-  computed: {
-    ...mapGetters(['tipSortBy', 'loading']),
-  },
+  computed: mapGetters(['tipSortBy', 'loading']),
   async created() {
     EventBus.$on('searchTopic', (topic) => {
       window.scrollTo(0, 0);

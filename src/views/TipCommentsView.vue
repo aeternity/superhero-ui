@@ -106,9 +106,7 @@ export default {
       USE_DEEP_LINKS,
     };
   },
-  computed: {
-    ...mapGetters(['account', 'chainNames', 'isLoggedIn', 'loading']),
-  },
+  computed: mapGetters(['account', 'chainNames', 'isLoggedIn', 'loading']),
   watch: {
     tip() {
       this.updateTip();

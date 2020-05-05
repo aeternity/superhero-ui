@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
 import aeternity from './utils/aeternity';
 import { wallet } from './utils/walletSearch';
@@ -37,6 +37,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['account']),
     isSupportedBrowser() {
       const browser = detect();
       return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));
@@ -65,7 +66,7 @@ export default {
   methods: {
     ...mapActions([
       'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
-      'setOracleState', 'addLoading', 'removeLoading', 'setChainNames',
+      'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
     ]),
     initWallet() {
       return Promise.race([
@@ -106,6 +107,11 @@ export default {
         Backend.getOracleCache(),
         Backend.getTopicsCache(),
       ]);
+
+      if (this.account) {
+        const balance = await aeternity.client.balance(this.account).catch(() => 0);
+        this.updateBalance(Util.atomsToAe(balance).toFixed(2));
+      }
 
       // async fetch
       this.reloadAsyncData(stats);

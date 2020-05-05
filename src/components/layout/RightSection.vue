@@ -30,7 +30,7 @@
           <div v-else>
             <div
               class="balance text-ellipsis"
-              :title="roundAE(balance) + ' AE'"
+              :title="roundAE + ' AE'"
             >
               <ae-amount
                 :amount="balance"
@@ -111,6 +111,9 @@ export default {
       }
       return null;
     },
+    roundAE() {
+      return new BigNumber(this.balance).toFixed(2);
+    },
     downloadUrl() {
       if (this.browser) {
         switch (this.browser.name) {
@@ -133,9 +136,6 @@ export default {
     ...mapActions(['updateCurrency']),
     selectCurrency(selectedCurrency) {
       this.updateCurrency(selectedCurrency);
-    },
-    roundAE(value) {
-      return new BigNumber(value).toFixed(2);
     },
     getFiatVal(value, rate) {
       return new BigNumber(value).multipliedBy(rate).toFixed(2);

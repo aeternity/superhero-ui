@@ -1,4 +1,8 @@
 {
+  "loading": "Loading...",
+  "cancel": "Cancel",
+  "tip": "Tip",
+  "noExtensionSupport": "Your browser does not support the Superhero extension. Tipping and commenting will be disabled.",
   "views": {
     "CreateProfile": {
       "header1": "HOW TO USE SUPERHERO.COM",
@@ -415,12 +419,10 @@
       "SortingMostPopular": "Most Popular"
     },
     "UserProfileView": {
-      "Loading": "Loading...",
       "EditProfile": "Edit Profile",
       "ChangeAvatar": "Change Avatar",
       "Tips": "Tips",
       "DeleteAvatar": "Delete Avatar",
-      "Cancel": "Cancel",
       "Save": "Save",
       "TipsSent": "Tips Sent",
       "RetipsSent": "Retips Sent",
@@ -461,20 +463,19 @@
       },
       "RightSection": {
         "Wallet": "Wallet",
+        "AllowInstallation": "You have to allow installation of Chrome extensions for your browser",
+        "InstallExtension": "Click here to install the browser extension",
         "InstallWallet": "Install Wallet",
         "Trending": "Trending"
       },
       "SendTip": {
         "SendNewTip": "Send New Tip",
-        "Tip": "Tip",
         "EnterURL": "Enter URL",
         "AddMessage": "Add message"
       }
     },
     "modals": {
-      "MobileSendTipModal": {
-        "Tip": "Tip"
-      }
+      "MobileSendTipModal": {}
     },
     "onboarding": {
       "steps": {
@@ -551,7 +552,12 @@
     "Loading": {},
     "TipInput": {
       "error": "An error occurred while sending tip",
-      "addMessage": "Add message"
+      "addMessage": "Add message",
+      "retip": "Retip",
+      "tipUser": "Tip User",
+      "totalTipsWithYou": "Total tips (you tipped too)",
+      "totalTips": "Total tips (click to retip the same URL)",
+      "totalRetips": "Total amount of retips"
     },
     "TipsPagination": {
       "NoResultsMsg": "There are no results found"
@@ -561,7 +567,6 @@
     "noPreview": "No Preview Available",
     "by": "by",
     "Send": "Send",
-    "Cancel": "Cancel",
     "Amount": "Amount"
   }
 }

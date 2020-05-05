@@ -21,8 +21,8 @@
               target="_blank"
               class="button w-100"
               :title="['opera','vivaldi','brave','edge-chromium'].includes(browser.name)
-                ? 'You have to allow installation of Chrome extensions for your browser'
-                : 'Click here to install the browser extension'"
+                ? $t('components.layout.RightSection.AllowInstallation')
+                : $t('components.layout.RightSection.InstallExtension')"
             >
               {{ $t('components.layout.RightSection.InstallWallet') }}
             </a>

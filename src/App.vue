@@ -11,8 +11,7 @@
         v-if="isSupportedBrowser"
         class="supportedbrowser--alert"
       >
-        Your browser does not support the Superhero extension.
-        Tipping and commenting will be disabled.
+        {{ $t('noExtensionSupport') }}
       </div>
       <keep-alive :max="5">
         <router-view :key="$route.fullPath" />

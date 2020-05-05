@@ -20,7 +20,7 @@
               class="spinner-border text-primary"
               role="status"
             >
-              <span class="sr-only">{{ $t('views.UserProfileView.Loading') }}</span>
+              <span class="sr-only">{{ $t('loading') }}</span>
             </div>
           </div>
           <div
@@ -158,7 +158,7 @@
                 class="button small"
                 @click="resetEditedValues()"
               >
-                {{ $t('views.UserProfileView.Cancel') }}
+                {{ $t('cancel') }}
               </button>
               <button
                 type="button"

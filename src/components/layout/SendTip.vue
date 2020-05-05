@@ -43,7 +43,7 @@
           :src="IconDiamond"
           @click="sendTip()"
         >
-          {{ $t('components.layout.SendTip.Tip') }}
+          {{ $t('tip') }}
         </ae-button>
       </div>
     </form>

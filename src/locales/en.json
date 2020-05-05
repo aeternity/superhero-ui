@@ -239,6 +239,10 @@
         {
           "title": "Can I get support? My question isn’t answered here…",
           "text": "Need assistance? Report technical issue? Post feedback? Suggestion? Find people supporting people with answers in Superhero's {forum}."
+        },
+        {
+          "title": "Test",
+          "text": "Test."
         }
       ],
       "forum": "Forum",

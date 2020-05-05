@@ -21,7 +21,7 @@
         >
       </div>
       <div class="form-row">
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-7 col-lg-8 col-sm-12 send-url">
           <input
             v-model.trim="sendTipForm.url"
             type="text"
@@ -30,7 +30,7 @@
             :disabled="!canTip"
           >
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
           <ae-input-amount
             v-model="sendTipForm.amount"
             :disabled="!canTip"
@@ -126,7 +126,7 @@ export default {
       padding: 0.6rem 1rem 1rem 1rem;
 
       .form-row {
-        margin: 1rem 0 1rem 0;
+        margin-top: 1rem;
 
         .form-group {
           border: 0.05rem solid $buttons_background;
@@ -162,6 +162,11 @@ export default {
           font-size: 0.75rem;
           height: 2.2rem;
         }
+      }
+
+      .send-url,
+      .send-amount {
+        margin-bottom: 1rem;
       }
 
       .tip__post__balance span {
@@ -205,4 +210,5 @@ export default {
     color: $warning_font_color;
     margin-bottom: 0.5rem;
   }
+
 </style>

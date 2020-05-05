@@ -11,7 +11,7 @@
   "views": {
     "CreateProfile": {
       "header1": "HOW TO USE SUPERHERO.COM",
-      "header2": "fully P2P tipping with no boundaries",
+      "header2": "fully P2P tipping with no boundaries,",
       "header3": "no censorship - at near-zero fees",
       "click": "Click",
       "add": "Add",
@@ -19,100 +19,87 @@
       "names": "Names",
       "01": {
         "title": "HOW TO USE SUPERHERO",
-        "info_0": "Download and install the Superhero extension for your browser",
-        "info_1": "Superhero is currently available for Firefox and Chrome.",
-        "info_2": "(The Chrome extension can be used for Brave and Opera.)",
-        "info_3": "For Firefox:",
-        "info_4": "Get the add-on",
-        "info_5": "to Firefox. Confirm by clicking",
-        "info_6": "again in the message prompt.",
-        "info_7": "The Superhero icon should appear on the upper right corner of your Firefox browser toolbar.",
-        "info_8": "For Chrome, Brave, and Opera:",
-        "info_9": "Get the extension",
-        "info_10": "Add the extension to your browser",
-        "info_11": "The Superhero icon should appear on the upper right corner of your browser toolbar."
+        "info_0": "Download and install the Superhero extension for your browser.",
+        "info_1:" "Superhero is currently available for Firefox and Chrome. The Chrome extension can be used for Brave and Opera.
+        "info_2": "For Firefox:",
+        "info_3": "Get the add-on",
+        "info_4": "to Firefox. Confirm by clicking",
+        "info_5": "again in the message prompt.",
+        "info_6": "The Superhero icon should appear on the upper right corner of your Firefox browser toolbar.",
+        "info_7": "For Chrome, Brave, and Opera:",
+        "info_8": "Get the extension",
+        "info_9": "Add the extension to your browser",
+        "info_10": "The Superhero icon should appear on the upper right corner of your browser toolbar."
       },
       "02": {
         "title": "CREATING YOUR WALLET",
         "info_0": "Tick the checkbox to agree to the terms and conditions.",
-        "info_1": "CREATE A NEW WALLET.",
+        "info_1": "Click CREATE A NEW WALLET.",
         "info_2": "That’s it—your wallet is created!",
         "info_3": "You can now start receiving tips from anyone through your wallet address.",
-        "info_4": "You can find your wallet address on your dashboard, right above your balance.",
-        "info_5": "It’s a random string of numbers and letters that starts with ak_.",
-        "info_6": "This wallet address is also referred to as a public key— it’s what others see as your public ID by default.",
-        "info_7": "You can easily copy this by clicking the copy button right next to your wallet address."
+        "info_4": "You can find your wallet address on your dashboard, right above your balance. It’s a random string of numbers and letters that starts with ak_.",
+        "info_5": "This wallet address is also referred to as a public key— it’s what others see as your public ID by default. You can easily copy this by clicking the copy button right next to your wallet address."
       },
       "03": {
         "title": "SECURING YOUR WALLET",
-        "info_0": "With great freedom comes great responsibility.",
-        "info_1": "You’re in charge of keeping the keys to your account.",
-        "info_2": "There are no third-party custodians to store nor connect any password with any account.",
-        "info_3": "The task of keeping the keys to your wallet is yours and yours alone, Superhero.",
-        "info_4": "Here’s how to secure and backup your wallet:",
-        "info_5": "Once you’re in your dashboard, you’ll get a series of words called a seed phrase.",
-        "info_6": "The seed phrase is somewhat like a password – it’s a unique set of words (in order) which connects you to your wallet.",
-        "info_7": "Click the",
-        "info_8": "hamburger menu",
-        "info_9": "on the upper right of your wallet.",
-        "info_10": "Go to Settings, choose Security.",
-        "info_11": "On the next screen, click Show seed phrase.",
-        "info_12": "You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)",
-        "info_13": "Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place.",
-        "info_14": "Simple as that."
-        "info_15": "IMPORTANT: You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)"
+        "info_0": "With great freedom comes great responsibility. You’re in charge of keeping the keys to your account. There are no third-party custodians to store nor connect any password with any account. The task of keeping the keys to your wallet is yours and yours alone, Superhero.",
+        "info_1": "Here’s how to secure and backup your wallet:",
+        "info_2": "Once you’re in your dashboard, you’ll get a series of words called a seed phrase. The seed phrase is somewhat like a password – it’s a unique set of words (in order) which connects you to your wallet.",
+        "info_3": "Click the",
+        "info_4": "hamburger menu",
+        "info_5": "on the upper right of your wallet.",
+        "info_6": "Go to Settings, choose Security.",
+        "info_7": "On the next screen, click Show seed phrase.",
+        "info_8": "Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place.",
+        "info_9": "Simple as that."
+        "info_10": "IMPORTANT: You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)",
 
       },
       "04": {
         "title": "SENDING TIPS",
-        "info_0": "To send someone tips, go to the URL that you want to tip.",
-        "info_1": "The Superhero wallet will automatically detect the URL on your active tab.",
-        "info_2": "Alternatively, you can copy   the URL you want to tip." 
-        "info_3": "Open your Superhero wallet extension. The button",
-        "info_4": "should be in the upper right of your browser toolbar.",
-        "info_5": "Click Send Tip",
-        "info_6": "On the next screen, fill in the required fields. You can paste the URL in the field on top. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome.",
-        "info_7": "Click the",
-        "info_8": "Send Tip",
-        "info_9": "button below. (In cases where the website has not been claimed by a fellow Superhero, you may opt to proceed with tipping but it’s highly suggested that you let the website owner know so they can start claiming tips.)",
-        "info_10": "On the next screen, review the details of your tip.",
-        "info_11": "Click Confirm",
-        "info_12": "to complete the transaction."
+        "info_0": "To send someone tips, go to the URL that you want to tip. The Superhero wallet will automatically detect the URL on your active tab.",
+        "info_1": "Alternatively, you can copy the URL you want to tip.", 
+        "info_2": "Open your Superhero wallet extension. The button",
+        "info_3": "should be in the upper right of your browser toolbar.",
+        "info_4": "Click Send Tip",
+        "info_5": "On the next screen, fill in the required fields. You can paste the URL in the field on top. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome.",
+        "info_6": "Click the",
+        "info_7": "Send Tip",
+        "info_8": "button below. (In cases where the website has not been claimed by a fellow Superhero, you may opt to proceed with tipping but it’s highly suggested that you let the website owner know so they can start claiming tips.)",
+        "info_9": "On the next screen, review the details of your tip.",
+        "info_10": "Click Confirm",
+        "info_11": "to complete the transaction."
       },
       "05": {
         "title": "RECEIVING TIPS",
         "info_0": "To receive tips yourself, copy your wallet address.",
-        "info_1": "Then paste your wallet address onto the web page or profile where you have received or plan to receive tips. It could be a blog, a social media account, or any other online profile.",
+        "info_1": "Paste your wallet address onto the web page or profile where you have received or plan to receive tips. It could be a blog, a social media account, or any other online profile.",
         "info_2": "Save this change and refresh the page.",
         "info_3": "You can also add your wallet address in the source code of your web page.",
         "info_4": "Once your wallet address is added to your web page, all you have to do is open your Superhero wallet and hit Claim Tip. This would trigger tip claiming across all websites and profiles where you pasted your wallet address.",
         "info_5": "Any unclaimed tips you’ve received within the past year will then be added to your wallet balance.",
-        "info_6": "In some cases, there may be slight delays in collecting tips.",
-        "info_7": "Give it a few minutes and try opening your wallet again.",
-        "info_8": "If the problem persists, you may ask questions through this",
-        "info_9": "feedback form."
+        "info_6": "In some cases, there may be slight delays in collecting tips. Give it a few minutes and try opening your wallet again.",
+        "info_7": "If the problem persists, you may ask questions through this",
+        "info_8": "feedback form."
       },
       "06": {
         "title": "CASHING OUT",
-        "info_0": "To withdraw tips you've collected, you can send tips to your AE wallet address in a crypto exchange that supports AE tokens (see list above).",
         "info_1": "In the same way you don’t walk around with large amounts of cash in your purse, it is highly recommended that you do not keep large amounts of AE in your Superhero wallet.",
         "info_2": "For long-term storage of large amounts of AE, we recommend using a cold wallet, like AirGap.",
-        "info_3": "Go to the hamburger menu. Click",
-        "info_4": "Withdraw.",
-        "info_5": "Enter your wallet address from the crypto exchange of your choice.",
-        "info_6": "You can also send to someone else’s wallet account by pasting their account into the wallet address field.",
-        "info_7": "Enter the amount you want to withdraw.",
-        "info_8": "Click Review to check your transaction details.",
-        "info_9": "Hit Send to confirm the withdrawal.",
-        "info_10": "Tips can then be converted into other cryptocurrencies or fiat and transferred to your local bank.",
-        "info_10": "Processes for exchanges may vary per country."
-        "info_11": "In many cases, there will be a few minutes’ wait time or longer depending on the exchange’s capacity and processes. But you can track your transactions easily by clicking the eye button next to the transaction in your Activity History.",
+        "info_3": "To withdraw tips you've collected, you can send tips to your AE wallet address in a crypto exchange that supports AE tokens (see list above).",
+        "info_4": "To cash out, go to the hamburger menu. Click",
+        "info_5": "Withdraw.",
+        "info_6": "Enter your wallet address from the crypto exchange of your choice.",
+        "info_7": "You can also send to someone else’s wallet account by pasting their account into the wallet address field.",
+        "info_8": "Enter the amount you want to withdraw.",
+        "info_9": "Click Review to check your transaction details.",
+        "info_10": "Hit Send to confirm the withdrawal.",
+        "info_11": "Tips can then be converted into other cryptocurrencies or fiat and transferred to your local bank.",
+        "info_12": "Processes for exchanges vary per country. In many cases, there will be a few minutes’ wait time or longer depending on the exchange’s capacity and processes. But you can track your transactions easily by clicking the eye button next to the transaction in your Activity History."
       },
       "07": {
         "title": "GETTING A .CHAIN NAME",
-        "info_0": "You can claim a .chain name through the Superhero wallet extension.",
-        "info_1": "A .chain name serves as an alternative to your wallet address, making it much easier for other users to send you a tip.",
-        "info_2": "You can also use your .chain name as your profile name on Superhero.",
+        "info_0": "You can claim a .chain name through the Superhero wallet extension. A .chain name serves as an alternative to your wallet address, making it much easier for other users to send you a tip. You can also use your .chain name as your profile name on Superhero.",
         "info_3": "To claim a name through your Superhero wallet:",
         "info_4": "Open the",
         "info_5": "hamburger menu",
@@ -124,13 +111,12 @@
         "info_10": "Click the",
         "info_11": "button to proceed.",
         "info_12": "Click Confirm.",
-        "info_13": "Only numbers and letters are allowed in .chain names. And currently, only names 13 characters and above can be claimed through the Superhero wallet. This will be improved later.",
-        "info_14": "You can claim as many names on Superhero as you want. You must have enough AE in your wallet to cover the initial price for the selected name."'
-        "info_15": "Ideally, you should have at least 3AE in your balance for better success at claiming Names.",
+        "info_13": "Only numbers and letters are allowed in .chain names. Currently, only names 13 characters and above can be claimed through the Superhero wallet. This will be improved later.",
+        "info_14": "You can claim as many names on Superhero as you want. Make sure you have enough AE in your wallet to cover the initial price for the selected name. Ideally, you should have at least 3AE in your balance for better success at claiming Names."
       },
       "08": {
         "title": "SETTING YOUR SUPERHERO PROFILE NAME",
-        "info_0": "To set a .chain name as your Superhero profile name:",
+        "info_0": "To set a .chain name that you own as your Superhero profile name:",
         "info_1": "Click the",
         "info_2": "hamburger menu",
         "info_3": "and go to",
@@ -170,19 +156,19 @@
       "questions": [
         { 
           "title": "What is Superhero?",
-          "text": "Superhero is a P2P (Peer-to-Peer) platform for social sharing. {br} The mission of Superhero is to empower people to support people, without intermediaries. {br} {router}"
+          "text": "Superhero is a P2P (Peer-to-Peer) platform for social sharing. The mission of Superhero is to empower people to support people, without intermediaries. {br} {router}"
         },
         {
           "title": "Who is Superhero?",
-          "text": "Superhero is an open-source project. It is a tool for good built on {aeternityCom}. {br} Anyone, anywhere may use the platform.{br} Other websites may use the platform.{br} All have uncensored, equal ability to be Superhero.{br} Being P2P, the only ones not part of Superhero are intermediaries.{br} Superhero is you and you and you and you ... Without any “them” in-between."
+          "text": "Superhero is an open-source project. It is a tool for good built on {aeternityCom}. Anyone, anywhere may use the platform—other websites may use the platform for their own purposes. All have uncensored, equal ability to be Superhero.{br} Being P2P, the only ones not part of Superhero are intermediaries.{br} {br} Superhero is you and you and you and you ... Without any “them” in-between."
         },
         {
           "title": "How does Superhero work?",
-          "text": "Superhero is built on aeternity blockchain. {br} Because it is built on blockchain, actions are transparent. {br}Because it is built on blockchain, actions are published forever. {br}Blockchain has promised a more free and decentralized future for society. {br}Superhero used blockchain as its foundation to make that promise a reality. {br}Superhero is an online community making a tangible difference in the real world."
+          "text": "Superhero is built on aeternity blockchain. Because it is built on blockchain, actions are transparent and are published forever. Blockchain has promised a more free and decentralized future for society. Superhero used blockchain as its foundation to make that promise a reality. {br} {br} Superhero is an online community making a tangible difference in the real world."
         },
         {
           "title": "How does tipping on Superhero work?",
-          "text": "The first Superpower launched on Superhero is a Wallet to tip any url. {br}You can get tips trough URLs or online profiles you own. {br}And you can send a tip to other URLs. {br}URLs can be tipped - regardless of whether the URL owner has installed the wallet or not. {br}All you need to give, collect, or claim tips in AE is a Superhero Wallet of your own."
+          "text": "The first Superpower launched on Superhero is a Wallet to tip URLs. You can get tips through URLs or online profiles you own, and you can send tips to other URLs. URLs can be tipped - regardless of whether the URL owner has installed the wallet or not. {br}All you need to give, collect, or claim tips in AE is a Superhero Wallet of your own."
         },
         {
           "title": "How do I get started on Superhero?",
@@ -194,14 +180,14 @@
         },
         {
           "title": "Where can I get tips with Superhero?",
-          "text": "Use Superhero alone to give / accept a tip of AE. Use Superhero alongside other existing fiat-based tools to additionally give / accept a tip in AE. {br} {br}On Superhero’s platform, join a community posting, commenting, and tipping each other directly. {br}Off Superhero’s platform, add a Superhero button or link to your site so anyone can tip you directly."
+          "text": "Use Superhero alone to give / accept a tip of AE. Use Superhero alongside other existing fiat-based tools to additionally give / accept tips in AE. {br} {br}On Superhero’s platform, join a community posting, commenting, and tipping each other directly. {br}Off Superhero’s platform, add a Superhero button or link to your site so anyone can tip you directly."
         },
         {
           "title": "Where can I send tips with Superhero? (Even URLs off Superhero?)",
-          "text": "Superhero will hold any tips sent a URL for the webpage's owner to claim."
+          "text": "Any public URL can be tipped with Superhero."
         },
         {
-          "title": "Where does a tip go if there are more than one wallet to a URL?",
+          "title": "Where does a tip go if there are more than one wallet addresses on a URL?",
           "text": "The first wallet address among the addresses on the page to claim the tip, gets the tip."
         },
         {
@@ -210,7 +196,7 @@
         },
         {
           "title": "What happens if a tip isn’t claimed?",
-          "text": "After one (1) year, unclaimed tips can be retrieved by the tip senders."
+          "text": "After one (1) year, unclaimed tips can be retrieved by tip senders. If a tip remains unclaimed after two (2) years by the sender or receiver, it is transferred to the aeternity crypto foundation."
         },
         {
           "title": "How do I withdraw my tips?",
@@ -218,7 +204,7 @@
         },
         {
           "title": "How do I document my tips?",
-          "text": "All transactions made trough Superhero are timestamped and recorded on the blockchain. These records are accessible to the public trough https://www.aeknow.org https://mainnet.aeternal.io and https://explorer.aeternity.io. Just type on your wallet address to view all transactions involving your wallet."
+          "text": "All transactions made through Superhero are timestamped and recorded on the blockchain. These records are accessible to the public trough https://www.aeknow.org https://mainnet.aeternal.io and https://explorer.aeternity.io. Just type in your wallet address to view all transactions involving your wallet."
         },
         {
           "title": "Can I use my Base æpp wallet for my Superhero wallet?",
@@ -409,7 +395,7 @@
       "copyrights": "“COPYRIGHT – 2020 – Superhero.com ALL RIGHTS RESERVED”. Superhero.com reserves its right to take every necessary legal action against any breach or infringement of its intellectual property rights. The rules mentioned above apply to databases on the website, which are protected under the Directive 96/9/EC of the European Parliament and the Council of 11 March 1996 on the legal protection of databases. For any additional questions, please contact Superhero.com team at: superherowallet@protonmail.com"
     },
     "TipCommentsView":{
-      "NoResultsMsg": "There are no comments",
+      "NoResultsMsg": "There are no comments at the moment.",
       "Reply": "Reply",
       "records": "records",
       "AddReply": "Add reply",
@@ -428,8 +414,8 @@
       "Save": "Save",
       "TipsSent": "Tips Sent",
       "RetipsSent": "Retips Sent",
-      "TotalSentAmount": "Total Sent Amount",
-      "ClaimedUrls": "Claimed Urls",
+      "TotalSentAmount": "Total Amount Sent",
+      "ClaimedUrls": "Claimed URLs",
       "UnclaimedAmount": "Unclaimed Amount",
       "NoActivity": "There is no activity to display.",
       "EditBiography": "Edit Biography"
@@ -503,27 +489,27 @@
           "receiveTips": "Receive tips",
           "getOrGiveHelp": "Get or give help",
           "bolder": "To start, you'll need a wallet. It's free. It's easy. {br} {click} {br} to install the Superhero wallet:",
-          "click": "Click a browser extension or a mobile app",
+          "click": "Choose the browser extension or the mobile app",
           "learnMore": "Learn more:",
           "tutorial": "Tutorial",
           "aeternityBlockchain": "aeternity blockchain"
         },
         "step3": {
           "header": "Receive Tips: {br} Making the Internet a Fairer Place",
-          "info": "After your Superhero wallet is installed:{br} {pasteYourWallet} to your URL.{br} {openYourURL} so your wallet can instantly collect.",
+          "info": "After your Superhero wallet is installed:{br} {pasteYourWallet} to your URL.{br} {openYourURL} so your wallet can instantly collect tips you receive.",
           "pasteYourWallet": "1. Paste your wallet address",
           "openYourURL": "2. Load your URL",
-          "peaopleCanDirectlySupport": "People can directly support your content, cause project (or you for simply being you) with no middlemen."
+          "peaopleCanDirectlySupport": "People can directly support your content, cause, project (or you for simply being you) with no middlemen."
         },
         "step4": {
           "header": "Send Tips: {br} Making the Internet a Better Place",
           "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {addAMessage} if you want.",
           "visitTheURL": "1. Paste any URL",
           "addAMessage": "2. Add a message",
-          "youCanDirectlySupport": "You can directly support any person's content, cause, project at any public URL with no middleman."
+          "youCanDirectlySupport": "You can directly support any person's content, cause, or project at any public URL with no middleman."
         },
         "step5": {
-          "header": "Welcome to the Superhero League!",
+          "header": "Welcome to Superhero!",
           "info": "You can now get in on the action by setting your {br} personalized profile and preferences for {superherocom}",
           "installWallet": "Create profile",
           "setUpProfile": "Set Up Your Profile"
@@ -545,7 +531,7 @@
     "FiatValue": {},
     "Loading": {},
     "TipInput": {
-      "error": "An error occurred while sending tip",
+      "error": "An error occurred while sending the tip. Please try again later.",
       "retip": "Retip",
       "tipUser": "Tip User",
       "totalTipsWithYou": "Total tips (you tipped too)",

@@ -114,7 +114,7 @@
                   v-if="!editMode && userStats"
                   class="count"
                 >
-                  {{ userStats.tipsLength }} {{ $t('views.UserProfileView.Tips') }}
+                  {{ userStats.tipsLength }} {{ $t('tips') }}
                 </div>
                 <TipInput
                   v-if="!editMode"
@@ -201,7 +201,7 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                {{ $t('views.UserProfileView.Comments') }}
+                {{ $t('comments') }}
               </div>
               <div class="stat-value">
                 {{ userStats.userComments }}
@@ -231,13 +231,13 @@
             :class="{ active: activeTab === 'tips' }"
             @click="setActiveTab('tips')"
           >
-            {{ $t('views.UserProfileView.Tips') }}
+            {{ $t('tips') }}
           </a>
           <a
             :class="{ active: activeTab === 'comments' }"
             @click="setActiveTab('comments')"
           >
-            {{ $t('views.UserProfileView.Comments') }}
+            {{ $t('comments') }}
           </a>
         </div>
         <div class="comments__section position-relative">

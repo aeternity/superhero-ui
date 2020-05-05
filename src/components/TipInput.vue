@@ -80,7 +80,7 @@
               v-model="message"
               type="text"
               class="form-control tip__message"
-              :placeholder="$t('components.TipInput.addMessage')"
+              :placeholder="$t('addMessage')"
             >
           </div>
           <div class="amount__row">

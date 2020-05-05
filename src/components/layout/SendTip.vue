@@ -16,7 +16,7 @@
           v-model="sendTipForm.title"
           type="text"
           class="form-control comment"
-          :placeholder="$t('components.layout.SendTip.AddMessage')"
+          :placeholder="$t('addMessage')"
           :disabled="!canTip"
         >
       </div>

@@ -16,7 +16,12 @@
             @click.stop
           >
             <router-link
-              :to="'/user-profile/' + comment.author"
+              :to="{
+                name: 'user-profile',
+                params: {
+                  address: comment.author,
+                },
+              }"
             >
               <Avatar :address="comment.author" />
               <span

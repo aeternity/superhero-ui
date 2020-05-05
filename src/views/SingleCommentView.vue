@@ -47,7 +47,7 @@
           class="no-results text-center w-100"
           :class="[error ? 'error' : '']"
         >
-          {{ $t('pages.TipComments.NoResultsMsg') }}
+          {{ $t('views.SingleCommentView.NoResultsMsg') }}
         </div>
 
         <tip-comment

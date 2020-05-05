@@ -402,11 +402,14 @@
       "copyrights": "“COPYRIGHT – 2020 – Superhero.com ALL RIGHTS RESERVED”. Superhero.com reserves its right to take every necessary legal action against any breach or infringement of its intellectual property rights. The rules mentioned above apply to databases on the website, which are protected under the Directive 96/9/EC of the European Parliament and the Council of 11 March 1996 on the legal protection of databases. For any additional questions, please contact Superhero.com team at: superherowallet@protonmail.com"
     },
     "TipCommentsView":{
-      "NoResultsMsg": "There are no comments",
+      "NoResultsMsg": "There are no comments to display",
       "Reply": "Reply",
       "records": "records",
       "AddReply": "Add reply",
       "LatestReplies": "Latest Replies"
+    },
+    "SingleCommentView": {
+      "NoResultsMsg": "There are no comments to display"
     },
     "TipList": {
       "SearchPlaceholder": "Search Superhero",

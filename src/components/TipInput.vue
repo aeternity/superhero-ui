@@ -1,23 +1,22 @@
 <template>
   <a
-    v-if="USE_DEEP_LINKS && !userAddress"
+    v-if="USE_DEEP_LINKS"
     :href="deepLink"
     target="_blank"
     class="tip__content"
     @click.stop
   >
     <img :src="iconTip">
-    <ae-amount-fiat :amount="amount" />
-  </a>
-  <a
-    v-else-if="USE_DEEP_LINKS && userAddress"
-    :href="deepLink"
-    target="_blank"
-    class="tip__content"
-    @click.stop
-  >
-    <img :src="iconTip">
-    <span class="tip-user-text">Tip</span>
+    <ae-amount-fiat
+      v-if="!userAddress"
+      :amount="amount"
+    />
+    <span
+      v-else
+      class="tip-user-text"
+    >
+      Tip
+    </span>
   </a>
   <div
     v-else
@@ -113,7 +112,7 @@ import iconTipped from '../assets/iconTipped.svg';
 import aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import util, { USE_DEEP_LINKS } from '../utils/util';
+import util, { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
@@ -161,19 +160,16 @@ export default {
     deepLink() {
       let url = '';
       if (this.userAddress) {
-        url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
+        url = createDeepLinkUrl({ type: 'tip' });
         url.searchParams.set('url',
           encodeURIComponent(`https://superhero.com/#/user-profile/${this.userAddress}`));
       } else if (this.isRetip) {
-        url = new URL(`${process.env.VUE_APP_WALLET_URL}/retip`);
-        url.searchParams.set('id', this.tip.id);
+        url = createDeepLinkUrl({ type: 'retip', id: this.tip.id });
       } else {
-        url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
+        url = createDeepLinkUrl({ type: 'tip' });
         url.searchParams.set('url',
           encodeURIComponent(`https://superhero.com/#/tip/${this.tip.id}`));
       }
-      url.searchParams.set('x-success', encodeURIComponent(window.location));
-      url.searchParams.set('x-cancel', encodeURIComponent(window.location));
       return url;
     },
     isMessageValid() {
@@ -284,12 +280,9 @@ export default {
     },
     async sendTipComment() {
       if (USE_DEEP_LINKS) {
-        const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
-        url.searchParams.set('id', this.tip.id);
-        url.searchParams.set('text', this.message);
-        url.searchParams.set('x-success', window.location);
-        url.searchParams.set('x-cancel', window.location);
-        window.location = url;
+        window.location = createDeepLinkUrl(
+          { type: 'comment', id: this.tip.id, text: this.message },
+        );
         return;
       }
       this.showLoading = true;

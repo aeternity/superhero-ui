@@ -90,9 +90,7 @@ export default {
   components: {
     AeAmountFiat,
   },
-  computed: {
-    ...mapGetters(['stats']),
-  },
+  computed: mapGetters(['stats']),
 };
 </script>
 

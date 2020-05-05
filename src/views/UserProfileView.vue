@@ -468,7 +468,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss">
 #file-input {
   display: none;

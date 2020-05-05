@@ -67,7 +67,7 @@
 import { mapGetters } from 'vuex';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
-import { USE_DEEP_LINKS } from '../utils/util';
+import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
@@ -106,9 +106,7 @@ export default {
       USE_DEEP_LINKS,
     };
   },
-  computed: {
-    ...mapGetters(['account', 'chainNames', 'isLoggedIn', 'loading']),
-  },
+  computed: mapGetters(['account', 'chainNames', 'isLoggedIn', 'loading']),
   watch: {
     tip() {
       this.updateTip();
@@ -135,12 +133,9 @@ export default {
   methods: {
     async sendTipComment() {
       if (this.USE_DEEP_LINKS || !this.isLoggedIn) {
-        const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
-        url.searchParams.set('id', this.tip.id);
-        url.searchParams.set('text', this.newComment);
-        url.searchParams.set('x-success', window.location);
-        url.searchParams.set('x-cancel', window.location);
-        window.location = url;
+        window.location = createDeepLinkUrl(
+          { type: 'comment', id: this.tip.id, text: this.newComment },
+        );
         return;
       }
       this.showLoading = true;
@@ -182,7 +177,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss">
 .url__page {

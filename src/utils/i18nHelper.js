@@ -25,7 +25,6 @@ export const langs = {
   },
 };
 
-
 export const fetchAndSetLocale = async (languageCode) => {
   if (!i18n.availableLocales.includes(languageCode)) {
     const messages = (await langs[languageCode].getMessages());

@@ -50,9 +50,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Navigation',
-  computed: {
-    ...mapGetters(['account', 'isLoggedIn']),
-  },
+  computed: mapGetters(['account', 'isLoggedIn']),
   methods: {
     scrollTop() {
       document.scrollingElement.scrollTop = 0;

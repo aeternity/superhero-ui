@@ -28,14 +28,11 @@ export default {
   components: {
     SendTip,
   },
-  computed: {
-    ...mapGetters(['isTipModalOpen']),
-  },
-  methods: {
-    ...mapActions(['toggleTipModal']),
-  },
+  computed: mapGetters(['isTipModalOpen']),
+  methods: mapActions(['toggleTipModal']),
 };
 </script>
+
 <style lang="scss">
 .send-tip__modal {
   display: none;

@@ -34,7 +34,6 @@ export default {
   name: 'App',
   data() {
     return {
-      page: 1,
       savedScrolls: [],
     };
   },

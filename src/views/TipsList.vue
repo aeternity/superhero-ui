@@ -107,16 +107,9 @@ export default {
   data() {
     return {
       searchTerm: '',
-      activeLang: 'en',
-      languagesOptions: [
-        { value: 'en', text: 'English' },
-        { value: 'zh', text: 'Chinese' },
-      ],
     };
   },
-  computed: {
-    ...mapGetters(['tipSortBy', 'loading']),
-  },
+  computed: mapGetters(['tipSortBy', 'loading']),
   async created() {
     EventBus.$on('searchTopic', (topic) => {
       window.scrollTo(0, 0);
@@ -135,7 +128,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
 .search__input__container {

@@ -70,7 +70,7 @@
 import { mapGetters } from 'vuex';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
-import { USE_DEEP_LINKS } from '../utils/util';
+import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
@@ -135,13 +135,11 @@ export default {
     },
     async sendTipComment() {
       if (this.USE_DEEP_LINKS || !this.isLoggedIn) {
-        const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
-        url.searchParams.set('id', this.tipId);
-        url.searchParams.set('parentId', this.id);
-        url.searchParams.set('text', this.newComment);
-        url.searchParams.set('x-success', window.location);
-        url.searchParams.set('x-cancel', window.location);
-        window.location = url;
+        window.location = createDeepLinkUrl(
+          {
+            type: 'comment', id: this.tipId, text: this.newComment, parentId: this.id,
+          },
+        );
         return;
       }
       this.showLoading = true;

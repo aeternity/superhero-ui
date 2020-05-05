@@ -28,7 +28,7 @@
       >
       <a
         v-else-if="USE_DEEP_LINKS && $route.name === 'tips'"
-        :href="deepLink"
+        :href="createDeepLinkUrl({ type: 'tip' })"
         target="_blank"
       >
         <img
@@ -58,7 +58,7 @@ import { mapGetters, mapActions } from 'vuex';
 import Navigation from './Navigation.vue';
 import MobileSendTipModal from '../modals/MobileSendTipModal.vue';
 import FooterSection from './FooterSection.vue';
-import { USE_DEEP_LINKS } from '../../utils/util';
+import { USE_DEEP_LINKS, createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'MobileNavigation',
@@ -71,17 +71,10 @@ export default {
     return {
       open: false,
       USE_DEEP_LINKS,
+      createDeepLinkUrl,
     };
   },
-  computed: {
-    ...mapGetters(['isMobileNavigationHidden', 'balance', 'account']),
-    deepLink() {
-      const url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
-      url.searchParams.set('x-success', window.location);
-      url.searchParams.set('x-cancel', window.location);
-      return url;
-    },
-  },
+  computed: mapGetters(['isMobileNavigationHidden', 'balance', 'account']),
   methods: {
     ...mapActions(['toggleMobileNavigation', 'toggleTipModal']),
     openNavigation(isOpen) {
@@ -90,6 +83,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
   .mobile-navigation {
     position: fixed;

@@ -52,4 +52,7 @@ export default {
   updateCurrency({ commit }, payload) {
     commit(types.UPDATE_CURRENCY, payload);
   },
+  updateBalance({ commit }, payload) {
+    commit(types.UPDATE_BALANCE, payload);
+  },
 };

@@ -42,7 +42,7 @@
         class="button"
         @click="nextStep()"
       >
-        {{ $t('components.onboarding.steps.step3.next') }}
+        {{ $t('components.onboarding.steps.next') }}
       </button>
     </div>
   </div>

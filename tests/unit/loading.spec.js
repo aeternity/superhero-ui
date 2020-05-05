@@ -5,6 +5,9 @@ describe('Loading.vue', () => {
   it('have active class when showLoading is true', () => {
     const wrapper = shallowMount(Loading, {
       propsData: { showLoading: true },
+      mocks: {
+        $t: () => {},
+      },
     });
     expect(wrapper.element.className).toContain('active');
   });

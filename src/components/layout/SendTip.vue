@@ -16,7 +16,7 @@
           v-model="sendTipForm.title"
           type="text"
           class="form-control comment"
-          :placeholder="$t('components.layout.SendTip.AddMessage')"
+          :placeholder="$t('addMessage')"
           :disabled="!canTip"
         >
       </div>
@@ -37,19 +37,13 @@
           />
         </div>
       </div>
-      <div
-        v-if="!canTip"
-        class="install-wallet-warning"
-      >
-        You need to have a wallet installed and active in order to tip.
-      </div>
       <div class="text-right">
         <ae-button
           :disabled="!canTip || !isSendTipDataValid"
           :src="IconDiamond"
           @click="sendTip()"
         >
-          {{ $t('components.layout.SendTip.Tip') }}
+          {{ $t('tip') }}
         </ae-button>
       </div>
     </form>

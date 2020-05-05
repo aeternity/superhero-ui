@@ -14,7 +14,7 @@
     >
       <router-link :to="{ name: 'tips' }">
         <div class="navigation__item__image" />
-        <span>{{ $t('components.layout.Navigation.Tips') }}</span>
+        <span>{{ $t('tips') }}</span>
       </router-link>
     </div>
     <div
@@ -39,7 +39,7 @@
     <div class="navigation__item faq">
       <router-link :to="{ name: 'faq' }">
         <div class="navigation__item__image" />
-        <span>{{ $t('components.layout.Navigation.FAQ') }}</span>
+        <span>{{ $t('FAQ') }}</span>
       </router-link>
     </div>
   </div>
@@ -50,9 +50,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Navigation',
-  computed: {
-    ...mapGetters(['account', 'isLoggedIn']),
-  },
+  computed: mapGetters(['account', 'isLoggedIn']),
   methods: {
     scrollTop() {
       document.scrollingElement.scrollTop = 0;

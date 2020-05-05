@@ -24,7 +24,6 @@ const getTipsRetips = (state) => {
       amount_ae: Util.atomsToAe(data.amount).toFixed(),
     }));
 
-
   const tips = state.tips.map(([id, data]) => {
     const tipsData = data;
     tipsData.id = id;
@@ -46,7 +45,6 @@ const getTipsRetips = (state) => {
 
     return tipsData;
   });
-
 
   const urls = state.urls.map(([url, id]) => {
     const urlTips = tips.filter((tip) => tip.url_id === id);

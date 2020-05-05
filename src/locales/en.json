@@ -7,7 +7,7 @@
   "addMessage": "Add message",
   "comments": "Comments",
   "FAQ": "FAQ",
-  "noExtensionSupport": "Your browser does not support the Superhero extension. Tipping and commenting will be disabled.",
+  "noExtensionSupport": "You need to a Superhero wallet to comment and send tips.",
   "views": {
     "CreateProfile": {
       "header1": "HOW TO USE SUPERHERO.COM",
@@ -26,11 +26,11 @@
         "info_4": "Get the add-on",
         "info_5": "to Firefox. Confirm by clicking",
         "info_6": "again in the message prompt.",
-        "info_7": "Then the Superhero icon should appear on the upper right corner of your Firefox browser toolbar.",
+        "info_7": "The Superhero icon should appear on the upper right corner of your Firefox browser toolbar.",
         "info_8": "For Chrome, Brave, and Opera:",
         "info_9": "Get the extension",
         "info_10": "Add the extension to your browser",
-        "info_11": "Then the Superhero icon should appear on the upper right corner of your browser toolbar."
+        "info_11": "The Superhero icon should appear on the upper right corner of your browser toolbar."
       },
       "02": {
         "title": "CREATING YOUR WALLET",
@@ -55,49 +55,58 @@
         "info_7": "Click the",
         "info_8": "hamburger menu",
         "info_9": "on the upper right of your wallet.",
-        "info_10": "Go to Settings, choose Seed Phrase.",
+        "info_10": "Go to Settings, choose Security.",
         "info_11": "On the next screen, click Show seed phrase.",
         "info_12": "You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)",
         "info_13": "Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place.",
         "info_14": "Simple as that."
+        "info_15": "IMPORTANT: You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)"
+
       },
       "04": {
         "title": "SENDING TIPS",
-        "info_0": "To send someone tips, make sure you are on the URL that you want to tip.",
+        "info_0": "To send someone tips, go to the URL that you want to tip.",
         "info_1": "The Superhero wallet will automatically detect the URL on your active tab.",
-        "info_2": "Open your Superhero wallet extension. The button",
-        "info_3": "should be in the upper right of your browser toolbar.",
-        "info_4": "Send Tip",
-        "info_5": "On the next screen, fill in the required fields. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome.",
-        "info_6": "Click the",
-        "info_7": "Send Tip",
-        "info_8": "button below.",
-        "info_9": "On the next screen, review the details of your tip.",
-        "info_10": "Confirm",
-        "info_11": "to complete the transaction."
+        "info_2": "Alternatively, you can copy   the URL you want to tip." 
+        "info_3": "Open your Superhero wallet extension. The button",
+        "info_4": "should be in the upper right of your browser toolbar.",
+        "info_5": "Click Send Tip",
+        "info_6": "On the next screen, fill in the required fields. You can paste the URL in the field on top. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome.",
+        "info_7": "Click the",
+        "info_8": "Send Tip",
+        "info_9": "button below. (In cases where the website has not been claimed by a fellow Superhero, you may opt to proceed with tipping but it’s highly suggested that you let the website owner know so they can start claiming tips.)",
+        "info_10": "On the next screen, review the details of your tip.",
+        "info_11": "Click Confirm",
+        "info_12": "to complete the transaction."
       },
       "05": {
         "title": "RECEIVING TIPS",
         "info_0": "To receive tips yourself, copy your wallet address.",
-        "info_1": "Then paste your wallet address onto the web page or profile that was tipped—it could be a blog, a social media account, or any other online profile.",
+        "info_1": "Then paste your wallet address onto the web page or profile where you have received or plan to receive tips. It could be a blog, a social media account, or any other online profile.",
         "info_2": "Save this change and refresh the page.",
         "info_3": "You can also add your wallet address in the source code of your web page.",
-        "info_4": "Once your wallet address is added to your web page, all you have to do is open your Superhero wallet… And voila— tips can be collected and added to your wallet balance.",
-        "info_5": "In some cases, there may be slight delays in collecting tips.",
-        "info_6": "Give it a few minutes and try opening your wallet again.",
-        "info_7": "If the problem persists, you may ask questions through this",
-        "info_8": "feedback form."
+        "info_4": "Once your wallet address is added to your web page, all you have to do is open your Superhero wallet and hit Claim Tip. This would trigger tip claiming across all websites and profiles where you pasted your wallet address.",
+        "info_5": "Any unclaimed tips you’ve received within the past year will then be added to your wallet balance.",
+        "info_6": "In some cases, there may be slight delays in collecting tips.",
+        "info_7": "Give it a few minutes and try opening your wallet again.",
+        "info_8": "If the problem persists, you may ask questions through this",
+        "info_9": "feedback form."
       },
       "06": {
         "title": "CASHING OUT",
-        "info_0": "To withdraw tips received, you can send tips to your AE wallet address in a crypto exchange that supports AE tokens (see list above).",
-        "info_1": "Go to the hamburger menu. Click",
-        "info_2": "Withdraw.",
-        "info_3": "Enter your wallet address from the crypto exchange of your choice.",
-        "info_4": "Enter the amount you want to withdraw.",
-        "info_5": "Review the transaction details. Hit Send.",
-        "info_6": "Tips can then be converted into other cryptocurrencies or fiat and transferred to your local bank.",
-        "info_7": "Processes for exchanges may vary per country."
+        "info_0": "To withdraw tips you've collected, you can send tips to your AE wallet address in a crypto exchange that supports AE tokens (see list above).",
+        "info_1": "In the same way you don’t walk around with large amounts of cash in your purse, it is highly recommended that you do not keep large amounts of AE in your Superhero wallet.",
+        "info_2": "For long-term storage of large amounts of AE, we recommend using a cold wallet, like AirGap.",
+        "info_3": "Go to the hamburger menu. Click",
+        "info_4": "Withdraw.",
+        "info_5": "Enter your wallet address from the crypto exchange of your choice.",
+        "info_6": "You can also send to someone else’s wallet account by pasting their account into the wallet address field.",
+        "info_7": "Enter the amount you want to withdraw.",
+        "info_8": "Click Review to check your transaction details.",
+        "info_9": "Hit Send to confirm the withdrawal.",
+        "info_10": "Tips can then be converted into other cryptocurrencies or fiat and transferred to your local bank.",
+        "info_10": "Processes for exchanges may vary per country."
+        "info_11": "In many cases, there will be a few minutes’ wait time or longer depending on the exchange’s capacity and processes. But you can track your transactions easily by clicking the eye button next to the transaction in your Activity History.",
       },
       "07": {
         "title": "GETTING A .CHAIN NAME",
@@ -108,27 +117,26 @@
         "info_4": "Open the",
         "info_5": "hamburger menu",
         "info_6": "on the upper right.",
-        "info_7": "On the",
+        "info_7": "Click Names.",
+        "info_8": "On the",
         "info_8": "Add New",
         "info_9": "screen, type in your preferred name. Note that the suffix .chain is automatically appended to your name. This is mandatory in the naming system.",
         "info_10": "Click the",
         "info_11": "button to proceed.",
         "info_12": "Click Confirm.",
-        "info_13": "Only numbers and letters are allowed in .chain names. Names longer than 12 characters can be claimed by the first to initiate a claim transaction for that particular name. Names 12 characters or shorter are subject to auction. Shorter names are more expensive. Less characters mean longer auction times. For more information on the naming system, click",
-        "info_14": "You can claim as many names on Superhero as you want. But as a rule, you must have enough AE in your wallet to cover the initial price for the selected name."
+        "info_13": "Only numbers and letters are allowed in .chain names. And currently, only names 13 characters and above can be claimed through the Superhero wallet. This will be improved later.",
+        "info_14": "You can claim as many names on Superhero as you want. You must have enough AE in your wallet to cover the initial price for the selected name."'
+        "info_15": "Ideally, you should have at least 3AE in your balance for better success at claiming Names.",
       },
       "08": {
-        "title": "SUPERHERO PROFILE NAME",
+        "title": "SETTING YOUR SUPERHERO PROFILE NAME",
         "info_0": "To set a .chain name as your Superhero profile name:",
         "info_1": "Click the",
         "info_2": "hamburger menu",
         "info_3": "and go to",
         "info_4": "Your Names",
         "info_5": "Under your preferred Superhero .chain name, click",
-        "info_6": "Set Name Pointer",
-        "info_7": "Paste the wallet address that you use on Superhero. Double check this wallet address to make sure you have the right one.",
-        "info_8": "Set Name Pointer",
-        "info_9": "to confirm the action."
+        "info_6": "Set Active",
       }
     },
     "Mission": {

@@ -3,8 +3,7 @@
     v-show="$route.name !== 'tips' || !isMobileNavigationHidden"
     class="mobile-navigation clearfix"
     :class="{
-      open: open,
-      sticky: $route.name !== 'tips',
+      open: open
     }"
   >
     <div
@@ -93,7 +92,7 @@ export default {
 </script>
 <style lang="scss">
 .mobile-navigation {
-  position: fixed;
+  position: sticky;
   width: 100%;
   z-index: 101;
   top: 0;
@@ -101,10 +100,6 @@ export default {
   color: $light_font_color;
   padding: 0.85rem 0.6rem 0.85rem 1rem;
   display: none;
-
-  &.sticky {
-    position: sticky;
-  }
 
   .logo {
     margin-bottom: 0;
@@ -160,7 +155,6 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    transform: none;
     width: 100%;
 
     .logo {
@@ -186,8 +180,7 @@ export default {
   .mobile-navigation {
     display: block;
     width: var(--container-width);
-    left: 50%;
-    transform: translateX(-50%);
+    margin: 0 auto;
   }
 }
 
@@ -197,7 +190,6 @@ export default {
     and (-webkit-min-device-pixel-ratio: 2) {
   .mobile-navigation {
     width: 100%;
-    transform: none;
     left: 0;
     padding: 0.75rem 0.6rem 0.75rem 1rem;
 

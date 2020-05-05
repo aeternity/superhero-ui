@@ -412,7 +412,9 @@
       "SearchPlaceholder": "Search Superhero",
       "SortingLatest": "Latest",
       "SortingHighestRated": "Highest Rated",
-      "SortingMostPopular": "Most Popular"
+      "SortingMostPopular": "Most Popular",
+      "Clear": "Clear",
+      "CloseSearch": "Close Search"
     },
     "UserProfileView": {
       "Loading": "Loading...",

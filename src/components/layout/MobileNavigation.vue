@@ -1,9 +1,9 @@
 <template>
   <div
-    v-show="$route.name !== 'tips' || !isMobileNavigationHidden"
+    v-show="$route.name !== 'tips' || showMobileNavigation"
     class="mobile-navigation clearfix"
     :class="{
-      open: open
+      open: open,
     }"
   >
     <div
@@ -40,7 +40,7 @@
         v-if="$route.name === 'tips'"
         class="trigger-search"
         src="../../assets/iconSearch.svg"
-        @click="toggleMobileNavigation(true)"
+        @click="toggleMobileNav(false)"
       >
       <img
         class="trigger-navigation"
@@ -67,6 +67,10 @@ export default {
     MobileSendTipModal,
     FooterSection,
   },
+  props: {
+    showMobileNavigation: { type: Boolean },
+    toggleMobileNav: { type: Function, required: false, default: null },
+  },
   data() {
     return {
       open: false,
@@ -74,7 +78,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['isMobileNavigationHidden', 'balance', 'account']),
+    ...mapGetters(['balance', 'account']),
     deepLink() {
       const url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
       url.searchParams.set('x-success', window.location);
@@ -83,7 +87,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['toggleMobileNavigation', 'toggleTipModal']),
+    ...mapActions(['toggleTipModal']),
     openNavigation(isOpen) {
       this.open = isOpen;
     },
@@ -187,7 +191,7 @@ export default {
 @media only screen
   and (min-device-width: 320px)
   and (max-device-width: 480px)
-    and (-webkit-min-device-pixel-ratio: 2) {
+  and (-webkit-min-device-pixel-ratio: 2) {
   .mobile-navigation {
     width: 100%;
     left: 0;

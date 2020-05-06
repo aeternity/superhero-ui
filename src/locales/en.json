@@ -20,7 +20,7 @@
       "01": {
         "title": "HOW TO USE SUPERHERO",
         "info_0": "Download and install the Superhero extension for your browser.",
-        "info_1:" "Superhero is currently available for Firefox and Chrome. The Chrome extension can be used for Brave and Opera.",
+        "info_1": "Superhero is currently available for Firefox and Chrome. The Chrome extension can be used for Brave and Opera.",
         "info_2": "For Firefox:",
         "info_3": "Get the add-on",
         "info_4": "to Firefox. Confirm by clicking",
@@ -51,14 +51,13 @@
         "info_6": "Go to Settings, choose Security.",
         "info_7": "On the next screen, click Show seed phrase.",
         "info_8": "Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place.",
-        "info_9": "Simple as that."
+        "info_9": "Simple as that.",
         "info_10": "IMPORTANT: You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)",
-
       },
       "04": {
         "title": "SENDING TIPS",
         "info_0": "To send someone tips, go to the URL that you want to tip. The Superhero wallet will automatically detect the URL on your active tab.",
-        "info_1": "Alternatively, you can copy the URL you want to tip.", 
+        "info_1": "Alternatively, you can copy the URL you want to tip.",
         "info_2": "Open your Superhero wallet extension. The button",
         "info_3": "should be in the upper right of your browser toolbar.",
         "info_4": "Click Send Tip",
@@ -122,7 +121,7 @@
         "info_3": "and go to",
         "info_4": "Your Names",
         "info_5": "Under your preferred Superhero .chain name, click",
-        "info_6": "Set Active",
+        "info_6": "Set Active"
       }
     },
     "Mission": {
@@ -154,7 +153,7 @@
       "header": "Frequently Asked Questions",
       "subheader": "If you can't find the answer of you question below visit our {tutorialPage} to receive more information about using Superhero platform and wallet.",
       "questions": [
-        { 
+        {
           "title": "What is Superhero?",
           "text": "Superhero is a P2P (Peer-to-Peer) platform for social sharing. The mission of Superhero is to empower people to support people, without intermediaries. {br} {router}"
         },
@@ -256,7 +255,7 @@
         {
           "title": "I. Introduction"
         },
-        { 
+        {
           "text": "Superhero.com LVC, Dr. Grass Str 12, 9490 Vaduz, Liechtenstein (“Superhero.com”, “we”, “us” or “our”) is a company which takes your privacy and the security of your information as a User very seriously."
         },
         {
@@ -394,7 +393,7 @@
       ],
       "copyrights": "“COPYRIGHT – 2020 – Superhero.com ALL RIGHTS RESERVED”. Superhero.com reserves its right to take every necessary legal action against any breach or infringement of its intellectual property rights. The rules mentioned above apply to databases on the website, which are protected under the Directive 96/9/EC of the European Parliament and the Council of 11 March 1996 on the legal protection of databases. For any additional questions, please contact Superhero.com team at: superherowallet@protonmail.com"
     },
-    "TipCommentsView":{
+    "TipCommentsView": {
       "NoResultsMsg": "There are no comments at the moment.",
       "Reply": "Reply",
       "records": "records",

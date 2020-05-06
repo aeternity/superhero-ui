@@ -1,39 +1,50 @@
 <template>
   <div
     class="tip__record row position-relative comment"
-    @click="goToURLPage(comment.tipId)"
+    @click="goToCommentPage(comment.tipId, comment.id)"
   >
     <div class="tip__body">
       <div
         class="clearfix"
-        @click.stop
       >
         <div
           class="tip__author"
           :title="comment.author"
         >
-          <router-link :to="'/user-profile/' + comment.author">
-            <Avatar :address="comment.author" />
-            <span
-              v-if="userChainName"
-              class="chain__name"
+          <span
+            class="user-display"
+            @click.stop
+          >
+            <router-link
+              :to="{
+                name: 'user-profile',
+                params: {
+                  address: comment.author,
+                },
+              }"
             >
-              {{ userChainName }}
-            </span>
-            <span
-              v-else-if="comment.chainName"
-              class="chain__name"
-            >
-              {{ comment.chainName }}
-            </span>
-            <span
-              v-else
-              :address="comment.author"
-              class="address"
-            >
-              {{ comment.author }}
-            </span>
-          </router-link>
+              <Avatar :address="comment.author" />
+              <span
+                v-if="userChainName"
+                class="chain__name"
+              >
+                {{ userChainName }}
+              </span>
+              <span
+                v-else-if="comment.chainName"
+                class="chain__name"
+              >
+                {{ comment.chainName }}
+              </span>
+              <span
+                v-else
+                :address="comment.author"
+                class="address"
+              >
+                {{ comment.author }}
+              </span>
+            </router-link>
+          </span>
           <span class="tip__date">
             <format-date
               :date-timestamp="formatDate"
@@ -47,6 +58,13 @@
       >
         {{ comment.text }}
       </div>
+      <div
+        title="Replies"
+        class="tip__replies"
+      >
+        <img src="../../assets/iconReply.svg">
+        {{ childComments }}
+      </div>
     </div>
   </div>
 </template>
@@ -55,6 +73,7 @@
 
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
+import Backend from '../../utils/backend';
 
 export default {
   name: 'TipComment',
@@ -70,12 +89,23 @@ export default {
     formatDate() {
       return new Date(this.comment.createdAt.substring(0, this.comment.createdAt.length - 8));
     },
+    childComments() {
+      if (this.comment && this.comment.children) {
+        return this.comment.children.length;
+      }
+      return 0;
+    },
   },
   methods: {
-    goToURLPage(id) {
+    getAvatar(address) {
+      const userImage = Backend.getProfileImageUrl(address);
+      return userImage || this.defaultAvatar;
+    },
+    goToCommentPage(tipId, id) {
       this.$router.push({
-        name: 'tip',
+        name: 'comment',
         params: {
+          tipId,
           id,
         },
       });
@@ -92,7 +122,7 @@ export default {
   background-color: $light_color;
 
   .tip__body .tip__note {
-    padding: 0.35rem 1rem 1rem 1rem;
+    padding: 0.35rem 1rem 0.25rem 1rem;
     color: $comment_text_color;
     height: initial;
     font-size: 0.7rem;
@@ -166,6 +196,20 @@ export default {
   }
 }
 
+.user-display {
+  max-width: 85%;
+}
+
+.tip__replies {
+  padding: 0.25rem 1rem 1rem 1rem;
+  color: $standard_font_color;
+  font-size: 0.8rem;
+
+  img {
+    height: 0.7rem;
+  }
+}
+
 @media only screen
   and (min-device-width: 320px)
   and (max-device-width: 480px)
@@ -181,6 +225,10 @@ export default {
         margin-bottom: 0;
         padding: 0;
       }
+    }
+
+    .tip__replies {
+      padding-left: 0;
     }
   }
 }

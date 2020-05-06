@@ -40,6 +40,7 @@
       <div class="text-right">
         <ae-button
           :disabled="!canTip || !isSendTipDataValid"
+          :loading="sendingTip"
           :src="IconDiamond"
           @click="sendTip()"
         >
@@ -75,6 +76,7 @@ export default {
         url: '',
         title: '',
       },
+      sendingTip: false,
       IconDiamond,
       avatarImageKey: 1,
     };
@@ -103,11 +105,13 @@ export default {
   },
   methods: {
     async sendTip() {
+      this.sendingTip = true;
       const amount = util.aeToAtoms(this.sendTipForm.amount);
       await aeternity.tip(this.sendTipForm.url, this.sendTipForm.title, amount)
         .catch(console.error);
       await Backend.cacheInvalidateTips().catch(console.error);
       this.clearTipForm();
+      this.sendingTip = false;
       EventBus.$emit('reloadData');
     },
     clearTipForm() {

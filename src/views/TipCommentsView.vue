@@ -56,7 +56,7 @@
           v-if="showLoading"
           class="text-center w-100 mt-3"
         >
-          <loading :show-loading="true" />
+          <loading />
         </div>
       </div>
     </div>

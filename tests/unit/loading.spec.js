@@ -2,13 +2,12 @@ import { shallowMount } from '@vue/test-utils';
 import Loading from '@/components/Loading.vue';
 
 describe('Loading.vue', () => {
-  it('have active class when showLoading is true', () => {
+  it('is visible', () => {
     const wrapper = shallowMount(Loading, {
-      propsData: { showLoading: true },
       mocks: {
         $t: () => {},
       },
     });
-    expect(wrapper.element.className).toContain('active');
+    expect(wrapper.find('.spinner__container').exists()).toBeTruthy();
   });
 });

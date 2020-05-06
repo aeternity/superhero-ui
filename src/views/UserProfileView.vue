@@ -6,7 +6,6 @@
     <loading
       v-if="loading.initial"
       class="mt-5"
-      :show-loading="true"
     />
     <div v-else>
       <div class="profile__page">
@@ -42,7 +41,7 @@
                   class="overlay"
                 />
                 <loading
-                  :show-loading="showLoadingAvatar && editMode"
+                  v-if="showLoadingAvatar && editMode"
                   class="position-absolute"
                 />
                 <label
@@ -273,7 +272,7 @@
             v-if="showLoading || loading.tips"
             class="mt-3"
           >
-            <loading :show-loading="true" />
+            <loading />
           </div>
         </div>
       </div>

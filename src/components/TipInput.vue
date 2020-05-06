@@ -60,7 +60,7 @@
         v-if="show"
         class="tip__container"
       >
-        <loading :show-loading="showLoading" />
+        <loading v-if="showLoading" />
         <div
           v-show="error && !showLoading"
           class="text-center mb-2"

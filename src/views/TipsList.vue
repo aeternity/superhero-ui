@@ -6,7 +6,6 @@
     <loading
       v-if="loading.initial"
       class="initial-loading"
-      :show-loading="true"
     />
     <div v-else>
       <div class="actions__container container position-sticky">

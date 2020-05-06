@@ -1,7 +1,7 @@
 <template>
   <div>
     <loading
-      :show-loading="loadingTips"
+      v-if="loadingTips"
       class="m-2 loading-position"
     />
     <div v-if="tips">
@@ -15,7 +15,6 @@
       />
       <loading
         v-if="loadingMoreTips"
-        :show-loading="loadingMoreTips"
         class="m-2"
       />
       <div

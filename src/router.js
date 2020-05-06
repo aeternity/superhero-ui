@@ -2,6 +2,7 @@ import Router from 'vue-router';
 import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
 import Maintenance from './views/Maintenance.vue';
+import SingleCommentView from './views/SingleCommentView.vue';
 import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
@@ -17,12 +18,32 @@ const guardTipComments = (to, from, next) => {
   }
 };
 
+const guardCommentView = (to, from, next) => {
+  if (to.name === 'comment'
+      && typeof to.params.id !== 'undefined'
+      && typeof to.params.tipId !== 'undefined') {
+    next();
+  } else {
+    next('/');
+  }
+};
+
 const routes = [
   {
     path: '/',
     name: 'tips',
     component: TipsList,
     meta: { title: 'Tips' },
+  },
+  {
+    path: '/tip/:tipId/comment/:id',
+    name: 'comment',
+    component: SingleCommentView,
+    meta: {
+      title: 'Comment View',
+    },
+    props: true,
+    beforeEnter: guardCommentView,
   },
   {
     path: '/tip/:id',

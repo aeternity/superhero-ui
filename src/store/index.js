@@ -29,7 +29,6 @@ export default new Vuex.Store({
     chainNames: [],
     wizardCurrentStep: 0,
     wizardIsCollapsed: false,
-    hideMobileNavigation: false,
     openTipModal: false,
   },
   getters,

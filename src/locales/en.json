@@ -20,7 +20,7 @@
       "01": {
         "title": "HOW TO USE SUPERHERO",
         "info_0": "Download and install the Superhero extension for your browser.",
-        "info_1:" "Superhero is currently available for Firefox and Chrome. The Chrome extension can be used for Brave and Opera.
+        "info_1:" "Superhero is currently available for Firefox and Chrome. The Chrome extension can be used for Brave and Opera.",
         "info_2": "For Firefox:",
         "info_3": "Get the add-on",
         "info_4": "to Firefox. Confirm by clicking",
@@ -401,11 +401,16 @@
       "AddReply": "Add reply",
       "LatestReplies": "Latest Replies"
     },
+    "SingleCommentView": {
+      "NoResultsMsg": "There are no comments to display"
+    },
     "TipList": {
       "SearchPlaceholder": "Search Superhero",
       "SortingLatest": "Latest",
       "SortingHighestRated": "Highest Rated",
-      "SortingMostPopular": "Most Popular"
+      "SortingMostPopular": "Most Popular",
+      "Clear": "Clear",
+      "CloseSearch": "Close Search"
     },
     "UserProfileView": {
       "EditProfile": "Edit Profile",

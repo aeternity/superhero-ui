@@ -1,8 +1,8 @@
 <template>
   <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
+    <MobileNavigation />
+    <RightSection />
+    <LeftSection />
     <div class="container wrapper mt-2">
       <div class="row content">
         <div class="col-sm-12">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading
+    <Loading
       v-if="loadingTips"
       class="m-2 loading-position"
     />
@@ -13,7 +13,7 @@
         :fiat-value="tip.fiatValue"
         :sender-link="openExplorer(tip.sender)"
       />
-      <loading
+      <Loading
         v-if="loadingMoreTips"
         class="m-2"
       />

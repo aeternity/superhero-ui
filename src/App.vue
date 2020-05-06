@@ -1,7 +1,7 @@
 <template>
   <div
     id="app"
-    @mousedown="saveScrollPosition()"
+    @mousedown="saveScrollPosition"
   >
     <div
       ref="wrapper"

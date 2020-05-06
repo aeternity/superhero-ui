@@ -22,7 +22,7 @@
       <button
         v-if="!isLoggedIn"
         class="button"
-        @click="nextStep()"
+        @click="nextStep"
       >
         {{ $t('components.onboarding.steps.step5.installWallet') }}
       </button>

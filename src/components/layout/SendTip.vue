@@ -31,21 +31,21 @@
           >
         </div>
         <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
-          <ae-input-amount
+          <AeInputAmount
             v-model="sendTipForm.amount"
             :disabled="!canTip"
           />
         </div>
       </div>
       <div class="text-right">
-        <ae-button
+        <AeButton
           :disabled="!canTip || !isSendTipDataValid"
           :loading="sendingTip"
           :src="IconDiamond"
-          @click="sendTip()"
+          @click="sendTip"
         >
           {{ $t('tip') }}
-        </ae-button>
+        </AeButton>
       </div>
     </form>
   </div>

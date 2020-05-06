@@ -13,7 +13,7 @@
     >
       &#x2715;
     </div>
-    <navigation />
+    <Navigation />
     <div
       v-if="!open"
       class="mobile-actions"
@@ -48,8 +48,8 @@
         @click="openNavigation(true)"
       >
     </div>
-    <footer-section v-if="open" />
-    <mobile-send-tip-modal />
+    <FooterSection v-if="open" />
+    <MobileSendTipModal />
   </div>
 </template>
 

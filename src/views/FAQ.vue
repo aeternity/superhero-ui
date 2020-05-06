@@ -1,8 +1,8 @@
 <template>
   <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
+    <MobileNavigation />
+    <RightSection />
+    <LeftSection />
     <div class="container wrapper mt-2">
       <div class="content faq-page">
         <h1>{{ $t('views.FAQ.header') }}</h1>
@@ -22,7 +22,7 @@
           v-for="(item, index) in
             Object.keys($i18n.messages[$i18n.fallbackLocale].views.FAQ.questions).length"
         >
-          <expandable-block
+          <ExpandableBlock
             :key="index"
             :title="$t('views.FAQ.questions')[index].title"
           >
@@ -87,7 +87,7 @@
                 <br>
               </template>
             </i18n>
-          </expandable-block>
+          </ExpandableBlock>
         </template>
       </div>
     </div>

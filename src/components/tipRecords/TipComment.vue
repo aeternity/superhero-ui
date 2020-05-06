@@ -46,7 +46,7 @@
             </router-link>
           </span>
           <span class="tip__date">
-            <format-date
+            <FormatDate
               :date-timestamp="formatDate"
             />
           </span>

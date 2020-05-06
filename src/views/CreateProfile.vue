@@ -1,8 +1,8 @@
 <template>
   <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
+    <MobileNavigation />
+    <RightSection />
+    <LeftSection />
     <div class="container wrapper">
       <div class="content tutorial-page">
         <h1>
@@ -11,7 +11,7 @@
           {{ $t('views.CreateProfile.header3') }}
         </h1>
         <hr width="30%">
-        <expandable-block :title="$t('views.CreateProfile.01.title')">
+        <ExpandableBlock :title="$t('views.CreateProfile.01.title')">
           <p><b>{{ $t('views.CreateProfile.01.info_0') }}</b></p>
           <p />
           <p>
@@ -45,8 +45,8 @@
             {{ $t('views.CreateProfile.01.info_10') }}<br>
             {{ $t('views.CreateProfile.01.info_11') }}
           </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.02.title')">
+        </ExpandableBlock>
+        <ExpandableBlock :title="$t('views.CreateProfile.02.title')">
           <p>
             {{ $t('views.CreateProfile.02.info_0') }}<br>
             {{ $t('views.CreateProfile.click') }}
@@ -60,8 +60,8 @@
             {{ $t('views.CreateProfile.02.info_6') }}<br>
             {{ $t('views.CreateProfile.02.info_7') }}
           </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.03.title')">
+        </ExpandableBlock>
+        <ExpandableBlock :title="$t('views.CreateProfile.03.title')">
           <p>
             {{ $t('views.CreateProfile.03.info_0') }}<br>
             {{ $t('views.CreateProfile.03.info_1') }}<br>
@@ -97,8 +97,8 @@
           <p>
             {{ $t('views.CreateProfile.03.info_14') }}
           </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.04.title')">
+        </ExpandableBlock>
+        <ExpandableBlock :title="$t('views.CreateProfile.04.title')">
           <p>
             {{ $t('views.CreateProfile.04.info_0') }}<br>
             {{ $t('views.CreateProfile.04.info_1') }}
@@ -129,8 +129,8 @@
               {{ $t('views.CreateProfile.04.info_11') }}
             </li>
           </ul>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.05.title')">
+        </ExpandableBlock>
+        <ExpandableBlock :title="$t('views.CreateProfile.05.title')">
           <p>
             {{ $t('views.CreateProfile.05.info_0') }}
           </p>
@@ -151,8 +151,8 @@
               {{ $t('views.CreateProfile.05.info_8') }}
             </a>
           </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.06.title')">
+        </ExpandableBlock>
+        <ExpandableBlock :title="$t('views.CreateProfile.06.title')">
           <p>
             {{ $t('views.CreateProfile.06.info_0') }}
           </p>
@@ -169,8 +169,8 @@
             {{ $t('views.CreateProfile.06.info_6') }}<br>
             {{ $t('views.CreateProfile.06.info_7') }}
           </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.07.title')">
+        </ExpandableBlock>
+        <ExpandableBlock :title="$t('views.CreateProfile.07.title')">
           <p>
             {{ $t('views.CreateProfile.07.info_0') }}<br>
             {{ $t('views.CreateProfile.07.info_1') }}<br>
@@ -209,8 +209,8 @@
           <p>
             {{ $t('views.CreateProfile.07.info_14') }}
           </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.08.title')">
+        </ExpandableBlock>
+        <ExpandableBlock :title="$t('views.CreateProfile.08.title')">
           <p>
             {{ $t('views.CreateProfile.08.info_0') }}
           </p>
@@ -238,7 +238,7 @@
               {{ $t('views.CreateProfile.08.info_9') }}
             </li>
           </ul>
-        </expandable-block>
+        </ExpandableBlock>
       </div>
     </div>
   </div>

@@ -39,9 +39,6 @@ export default {
   [types.SET_WIZARD_IS_COLLAPSED](state, payload) {
     state.wizardIsCollapsed = payload;
   },
-  [types.TOGGLE_MOBILE_NAVIGATION](state, payload) {
-    state.hideMobileNavigation = payload;
-  },
   [types.TOGGLE_TIP_MODAL](state, payload) {
     state.openTipModal = payload;
   },

@@ -1,10 +1,9 @@
 <template>
   <div
-    v-show="$route.name !== 'tips' || !isMobileNavigationHidden"
+    v-show="$route.name !== 'tips' || showMobileNavigation"
     class="mobile-navigation clearfix"
     :class="{
       open: open,
-      sticky: $route.name !== 'tips',
     }"
   >
     <div
@@ -22,7 +21,7 @@
       <img
         v-if="!USE_DEEP_LINKS && $route.name === 'tips'"
         v-show="Object.keys(account).length && balance"
-        class="tip"
+        class="tip mobile-only"
         src="../../assets/iconDiamond.svg"
         @click="toggleTipModal(true)"
       >
@@ -30,6 +29,7 @@
         v-else-if="USE_DEEP_LINKS && $route.name === 'tips'"
         :href="createDeepLinkUrl({ type: 'tip' })"
         target="_blank"
+        class="mobile-only"
       >
         <img
           class="tip"
@@ -40,7 +40,7 @@
         v-if="$route.name === 'tips'"
         class="trigger-search"
         src="../../assets/iconSearch.svg"
-        @click="toggleMobileNavigation(true)"
+        @click="toggleMobileNav(false)"
       >
       <img
         class="trigger-navigation"
@@ -67,6 +67,10 @@ export default {
     MobileSendTipModal,
     FooterSection,
   },
+  props: {
+    showMobileNavigation: { type: Boolean },
+    toggleMobileNav: { type: Function, required: false, default: null },
+  },
   data() {
     return {
       open: false,
@@ -74,9 +78,9 @@ export default {
       createDeepLinkUrl,
     };
   },
-  computed: mapGetters(['isMobileNavigationHidden', 'balance', 'account']),
+  computed: mapGetters(['balance', 'account']),
   methods: {
-    ...mapActions(['toggleMobileNavigation', 'toggleTipModal']),
+    ...mapActions(['toggleTipModal']),
     openNavigation(isOpen) {
       this.open = isOpen;
     },
@@ -85,92 +89,111 @@ export default {
 </script>
 
 <style lang="scss">
-  .mobile-navigation {
-    position: fixed;
-    width: 100%;
-    z-index: 101;
-    top: 0;
-    background-color: $background_color;
-    color: $light_font_color;
-    padding: 0.75rem 0.6rem 0.75rem 1rem;
-    display: none;
+.mobile-navigation {
+  position: sticky;
+  width: 100%;
+  z-index: 101;
+  top: 0;
+  background-color: $background_color;
+  color: $light_font_color;
+  padding: 0.85rem 0.6rem 0.85rem 1rem;
+  display: none;
 
-    &.sticky {
-      position: sticky;
+  .logo {
+    margin-bottom: 0;
+
+    img {
+      width: 6.4rem;
+      height: 1.5rem;
     }
+  }
+
+  .mobile-actions {
+    display: inline-block;
+    float: right;
+    max-width: fit-content;
+    text-align: right;
+    width: 100%;
+
+    img {
+      margin-left: 1rem;
+    }
+
+    .tip {
+      height: 0.9rem;
+    }
+  }
+
+  .close-navigation {
+    text-align: right;
+    color: $standard_font_color;
+  }
+
+  .trigger-navigation:hover,
+  .close-navigation:hover {
+    cursor: pointer;
+  }
+
+  .navigation {
+    display: inline-block;
+  }
+
+  .navigation__item {
+    display: none;
+  }
+
+  .navigation__item__image {
+    height: 1.65rem;
+    width: 1.65rem;
+  }
+
+  &.open {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
 
     .logo {
-      margin-bottom: 0;
-
-      img {
-        width: 6.4rem;
-        height: 1.5rem;
-      }
-    }
-
-    .mobile-actions {
-      display: inline-block;
-      float: right;
-      max-width: fit-content;
-      text-align: right;
-      width: 100%;
-
-      img {
-        margin-left: 1rem;
-      }
-
-      .tip {
-        height: 0.9rem;
-      }
-    }
-
-    .close-navigation {
-      text-align: right;
-      color: $standard_font_color;
-    }
-
-    .trigger-navigation:hover,
-    .close-navigation:hover {
-      cursor: pointer;
-    }
-
-    .navigation {
-      display: inline-block;
-    }
-
-    .navigation__item {
       display: none;
     }
 
-    .navigation__item__image {
-      height: 1.65rem;
-      width: 1.65rem;
-    }
-
-    &.open {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-
-      .logo {
-        display: none;
-      }
-
-      .navigation__item {
-        display: block;
-        min-width: 8rem;
-      }
-    }
-  }
-
-  @media only screen
-    and (min-device-width: 320px)
-    and (max-device-width: 480px)
-    and (-webkit-min-device-pixel-ratio: 2) {
-    .mobile-navigation {
+    .navigation__item {
       display: block;
+      min-width: 8rem;
     }
   }
+
+  .mobile-only {
+    display: none;
+  }
+
+  .trigger-search:hover {
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 991px) {
+  .mobile-navigation {
+    display: block;
+    width: var(--container-width);
+    margin: 0 auto;
+  }
+}
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  .mobile-navigation {
+    width: 100%;
+    left: 0;
+    padding: 0.75rem 0.6rem 0.75rem 1rem;
+
+    .mobile-only {
+      display: initial;
+    }
+  }
+}
 </style>

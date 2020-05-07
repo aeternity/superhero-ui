@@ -434,7 +434,7 @@
           "info": "After your Superhero wallet is installed:{br} {pasteYourWallet} to your URL.{br} {openYourURL} so your wallet can instantly collect tips you receive.",
           "pasteYourWallet": "1. Paste your wallet address",
           "openYourURL": "2. Load your URL",
-          "peaopleCanDirectlySupport": "People can directly support your content, cause, project (or you for simply being you) with no middlemen."
+          "peopleCanDirectlySupport": "People can directly support your content, cause project (or you for simply being you) with no middlemen."
         },
         "step4": {
           "header": "Send Tips: {br} Making the Internet a Better Place",

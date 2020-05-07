@@ -7,7 +7,7 @@
       >
     </div>
     <i18n
-      path="components.onboarding.steps.step2.header"
+      :path="$t('components.onboarding.steps.step2.header')"
       tag="h1"
     >
       <template v-slot:br>
@@ -23,7 +23,7 @@
       </template>
     </i18n>
     <i18n
-      path="components.onboarding.steps.step2.subheader"
+      :path="$t('components.onboarding.steps.step2.subheader')"
       tag="p"
     >
       <template v-slot:br>
@@ -46,7 +46,7 @@
     </i18n>
     <i18n
       class="highlited"
-      path="components.onboarding.steps.step2.bolder"
+      :path="$t('components.onboarding.steps.step2.bolder')"
       tag="p"
     >
       <template v-slot:br>

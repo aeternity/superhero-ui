@@ -8,7 +8,7 @@
     </div>
     <h1>{{ $t('components.onboarding.steps.step5.header') }}</h1>
     <i18n
-      path="components.onboarding.steps.step5.info"
+      :path="$t('components.onboarding.steps.step5.info')"
       tag="p"
     >
       <template v-slot:br>

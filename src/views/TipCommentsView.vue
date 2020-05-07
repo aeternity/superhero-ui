@@ -47,7 +47,7 @@
           {{ $t('views.TipCommentsView.NoResultsMsg') }}
         </div>
 
-        <TipComment
+        <TipCommentList
           v-for="(comment, index) in comments"
           :key="index"
           :comment="comment"
@@ -69,7 +69,7 @@ import { mapGetters } from 'vuex';
 import Backend from '../utils/backend';
 import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
-import TipComment from '../components/tipRecords/TipComment.vue';
+import TipCommentList from '../components/tipRecords/TipCommentList.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 // eslint-disable-next-line import/no-cycle
@@ -86,7 +86,7 @@ export default {
   components: {
     Loading,
     TipRecord,
-    TipComment,
+    TipCommentList,
     LeftSection,
     RightSection,
     MobileNavigation,

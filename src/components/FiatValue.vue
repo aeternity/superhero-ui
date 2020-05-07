@@ -3,18 +3,18 @@
     v-if="currencyRates.aeternity"
     class="currency-value"
   >
-    <span >
+    <span v-if="withoutBrackets">
       {{ fiatValue }}
       <span class="currency-sign">
-        {{ currencySign }}
+        {{ settings.currency.toUpperCase() }}
       </span>
     </span>
-    <!-- <span v-else-if="displaySymbol">
+    <span v-else-if="displaySymbol">
       (~ <span class="currency-sign">{{ currencySign }}</span>{{ fiatValue }})
     </span>
     <span v-else>
-      (~ {{ fiatValue }} <span class="currency-sign">{{ currencySign }}</span>)
-    </span> -->
+      (~ {{ fiatValue }} <span class="currency-sign">{{ settings.currency.toUpperCase() }}</span>)
+    </span>
   </span>
 </template>
 

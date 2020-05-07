@@ -1,15 +1,15 @@
 <template>
   <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
-    <loading
+    <MobileNavigation />
+    <RightSection />
+    <LeftSection />
+    <Loading
       v-if="loading.initial"
       class="mt-5"
     />
     <div v-else>
       <div class="profile__page">
-        <back-button-ribbon />
+        <BackButtonRibbon />
         <div class="profile__section clearfix position-relative">
           <div
             v-if="showLoadingProfile"
@@ -31,7 +31,7 @@
                 v-if="!editMode && account === address"
                 class="edit__button button small"
                 title="Edit Profile"
-                @click="toggleEditMode()"
+                @click="toggleEditMode"
               >
                 {{ $t('views.UserProfileView.EditProfile') }}
               </a>
@@ -40,7 +40,7 @@
                   v-if="showLoadingAvatar"
                   class="overlay"
                 />
-                <loading
+                <Loading
                   v-if="showLoadingAvatar && editMode"
                   class="position-absolute"
                 />
@@ -126,7 +126,7 @@
               v-if="editMode"
               class="input-group delete-avatar"
             >
-              <span @click="deleteAvatar()">
+              <span @click="deleteAvatar">
                 {{ $t('views.UserProfileView.DeleteAvatar') }}
               </span>
             </div>
@@ -155,14 +155,14 @@
               <button
                 type="button"
                 class="button small"
-                @click="resetEditedValues()"
+                @click="resetEditedValues"
               >
                 {{ $t('cancel') }}
               </button>
               <button
                 type="button"
                 class="button small primary"
-                @click="saveProfile()"
+                @click="saveProfile"
               >
                 {{ $t('views.UserProfileView.Save') }}
               </button>
@@ -193,7 +193,7 @@
               <div class="stat-title">
                 {{ $t('views.UserProfileView.TotalSentAmount') }}
               </div>
-              <ae-amount-fiat
+              <AeAmountFiat
                 class="stat-value"
                 :amount="userStats.totalTipAmount"
               />
@@ -218,7 +218,7 @@
               <div class="stat-title">
                 {{ $t('views.UserProfileView.UnclaimedAmount') }}
               </div>
-              <ae-amount-fiat
+              <AeAmountFiat
                 class="stat-value"
                 :amount="userStats.unclaimedAmount"
               />
@@ -260,7 +260,7 @@
             >
               {{ $t('views.UserProfileView.NoActivity') }}
             </div>
-            <tip-comment
+            <TipComment
               v-for="(comment, index) in comments"
               :key="index"
               :user-chain-name="userChainName"
@@ -272,7 +272,7 @@
             v-if="showLoading || loading.tips"
             class="mt-3"
           >
-            <loading />
+            <Loading />
           </div>
         </div>
       </div>

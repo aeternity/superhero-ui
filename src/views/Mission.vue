@@ -1,8 +1,8 @@
 <template>
   <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
+    <MobileNavigation />
+    <RightSection />
+    <LeftSection />
     <div class="container wrapper mt-2">
       <div class="content mission-page">
         <h1>{{ $t('views.Mission.header') }}</h1>

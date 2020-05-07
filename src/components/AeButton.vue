@@ -5,7 +5,7 @@
     type="submit"
     @click="$emit('click', $event)"
   >
-    <loading v-if="loading" />
+    <Loading v-if="loading" />
     <template v-else>
       <img
         v-if="src"

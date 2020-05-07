@@ -1,15 +1,15 @@
 <template>
   <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
+    <MobileNavigation />
+    <RightSection />
+    <LeftSection />
     <div class="container wrapper comment__page">
-      <back-button-ribbon />
+      <BackButtonRibbon />
       <div
         v-if="comment"
         class="tipped__url"
       >
-        <tip-comment :comment="comment" />
+        <TipComment :comment="comment" />
       </div>
       <div class="comment__section">
         <p class="latest__comments">
@@ -30,12 +30,12 @@
           </div>
         </div>
         <div class="send-comment">
-          <ae-button
+          <AeButton
             :disabled="newComment.length === 0"
-            @click="sendTipComment()"
+            @click="sendTipComment"
           >
             {{ $t('views.TipCommentsView.Reply') }}
-          </ae-button>
+          </AeButton>
         </div>
       </div>
       <div
@@ -50,7 +50,7 @@
           {{ $t('views.SingleCommentView.NoResultsMsg') }}
         </div>
 
-        <tip-comment
+        <TipComment
           v-for="nestedComment in comment.children"
           :key="nestedComment.id"
           :comment="nestedComment"
@@ -59,7 +59,7 @@
           v-if="showLoading"
           class="text-center w-100 mt-3"
         >
-          <loading :show-loading="true" />
+          <Loading :show-loading="true" />
         </div>
       </div>
     </div>

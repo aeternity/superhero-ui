@@ -1,12 +1,12 @@
 <template>
   <div>
-    <mobile-navigation
+    <MobileNavigation
       :toggle-mobile-nav="toggleMobileNav"
       :show-mobile-navigation="showMobileNavigation"
     />
-    <right-section />
-    <left-section />
-    <loading
+    <RightSection />
+    <LeftSection />
+    <Loading
       v-if="loading.initial"
       class="initial-loading"
     />
@@ -51,7 +51,7 @@
         <Onboarding />
         <div class="tips__container">
           <div class="send__tip__container">
-            <send-tip />
+            <SendTip />
           </div>
           <div class="actions__container position-sticky">
             <div class="row">

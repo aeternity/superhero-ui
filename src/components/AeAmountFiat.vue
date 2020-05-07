@@ -1,11 +1,11 @@
 <template>
   <div class="ae-amount-fiat">
-    <ae-amount
+    <AeAmount
       v-bind="$attrs"
       :amount="amount"
       :round="round"
     />
-    <fiat-value
+    <FiatValue
       v-bind="$attrs"
       :amount="amount"
     />

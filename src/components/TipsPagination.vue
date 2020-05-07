@@ -117,6 +117,7 @@ export default {
       this.tips = await Util.range(1, this.page)
         .asyncMap(async (page) => Backend
           .getCacheTips(this.tipSortBy, page, this.address, this.search));
+      this.lastTipId = get(this.tips[this.tips.length - 1], 'id');
       this.loadingTips = false;
     },
     openExplorer(address) {
@@ -125,6 +126,7 @@ export default {
     scroll() {
       window.onscroll = () => {
         const isLastTipInViewport = this.lastTipId !== -1
+          && this.$refs[`tip-id-${this.lastTipId}`]
           && this.$refs[`tip-id-${this.lastTipId}`][0].$el
             .getBoundingClientRect()
             .bottom <= (window.innerHeight || document.documentElement.clientHeight);

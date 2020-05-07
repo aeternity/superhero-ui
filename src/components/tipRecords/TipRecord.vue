@@ -1,5 +1,6 @@
 <template>
   <div
+    :key="key"
     class="tip__record row"
     @click="goToTip(tip.id)"
   >
@@ -161,6 +162,7 @@ export default {
   data() {
     return {
       defaultAvatar,
+      key: `${this.tip.id}_${new Date().getTime()}`,
     };
   },
   computed: {
@@ -179,6 +181,13 @@ export default {
         ? Backend.getTipPreviewUrl(this.tip.preview.image)
         : '';
     },
+  },
+  activated() {
+    if (this.embedlyPreview(this.tip)) {
+      setTimeout(() => {
+        this.key = `${this.tip.id}_${new Date().getTime()}`;
+      }, 500);
+    }
   },
   methods: {
     getAvatar(address) {

@@ -327,7 +327,6 @@
     "TipCommentsView": {
       "NoResultsMsg": "There are no comments at the moment.",
       "Reply": "Reply",
-      "records": "records",
       "AddReply": "Add reply",
       "LatestReplies": "Latest Replies"
     },
@@ -369,9 +368,7 @@
       },
       "Navigation": {
         "MyProfile": "My Profile",
-        "Tutorial": "Tutorial",
-        "League": "League",
-        "Mission": "Mission"
+        "League": "League"
       },
       "Overview": {
         "TipsAggregated": "Tips Aggregated",
@@ -441,10 +438,11 @@
         },
         "step4": {
           "header": "Send Tips: {br} Making the Internet a Better Place",
-          "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {addAMessage} if you want.",
-          "visitTheURL": "1. Paste any URL",
-          "addAMessage": "2. Add a message",
-          "youCanDirectlySupport": "You can directly support any person's content, cause, or project at any public URL with no middleman."
+          "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {clickSendTips} in your wallet. {br} {enterTipAmount} and optionally a message.",
+          "visitTheURL": "1. Visit the URL",
+          "clickSendTips": "2. Click Send tip",
+          "enterTipAmount": "3. Enter tip amount",
+          "youCanDirectlySupport": "You can directly support any person's content, cause, project at any public URL with no middleman."
         },
         "step5": {
           "header": "Welcome to Superhero!",
@@ -468,16 +466,6 @@
         "claim": "Claim"
       }
     },
-    "AeAmount": {},
-    "AeAmountFiat": {},
-    "AeButton": {},
-    "AeInputAmount": {},
-    "Avatar": {},
-    "BackButtonRibbon": {},
-    "Dropdown": {},
-    "ExpandableBlock": {},
-    "FiatValue": {},
-    "Loading": {},
     "TipInput": {
       "error": "An error occurred while sending the tip. Please try again later.",
       "retip": "Retip",

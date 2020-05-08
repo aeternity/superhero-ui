@@ -4,7 +4,7 @@
       :comment="comment"
     />
     <div
-      v-if="childComments"
+      v-if="childComments.length"
       class="child-comments"
     >
       <TipCommentList

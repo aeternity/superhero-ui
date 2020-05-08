@@ -99,10 +99,10 @@ export default {
     Page,
     ExpandableBlock,
   },
-  methods: {
-    getI18nPath(index) {
-      return `views.FAQ.questions[${index}].text`;
-    },
+  data() {
+    return {
+      questions: this.$i18n.messages[this.$i18n.fallbackLocale].views.FAQ.questions,
+    };
   },
 };
 </script>

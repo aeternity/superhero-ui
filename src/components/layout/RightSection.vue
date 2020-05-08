@@ -32,13 +32,13 @@
               class="balance text-ellipsis"
               :title="roundAE + ' AE'"
             >
-              <ae-amount
+              <AeAmount
                 :amount="balance"
                 :round="2"
               />
             </div>
             <div class="choose-fiat">
-              <dropdown
+              <Dropdown
                 v-if="currencyDropdownOptions"
                 :options="currencyDropdownOptions"
                 :method="selectCurrency"
@@ -64,13 +64,13 @@
             class="section__item"
           >
             <div class="topic-container text-ellipsis">
-              <topic :topic="topic" />
+              <Topic :topic="topic" />
             </div>
-            <ae-amount-fiat :amount="data.amount" />
+            <AeAmountFiat :amount="data.amount" />
           </div>
         </div>
       </div>
-      <footer-section />
+      <FooterSection />
     </div>
   </div>
 </template>

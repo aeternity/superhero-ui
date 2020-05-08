@@ -7,7 +7,7 @@
     @click.stop
   >
     <img :src="iconTip">
-    <ae-amount-fiat
+    <AeAmountFiat
       v-if="!userAddress"
       :amount="amount"
     />
@@ -42,7 +42,7 @@
           class="tip__icon"
           :src="iconTip"
         >
-        <ae-amount-fiat :amount="amount" />
+        <AeAmountFiat :amount="amount" />
       </div>
       <div
         v-else
@@ -60,7 +60,7 @@
         v-if="show"
         class="tip__container"
       >
-        <loading v-if="showLoading" />
+        <Loading v-if="showLoading" />
         <div
           v-show="error && !showLoading"
           class="text-center mb-2"
@@ -83,21 +83,21 @@
             >
           </div>
           <div class="amount__row">
-            <ae-input-amount v-model="value" />
-            <ae-button
+            <AeInputAmount v-model="value" />
+            <AeButton
               v-if="!userAddress"
               :disabled="!isDataValid"
-              @click="submitAction()"
+              @click="submitAction"
             >
               {{ isRetip ? $t('components.TipInput.retip') : $t('tip') }}
-            </ae-button>
-            <ae-button
+            </AeButton>
+            <AeButton
               v-else
               :disabled="!isUserDataValid"
-              @click="submitAction()"
+              @click="submitAction"
             >
               {{ $t('tip') }}
-            </ae-button>
+            </AeButton>
           </div>
         </form>
       </div>

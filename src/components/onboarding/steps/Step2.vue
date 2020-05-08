@@ -123,7 +123,7 @@
     <div class="step__footer">
       <button
         class="button"
-        @click="nextStep()"
+        @click="nextStep"
       >
         {{ $t('components.onboarding.steps.next') }}
       </button>

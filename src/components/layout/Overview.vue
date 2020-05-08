@@ -37,7 +37,7 @@
       v-if="stats.total_amount"
       class="overview__item"
     >
-      <ae-amount-fiat
+      <AeAmountFiat
         :amount="stats.total_amount"
         class="overview__value"
       />
@@ -49,7 +49,7 @@
       v-if="stats.total_claimed_amount"
       class="overview__item"
     >
-      <ae-amount-fiat
+      <AeAmountFiat
         :amount="stats.total_claimed_amount"
         class="overview__value"
       />

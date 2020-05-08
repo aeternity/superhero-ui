@@ -15,7 +15,7 @@
         &#x2715;
       </div>
     </div>
-    <send-tip />
+    <SendTip />
   </div>
 </template>
 

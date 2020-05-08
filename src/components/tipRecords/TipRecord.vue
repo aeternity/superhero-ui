@@ -27,7 +27,7 @@
             </div>
           </router-link>
           <span class="tip__date">
-            <format-date :date-timestamp="new Date(tip.timestamp)" />
+            <FormatDate :date-timestamp="new Date(tip.timestamp)" />
           </span>
         </div>
       </div>
@@ -97,7 +97,7 @@
         class="tip__note pr-2"
         @click.stop
       >
-        <tip-title
+        <TipTitle
           :tip="tip"
           :go-to-tip="goToTip"
         />

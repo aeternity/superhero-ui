@@ -10,7 +10,7 @@
     </div>
     <div
       class="navigation__item tips"
-      @click="scrollTop()"
+      @click="scrollTop"
     >
       <router-link :to="{ name: 'tips' }">
         <div class="navigation__item__image" />
@@ -20,7 +20,7 @@
     <div
       v-if="isLoggedIn"
       class="navigation__item profile"
-      @click="scrollTop()"
+      @click="scrollTop"
     >
       <router-link :to="{ name: 'user-profile', params: { address: account } }">
         <div class="navigation__item__image" />

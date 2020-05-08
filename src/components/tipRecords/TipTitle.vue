@@ -5,7 +5,7 @@
       :key="id"
       class="title"
     >
-      <topic
+      <Topic
         v-if="part.matches"
         :topic="part.text"
       />

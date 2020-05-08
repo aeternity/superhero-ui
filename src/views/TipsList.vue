@@ -1,11 +1,8 @@
 <template>
-  <div>
-    <MobileNavigation
-      :toggle-mobile-nav="toggleMobileNav"
-      :show-mobile-navigation="showMobileNavigation"
-    />
-    <RightSection />
-    <LeftSection />
+  <Page
+    :toggle-mobile-nav="toggleMobileNav"
+    :show-mobile-navigation="showMobileNavigation"
+  >
     <Loading
       v-if="loading.initial"
       class="initial-loading"
@@ -85,16 +82,14 @@
         </div>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
 import SendTip from '../components/layout/SendTip.vue';
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import Page from '../components/layout/Page.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
@@ -106,10 +101,8 @@ export default {
     TipsPagination,
     Onboarding,
     Loading,
-    LeftSection,
-    RightSection,
+    Page,
     SendTip,
-    MobileNavigation,
   },
   data() {
     return {

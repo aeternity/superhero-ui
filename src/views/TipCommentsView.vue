@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <MobileNavigation />
-    <RightSection />
-    <LeftSection />
+  <Page>
     <div class="container wrapper url__page">
       <BackButtonRibbon />
       <div
@@ -60,7 +57,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
@@ -70,10 +67,7 @@ import Backend from '../utils/backend';
 import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
-// eslint-disable-next-line import/no-cycle
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import Page from '../components/layout/Page.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
@@ -87,9 +81,7 @@ export default {
     Loading,
     TipRecord,
     TipComment,
-    LeftSection,
-    RightSection,
-    MobileNavigation,
+    Page,
     AeButton,
     Avatar,
     BackButtonRibbon,

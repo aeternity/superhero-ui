@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <MobileNavigation />
-    <RightSection />
-    <LeftSection />
+  <Page>
     <div class="container wrapper mt-2">
       <div class="content faq-page">
         <h1>{{ $t('views.FAQ.header') }}</h1>
@@ -91,22 +88,18 @@
         </template>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
+import Page from '../components/layout/Page.vue';
 import ExpandableBlock from '../components/ExpandableBlock.vue';
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
 
 export default {
   name: 'FAQ',
   components: {
-    LeftSection,
-    RightSection,
+    Page,
     ExpandableBlock,
-    MobileNavigation,
   },
   methods: {
     getI18nPath(index) {

@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <MobileNavigation />
-    <RightSection />
-    <LeftSection />
+  <Page>
     <Loading
       v-if="loading.initial"
       class="mt-5"
@@ -277,16 +274,14 @@
         </div>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import Backend from '../utils/backend';
 import TipComment from '../components/tipRecords/TipComment.vue';
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import Page from '../components/layout/Page.vue';
 import { wallet } from '../utils/walletSearch';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
@@ -304,9 +299,7 @@ export default {
     Loading,
     AeAmountFiat,
     TipComment,
-    LeftSection,
-    RightSection,
-    MobileNavigation,
+    Page,
     Avatar,
     BackButtonRibbon,
     TipInput,

@@ -100,7 +100,7 @@ export default {
   },
   computed: {
     formatDate() {
-      return new Date(this.comment.createdAt.substring(0, this.comment.createdAt.length - 8));
+      return new Date(this.comment.createdAt);
     },
     childComments() {
       if (this.comment && this.comment.children) {

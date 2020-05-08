@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!comment.parentId"
     class="comment-list"
   >
     <TipComment

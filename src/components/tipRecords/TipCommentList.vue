@@ -88,5 +88,9 @@ export default {
       margin-left: 1rem;
     }
   }
+
+  .send-comment {
+    padding: 0 0.5rem 1rem 0.5rem;
+  }
 }
 </style>

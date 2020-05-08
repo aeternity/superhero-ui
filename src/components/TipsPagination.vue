@@ -88,6 +88,7 @@ export default {
       window.scrollTo(0, 0);
       this.endReached = false;
       this.page = 1;
+      this.tips = null;
       this.loadData();
     },
     async loadData() {

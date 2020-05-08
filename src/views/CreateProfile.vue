@@ -69,44 +69,6 @@
 </template>
 
 <script>
-const renderNodeContent = (createElement, node, slots) => (!node.childNodes.length
-  ? node.textContent
-  : Array.from(node.childNodes)
-    .filter(n => [Node.ELEMENT_NODE, Node.TEXT_NODE].includes(n.nodeType))
-    .map((n) => {
-      switch (n.tagName) {
-        case 'ul':
-          return createElement('ul', renderNodeContent(createElement, n, slots));
-        case 'secondary':
-          return createElement('mark', renderNodeContent(createElement, n, slots));
-        case 'alternative':
-          return createElement('strong', renderNodeContent(createElement, n, slots));
-        case 'br':
-          return createElement('br');
-        case 'p':
-          return createElement('p', renderNodeContent(createElement, n, slots));
-        case undefined:
-          return n.textContent;
-        default:
-          return slots[n.tagName];
-      }
-    }));
-
-const TemplateRenderer = {
-  functional: true,
-  props: {
-    node: { type: Node, required: true },
-    slots: { type: Object, required: true },
-  },
-  render(createElement, { data, props }) {
-    return createElement(
-      'div',
-      { class: data.staticClass },
-      renderNodeContent(createElement, props.node, props.slots),
-    );
-  },
-};
-
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import ExpandableBlock from '../components/ExpandableBlock.vue';
@@ -120,26 +82,6 @@ export default {
     ExpandableBlock,
     MobileNavigation,
     TemplateRenderer,
-  },
-  props: {
-    fill: {
-      type: String,
-      validator: value => [
-        'primary',
-        'alternative',
-        'neutral',
-      ].includes(value),
-      default: 'primary',
-    },
-    size: {
-      type: String,
-      validator: value => ['small', 'medium', 'big'].includes(value),
-      default: 'medium',
-    },
-    template: {
-      type: String,
-      default: '',
-    },
   },
   computed: {
     chromeLink() {

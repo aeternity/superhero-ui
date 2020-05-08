@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <MobileNavigation />
-    <RightSection />
-    <LeftSection />
+  <Page>
     <div class="container wrapper mt-2">
       <div class="content mission-page">
         <h1>{{ $t('views.Mission.header') }}</h1>
@@ -29,20 +26,16 @@
         <p>{{ $t('views.Mission.footerContent') }}</p>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import Page from '../components/layout/Page.vue';
 
 export default {
   name: 'FAQ',
   components: {
-    LeftSection,
-    RightSection,
-    MobileNavigation,
+    Page,
   },
   methods: {
     getI18nPath(index, page) {

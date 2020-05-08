@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <MobileNavigation />
-    <RightSection />
-    <LeftSection />
+  <Page>
     <div class="container wrapper url__page">
       <BackButtonRibbon />
       <div
@@ -44,7 +41,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
@@ -53,10 +50,7 @@ import { mapGetters } from 'vuex';
 import Backend from '../utils/backend';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipCommentList from '../components/tipRecords/TipCommentList.vue';
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
-// eslint-disable-next-line import/no-cycle
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import Page from '../components/layout/Page.vue';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
@@ -68,9 +62,7 @@ export default {
     Loading,
     TipRecord,
     TipCommentList,
-    LeftSection,
-    RightSection,
-    MobileNavigation,
+    Page,
     BackButtonRibbon,
     SendComment,
   },

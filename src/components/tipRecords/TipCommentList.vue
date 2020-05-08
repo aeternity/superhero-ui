@@ -1,5 +1,7 @@
 <template>
-  <div class="comment-list">
+  <div
+    class="comment-list"
+  >
     <TipComment
       :comment="comment"
     />
@@ -7,22 +9,35 @@
       v-if="childComments.length"
       class="child-comments"
     >
-      <TipCommentList
+      <TipComment
         v-for="childComment in childComments"
         :key="childComment.id"
         :comment="childComment"
       />
+      <SendComment
+        :tip-id="comment.tipId"
+        :parent-id="comment.id"
+        class="send-comment"
+      />
     </div>
+    <SendComment
+      v-if="!childComments.length"
+      :tip-id="comment.tipId"
+      :parent-id="comment.id"
+      class="send-comment"
+    />
   </div>
 </template>
 
 <script>
 import TipComment from './TipComment.vue';
+import SendComment from '../SendComment.vue';
 
 export default {
   name: 'TipCommentList',
   components: {
     TipComment,
+    SendComment,
   },
   props: {
     comment: { type: Object, required: true },
@@ -55,6 +70,10 @@ export default {
     margin-right: -1rem;
     margin-left: 2rem;
   }
+}
+
+.send-comment {
+  padding: 0 1rem 1rem 1rem;
 }
 
 @media only screen

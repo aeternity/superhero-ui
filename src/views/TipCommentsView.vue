@@ -11,32 +11,16 @@
       >
         <TipRecord :tip="tip" />
       </div>
-      <div class="comment__section">
+      <div
+        v-if="tip"
+        class="comment__section"
+      >
         <p class="latest__comments">
           {{ $t('views.TipCommentsView.LatestReplies') }}
         </p>
-        <div class="d-flex">
-          <Avatar
-            :address="address"
-            class="avatar mr-3"
-          />
-          <div class="input-group">
-            <input
-              v-model="newComment"
-              type="text"
-              :placeholder="$t('views.TipCommentsView.AddReply')"
-              class="form-control reply__input"
-            >
-          </div>
-        </div>
-        <div class="send-comment">
-          <AeButton
-            :disabled="newComment.length === 0"
-            @click="sendTipComment"
-          >
-            {{ $t('views.TipCommentsView.Reply') }}
-          </AeButton>
-        </div>
+        <SendComment
+          :tip-id="tip.id"
+        />
       </div>
       <div class="comments__section">
         <div
@@ -67,19 +51,16 @@
 import { mapGetters } from 'vuex';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
-import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipCommentList from '../components/tipRecords/TipCommentList.vue';
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 // eslint-disable-next-line import/no-cycle
 import MobileNavigation from '../components/layout/MobileNavigation.vue';
-import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
-import AeButton from '../components/AeButton.vue';
-import Avatar from '../components/Avatar.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
+import SendComment from '../components/SendComment.vue';
 
 export default {
   name: 'TipCommentsView',
@@ -90,9 +71,8 @@ export default {
     LeftSection,
     RightSection,
     MobileNavigation,
-    AeButton,
-    Avatar,
     BackButtonRibbon,
+    SendComment,
   },
   data() {
     return {
@@ -100,13 +80,10 @@ export default {
       showLoading: true,
       comments: [],
       error: false,
-      newComment: '',
-      address: null,
       tip: null,
-      USE_DEEP_LINKS,
     };
   },
-  computed: mapGetters(['account', 'chainNames', 'isLoggedIn', 'loading']),
+  computed: mapGetters(['chainNames', 'loading']),
   watch: {
     tip() {
       this.updateTip();
@@ -114,12 +91,6 @@ export default {
   },
   created() {
     this.loadTip();
-    const loadUserAvatar = setInterval(() => {
-      if (this.isLoggedIn) {
-        this.address = this.account;
-        clearInterval(loadUserAvatar);
-      }
-    }, 500);
 
     EventBus.$on('reloadData', () => {
       this.reloadData();
@@ -131,25 +102,6 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
-    async sendTipComment() {
-      if (this.USE_DEEP_LINKS || !this.isLoggedIn) {
-        window.location = createDeepLinkUrl(
-          { type: 'comment', id: this.tip.id, text: this.newComment },
-        );
-        return;
-      }
-      this.showLoading = true;
-      const response = await Backend.sendTipComment(
-        this.tip.id,
-        this.newComment,
-        wallet.client.rpcClient.getCurrentAccount(),
-        (data) => wallet.signMessage(data),
-      );
-      this.comments.push(response);
-      this.showLoading = false;
-      EventBus.$emit('reloadData');
-      this.newComment = '';
-    },
     updateTip() {
       Backend.getTipComments(this.id).then((response) => {
         this.error = false;
@@ -240,19 +192,6 @@ export default {
       margin-bottom: 0.7rem;
       color: white;
       font-weight: 600;
-    }
-  }
-
-  .reply__input {
-    width: 100%;
-  }
-
-  .send-comment {
-    margin-top: 0.5rem;
-    text-align: right;
-
-    .ae-button {
-      padding: 0.55rem 2.87rem 0.65rem 2.87rem;
     }
   }
 }

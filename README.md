@@ -1,6 +1,6 @@
 # Superhero UI
 
-[![Build Status](https://travis-ci.com/aeternity/superhero-wallet.svg?branch=develop)](https://travis-ci.com/aeternity/superhero-wallet)
+[![Build Status](https://travis-ci.com/aeternity/superhero-ui.svg?branch=develop)](https://travis-ci.com/aeternity/superhero-ui)
 
 This repo contains the code for the superhero.com (currently https://superhero.com) tips aggregator.
 

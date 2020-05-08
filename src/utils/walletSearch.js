@@ -7,8 +7,8 @@ import { MemoryAccount, Universal } from '@aeternity/aepp-sdk';
 import aeternity from './aeternity';
 
 // Send wallet connection info to Aepp through content script
-const NODE_URL = 'https://sdk-mainnet.aepps.com';
-const NODE_INTERNAL_URL = 'https://sdk-mainnet.aepps.com';
+const NODE_URL = 'https://mainnet.aeternity.io';
+const NODE_INTERNAL_URL = 'https://mainnet.aeternity.io';
 const COMPILER_URL = 'https://latest.compiler.aepps.com';
 
 // eslint-disable-next-line import/prefer-default-export

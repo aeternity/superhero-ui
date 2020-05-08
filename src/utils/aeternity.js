@@ -74,8 +74,8 @@ aeternity.initStaticClient = async () => Universal({
     {
       name: 'mainnet',
       instance: await Node({
-        url: 'https://sdk-mainnet.aepps.com',
-        internalUrl: 'https://sdk-mainnet.aepps.com',
+        url: 'https://mainnet.aeternity.io',
+        internalUrl: 'https://mainnet.aeternity.io',
       }),
     }],
 });

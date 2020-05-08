@@ -452,7 +452,11 @@
         "title": "Join Superhero"
       }
     },
-    "tipRecords": {},
+    "tipRecords": {
+      "TipComment": {
+        "Replies": "Replies"
+      }
+    },
     "AeAmount": {},
     "AeAmountFiat": {},
     "AeButton": {},
@@ -469,7 +473,8 @@
       "tipUser": "Tip User",
       "totalTipsWithYou": "Total tips (you tipped too)",
       "totalTips": "Total tips (click to retip the same URL)",
-      "totalRetips": "Total amount of retips"
+      "totalRetips": "Total amount of retips",
+      "tipComment": "Tip Comment"
     },
     "TipsPagination": {
       "NoResultsMsg": "There are no results found"

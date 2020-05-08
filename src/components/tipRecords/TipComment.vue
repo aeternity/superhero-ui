@@ -59,11 +59,22 @@
         {{ comment.text }}
       </div>
       <div
-        title="Replies"
-        class="tip__replies"
+        class="comment__actions"
       >
-        <img src="../../assets/iconReply.svg">
-        {{ childComments }}
+        <span
+          @click.stop
+        >
+          <TipInput
+            :comment="comment"
+          />
+        </span>
+        <span
+          :title="$t('components.tipRecords.TipComment.Replies')"
+          class="comments"
+        >
+          <img src="../../assets/iconReply.svg">
+          {{ childComments }}
+        </span>
       </div>
     </div>
   </div>
@@ -74,12 +85,14 @@
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 import Backend from '../../utils/backend';
+import TipInput from '../TipInput.vue';
 
 export default {
   name: 'TipComment',
   components: {
     FormatDate,
     Avatar,
+    TipInput,
   },
   props: {
     comment: { type: Object, required: true },
@@ -87,7 +100,7 @@ export default {
   },
   computed: {
     formatDate() {
-      return new Date(this.comment.createdAt.substring(0, this.comment.createdAt.length - 8));
+      return new Date(this.comment.createdAt);
     },
     childComments() {
       if (this.comment && this.comment.children) {
@@ -200,14 +213,20 @@ export default {
   max-width: 85%;
 }
 
-.tip__replies {
+.comment__actions {
   padding: 0.25rem 1rem 1rem 1rem;
   color: $standard_font_color;
   font-size: 0.8rem;
+  display: flex;
+  align-items: center;
 
   img {
     height: 0.7rem;
   }
+}
+
+.comments {
+  margin-left: 3rem;
 }
 
 @media only screen
@@ -227,7 +246,7 @@ export default {
       }
     }
 
-    .tip__replies {
+    .comment__actions {
       padding-left: 0;
     }
   }

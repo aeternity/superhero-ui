@@ -15,7 +15,7 @@
       v-else
       class="tip-user-text"
     >
-      Tip
+      {{ $t('tip') }}
     </span>
   </a>
   <div
@@ -54,7 +54,7 @@
           class="tip__icon"
           :src="iconTip"
         >
-        <span class="tip-user-text">Tip</span>
+        <span class="tip-user-text">{{ $t('tip') }}</span>
       </div>
       <div
         v-if="show"
@@ -85,18 +85,18 @@
           <div class="amount__row">
             <AeInputAmount v-model="value" />
             <AeButton
-              v-if="!userAddress"
+              v-if="userAddress || comment"
+              :disabled="!isUserAndCommentDataValid"
+              @click="submitAction"
+            >
+              {{ $t('tip') }}
+            </AeButton>
+            <AeButton
+              v-else
               :disabled="!isDataValid"
               @click="submitAction"
             >
               {{ isRetip ? $t('components.TipInput.retip') : $t('tip') }}
-            </AeButton>
-            <AeButton
-              v-else
-              :disabled="!isUserDataValid"
-              @click="submitAction"
-            >
-              {{ $t('tip') }}
             </AeButton>
           </div>
         </form>
@@ -132,6 +132,7 @@ export default {
     tip: { type: Object, default: null },
     isRetip: { type: Boolean },
     userAddress: { type: String, default: '' },
+    comment: { type: Object, default: null },
   },
   data() {
     return {
@@ -148,6 +149,9 @@ export default {
     ...mapGetters(['account', 'loading', 'minTipAmount', 'stats']),
     eventPayload() {
       if (!this.userAddress) {
+        if (this.comment) {
+          return `${this.comment.id}:${this.show}`;
+        }
         return `${this.tip.id}:${this.show}`;
       }
       return null;
@@ -158,9 +162,19 @@ export default {
       }
       return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/#/user-profile/${this.userAddress}`);
     },
+    derivedCommentTipStats() {
+      if (!this.stats || !this.stats.by_url) {
+        return null;
+      }
+      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`);
+    },
     deepLink() {
       let url = '';
-      if (this.userAddress) {
+      if (this.comment) {
+        url = createDeepLinkUrl({ type: 'tip' });
+        url.searchParams.set('url',
+          encodeURIComponent(`https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`));
+      } else if (this.userAddress) {
         url = createDeepLinkUrl({ type: 'tip' });
         url.searchParams.set('url',
           encodeURIComponent(`https://superhero.com/#/user-profile/${this.userAddress}`));
@@ -180,7 +194,7 @@ export default {
       return ((this.value > this.minTipAmount) && (this.isRetip || this.isMessageValid))
               || (this.isMessageValid && !this.value);
     },
-    isUserDataValid() {
+    isUserAndCommentDataValid() {
       return this.value > this.minTipAmount && this.isMessageValid;
     },
     isTipped() {
@@ -190,6 +204,15 @@ export default {
         }
         return this.derivedUserTipStats.senders.find((sender) => sender === this.account) !== null;
       }
+
+      if (this.comment) {
+        if (!this.stats || !this.derivedCommentTipStats) {
+          return false;
+        }
+        return this.derivedCommentTipStats.senders
+          .find((sender) => sender === this.account) !== null;
+      }
+
       return !this.loading
           || (this.tip.sender === this.account)
           || this.tip.retips.filter((retip) => retip.sender === this.account).length > 0;
@@ -198,6 +221,13 @@ export default {
       return this.isTipped ? iconTipped : iconTip;
     },
     amount() {
+      if (this.comment) {
+        if (!this.stats || !this.derivedCommentTipStats) {
+          return '0';
+        }
+        return this.derivedCommentTipStats.total_amount;
+      }
+
       return this.isRetip
         ? this.tip.total_amount
         : this.tip.retip_amount_ae;
@@ -205,7 +235,13 @@ export default {
     title() {
       if (this.userAddress) {
         return i18n.t('components.TipInput.tipUser');
-      } if (this.isRetip) {
+      }
+
+      if (this.comment) {
+        return i18n.t('components.TipInput.tipComment');
+      }
+
+      if (this.isRetip) {
         return this.isTipped
           ? i18n.t('components.TipInput.totalTipsWithYou')
           : i18n.t('components.TipInput.totalTips');
@@ -263,9 +299,15 @@ export default {
     async sendTip() {
       this.showLoading = true;
       const amount = util.aeToAtoms(this.value);
+      let url = '';
+      if (this.comment) {
+        url = `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`;
+      } else {
+        url = `https://superhero.com/#/tip/${this.tip.id}`;
+      }
       (this.isRetip
         ? aeternity.retip(this.tip.id, amount)
-        : aeternity.tip(`https://superhero.com/#/tip/${this.tip.id}`, this.message, amount))
+        : aeternity.tip(url, this.message, amount))
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');

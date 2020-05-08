@@ -78,7 +78,7 @@
                 class="profile__info"
               >
                 <h1
-                  v-if="!editMode"
+                  v-if="!editMode && profile.displayName"
                   class="profile__displayname"
                 >
                   {{ profile.displayName }}

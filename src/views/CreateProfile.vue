@@ -1,8 +1,8 @@
 <template>
   <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
+    <MobileNavigation />
+    <RightSection />
+    <LeftSection />
     <div class="container wrapper">
       <div class="content tutorial-page">
         <h1>
@@ -16,7 +16,7 @@
           v-for="(item, index) in
             Object.keys($i18n.messages[$i18n.fallbackLocale].views.CreateProfile.sections).length"
         >
-          <expandable-block
+          <ExpandableBlock
             :key="index"
             :title="$t('views.CreateProfile.sections')[index].title"
           >
@@ -25,7 +25,6 @@
               :path="getI18nPath(index)"
               tag="p"
             >
-
               <template v-slot:extensionFirefox>
                 <a
                   :href="firefoxLink"
@@ -61,7 +60,7 @@
                 </a>
               </template>
             </i18n>
-          </expandable-block>
+          </ExpandableBlock>
         </template>
       </div>
     </div>
@@ -81,7 +80,6 @@ export default {
     RightSection,
     ExpandableBlock,
     MobileNavigation,
-    TemplateRenderer,
   },
   computed: {
     chromeLink() {

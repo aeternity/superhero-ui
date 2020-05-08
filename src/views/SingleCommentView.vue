@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <MobileNavigation />
-    <RightSection />
-    <LeftSection />
+  <Page>
     <div class="container wrapper comment__page">
       <BackButtonRibbon />
       <div
@@ -63,7 +60,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
@@ -72,10 +69,7 @@ import { mapGetters } from 'vuex';
 import Backend from '../utils/backend';
 import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import TipComment from '../components/tipRecords/TipComment.vue';
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
-// eslint-disable-next-line import/no-cycle
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import Page from '../components/layout/Page.vue';
 import { wallet } from '../utils/walletSearch';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
@@ -86,11 +80,9 @@ import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 export default {
   name: 'CommentView',
   components: {
+    Page,
     Loading,
     TipComment,
-    LeftSection,
-    RightSection,
-    MobileNavigation,
     AeButton,
     Avatar,
     BackButtonRibbon,

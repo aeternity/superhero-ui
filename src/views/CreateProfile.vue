@@ -11,240 +11,102 @@
           {{ $t('views.CreateProfile.header3') }}
         </h1>
         <hr width="30%">
-        <expandable-block :title="$t('views.CreateProfile.01.title')">
-          <p><b>{{ $t('views.CreateProfile.01.info_0') }}</b></p>
-          <p />
-          <p>
-            {{ $t('views.CreateProfile.01.info_1') }}<br>
-            {{ $t('views.CreateProfile.01.info_2') }}
-          </p>
-          <p>
-            {{ $t('views.CreateProfile.01.info_3') }}<br>
-            {{ $t('views.CreateProfile.01.info_4') }}
-            <a
-              href="https://addons.mozilla.org/en-US/firefox/addon/superhero-wallet/"
-              target="_blank"
+
+        <template
+          v-for="(item, index) in
+            Object.keys($i18n.messages[$i18n.fallbackLocale].views.CreateProfile.sections).length"
+        >
+          <expandable-block
+            :key="index"
+            :title="$t('views.CreateProfile.sections')[index].title"
+          >
+            <i18n
+              :key="index"
+              :path="getI18nPath(index)"
+              tag="p"
             >
-              {{ $t('views.CreateProfile.here') }} </a><br>
-            {{ $t('views.CreateProfile.click') }}
-            <span class="highlited">{{ $t('views.CreateProfile.add') }}</span>
-            {{ $t('views.CreateProfile.01.info_5') }}
-            <span class="highlited">{{ $t('views.CreateProfile.add') }}</span>
-            {{ $t('views.CreateProfile.01.info_6') }}<br>
-            {{ $t('views.CreateProfile.01.info_7') }}<br>
-          </p>
-          <p>
-            {{ $t('views.CreateProfile.01.info_8') }}<br>
-            {{ $t('views.CreateProfile.01.info_9') }}
-            <a
-              :href="chromeLink"
-              target="_blank"
-            >
-              {{ $t('views.CreateProfile.here') }}
-            </a><br>
-            {{ $t('views.CreateProfile.01.info_10') }}<br>
-            {{ $t('views.CreateProfile.01.info_11') }}
-          </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.02.title')">
-          <p>
-            {{ $t('views.CreateProfile.02.info_0') }}<br>
-            {{ $t('views.CreateProfile.click') }}
-            <span class="highlited">{{ $t('views.CreateProfile.02.info_1') }}</span><br>
-            {{ $t('views.CreateProfile.02.info_2') }}<br>
-            {{ $t('views.CreateProfile.02.info_3') }}<br>
-          </p>
-          <p>
-            {{ $t('views.CreateProfile.02.info_4') }}<br>
-            {{ $t('views.CreateProfile.02.info_5') }}<br>
-            {{ $t('views.CreateProfile.02.info_6') }}<br>
-            {{ $t('views.CreateProfile.02.info_7') }}
-          </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.03.title')">
-          <p>
-            {{ $t('views.CreateProfile.03.info_0') }}<br>
-            {{ $t('views.CreateProfile.03.info_1') }}<br>
-            {{ $t('views.CreateProfile.03.info_2') }}<br>
-            {{ $t('views.CreateProfile.03.info_3') }}
-          </p>
-          <p>
-            {{ $t('views.CreateProfile.03.info_4') }}<br>
-            {{ $t('views.CreateProfile.03.info_5') }}<br>
-            {{ $t('views.CreateProfile.03.info_6') }}<br>
-          </p>
-          <ul>
-            <li>
-              {{ $t('views.CreateProfile.03.info_7') }}
-              <span class="highlited">{{ $t('views.CreateProfile.03.info_8') }}</span>
-              {{ $t('views.CreateProfile.03.info_9') }}
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.03.info_10') }}
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.03.info_11') }}
-            </li>
-          </ul>
-          <p>
-            {{ $t('views.CreateProfile.03.info_12') }}
-          </p>
-          <ul>
-            <li>
-              <b>{{ $t('views.CreateProfile.03.info_13') }}</b>
-            </li>
-          </ul>
-          <p>
-            {{ $t('views.CreateProfile.03.info_14') }}
-          </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.04.title')">
-          <p>
-            {{ $t('views.CreateProfile.04.info_0') }}<br>
-            {{ $t('views.CreateProfile.04.info_1') }}
-          </p>
-          <ul>
-            <li>
-              {{ $t('views.CreateProfile.04.info_2') }}
-              <img src="../assets/iconExtension.svg"> {{ $t('views.CreateProfile.04.info_3') }}<br>
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.click') }}
-              <span class="highlited">{{ $t('views.CreateProfile.04.info_4') }}</span>
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.04.info_5') }}
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.04.info_6') }}
-              <span class="highlited">{{ $t('views.CreateProfile.04.info_7') }}</span>
-              {{ $t('views.CreateProfile.04.info_8') }}
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.04.info_9') }}
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.click') }}
-              <span class="highlited">{{ $t('views.CreateProfile.04.info_10') }}</span>
-              {{ $t('views.CreateProfile.04.info_11') }}
-            </li>
-          </ul>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.05.title')">
-          <p>
-            {{ $t('views.CreateProfile.05.info_0') }}
-          </p>
-          <p>
-            {{ $t('views.CreateProfile.05.info_1') }}<br>
-            {{ $t('views.CreateProfile.05.info_2') }}
-          </p>
-          <p>
-            {{ $t('views.CreateProfile.05.info_3') }}<br>
-            {{ $t('views.CreateProfile.05.info_4') }}<br>
-            {{ $t('views.CreateProfile.05.info_5') }}<br>
-            {{ $t('views.CreateProfile.05.info_6') }}<br>
-            {{ $t('views.CreateProfile.05.info_7') }}
-            <a
-              href="https://form.jotform.com/201075183408046"
-              target="_blank"
-            >
-              {{ $t('views.CreateProfile.05.info_8') }}
-            </a>
-          </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.06.title')">
-          <p>
-            {{ $t('views.CreateProfile.06.info_0') }}
-          </p>
-          <ul>
-            <li>
-              {{ $t('views.CreateProfile.06.info_1') }}
-              <span class="highlited">{{ $t('views.CreateProfile.06.info_2') }}</span>
-            </li>
-            <li>{{ $t('views.CreateProfile.06.info_3') }}</li>
-            <li>{{ $t('views.CreateProfile.06.info_4') }}</li>
-            <li>{{ $t('views.CreateProfile.06.info_5') }}</li>
-          </ul>
-          <p>
-            {{ $t('views.CreateProfile.06.info_6') }}<br>
-            {{ $t('views.CreateProfile.06.info_7') }}
-          </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.07.title')">
-          <p>
-            {{ $t('views.CreateProfile.07.info_0') }}<br>
-            {{ $t('views.CreateProfile.07.info_1') }}<br>
-            {{ $t('views.CreateProfile.07.info_2') }}<br>
-            {{ $t('views.CreateProfile.07.info_3') }}
-          </p>
-          <ul>
-            <li>
-              {{ $t('views.CreateProfile.07.info_4') }}
-              <span class="highlited">{{ $t('views.CreateProfile.07.info_5') }}</span>
-              {{ $t('views.CreateProfile.07.info_6') }}
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.click') }}
-              <span class="highlited">{{ $t('views.CreateProfile.names') }}</span>.
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.07.info_7') }}
-              <span class="highlited">{{ $t('views.CreateProfile.07.info_8') }}</span>
-              {{ $t('views.CreateProfile.07.info_9') }}
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.07.info_10') }}
-              <span class="highlited">+</span> {{ $t('views.CreateProfile.07.info_11') }}
-            </li>
-            <li>{{ $t('views.CreateProfile.07.info_12') }}</li>
-          </ul>
-          <p>
-            {{ $t('views.CreateProfile.07.info_13') }}
-            <a
-              href="https://aeternity.com/documentation-hub/protocol/AENS/"
-              target="_blank"
-            >
-              {{ $t('views.CreateProfile.here') }} </a>.
-          </p>
-          <p>
-            {{ $t('views.CreateProfile.07.info_14') }}
-          </p>
-        </expandable-block>
-        <expandable-block :title="$t('views.CreateProfile.08.title')">
-          <p>
-            {{ $t('views.CreateProfile.08.info_0') }}
-          </p>
-          <ul>
-            <li>
-              {{ $t('views.CreateProfile.08.info_1') }}
-              <span class="highlited">{{ $t('views.CreateProfile.08.info_2') }}</span>
-              {{ $t('views.CreateProfile.08.info_3') }}
-              <span class="highlited">{{ $t('views.CreateProfile.names') }}</span>.
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.click') }}
-              <span class="highlited">{{ $t('views.CreateProfile.08.info_4') }}</span>.
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.08.info_5') }}
-              <span class="highlited">{{ $t('views.CreateProfile.08.info_6') }}</span>.
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.08.info_7') }}
-            </li>
-            <li>
-              {{ $t('views.CreateProfile.click') }}
-              <span class="highlited">{{ $t('views.CreateProfile.08.info_8') }}</span>
-              {{ $t('views.CreateProfile.08.info_9') }}
-            </li>
-          </ul>
-        </expandable-block>
+
+              <template v-slot:extensionFirefox>
+                <a
+                  :href="firefoxLink"
+                  target="_blank"
+                >
+                  {{ $t('views.CreateProfile.here') }}
+                </a>
+              </template>
+
+              <template v-slot:extensionChrome>
+                <a
+                  :href="chromeLink"
+                  target="_blank"
+                >
+                  {{ $t('views.CreateProfile.here') }}
+                </a>
+              </template>
+
+              <template v-slot:br>
+                <br>
+              </template>
+
+              <template v-slot:tipButton>
+                <img src="../assets/iconExtension.svg">
+              </template>
+
+              <template v-slot:feedbackForm>
+                <a
+                  href="https://form.jotform.com/201075183408046"
+                  target="_blank"
+                >
+                  {{ $t('views.CreateProfile.feedbackForm') }}
+                </a>
+              </template>
+            </i18n>
+          </expandable-block>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+const renderNodeContent = (createElement, node, slots) => (!node.childNodes.length
+  ? node.textContent
+  : Array.from(node.childNodes)
+    .filter(n => [Node.ELEMENT_NODE, Node.TEXT_NODE].includes(n.nodeType))
+    .map((n) => {
+      switch (n.tagName) {
+        case 'ul':
+          return createElement('ul', renderNodeContent(createElement, n, slots));
+        case 'secondary':
+          return createElement('mark', renderNodeContent(createElement, n, slots));
+        case 'alternative':
+          return createElement('strong', renderNodeContent(createElement, n, slots));
+        case 'br':
+          return createElement('br');
+        case 'p':
+          return createElement('p', renderNodeContent(createElement, n, slots));
+        case undefined:
+          return n.textContent;
+        default:
+          return slots[n.tagName];
+      }
+    }));
+
+const TemplateRenderer = {
+  functional: true,
+  props: {
+    node: { type: Node, required: true },
+    slots: { type: Object, required: true },
+  },
+  render(createElement, { data, props }) {
+    return createElement(
+      'div',
+      { class: data.staticClass },
+      renderNodeContent(createElement, props.node, props.slots),
+    );
+  },
+};
+
 import LeftSection from '../components/layout/LeftSection.vue';
 import RightSection from '../components/layout/RightSection.vue';
 import ExpandableBlock from '../components/ExpandableBlock.vue';
@@ -257,10 +119,43 @@ export default {
     RightSection,
     ExpandableBlock,
     MobileNavigation,
+    TemplateRenderer,
+  },
+  props: {
+    fill: {
+      type: String,
+      validator: value => [
+        'primary',
+        'alternative',
+        'neutral',
+      ].includes(value),
+      default: 'primary',
+    },
+    size: {
+      type: String,
+      validator: value => ['small', 'medium', 'big'].includes(value),
+      default: 'medium',
+    },
+    template: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     chromeLink() {
       return 'https://chrome.google.com/webstore/detail/superhero/mnhmmkepfddpifjkamaligfeemcbhdne';
+    },
+    firefoxLink() {
+      return 'https://addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
+    },
+    templateRootNode() {
+      return new DOMParser()
+        .parseFromString(`<root>${this.template}</root>`, 'text/xml').childNodes[0];
+    },
+  },
+  methods: {
+    getI18nPath(index) {
+      return `views.CreateProfile.sections[${index}].text`;
     },
   },
 };

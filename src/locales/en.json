@@ -17,112 +17,41 @@
       "add": "Add",
       "here": "here",
       "names": "Names",
-      "01": {
-        "title": "HOW TO USE SUPERHERO",
-        "info_0": "Download and install the Superhero extension for your browser.",
-        "info_1": "Superhero is currently available for Firefox and Chrome. The Chrome extension can be used for Brave and Opera.",
-        "info_2": "For Firefox:",
-        "info_3": "Get the add-on",
-        "info_4": "to Firefox. Confirm by clicking",
-        "info_5": "again in the message prompt.",
-        "info_6": "The Superhero icon should appear on the upper right corner of your Firefox browser toolbar.",
-        "info_7": "For Chrome, Brave, and Opera:",
-        "info_8": "Get the extension",
-        "info_9": "Add the extension to your browser",
-        "info_10": "The Superhero icon should appear on the upper right corner of your browser toolbar."
-      },
-      "02": {
-        "title": "CREATING YOUR WALLET",
-        "info_0": "Tick the checkbox to agree to the terms and conditions.",
-        "info_1": "Click CREATE A NEW WALLET.",
-        "info_2": "That’s it—your wallet is created!",
-        "info_3": "You can now start receiving tips from anyone through your wallet address.",
-        "info_4": "You can find your wallet address on your dashboard, right above your balance. It’s a random string of numbers and letters that starts with ak_.",
-        "info_5": "This wallet address is also referred to as a public key— it’s what others see as your public ID by default. You can easily copy this by clicking the copy button right next to your wallet address."
-      },
-      "03": {
-        "title": "SECURING YOUR WALLET",
-        "info_0": "With great freedom comes great responsibility. You’re in charge of keeping the keys to your account. There are no third-party custodians to store nor connect any password with any account. The task of keeping the keys to your wallet is yours and yours alone, Superhero.",
-        "info_1": "Here’s how to secure and backup your wallet:",
-        "info_2": "Once you’re in your dashboard, you’ll get a series of words called a seed phrase. The seed phrase is somewhat like a password – it’s a unique set of words (in order) which connects you to your wallet.",
-        "info_3": "Click the",
-        "info_4": "hamburger menu",
-        "info_5": "on the upper right of your wallet.",
-        "info_6": "Go to Settings, choose Security.",
-        "info_7": "On the next screen, click Show seed phrase.",
-        "info_8": "Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place.",
-        "info_9": "Simple as that.",
-        "info_10": "IMPORTANT: You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)"
-      },
-      "04": {
-        "title": "SENDING TIPS",
-        "info_0": "To send someone tips, go to the URL that you want to tip. The Superhero wallet will automatically detect the URL on your active tab.",
-        "info_1": "Alternatively, you can copy the URL you want to tip.",
-        "info_2": "Open your Superhero wallet extension. The button",
-        "info_3": "should be in the upper right of your browser toolbar.",
-        "info_4": "Click Send Tip",
-        "info_5": "On the next screen, fill in the required fields. You can paste the URL in the field on top. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome.",
-        "info_6": "Click the",
-        "info_7": "Send Tip",
-        "info_8": "button below. (In cases where the website has not been claimed by a fellow Superhero, you may opt to proceed with tipping but it’s highly suggested that you let the website owner know so they can start claiming tips.)",
-        "info_9": "On the next screen, review the details of your tip.",
-        "info_10": "Click Confirm",
-        "info_11": "to complete the transaction."
-      },
-      "05": {
-        "title": "RECEIVING TIPS",
-        "info_0": "To receive tips yourself, copy your wallet address.",
-        "info_1": "Paste your wallet address onto the web page or profile where you have received or plan to receive tips. It could be a blog, a social media account, or any other online profile.",
-        "info_2": "Save this change and refresh the page.",
-        "info_3": "You can also add your wallet address in the source code of your web page.",
-        "info_4": "Once your wallet address is added to your web page, all you have to do is open your Superhero wallet and hit Claim Tip. This would trigger tip claiming across all websites and profiles where you pasted your wallet address.",
-        "info_5": "Any unclaimed tips you’ve received within the past year will then be added to your wallet balance.",
-        "info_6": "In some cases, there may be slight delays in collecting tips. Give it a few minutes and try opening your wallet again.",
-        "info_7": "If the problem persists, you may ask questions through this",
-        "info_8": "feedback form."
-      },
-      "06": {
-        "title": "CASHING OUT",
-        "info_1": "In the same way you don’t walk around with large amounts of cash in your purse, it is highly recommended that you do not keep large amounts of AE in your Superhero wallet.",
-        "info_2": "For long-term storage of large amounts of AE, we recommend using a cold wallet, like AirGap.",
-        "info_3": "To withdraw tips you've collected, you can send tips to your AE wallet address in a crypto exchange that supports AE tokens (see list above).",
-        "info_4": "To cash out, go to the hamburger menu. Click",
-        "info_5": "Withdraw.",
-        "info_6": "Enter your wallet address from the crypto exchange of your choice.",
-        "info_7": "You can also send to someone else’s wallet account by pasting their account into the wallet address field.",
-        "info_8": "Enter the amount you want to withdraw.",
-        "info_9": "Click Review to check your transaction details.",
-        "info_10": "Hit Send to confirm the withdrawal.",
-        "info_11": "Tips can then be converted into other cryptocurrencies or fiat and transferred to your local bank.",
-        "info_12": "Processes for exchanges vary per country. In many cases, there will be a few minutes’ wait time or longer depending on the exchange’s capacity and processes. But you can track your transactions easily by clicking the eye button next to the transaction in your Activity History."
-      },
-      "07": {
-        "title": "GETTING A .CHAIN NAME",
-        "info_0": "You can claim a .chain name through the Superhero wallet extension. A .chain name serves as an alternative to your wallet address, making it much easier for other users to send you a tip. You can also use your .chain name as your profile name on Superhero.",
-        "info_3": "To claim a name through your Superhero wallet:",
-        "info_4": "Open the",
-        "info_5": "hamburger menu",
-        "info_6": "on the upper right.",
-        "info_7": "Click Names.",
-        "info_8": "On the",
-        "info_8": "Add New",
-        "info_9": "screen, type in your preferred name. Note that the suffix .chain is automatically appended to your name. This is mandatory in the naming system.",
-        "info_10": "Click the",
-        "info_11": "button to proceed.",
-        "info_12": "Click Confirm.",
-        "info_13": "Only numbers and letters are allowed in .chain names. Currently, only names 13 characters and above can be claimed through the Superhero wallet. This will be improved later.",
-        "info_14": "You can claim as many names on Superhero as you want. Make sure you have enough AE in your wallet to cover the initial price for the selected name. Ideally, you should have at least 3AE in your balance for better success at claiming Names."
-      },
-      "08": {
-        "title": "SETTING YOUR SUPERHERO PROFILE NAME",
-        "info_0": "To set a .chain name that you own as your Superhero profile name:",
-        "info_1": "Click the",
-        "info_2": "hamburger menu",
-        "info_3": "and go to",
-        "info_4": "Your Names",
-        "info_5": "Under your preferred Superhero .chain name, click",
-        "info_6": "Set Active"
-      }
+      "feedbackForm": "feedback form",
+      "sections": [
+        {
+          "title": "HOW TO USE SUPERHERO",
+          "text": "Download and install the Superhero extension for your browser. {br}{br} Superhero is currently available for Firefox and Chrome. The Chrome extension can be used for Brave and Opera. {br}{br} For Firefox: {br} Get the add-on for Firefox {extensionFirefox} {br} Confirm by clicking Add again in the message prompt. {br} The Superhero icon should appear on the upper right corner of your Firefox browser toolbar. {br}{br} For Chrome, Brave, and Opera: {br} Get the extension {extensionChrome} {br} Add the extension to your browser. The Superhero icon should appear on the upper right corner of your browser toolbar."
+        },
+        {
+          "title": "CREATING YOUR WALLET",
+          "text": "Tick the checkbox to agree to the terms and conditions. {br} Click CREATE A NEW WALLET. {br} That’s it—your wallet is created! {br} You can now start receiving tips from anyone through your wallet address. {br}{br} You can find your wallet address on your dashboard, right above your balance. It’s a random string of numbers and letters that starts with ak_. {br} This wallet address is also referred to as a public key— it’s what others see as your public ID by default. You can easily copy this by clicking the copy button right next to your wallet address."
+        },
+        {
+          "title": "SECURING YOUR WALLET",
+          "text": "With great freedom comes great responsibility. You’re in charge of keeping the keys to your account. There are no third-party custodians to store nor connect any password with any account. The task of keeping the keys to your wallet is yours and yours alone, Superhero. {br}{br} Here’s how to secure and backup your wallet: {br} Once you’re in your dashboard, you’ll get a series of words called a seed phrase. The seed phrase is somewhat like a password – it’s a unique set of words (in order) which connects you to your wallet. {br}{br} - Click the hamburger menu on the upper right of your wallet. {br} - Go to Settings, chose Security. {br} - On the next screen, click Show seed phrase. {br} - Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place. Simple as that. {br}{br} IMPORTANT: You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)"
+        },
+        {
+          "title": "SENDING TIPS",
+          "text": "To send someone tips, go to the URL that you want to tip. The Superhero wallet will automatically detect the URL on your active tab. {br} Alternatively, you can copy the URL you want to tip. {br}{br} - Open your Superhero wallet extension. The button {tipButton} should be in the upper right of your browser toolbar. {br} - Click Send Tip {br} - On the next screen, fill in the required fields. You can paste the URL in the field on top. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome. {br} - Click the Send Tip button below. (In cases where the website has not been claimed by a fellow Superhero, you may opt to proceed with tipping but it’s highly suggested that you let the website owner know so they can start claiming tips.) {br} - On the next screen, review the details of your tip. {br} - Click Confirm to complete the transaction."
+        },
+        {
+          "title": "RECEIVING TIPS",
+          "text": "To receive tips yourself, copy your wallet address. {br}{br} Paste your wallet address onto the web page or profile where you have received or plan to receive tips. It could be a blog, a social media account, or any other online profile. {br} Save this change and refresh the page. You can also add your wallet address in the source code of your web page. {br} Once your wallet address is added to your web page, all you have to do is open your Superhero wallet and hit Claim Tip. This would trigger tip claiming across all websites and profiles where you pasted your wallet address. Any unclaimed tips you’ve received within the past year will then be added to your wallet balance. {br} In some cases, there may be slight delays in collecting tips. Give it a few minutes and try opening your wallet again. {br} If the problem persists, you may ask questions through this {feedbackForm}"
+        },
+        {
+          "title": "WITHDRAW",
+          "text": "In the same way you don’t walk around with large amounts of cash in your purse, it is highly recommended that you do not keep large amounts of AE in your Superhero wallet. For long-term storage of large amounts of AE, we recommend using a cold wallet, like AirGap. {br}{br} To withdraw tips you've collected, you can send tips to your AE wallet address in a crypto exchange that supports AE tokens (see list above). {br}{br} - To withdraw, go to the hamburger menu. {br} - Click Withdraw. {br} - Enter your wallet address from the crypto exchange of your choice. You can also send to someone else’s wallet account by pasting their account into the wallet address field. {br} - Enter the amount you want to withdraw. {br} Click Review to check your transaction details. {br} - Hit Send to confirm the withdrawal. {br}{br} Tips can then be converted into other cryptocurrencies or fiat and transferred to your local bank. {br}{br} Processes for exchanges vary per country. In many cases, there will be a few minutes’ wait time or longer depending on the exchange’s capacity and processes. But you can track your transactions easily by clicking the eye button next to the transaction in your Activity History."
+        },
+        {
+          "title": "GETTING A .CHAIN NAME",
+          "text": "You can claim a .chain name through the Superhero wallet extension. A .chain name serves as an alternative to your wallet address, making it much easier for other users to send you a tip. You can also use your .chain name as your profile name on Superhero. {br}{br} To claim a name through your Superhero wallet: {br}{br} - Open the hamburger menu on the upper right. {br} - Click Names. {br} - On the Add New screen, type in your preferred name. Note that the suffix .chain is automatically appended to your name. This is mandatory in the naming system. {br} - Click the + button to proceed. {br} - Click confirm. {br}{br} Only numbers and letters are allowed in .chain names. Currently, only names 13 characters and above can be claimed through the Superhero wallet. This will be improved later. {br}{br} You can claim as many names on Superhero as you want. Make sure you have enough AE in your wallet to cover the initial price for the selected name. Ideally, you should have at least 3AE in your balance for better success at claiming Names."
+        },
+        {
+          "title": "SETTING YOUR SUPERHERO PROFILE NAME",
+          "text": "To set a .chain name that you own as your Superhero profile name: {br}{br} - Click the hamburger menu and go to Your Names. {br} - Under your preferred Superhero .chain name, click Set Active."
+        }
+      ]
     },
     "Mission": {
       "header": "SUPERHERO: AN ORIGIN STORY WITH A MISSION",

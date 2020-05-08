@@ -33,7 +33,7 @@
         </div>
       </div>
       <div
-        v-if="isPreviewToBeVisualized(tip) && !embedlyPreview(tip)"
+        v-if="isPreviewToBeVisualized(tip)"
         class="tip__article"
       >
         <div class="tip__article--hasresults">
@@ -81,21 +81,6 @@
             class="preview__image"
           >
         </div>
-      </div>
-      <div
-        v-else-if="embedlyPreview(tip)"
-        class="tip__url"
-      >
-        <a
-          :href="tip.url"
-          :title="tip.url"
-          class="embedly-card text-ellipsis"
-          data-card-theme="dark"
-          data-card-controls="0"
-          data-card-via=""
-          data-card-recommend="0"
-          data-card-key="57b5154650e74bf19e4f106468d90770"
-        >{{ tip.url }}</a>
       </div>
       <div
         v-else
@@ -184,22 +169,7 @@ export default {
       return this.isPreviewToBeVisualized(this.tip) && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
   },
-  activated() {
-    if (this.embedlyPreview(this.tip)) {
-      setTimeout(() => {
-        this.key = `${this.tip.id}_${new Date().getTime()}`;
-      }, 500);
-    }
-  },
   methods: {
-    embedlyPreview(tip) {
-      return (
-        tip.url.indexOf('youtube') > -1
-        || tip.url.indexOf('youtu.be') > -1
-        || (tip.url.indexOf('twitter') > -1 && tip.url.indexOf('status') > -1)
-        || tip.url.indexOf('facebook') > -1
-      );
-    },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
         && typeof tip.preview !== 'undefined'

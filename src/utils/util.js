@@ -64,21 +64,11 @@ export const IDENTICON_CONFIG = {
   backColor: '#12121bff',
 };
 
-export const createDeepLinkUrl = ({
-  type, id, text, parentId,
-}) => {
+export const createDeepLinkUrl = ({ type, ...params }) => {
   const url = new URL(`${process.env.VUE_APP_WALLET_URL}/${type}`);
-  if (parentId) {
-    url.searchParams.set('parentId', parentId);
-  }
-  if (id) {
-    url.searchParams.set('id', id);
-  }
-  if (text) {
-    url.searchParams.set('text', encodeURIComponent(text));
-  }
-  url.searchParams.set('x-success', encodeURIComponent(window.location));
-  url.searchParams.set('x-cancel', encodeURIComponent(window.location));
+  Object.entries(params).forEach(([name, value]) => url.searchParams.set(name, value));
+  url.searchParams.set('x-success', window.location);
+  url.searchParams.set('x-cancel', window.location);
   return url;
 };
 

@@ -4,7 +4,7 @@
     class="currency-value"
   >
     <span v-if="withoutBrackets">
-      <span class="currency-sign">{{ currencySign }}</span>{{ fiatValue }} 
+      <span class="currency-sign">{{ currencySign }}</span>{{ fiatValue }}
     </span>
     <span v-else-if="displaySymbol">
       (~ <span class="currency-sign">{{ currencySign }}</span>{{ fiatValue }})

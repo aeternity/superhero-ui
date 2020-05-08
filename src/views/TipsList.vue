@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
-    <loading
+  <Page
+    :toggle-mobile-nav="toggleMobileNav"
+    :show-mobile-navigation="showMobileNavigation"
+  >
+    <Loading
       v-if="loading.initial"
       class="initial-loading"
-      :show-loading="true"
     />
     <div v-else>
       <div class="actions__container container position-sticky">
-        <div class="search__input__container">
+        <div
+          class="search__input__container"
+          :class="{ 'show-mobile-nav': showMobileNavigation }"
+        >
           <input
             v-model="searchTerm"
             type="text"
@@ -21,6 +23,7 @@
           <div
             v-if="searchTerm.length"
             class="clear"
+            :title="$t('views.TipList.Clear')"
             @click="searchTerm = ''"
           >
             <img src="../assets/iconEraser.svg">
@@ -34,7 +37,8 @@
           </div>
           <div
             class="close-mobile-nav"
-            @click="toggleMobileNavigation(false)"
+            :title="$t('views.TipList.CloseSearch')"
+            @click="toggleMobileNav(true)"
           >
             &#x2715;
           </div>
@@ -44,7 +48,7 @@
         <Onboarding />
         <div class="tips__container">
           <div class="send__tip__container">
-            <send-tip />
+            <SendTip />
           </div>
           <div class="actions__container position-sticky">
             <div class="row">
@@ -78,16 +82,14 @@
         </div>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
 import SendTip from '../components/layout/SendTip.vue';
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import Page from '../components/layout/Page.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
@@ -99,24 +101,16 @@ export default {
     TipsPagination,
     Onboarding,
     Loading,
-    LeftSection,
-    RightSection,
+    Page,
     SendTip,
-    MobileNavigation,
   },
   data() {
     return {
       searchTerm: '',
-      activeLang: 'en',
-      languagesOptions: [
-        { value: 'en', text: 'English' },
-        { value: 'zh', text: 'Chinese' },
-      ],
+      showMobileNavigation: true,
     };
   },
-  computed: {
-    ...mapGetters(['tipSortBy', 'loading']),
-  },
+  computed: mapGetters(['tipSortBy', 'loading']),
   async created() {
     EventBus.$on('searchTopic', (topic) => {
       window.scrollTo(0, 0);
@@ -128,14 +122,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setTipSortBy', 'toggleMobileNavigation']),
+    ...mapActions(['setTipSortBy']),
     onSearchTopic(data) {
       this.searchTerm = data;
+    },
+    toggleMobileNav(show) {
+      this.showMobileNavigation = show;
     },
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
 .search__input__container {
@@ -285,31 +281,62 @@ export default {
   }
 }
 
+@media (max-width: 1024px) {
+  .close-mobile-nav {
+    display: block;
+    font-size: 1rem;
+    color: $standard_font_color;
+    right: 1rem;
+
+    @include vertical-align($position: absolute);
+
+    z-index: 10;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .search-icon {
+    display: none;
+  }
+
+  .search__input__container.show-mobile-nav {
+    display: none;
+  }
+
+  .clear {
+    right: 2.2rem;
+
+    img {
+      vertical-align: baseline;
+    }
+  }
+
+  .search__input {
+    padding: 1.05rem 3.2rem 1.05rem 1rem;
+  }
+}
+
 //Smallest devices Portrait and Landscape
 @media only screen
   and (min-device-width: 320px)
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
-  .search-icon {
-    display: none;
-  }
-
   .search__input {
-    padding: 0.5rem 3.5rem 0.5rem 1rem;
+    padding: 0.9rem 3.5rem 0.9rem 1rem;
   }
 
   .actions__container {
     width: 100%;
-    padding-top: 0.5rem;
     background-color: $actions_ribbon_background_color;
     overflow-x: hidden;
     z-index: 100;
-    padding-bottom: 0.5rem;
 
     &:nth-child(2) {
       width: 100vw;
       margin-left: -0.2rem;
-      top: 3.35rem;
+      top: 3.1rem;
       padding-top: 0;
       padding-bottom: 0;
     }
@@ -349,29 +376,6 @@ export default {
 
     .tips__container {
       padding: 0;
-    }
-  }
-
-  .clear {
-    right: 2.5rem;
-
-    img {
-      vertical-align: baseline;
-    }
-  }
-
-  .close-mobile-nav {
-    display: block;
-    font-size: 1rem;
-    color: $standard_font_color;
-    right: 1rem;
-
-    @include vertical-align($position: absolute);
-
-    z-index: 10;
-
-    &:hover {
-      cursor: pointer;
     }
   }
 

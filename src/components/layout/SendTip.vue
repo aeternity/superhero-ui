@@ -16,12 +16,12 @@
           v-model="sendTipForm.title"
           type="text"
           class="form-control comment"
-          :placeholder="$t('components.layout.SendTip.AddMessage')"
+          :placeholder="$t('addMessage')"
           :disabled="!canTip"
         >
       </div>
       <div class="form-row">
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-7 col-lg-8 col-sm-12 send-url">
           <input
             v-model.trim="sendTipForm.url"
             type="text"
@@ -30,21 +30,22 @@
             :disabled="!canTip"
           >
         </div>
-        <div class="col-md-4">
-          <ae-input-amount
+        <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
+          <AeInputAmount
             v-model="sendTipForm.amount"
             :disabled="!canTip"
           />
         </div>
       </div>
       <div class="text-right">
-        <ae-button
+        <AeButton
           :disabled="!canTip || !isSendTipDataValid"
+          :loading="sendingTip"
           :src="IconDiamond"
-          @click="sendTip()"
+          @click="sendTip"
         >
-          {{ $t('components.layout.SendTip.Tip') }}
-        </ae-button>
+          {{ $t('tip') }}
+        </AeButton>
       </div>
     </form>
   </div>
@@ -75,6 +76,7 @@ export default {
         url: '',
         title: '',
       },
+      sendingTip: false,
       IconDiamond,
       avatarImageKey: 1,
     };
@@ -103,11 +105,13 @@ export default {
   },
   methods: {
     async sendTip() {
+      this.sendingTip = true;
       const amount = util.aeToAtoms(this.sendTipForm.amount);
       await aeternity.tip(this.sendTipForm.url, this.sendTipForm.title, amount)
         .catch(console.error);
       await Backend.cacheInvalidateTips().catch(console.error);
       this.clearTipForm();
+      this.sendingTip = false;
       EventBus.$emit('reloadData');
     },
     clearTipForm() {
@@ -126,7 +130,7 @@ export default {
       padding: 0.6rem 1rem 1rem 1rem;
 
       .form-row {
-        margin: 1rem 0 1rem 0;
+        margin-top: 1rem;
 
         .form-group {
           border: 0.05rem solid $buttons_background;
@@ -162,6 +166,11 @@ export default {
           font-size: 0.75rem;
           height: 2.2rem;
         }
+      }
+
+      .send-url,
+      .send-amount {
+        margin-bottom: 1rem;
       }
 
       .tip__post__balance span {
@@ -205,4 +214,5 @@ export default {
     color: $warning_font_color;
     margin-bottom: 0.5rem;
   }
+
 </style>

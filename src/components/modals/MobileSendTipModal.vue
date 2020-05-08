@@ -6,7 +6,7 @@
     <div class="heading-section clearfix">
       <div class="title">
         <img src="../../assets/iconTip.svg">
-        {{ $t('components.modals.MobileSendTipModal.Tip') }}
+        {{ $t('tip') }}
       </div>
       <div
         class="close-navigation"
@@ -15,7 +15,7 @@
         &#x2715;
       </div>
     </div>
-    <send-tip />
+    <SendTip />
   </div>
 </template>
 
@@ -28,14 +28,11 @@ export default {
   components: {
     SendTip,
   },
-  computed: {
-    ...mapGetters(['isTipModalOpen']),
-  },
-  methods: {
-    ...mapActions(['toggleTipModal']),
-  },
+  computed: mapGetters(['isTipModalOpen']),
+  methods: mapActions(['toggleTipModal']),
 };
 </script>
+
 <style lang="scss">
 .send-tip__modal {
   display: none;

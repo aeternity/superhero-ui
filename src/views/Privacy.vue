@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
+  <Page>
     <div class="container wrapper mt-2">
       <div class="row content">
         <div class="col-sm-12">
@@ -25,20 +22,16 @@
         </div>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import Page from '../components/layout/Page.vue';
 
 export default {
   name: 'Privacy',
   components: {
-    LeftSection,
-    RightSection,
-    MobileNavigation,
+    Page,
   },
   methods: {
     getI18nPath(index, page) {
@@ -54,7 +47,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
   .content {

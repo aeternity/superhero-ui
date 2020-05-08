@@ -1,23 +1,22 @@
 <template>
   <a
-    v-if="USE_DEEP_LINKS && !userAddress"
+    v-if="USE_DEEP_LINKS"
     :href="deepLink"
     target="_blank"
     class="tip__content"
     @click.stop
   >
     <img :src="iconTip">
-    <ae-amount-fiat :amount="amount" />
-  </a>
-  <a
-    v-else-if="USE_DEEP_LINKS && userAddress"
-    :href="deepLink"
-    target="_blank"
-    class="tip__content"
-    @click.stop
-  >
-    <img :src="iconTip">
-    <span class="tip-user-text">Tip</span>
+    <AeAmountFiat
+      v-if="!userAddress"
+      :amount="amount"
+    />
+    <span
+      v-else
+      class="tip-user-text"
+    >
+      {{ $t('tip') }}
+    </span>
   </a>
   <div
     v-else
@@ -43,7 +42,7 @@
           class="tip__icon"
           :src="iconTip"
         >
-        <ae-amount-fiat :amount="amount" />
+        <AeAmountFiat :amount="amount" />
       </div>
       <div
         v-else
@@ -55,13 +54,13 @@
           class="tip__icon"
           :src="iconTip"
         >
-        <span class="tip-user-text">Tip</span>
+        <span class="tip-user-text">{{ $t('tip') }}</span>
       </div>
       <div
         v-if="show"
         class="tip__container"
       >
-        <loading :show-loading="showLoading" />
+        <Loading v-if="showLoading" />
         <div
           v-show="error && !showLoading"
           class="text-center mb-2"
@@ -80,25 +79,25 @@
               v-model="message"
               type="text"
               class="form-control tip__message"
-              :placeholder="$t('components.TipInput.addMessage')"
+              :placeholder="$t('addMessage')"
             >
           </div>
           <div class="amount__row">
-            <ae-input-amount v-model="value" />
-            <ae-button
-              v-if="!userAddress"
-              :disabled="!isDataValid"
-              @click="submitAction()"
+            <AeInputAmount v-model="value" />
+            <AeButton
+              v-if="userAddress || comment"
+              :disabled="!isUserAndCommentDataValid"
+              @click="submitAction"
             >
-              {{ isRetip ? 'Retip' : 'Tip' }}
-            </ae-button>
-            <ae-button
+              {{ $t('tip') }}
+            </AeButton>
+            <AeButton
               v-else
-              :disabled="!isUserDataValid"
-              @click="submitAction()"
+              :disabled="!isDataValid"
+              @click="submitAction"
             >
-              {{ 'Tip' }}
-            </ae-button>
+              {{ isRetip ? $t('components.TipInput.retip') : $t('tip') }}
+            </AeButton>
           </div>
         </form>
       </div>
@@ -113,12 +112,13 @@ import iconTipped from '../assets/iconTipped.svg';
 import aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import util, { USE_DEEP_LINKS } from '../utils/util';
+import util, { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 import { wallet } from '../utils/walletSearch';
+import { i18n } from '../utils/i18nHelper';
 
 export default {
   name: 'TipInput',
@@ -132,6 +132,7 @@ export default {
     tip: { type: Object, default: null },
     isRetip: { type: Boolean },
     userAddress: { type: String, default: '' },
+    comment: { type: Object, default: null },
   },
   data() {
     return {
@@ -148,6 +149,9 @@ export default {
     ...mapGetters(['account', 'loading', 'minTipAmount', 'stats']),
     eventPayload() {
       if (!this.userAddress) {
+        if (this.comment) {
+          return `${this.comment.id}:${this.show}`;
+        }
         return `${this.tip.id}:${this.show}`;
       }
       return null;
@@ -158,22 +162,29 @@ export default {
       }
       return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/#/user-profile/${this.userAddress}`);
     },
+    derivedCommentTipStats() {
+      if (!this.stats || !this.stats.by_url) {
+        return null;
+      }
+      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`);
+    },
     deepLink() {
       let url = '';
-      if (this.userAddress) {
-        url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
+      if (this.comment) {
+        url = createDeepLinkUrl({ type: 'tip' });
+        url.searchParams.set('url',
+          encodeURIComponent(`https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`));
+      } else if (this.userAddress) {
+        url = createDeepLinkUrl({ type: 'tip' });
         url.searchParams.set('url',
           encodeURIComponent(`https://superhero.com/#/user-profile/${this.userAddress}`));
       } else if (this.isRetip) {
-        url = new URL(`${process.env.VUE_APP_WALLET_URL}/retip`);
-        url.searchParams.set('id', this.tip.id);
+        url = createDeepLinkUrl({ type: 'retip', id: this.tip.id });
       } else {
-        url = new URL(`${process.env.VUE_APP_WALLET_URL}/tip`);
+        url = createDeepLinkUrl({ type: 'tip' });
         url.searchParams.set('url',
           encodeURIComponent(`https://superhero.com/#/tip/${this.tip.id}`));
       }
-      url.searchParams.set('x-success', encodeURIComponent(window.location));
-      url.searchParams.set('x-cancel', encodeURIComponent(window.location));
       return url;
     },
     isMessageValid() {
@@ -183,7 +194,7 @@ export default {
       return ((this.value > this.minTipAmount) && (this.isRetip || this.isMessageValid))
               || (this.isMessageValid && !this.value);
     },
-    isUserDataValid() {
+    isUserAndCommentDataValid() {
       return this.value > this.minTipAmount && this.isMessageValid;
     },
     isTipped() {
@@ -193,6 +204,15 @@ export default {
         }
         return this.derivedUserTipStats.senders.find((sender) => sender === this.account) !== null;
       }
+
+      if (this.comment) {
+        if (!this.stats || !this.derivedCommentTipStats) {
+          return false;
+        }
+        return this.derivedCommentTipStats.senders
+          .find((sender) => sender === this.account) !== null;
+      }
+
       return !this.loading
           || (this.tip.sender === this.account)
           || this.tip.retips.filter((retip) => retip.sender === this.account).length > 0;
@@ -201,19 +221,32 @@ export default {
       return this.isTipped ? iconTipped : iconTip;
     },
     amount() {
+      if (this.comment) {
+        if (!this.stats || !this.derivedCommentTipStats) {
+          return '0';
+        }
+        return this.derivedCommentTipStats.total_amount;
+      }
+
       return this.isRetip
         ? this.tip.total_amount
         : this.tip.retip_amount_ae;
     },
     title() {
       if (this.userAddress) {
-        return 'Tip User';
-      } if (this.isRetip) {
-        return this.isTipped
-          ? 'Total tips (you tipped too)'
-          : 'Total tips (click to retip the same URL)';
+        return i18n.t('components.TipInput.tipUser');
       }
-      return 'Total amount of retips';
+
+      if (this.comment) {
+        return i18n.t('components.TipInput.tipComment');
+      }
+
+      if (this.isRetip) {
+        return this.isTipped
+          ? i18n.t('components.TipInput.totalTipsWithYou')
+          : i18n.t('components.TipInput.totalTips');
+      }
+      return i18n.t('components.TipInput.totalRetips');
     },
   },
   created() {
@@ -266,9 +299,15 @@ export default {
     async sendTip() {
       this.showLoading = true;
       const amount = util.aeToAtoms(this.value);
+      let url = '';
+      if (this.comment) {
+        url = `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`;
+      } else {
+        url = `https://superhero.com/#/tip/${this.tip.id}`;
+      }
       (this.isRetip
         ? aeternity.retip(this.tip.id, amount)
-        : aeternity.tip(`https://superhero.com/#/tip/${this.tip.id}`, this.message, amount))
+        : aeternity.tip(url, this.message, amount))
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           EventBus.$emit('reloadData');
@@ -284,12 +323,9 @@ export default {
     },
     async sendTipComment() {
       if (USE_DEEP_LINKS) {
-        const url = new URL(`${process.env.VUE_APP_WALLET_URL}/comment`);
-        url.searchParams.set('id', this.tip.id);
-        url.searchParams.set('text', this.message);
-        url.searchParams.set('x-success', window.location);
-        url.searchParams.set('x-cancel', window.location);
-        window.location = url;
+        window.location = createDeepLinkUrl(
+          { type: 'comment', id: this.tip.id, text: this.message },
+        );
         return;
       }
       this.showLoading = true;

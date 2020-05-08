@@ -19,7 +19,7 @@
         {{ stats.comments.total }}
       </div>
       <div class="overview__label">
-        {{ $t('components.layout.Overview.Comments') }}
+        {{ $t('comments') }}
       </div>
     </div>
     <div
@@ -37,7 +37,7 @@
       v-if="stats.total_amount"
       class="overview__item"
     >
-      <ae-amount-fiat
+      <AeAmountFiat
         :amount="stats.total_amount"
         class="overview__value"
       />
@@ -49,7 +49,7 @@
       v-if="stats.total_claimed_amount"
       class="overview__item"
     >
-      <ae-amount-fiat
+      <AeAmountFiat
         :amount="stats.total_claimed_amount"
         class="overview__value"
       />
@@ -90,9 +90,7 @@ export default {
   components: {
     AeAmountFiat,
   },
-  computed: {
-    ...mapGetters(['stats']),
-  },
+  computed: mapGetters(['stats']),
 };
 </script>
 

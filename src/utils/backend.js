@@ -6,7 +6,7 @@ const backendFetch = (path, ...args) => wrapTry(fetch(`${BACKEND_URL}/${path}`, 
 export default class Backend {
   static getTipComments = async (tipId) => backendFetch(`comment/api/tip/${encodeURIComponent(tipId)}`);
 
-  static async sendTipComment(tipId, text, author, signCb) {
+  static async sendTipComment(tipId, text, author, signCb, parentId) {
     const sendComment = async (postParam) => backendFetch('comment/api/', {
       method: 'post',
       body: JSON.stringify(postParam),
@@ -18,6 +18,7 @@ export default class Backend {
     const respondChallenge = {
       challenge: responseChallenge.challenge,
       signature: signedChallenge,
+      parentId,
     };
 
     return sendComment(respondChallenge);
@@ -73,9 +74,7 @@ export default class Backend {
 
   static getCacheChainNames = async () => backendFetch('cache/chainnames');
 
-  static getPrice = async () => wrapTry(fetch('https://api.coingecko.com/api/v3/simple/price?ids=aeternity&vs_currencies=usd,eur,cny'));
-  // quick workaround because of CORS issue in the backend.
-  // static getPrice = async () => backendFetch('cache/price');
+  static getPrice = async () => backendFetch('cache/price');
 
   static getOracleCache = async () => backendFetch('cache/oracle');
 
@@ -88,4 +87,6 @@ export default class Backend {
   static getTipPreviewUrl = (previewLink) => `${BACKEND_URL}${previewLink}`;
 
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
+
+  static getCommentById = async (id) => backendFetch(`comment/api/${id}`);
 }

@@ -116,16 +116,16 @@
           :href="href"
           target="_blank"
         >
-          {{ $t('components.onboarding.steps.step2.FAQ') }}
+          {{ $t('FAQ') }}
         </a>
       </router-link>
     </p>
     <div class="step__footer">
       <button
         class="button"
-        @click="nextStep()"
+        @click="nextStep"
       >
-        {{ $t('components.onboarding.steps.step2.next') }}
+        {{ $t('components.onboarding.steps.next') }}
       </button>
     </div>
   </div>

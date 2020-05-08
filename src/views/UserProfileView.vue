@@ -1,16 +1,12 @@
 <template>
-  <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
-    <loading
+  <Page>
+    <Loading
       v-if="loading.initial"
       class="mt-5"
-      :show-loading="true"
     />
     <div v-else>
       <div class="profile__page">
-        <back-button-ribbon />
+        <BackButtonRibbon />
         <div class="profile__section clearfix position-relative">
           <div
             v-if="showLoadingProfile"
@@ -20,7 +16,7 @@
               class="spinner-border text-primary"
               role="status"
             >
-              <span class="sr-only">{{ $t('views.UserProfileView.Loading') }}</span>
+              <span class="sr-only">{{ $t('loading') }}</span>
             </div>
           </div>
           <div
@@ -32,7 +28,7 @@
                 v-if="!editMode && account === address"
                 class="edit__button button small"
                 title="Edit Profile"
-                @click="toggleEditMode()"
+                @click="toggleEditMode"
               >
                 {{ $t('views.UserProfileView.EditProfile') }}
               </a>
@@ -41,8 +37,8 @@
                   v-if="showLoadingAvatar"
                   class="overlay"
                 />
-                <loading
-                  :show-loading="showLoadingAvatar && editMode"
+                <Loading
+                  v-if="showLoadingAvatar && editMode"
                   class="position-absolute"
                 />
                 <label
@@ -82,7 +78,7 @@
                 class="profile__info"
               >
                 <h1
-                  v-if="!editMode"
+                  v-if="!editMode && profile.displayName"
                   class="profile__displayname"
                 >
                   {{ profile.displayName }}
@@ -114,7 +110,7 @@
                   v-if="!editMode && userStats"
                   class="count"
                 >
-                  {{ userStats.tipsLength }} {{ $t('views.UserProfileView.Tips') }}
+                  {{ userStats.tipsLength }} {{ $t('tips') }}
                 </div>
                 <TipInput
                   v-if="!editMode"
@@ -127,7 +123,7 @@
               v-if="editMode"
               class="input-group delete-avatar"
             >
-              <span @click="deleteAvatar()">
+              <span @click="deleteAvatar">
                 {{ $t('views.UserProfileView.DeleteAvatar') }}
               </span>
             </div>
@@ -156,14 +152,14 @@
               <button
                 type="button"
                 class="button small"
-                @click="resetEditedValues()"
+                @click="resetEditedValues"
               >
-                {{ $t('views.UserProfileView.Cancel') }}
+                {{ $t('cancel') }}
               </button>
               <button
                 type="button"
                 class="button small primary"
-                @click="saveProfile()"
+                @click="saveProfile"
               >
                 {{ $t('views.UserProfileView.Save') }}
               </button>
@@ -194,14 +190,14 @@
               <div class="stat-title">
                 {{ $t('views.UserProfileView.TotalSentAmount') }}
               </div>
-              <ae-amount-fiat
+              <AeAmountFiat
                 class="stat-value"
                 :amount="userStats.totalTipAmount"
               />
             </div>
             <div class="stat">
               <div class="stat-title">
-                {{ $t('views.UserProfileView.Comments') }}
+                {{ $t('comments') }}
               </div>
               <div class="stat-value">
                 {{ userStats.userComments }}
@@ -219,7 +215,7 @@
               <div class="stat-title">
                 {{ $t('views.UserProfileView.UnclaimedAmount') }}
               </div>
-              <ae-amount-fiat
+              <AeAmountFiat
                 class="stat-value"
                 :amount="userStats.unclaimedAmount"
               />
@@ -231,13 +227,13 @@
             :class="{ active: activeTab === 'tips' }"
             @click="setActiveTab('tips')"
           >
-            {{ $t('views.UserProfileView.Tips') }}
+            {{ $t('tips') }}
           </a>
           <a
             :class="{ active: activeTab === 'comments' }"
             @click="setActiveTab('comments')"
           >
-            {{ $t('views.UserProfileView.Comments') }}
+            {{ $t('comments') }}
           </a>
         </div>
         <div class="comments__section position-relative">
@@ -261,7 +257,7 @@
             >
               {{ $t('views.UserProfileView.NoActivity') }}
             </div>
-            <tip-comment
+            <TipComment
               v-for="(comment, index) in comments"
               :key="index"
               :user-chain-name="userChainName"
@@ -273,21 +269,19 @@
             v-if="showLoading || loading.tips"
             class="mt-3"
           >
-            <loading :show-loading="true" />
+            <Loading />
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import Backend from '../utils/backend';
 import TipComment from '../components/tipRecords/TipComment.vue';
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import Page from '../components/layout/Page.vue';
 import { wallet } from '../utils/walletSearch';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
@@ -305,9 +299,7 @@ export default {
     Loading,
     AeAmountFiat,
     TipComment,
-    LeftSection,
-    RightSection,
-    MobileNavigation,
+    Page,
     Avatar,
     BackButtonRibbon,
     TipInput,
@@ -467,7 +459,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss">
 #file-input {

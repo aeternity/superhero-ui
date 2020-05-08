@@ -21,8 +21,8 @@
               target="_blank"
               class="button w-100"
               :title="['opera','vivaldi','brave','edge-chromium'].includes(browser.name)
-                ? 'You have to allow installation of Chrome extensions for your browser'
-                : 'Click here to install the browser extension'"
+                ? $t('components.layout.RightSection.AllowInstallation')
+                : $t('components.layout.RightSection.InstallExtension')"
             >
               {{ $t('components.layout.RightSection.InstallWallet') }}
             </a>
@@ -30,15 +30,15 @@
           <div v-else>
             <div
               class="balance text-ellipsis"
-              :title="roundAE(balance) + ' AE'"
+              :title="roundAE + ' AE'"
             >
-              <ae-amount
+              <AeAmount
                 :amount="balance"
                 :round="2"
               />
             </div>
             <div class="choose-fiat">
-              <dropdown
+              <Dropdown
                 v-if="currencyDropdownOptions"
                 :options="currencyDropdownOptions"
                 :method="selectCurrency"
@@ -64,13 +64,13 @@
             class="section__item"
           >
             <div class="topic-container text-ellipsis">
-              <topic :topic="topic" />
+              <Topic :topic="topic" />
             </div>
-            <ae-amount-fiat :amount="data.amount" />
+            <AeAmountFiat :amount="data.amount" />
           </div>
         </div>
       </div>
-      <footer-section />
+      <FooterSection />
     </div>
   </div>
 </template>
@@ -111,6 +111,9 @@ export default {
       }
       return null;
     },
+    roundAE() {
+      return new BigNumber(this.balance).toFixed(2);
+    },
     downloadUrl() {
       if (this.browser) {
         switch (this.browser.name) {
@@ -133,9 +136,6 @@ export default {
     ...mapActions(['updateCurrency']),
     selectCurrency(selectedCurrency) {
       this.updateCurrency(selectedCurrency);
-    },
-    roundAE(value) {
-      return new BigNumber(value).toFixed(2);
     },
     getFiatVal(value, rate) {
       return new BigNumber(value).multipliedBy(rate).toFixed(2);

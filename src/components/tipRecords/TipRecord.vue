@@ -1,5 +1,7 @@
 <template>
   <div
+    v-if="shouldRender"
+    :key="key"
     class="tip__record row"
     @click="goToTip(tip.id)"
   >
@@ -27,7 +29,7 @@
             </div>
           </router-link>
           <span class="tip__date">
-            <format-date :date-timestamp="new Date(tip.timestamp)" />
+            <FormatDate :date-timestamp="new Date(tip.timestamp)" />
           </span>
         </div>
       </div>
@@ -97,7 +99,7 @@
         class="tip__note pr-2"
         @click.stop
       >
-        <tip-title
+        <TipTitle
           :tip="tip"
           :go-to-tip="goToTip"
         />
@@ -148,7 +150,15 @@ export default {
     foundWallet: { type: Boolean },
     senderLink: { type: String, default: '' },
   },
+  data() {
+    return {
+      key: `${this.tip.id}_${new Date().getTime()}`,
+    };
+  },
   computed: {
+    shouldRender() {
+      return !this.tip.url.includes('https://superhero.com/tip/' && '/comment/');
+    },
     tipPreviewDescription() {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
 

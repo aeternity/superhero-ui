@@ -1,7 +1,7 @@
 <template>
   <div
     id="app"
-    @mousedown="saveScrollPosition()"
+    @mousedown="saveScrollPosition"
   >
     <div
       ref="wrapper"
@@ -11,7 +11,7 @@
         v-if="isSupportedBrowser"
         class="supportedbrowser--alert"
       >
-        Alert - unsupported browser
+        {{ $t('noExtensionSupport') }}
       </div>
       <keep-alive :max="5">
         <router-view :key="$route.fullPath" />
@@ -33,12 +33,11 @@ export default {
   name: 'App',
   data() {
     return {
-      page: 1,
       savedScrolls: [],
     };
   },
   computed: {
-    ...mapGetters(['settings', 'tipSortBy']),
+    ...mapGetters(['account']),
     isSupportedBrowser() {
       const browser = detect();
       return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));
@@ -67,7 +66,7 @@ export default {
   methods: {
     ...mapActions([
       'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
-      'setOracleState', 'addLoading', 'removeLoading', 'setChainNames',
+      'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
     ]),
     initWallet() {
       return Promise.race([
@@ -108,6 +107,11 @@ export default {
         Backend.getOracleCache(),
         Backend.getTopicsCache(),
       ]);
+
+      if (this.account) {
+        const balance = await aeternity.client.balance(this.account).catch(() => 0);
+        this.updateBalance(Util.atomsToAe(balance).toFixed(2));
+      }
 
       // async fetch
       this.reloadAsyncData(stats);

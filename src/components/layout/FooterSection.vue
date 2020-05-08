@@ -1,28 +1,53 @@
 <template>
   <div class="footer">
-    SuperHero is Open Source
-    <router-link
-      class="footer-links"
-      to="/terms"
-    >
-      Terms
-    </router-link>
-    <router-link
-      class="footer-links"
-      to="/privacy"
-    >
-      Privacy
-    </router-link>
     <div>
       <a
-        href="https://thesuperherowallet.typeform.com/to/cnbife"
+        href="https://form.jotform.com/201075183408046"
         target="_blank"
         class="feedback footer-btns"
       >
-        Give Feedback
+        {{ $t('components.layout.FooterSection.SendFeedback') }}
       </a>
       <a
-        class="footer-btns venture"
+        href="https://thesuperherowallet.typeform.com/to/vh8Ffu"
+        target="_blank"
+        class="footer-btns support"
+      >
+        {{ $t('components.layout.FooterSection.Support') }}
+      </a>
+    </div>
+    <div>
+      <i18n
+        path="components.layout.FooterSection.FooterInfo"
+        tag="p"
+      >
+        <template v-slot:openSource>
+          <a
+            href="https://github.com/aeternity/superhero-ui/"
+            target="_blank"
+            class="gh-link"
+          >
+            {{ $t('components.layout.FooterSection.OpenSource') }}
+            <img src="../../assets/ghLogo.svg">
+          </a>
+        </template>
+      </i18n>
+    </div>
+    <div class="terms-links">
+      <router-link
+        class="footer-links"
+        to="/terms"
+      >
+        {{ $t('components.layout.FooterSection.Terms') }}
+      </router-link>
+      <router-link
+        class="footer-links"
+        to="/privacy"
+      >
+        {{ $t('components.layout.FooterSection.Privacy') }}
+      </router-link>
+      <a
+        class="venture"
         target="_blank"
         href="https://venture.com/"
       >
@@ -41,37 +66,44 @@ export default {
 
 <style lang="scss">
   .footer {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     text-align: center;
-
-    a {
-      cursor: pointer;
-      text-decoration: underline;
-
-      &.footer-links {
-        color: $standard_font_color;
-        font-weight: lighter;
-        text-decoration: none;
-      }
-    }
 
     .footer-btns {
       text-decoration: none;
-      margin-top: 1.3rem;
-      line-height: 0.9rem;
+      margin-bottom: 0.85rem;
       text-align: center;
-      padding-top: 0.6rem;
-      padding-bottom: 0.7rem;
-      width: 7rem;
+      padding: 0.6rem;
+      width: 8rem;
       display: inline-block;
       border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 0.9rem;
+
+      &:hover {
+        color: $standard_font_color;
+        border: 0.05rem solid $standard_font_color;
+        cursor: pointer;
+      }
+    }
+
+    .support {
+      border: 0.05rem solid $secondary_color;
+      color: $secondary_color;
+    }
+
+    .feedback {
+      border: 0.05rem solid $custom_links_color;
+      color: $custom_links_color;
+      margin-right: 1rem;
     }
 
     .venture {
-      border: 0.05rem solid $standard_font_color;
+      margin-left: 0.35rem;
 
       img {
-        width: 6rem;
+        height: 0.65rem;
       }
 
       &:hover {
@@ -79,16 +111,20 @@ export default {
       }
     }
 
-    .feedback {
-      background-color: $custom_links_color;
-      color: $background_color;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin-right: 1rem;
+    .terms-links {
+      margin-top: 0.85rem;
+    }
+
+    .gh-link {
+      img {
+        width: 0.65rem;
+        height: 0.65rem;
+      }
 
       &:hover {
-        background-color: $secondary_color;
-        cursor: pointer;
+        img {
+          filter: brightness(0.8);
+        }
       }
     }
   }

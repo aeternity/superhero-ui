@@ -6,7 +6,7 @@
     <div class="heading-section clearfix">
       <div class="title">
         <img src="../../assets/iconTip.svg">
-        Tip
+        {{ $t('tip') }}
       </div>
       <div
         class="close-navigation"
@@ -15,7 +15,7 @@
         &#x2715;
       </div>
     </div>
-    <send-tip />
+    <SendTip />
   </div>
 </template>
 
@@ -28,14 +28,11 @@ export default {
   components: {
     SendTip,
   },
-  computed: {
-    ...mapGetters(['isTipModalOpen']),
-  },
-  methods: {
-    ...mapActions(['toggleTipModal']),
-  },
+  computed: mapGetters(['isTipModalOpen']),
+  methods: mapActions(['toggleTipModal']),
 };
 </script>
+
 <style lang="scss">
 .send-tip__modal {
   display: none;
@@ -65,6 +62,16 @@ export default {
       .input-group-text {
         height: 2.85rem;
       }
+    }
+
+    .input-group .form-control,
+    .input-group-append,
+    .input-group-text {
+      height: 2.85rem;
+    }
+
+    .col-md-4 {
+      padding-left: 0;
     }
 
     .tip__post form .tip__send {

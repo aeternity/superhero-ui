@@ -6,27 +6,49 @@
         alt=""
       >
     </div>
-    <h1>
-      Send Tips:<br>
-      Making the Internet a Better Place
-    </h1>
-    <p>
-      After your Superhero wallet is installed<br>
-      <span class="highlited">1. Visit the URL</span> you want to support.<br>
-      <span class="highlited">2. Click Send tip</span> in your wallet.<br>
-      <span class="highlited">3. Enter tip amount</span> and optionally a message.
-    </p>
-    <p class="highlited">
-      You can directly support any person's content, cause,<br>
-      project that have a public URL with no middleman.<br>
-      (Yes - ANY URL on the web or on <a href="https://superhero.com">www.superhero.com</a>.)
-    </p>
+    <i18n
+      path="components.onboarding.steps.step4.header"
+      tag="h1"
+    >
+      <template v-slot:br>
+        <br>
+      </template>
+    </i18n>
+    <i18n
+      path="components.onboarding.steps.step4.info"
+      tag="p"
+    >
+      <template v-slot:br>
+        <br>
+      </template>
+      <template v-slot:visitTheURL>
+        <span class="highlited">{{ $t('components.onboarding.steps.step4.visitTheURL') }}</span>
+      </template>
+      <template v-slot:clickSendTips>
+        <span class="highlited">{{ $t('components.onboarding.steps.step4.clickSendTips') }}</span>
+      </template>
+      <template v-slot:enterTipAmount>
+        <span class="highlited">{{ $t('components.onboarding.steps.step4.enterTipAmount') }}</span>
+      </template>
+    </i18n>
+    <i18n
+      class="highlited"
+      path="components.onboarding.steps.step4.youCanDirectlySupport"
+      tag="p"
+    >
+      <template v-slot:br>
+        <br>
+      </template>
+      <template v-slot:superherocom>
+        <a href="https://superhero.com">www.superhero.com</a>
+      </template>
+    </i18n>
     <div class="step__footer">
       <button
         class="button"
-        @click="nextStep()"
+        @click="nextStep"
       >
-        Next
+        {{ $t('components.onboarding.steps.next') }}
       </button>
     </div>
   </div>

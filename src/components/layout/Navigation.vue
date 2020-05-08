@@ -1,7 +1,7 @@
 <template>
   <div class="navigation">
     <div class="logo">
-      <router-link :to="{ name: 'home' }">
+      <router-link :to="{ name: 'tips' }">
         <img
           alt=""
           src="../../assets/headerLogo.svg"
@@ -9,44 +9,37 @@
       </router-link>
     </div>
     <div
-      class="navigation__item home"
-      @click="scrollTop()"
+      class="navigation__item tips"
+      @click="scrollTop"
     >
-      <router-link :to="{ name: 'home' }">
+      <router-link :to="{ name: 'tips' }">
         <div class="navigation__item__image" />
-        <span>Home</span>
-      </router-link>
-    </div>
-    <div class="navigation__item mission">
-      <router-link :to="{ name: 'mission' }">
-        <div class="navigation__item__image" />
-        <span>Mission</span>
+        <span>{{ $t('tips') }}</span>
       </router-link>
     </div>
     <div
       v-if="isLoggedIn"
       class="navigation__item profile"
-      @click="scrollTop()"
+      @click="scrollTop"
     >
       <router-link :to="{ name: 'user-profile', params: { address: account } }">
         <div class="navigation__item__image" />
-        <span>My Profile</span>
+        <span>{{ $t('components.layout.Navigation.MyProfile') }}</span>
       </router-link>
     </div>
-    <div
-      v-else
-      class="navigation__item profile"
-      @click="scrollTop()"
-    >
-      <router-link :to="{ name: 'create-profile' }">
+    <div class="navigation__item league">
+      <a
+        href="https://league.superhero.com"
+        target="_blank"
+      >
         <div class="navigation__item__image" />
-        <span>Create Profile</span>
-      </router-link>
+        <span>{{ $t('components.layout.Navigation.League') }}</span>
+      </a>
     </div>
     <div class="navigation__item faq">
       <router-link :to="{ name: 'faq' }">
         <div class="navigation__item__image" />
-        <span>FAQ</span>
+        <span>{{ $t('FAQ') }}</span>
       </router-link>
     </div>
   </div>
@@ -57,9 +50,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Navigation',
-  computed: {
-    ...mapGetters(['account', 'isLoggedIn']),
-  },
+  computed: mapGetters(['account', 'isLoggedIn']),
   methods: {
     scrollTop() {
       document.scrollingElement.scrollTop = 0;
@@ -109,34 +100,32 @@ export default {
     margin-right: 0.5rem;
     width: 1.3rem;
 
-    .home & {
-      background-image: url('../../assets/iconHome.svg');
+    .tips & {
+      background-image: url('../../assets/iconTips.svg');
     }
 
     .profile & {
       background-image: url('../../assets/iconUser.svg');
     }
 
-    .mission & {
-      background-image: url('../../assets/iconMission.svg');
-    }
-
     .faq & {
       background-image: url('../../assets/iconHelp.svg');
     }
 
+    .league & {
+      background-image: url('../../assets/iconDiamond.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
     a:hover &,
     .router-link-exact-active & {
-      .home & {
-        background-image: url('../../assets/iconHomeActive.svg');
+      .tips & {
+        background-image: url('../../assets/iconTipsActive.svg');
       }
 
       .profile & {
         background-image: url('../../assets/iconUserActive.svg');
-      }
-
-      .mission & {
-        background-image: url('../../assets/iconMissionActive.svg');
       }
 
       .faq & {

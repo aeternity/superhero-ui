@@ -13,6 +13,7 @@ export default new Vuex.Store({
     account: {},
     balance: 0,
     currencyRates: {},
+    minTipAmount: 0.01,
     settings: {
       currency: 'eur',
     },
@@ -28,7 +29,6 @@ export default new Vuex.Store({
     chainNames: [],
     wizardCurrentStep: 0,
     wizardIsCollapsed: false,
-    hideMobileNavigation: false,
     openTipModal: false,
   },
   getters,

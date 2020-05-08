@@ -4,18 +4,23 @@
       :value="value"
       v-bind="$attrs"
       type="number"
+      inputmode="decimal"
       :min="min"
       :step="step"
-      placeholder="Amount"
+      :placeholder="$t('amount')"
       class="form-control"
       aria-label="Default"
       aria-describedby="inputGroup-sizing-mn"
+      :disabled="disabled"
       @input="$emit('input', $event.target.value)"
     >
     <div class="input-group-append">
-      <span class="input-group-text append__ae">
+      <span
+        class="input-group-text append__ae text-ellipsis"
+        :title="value"
+      >
         <span class="ae">AE&nbsp;</span>
-        <fiat-value
+        <FiatValue
           display-symbol
           :amount="value.toString()"
         />
@@ -36,6 +41,7 @@ export default {
     min: { type: Number, default: 0 },
     step: { type: Number, default: 0.1 },
     value: { type: [Number, String], required: true },
+    disabled: { type: Boolean },
   },
 };
 </script>
@@ -45,8 +51,20 @@ export default {
   border: 0.05rem solid $buttons_background;
   border-radius: 0.25rem;
 
+  .input-group-append {
+    max-width: 65%;
+  }
+
+  .input-group-text {
+    display: block;
+
+    span {
+      vertical-align: sub;
+    }
+  }
+
   &:focus-within {
-    border: 0.05rem solid $custom_links_color;
+    border: 0.05rem solid $secondary_color;
   }
 
   input,

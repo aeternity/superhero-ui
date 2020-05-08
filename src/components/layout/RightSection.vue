@@ -6,7 +6,7 @@
       >
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
-          Wallet
+          {{ $t('components.layout.RightSection.Wallet') }}
           <div
             v-if="isLoggedIn"
             class="account"
@@ -20,22 +20,26 @@
               :href="downloadUrl"
               target="_blank"
               class="button w-100"
+              :title="['opera','vivaldi','brave','edge-chromium'].includes(browser.name)
+                ? $t('components.layout.RightSection.AllowInstallation')
+                : $t('components.layout.RightSection.InstallExtension')"
             >
-              Install Wallet
+              {{ $t('components.layout.RightSection.InstallWallet') }}
             </a>
           </div>
           <div v-else>
             <div
               class="balance text-ellipsis"
-              :title="getFiatVal(balance) + ' AE'"
+              :title="roundAE + ' AE'"
             >
-              <ae-amount
+              <AeAmount
                 :amount="balance"
                 :round="2"
               />
             </div>
             <div class="choose-fiat">
-              <dropdown
+              <Dropdown
+                v-if="currencyDropdownOptions"
                 :options="currencyDropdownOptions"
                 :method="selectCurrency"
                 :selected="settings.currency"
@@ -47,7 +51,7 @@
       <div class="section trending">
         <div class="section__title">
           <img src="../../assets/iconTrending.svg">
-          Trending
+          {{ $t('components.layout.RightSection.Trending') }}
         </div>
         <div
           v-if="!loading.tips"
@@ -60,21 +64,13 @@
             class="section__item"
           >
             <div class="topic-container text-ellipsis">
-              <topic :topic="topic" />
+              <Topic :topic="topic" />
             </div>
-            <div class="amount">
-              <span class="value">
-                <ae-amount
-                  :amount="data.amount"
-                  :round="2"
-                />
-              </span>
-              <fiat-value :amount="data.amount" />
-            </div>
+            <AeAmountFiat :amount="data.amount" />
           </div>
         </div>
       </div>
-      <footer-section />
+      <FooterSection />
     </div>
   </div>
 </template>
@@ -83,8 +79,8 @@
 import { mapGetters, mapActions } from 'vuex';
 import { detect } from 'detect-browser';
 import BigNumber from 'bignumber.js';
-import FiatValue from '../FiatValue.vue';
 import AeAmount from '../AeAmount.vue';
+import AeAmountFiat from '../AeAmountFiat.vue';
 import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
 import Dropdown from '../Dropdown.vue';
@@ -93,8 +89,8 @@ export default {
   name: 'RightSection',
   components: {
     Topic,
-    FiatValue,
     AeAmount,
+    AeAmountFiat,
     FooterSection,
     Dropdown,
   },
@@ -106,11 +102,17 @@ export default {
   computed: {
     ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
-      return Object.keys(this.currencyRates.aeternity)
-        .map((key) => ({
-          text: `${this.getFiatVal(this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
-          value: key,
-        }));
+      if (this.currencyRates && this.currencyRates.aeternity && this.balance) {
+        return Object.keys(this.currencyRates.aeternity)
+          .map((key) => ({
+            text: `${this.getFiatVal(this.balance, this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
+            value: key,
+          }));
+      }
+      return null;
+    },
+    roundAE() {
+      return new BigNumber(this.balance).toFixed(2);
     },
     downloadUrl() {
       if (this.browser) {
@@ -118,6 +120,10 @@ export default {
           case 'firefox':
             return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
           case 'chrome':
+          case 'opera':
+          case 'vivaldi':
+          case 'brave': // might not be detected from browser-detect
+          case 'edge-chromium':
             return '//chrome.google.com/webstore/detail/mnhmmkepfddpifjkamaligfeemcbhdne/';
           default:
             break;
@@ -131,8 +137,8 @@ export default {
     selectCurrency(selectedCurrency) {
       this.updateCurrency(selectedCurrency);
     },
-    getFiatVal(value) {
-      return new BigNumber(value).toFixed(2);
+    getFiatVal(value, rate) {
+      return new BigNumber(value).multipliedBy(rate).toFixed(2);
     },
   },
 };
@@ -160,15 +166,19 @@ export default {
       margin-bottom: 1rem;
 
       &.trending {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.85rem;
         padding-bottom: 0.5rem;
 
         .section__item {
           display: flex;
 
           & > div {
-            &.amount {
+            &.ae-amount-fiat {
               width: 52%;
+
+              .ae-amount {
+                color: $standard_font_color;
+              }
             }
 
             width: 48%;
@@ -184,10 +194,6 @@ export default {
           &::-webkit-scrollbar {
             display: none;
           }
-        }
-
-        .currency-value {
-          font-size: 0.7rem;
         }
       }
     }
@@ -219,14 +225,10 @@ export default {
       .tag {
         color: $custom_links_color;
       }
-
-      .value {
-        color: $standard_font_color;
-      }
     }
 
     .wallet-install {
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
       max-height: 400px;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       display: block;
@@ -262,7 +264,7 @@ export default {
 //Fixes issue: Smaller screens cut part of the footer
 @media (max-width: 1280px) {
   .topics-section.active {
-    max-height: 12rem;
+    max-height: 10rem;
   }
 }
 

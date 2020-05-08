@@ -39,10 +39,10 @@ export const getters = {
   wizardIsCollapsed(state) {
     return state.wizardIsCollapsed;
   },
-  isMobileNavigationHidden(state) {
-    return state.hideMobileNavigation;
-  },
   isTipModalOpen(state) {
     return state.openTipModal;
+  },
+  minTipAmount(state) {
+    return state.minTipAmount;
   },
 };

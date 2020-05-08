@@ -1,16 +1,12 @@
 <template>
-  <div>
-    <mobile-navigation />
-    <right-section />
-    <left-section />
-    <loading
+  <Page>
+    <Loading
       v-if="loading.initial"
       class="mt-5"
-      :show-loading="true"
     />
     <div v-else>
       <div class="profile__page">
-        <back-button-ribbon />
+        <BackButtonRibbon />
         <div class="profile__section clearfix position-relative">
           <div
             v-if="showLoadingProfile"
@@ -20,7 +16,7 @@
               class="spinner-border text-primary"
               role="status"
             >
-              <span class="sr-only">Loading...</span>
+              <span class="sr-only">{{ $t('loading') }}</span>
             </div>
           </div>
           <div
@@ -29,18 +25,20 @@
           >
             <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
               <a
-                v-if="!editMode && isMyUserProfile"
+                v-if="!editMode && account === address"
                 class="edit__button button small"
                 title="Edit Profile"
-                @click="toggleEditMode()"
-              >Edit Profile</a>
+                @click="toggleEditMode"
+              >
+                {{ $t('views.UserProfileView.EditProfile') }}
+              </a>
               <div class="profile__image position-relative">
                 <div
                   v-if="showLoadingAvatar"
                   class="overlay"
                 />
-                <loading
-                  :show-loading="showLoadingAvatar && editMode"
+                <Loading
+                  v-if="showLoadingAvatar && editMode"
                   class="position-absolute"
                 />
                 <label
@@ -53,7 +51,7 @@
                     :key="avatarEditImageKey"
                     :address="address"
                   />
-                  <span>Change Avatar</span>
+                  <span>{{ $t('views.UserProfileView.ChangeAvatar') }}</span>
                   <input
                     id="file-input"
                     type="file"
@@ -103,17 +101,33 @@
                   <span
                     v-if="userChainName"
                     class="chain"
-                  >{{ userChainName }}</span>
+                  >
+                    {{ userChainName }}
+                  </span>
                   <span v-else>{{ address }}</span>
                 </a>
                 <div
                   v-if="!editMode && userStats"
                   class="count"
                 >
-                  {{ userStats.tipsLength }} Tips
+                  {{ userStats.tipsLength }} {{ $t('tips') }}
                 </div>
+                <TipInput
+                  v-if="!editMode"
+                  :user-address="address"
+                  class="tip__user"
+                />
               </div>
             </div>
+            <div
+              v-if="editMode"
+              class="input-group delete-avatar"
+            >
+              <span @click="deleteAvatar">
+                {{ $t('views.UserProfileView.DeleteAvatar') }}
+              </span>
+            </div>
+
             <div
               v-if="!editMode"
               class="profile__description"
@@ -128,7 +142,7 @@
                 v-model="profile.biography"
                 class="form-control"
                 rows="3"
-                placeholder="Edit Biography"
+                :placeholder="$t('views.UserProfileView.EditBiography')"
               />
             </div>
             <div
@@ -138,16 +152,16 @@
               <button
                 type="button"
                 class="button small"
-                @click="resetEditedValues()"
+                @click="resetEditedValues"
               >
-                Cancel
+                {{ $t('cancel') }}
               </button>
               <button
                 type="button"
                 class="button small primary"
-                @click="saveProfile()"
+                @click="saveProfile"
               >
-                Save
+                {{ $t('views.UserProfileView.Save') }}
               </button>
             </div>
           </div>
@@ -158,7 +172,7 @@
           >
             <div class="stat">
               <div class="stat-title">
-                Tips Sent
+                {{ $t('views.UserProfileView.TipsSent') }}
               </div>
               <div class="stat-value">
                 {{ userStats.tipsLength }}
@@ -166,7 +180,7 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                Retips Sent
+                {{ $t('views.UserProfileView.RetipsSent') }}
               </div>
               <div class="stat-value">
                 {{ userStats.retipsLength }}
@@ -174,19 +188,16 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                Total Sent Amount
+                {{ $t('views.UserProfileView.TotalSentAmount') }}
               </div>
-              <div class="stat-value">
-                <ae-amount
-                  :amount="userStats.totalTipAmount"
-                  :round="2"
-                />
-                <fiat-value :amount="userStats.totalTipAmount" />
-              </div>
+              <AeAmountFiat
+                class="stat-value"
+                :amount="userStats.totalTipAmount"
+              />
             </div>
             <div class="stat">
               <div class="stat-title">
-                Comments
+                {{ $t('comments') }}
               </div>
               <div class="stat-value">
                 {{ userStats.userComments }}
@@ -194,7 +205,7 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                Claimed Urls
+                {{ $t('views.UserProfileView.ClaimedUrls') }}
               </div>
               <div class="stat-value">
                 {{ userStats.claimedUrlsLength }}
@@ -202,15 +213,12 @@
             </div>
             <div class="stat">
               <div class="stat-title">
-                Unclaimed Amount
+                {{ $t('views.UserProfileView.UnclaimedAmount') }}
               </div>
-              <div class="stat-value">
-                <ae-amount
-                  :amount="userStats.unclaimedAmount"
-                  :round="2"
-                />
-                <fiat-value :amount="userStats.unclaimedAmount" />
-              </div>
+              <AeAmountFiat
+                class="stat-value"
+                :amount="userStats.unclaimedAmount"
+              />
             </div>
           </div>
         </div>
@@ -218,11 +226,15 @@
           <a
             :class="{ active: activeTab === 'tips' }"
             @click="setActiveTab('tips')"
-          >Tips</a>
+          >
+            {{ $t('tips') }}
+          </a>
           <a
             :class="{ active: activeTab === 'comments' }"
             @click="setActiveTab('comments')"
-          >Comments</a>
+          >
+            {{ $t('comments') }}
+          </a>
         </div>
         <div class="comments__section position-relative">
           <div
@@ -243,9 +255,9 @@
               class="no-results text-center w-100 mt-3"
               :class="[error ? 'error' : '']"
             >
-              {{ 'There is no activity to display.' }}
+              {{ $t('views.UserProfileView.NoActivity') }}
             </div>
-            <tip-comment
+            <TipComment
               v-for="(comment, index) in comments"
               :key="index"
               :user-chain-name="userChainName"
@@ -257,44 +269,40 @@
             v-if="showLoading || loading.tips"
             class="mt-3"
           >
-            <loading :show-loading="true" />
+            <Loading />
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import Backend from '../utils/backend';
 import TipComment from '../components/tipRecords/TipComment.vue';
-import LeftSection from '../components/layout/LeftSection.vue';
-import RightSection from '../components/layout/RightSection.vue';
-import MobileNavigation from '../components/layout/MobileNavigation.vue';
+import Page from '../components/layout/Page.vue';
 import { wallet } from '../utils/walletSearch';
-import FiatValue from '../components/FiatValue.vue';
-import AeAmount from '../components/AeAmount.vue';
+import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
-import defaultAvatar from '../assets/userAvatar.svg';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
 import Avatar from '../components/Avatar.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
+import { EventBus } from '../utils/eventBus';
+import TipInput from '../components/TipInput.vue';
 
 export default {
   name: 'TipCommentsView',
   components: {
     TipsPagination,
     Loading,
-    AeAmount,
-    FiatValue,
+    AeAmountFiat,
     TipComment,
-    LeftSection,
-    RightSection,
-    MobileNavigation,
+    Page,
     Avatar,
     BackButtonRibbon,
+    TipInput,
   },
   props: {
     address: { type: String, required: true },
@@ -307,9 +315,6 @@ export default {
       comments: [],
       error: false,
       userStats: null,
-      userName: this.address,
-      editingDisplayName: '',
-      editingDescription: '',
       editMode: false,
       showLoadingProfile: false,
       showLoadingAvatar: false,
@@ -320,14 +325,10 @@ export default {
         biography: '',
         displayName: '',
       },
-      defaultAvatar,
     };
   },
   computed: {
-    ...mapGetters(['current', 'account', 'chainNames', 'loading']),
-    isMyUserProfile() {
-      return this.account === this.address;
-    },
+    ...mapGetters(['account', 'chainNames', 'loading']),
     userChainName() {
       return this.chainNames[this.address];
     },
@@ -339,30 +340,19 @@ export default {
       }
       return false;
     },
-    avatar() {
-      const userImage = this.getAvatar(this.address);
-      return userImage || this.defaultAvatar;
-    },
+  },
+  mounted() {
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+
+    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   async created() {
-    this.getProfile();
-    Backend.getCacheUserStats(this.address).then((stats) => {
-      this.userStats = stats;
-    });
-    this.showLoading = true;
-    Backend.getAllComments()
-      .then((allComments) => {
-        this.showLoading = false;
-        this.error = false;
-        this.comments = allComments.filter(
-          (comment) => comment.author === this.address,
-        );
-      })
-      .catch((e) => {
-        console.error(e);
-        this.error = true;
-        this.showLoading = false;
-      });
+    this.reloadData();
   },
   methods: {
     updateAvatarImageKey() {
@@ -397,6 +387,41 @@ export default {
       await Backend.sendProfileData(respondChallenge);
       this.resetEditedValues();
     },
+    async deleteAvatar() {
+      const response = await Backend.deleteProfileImage(this.account);
+      const signedChallenge = await wallet.signMessage(response.challenge);
+      const respondChallenge = {
+        challenge: response.challenge,
+        signature: signedChallenge,
+      };
+
+      await Backend.deleteProfileImage(this.account, respondChallenge).catch(console.error);
+
+      this.resetEditedValues();
+
+      // use the new avatar with cache-bust
+      this.updateAvatarImageKey();
+    },
+    reloadData() {
+      this.getProfile();
+      Backend.getCacheUserStats(this.address).then((stats) => {
+        this.userStats = stats;
+      });
+      this.showLoading = true;
+      Backend.getAllComments()
+        .then((allComments) => {
+          this.showLoading = false;
+          this.error = false;
+          this.comments = allComments.filter(
+            (comment) => comment.author === this.address,
+          );
+        })
+        .catch((e) => {
+          console.error(e);
+          this.error = true;
+          this.showLoading = false;
+        });
+    },
     getProfile() {
       Backend.getCommentCountForAddress(this.address)
         .then((userComment) => {
@@ -409,9 +434,6 @@ export default {
           this.profile = profile;
         })
         .catch(console.error);
-    },
-    getAvatar(address) {
-      return Backend.getProfileImageUrl(address);
     },
     async uploadImage(event) {
       const data = new FormData();
@@ -437,7 +459,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss">
 #file-input {
@@ -467,7 +488,8 @@ export default {
         color: $tip_note_color;
       }
 
-      .stat-value {
+      .stat-value,
+      .stat-value /deep/ .currency-value {
         font-size: 0.9rem;
         color: $secondary_color;
         font-weight: 400;
@@ -504,6 +526,17 @@ export default {
     .row {
       padding: 1.75rem 1rem 1rem 1rem;
       margin-right: -1rem;
+    }
+
+    .input-group.delete-avatar {
+      margin-left: 1rem;
+
+      span {
+        &:hover {
+          color: white;
+          cursor: pointer;
+        }
+      }
     }
 
     .input-group.description {
@@ -630,10 +663,6 @@ export default {
 
     & > .row.mobile {
       display: none;
-    }
-
-    .value {
-      color: $secondary_color;
     }
   }
 
@@ -763,6 +792,11 @@ export default {
       top: -1.5rem;
       right: 0.25rem;
       font-size: 0.6rem;
+    }
+
+    .tip__user {
+      top: -1.25rem;
+      right: 6rem;
     }
 
     .stats .stat .stat-value {

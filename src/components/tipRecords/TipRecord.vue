@@ -17,7 +17,9 @@
               <span
                 v-if="tip.chainName"
                 class="chain__name"
-              >{{ tip.chainName }}</span>
+              >
+                {{ tip.chainName }}
+              </span>
               <span
                 v-else
                 class="chain__name"
@@ -26,7 +28,7 @@
             </div>
           </router-link>
           <span class="tip__date">
-            <format-date :date-timestamp="new Date(tip.timestamp)" />
+            <FormatDate :date-timestamp="new Date(tip.timestamp)" />
           </span>
         </div>
       </div>
@@ -34,48 +36,51 @@
         v-if="isPreviewToBeVisualized(tip) && !embedlyPreview(tip)"
         class="tip__article"
       >
-        <a
-          target="_blank"
-          :href="tip.url"
-          @click.stop
-        >
-          <div class="tip__article--hasresults">
-            <div class="tip__article__content">
-              <h2
-                class="title text-ellipsis"
-                :title="tipPreviewTitle"
-              >
-                {{ tipPreviewTitle }}
-              </h2>
-              <div
-                class="description"
-                :title="tipPreviewDescription"
-              >
-                {{ tipPreviewDescription }}
-              </div>
-              <div
-                class="site__url text-ellipsis"
-                :title="tip.url"
+        <div class="tip__article--hasresults">
+          <div class="tip__article__content">
+            <h2
+              class="title text-ellipsis"
+              :title="tipPreviewTitle"
+            >
+              {{ tipPreviewTitle }}
+            </h2>
+            <div
+              class="description"
+              :title="tipPreviewDescription"
+            >
+              {{ tipPreviewDescription }}
+            </div>
+            <div
+              class="site__url"
+              :title="tip.url"
+            >
+              <a
+                class="text-ellipsis"
+                target="_blank"
+                :href="tip.url"
+                @click.stop
               >
                 <img src="../../assets/externalLink.svg">
-                {{ tip.url }}
-              </div>
-              <div
-                class="tip__amount"
-                :title="`Initial tip`"
-                @click.prevent
-              >
-                <retip :tip="tip" />
-              </div>
+                <span class="text-ellipsis">{{ tip.url }}</span>
+              </a>
             </div>
-            <img
-              :src="tipPreviewImage"
-              :onerror="`this.className+=' fail'`"
-              :loading="`lazy`"
-              class="preview__image"
+            <div
+              class="tip__amount"
+              @click.stop
             >
+              <TipInput
+                is-retip
+                :tip="tip"
+              />
+            </div>
           </div>
-        </a>
+          <img
+            :src="tipPreviewImage"
+            :onerror="`this.className+=' fail'`"
+            :loading="`lazy`"
+            class="preview__image"
+          >
+        </div>
       </div>
       <div
         v-else-if="embedlyPreview(tip)"
@@ -100,13 +105,15 @@
           :href="tip.url"
           :title="tip.url"
           class="text-ellipsis"
-        >{{ tip.url }}</a>
+        >
+          {{ tip.url }}
+        </a>
       </div>
       <div
         class="tip__note pr-2"
         @click.stop
       >
-        <tip-title
+        <TipTitle
           :tip="tip"
           :go-to-tip="goToTip"
         />
@@ -117,12 +124,13 @@
             class="tip__amount"
             @click.stop
           >
-            <TipControl :tip="tip" />
+            <TipInput
+              :tip="tip"
+            />
           </div>
           <div
             class="tip__comments"
             :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
-            @click="goToTip(tip.id)"
           >
             <img
               class="comment__icon"
@@ -137,10 +145,8 @@
 </template>
 
 <script>
-import defaultAvatar from '../../assets/userAvatar.svg';
 import Backend from '../../utils/backend';
-import Retip from '../Retip.vue';
-import TipControl from '../TipControl.vue';
+import TipInput from '../TipInput.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import Avatar from '../Avatar.vue';
@@ -148,11 +154,10 @@ import Avatar from '../Avatar.vue';
 export default {
   name: 'TipRecord',
   components: {
-    Retip,
     TipTitle,
     FormatDate,
     Avatar,
-    TipControl,
+    TipInput,
   },
   props: {
     tip: { type: Object, required: true },
@@ -161,7 +166,6 @@ export default {
   },
   data() {
     return {
-      defaultAvatar,
       key: `${this.tip.id}_${new Date().getTime()}`,
     };
   },
@@ -190,10 +194,6 @@ export default {
     }
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.defaultAvatar;
-    },
     embedlyPreview(tip) {
       return (
         tip.url.indexOf('youtube') > -1
@@ -228,8 +228,24 @@ export default {
   background-color: $light_color;
   margin: 0 0 0.15rem 0;
 
-  &:hover {
-    cursor: pointer;
+    &:hover {
+      cursor: pointer;
+    }
+
+    .ae-amount {
+      color: $standard_font_color;
+      font-size: 0.8rem;
+    }
+
+    .ae-amount-fiat {
+      align-items: center;
+    }
+
+    .currency-value {
+      color: $light_font_color;
+      margin-left: 0.1rem;
+      font-size: 0.7rem;
+    }
   }
 
   .ae-amount {
@@ -374,6 +390,7 @@ export default {
   height: 1rem;
   margin-right: 1rem;
   position: relative;
+  width: max-content;
 
   &.tip__comments--hascomments {
     color: #fff;
@@ -494,11 +511,43 @@ export default {
     }
 
     .site__url {
-      text-decoration: underline;
+      align-items: flex-start;
+      display: flex;
+      flex-grow: 1;
+      font-weight: 500;
+      margin-bottom: 0.45rem;
+
+      img {
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.335rem;
+        padding: 0.135rem 0;
+        flex: 0;
+      }
+
+      a {
+        color: $light_font_color;
+        display: inline-flex;
+        height: 1rem;
+        max-width: 100%;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
 
-    .tip__article__content {
-      color: #c6c6cc;
+    &:hover {
+      background-color: $thumbnail_background_color_alt;
+      cursor: pointer;
+
+      .preview__image {
+        background-color: $thumbnail_background_color_alt;
+      }
+
+      .tip__article__content {
+        color: #c6c6cc;
+      }
     }
   }
 }
@@ -513,14 +562,16 @@ export default {
   }
 }
 
-@media only screen and (max-width: 768px) {
-  .tip__amount:nth-child(2) .retip__container {
-    left: -50%;
-    right: -50%;
-  }
+  @media only screen and (max-width: 768px) {
+    .tip__amount:nth-child(2) .retip__container {
+      left: -50%;
+      right: -50%;
+    }
 
-  .tip__note {
-    font-size: 0.75rem;
+    .tip__note,
+    .tip__article .tip__article__content {
+      font-size: 0.75rem;
+    }
   }
 
   .tip__article {
@@ -538,11 +589,8 @@ export default {
   .tip__footer .tip__amount img {
     width: 0.7rem;
   }
-
-  .tip__article {
-    .tip__article__content {
-      font-size: 0.65rem;
-    }
+  .tip__article .tip__article__content {
+    font-size: 0.65rem;
   }
 }
 
@@ -599,8 +647,7 @@ export default {
     font-size: 0.65rem;
     padding: 0;
 
-    .tip__amount {
-      img {
+      .tip__amount img {
         width: 1rem;
       }
     }

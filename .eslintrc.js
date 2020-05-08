@@ -25,6 +25,7 @@ module.exports = {
       exports: 'always-multiline',
       functions: 'always-multiline',
     }],
+    'vue/component-name-in-template-casing': 'error',
     'vue/eqeqeq': 'error',
     'vue/key-spacing': 'error',
     'vue/match-component-file-name': 'error',
@@ -34,6 +35,7 @@ module.exports = {
     'vue/require-direct-export': 'error',
     'vue/space-infix-ops': 'error',
     'vue/space-unary-ops': 'error',
+    'vue/v-on-function-call': 'error',
   },
   overrides: [
     {

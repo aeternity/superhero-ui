@@ -1,13 +1,14 @@
 import Router from 'vue-router';
-import TipsList from './views/TipsList.vue';
-import TipCommentsView from './views/TipCommentsView.vue';
-import UserProfileView from './views/UserProfileView.vue';
-import Terms from './views/Terms.vue';
-import Privacy from './views/Privacy.vue';
+import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
 import Maintenance from './views/Maintenance.vue';
+import SingleCommentView from './views/SingleCommentView.vue';
 import Mission from './views/Mission.vue';
-import CreateProfile from './views/CreateProfile.vue';
+import Privacy from './views/Privacy.vue';
+import Terms from './views/Terms.vue';
+import TipCommentsView from './views/TipCommentsView.vue';
+import TipsList from './views/TipsList.vue';
+import UserProfileView from './views/UserProfileView.vue';
 
 const guardTipComments = (to, from, next) => {
   if (to.name === 'tip' && typeof to.params.id !== 'undefined') {
@@ -17,12 +18,32 @@ const guardTipComments = (to, from, next) => {
   }
 };
 
+const guardCommentView = (to, from, next) => {
+  if (to.name === 'comment'
+      && typeof to.params.id !== 'undefined'
+      && typeof to.params.tipId !== 'undefined') {
+    next();
+  } else {
+    next('/');
+  }
+};
+
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'tips',
     component: TipsList,
-    meta: { title: 'Home' },
+    meta: { title: 'Tips' },
+  },
+  {
+    path: '/tip/:tipId/comment/:id',
+    name: 'comment',
+    component: SingleCommentView,
+    meta: {
+      title: 'Comment View',
+    },
+    props: true,
+    beforeEnter: guardCommentView,
   },
   {
     path: '/tip/:id',
@@ -60,11 +81,19 @@ const routes = [
     },
   },
   {
-    path: '/create-profile',
-    name: 'create-profile',
+    path: '/tutorial',
+    name: 'tutorial',
     component: CreateProfile,
     meta: {
-      title: 'Create Profile',
+      title: 'Tutorial Page',
+    },
+  },
+  {
+    path: '/mission',
+    name: 'mission',
+    component: Mission,
+    meta: {
+      title: 'Mission Page',
     },
   },
   {
@@ -82,14 +111,6 @@ const routes = [
     component: Maintenance,
     meta: {
       title: 'Maintenance',
-    },
-  },
-  {
-    path: '/mission',
-    name: 'mission',
-    component: Mission,
-    meta: {
-      title: 'Mission Page',
     },
   },
 ];

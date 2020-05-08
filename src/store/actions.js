@@ -9,6 +9,9 @@ export default {
   },
   updateCurrencyRates({ commit }, payload) {
     commit(types.UPDATE_CURRENCY_RATES, payload);
+    if (payload.aeternity && payload.aeternity.usd) {
+      commit(types.SET_MIN_TIP_AMOUNT, +(0.01 * (1 / payload.aeternity.usd)).toFixed(2));
+    }
   },
   updateTopics({ commit }, payload) {
     commit(types.UPDATE_TOPICS, payload);
@@ -40,13 +43,13 @@ export default {
   setWizardIsCollapsed({ commit }, payload) {
     commit(types.SET_WIZARD_IS_COLLAPSED, Boolean(payload));
   },
-  toggleMobileNavigation({ commit }, payload) {
-    commit(types.TOGGLE_MOBILE_NAVIGATION, Boolean(payload));
-  },
   toggleTipModal({ commit }, payload) {
     commit(types.TOGGLE_TIP_MODAL, Boolean(payload));
   },
   updateCurrency({ commit }, payload) {
     commit(types.UPDATE_CURRENCY, payload);
+  },
+  updateBalance({ commit }, payload) {
+    commit(types.UPDATE_BALANCE, payload);
   },
 };

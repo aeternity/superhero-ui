@@ -1,12 +1,12 @@
 <template>
   <Page>
-    <div class="container wrapper url__page">
+    <div class="container wrapper comment__page">
       <BackButtonRibbon />
       <div
-        v-if="tip"
+        v-if="comment"
         class="tipped__url"
       >
-        <TipRecord :tip="tip" />
+        <TipComment :comment="comment" />
       </div>
       <div class="comment__section">
         <p class="latest__comments">
@@ -21,7 +21,7 @@
             <input
               v-model="newComment"
               type="text"
-              :placeholder="$t('views.TipCommentsView.AddReply')"
+              placeholder="Add reply"
               class="form-control reply__input"
             >
           </div>
@@ -35,25 +35,28 @@
           </AeButton>
         </div>
       </div>
-      <div class="comments__section">
+      <div
+        v-if="comment"
+        class="comments__section"
+      >
         <div
-          v-if="comments.length === 0 && !showLoading"
+          v-if="comment.children.length === 0 && !showLoading"
           class="no-results text-center w-100"
           :class="[error ? 'error' : '']"
         >
-          {{ $t('views.TipCommentsView.NoResultsMsg') }}
+          {{ $t('views.SingleCommentView.NoResultsMsg') }}
         </div>
 
         <TipComment
-          v-for="(comment, index) in comments"
-          :key="index"
-          :comment="comment"
+          v-for="nestedComment in comment.children"
+          :key="nestedComment.id"
+          :comment="nestedComment"
         />
         <div
           v-if="showLoading"
           class="text-center w-100 mt-3"
         >
-          <Loading />
+          <Loading :show-loading="true" />
         </div>
       </div>
     </div>
@@ -65,7 +68,6 @@ import { mapGetters } from 'vuex';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
-import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
 import { wallet } from '../utils/walletSearch';
@@ -76,12 +78,11 @@ import Avatar from '../components/Avatar.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 
 export default {
-  name: 'TipCommentsView',
+  name: 'CommentView',
   components: {
-    Loading,
-    TipRecord,
-    TipComment,
     Page,
+    Loading,
+    TipComment,
     AeButton,
     Avatar,
     BackButtonRibbon,
@@ -90,22 +91,19 @@ export default {
     return {
       id: this.$route.params.id,
       showLoading: true,
-      comments: [],
       error: false,
       newComment: '',
       address: null,
-      tip: null,
+      comment: null,
+      tipId: this.$route.params.tipId,
       USE_DEEP_LINKS,
     };
   },
-  computed: mapGetters(['account', 'chainNames', 'isLoggedIn', 'loading']),
-  watch: {
-    tip() {
-      this.updateTip();
-    },
+  computed: {
+    ...mapGetters(['account', 'isLoggedIn']),
   },
   created() {
-    this.loadTip();
+    this.loadComment();
     const loadUserAvatar = setInterval(() => {
       if (this.isLoggedIn) {
         this.address = this.account;
@@ -123,45 +121,35 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
+    getAvatar(address) {
+      const userImage = Backend.getProfileImageUrl(address);
+      return userImage || this.avatar;
+    },
     async sendTipComment() {
       if (this.USE_DEEP_LINKS || !this.isLoggedIn) {
         window.location = createDeepLinkUrl(
-          { type: 'comment', id: this.tip.id, text: this.newComment },
+          {
+            type: 'comment', id: this.tipId, text: this.newComment, parentId: this.id,
+          },
         );
         return;
       }
       this.showLoading = true;
-      const response = await Backend.sendTipComment(
-        this.tip.id,
+      await Backend.sendTipComment(
+        this.tipId,
         this.newComment,
         wallet.client.rpcClient.getCurrentAccount(),
         (data) => wallet.signMessage(data),
+        this.id,
       );
-      this.comments.push(response);
       this.showLoading = false;
       EventBus.$emit('reloadData');
       this.newComment = '';
     },
-    updateTip() {
-      Backend.getTipComments(this.id).then((response) => {
-        this.error = false;
-        this.comments = response.map((comment) => {
-          const newComment = comment;
-          newComment.chainName = this.chainNames[newComment.author];
-          return newComment;
-        });
-        this.showLoading = false;
-      }).catch((e) => {
-        console.error(e);
-        this.error = true;
-        this.showLoading = false;
-      });
-    },
     async reloadData() {
-      this.tip = await Backend.getCacheTipById(this.id);
-      this.updateTip();
+      this.comment = await Backend.getCommentById(this.id);
     },
-    async loadTip() {
+    async loadComment() {
       this.showLoading = true;
       await this.reloadData();
       this.showLoading = false;
@@ -170,82 +158,10 @@ export default {
 };
 </script>
 
+
 <style lang="scss">
-.url__page,
-.comment__page {
-  color: $light_font_color;
-  font-size: 0.75rem;
-
-  .avatar,
-  .user-identicon svg {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-  }
-
-  .tipped__url .tip__record {
-    margin-bottom: 0;
-
-    &.row {
-      background-color: $thumbnail_background_color;
-    }
-  }
-
-  .tip__article {
-    background-color: $thumbnail_background_color_alt;
-
-    .preview__image {
-      background-color: $thumbnail_background_color_alt;
-    }
-
-    &:hover {
-      background-color: #373843;
-
-      .preview__image {
-        background-color: #373843;
-      }
-    }
-  }
-
-  .comments__section {
-    background-color: $thumbnail_background_color;
-    padding: 1rem;
-  }
-
-  .no-results {
-    color: $standard_font_color;
-    font-size: 0.75rem;
-    text-align: center;
-
-    &.error {
-      color: red;
-    }
-  }
-
-  .comment__section {
-    background-color: $thumbnail_background_color;
-    padding: 0.75rem 1rem 0 1rem;
-
-    p {
-      font-size: 0.75rem;
-      text-transform: capitalize;
-      margin-bottom: 0.7rem;
-      color: white;
-      font-weight: 600;
-    }
-  }
-
-  .reply__input {
-    width: 100%;
-  }
-
-  .send-comment {
-    margin-top: 0.5rem;
-    text-align: right;
-
-    .ae-button {
-      padding: 0.55rem 2.87rem 0.65rem 2.87rem;
-    }
-  }
+.comment__page .tipped__url .tip__record.row {
+  background-color: $light_color;
+  border-radius: 0;
 }
 </style>

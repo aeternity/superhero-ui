@@ -11,7 +11,7 @@ export const wrapTry = async (promise) => {
         return res.json();
       }),
       new Promise(((resolve, reject) => {
-        setTimeout(reject, 3000, 'TIMEOUT');
+        setTimeout(reject, 5000, 'TIMEOUT');
       })),
     ]);
   } catch (err) {
@@ -39,7 +39,7 @@ Array.prototype.asyncMap = async function (asyncF) {
 };
 
 export const supportedBrowsers = [
-  'chrome', 'firefox',
+  'chrome', 'firefox', 'opera', 'vivaldi', 'brave', 'edge-chromium',
 ];
 
 export const currencySigns = {
@@ -64,10 +64,29 @@ export const IDENTICON_CONFIG = {
   backColor: '#12121bff',
 };
 
+export const createDeepLinkUrl = ({
+  type, id, text, parentId,
+}) => {
+  const url = new URL(`${process.env.VUE_APP_WALLET_URL}/${type}`);
+  if (parentId) {
+    url.searchParams.set('parentId', parentId);
+  }
+  if (id) {
+    url.searchParams.set('id', id);
+  }
+  if (text) {
+    url.searchParams.set('text', encodeURIComponent(text));
+  }
+  url.searchParams.set('x-success', encodeURIComponent(window.location));
+  url.searchParams.set('x-cancel', encodeURIComponent(window.location));
+  return url;
+};
+
 export default {
   atomsToAe,
   aeToAtoms,
   range,
   wrapTry,
   currencySigns,
+  createDeepLinkUrl,
 };

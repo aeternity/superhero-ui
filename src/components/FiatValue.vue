@@ -22,7 +22,7 @@ export default {
       if (!this.amount) {
         return 0;
       }
-      return (this.amount * rate).toLocaleString('de-DE', { style: 'currency', currency: this.settings.currency });
+      return (this.amount * rate).toLocaleString('en-US', { style: 'currency', currency: this.settings.currency });
     },
   },
 };

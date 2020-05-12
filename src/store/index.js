@@ -30,6 +30,8 @@ export default new Vuex.Store({
     wizardCurrentStep: 0,
     wizardIsCollapsed: false,
     openTipModal: false,
+    verifiedUrls: [],
+    graylistedUrls: [],
   },
   getters,
   mutations,

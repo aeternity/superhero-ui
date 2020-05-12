@@ -45,4 +45,10 @@ export const getters = {
   minTipAmount(state) {
     return state.minTipAmount;
   },
+  graylistedUrls(state) {
+    return state.graylistedUrls;
+  },
+  verifiedUrls(state) {
+    return state.verifiedUrls;
+  },
 };

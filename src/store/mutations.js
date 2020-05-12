@@ -48,6 +48,12 @@ export default {
   [types.SET_MIN_TIP_AMOUNT](state, payload) {
     state.minTipAmount = payload;
   },
+  [types.SET_GRAYLISTED_URLS](state, payload) {
+    state.graylistedUrls = payload;
+  },
+  [types.SET_VERIFIED_URLS](state, payload) {
+    state.verifiedUrls = payload;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

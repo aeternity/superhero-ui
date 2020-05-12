@@ -52,4 +52,10 @@ export default {
   updateBalance({ commit }, payload) {
     commit(types.UPDATE_BALANCE, payload);
   },
+  setGraylistedUrls({ commit }, payload) {
+    commit(types.SET_GRAYLISTED_URLS, payload);
+  },
+  setVerifiedUrls({ commit }, payload) {
+    commit(types.SET_VERIFIED_URLS, payload);
+  },
 };

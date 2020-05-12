@@ -67,6 +67,7 @@ export default {
     ...mapActions([
       'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
+      'setGraylistedUrls', 'setVerifiedUrls',
     ]),
     initWallet() {
       return Promise.race([
@@ -99,13 +100,15 @@ export default {
     async reloadData() {
       // await fetch
       const [
-        stats, chainNames, rates, oracleState, topics,
+        stats, chainNames, rates, oracleState, topics, verifiedUrls, graylistedUrls,
       ] = await Promise.all([
         Backend.getCacheStats(),
         Backend.getCacheChainNames(),
         Backend.getPrice(),
         Backend.getOracleCache(),
         Backend.getTopicsCache(),
+        Backend.getVerifiedUrls(),
+        Backend.getGrayListedUrls(),
       ]);
 
       if (this.account) {
@@ -119,6 +122,8 @@ export default {
       this.setChainNames(chainNames);
       this.updateCurrencyRates(rates);
       this.setOracleState(oracleState);
+      this.setGraylistedUrls(graylistedUrls);
+      this.setVerifiedUrls(verifiedUrls);
     },
     async initialLoad() {
       this.addLoading('initial');

@@ -478,6 +478,11 @@
     },
     "TipsPagination": {
       "NoResultsMsg": "There are no results found"
+    },
+    "UrlStatus": {
+      "verifiedTitle": "Verified website, tips can be claimed",
+      "notverifiedTitle": "We can't guarantee the owner will receive the tip on this site",
+      "blacklisted": "Blacklisted website, the owner will not be able to claim the tip"
     }
   }
 }

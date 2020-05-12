@@ -22,10 +22,14 @@
       </div>
       <div class="form-row">
         <div class="form-group col-md-7 col-lg-8 col-sm-12 send-url">
+          <UrlStatus
+            :url="sendTipForm.url"
+            class="url-status"
+          />
           <input
             v-model.trim="sendTipForm.url"
             type="text"
-            class="form-control"
+            class="form-control url-input"
             :placeholder="$t('components.layout.SendTip.EnterURL')"
             :disabled="!canTip"
           >
@@ -61,6 +65,7 @@ import Backend from '../../utils/backend';
 import AeButton from '../AeButton.vue';
 import IconDiamond from '../../assets/iconDiamond.svg';
 import Avatar from '../Avatar.vue';
+import UrlStatus from '../UrlStatus.vue';
 
 export default {
   name: 'SendTip',
@@ -68,6 +73,7 @@ export default {
     AeInputAmount,
     AeButton,
     Avatar,
+    UrlStatus,
   },
   data() {
     return {
@@ -79,6 +85,7 @@ export default {
       sendingTip: false,
       IconDiamond,
       avatarImageKey: 1,
+      isBlacklistedUrl: false,
     };
   },
   computed: {
@@ -90,7 +97,8 @@ export default {
       return this.sendTipForm.amount > this.minTipAmount
           && this.sendTipForm.url.length > 0
           && this.sendTipForm.title.length > 0
-          && urlRegex.test(this.sendTipForm.url);
+          && urlRegex.test(this.sendTipForm.url)
+          && !this.isBlacklistedUrl;
     },
     canTip() {
       return this.isLoggedIn && !this.loading.wallet;
@@ -103,6 +111,9 @@ export default {
         clearInterval(loadUserAvatar);
       }
     }, 1000);
+    EventBus.$on('blacklistedUrl', (payload) => {
+      this.isBlacklistedUrl = payload;
+    });
   },
   methods: {
     async sendTip() {
@@ -206,6 +217,17 @@ export default {
       label {
         margin-bottom: 0;
       }
+    }
+
+    .url-status {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-60%);
+    }
+
+    .url-input {
+      padding-left: 2.1rem;
     }
   }
 

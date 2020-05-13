@@ -350,9 +350,6 @@ export default {
 
 <style lang="scss" scoped>
   .tip__content {
-    align-items: center;
-    display: flex;
-    flex: 0 0 auto;
     position: relative;
 
     img {

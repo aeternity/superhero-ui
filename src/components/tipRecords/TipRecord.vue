@@ -34,6 +34,15 @@
         </div>
       </div>
       <div
+        class="tip__note pr-2"
+        @click.stop
+      >
+        <TipTitle
+          :tip="tip"
+          :go-to-tip="goToTip"
+        />
+      </div>
+      <div
         v-if="isPreviewToBeVisualized(tip)"
         class="tip__article"
       >
@@ -94,15 +103,6 @@
         >
           {{ tip.url }}
         </a>
-      </div>
-      <div
-        class="tip__note pr-2"
-        @click.stop
-      >
-        <TipTitle
-          :tip="tip"
-          :go-to-tip="goToTip"
-        />
       </div>
       <div class="tip__footer">
         <div class="tip__footer_wrapper">
@@ -293,7 +293,6 @@ export default {
     font-size: 0.85rem;
     line-height: 1.1rem;
     margin-bottom: 0.8rem;
-    margin-top: 0.85rem;
     padding-left: 1rem;
 
     .title .topic {
@@ -325,7 +324,7 @@ export default {
     border-bottom-right-radius: 0.25rem;
     color: $light_font_color;
     font-size: 0.8rem;
-    padding: 0 1rem 0.75rem;
+    padding: 1.4rem 1rem 0.75rem;
   }
 
   .tip__footer_wrapper {

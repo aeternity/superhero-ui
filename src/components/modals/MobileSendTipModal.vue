@@ -21,7 +21,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import SendTip from '../layout/SendTip.vue';
+import SendTip from '../layout/sendTip/SendTip.vue';
 
 export default {
   name: 'MobileSendTipModal',

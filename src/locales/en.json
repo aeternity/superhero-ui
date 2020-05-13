@@ -387,7 +387,11 @@
       },
       "SendTip": {
         "SendNewTip": "Send New Tip",
-        "EnterURL": "Enter URL"
+        "EnterURL": "Enter URL",
+        "SuccessHeader": "You're a Superhero",
+        "SuccessText": "Tip sent!",
+        "ErrorHeader": "Something went wrong",
+        "ErrorText": "Tip not sent, please try again"
       }
     },
     "modals": {

@@ -88,7 +88,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
-import SendTip from '../components/layout/SendTip.vue';
+import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
 import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';

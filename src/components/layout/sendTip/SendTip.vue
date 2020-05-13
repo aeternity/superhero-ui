@@ -2,70 +2,77 @@
   <div
     class="tip__post"
   >
-    <div class="tip__post__label">
-      <label>{{ $t('components.layout.SendTip.SendNewTip') }}</label>
-    </div>
-    <form @submit.prevent>
-      <div class="form-group">
-        <Avatar
-          :key="avatarImageKey"
-          :address="account"
-          class="avatar mr-3"
-        />
-        <input
-          v-model="sendTipForm.title"
-          type="text"
-          class="form-control comment"
-          :placeholder="$t('addMessage')"
-          :disabled="!canTip"
-        >
+    <div v-if="!error && !success">
+      <div class="tip__post__label">
+        <label>{{ $t('components.layout.SendTip.SendNewTip') }}</label>
       </div>
-      <div class="form-row">
-        <div class="form-group col-md-7 col-lg-8 col-sm-12 send-url">
-          <UrlStatus
-            :url="sendTipForm.url"
-            class="url-status"
+      <form @submit.prevent>
+        <div class="form-group">
+          <Avatar
+            :key="avatarImageKey"
+            :address="account"
+            class="avatar mr-3"
           />
           <input
-            v-model.trim="sendTipForm.url"
+            v-model="sendTipForm.title"
             type="text"
-            class="form-control url-input"
-            :placeholder="$t('components.layout.SendTip.EnterURL')"
+            class="form-control comment"
+            :placeholder="$t('addMessage')"
             :disabled="!canTip"
           >
         </div>
-        <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
-          <AeInputAmount
-            v-model="sendTipForm.amount"
-            :disabled="!canTip"
-          />
+        <div class="form-row">
+          <div class="form-group col-md-7 col-lg-8 col-sm-12 send-url">
+            <UrlStatus
+              :url="sendTipForm.url"
+              class="url-status"
+            />
+            <input
+              v-model.trim="sendTipForm.url"
+              type="text"
+              class="form-control url-input"
+              :placeholder="$t('components.layout.SendTip.EnterURL')"
+              :disabled="!canTip"
+            >
+          </div>
+          <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
+            <AeInputAmount
+              v-model="sendTipForm.amount"
+              :disabled="!canTip"
+            />
+          </div>
         </div>
-      </div>
-      <div class="text-right">
-        <AeButton
-          :disabled="!canTip || !isSendTipDataValid"
-          :loading="sendingTip"
-          :src="IconDiamond"
-          @click="sendTip"
-        >
-          {{ $t('tip') }}
-        </AeButton>
-      </div>
-    </form>
+        <div class="text-right">
+          <AeButton
+            :disabled="!canTip || !isSendTipDataValid"
+            :loading="sendingTip"
+            :src="IconDiamond"
+            @click="sendTip"
+          >
+            {{ $t('tip') }}
+          </AeButton>
+        </div>
+      </form>
+    </div>
+    <SendTipStatusMsg
+      v-else
+      :status="success"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import AeInputAmount from '../AeInputAmount.vue';
-import util from '../../utils/util';
-import aeternity from '../../utils/aeternity';
-import { EventBus } from '../../utils/eventBus';
-import Backend from '../../utils/backend';
-import AeButton from '../AeButton.vue';
-import IconDiamond from '../../assets/iconDiamond.svg';
-import Avatar from '../Avatar.vue';
-import UrlStatus from '../UrlStatus.vue';
+import AeInputAmount from '../../AeInputAmount.vue';
+import util from '../../../utils/util';
+import aeternity from '../../../utils/aeternity';
+import { EventBus } from '../../../utils/eventBus';
+import Backend from '../../../utils/backend';
+import AeButton from '../../AeButton.vue';
+import IconDiamond from '../../../assets/iconDiamond.svg';
+import Avatar from '../../Avatar.vue';
+import UrlStatus from './UrlStatus.vue';
+import SendTipStatusMsg from './SendTipStatusMsg.vue';
 
 export default {
   name: 'SendTip',
@@ -74,6 +81,7 @@ export default {
     AeButton,
     Avatar,
     UrlStatus,
+    SendTipStatusMsg,
   },
   data() {
     return {
@@ -86,6 +94,8 @@ export default {
       IconDiamond,
       avatarImageKey: 1,
       isBlacklistedUrl: false,
+      success: false,
+      error: false,
     };
   },
   computed: {
@@ -118,13 +128,38 @@ export default {
   methods: {
     async sendTip() {
       this.sendingTip = true;
+      this.resetStatuses();
       const amount = util.aeToAtoms(this.sendTipForm.amount);
-      await aeternity.tip(this.sendTipForm.url, this.sendTipForm.title, amount)
-        .catch(console.error);
-      await Backend.cacheInvalidateTips().catch(console.error);
-      this.clearTipForm();
-      this.sendingTip = false;
-      EventBus.$emit('reloadData');
+      aeternity.tip(this.sendTipForm.url, this.sendTipForm.title, amount)
+        .then(async () => {
+          await Backend.cacheInvalidateTips().catch(console.error);
+          this.clearTipForm();
+          this.sendingTip = false;
+          EventBus.$emit('reloadData');
+          this.showSuccessMsg();
+        }).catch((e) => {
+          console.error(e);
+          this.showErrorMsg();
+        });
+    },
+    showStatusMsg() {
+      setTimeout(() => {
+        this.resetStatuses();
+      }, 3000);
+    },
+    showErrorMsg() {
+      this.error = true;
+      this.success = false;
+      this.showStatusMsg();
+    },
+    showSuccessMsg() {
+      this.success = true;
+      this.error = false;
+      this.showStatusMsg();
+    },
+    resetStatuses() {
+      this.error = false;
+      this.success = false;
     },
     clearTipForm() {
       this.sendTipForm = { amount: 0, url: '', title: '' };
@@ -230,12 +265,4 @@ export default {
       padding-left: 2.1rem;
     }
   }
-
-  .install-wallet-warning {
-    text-align: right;
-    font-size: 0.75rem;
-    color: $warning_font_color;
-    margin-bottom: 0.5rem;
-  }
-
 </style>

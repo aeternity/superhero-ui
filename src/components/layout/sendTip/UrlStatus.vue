@@ -3,29 +3,29 @@
     <img
       v-show="status === 'verified'"
       :title="$t('components.UrlStatus.verifiedTitle')"
-      src="../assets/verifiedUrl.svg"
+      src="../../../assets/verifiedUrl.svg"
     >
     <img
       v-show="status === 'not-verified'"
-      src="../assets/notVerifiedUrl.svg"
+      src="../../../assets/notVerifiedUrl.svg"
       :title="$t('components.UrlStatus.notverifiedTitle')"
     >
     <img
       v-show="status === 'blacklisted'"
-      src="../assets/blacklistedUrl.svg"
+      src="../../../assets/blacklistedUrl.svg"
       :title="$t('components.UrlStatus.blacklisted')"
     >
     <img
       v-show="status === ''"
-      src="../assets/defaultUrl.svg"
+      src="../../../assets/defaultUrl.svg"
     >
   </span>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import { urlStatus } from '../utils/util';
-import { EventBus } from '../utils/eventBus';
+import { urlStatus } from '../../../utils/util';
+import { EventBus } from '../../../utils/eventBus';
 
 export default {
   name: 'UrlStatus',

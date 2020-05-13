@@ -248,6 +248,7 @@ export default {
 
     .comment__actions {
       padding-left: 0;
+      padding-top: 0.5rem;
     }
   }
 }

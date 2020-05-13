@@ -579,7 +579,7 @@ export default {
 
     .tip__footer {
       font-size: 0.65rem;
-      padding: 0;
+      padding: 0.85rem 0 0 0;
 
       .tip__amount img {
         width: 1rem;

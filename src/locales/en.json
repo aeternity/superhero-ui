@@ -1,6 +1,7 @@
 {
   "loading": "Loading...",
   "cancel": "Cancel",
+  "close": "Close",
   "tip": "Tip",
   "tips": "Tips",
   "amount": "Amount",
@@ -386,12 +387,13 @@
         "Trending": "Trending"
       },
       "SendTip": {
-        "SendNewTip": "Send New Tip",
+        "NewTip": "New Tip",
         "EnterURL": "Enter URL",
         "SuccessHeader": "You're a Superhero",
         "SuccessText": "Tip sent!",
         "ErrorHeader": "Something went wrong",
-        "ErrorText": "Tip not sent, please try again"
+        "ErrorText": "Tip not sent, please try again",
+        "SendNewTip": "Send New Tip"
       }
     },
     "modals": {

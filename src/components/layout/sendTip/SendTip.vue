@@ -2,9 +2,15 @@
   <div
     class="tip__post"
   >
-    <div v-if="!error && !success">
-      <div class="tip__post__label">
-        <label>{{ $t('components.layout.SendTip.SendNewTip') }}</label>
+    <div v-if="open && !error && !success">
+      <div class="tip__post__label clearfix">
+        <label>{{ $t('components.layout.SendTip.NewTip') }}</label>
+        <img
+          :title="$t('close')"
+          class="close-sendform"
+          src="../../../assets/iconClose.svg"
+          @click="toggleSendTip(false)"
+        >
       </div>
       <form @submit.prevent>
         <div class="form-group">
@@ -54,6 +60,25 @@
         </div>
       </form>
     </div>
+    <div
+      v-else-if="!open && !error && !success"
+      class="closed-view"
+      @click="toggleSendTip(true)"
+    >
+      <div class="form-group">
+        <Avatar
+          :key="avatarImageKey"
+          :address="account"
+          class="avatar mr-3"
+        />
+        <input
+          type="text"
+          class="form-control comment input-placeholder"
+          :placeholder="$t('components.layout.SendTip.SendNewTip')"
+          disabled
+        >
+      </div>
+    </div>
     <SendTipStatusMsg
       v-else
       :status="success"
@@ -96,6 +121,7 @@ export default {
       isBlacklistedUrl: false,
       success: false,
       error: false,
+      open: false,
     };
   },
   computed: {
@@ -164,6 +190,10 @@ export default {
     clearTipForm() {
       this.sendTipForm = { amount: 0, url: '', title: '' };
     },
+    toggleSendTip(openSection) {
+      this.open = openSection;
+      this.clearTipForm();
+    },
   },
 };
 </script>
@@ -175,62 +205,62 @@ export default {
 
     form {
       padding: 0.6rem 1rem 1rem 1rem;
+    }
 
-      .form-row {
-        margin-top: 1rem;
-
-        .form-group {
-          border: 0.05rem solid $buttons_background;
-          border-radius: 0.25rem;
-          padding: 0;
-
-          input,
-          input:focus {
-            border: 0;
-          }
-
-          &:focus-within {
-            border-color: $secondary_color;
-          }
-        }
-
-        .col-md-4 {
-          padding-right: 0;
-        }
-      }
+    .form-row {
+      margin-top: 1rem;
 
       .form-group {
-        margin-bottom: 0;
+        border: 0.05rem solid $buttons_background;
+        border-radius: 0.25rem;
+        padding: 0;
 
-        input {
-          &.comment {
-            display: inline-block;
-            width: calc(100% - 3.01rem);
-          }
+        input,
+        input:focus {
+          border: 0;
+        }
 
-          background-color: $buttons_background;
-          color: $standard_font_color;
-          font-size: 0.75rem;
-          height: 2.2rem;
+        &:focus-within {
+          border-color: $secondary_color;
         }
       }
 
-      .send-url,
-      .send-amount {
-        margin-bottom: 1rem;
+      .col-md-4 {
+        padding-right: 0;
       }
+    }
 
-      .tip__post__balance span {
-        font-size: 0.75rem;
+    .form-group {
+      margin-bottom: 0;
+
+      input {
+        &.comment {
+          display: inline-block;
+          width: calc(100% - 3.01rem);
+        }
+
+        background-color: $buttons_background;
         color: $standard_font_color;
+        font-size: 0.75rem;
+        height: 2.2rem;
       }
+    }
 
-      .avatar,
-      .user-identicon svg {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 1rem;
-      }
+    .send-url,
+    .send-amount {
+      margin-bottom: 1rem;
+    }
+
+    .tip__post__balance span {
+      font-size: 0.75rem;
+      color: $standard_font_color;
+    }
+
+    .avatar,
+    .user-identicon svg {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 1rem;
     }
 
     .ae-button {
@@ -263,6 +293,34 @@ export default {
 
     .url-input {
       padding-left: 2.1rem;
+    }
+
+    .closed-view {
+      padding: 1rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .input-placeholder[disabled] {
+      &::placeholder {
+        color: $standard_font_color;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .close-sendform {
+      width: 1rem;
+      float: right;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.6;
+      }
     }
   }
 </style>

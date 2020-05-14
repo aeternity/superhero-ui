@@ -130,7 +130,7 @@ export default {
   display: none;
 }
 
-.sided.search{
+.sided.search {
   display: block;
   margin-bottom: 1rem;
 
@@ -138,7 +138,7 @@ export default {
     height: 2.2rem;
   }
 
-  .search-icon img{
+  .search-icon img {
     width: 0.7rem;
   }
 
@@ -153,7 +153,8 @@ export default {
   .sided.search {
     display: none;
   }
-  .search{
+
+  .search {
     display: block;
   }
 }
@@ -161,7 +162,6 @@ export default {
 @media only screen
   and (max-width: 768px)
   and (max-width: 600px) {
-
   .input-group {
     margin-bottom: 0;
     padding-right: 0;

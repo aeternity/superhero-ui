@@ -163,7 +163,7 @@ export default {
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .mobile-navigation {
     display: block;
     width: var(--container-width);

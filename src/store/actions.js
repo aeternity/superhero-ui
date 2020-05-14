@@ -55,4 +55,8 @@ export default {
   setVerifiedUrls({ commit }, payload) {
     commit(types.SET_VERIFIED_URLS, payload);
   },
+  setSearchTerm({ commit }, payload) {
+    commit(types.SET_SEARCHTERM, payload);
+  },
+
 };

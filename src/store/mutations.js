@@ -51,6 +51,9 @@ export default {
   [types.SET_VERIFIED_URLS](state, payload) {
     state.verifiedUrls = payload;
   },
+  [types.SET_SEARCHTERM](state, payload) {
+    state.searchTerm = payload;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

@@ -9,40 +9,10 @@
     />
     <div v-else>
       <div class="actions__container container position-sticky">
-        <div
-          class="search__input__container"
-          :class="{ 'show-mobile-nav': showMobileNavigation }"
-        >
-          <input
-            v-model="searchTerm"
-            type="text"
-            class="search__input"
-            :placeholder="$t('views.TipList.SearchPlaceholder')"
-            @searchTopic="onSearchTopic"
-          >
-          <div
-            v-if="searchTerm.length"
-            class="clear"
-            :title="$t('views.TipList.Clear')"
-            @click="searchTerm = ''"
-          >
-            <img src="../assets/iconEraser.svg">
-          </div>
-          <div
-            v-if="!searchTerm.length"
-            class="search-icon"
-            @click="searchTerm = ''"
-          >
-            <img src="../assets/iconSearch.svg">
-          </div>
-          <div
-            class="close-mobile-nav"
-            :title="$t('views.TipList.CloseSearch')"
-            @click="toggleMobileNav(true)"
-          >
-            &#x2715;
-          </div>
-        </div>
+        <SearchInput
+          :toggle-mobile-nav="toggleMobileNav"
+          :show-mobile-navigation="showMobileNavigation"
+        />
       </div>
       <div class="container wrapper">
         <Onboarding />
@@ -87,13 +57,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
-import { EventBus } from '../utils/eventBus';
 import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import TipsPagination from '../components/TipsPagination.vue';
+import SearchInput from '../components/layout/SearchInput.vue';
 
 export default {
   name: 'TipsList',
@@ -103,29 +72,16 @@ export default {
     Loading,
     Page,
     SendTip,
+    SearchInput,
   },
   data() {
     return {
-      searchTerm: '',
       showMobileNavigation: true,
     };
   },
-  computed: mapGetters(['tipSortBy', 'loading']),
-  async created() {
-    EventBus.$on('searchTopic', (topic) => {
-      window.scrollTo(0, 0);
-      this.onSearchTopic(topic);
-    });
-
-    if (this.$route.query.searchTopicPhrase) {
-      this.onSearchTopic(this.$route.query.searchTopicPhrase);
-    }
-  },
+  computed: mapGetters(['tipSortBy', 'loading', 'searchTerm']),
   methods: {
     ...mapActions(['setTipSortBy']),
-    onSearchTopic(data) {
-      this.searchTerm = data;
-    },
     toggleMobileNav(show) {
       this.showMobileNavigation = show;
     },
@@ -134,29 +90,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.search__input__container {
-  margin-bottom: 0.15rem;
-  position: relative;
-}
-
-.search__input {
-  font-size: 0.75rem;
-  color: $standard_font_color;
-  background-color: $article_content_color;
-  padding: 1.05rem 2.5rem 1.05rem 1rem;
-  border: 0.05rem solid transparent;
-  outline: none;
-  width: 100%;
-
-  &:focus {
-    border: 0.05rem solid $secondary_color;
-  }
-}
-
-.send__tip__container {
-  margin-bottom: 0.15rem;
-}
-
 .container.wrapper {
   padding-top: 0;
   margin-top: -0.125rem;
@@ -168,7 +101,7 @@ export default {
   top: 0;
 
   &:nth-child(2) {
-    top: 3.2rem;
+    top: 0;
   }
 
   z-index: 100;
@@ -226,38 +159,6 @@ export default {
   }
 }
 
-.search-icon,
-.clear {
-  @include vertical-align($position: absolute);
-
-  right: 1rem;
-  z-index: 10;
-}
-
-.search-icon img {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.search__input:focus ~ .search-icon {
-  display: none;
-}
-
-.clear {
-  img {
-    height: 0.75rem;
-    width: 0.9rem;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.close-mobile-nav {
-  display: none;
-}
-
 .no-results {
   color: $standard_font_color;
   font-size: 0.75rem;
@@ -266,6 +167,12 @@ export default {
 
 .initial-loading {
   margin-top: 5rem;
+}
+
+@media (max-width: 1024px) {
+  .actions__container:nth-child(2) {
+    top: 3.2rem;
+  }
 }
 
 @media only screen
@@ -281,52 +188,11 @@ export default {
   }
 }
 
-@media (max-width: 1024px) {
-  .close-mobile-nav {
-    display: block;
-    font-size: 1rem;
-    color: $standard_font_color;
-    right: 0.5rem;
-
-    @include vertical-align($position: absolute);
-
-    z-index: 10;
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  .search-icon {
-    display: none;
-  }
-
-  .search__input__container.show-mobile-nav {
-    display: none;
-  }
-
-  .clear {
-    right: 1.8rem;
-
-    img {
-      vertical-align: baseline;
-    }
-  }
-
-  .search__input {
-    padding: 1.05rem 3.2rem 1.05rem 1rem;
-  }
-}
-
 //Smallest devices Portrait and Landscape
 @media only screen
   and (min-device-width: 320px)
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
-  .search__input {
-    padding: 0.9rem 3.5rem 0.9rem 1rem;
-  }
-
   .actions__container {
     width: 100%;
     background-color: $actions_ribbon_background_color;

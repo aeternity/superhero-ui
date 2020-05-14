@@ -48,4 +48,7 @@ export const getters = {
   verifiedUrls(state) {
     return state.verifiedUrls;
   },
+  searchTerm(state) {
+    return state.searchTerm;
+  },
 };

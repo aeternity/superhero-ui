@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { get } from 'lodash-es';
+import { get, isEmpty } from 'lodash-es';
 import Loading from './Loading.vue';
 import Backend from '../utils/backend';
 import { MIDDLEWARE_URL } from '../config/constants';
@@ -127,7 +127,7 @@ export default {
     scroll() {
       window.onscroll = () => {
         const isLastTipInViewport = this.lastTipId !== -1
-          && this.$refs[`tip-id-${this.lastTipId}`]
+          && !isEmpty(this.$refs[`tip-id-${this.lastTipId}`])
           && this.$refs[`tip-id-${this.lastTipId}`][0].$el
             .getBoundingClientRect()
             .bottom <= (window.innerHeight || document.documentElement.clientHeight);

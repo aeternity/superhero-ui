@@ -260,7 +260,6 @@
             <TipComment
               v-for="(comment, index) in comments"
               :key="index"
-              :user-chain-name="userChainName"
               :comment="comment"
               :sender-link="openExplorer(comment.author)"
             />

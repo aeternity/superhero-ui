@@ -49,11 +49,12 @@ export default {
     color: $custom_links_color;
     font-size: 0.75rem;
     font-weight: 400;
+    margin-bottom: 0;
   }
 
   .status-message {
     text-align: center;
-    padding: 3.9rem 0;
+    padding: 1rem 0;
 
     img {
       margin-bottom: 0.85rem;

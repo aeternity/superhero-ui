@@ -166,7 +166,7 @@ export default {
       margin-bottom: 1rem;
 
       &.trending {
-        margin-bottom: 0.85rem;
+        margin-bottom: 0.5rem;
         padding-bottom: 0.5rem;
 
         .section__item {

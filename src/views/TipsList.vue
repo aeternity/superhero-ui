@@ -149,7 +149,7 @@ export default {
   width: 100%;
 
   &:focus {
-    border: 0.05rem solid $custom_links_color;
+    border: 0.05rem solid $secondary_color;
   }
 }
 
@@ -286,7 +286,7 @@ export default {
     display: block;
     font-size: 1rem;
     color: $standard_font_color;
-    right: 1rem;
+    right: 0.5rem;
 
     @include vertical-align($position: absolute);
 
@@ -306,7 +306,7 @@ export default {
   }
 
   .clear {
-    right: 2.2rem;
+    right: 1.8rem;
 
     img {
       vertical-align: baseline;

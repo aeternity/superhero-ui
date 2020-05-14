@@ -358,12 +358,13 @@
   "components": {
     "layout": {
       "FooterSection": {
-        "SendFeedback": "Send Feedback",
+        "Feedback": "Feedback",
         "Support": "Support",
-        "FooterInfo": "Superhero is {openSource} and you are invited to contribute.",
-        "OpenSource": "Open Source",
+        "FooterInfo": "Superhero is Open Source {openSource}",
+        "ContributeOnGithub": "Contribute on Github",
         "Terms": "Terms",
-        "Privacy": "Privacy"
+        "Privacy": "Privacy",
+        "HowItWorks": "How it works"
       },
       "Navigation": {
         "MyProfile": "My Profile",

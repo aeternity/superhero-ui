@@ -463,9 +463,6 @@
         "EnterURL": "Enter URL"
       }
     },
-    "modals": {
-      "MobileSendTipModal": {}
-    },
     "onboarding": {
       "steps": {
         "next": "Next",

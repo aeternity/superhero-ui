@@ -40,7 +40,6 @@ export default {
   },
   props: {
     comment: { type: Object, required: true },
-    userChainName: { type: String, default: '' },
   },
   computed: {
     childComments() {

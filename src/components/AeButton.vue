@@ -34,14 +34,14 @@ export default {
 <style lang="scss" scoped>
 .ae-button {
   height: 2.3rem;
-  min-width: 7.5rem;
+  min-width: 3.5rem;
   color: $standard_font_color;
   background-color: $secondary_color;
   border: none;
 
   .spinner__container {
     transform: scale(0.6);
-    margin-top: -0.4rem;
+    margin-top: -0.3rem;
   }
 
   &[disabled] {

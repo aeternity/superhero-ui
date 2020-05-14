@@ -4,7 +4,6 @@
   >
     <div v-if="open && !error && !success">
       <div class="tip__post__label clearfix">
-        <label>{{ $t('components.layout.SendTip.NewTip') }}</label>
         <img
           :title="$t('close')"
           class="close-sendform"
@@ -28,7 +27,7 @@
           >
         </div>
         <div class="form-row">
-          <div class="form-group col-md-7 col-lg-8 col-sm-12 send-url">
+          <div class="form-group col-md-5 col-lg-6 col-sm-12 send-url">
             <UrlStatus
               :url="sendTipForm.url"
               class="url-status"
@@ -47,16 +46,18 @@
               :disabled="!canTip"
             />
           </div>
-        </div>
-        <div class="text-right">
-          <AeButton
-            :disabled="!canTip || !isSendTipDataValid"
-            :loading="sendingTip"
-            :src="IconDiamond"
-            @click="sendTip"
-          >
-            {{ $t('tip') }}
-          </AeButton>
+          <div class="col-lg-2 col-md-2 col-sm-12">
+            <div class="text-right">
+              <AeButton
+                :disabled="!canTip || !isSendTipDataValid"
+                :loading="sendingTip"
+                :src="IconDiamond"
+                @click="sendTip"
+              >
+                {{ $t('tip') }}
+              </AeButton>
+            </div>
+          </div>
         </div>
       </form>
     </div>
@@ -205,7 +206,7 @@ export default {
     max-height: 400px;
 
     form {
-      padding: 0.6rem 1rem 1rem 1rem;
+      padding: 0.6rem 1rem 0 1rem;
     }
 
     .form-row {
@@ -264,11 +265,6 @@ export default {
       border-radius: 1rem;
     }
 
-    .ae-button {
-      padding: 0.55rem 2.87rem 0.65rem 2.87rem;
-      font-weight: 600;
-    }
-
     .avatar {
       vertical-align: middle;
     }
@@ -277,7 +273,7 @@ export default {
       font-weight: 600;
       font-size: 0.8rem;
       color: $standard_font_color;
-      padding: 0.75rem 1rem;
+      padding: 0.375rem 0.5rem;
       background-color: $light_color;
 
       label {
@@ -324,12 +320,39 @@ export default {
     }
 
     .close-sendform {
-      width: 1rem;
+      width: 0.65rem;
       float: right;
 
       &:hover {
         cursor: pointer;
         opacity: 0.6;
+      }
+    }
+
+    .ae-button {
+      width: 100%;
+      height: 2.2rem;
+      margin-top: 0.05rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 576px) {
+      .send-url,
+      .send-amount,
+      .col-md-2 {
+        padding: 0;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .send-url,
+      .send-amount {
+        padding-right: 0.25rem;
+        padding-left: 0.25rem;
+      }
+
+      .col-md-2 {
+        padding: 0;
       }
     }
   }

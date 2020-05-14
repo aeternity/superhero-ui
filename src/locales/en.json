@@ -396,9 +396,6 @@
         "SendNewTip": "Send New Tip"
       }
     },
-    "modals": {
-      "MobileSendTipModal": {}
-    },
     "onboarding": {
       "steps": {
         "next": "Next",

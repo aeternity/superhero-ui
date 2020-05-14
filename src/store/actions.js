@@ -43,9 +43,6 @@ export default {
   setWizardIsCollapsed({ commit }, payload) {
     commit(types.SET_WIZARD_IS_COLLAPSED, Boolean(payload));
   },
-  toggleTipModal({ commit }, payload) {
-    commit(types.TOGGLE_TIP_MODAL, Boolean(payload));
-  },
   updateCurrency({ commit }, payload) {
     commit(types.UPDATE_CURRENCY, payload);
   },

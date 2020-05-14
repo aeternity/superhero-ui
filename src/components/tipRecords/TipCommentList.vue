@@ -3,9 +3,7 @@
     v-if="!comment.parentId"
     class="comment-list"
   >
-    <TipComment
-      :comment="comment"
-    />
+    <TipComment :comment="comment" />
     <div
       v-if="childComments.length"
       class="child-comments"

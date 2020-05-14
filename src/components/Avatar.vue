@@ -6,17 +6,17 @@
     loading="lazy"
     @error="error = true"
   >
-  <div
+  <img
     v-else
     class="user-identicon"
-    v-html="identicon"
-  />
+    :src="identicon"
+  >
 </template>
 
 <script>
-import jdenticon from 'jdenticon';
+import Avatars from '@dicebear/avatars';
+import sprites from '@dicebear/avatars-avataaars-sprites';
 import Backend from '../utils/backend';
-import { IDENTICON_CONFIG } from '../utils/util';
 
 export default {
   props: {
@@ -34,8 +34,8 @@ export default {
       return this.address ? userImage : null;
     },
     identicon() {
-      jdenticon.config = IDENTICON_CONFIG;
-      return jdenticon.toSvg(this.address, 32);
+      const avatars = new Avatars(sprites, { eyes: ['happy', 'surprised'], base64: true });
+      return avatars.create(this.address);
     },
   },
 };

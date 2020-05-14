@@ -350,9 +350,6 @@ export default {
 
 <style lang="scss" scoped>
   .tip__content {
-    align-items: center;
-    display: flex;
-    flex: 0 0 auto;
     position: relative;
 
     img {
@@ -360,7 +357,6 @@ export default {
       margin-right: 0.3rem;
       margin-bottom: 0.1rem;
       width: 1rem;
-      flex: 0;
     }
 
     &:hover img {

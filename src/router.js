@@ -9,7 +9,7 @@ import Terms from './views/Terms.vue';
 import TipCommentsView from './views/TipCommentsView.vue';
 import TipsList from './views/TipsList.vue';
 import UserProfileView from './views/UserProfileView.vue';
-import Tracing from "./views/admin/Tracing";
+import Tracing from './views/admin/Tracing.vue';
 
 const guardTipComments = (to, from, next) => {
   if (to.name === 'tip' && typeof to.params.id !== 'undefined') {

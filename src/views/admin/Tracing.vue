@@ -1,60 +1,108 @@
 <template>
   <div>
-    <div class="container my-2" v-if="blockchainTrace">
+    <div
+      v-if="blockchainTrace"
+      class="container my-2"
+    >
       <h2>Tip {{ blockchainTrace.tip.id }}</h2>
 
       <div class="row">
-        <FormatDate :date-timestamp="new Date(blockchainTrace.tip.timestamp)"/>
+        <FormatDate :date-timestamp="new Date(blockchainTrace.tip.timestamp)" />
       </div>
       <div class="row">
         {{ blockchainTrace.tip.url }} ({{ blockchainTrace.url_tips.length }} Tips)
       </div>
       <div class="row">
         Total Claimed:
-        <AeAmount class="mx-2" :round="2" :amount="blockchainTrace.tip.total_claimed_amount"/>
+        <AeAmount
+          class="mx-2"
+          :round="2"
+          :amount="blockchainTrace.tip.total_claimed_amount"
+        />
         Total Unclaimed:
-        <AeAmount class="mx-2" :round="2" :amount="blockchainTrace.tip.total_unclaimed_amount"/>
+        <AeAmount
+          class="mx-2"
+          :round="2"
+          :amount="blockchainTrace.tip.total_unclaimed_amount"
+        />
         Retips:
         <span class="mx-2">
           {{ blockchainTrace.tip.retips.length }}
-          (<AeAmount :round="2" :amount="blockchainTrace.tip.retip_amount_ae"/>)
+          (<AeAmount
+            :round="2"
+            :amount="blockchainTrace.tip.retip_amount_ae"
+          />)
         </span>
       </div>
-      <div class="row" v-if="blockchainTrace.url_oracle_claim"
-           v-bind:class="[blockchainTrace.url_oracle_claim.success ? 'success' : 'error']">
+      <div
+        v-if="blockchainTrace.url_oracle_claim"
+        class="row"
+        :class="[blockchainTrace.url_oracle_claim.success ? 'success' : 'error']"
+      >
         Oracle Response: {{ blockchainTrace.url_oracle_claim.account }}
         ({{ blockchainTrace.url_oracle_claim.percentage }}%)
       </div>
-      <div class="row error" v-else>No Oracle Result yet</div>
+      <div
+        v-else
+        class="row error"
+      >
+        No Oracle Result yet
+      </div>
     </div>
-    <div class="container my-2" v-if="blockchainTrace">
+    <div
+      v-if="blockchainTrace"
+      class="container my-2"
+    >
       <h2>Contract Events</h2>
 
-      <div class="row" v-for="(event, i) in sortedEvents" v-bind:key="i">
-        <FormatDate :date-timestamp="new Date(event.time)"/>
+      <div
+        v-for="(event, i) in sortedEvents"
+        :key="i"
+        class="row"
+      >
+        <FormatDate :date-timestamp="new Date(event.time)" />
         <span class="mx-1 font-weight-bold">{{ event.event }}</span>
         ({{ event.address }}
         <span v-if="event.event === 'CheckPersistClaim'">, {{ event.amount }}%</span>
         <span v-if="event.event === 'TipWithdrawn' || event.event === 'TipReceived'">
-          , <AeAmount :round="2" :aettos="true" :amount="event.amount"/>
+          , <AeAmount
+            :round="2"
+            :aettos="true"
+            :amount="event.amount"
+          />
         </span>)
       </div>
     </div>
-    <div class="container my-2" v-if="backendTrace">
+    <div
+      v-if="backendTrace"
+      class="container my-2"
+    >
       <h2>Backend Claims</h2>
 
-      <div class="flex-column" v-for="(trace, i) in sortedTraces" v-bind:key="i">
+      <div
+        v-for="(trace, i) in sortedTraces"
+        :key="i"
+        class="flex-column"
+      >
         <h4 @click="expandedTrace = expandedTrace === i ? null : i">
-          <FormatDate :date-timestamp="new Date(trace[0].date)"/>
+          <FormatDate :date-timestamp="new Date(trace[0].date)" />
           Claim {{ i }} - {{ traceState(trace) }}
         </h4>
-        <div v-for="(event, j) in trace" v-bind:key="j" v-show="expandedTrace === i" class="mb-2">
+        <div
+          v-for="(event, j) in trace"
+          v-show="expandedTrace === i"
+          :key="j"
+          class="mb-2"
+        >
           <span class="font-weight-bold">
-            <FormatDate :date-timestamp="new Date(event.date)"/>
+            <FormatDate :date-timestamp="new Date(event.date)" />
             {{ event.state }}
           </span>
-          <br/>
-          <span class="text-info" v-if="Object.keys(adjustEvent(event)).length > 2">
+          <br>
+          <span
+            v-if="Object.keys(adjustEvent(event)).length > 2"
+            class="text-info"
+          >
             {{ adjustEvent(event) }}
           </span>
         </div>
@@ -81,9 +129,11 @@ export default {
   },
   computed: {
     sortedEvents() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       return this.blockchainTrace.url_events.sort((a, b) => a.time - b.time);
     },
     sortedTraces() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       return this.backendTrace.sort((a, b) => a[0].date - b[0].date);
     },
   },

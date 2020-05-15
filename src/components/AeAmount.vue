@@ -7,19 +7,22 @@
 
 <script>
 import BigNumber from 'bignumber.js';
+import util from '../utils/util';
 
 export default {
   name: 'AeAmount',
   props: {
     amount: { type: String, required: true },
     round: { type: Number, required: true },
+    aettos: { type: Boolean, required: false },
   },
   computed: {
     roundedAmount() {
       if (!this.amount) {
         return 0;
       }
-      return new BigNumber(this.amount).toFixed(this.round);
+      return new BigNumber(this.aettos ? util.atomsToAe(this.amount) : this.amount)
+        .toFixed(this.round);
     },
   },
 };

@@ -1,7 +1,8 @@
 <template>
-  <div class="p-2">
-    <h1>Tip Tracing {{ tipId }}</h1>
-    <div class="container" v-if="blockchainTrace">
+  <div>
+    <div class="container my-2" v-if="blockchainTrace">
+      <h2>Tip {{ blockchainTrace.tip.id }}</h2>
+
       <div class="row">
         <FormatDate :date-timestamp="new Date(blockchainTrace.tip.timestamp)"/>
       </div>
@@ -26,40 +27,52 @@
       </div>
       <div class="row error" v-else>No Oracle Result yet</div>
     </div>
-    <div class="container" v-if="blockchainTrace">
+    <div class="container my-2" v-if="blockchainTrace">
       <h2>Events</h2>
-      <div class="row" v-for="event in blockchainTrace.url_events">
-        <span class="font-weight-bold">{{ event.name }}</span>
+
+      <div class="row" v-for="(event, i) in sortedEvents" v-bind:key="i">
+        <FormatDate :date-timestamp="new Date(event.time)"/>
+        <span class="mx-1 font-weight-bold">{{ event.event }}</span>
+        ({{ event.address }}
+        <span v-if="event.event === 'CheckPersistClaim'">, {{ event.amount }}%</span>
+        <span v-if="event.event === 'TipWithdrawn' || event.event === 'TipReceived'">
+          , <AeAmount :round="2" :aettos="true" :amount="event.amount"/>
+        </span>)
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import Backend from '../../utils/backend';
-  import AeAmount from '../../components/AeAmount.vue';
-  import FormatDate from '../../components/tipRecords/FormatDate.vue';
+import Backend from '../../utils/backend';
+import AeAmount from '../../components/AeAmount.vue';
+import FormatDate from '../../components/tipRecords/FormatDate.vue';
 
-  export default {
-    name: 'Tracing',
-    components: {FormatDate, AeAmount},
-    data() {
-      return {
-        tipId: this.$route.params.id,
-        backendTrace: null,
-        blockchainTrace: null,
-      };
+export default {
+  name: 'Tracing',
+  components: { FormatDate, AeAmount },
+  data() {
+    return {
+      tipId: this.$route.params.id,
+      backendTrace: null,
+      blockchainTrace: null,
+    };
+  },
+  computed: {
+    sortedEvents() {
+      return this.blockchainTrace.url_events.sort((a, b) => a.time - b.time);
     },
-    mounted() {
-      this.traceTip(this.tipId);
+  },
+  mounted() {
+    this.traceTip(this.tipId);
+  },
+  methods: {
+    async traceTip(id) {
+      this.backendTrace = await Backend.getTipTraceBackend(id);
+      this.blockchainTrace = await Backend.getTipTraceBlockchain(id);
     },
-    methods: {
-      async traceTip(id) {
-        this.backendTrace = await Backend.getTipTraceBackend(id);
-        this.blockchainTrace = await Backend.getTipTraceBlockchain(id);
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style scoped>

@@ -1,6 +1,7 @@
 {
   "loading": "Loading...",
   "cancel": "取消",
+  "close": "Close",
   "tip": "Tip",
   "tips": "Tips",
   "amount": "Amount",
@@ -430,12 +431,13 @@
   "components": {
     "layout": {
       "FooterSection": {
-        "SendFeedback": "Send Feedback",
+        "Feedback": "Feedback",
         "Support": "Support",
-        "FooterInfo": "Superhero is {openSource} and you are invited to contribute.",
-        "OpenSource": "Open Source",
+        "FooterInfo": "Superhero is Open Source {openSource}",
+        "ContributeOnGithub": "Contribute on Github",
         "Terms": "Terms",
-        "Privacy": "Privacy"
+        "Privacy": "Privacy",
+        "HowItWorks": "How it works"
       },
       "Navigation": {
         "MyProfile": "My Profile",
@@ -459,12 +461,14 @@
         "Trending": "Trending"
       },
       "SendTip": {
-        "SendNewTip": "Send New Tip",
-        "EnterURL": "Enter URL"
+        "NewTip": "New Tip",
+        "EnterURL": "Enter URL",
+        "SuccessHeader": "You're a Superhero",
+        "SuccessText": "Tip sent!",
+        "ErrorHeader": "Something went wrong",
+        "ErrorText": "Tip not sent, please try again",
+        "SendNewTip": "Send New Tip"
       }
-    },
-    "modals": {
-      "MobileSendTipModal": {}
     },
     "onboarding": {
       "steps": {
@@ -546,6 +550,11 @@
     },
     "TipsPagination": {
       "NoResultsMsg": "There are no results found"
+    },
+    "UrlStatus": {
+      "verifiedTitle": "Verified website, tips can be claimed",
+      "notverifiedTitle": "We can't guarantee the owner will receive the tip on this site",
+      "blacklisted": "Blacklisted website, the owner will not be able to claim the tip"
     }
   }
 }

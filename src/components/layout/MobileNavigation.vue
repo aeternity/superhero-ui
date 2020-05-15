@@ -18,15 +18,8 @@
       v-if="!open"
       class="mobile-actions"
     >
-      <img
-        v-if="!USE_DEEP_LINKS && $route.name === 'tips'"
-        v-show="Object.keys(account).length && balance"
-        class="tip mobile-only"
-        src="../../assets/iconDiamond.svg"
-        @click="toggleTipModal(true)"
-      >
       <a
-        v-else-if="USE_DEEP_LINKS && $route.name === 'tips'"
+        v-if="USE_DEEP_LINKS && $route.name === 'tips'"
         :href="createDeepLinkUrl({ type: 'tip' })"
         target="_blank"
         class="mobile-only"
@@ -49,14 +42,12 @@
       >
     </div>
     <FooterSection v-if="open" />
-    <MobileSendTipModal />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import Navigation from './Navigation.vue';
-import MobileSendTipModal from '../modals/MobileSendTipModal.vue';
 import FooterSection from './FooterSection.vue';
 import { USE_DEEP_LINKS, createDeepLinkUrl } from '../../utils/util';
 
@@ -64,7 +55,6 @@ export default {
   name: 'MobileNavigation',
   components: {
     Navigation,
-    MobileSendTipModal,
     FooterSection,
   },
   props: {
@@ -80,7 +70,6 @@ export default {
   },
   computed: mapGetters(['balance', 'account']),
   methods: {
-    ...mapActions(['toggleTipModal']),
     openNavigation(isOpen) {
       this.open = isOpen;
     },
@@ -174,7 +163,7 @@ export default {
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .mobile-navigation {
     display: block;
     width: var(--container-width);

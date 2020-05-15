@@ -72,6 +72,26 @@ export const createDeepLinkUrl = ({ type, ...params }) => {
   return url;
 };
 
+const getTwitterAccountUrl = (url) => {
+  const match = url.match(/https:\/\/twitter.com\/[a-zA-Z0-9_]+/g);
+  return match ? match[0] : false;
+};
+
+export const urlStatus = (tipUrl, verifiedUrls, blacklistedUrls) => {
+  if (!tipUrl) return 'default';
+  const twitterProfile = getTwitterAccountUrl(tipUrl);
+  const url = twitterProfile || tipUrl;
+  let status;
+  if (blacklistedUrls.some((u) => url.includes(u))) {
+    status = 'blacklisted';
+  } else if (verifiedUrls.includes(url)) {
+    status = 'verified';
+  } else {
+    status = 'not-verified';
+  }
+  return status;
+};
+
 export default {
   atomsToAe,
   aeToAtoms,
@@ -79,4 +99,5 @@ export default {
   wrapTry,
   currencySigns,
   createDeepLinkUrl,
+  urlStatus,
 };

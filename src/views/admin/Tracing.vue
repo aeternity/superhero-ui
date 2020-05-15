@@ -40,6 +40,23 @@
         </span>)
       </div>
     </div>
+    <div class="container my-2" v-if="backendTrace">
+      <h2>Claims</h2>
+
+      <div class="flex-column" v-for="(trace, i) in backendTrace">
+        <h4 @click="expandedTrace = i">Claim {{i}} - {{trace[trace.length -1].answer || trace[trace.length -1].result}}</h4>
+        <div v-for="event in trace" v-show="expandedTrace === i" class="mb-2">
+          <span class="font-weight-bold">
+                      <FormatDate :date-timestamp="new Date(event.date)"/>
+          {{event.state}}
+          </span>
+          <br />
+          <span class="text-info">
+          {{Object.assign({}, event, {state: undefined, date: undefined})}}
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -56,6 +73,7 @@ export default {
       tipId: this.$route.params.id,
       backendTrace: null,
       blockchainTrace: null,
+      expandedTrace: null,
     };
   },
   computed: {

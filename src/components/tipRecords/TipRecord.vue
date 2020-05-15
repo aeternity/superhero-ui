@@ -107,14 +107,6 @@
       <div class="tip__footer">
         <div class="tip__footer_wrapper">
           <div
-            class="tip__amount"
-            @click.stop
-          >
-            <TipInput
-              :tip="tip"
-            />
-          </div>
-          <div
             class="tip__comments"
             :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
           >
@@ -356,7 +348,8 @@ export default {
   }
 
   .tip__comments {
-    margin-left: 20%;
+    margin: 0 auto;
+
     cursor: pointer;
     order: 4;
 

@@ -9,12 +9,12 @@ body {
 }
 
 .superhero-button-container,
-.superher-button-link-holder {
+.superhero-button-link-holder {
   display: inline-block;
 }
 
 
-.supehero-button-tips-amount {
+.superhero-button-tips-amount {
   font-size: 32px;
   font-weight: 400;
   line-height: 22px;
@@ -24,9 +24,10 @@ body {
   border: 1px solid #BABAC0;
   border-radius: 5px;
   margin-bottom: 14px;
+  background-color: #fff;
 }
 
-.supehero-button-tips-amount:after {
+.superhero-button-tips-amount:after {
   content: "";
   width: 12px;
   height: 12px;
@@ -41,7 +42,7 @@ body {
   -ms-transform: translateX(-50%) rotate(-45deg);
 }
 
-.supehero-button-tips-amount .ae {
+.superhero-button-tips-amount .ae {
   color: #2A9CFF;
 }
 
@@ -74,8 +75,8 @@ body {
   align-items: stretch;
 }
 
-.superhero-button-medium .supehero-button-tips-amount:after,
-.superhero-button-small .supehero-button-tips-amount:after {
+.superhero-button-medium .superhero-button-tips-amount:after,
+.superhero-button-small .superhero-button-tips-amount:after {
   transform: translateY(-50%) rotate(-45deg);
   -webkit-transform: translateY(-50%) rotate(-45deg);
   -ms-transform: translateY(-50%) rotate(-45deg);
@@ -90,7 +91,7 @@ body {
 * Medium size
 */
 
-.superhero-button-medium .supehero-button-tips-amount {
+.superhero-button-medium .superhero-button-tips-amount {
   display: inline-block;
   font-size: 15px;
   padding: 11px 10px;
@@ -99,7 +100,7 @@ body {
   line-height: 17px;
 }
 
-.superhero-button-medium .supehero-button-tips-amount:after {
+.superhero-button-medium .superhero-button-tips-amount:after {
   width: 9px;
   height: 9px;
   left: -6px;
@@ -110,7 +111,7 @@ body {
 * Small size
 */
 
-.superhero-button-small .supehero-button-tips-amount {
+.superhero-button-small .superhero-button-tips-amount {
   display: inline-block;
   font-size: 13px;
   line-height: 13px;
@@ -119,7 +120,7 @@ body {
   margin-left: 15px;
 }
 
-.superhero-button-small .supehero-button-tips-amount:after {
+.superhero-button-small .superhero-button-tips-amount:after {
   width: 9px;
   height: 9px;
   left: -6px;
@@ -146,4 +147,4 @@ body {
 }
 .superhero-button-icon .superhero-button-link {
   padding: 9px 7px;
-}</style></head><body><div class="superhero-button-container superhero-button-small"><div class="superher-button-link-holder"><a id="superhero-tip-link" class="superhero-button-link" target="_blank"><img src="../img/v1-icon.png"/> <span>Donate</span></a></div><div class="supehero-button-tips-amount"><span id="tips">0</span><span class="ae">AE</span></div></div><script>!function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=0)}([function(e,t){document.addEventListener("DOMContentLoaded",(function(e){var t=document.getElementById("superhero-tip-link"),n=new URL(window.location.href).searchParams.get("url"),r=n||window.location.href,o=new URL("https://wallet.superhero.com/tip");o.searchParams.set("url",encodeURIComponent(r)),o.searchParams.set("x-success",r),o.searchParams.set("x-cancel",r),t.href=o;var a=new XMLHttpRequest;a.open("GET","https://raendom-backend.z52da5wt.xyz/cache/stats",!0),a.onreadystatechange=function(){if(4==a.readyState&&200==a.status){for(var e=JSON.parse(a.responseText),t=0,n=0;n<e.by_url.length;n++)if(e.by_url[n].url===r){t=e.by_url[n].total_amount;break}var o=document.getElementById("tips");o&&(o.innerHTML=t)}},a.send(null)}))}]);</script></body></html>
+}</style></head><body><div class="superhero-button-container superhero-button-small"><div class="superher-button-link-holder"><a id="superhero-tip-link" class="superhero-button-link" target="_blank"><img src="../img/v1-icon.png"/> <span>Donate</span></a></div><div class="superhero-button-tips-amount"><span id="tips">0</span><span class="ae">AE</span></div></div><script>!function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=0)}([function(e,t){document.addEventListener("DOMContentLoaded",(function(e){var t=document.getElementById("superhero-tip-link"),n=new URL(window.location.href).searchParams.get("url"),r=n||window.location.href,o=new URL("https://wallet.superhero.com/tip");o.searchParams.set("url",encodeURIComponent(r)),o.searchParams.set("x-success",r),o.searchParams.set("x-cancel",r),t.href=o;var a=new XMLHttpRequest;a.open("GET","https://raendom-backend.z52da5wt.xyz/cache/stats",!0),a.onreadystatechange=function(){if(4==a.readyState&&200==a.status){for(var e=JSON.parse(a.responseText),t=0,n=0;n<e.by_url.length;n++)if(e.by_url[n].url===r){t=e.by_url[n].total_amount;break}var o=document.getElementById("tips");o&&(o.innerHTML=t)}},a.send(null)}))}]);</script></body></html>

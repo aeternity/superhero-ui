@@ -349,7 +349,6 @@ export default {
 
   .tip__comments {
     margin: 0 auto;
-
     cursor: pointer;
     order: 4;
 

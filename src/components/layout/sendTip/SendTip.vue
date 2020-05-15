@@ -23,7 +23,6 @@
             type="text"
             class="form-control comment"
             :placeholder="$t('addMessage')"
-            :disabled="!canTip"
           >
         </div>
         <div class="form-row">
@@ -37,13 +36,11 @@
               type="text"
               class="form-control url-input"
               :placeholder="$t('components.layout.SendTip.EnterURL')"
-              :disabled="!canTip"
             >
           </div>
           <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
             <AeInputAmount
               v-model="sendTipForm.amount"
-              :disabled="!canTip"
             />
           </div>
           <div class="col-lg-2 col-md-2 col-sm-12">
@@ -64,7 +61,7 @@
     <div
       v-else-if="!open && !error && !success"
       class="closed-view"
-      @click="toggleSendTip(true)"
+      @click="canTip ? toggleSendTip(true) : openTipDeeplink()"
     >
       <div class="form-group">
         <Avatar
@@ -91,7 +88,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
-import util from '../../../utils/util';
+import util, { createDeepLinkUrl } from '../../../utils/util';
 import aeternity from '../../../utils/aeternity';
 import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
@@ -195,6 +192,9 @@ export default {
     toggleSendTip(openSection) {
       this.open = openSection;
       this.clearTipForm();
+    },
+    openTipDeeplink() {
+      window.location = createDeepLinkUrl({ type: 'tip' });
     },
   },
 };

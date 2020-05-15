@@ -9,6 +9,7 @@ import Terms from './views/Terms.vue';
 import TipCommentsView from './views/TipCommentsView.vue';
 import TipsList from './views/TipsList.vue';
 import UserProfileView from './views/UserProfileView.vue';
+import Tracing from "./views/admin/Tracing";
 
 const guardTipComments = (to, from, next) => {
   if (to.name === 'tip' && typeof to.params.id !== 'undefined') {
@@ -111,6 +112,15 @@ const routes = [
     component: Maintenance,
     meta: {
       title: 'Maintenance',
+    },
+  },
+  {
+    path: '/admin/tracing/:id',
+    name: 'tracing',
+    props: true,
+    component: Tracing,
+    meta: {
+      title: 'Tip Tracing',
     },
   },
 ];

@@ -159,10 +159,13 @@ export default {
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();
-          this.sendingTip = false;
           EventBus.$emit('reloadData');
           this.showSuccessMsg();
         }).catch((e) => {
+          this.sendingTip = false;
+          if (e.code && e.code === 4) {
+            return;
+          }
           console.error(e);
           this.showErrorMsg();
         });
@@ -188,6 +191,7 @@ export default {
     },
     clearTipForm() {
       this.sendTipForm = { amount: 0, url: '', title: '' };
+      this.sendingTip = false;
     },
     toggleSendTip(openSection) {
       this.open = openSection;

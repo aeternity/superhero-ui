@@ -22,6 +22,7 @@
             v-model="sendTipForm.title"
             type="text"
             class="form-control comment"
+            maxlength="280"
             :placeholder="$t('addMessage')"
           >
         </div>

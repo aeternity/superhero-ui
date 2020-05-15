@@ -77,6 +77,7 @@
           >
             <input
               v-model="message"
+              maxlength="280"
               type="text"
               class="form-control tip__message"
               :placeholder="$t('addMessage')"

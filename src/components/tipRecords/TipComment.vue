@@ -81,7 +81,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 import Backend from '../../utils/backend';
@@ -96,9 +96,12 @@ export default {
   },
   props: {
     comment: { type: Object, required: true },
-    userChainName: { type: String, default: '' },
   },
   computed: {
+    ...mapGetters(['chainNames']),
+    userChainName() {
+      return this.chainNames[this.comment.author];
+    },
     formatDate() {
       return new Date(this.comment.createdAt);
     },
@@ -248,6 +251,7 @@ export default {
 
     .comment__actions {
       padding-left: 0;
+      padding-top: 0.5rem;
     }
   }
 }

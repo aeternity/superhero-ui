@@ -31,7 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 .ae-amount-fiat {
-  display: flex;
+  display: inline-block;
 
   .currency-value {
     font-size: 0.7rem;

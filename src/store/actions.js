@@ -43,13 +43,20 @@ export default {
   setWizardIsCollapsed({ commit }, payload) {
     commit(types.SET_WIZARD_IS_COLLAPSED, Boolean(payload));
   },
-  toggleTipModal({ commit }, payload) {
-    commit(types.TOGGLE_TIP_MODAL, Boolean(payload));
-  },
   updateCurrency({ commit }, payload) {
     commit(types.UPDATE_CURRENCY, payload);
   },
   updateBalance({ commit }, payload) {
     commit(types.UPDATE_BALANCE, payload);
   },
+  setGraylistedUrls({ commit }, payload) {
+    commit(types.SET_GRAYLISTED_URLS, payload);
+  },
+  setVerifiedUrls({ commit }, payload) {
+    commit(types.SET_VERIFIED_URLS, payload);
+  },
+  setSearchTerm({ commit }, payload) {
+    commit(types.SET_SEARCHTERM, payload);
+  },
+
 };

@@ -28,7 +28,7 @@
       <div class="row error" v-else>No Oracle Result yet</div>
     </div>
     <div class="container my-2" v-if="blockchainTrace">
-      <h2>Events</h2>
+      <h2>Contract Events</h2>
 
       <div class="row" v-for="(event, i) in sortedEvents" v-bind:key="i">
         <FormatDate :date-timestamp="new Date(event.time)"/>
@@ -41,18 +41,20 @@
       </div>
     </div>
     <div class="container my-2" v-if="backendTrace">
-      <h2>Claims</h2>
+      <h2>Backend Claims</h2>
 
-      <div class="flex-column" v-for="(trace, i) in backendTrace">
-        <h4 @click="expandedTrace = i">Claim {{i}} - {{trace[trace.length -1].answer || trace[trace.length -1].result}}</h4>
-        <div v-for="event in trace" v-show="expandedTrace === i" class="mb-2">
+      <div class="flex-column" v-for="(trace, i) in backendTrace" v-bind:key="i">
+        <h4 @click="expandedTrace = expandedTrace === i ? null : i">
+          Claim {{ i }} - {{ traceState(trace) }}
+        </h4>
+        <div v-for="(event, j) in trace" v-bind:key="j" v-show="expandedTrace === i" class="mb-2">
           <span class="font-weight-bold">
-                      <FormatDate :date-timestamp="new Date(event.date)"/>
-          {{event.state}}
+            <FormatDate :date-timestamp="new Date(event.date)"/>
+            {{ event.state }}
           </span>
-          <br />
-          <span class="text-info">
-          {{Object.assign({}, event, {state: undefined, date: undefined})}}
+          <br/>
+          <span class="text-info" v-if="Object.keys(adjustEvent(event)).length > 2">
+            {{ adjustEvent(event) }}
           </span>
         </div>
       </div>
@@ -85,6 +87,12 @@ export default {
     this.traceTip(this.tipId);
   },
   methods: {
+    adjustEvent(event) {
+      return { ...event, state: undefined, date: undefined };
+    },
+    traceState(trace) {
+      return trace[trace.length - 1].answer || trace[trace.length - 1].result;
+    },
     async traceTip(id) {
       this.backendTrace = await Backend.getTipTraceBackend(id);
       this.blockchainTrace = await Backend.getTipTraceBlockchain(id);

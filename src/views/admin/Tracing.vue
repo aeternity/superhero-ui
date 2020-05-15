@@ -43,8 +43,9 @@
     <div class="container my-2" v-if="backendTrace">
       <h2>Backend Claims</h2>
 
-      <div class="flex-column" v-for="(trace, i) in backendTrace" v-bind:key="i">
+      <div class="flex-column" v-for="(trace, i) in sortedTraces" v-bind:key="i">
         <h4 @click="expandedTrace = expandedTrace === i ? null : i">
+          <FormatDate :date-timestamp="new Date(trace[0].date)"/>
           Claim {{ i }} - {{ traceState(trace) }}
         </h4>
         <div v-for="(event, j) in trace" v-bind:key="j" v-show="expandedTrace === i" class="mb-2">
@@ -81,6 +82,9 @@ export default {
   computed: {
     sortedEvents() {
       return this.blockchainTrace.url_events.sort((a, b) => a.time - b.time);
+    },
+    sortedTraces() {
+      return this.backendTrace.sort((a, b) => a[0].date - b[0].date);
     },
   },
   mounted() {

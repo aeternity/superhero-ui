@@ -7,12 +7,11 @@
       <h2>Tip {{ blockchainTrace.tip.id }}</h2>
 
       <div class="row">
-        <FormatDate :date-timestamp="new Date(blockchainTrace.tip.timestamp)" />
+        <FormatDate :date-timestamp="new Date(blockchainTrace.tip.timestamp)" class="mr-1" />
+        <span class="font-weight-bold">{{ blockchainTrace.tip.url }}</span>
       </div>
       <div class="row">
-        {{ blockchainTrace.tip.url }} ({{ blockchainTrace.url_tips.length }} Tips)
-      </div>
-      <div class="row">
+        <span class="font-weight-bold mr-1">Single Tip:</span>
         Total Claimed:
         <AeAmount
           class="mx-2"
@@ -32,6 +31,25 @@
             :round="2"
             :amount="blockchainTrace.tip.retip_amount_ae"
           />)
+        </span>
+      </div>      <div class="row">
+        <span class="font-weight-bold mr-1">Tip Url:</span>
+        Total Claimed:
+        <AeAmount
+          class="mx-2"
+          :round="2"
+          :amount="blockchainTrace.url_stats.total_claimed_amount"
+        />
+        Total Unclaimed:
+        <AeAmount
+          class="mx-2"
+          :round="2"
+          :amount="blockchainTrace.url_stats.total_unclaimed_amount"
+        />
+        Total Tips:
+        <span class="mx-2">
+          {{ blockchainTrace.url_stats.tips_length }}
+          (+ {{ blockchainTrace.url_stats.retips_length }} Retips)
         </span>
       </div>
       <div

@@ -52,7 +52,7 @@ export default {
     EventBus.$on('backendError', () => {
       this.$router.push({
         name: 'maintenance',
-      });
+      }).catch((err) => { console.error(err); });
     });
     this.$router.afterEach((to) => {
       setTimeout(

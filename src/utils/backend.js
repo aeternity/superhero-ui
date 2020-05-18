@@ -1,7 +1,8 @@
 import { BACKEND_URL } from '../config/constants';
 import { wrapTry } from './util';
 
-const backendFetch = (path, ...args) => wrapTry(fetch(`${BACKEND_URL}/${path}`, ...args));
+const backendFetch = (path, ...args) => wrapTry(fetch(`${BACKEND_URL}/${path}`, ...args)
+  .catch((err) => console.error(err)));
 
 export default class Backend {
   static getTipComments = async (tipId) => backendFetch(`comment/api/tip/${encodeURIComponent(tipId)}`);

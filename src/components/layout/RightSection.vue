@@ -231,7 +231,7 @@ export default {
     }
 
     .wallet-install {
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.5rem;
       max-height: 400px;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       display: block;

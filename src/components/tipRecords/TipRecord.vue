@@ -322,14 +322,7 @@ export default {
   .tip__footer_wrapper {
     display: flex;
     flex-wrap: wrap;
-  }
-
-  // separator
-  .tip__footer_wrapper::after {
-    content: '';
-    flex-basis: 1rem;
-    height: 1rem;
-    order: 3;
+    justify-content: center;
   }
 
   .tip__comments,
@@ -338,7 +331,7 @@ export default {
     display: flex;
     flex: 0 0 auto;
     height: 1rem;
-    margin-right: 1rem;
+    cursor: pointer;
     position: relative;
     width: max-content;
 
@@ -348,10 +341,6 @@ export default {
   }
 
   .tip__comments {
-    margin: 0 auto;
-    cursor: pointer;
-    order: 4;
-
     img {
       height: 1rem;
     }
@@ -453,7 +442,8 @@ export default {
         height: 1rem;
         margin-right: 0.335rem;
         padding: 0.135rem 0;
-        flex: 0;
+        flex: 0 0 1rem;
+        vertical-align: initial;
       }
 
       a {
@@ -464,6 +454,10 @@ export default {
 
         &:hover {
           text-decoration: underline;
+
+          img {
+            filter: brightness(1.3);
+          }
         }
       }
     }

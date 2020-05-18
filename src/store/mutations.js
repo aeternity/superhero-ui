@@ -39,14 +39,20 @@ export default {
   [types.SET_WIZARD_IS_COLLAPSED](state, payload) {
     state.wizardIsCollapsed = payload;
   },
-  [types.TOGGLE_TIP_MODAL](state, payload) {
-    state.openTipModal = payload;
-  },
   [types.UPDATE_CURRENCY](state, payload) {
     state.settings.currency = payload;
   },
   [types.SET_MIN_TIP_AMOUNT](state, payload) {
     state.minTipAmount = payload;
+  },
+  [types.SET_GRAYLISTED_URLS](state, payload) {
+    state.graylistedUrls = payload;
+  },
+  [types.SET_VERIFIED_URLS](state, payload) {
+    state.verifiedUrls = payload;
+  },
+  [types.SET_SEARCHTERM](state, payload) {
+    state.searchTerm = payload;
   },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {

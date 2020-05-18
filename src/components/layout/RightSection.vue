@@ -1,6 +1,7 @@
 <template>
   <div class="app__rightcolumn">
     <div class="content">
+      <SearchInput class="side-search" />
       <div
         class="section wallet-install"
       >
@@ -84,6 +85,7 @@ import AeAmountFiat from '../AeAmountFiat.vue';
 import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
 import Dropdown from '../Dropdown.vue';
+import SearchInput from './SearchInput.vue';
 
 export default {
   name: 'RightSection',
@@ -93,6 +95,7 @@ export default {
     AeAmountFiat,
     FooterSection,
     Dropdown,
+    SearchInput,
   },
   data() {
     return {
@@ -166,7 +169,7 @@ export default {
       margin-bottom: 1rem;
 
       &.trending {
-        margin-bottom: 0.85rem;
+        margin-bottom: 0.5rem;
         padding-bottom: 0.5rem;
 
         .section__item {

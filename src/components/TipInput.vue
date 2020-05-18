@@ -1,6 +1,6 @@
 <template>
   <a
-    v-if="USE_DEEP_LINKS"
+    v-if="USE_DEEP_LINKS || !canTip"
     :href="deepLink"
     target="_blank"
     class="tip__content"
@@ -77,6 +77,7 @@
           >
             <input
               v-model="message"
+              maxlength="280"
               type="text"
               class="form-control tip__message"
               :placeholder="$t('addMessage')"
@@ -146,7 +147,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['account', 'loading', 'minTipAmount', 'stats']),
+    ...mapGetters(['account', 'loading', 'minTipAmount', 'stats', 'isLoggedIn']),
     eventPayload() {
       if (!this.userAddress) {
         if (this.comment) {
@@ -247,6 +248,9 @@ export default {
           : i18n.t('components.TipInput.totalTips');
       }
       return i18n.t('components.TipInput.totalRetips');
+    },
+    canTip() {
+      return this.isLoggedIn && !this.loading.wallet;
     },
   },
   created() {

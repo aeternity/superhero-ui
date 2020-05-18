@@ -89,4 +89,12 @@ export default class Backend {
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 
   static getCommentById = async (id) => backendFetch(`comment/api/${id}`);
+
+  static getVerifiedUrls = async () => backendFetch('verified');
+
+  static getGrayListedUrls = async () => backendFetch('static/wallet/graylist');
+
+  static getTipTraceBackend = (id) => backendFetch(`tracing/backend?id=${id}`)
+
+  static getTipTraceBlockchain = (id) => backendFetch(`tracing/blockchain?id=${id}`)
 }

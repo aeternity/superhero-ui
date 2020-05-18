@@ -99,8 +99,15 @@ export default {
 </script>
 
 <style lang="scss">
-.comment__page .tipped__url .tip__record.row {
-  background-color: $light_color;
-  border-radius: 0;
+.comment__page .tipped__url {
+  .tip__record.row {
+    background-color: $light_color;
+    border-radius: 0;
+  }
+
+  .comment .tip__body .tip__note {
+    overflow: visible;
+    display: block;
+  }
 }
 </style>

@@ -7,6 +7,10 @@ export const wrapTry = async (promise) => {
   try {
     return Promise.race([
       promise.then((res) => {
+        if (!res) {
+          EventBus.$emit('backendError');
+          return null;
+        }
         if (!res.ok) throw new Error(`Request failed with ${res.status}`);
         return res.json();
       }),

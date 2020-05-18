@@ -57,7 +57,7 @@
         <div
           v-if="!loading.tips"
           class="section__body topics-section"
-          :class="{ active: topics.length > 0 }"
+          :class="{ active: topics && topics.length > 0 }"
         >
           <div
             v-for="([topic, data], idx) in topics"

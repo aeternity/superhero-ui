@@ -94,8 +94,10 @@ export default {
     async loadData() {
       this.loadingTips = true;
       this.tips = await Backend.getCacheTips(this.tipSortBy, this.page, this.address, this.search);
-      this.lastTipId = get(this.tips[this.tips.length - 1], 'id');
-      this.loadingTips = false;
+      if (this.tips) {
+        this.lastTipId = get(this.tips[this.tips.length - 1], 'id');
+        this.loadingTips = false;
+      }
     },
     async loadMoreTips() {
       if (!this.endReached) {

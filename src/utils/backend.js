@@ -93,4 +93,8 @@ export default class Backend {
   static getVerifiedUrls = async () => backendFetch('verified');
 
   static getGrayListedUrls = async () => backendFetch('static/wallet/graylist');
+
+  static getTipTraceBackend = (id) => backendFetch(`tracing/backend?id=${id}`)
+
+  static getTipTraceBlockchain = (id) => backendFetch(`tracing/blockchain?id=${id}`)
 }

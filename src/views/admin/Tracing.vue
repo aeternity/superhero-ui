@@ -7,7 +7,10 @@
       <h2>Tip {{ blockchainTrace.tip.id }}</h2>
 
       <div class="row">
-        <FormatDate :date-timestamp="new Date(blockchainTrace.tip.timestamp)" class="mr-1" />
+        <FormatDate
+          :date-timestamp="new Date(blockchainTrace.tip.timestamp)"
+          class="mr-1"
+        />
         <span class="font-weight-bold">{{ blockchainTrace.tip.url }}</span>
       </div>
       <div class="row">

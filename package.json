@@ -18,6 +18,8 @@
   "dependencies": {
     "@aeternity/aepp-sdk": "7.2.1",
     "@aeternity/superhero-button": "^0.1.1",
+    "@dicebear/avatars": "^4.1.0",
+    "@dicebear/avatars-avataaars-sprites": "^4.1.0",
     "axios": "^0.19.0",
     "bignumber.js": "^9.0.0",
     "bootstrap": "^4.4.1",

@@ -173,18 +173,15 @@ export default {
       let url = '';
       if (this.comment) {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url',
-          encodeURIComponent(`https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`));
+        url.searchParams.set('url', `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`);
       } else if (this.userAddress) {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url',
-          encodeURIComponent(`https://superhero.com/#/user-profile/${this.userAddress}`));
+        url.searchParams.set('url', `https://superhero.com/#/user-profile/${this.userAddress}`);
       } else if (this.isRetip) {
         url = createDeepLinkUrl({ type: 'retip', id: this.tip.id });
       } else {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url',
-          encodeURIComponent(`https://superhero.com/#/tip/${this.tip.id}`));
+        url.searchParams.set('url', `https://superhero.com/#/tip/${this.tip.id}`);
       }
       return url;
     },

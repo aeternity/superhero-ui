@@ -129,7 +129,7 @@ export default {
     }
   }
 
-  @media (max-width: 1280px) {
+  @media (max-height: 595px) {
     p {
       margin-bottom: 0.4rem;
     }

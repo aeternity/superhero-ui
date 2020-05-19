@@ -118,6 +118,7 @@ export default {
     display: flex;
     flex-direction: column;
     color: $standard_font_color;
+    align-items: flex-start;
 
     .currency-value {
       font-size: 0.7rem;

@@ -178,10 +178,7 @@ export default {
           & > div {
             &.ae-amount-fiat {
               width: 52%;
-
-              .ae-amount {
-                color: $standard_font_color;
-              }
+              justify-content: flex-end;
             }
 
             width: 48%;

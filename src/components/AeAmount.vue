@@ -30,7 +30,12 @@ export default {
 
 <style lang="scss" scoped>
 .ae {
-  padding-left: 2px;
   color: $secondary_color;
+  padding-left: 2px;
+}
+
+.ae-amount {
+  color: $standard_font_color;
+  line-height: 1;
 }
 </style>

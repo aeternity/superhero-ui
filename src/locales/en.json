@@ -459,6 +459,9 @@
     "tipRecords": {
       "TipComment": {
         "Replies": "Replies"
+      },
+      "TipRecord": {
+        "reportPost": "Report Post"
       }
     },
     "AeAmount": {},

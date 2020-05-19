@@ -28,9 +28,28 @@
               <span class="address">{{ tip.sender }}</span>
             </div>
           </router-link>
-          <span class="tip__date">
-            <FormatDate :date-timestamp="new Date(tip.timestamp)" />
-          </span>
+          <div
+            v-if="showMenu"
+            class="overlay"
+            @click="showMenu = false"
+          />
+          <div @click.stop>
+            <span class="tip__date">
+              <FormatDate :date-timestamp="new Date(tip.timestamp)" />
+              <span
+                class="three-dots"
+                @click="showMenu = true"
+              >
+                •••
+                <span
+                  v-if="showMenu"
+                  @click.stop="sendReport"
+                >
+                  {{ $t('components.tipRecords.TipRecord.reportPost') }}
+                </span>
+              </span>
+            </span>
+          </div>
         </div>
       </div>
       <div
@@ -128,6 +147,7 @@ import TipInput from '../TipInput.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import Avatar from '../Avatar.vue';
+import { wallet } from '../../utils/walletSearch';
 
 export default {
   name: 'TipRecord',
@@ -145,6 +165,7 @@ export default {
   data() {
     return {
       key: `${this.tip.id}_${new Date().getTime()}`,
+      showMenu: false,
     };
   },
   computed: {
@@ -166,6 +187,14 @@ export default {
     },
   },
   methods: {
+    async sendReport() {
+      await Backend.sendPostReport(
+        this.tip.id,
+        this.tip.sender,
+        (data) => wallet.signMessage(data),
+      );
+      this.showMenu = false;
+    },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
         && typeof tip.preview !== 'undefined'
@@ -224,10 +253,37 @@ export default {
     justify-content: space-between;
     padding: 0 1rem 0.9rem 1rem;
 
+    .overlay {
+      bottom: 0;
+      left: 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+      z-index: 10;
+    }
+
     .tip__date {
-      display: inline-block;
       font-size: 0.6rem;
-      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .three-dots {
+        font-size: 1.5rem;
+        margin-left: 0.3rem;
+
+        & > span:last-child {
+          font-size: 0.8rem;
+          background-color: black;
+          min-width: 5rem;
+          margin-top: 1.5rem;
+          margin-left: -1.5rem;
+          padding: 0.3rem;
+          box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+          position: absolute;
+          z-index: 10;
+        }
+      }
     }
 
     .address {

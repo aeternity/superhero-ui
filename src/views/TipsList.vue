@@ -4,7 +4,7 @@
     :show-mobile-navigation="showMobileNavigation"
   >
     <Loading
-      v-if="loading.initial"
+      v-if="loading && loading.initial"
       class="initial-loading"
     />
     <div v-else>
@@ -22,7 +22,7 @@
           </div>
           <div class="actions__container position-sticky">
             <div class="row">
-              <div class="col-md-12 col-lg-12 col-sm-12 sorting">
+              <div class="col-md-12 col-lg-12 col-sm-12 sorting clearfix">
                 <a
                   :class="{ active: tipSortBy === 'hot' }"
                   @click="setTipSortBy('hot')"
@@ -42,6 +42,30 @@
                 >
                   {{ $t('views.TipList.SortingHighestRated') }}
                 </a>
+                <div
+                  v-if="showMenu"
+                  class="overlay-dots"
+                  @click="showMenu = false"
+                />
+                <div class="actions-menu">
+                  <span
+                    class="dots"
+                    @click.stop="showMenu = true"
+                  >
+                    •••
+                    <span
+                      v-if="showMenu"
+                      class="show-content"
+                    >
+                      <input
+                        id="show-content"
+                        v-model="hiddenContent"
+                        type="checkbox"
+                      >
+                      <label for="show-content">{{ $t('views.TipList.ShowHiddenContent') }}</label>
+                    </span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -77,11 +101,22 @@ export default {
   data() {
     return {
       showMobileNavigation: true,
+      showMenu: false,
     };
   },
-  computed: mapGetters(['tipSortBy', 'loading', 'searchTerm']),
+  computed: {
+    ...mapGetters(['tipSortBy', 'loading', 'searchTerm', 'showHiddenContent']),
+    hiddenContent: {
+      get() {
+        return this.showHiddenContent;
+      },
+      set(newValue) {
+        this.setShowHiddenContent(newValue);
+      },
+    },
+  },
   methods: {
-    ...mapActions(['setTipSortBy']),
+    ...mapActions(['setTipSortBy', 'setShowHiddenContent']),
     toggleMobileNav(show) {
       this.showMobileNavigation = show;
     },
@@ -169,6 +204,60 @@ export default {
   margin-top: 5rem;
 }
 
+.overlay-dots {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.actions-menu {
+  float: right;
+  margin-top: 0.5rem;
+  display: inline-block;
+
+  .dots {
+    position: relative;
+    font-size: 0.8rem;
+    min-width: 5rem;
+
+    & > span {
+      background-color: black;
+      padding: 0.5rem;
+      position: absolute;
+      z-index: 10;
+      width: 10rem;
+      top: 1rem;
+      right: 0;
+
+      &:hover {
+        color: $standard_font_color;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .show-content {
+    label {
+      margin: 0;
+      vertical-align: middle;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    input[type="checkbox"] {
+      margin-right: 0.25rem;
+    }
+  }
+}
+
 @media (max-width: 1024px) {
   .actions__container:nth-child(2) {
     top: 3.2rem;
@@ -196,7 +285,7 @@ export default {
   .actions__container {
     width: 100%;
     background-color: $actions_ribbon_background_color;
-    overflow-x: hidden;
+    overflow-x: initial;
     z-index: 100;
 
     &:nth-child(2) {
@@ -224,7 +313,7 @@ export default {
 
       a {
         cursor: pointer;
-        width: 32.5%;
+        width: 30%;
         display: inline-block;
         padding-bottom: 0.45rem;
         margin-right: 0;
@@ -247,6 +336,16 @@ export default {
 
   .send__tip__container {
     display: none;
+  }
+
+  .actions-menu {
+    float: initial;
+
+    .show-content {
+      label {
+        vertical-align: text-bottom;
+      }
+    }
   }
 }
 </style>

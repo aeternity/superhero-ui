@@ -7,6 +7,7 @@ import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wal
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import { EventBus } from './eventBus';
+import store from '../store';
 
 const nodeUrl = 'https://mainnet.aeternity.io';
 const nodeUrlTestNet = 'https://testnet.aeternity.io';
@@ -68,10 +69,12 @@ export const scanForWallets = async () => {
     connectionInfo: { id: 'spy' },
   });
   const detector = await Detector({ connection: scannerConnection });
+  const webWalletTimeout = setTimeout(() => store.commit('useIframeWallet'), 2000);
 
   return new Promise((resolve) => {
     detector.scan(async ({ newWallet }) => {
       if (!newWallet) return;
+      clearInterval(webWalletTimeout);
       detector.stopScan();
       await client.connectToWallet(await newWallet.getConnection());
       await client.subscribeAddress('subscribe', 'current');

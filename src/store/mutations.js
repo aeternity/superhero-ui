@@ -64,6 +64,9 @@ export default {
   useSdkWallet(state) {
     state.useSdkWallet = true;
   },
+  useIframeWallet(state) {
+    state.useIframeWallet = true;
+  },
   setUserProfile(state, profile) {
     state.profile = profile;
   },

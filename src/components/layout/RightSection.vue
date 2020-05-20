@@ -2,47 +2,41 @@
   <div class="app__rightcolumn">
     <div class="content">
       <SearchInput class="side-search" />
+
+      <iframe
+        v-if="useIframeWallet"
+        class="wallet-frame"
+        :src="walletUrl"
+      />
       <div
+        v-else-if="isLoggedIn"
         class="section wallet-install"
       >
         <div class="section__title">
           <img src="../../assets/iconWallet.svg">
           {{ $t('components.layout.RightSection.Wallet') }}
-          <div
-            v-if="isLoggedIn"
-            class="account"
-          >
+          <div class="account">
             {{ account }}
           </div>
         </div>
         <div class="section__body">
-          <div v-if="!isLoggedIn">
-            <a
-              :href="addressDeepLink"
-              class="button w-100"
-              :title="$t('components.layout.RightSection.LoginWithWallet')"
-            >
-              {{ $t('components.layout.RightSection.LoginWithWallet') }}
-            </a>
+          <div
+            class="balance text-ellipsis"
+            :title="roundAE + ' AE'"
+          >
+            <AeAmount :amount="balance" />
           </div>
-          <div v-else>
-            <div
-              class="balance text-ellipsis"
-              :title="roundAE + ' AE'"
-            >
-              <AeAmount :amount="balance" />
-            </div>
-            <div class="choose-fiat">
-              <Dropdown
-                v-if="currencyDropdownOptions"
-                :options="currencyDropdownOptions"
-                :method="selectCurrency"
-                :selected="settings.currency"
-              />
-            </div>
+          <div class="choose-fiat">
+            <Dropdown
+              v-if="currencyDropdownOptions"
+              :options="currencyDropdownOptions"
+              :method="selectCurrency"
+              :selected="settings.currency"
+            />
           </div>
         </div>
       </div>
+
       <div class="section trending">
         <div class="section__title">
           <img src="../../assets/iconTrending.svg">
@@ -65,6 +59,7 @@
           </div>
         </div>
       </div>
+
       <FooterSection />
     </div>
   </div>
@@ -79,7 +74,6 @@ import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
 import Dropdown from '../Dropdown.vue';
 import SearchInput from './SearchInput.vue';
-import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'RightSection',
@@ -91,17 +85,12 @@ export default {
     Dropdown,
     SearchInput,
   },
-  data() {
-    return {
-      addressDeepLink: createDeepLinkUrl({
-        type: 'address',
-        'x-success': `${window.location}?address={address}`,
-      }),
-    };
-  },
+  data: () => ({
+    walletUrl: process.env.VUE_APP_WALLET_URL,
+  }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['topics', 'loading', 'balance', 'account', 'currencyRates', 'settings']),
+    ...mapState(['topics', 'loading', 'balance', 'account', 'currencyRates', 'settings', 'useIframeWallet']),
     currencyDropdownOptions() {
       if (this.currencyRates && this.currencyRates.aeternity && this.balance) {
         return Object.keys(this.currencyRates.aeternity)
@@ -208,6 +197,12 @@ export default {
       }
     }
 
+    .wallet-frame {
+      border: none;
+      width: 100%;
+      height: 657px;
+    }
+
     .wallet-install {
       margin-bottom: 0.5rem;
       max-height: 400px;
@@ -226,7 +221,7 @@ export default {
         width: calc(100% - 8rem);
       }
 
-      .section__body > div {
+      .section__body {
         display: flex;
       }
 

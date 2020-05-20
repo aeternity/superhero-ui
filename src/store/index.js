@@ -32,6 +32,7 @@ export default new Vuex.Store({
     searchTerm: '',
     isHiddenContent: true,
     useSdkWallet: false,
+    useIframeWallet: false,
   },
   mutations,
   getters: {

@@ -5,42 +5,11 @@
       <div
         class="section wallet-install"
       >
-        <div class="section__title">
-          <img src="../../assets/iconWallet.svg">
-          {{ $t('components.layout.RightSection.Wallet') }}
-          <div
-            v-if="isLoggedIn"
-            class="account"
-          >
-            {{ account }}
-          </div>
-        </div>
         <div class="section__body">
-          <div v-if="!isLoggedIn">
-            <a
-              :href="addressDeepLink"
-              class="button w-100"
-              :title="$t('components.layout.RightSection.LoginWithWallet')"
-            >
-              {{ $t('components.layout.RightSection.LoginWithWallet') }}
-            </a>
-          </div>
-          <div v-else>
-            <div
-              class="balance text-ellipsis"
-              :title="roundAE + ' AE'"
-            >
-              <AeAmount :amount="balance" />
-            </div>
-            <div class="choose-fiat">
-              <Dropdown
-                v-if="currencyDropdownOptions"
-                :options="currencyDropdownOptions"
-                :method="selectCurrency"
-                :selected="settings.currency"
-              />
-            </div>
-          </div>
+          <iframe
+            class="wallet-frame"
+            :src="walletUrl"
+          />
         </div>
       </div>
       <div class="section trending">
@@ -79,11 +48,9 @@
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
-import AeAmount from '../AeAmount.vue';
 import AeAmountFiat from '../AeAmountFiat.vue';
 import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
-import Dropdown from '../Dropdown.vue';
 import SearchInput from './SearchInput.vue';
 import { createDeepLinkUrl } from '../../utils/util';
 
@@ -91,10 +58,8 @@ export default {
   name: 'RightSection',
   components: {
     Topic,
-    AeAmount,
     AeAmountFiat,
     FooterSection,
-    Dropdown,
     SearchInput,
   },
   data() {
@@ -103,6 +68,7 @@ export default {
         type: 'address',
         'x-success': `${window.location}?address={address}`,
       }),
+      walletUrl: process.env.VUE_APP_WALLET_URL,
     };
   },
   computed: {
@@ -193,8 +159,6 @@ export default {
     }
 
     .section__body {
-      padding: 0.25rem 1rem 1rem 1rem;
-
       .section__item {
         font-size: 0.75rem;
         margin: 0.5rem 0;
@@ -216,9 +180,20 @@ export default {
 
     .wallet-install {
       margin-bottom: 0.5rem;
-      max-height: 400px;
+      width: 357px;
+      height: 657px;
+      max-height: 657px;
+      max-width: 357px;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       display: block;
+
+      .wallet-frame {
+        width: 357px;
+        height: 657px;
+        max-height: 657px;
+        max-width: 357px;
+        border: none;
+      }
 
       .account {
         color: $light_font_color;

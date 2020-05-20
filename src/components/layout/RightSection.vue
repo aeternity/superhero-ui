@@ -1,6 +1,18 @@
 <template>
   <div class="app__rightcolumn">
     <div class="content">
+      <div class="lang">
+        <Dropdown
+          :options="languageOptions"
+          :method="setLanguage"
+          :selected="language"
+        >
+          <img
+            class="lang-icon"
+            src="../../assets/iconLanguage.svg"
+          >
+        </Dropdown>
+      </div>
       <SearchInput class="side-search" />
       <div
         class="section wallet-install"
@@ -86,6 +98,7 @@ import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
 import Dropdown from '../Dropdown.vue';
 import SearchInput from './SearchInput.vue';
+import { languageOptions } from '../../utils/util';
 
 export default {
   name: 'RightSection',
@@ -100,10 +113,12 @@ export default {
   data() {
     return {
       browser: detect(),
+      languageOptions,
     };
   },
   computed: {
-    ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
+    ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance',
+      'account', 'currencyRates', 'settings', 'language']),
     currencyDropdownOptions() {
       if (this.currencyRates && this.currencyRates.aeternity && this.balance) {
         return Object.keys(this.currencyRates.aeternity)
@@ -136,7 +151,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['updateCurrency']),
+    ...mapActions(['updateCurrency', 'setLanguage']),
     selectCurrency(selectedCurrency) {
       this.updateCurrency(selectedCurrency);
     },
@@ -152,7 +167,7 @@ export default {
   transition: max-height 0.25s ease-in;
 
   &.active {
-    max-height: 25rem;
+    max-height: 20rem;
   }
 }
 
@@ -166,10 +181,9 @@ export default {
     .section {
       background-color: $article_content_color;
       border-radius: 0.5rem;
-      margin-bottom: 1rem;
 
       &.trending {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
         padding-bottom: 0.5rem;
 
         .section__item {
@@ -202,11 +216,11 @@ export default {
       color: $standard_font_color;
       font-size: 1rem;
       font-weight: 600;
-      padding: 0.65rem 0.75rem;
+      padding: 0.5rem 0.75rem;
     }
 
     .section__body {
-      padding: 0.25rem 1rem 1rem 1rem;
+      padding: 0.25rem 1rem 0.5rem 1rem;
 
       .section__item {
         font-size: 0.75rem;
@@ -228,7 +242,7 @@ export default {
     }
 
     .wallet-install {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       max-height: 400px;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       display: block;
@@ -258,13 +272,33 @@ export default {
         text-align: right;
       }
     }
+
+    .lang {
+      text-align: right;
+    }
+
+    .side-search,
+    .lang {
+      margin-bottom: 0.4rem;
+    }
+  }
+
+  .lang-icon {
+    margin-right: 0.25rem;
+    vertical-align: sub;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .topics-section.active {
+    max-height: 14rem;
   }
 }
 
 //Fixes issue: Smaller screens cut part of the footer
 @media (max-width: 1280px) {
   .topics-section.active {
-    max-height: 10rem;
+    max-height: 8.5rem;
   }
 }
 

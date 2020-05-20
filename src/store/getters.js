@@ -51,4 +51,7 @@ export const getters = {
   searchTerm(state) {
     return state.searchTerm;
   },
+  language(state) {
+    return state.language;
+  },
 };

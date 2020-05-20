@@ -5,9 +5,13 @@
         class="text-ellipsis"
         :title="displayValue"
       >
+        <slot />
         {{ displayValue }}
       </div>
-      <img src="../assets/carretDown.svg">
+      <img
+        class="carret"
+        src="../assets/carretDown.svg"
+      >
       <b-form-select
         v-model="selectedVal"
         :options="optionsVal"
@@ -59,7 +63,7 @@ export default {
     display: flex;
     align-items: center;
 
-    img {
+    .carret {
       position: absolute;
       right: 0.85rem;
     }

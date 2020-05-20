@@ -54,6 +54,9 @@ export default {
   [types.SET_SEARCHTERM](state, payload) {
     state.searchTerm = payload;
   },
+  [types.SET_LANGUAGE](state, payload) {
+    state.language = payload;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

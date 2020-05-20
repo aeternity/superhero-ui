@@ -60,5 +60,7 @@ export default {
   setSearchTerm({ commit }, payload) {
     commit(types.SET_SEARCHTERM, payload);
   },
-
+  setLanguage({ commit }, payload) {
+    commit(types.SET_LANGUAGE, payload);
+  },
 };

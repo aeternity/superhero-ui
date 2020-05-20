@@ -132,7 +132,6 @@ export default {
 
 .sided.search {
   display: block;
-  margin-bottom: 0.5rem;
 
   input {
     height: 2.2rem;

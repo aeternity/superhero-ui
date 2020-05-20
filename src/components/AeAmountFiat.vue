@@ -31,10 +31,12 @@ export default {
 
 <style lang="scss" scoped>
 .ae-amount-fiat {
-  display: inline-block;
+  display: flex;
+  align-items: center;
 
   .currency-value {
     font-size: 0.7rem;
+    color: $light_font_color;
     margin-left: 0.1rem;
   }
 }

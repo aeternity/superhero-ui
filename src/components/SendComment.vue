@@ -9,22 +9,24 @@
         class="avatar"
       />
       <div class="input-group">
-        <input
+        <textarea
+          ref="input"
           v-model="newComment"
-          type="text"
-          placeholder="Add reply"
+          :placeholder="$t('views.TipCommentsView.AddReply')"
           class="form-control reply__input"
-        >
+          rows="1"
+          @keydown.enter.exact.prevent="sendTipComment"
+        />
       </div>
       <div class="send-comment">
         <AeButton
-          v-if="newComment.length > 0"
+          v-if="newComment.trim().length > 0"
           @click="sendTipComment"
         >
-          {{ $t('views.TipCommentsView.Reply') }}
           <img
             src="../assets/backArrow.svg"
             class="arrow"
+            :title="$t('views.TipCommentsView.Reply')"
           >
         </AeButton>
       </div>
@@ -34,6 +36,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import autosize from 'autosize';
 import { EventBus } from '../utils/eventBus';
 import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import { wallet } from '../utils/walletSearch';
@@ -66,6 +69,9 @@ export default {
         clearInterval(loadUserAvatar);
       }
     }, 500);
+  },
+  mounted() {
+    autosize(this.$refs.input);
   },
   methods: {
     async sendTipComment() {
@@ -103,22 +109,24 @@ export default {
 
   .reply__input {
     width: 100%;
-    padding-right: 4rem;
+    padding-right: 1.3rem;
   }
 
   .send-comment .ae-button {
     padding: 0;
     height: 2.1rem;
-    min-width: 3rem;
     background-color: transparent;
-    position: absolute;
     z-index: 10;
-    right: 0.5rem;
+    min-width: 1rem;
+    right: 0.2rem;
+
+    @include vertical-align(absolute);
 
     img {
       width: 0.8rem;
       color: white;
       transform: rotate(180deg);
+      vertical-align: baseline;
     }
   }
 </style>

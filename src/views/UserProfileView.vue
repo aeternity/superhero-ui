@@ -487,11 +487,14 @@ export default {
         color: $tip_note_color;
       }
 
-      .stat-value,
-      .stat-value /deep/ .currency-value {
+      .stat-value {
         font-size: 0.9rem;
         color: $secondary_color;
         font-weight: 400;
+      }
+
+      .stat-value .currency-value {
+        font-size: 80%;
       }
     }
   }
@@ -796,10 +799,6 @@ export default {
     .tip__user {
       top: -1.25rem;
       right: 6rem;
-    }
-
-    .stats .stat .stat-value {
-      font-size: 0.6rem;
     }
   }
 }

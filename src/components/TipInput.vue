@@ -173,18 +173,15 @@ export default {
       let url = '';
       if (this.comment) {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url',
-          encodeURIComponent(`https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`));
+        url.searchParams.set('url', `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`);
       } else if (this.userAddress) {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url',
-          encodeURIComponent(`https://superhero.com/#/user-profile/${this.userAddress}`));
+        url.searchParams.set('url', `https://superhero.com/#/user-profile/${this.userAddress}`);
       } else if (this.isRetip) {
         url = createDeepLinkUrl({ type: 'retip', id: this.tip.id });
       } else {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url',
-          encodeURIComponent(`https://superhero.com/#/tip/${this.tip.id}`));
+        url.searchParams.set('url', `https://superhero.com/#/tip/${this.tip.id}`);
       }
       return url;
     },
@@ -355,12 +352,16 @@ export default {
 <style lang="scss" scoped>
   .tip__content {
     position: relative;
+    display: flex;
+    align-items: center;
+    line-height: 1;
 
     img {
       height: 0.7rem;
       margin-right: 0.3rem;
-      margin-bottom: 0.1rem;
+      margin-bottom: 0.05rem;
       width: 1rem;
+      flex: 0 0 1rem;
     }
 
     &:hover img {
@@ -409,13 +410,8 @@ export default {
     }
 
     .tip__content.user {
-      .tip__icon {
-        margin-top: 0.2rem;
-      }
-
-      &:hover {
-        cursor: pointer;
-      }
+      cursor: pointer;
+      margin-top: 0.1rem;
     }
 
     .tip-user-text {

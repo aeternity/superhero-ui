@@ -57,7 +57,7 @@
         <div
           v-if="!loading.tips"
           class="section__body topics-section"
-          :class="{ active: topics.length > 0 }"
+          :class="{ active: topics && topics.length > 0 }"
         >
           <div
             v-for="([topic, data], idx) in topics"
@@ -178,10 +178,7 @@ export default {
           & > div {
             &.ae-amount-fiat {
               width: 52%;
-
-              .ae-amount {
-                color: $standard_font_color;
-              }
+              justify-content: flex-end;
             }
 
             width: 48%;

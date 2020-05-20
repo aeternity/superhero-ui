@@ -7,19 +7,22 @@
 
 <script>
 import BigNumber from 'bignumber.js';
+import util from '../utils/util';
 
 export default {
   name: 'AeAmount',
   props: {
     amount: { type: String, required: true },
     round: { type: Number, required: true },
+    aettos: { type: Boolean, required: false },
   },
   computed: {
     roundedAmount() {
       if (!this.amount) {
         return 0;
       }
-      return new BigNumber(this.amount).toFixed(this.round);
+      return new BigNumber(this.aettos ? util.atomsToAe(this.amount) : this.amount)
+        .toFixed(this.round);
     },
   },
 };
@@ -27,7 +30,12 @@ export default {
 
 <style lang="scss" scoped>
 .ae {
-  padding-left: 2px;
   color: $secondary_color;
+  padding-left: 2px;
+}
+
+.ae-amount {
+  color: $standard_font_color;
+  line-height: 1;
 }
 </style>

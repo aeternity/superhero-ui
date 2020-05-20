@@ -48,6 +48,12 @@
             </div>
           </div>
         </div>
+        <div class="section__body">
+          <p>Settings</p>
+          <p>Names</p>
+          <p>Activity</p>
+          <p>Topup</p>
+        </div>
       </div>
       <div class="section trending">
         <div class="section__title">

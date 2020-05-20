@@ -11,7 +11,11 @@
         {{ $t('components.layout.RightSection.Wallet') }}
       </h2>
 
-      <template v-if="isLoggedIn">
+      <iframe
+        v-if="useIframeWallet"
+        :src="walletUrl"
+      />
+      <template v-else-if="isLoggedIn">
         <div class="account">
           {{ account }}
         </div>
@@ -25,13 +29,6 @@
           />
         </div>
       </template>
-      <OutlinedButton
-        v-else
-        :href="addressDeepLink"
-        class="fullwidth"
-      >
-        {{ $t('components.layout.RightSection.LoginWithWallet') }}
-      </OutlinedButton>
     </div>
 
     <div class="section trending">
@@ -68,8 +65,6 @@ import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
 import Dropdown from '../Dropdown.vue';
 import SearchInput from './SearchInput.vue';
-import OutlinedButton from '../OutlinedButton.vue';
-import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'RightSection',
@@ -80,17 +75,13 @@ export default {
     FooterSection,
     Dropdown,
     SearchInput,
-    OutlinedButton,
   },
   data: () => ({
-    addressDeepLink: createDeepLinkUrl({
-      type: 'address',
-      'x-success': `${window.location}?address={address}`,
-    }),
+    walletUrl: process.env.VUE_APP_WALLET_URL,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['balance', 'account']),
+    ...mapState(['balance', 'account', 'useIframeWallet']),
     ...mapState({
       topics: ({ topics }) => topics.filter(([t]) => t !== '#test'),
       selectedCurrency: ({ settings }) => settings.currency,
@@ -151,6 +142,12 @@ export default {
     }
 
     &.wallet {
+      iframe {
+        border: none;
+        width: 100%;
+        height: 657px;
+      }
+
       .account {
         color: $light_font_color;
         font-size: 0.52rem;

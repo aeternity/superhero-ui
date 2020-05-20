@@ -4,7 +4,7 @@
       <div class="lang">
         <Dropdown
           :options="languageOptions"
-          :method="setLanguage"
+          :method="setLang"
           :selected="language"
         >
           <img
@@ -99,6 +99,7 @@ import FooterSection from './FooterSection.vue';
 import Dropdown from '../Dropdown.vue';
 import SearchInput from './SearchInput.vue';
 import { languageOptions } from '../../utils/util';
+import { fetchAndSetLocale } from '../../utils/i18nHelper';
 
 export default {
   name: 'RightSection',
@@ -157,6 +158,10 @@ export default {
     },
     getFiatVal(value, rate) {
       return new BigNumber(value).multipliedBy(rate).toFixed(2);
+    },
+    setLang(lang) {
+      this.setLanguage(lang);
+      fetchAndSetLocale(lang);
     },
   },
 };

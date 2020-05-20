@@ -128,4 +128,21 @@ export default {
       }
     }
   }
+
+  @media (max-height: 595px) {
+    p {
+      margin-bottom: 0.4rem;
+    }
+
+    .footer {
+      .footer-btns {
+        margin-bottom: 0.4rem;
+      }
+
+      .terms-links {
+        margin-top: 0.4rem;
+      }
+    }
+  }
+
 </style>

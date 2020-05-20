@@ -5,6 +5,12 @@
     class="tip__record row"
     @click="goToTip(tip.id)"
   >
+    <SuccessModal
+      v-if="showSuccessModal"
+      :title="$t('components.tipRecords.TipRecord.reportPostTitle')"
+      :body="$t('components.tipRecords.TipRecord.reportPostBody')"
+      @close="showSuccessModal = false"
+    />
     <div class="tip__body">
       <div class="tip__description">
         <div
@@ -144,6 +150,7 @@
 <script>
 import Backend from '../../utils/backend';
 import TipInput from '../TipInput.vue';
+import SuccessModal from '../SuccessModal.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import Avatar from '../Avatar.vue';
@@ -156,6 +163,7 @@ export default {
     FormatDate,
     Avatar,
     TipInput,
+    SuccessModal,
   },
   props: {
     tip: { type: Object, required: true },
@@ -166,6 +174,7 @@ export default {
     return {
       key: `${this.tip.id}_${new Date().getTime()}`,
       showMenu: false,
+      showSuccessModal: false,
     };
   },
   computed: {
@@ -188,11 +197,15 @@ export default {
   },
   methods: {
     async sendReport() {
-      await Backend.sendPostReport(
+      Backend.sendPostReport(
         this.tip.id,
         this.tip.sender,
         (data) => wallet.signMessage(data),
-      );
+      ).then(() => {
+        this.showSuccessModal = true;
+      }).catch((error) => {
+        console.log(error);
+      });
       this.showMenu = false;
     },
     isPreviewToBeVisualized(tip) {

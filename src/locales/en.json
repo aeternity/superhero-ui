@@ -340,7 +340,7 @@
       "SortingMostPopular": "Most Popular",
       "Clear": "Clear",
       "CloseSearch": "Close Search",
-      "ShowHiddenContent": "Show Hidden Content"
+      "ShowFiltered": "Show filtered"
     },
     "UserProfileView": {
       "EditProfile": "Edit Profile",

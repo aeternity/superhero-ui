@@ -48,23 +48,25 @@
                   @click="showMenu = false"
                 />
                 <div class="actions-menu">
-                  <span
+                  <div
                     class="dots"
+                    :class="{ 'show-menu': showMenu }"
                     @click.stop="showMenu = true"
                   >
                     •••
-                    <span
+                    <div
                       v-if="showMenu"
                       class="show-content"
                     >
-                      <input
-                        id="show-content"
-                        v-model="hiddenContent"
-                        type="checkbox"
-                      >
-                      <label for="show-content">{{ $t('views.TipList.ShowHiddenContent') }}</label>
-                    </span>
-                  </span>
+                      <div class="menu-item">
+                        <Checkbox
+                          :getter="showHiddenContent"
+                          :setter="setShowHiddenContent"
+                          :text="$t('views.TipList.ShowFiltered')"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -87,6 +89,7 @@ import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
+import Checkbox from '../components/Checkbox.vue';
 
 export default {
   name: 'TipsList',
@@ -97,6 +100,7 @@ export default {
     Page,
     SendTip,
     SearchInput,
+    Checkbox,
   },
   data() {
     return {
@@ -106,14 +110,6 @@ export default {
   },
   computed: {
     ...mapGetters(['tipSortBy', 'loading', 'searchTerm', 'showHiddenContent']),
-    hiddenContent: {
-      get() {
-        return this.showHiddenContent;
-      },
-      set(newValue) {
-        this.setShowHiddenContent(newValue);
-      },
-    },
   },
   methods: {
     ...mapActions(['setTipSortBy', 'setShowHiddenContent']),
@@ -217,43 +213,61 @@ export default {
   float: right;
   margin-top: 0.5rem;
   display: inline-block;
+  color: $light_font_color;
 
   .dots {
     position: relative;
     font-size: 0.8rem;
     min-width: 5rem;
-
-    & > span {
-      background-color: black;
-      padding: 0.5rem;
-      position: absolute;
-      z-index: 10;
-      width: 10rem;
-      top: 1rem;
-      right: 0;
-
-      &:hover {
-        color: $standard_font_color;
-      }
-    }
+    padding: 0 0.25rem;
+    border-radius: 0.25rem;
+    display: inline;
 
     &:hover {
       cursor: pointer;
     }
+
+    &.show-menu {
+      background-color: $light_color;
+    }
+
+    & > div {
+      border-radius: 0.25rem;
+      border: 0.05rem solid $article_content_color;
+      color: $border_color;
+      background-color: $actions_ribbon_background_color;
+      padding: 0.5rem;
+      position: absolute;
+      z-index: 10;
+      width: 10rem;
+      top: 1.2rem;
+      right: 0;
+    }
   }
 
   .show-content {
+    text-align: left;
+    display: inline-block;
+
     label {
       margin: 0;
-      vertical-align: middle;
 
       &:hover {
         cursor: pointer;
       }
     }
+  }
 
-    input[type="checkbox"] {
-      margin-right: 0.25rem;
+  .menu-item {
+    padding-bottom: 0.5rem;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: $standard_font_color;
     }
   }
 }
@@ -340,12 +354,6 @@ export default {
 
   .actions-menu {
     float: initial;
-
-    .show-content {
-      label {
-        vertical-align: text-bottom;
-      }
-    }
   }
 }
 </style>

@@ -63,6 +63,7 @@
             v-for="([topic, data], idx) in topics"
             :key="idx"
             class="section__item"
+            v-if="topic !== '#test'"
           >
             <div class="topic-container text-ellipsis">
               <Topic :topic="topic" />

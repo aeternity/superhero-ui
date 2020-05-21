@@ -47,12 +47,14 @@
                 @click="showMenu = true"
               >
                 •••
-                <span
-                  v-if="showMenu"
-                  @click.stop="sendReport"
-                >
-                  {{ $t('components.tipRecords.TipRecord.reportPost') }}
-                </span>
+                <div v-if="showMenu">
+                  <span @click.stop="sendReport">
+                    {{ $t('components.tipRecords.TipRecord.reportPost') }}
+                  </span>
+                  <span @click.stop="claim">
+                    {{ $t('components.tipRecords.TipRecord.claim') }}
+                  </span>
+                </div>
               </span>
             </span>
           </div>
@@ -208,6 +210,14 @@ export default {
       });
       this.showMenu = false;
     },
+    async claim() {
+      const postData = {
+        url: this.tip.url,
+        address: wallet.client.rpcClient.getCurrentAccount(),
+      };
+      await Backend.claimFromUrl(postData);
+      this.showMenu = false;
+    },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
         && typeof tip.preview !== 'undefined'
@@ -285,11 +295,11 @@ export default {
         font-size: 1.5rem;
         margin-left: 0.3rem;
 
-        & > span:last-child {
+        & div {
           font-size: 0.8rem;
           background-color: black;
           min-width: 5rem;
-          margin-top: 1.5rem;
+          margin-top: -0.5rem;
           margin-left: -1.5rem;
           padding: 0.3rem;
           box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);

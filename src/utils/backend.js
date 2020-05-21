@@ -35,6 +35,12 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   });
 
+  static claimFromUrl = async (postParam) => backendFetch('claim/submit', {
+    method: 'post',
+    body: JSON.stringify(postParam),
+    headers: { 'Content-Type': 'application/json' },
+  });
+
   static async sendPostReport(tipId, author, signCb) {
     const sendReport = async (postParam) => backendFetch('blacklist/api/wallet', {
       method: 'post',

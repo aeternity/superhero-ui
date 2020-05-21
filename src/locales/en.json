@@ -464,7 +464,8 @@
       "TipRecord": {
         "reportPost": "Report Post",
         "reportPostTitle": "Thanks for letting us know",
-        "reportPostBody": "Our support team will investigate"
+        "reportPostBody": "Our support team will investigate",
+        "claim": "Claim"
       }
     },
     "AeAmount": {},

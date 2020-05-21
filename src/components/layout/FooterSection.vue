@@ -54,13 +54,44 @@
         <img src="../../assets/iconVenture.svg">
       </a>
     </div>
+    <Dropdown
+      :options="languageOptions"
+      :method="setLang"
+      :selected="language"
+      class="footer-lang"
+    >
+      <img
+        class="lang-icon"
+        src="../../assets/iconLanguage.svg"
+      >
+    </Dropdown>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+import Dropdown from '../Dropdown.vue';
+import { languageOptions } from '../../utils/util';
+import { fetchAndSetLocale } from '../../utils/i18nHelper';
 
 export default {
   name: 'FooterSection',
+  components: {
+    Dropdown,
+  },
+  data() {
+    return {
+      languageOptions,
+    };
+  },
+  computed: mapGetters(['language']),
+  methods: {
+    ...mapActions(['setLanguage']),
+    setLang(lang) {
+      this.setLanguage(lang);
+      fetchAndSetLocale(lang);
+    },
+  },
 };
 </script>
 
@@ -126,6 +157,10 @@ export default {
           filter: brightness(0.8);
         }
       }
+    }
+
+    .footer-lang {
+      margin-top: 0.85rem;
     }
   }
 

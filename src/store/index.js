@@ -32,7 +32,7 @@ export default new Vuex.Store({
     verifiedUrls: [],
     graylistedUrls: [],
     searchTerm: '',
-    showHiddenContent: false,
+    isHiddenContent: true,
   },
   getters,
   mutations,

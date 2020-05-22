@@ -60,8 +60,8 @@
                     >
                       <div class="menu-item">
                         <Checkbox
-                          :getter="showHiddenContent"
-                          :setter="setShowHiddenContent"
+                          :getter="isHiddenContent"
+                          :setter="setIsHiddenContent"
                           :text="$t('views.TipList.ShowFiltered')"
                         />
                       </div>
@@ -74,6 +74,7 @@
           <TipsPagination
             :tip-sort-by="tipSortBy"
             :search="searchTerm"
+            :blacklist="isHiddenContent"
           />
         </div>
       </div>
@@ -109,10 +110,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['tipSortBy', 'loading', 'searchTerm', 'showHiddenContent']),
+    ...mapGetters(['tipSortBy', 'loading', 'searchTerm', 'isHiddenContent']),
   },
   methods: {
-    ...mapActions(['setTipSortBy', 'setShowHiddenContent']),
+    ...mapActions(['setTipSortBy', 'setIsHiddenContent']),
     toggleMobileNav(show) {
       this.showMobileNavigation = show;
     },

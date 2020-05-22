@@ -54,8 +54,8 @@ export default {
   [types.SET_SEARCHTERM](state, payload) {
     state.searchTerm = payload;
   },
-  [types.SET_SHOW_HIDDEN_CONTENT](state, payload) {
-    state.showHiddenContent = payload;
+  [types.SET_IS_HIDDEN_CONTENT](state, payload) {
+    state.isHiddenContent = payload;
   },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {

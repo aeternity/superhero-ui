@@ -455,8 +455,7 @@
       },
       "RightSection": {
         "Wallet": "Wallet",
-        "AllowInstallation": "You have to allow installation of Chrome extensions for your browser",
-        "InstallExtension": "Click here to install the browser extension",
+        "LoginWithWallet": "Login with Web Wallet",
         "InstallWallet": "Install Wallet",
         "Trending": "Trending"
       },

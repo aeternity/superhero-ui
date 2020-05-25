@@ -17,6 +17,10 @@
         <SendComment :tip-id="tip.id" />
       </div>
       <div class="comments__section">
+        <Loading
+          v-if="showLoading"
+          class="loading-position"
+        />
         <div
           v-if="comments.length === 0 && !showLoading"
           class="no-results text-center w-100"
@@ -30,12 +34,6 @@
           :key="index"
           :comment="comment"
         />
-        <div
-          v-if="showLoading"
-          class="text-center w-100 mt-3"
-        >
-          <Loading />
-        </div>
       </div>
     </div>
   </Page>
@@ -90,6 +88,7 @@ export default {
   },
   methods: {
     updateTip() {
+      this.showLoading = true;
       Backend.getTipComments(this.id).then((response) => {
         this.error = false;
         this.comments = response.map((comment) => {
@@ -157,6 +156,12 @@ export default {
   .comments__section {
     background-color: $thumbnail_background_color;
     padding: 1rem;
+    position: relative;
+
+    .loading-position {
+      position: absolute;
+      margin-left: -1rem;
+    }
   }
 
   .no-results {

@@ -1,28 +1,26 @@
 <template>
   <Page>
-    <div class="container wrapper mt-2">
-      <div class="row content">
-        <div class="col-sm-12">
-          <h1>{{ $t('views.Terms.title') }}</h1>
-          <p>
-            {{ $t('views.Terms.subtitle') }}
-          </p>
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>{{ $t('views.Terms.title') }}</h1>
+        <p>
+          {{ $t('views.Terms.subtitle') }}
+        </p>
 
-          <template
-            v-for="(item, index) in
-              Object.keys($i18n.messages[$i18n.fallbackLocale].views.Terms.sections).length"
-          >
-            <i18n
-              :key="index"
-              :path="getI18nPath(index, 'Terms')"
-              :tag="isTitle(index, 'Terms') ? 'h5' : 'p'"
-            />
-          </template>
+        <template
+          v-for="(item, index) in
+            Object.keys($i18n.messages[$i18n.fallbackLocale].views.Terms.sections).length"
+        >
+          <i18n
+            :key="index"
+            :path="getI18nPath(index, 'Terms')"
+            :tag="isTitle(index, 'Terms') ? 'h5' : 'p'"
+          />
+        </template>
 
-          <p>
-            {{ $t('views.Terms.copyrights') }}
-          </p>
-        </div>
+        <p>
+          {{ $t('views.Terms.copyrights') }}
+        </p>
       </div>
     </div>
   </Page>

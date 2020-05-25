@@ -1,65 +1,63 @@
 <template>
   <Page>
-    <div class="container wrapper">
-      <div class="content tutorial-page">
-        <h1>
-          {{ $t('views.CreateProfile.header1') }} <br>
-          {{ $t('views.CreateProfile.header2') }} <br>
-          {{ $t('views.CreateProfile.header3') }}
-        </h1>
-        <hr width="30%">
+    <div class="tutorial-page">
+      <h1>
+        {{ $t('views.CreateProfile.header1') }} <br>
+        {{ $t('views.CreateProfile.header2') }} <br>
+        {{ $t('views.CreateProfile.header3') }}
+      </h1>
+      <hr width="30%">
 
-        <template
-          v-for="(item, index) in
-            Object.keys($i18n.messages[$i18n.fallbackLocale].views.CreateProfile.sections).length"
+      <template
+        v-for="(item, index) in
+          Object.keys($i18n.messages[$i18n.fallbackLocale].views.CreateProfile.sections).length"
+      >
+        <ExpandableBlock
+          :key="index"
+          :title="$t('views.CreateProfile.sections')[index].title"
         >
-          <ExpandableBlock
+          <i18n
             :key="index"
-            :title="$t('views.CreateProfile.sections')[index].title"
+            :path="getI18nPath(index)"
+            tag="p"
           >
-            <i18n
-              :key="index"
-              :path="getI18nPath(index)"
-              tag="p"
-            >
-              <template v-slot:extensionFirefox>
-                <a
-                  :href="firefoxLink"
-                  target="_blank"
-                >
-                  {{ $t('views.CreateProfile.here') }}
-                </a>
-              </template>
+            <template v-slot:extensionFirefox>
+              <a
+                :href="firefoxLink"
+                target="_blank"
+              >
+                {{ $t('views.CreateProfile.here') }}
+              </a>
+            </template>
 
-              <template v-slot:extensionChrome>
-                <a
-                  :href="chromeLink"
-                  target="_blank"
-                >
-                  {{ $t('views.CreateProfile.here') }}
-                </a>
-              </template>
+            <template v-slot:extensionChrome>
+              <a
+                :href="chromeLink"
+                target="_blank"
+              >
+                {{ $t('views.CreateProfile.here') }}
+              </a>
+            </template>
 
-              <template v-slot:br>
-                <br>
-              </template>
+            <template v-slot:br>
+              <br>
+            </template>
 
-              <template v-slot:tipButton>
-                <img src="../assets/iconExtension.svg">
-              </template>
+            <template v-slot:tipButton>
+              <img src="../assets/iconExtension.svg">
+            </template>
 
-              <template v-slot:feedbackForm>
-                <a
-                  href="https://form.jotform.com/201075183408046"
-                  target="_blank"
-                >
-                  {{ $t('views.CreateProfile.feedbackForm') }}
-                </a>
-              </template>
-            </i18n>
-          </ExpandableBlock>
-        </template>
-      </div>
+            <template v-slot:feedbackForm>
+              <a
+                href="https://form.jotform.com/201075183408046"
+                target="_blank"
+              >
+                {{ $t('views.CreateProfile.feedbackForm') }}
+              </a>
+            </template>
+          </i18n>
+        </ExpandableBlock>
+      </template>
     </div>
   </Page>
 </template>

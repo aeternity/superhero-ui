@@ -1,92 +1,90 @@
 <template>
   <Page>
-    <div class="container wrapper mt-2">
-      <div class="content faq-page">
-        <h1>{{ $t('views.FAQ.header') }}</h1>
-        <hr width="30%">
-        <i18n
-          path="views.FAQ.subheader"
-          tag="p"
-        >
-          <template v-slot:tutorialPage>
-            <router-link to="/tutorial">
-              {{ $t('views.FAQ.tutorialPage') }}
-            </router-link>
-          </template>
-        </i18n>
-
-        <template
-          v-for="(item, index) in
-            Object.keys($i18n.messages[$i18n.fallbackLocale].views.FAQ.questions).length"
-        >
-          <ExpandableBlock
-            :key="index"
-            :title="$t('views.FAQ.questions')[index].title"
-          >
-            <i18n
-              :key="index"
-              :path="getI18nPath(index)"
-              tag="p"
-            >
-              <template v-slot:mission>
-                <router-link
-                  :to="{ name: 'mission' }"
-                  target="_blank"
-                >
-                  {{ $t('views.FAQ.ourMission') }}
-                </router-link>
-              </template>
-              <template v-slot:aeternityCom>
-                <a
-                  href="https://aeternity.com/"
-                  target="_blank"
-                > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
-              </template>
-              <template v-slot:ourTutorial>
-                <router-link
-                  :to="{ name: 'tutorial' }"
-                  target="_blank"
-                >
-                  {{ $t('views.FAQ.ourTutorial') }}
-                </router-link>
-              </template>
-              <template v-slot:tutorial>
-                <router-link
-                  v-slot="{ href }"
-                  to="/tutorial"
-                >
-                  <a
-                    :href="href"
-                    target="_blank"
-                  >
-                    {{ $t('views.FAQ.tutorial') }}
-                  </a>
-                </router-link>
-              </template>
-              <template v-slot:feedbackForm>
-                <a
-                  href="https://form.jotform.com/201075183408046"
-                  target="_blank"
-                >
-                  {{ $t('views.FAQ.feedbackForm') }}
-                </a>
-              </template>
-              <template v-slot:forum>
-                <a
-                  href="https://forum.aeternity.com/"
-                  target="_blank"
-                > {{ $t('views.FAQ.forum') }} </a>
-              </template>
-              <template v-slot:sup>
-                3<sup>rd</sup>
-              </template>
-              <template v-slot:br>
-                <br>
-              </template>
-            </i18n>
-          </ExpandableBlock>
+    <div class="faq-page">
+      <h1>{{ $t('views.FAQ.header') }}</h1>
+      <hr width="30%">
+      <i18n
+        path="views.FAQ.subheader"
+        tag="p"
+      >
+        <template v-slot:tutorialPage>
+          <router-link to="/tutorial">
+            {{ $t('views.FAQ.tutorialPage') }}
+          </router-link>
         </template>
-      </div>
+      </i18n>
+
+      <template
+        v-for="(item, index) in
+          Object.keys($i18n.messages[$i18n.fallbackLocale].views.FAQ.questions).length"
+      >
+        <ExpandableBlock
+          :key="index"
+          :title="$t('views.FAQ.questions')[index].title"
+        >
+          <i18n
+            :key="index"
+            :path="getI18nPath(index)"
+            tag="p"
+          >
+            <template v-slot:mission>
+              <router-link
+                :to="{ name: 'mission' }"
+                target="_blank"
+              >
+                {{ $t('views.FAQ.ourMission') }}
+              </router-link>
+            </template>
+            <template v-slot:aeternityCom>
+              <a
+                href="https://aeternity.com/"
+                target="_blank"
+              > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
+            </template>
+            <template v-slot:ourTutorial>
+              <router-link
+                :to="{ name: 'tutorial' }"
+                target="_blank"
+              >
+                {{ $t('views.FAQ.ourTutorial') }}
+              </router-link>
+            </template>
+            <template v-slot:tutorial>
+              <router-link
+                v-slot="{ href }"
+                to="/tutorial"
+              >
+                <a
+                  :href="href"
+                  target="_blank"
+                >
+                  {{ $t('views.FAQ.tutorial') }}
+                </a>
+              </router-link>
+            </template>
+            <template v-slot:feedbackForm>
+              <a
+                href="https://form.jotform.com/201075183408046"
+                target="_blank"
+              >
+                {{ $t('views.FAQ.feedbackForm') }}
+              </a>
+            </template>
+            <template v-slot:forum>
+              <a
+                href="https://forum.aeternity.com/"
+                target="_blank"
+              > {{ $t('views.FAQ.forum') }} </a>
+            </template>
+            <template v-slot:sup>
+              3<sup>rd</sup>
+            </template>
+            <template v-slot:br>
+              <br>
+            </template>
+          </i18n>
+        </ExpandableBlock>
+      </template>
     </div>
   </Page>
 </template>

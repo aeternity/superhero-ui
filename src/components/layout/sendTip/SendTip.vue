@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="tip__post"
-  >
+  <div class="tip__post">
     <div v-if="open && !error && !success">
       <div class="tip__post__label clearfix">
         <img
@@ -40,9 +38,7 @@
             >
           </div>
           <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
-            <AeInputAmount
-              v-model="sendTipForm.amount"
-            />
+            <AeInputAmount v-model="sendTipForm.amount" />
           </div>
           <div class="col-lg-2 col-md-2 col-sm-12">
             <div class="text-right">

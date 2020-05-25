@@ -14,9 +14,7 @@
         <p class="latest__comments">
           {{ $t('views.TipCommentsView.LatestReplies') }}
         </p>
-        <SendComment
-          :tip-id="tip.id"
-        />
+        <SendComment :tip-id="tip.id" />
       </div>
       <div class="comments__section">
         <div

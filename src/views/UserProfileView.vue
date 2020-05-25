@@ -247,6 +247,10 @@
           v-if="activeTab === 'comments'"
           class="tips__container"
         >
+          <Loading
+            v-if="showLoading"
+            class="loading-position"
+          />
           <div
             v-if="showNoResultsMsg"
             class="no-results text-center w-100 mt-3"
@@ -260,12 +264,6 @@
             :comment="comment"
             :sender-link="openExplorer(comment.author)"
           />
-        </div>
-        <div
-          v-if="showLoading || loading.tips"
-          class="mt-3"
-        >
-          <Loading />
         </div>
       </div>
     </div>
@@ -695,6 +693,10 @@ export default {
 
   .comments__section {
     min-height: 5rem;
+
+    .tips__container .loading-position {
+      position: absolute;
+    }
 
     .comment.tip__record {
       border-radius: unset;

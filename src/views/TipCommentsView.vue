@@ -68,7 +68,7 @@ export default {
       tip: null,
     };
   },
-  computed: mapGetters(['chainNames', 'loading']),
+  computed: mapGetters(['chainNames']),
   watch: {
     tip() {
       this.updateTip();

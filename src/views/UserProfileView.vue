@@ -80,14 +80,6 @@
               >
                 {{ profile.displayName }}
               </h1>
-              <!-- <div class="input-group" v-if="editMode">
-              <input
-                type="text"
-                v-model="profile.displayName"
-                class="form-control"
-                placeholder="Edit Display Name"
-              >
-              </div>-->
               <a
                 v-if="!editMode"
                 class="profile__username"

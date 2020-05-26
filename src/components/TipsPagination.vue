@@ -46,7 +46,7 @@ export default {
     tipSortBy: { type: String, required: true },
     address: { type: String, required: false, default: null },
     search: { type: String, required: false, default: null },
-    blacklist: { type: Boolean, required: false, default: false },
+    blacklist: { type: Boolean, required: false },
   },
   data() {
     return {

@@ -341,7 +341,8 @@
       "SortingMostPopular": "Most Popular",
       "Clear": "Clear",
       "CloseSearch": "Close Search",
-      "ShowFiltered": "Show filtered"
+      "ShowFiltered": "Show filtered content",
+      "HideFiltered": "Hide filtered content"
     },
     "UserProfileView": {
       "EditProfile": "Edit Profile",

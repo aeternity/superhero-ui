@@ -38,38 +38,42 @@
               >
                 {{ $t('views.TipList.SortingHighestRated') }}
               </a>
-                             <div
-                  v-if="showMenu"
-                  class="overlay-dots"
-                  @click="showMenu = false"
-                />
-                <div class="actions-menu">
+              <div
+                v-if="showMenu"
+                class="overlay-dots"
+                @click="showMenu = false"
+              />
+              <div class="actions-menu">
+                <div
+                  class="dots"
+                  :class="{ 'show-menu': showMenu }"
+                  @click.stop="showMenu = true"
+                >
+                  •••
                   <div
-                    class="dots"
-                    :class="{ 'show-menu': showMenu }"
-                    @click.stop="showMenu = true"
+                    v-if="showMenu"
+                    class="show-content"
                   >
-                    •••
-                    <div
-                      v-if="showMenu"
-                      class="show-content"
-                    >
-                      <div class="menu-item">
-                        <Checkbox
-                          :getter="isHiddenContent"
-                          :setter="setIsHiddenContent"
-                          :text="$t('views.TipList.ShowFiltered')"
-                        />
-                      </div>
+                    <div class="menu-item">
+                      <Checkbox
+                        :getter="isHiddenContent"
+                        :setter="setIsHiddenContent"
+                        :text="isHiddenContent ?
+                          $t('views.TipList.HideFiltered')
+                          : $t('views.TipList.ShowFiltered')
+                        "
+                      />
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
         <TipsPagination
           :tip-sort-by="tipSortBy"
           :search="searchTerm"
+          :blacklist="isHiddenContent"
         />
       </div>
     </div>

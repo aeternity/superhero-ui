@@ -46,7 +46,7 @@ export default {
     tipSortBy: { type: String, required: true },
     address: { type: String, required: false, default: null },
     search: { type: String, required: false, default: null },
-    blacklist: { type: Boolean, required: false, default: true },
+    blacklist: { type: Boolean, required: false, default: false },
   },
   data() {
     return {
@@ -97,7 +97,8 @@ export default {
     },
     async loadData() {
       this.loadingTips = true;
-      this.tips = await Backend.getCacheTips(this.tipSortBy, this.page, this.address, this.search, this.blacklist);
+      this.tips = await Backend.getCacheTips(this.tipSortBy, this.page,
+        this.address, this.search, this.blacklist);
       if (this.tips) {
         this.lastTipId = get(this.tips[this.tips.length - 1], 'id');
         this.loadingTips = false;

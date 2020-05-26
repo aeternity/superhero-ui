@@ -359,7 +359,7 @@
       "FooterSection": {
         "Feedback": "Feedback",
         "Support": "Support",
-        "FooterInfo": "Superhero is Open Source {openSource}",
+        "FooterInfo": "Superhero is Open Source",
         "ContributeOnGithub": "Contribute on Github",
         "Terms": "Terms",
         "Privacy": "Privacy",
@@ -398,7 +398,7 @@
       "steps": {
         "next": "Next",
         "step1": {
-          "header": "Introducing Superhero:{br} {a} ",
+          "header": "Introducing Superhero:",
           "socialPlatform": "A Social Platform With A Mission",
           "subheader": "The first Superpower of Superhero is to launch a",
           "P2Ptool": "P2P tool to receive or send a tip to a URL",

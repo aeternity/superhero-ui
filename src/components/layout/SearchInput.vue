@@ -32,6 +32,7 @@
       :title="$t('views.TipList.CloseSearch')"
       @click="toggleMobileNav(true)"
     >
+      <!--eslint-disable-line vue-i18n/no-raw-text-->
       &#x2715;
     </div>
   </div>

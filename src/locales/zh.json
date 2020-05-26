@@ -2,6 +2,7 @@
   "loading": "Loading...",
   "cancel": "取消",
   "close": "Close",
+  "done": "Done",
   "tip": "Tip",
   "tips": "Tips",
   "amount": "Amount",
@@ -456,6 +457,12 @@
     "tipRecords": {
       "TipComment": {
         "Replies": "Replies"
+      },
+      "TipRecord": {
+        "reportPost": "Report Post",
+        "reportPostTitle": "Thanks for letting us know",
+        "reportPostBody": "Our support team will investigate",
+        "claim": "Claim"
       }
     },
     "TipInput": {

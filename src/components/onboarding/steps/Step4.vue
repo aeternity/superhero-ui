@@ -15,7 +15,7 @@
       </template>
     </i18n>
     <i18n
-      path="'components.onboarding.steps.step4.info"
+      path="components.onboarding.steps.step4.info"
       tag="p"
     >
       <template v-slot:br>
@@ -40,6 +40,7 @@
         <br>
       </template>
       <template v-slot:superherocom>
+        <!--eslint-disable-next-line vue-i18n/no-raw-text-->
         <a href="https://superhero.com">www.superhero.com</a>
       </template>
     </i18n>

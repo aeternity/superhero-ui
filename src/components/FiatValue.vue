@@ -3,6 +3,7 @@
     v-if="currencyRates.aeternity"
     class="currency-value"
   >
+    <!--eslint-disable-next-line vue-i18n/no-raw-text-->
     <span>(~ {{ fiatValue }})</span>
   </span>
 </template>

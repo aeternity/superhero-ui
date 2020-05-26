@@ -46,7 +46,7 @@
                 class="three-dots"
                 @click="showMenu = true"
               >
-                •••
+                <!--eslint-disable-line vue-i18n/no-raw-text-->•••
                 <div v-if="showMenu">
                   <span @click.stop="sendReport">
                     {{ $t('components.tipRecords.TipRecord.reportPost') }}

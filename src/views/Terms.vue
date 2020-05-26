@@ -1,22 +1,18 @@
 <template>
   <Page>
-    <div class="row">
+    <div class="row content">
       <div class="col-sm-12">
         <h1>{{ $t('views.Terms.title') }}</h1>
         <p>
           {{ $t('views.Terms.subtitle') }}
         </p>
 
-        <template
-          v-for="(item, index) in
-            Object.keys($i18n.messages[$i18n.fallbackLocale].views.Terms.sections).length"
-        >
-          <i18n
-            :key="index"
-            :path="getI18nPath(index, 'Terms')"
-            :tag="isTitle(index, 'Terms') ? 'h5' : 'p'"
-          />
-        </template>
+        <i18n
+          v-for="(item, index) in $t('views.Terms.sections').length"
+          :key="index"
+          :path="getI18nPath(index, 'Terms')"
+          :tag="isTitle(index, 'Terms') ? 'h5' : 'p'"
+        />
 
         <p>
           {{ $t('views.Terms.copyrights') }}
@@ -28,42 +24,18 @@
 
 <script>
 import Page from '../components/layout/Page.vue';
+import { isTitle, getI18nPath } from '../utils/util';
 
 export default {
   name: 'Terms',
   components: {
     Page,
   },
-  methods: {
-    getI18nPath(index, page) {
-      return this.isTitle(index, page)
-        ? `views.${page}.sections[${index}].title` : `views.${page}.sections[${index}].text`;
-    },
-    isTitle(index, page) {
-      return Object.prototype.hasOwnProperty.call(
-        Object.values(this.$i18n.messages[this.$i18n.fallbackLocale].views[`${page}`].sections)[index],
-        'title',
-      );
-    },
+  data() {
+    return {
+      getI18nPath,
+      isTitle,
+    };
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .content {
-    color: $primary_color;
-  }
-
-  .container.wrapper {
-    min-height: 4rem;
-  }
-
-  @media only screen
-    and (min-device-width: 320px)
-    and (max-device-width: 480px)
-    and (-webkit-min-device-pixel-ratio: 2) {
-    .content {
-      padding: 1rem;
-    }
-  }
-</style>

@@ -2,47 +2,43 @@
   <Page
     :toggle-mobile-nav="toggleMobileNav"
     :show-mobile-navigation="showMobileNavigation"
+    :loading="loading.initial"
   >
-    <Loading
-      v-if="loading && loading.initial"
-      class="initial-loading"
-    />
-    <div v-else>
-      <div class="actions__container container position-sticky">
-        <SearchInput
-          :toggle-mobile-nav="toggleMobileNav"
-          :show-mobile-navigation="showMobileNavigation"
-        />
-      </div>
-      <div class="container wrapper">
-        <Onboarding />
-        <div class="tips__container">
-          <div class="send__tip__container">
-            <SendTip />
-          </div>
-          <div class="actions__container position-sticky">
-            <div class="row">
-              <div class="col-md-12 col-lg-12 col-sm-12 sorting clearfix">
-                <a
-                  :class="{ active: tipSortBy === 'hot' }"
-                  @click="setTipSortBy('hot')"
-                >
-                  {{ $t('views.TipList.SortingMostPopular') }}
-                </a>
-                <a
-                  id="sort-latest"
-                  :class="{ active: tipSortBy === 'latest' }"
-                  @click="setTipSortBy('latest')"
-                >
-                  {{ $t('views.TipList.SortingLatest') }}
-                </a>
-                <a
-                  :class="{ active: tipSortBy === 'highest' }"
-                  @click="setTipSortBy('highest')"
-                >
-                  {{ $t('views.TipList.SortingHighestRated') }}
-                </a>
-                <div
+    <div class="actions__container container position-sticky">
+      <SearchInput
+        :toggle-mobile-nav="toggleMobileNav"
+        :show-mobile-navigation="showMobileNavigation"
+      />
+    </div>
+    <div class="container wrapper">
+      <Onboarding />
+      <div class="tips__container">
+        <div class="send__tip__container">
+          <SendTip />
+        </div>
+        <div class="actions__container position-sticky">
+          <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12 sorting">
+              <a
+                :class="{ active: tipSortBy === 'hot' }"
+                @click="setTipSortBy('hot')"
+              >
+                {{ $t('views.TipList.SortingMostPopular') }}
+              </a>
+              <a
+                id="sort-latest"
+                :class="{ active: tipSortBy === 'latest' }"
+                @click="setTipSortBy('latest')"
+              >
+                {{ $t('views.TipList.SortingLatest') }}
+              </a>
+              <a
+                :class="{ active: tipSortBy === 'highest' }"
+                @click="setTipSortBy('highest')"
+              >
+                {{ $t('views.TipList.SortingHighestRated') }}
+              </a>
+                             <div
                   v-if="showMenu"
                   class="overlay-dots"
                   @click="showMenu = false"
@@ -68,15 +64,13 @@
                     </div>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
-          <TipsPagination
-            :tip-sort-by="tipSortBy"
-            :search="searchTerm"
-            :blacklist="isHiddenContent"
-          />
         </div>
+        <TipsPagination
+          :tip-sort-by="tipSortBy"
+          :search="searchTerm"
+        />
       </div>
     </div>
   </Page>
@@ -86,7 +80,6 @@
 import { mapGetters, mapActions } from 'vuex';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
-import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
@@ -97,7 +90,6 @@ export default {
   components: {
     TipsPagination,
     Onboarding,
-    Loading,
     Page,
     SendTip,
     SearchInput,

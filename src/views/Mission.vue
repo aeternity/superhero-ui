@@ -1,30 +1,28 @@
 <template>
   <Page>
-    <div class="container wrapper mt-2">
-      <div class="content mission-page">
-        <h1>{{ $t('views.Mission.header') }}</h1>
-        <hr width="30%">
+    <div class="mission-page">
+      <h1>{{ $t('views.Mission.header') }}</h1>
+      <hr width="30%">
 
-        <template
-          v-for="(item, index) in
-            Object.keys($i18n.messages[$i18n.fallbackLocale].views.Mission.sections).length"
+      <template
+        v-for="(item, index) in
+          Object.keys($i18n.messages[$i18n.fallbackLocale].views.Mission.sections).length"
+      >
+        <i18n
+          :key="index"
+          :path="getI18nPath(index, 'Mission')"
+          :tag="isTitle(index, 'Mission') ? 'h5' : 'p'"
         >
-          <i18n
-            :key="index"
-            :path="getI18nPath(index, 'Mission')"
-            :tag="isTitle(index, 'Mission') ? 'h5' : 'p'"
-          >
-            <template v-slot:aeternityBlockchain>
-              <a
-                href="https://aeternity.com/"
-                target="_blank"
-              > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
-            </template>
-          </i18n>
-        </template>
-        <h1>{{ $t('views.Mission.footer') }}</h1>
-        <p>{{ $t('views.Mission.footerContent') }}</p>
-      </div>
+          <template v-slot:aeternityBlockchain>
+            <a
+              href="https://aeternity.com/"
+              target="_blank"
+            > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
+          </template>
+        </i18n>
+      </template>
+      <h1>{{ $t('views.Mission.footer') }}</h1>
+      <p>{{ $t('views.Mission.footerContent') }}</p>
     </div>
   </Page>
 </template>

@@ -15,7 +15,7 @@ export const wrapTry = async (promise) => {
         return res.json();
       }),
       new Promise(((resolve, reject) => {
-        setTimeout(reject, 5000, 'TIMEOUT');
+        setTimeout(reject, 10000, 'TIMEOUT');
       })),
     ]);
   } catch (err) {
@@ -80,7 +80,9 @@ export const AVATAR_CONFIG = {
 
 export const createDeepLinkUrl = ({ type, ...params }) => {
   const url = new URL(`${process.env.VUE_APP_WALLET_URL}/${type}`);
-  Object.entries(params).forEach(([name, value]) => url.searchParams.set(name, value));
+  Object.entries(params)
+    .filter(([, value]) => ![undefined, null].includes(value))
+    .forEach(([name, value]) => url.searchParams.set(name, value));
   url.searchParams.set('x-success', window.location);
   url.searchParams.set('x-cancel', window.location);
   return url;

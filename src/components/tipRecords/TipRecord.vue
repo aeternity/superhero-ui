@@ -5,6 +5,12 @@
     class="tip__record row"
     @click="goToTip(tip.id)"
   >
+    <SuccessModal
+      v-if="showSuccessModal"
+      :title="$t('components.tipRecords.TipRecord.reportPostTitle')"
+      :body="$t('components.tipRecords.TipRecord.reportPostBody')"
+      @close="showSuccessModal = false"
+    />
     <div class="tip__body">
       <div class="tip__description">
         <div
@@ -28,9 +34,30 @@
               <span class="address">{{ tip.sender }}</span>
             </div>
           </router-link>
-          <span class="tip__date">
-            <FormatDate :date-timestamp="new Date(tip.timestamp)" />
-          </span>
+          <div
+            v-if="showMenu"
+            class="overlay"
+            @click="showMenu = false"
+          />
+          <div @click.stop>
+            <span class="tip__date">
+              <FormatDate :date-timestamp="new Date(tip.timestamp)" />
+              <span
+                class="three-dots"
+                @click="showMenu = true"
+              >
+                •••
+                <div v-if="showMenu">
+                  <span @click.stop="sendReport">
+                    {{ $t('components.tipRecords.TipRecord.reportPost') }}
+                  </span>
+                  <span @click.stop="claim">
+                    {{ $t('components.tipRecords.TipRecord.claim') }}
+                  </span>
+                </div>
+              </span>
+            </span>
+          </div>
         </div>
       </div>
       <div
@@ -125,9 +152,11 @@
 <script>
 import Backend from '../../utils/backend';
 import TipInput from '../TipInput.vue';
+import SuccessModal from '../SuccessModal.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import Avatar from '../Avatar.vue';
+import { wallet } from '../../utils/walletSearch';
 
 export default {
   name: 'TipRecord',
@@ -136,6 +165,7 @@ export default {
     FormatDate,
     Avatar,
     TipInput,
+    SuccessModal,
   },
   props: {
     tip: { type: Object, required: true },
@@ -145,6 +175,8 @@ export default {
   data() {
     return {
       key: `${this.tip.id}_${new Date().getTime()}`,
+      showMenu: false,
+      showSuccessModal: false,
     };
   },
   computed: {
@@ -166,6 +198,26 @@ export default {
     },
   },
   methods: {
+    async sendReport() {
+      Backend.sendPostReport(
+        this.tip.id,
+        this.tip.sender,
+        (data) => wallet.signMessage(data),
+      ).then(() => {
+        this.showSuccessModal = true;
+      }).catch((error) => {
+        console.log(error);
+      });
+      this.showMenu = false;
+    },
+    async claim() {
+      const postData = {
+        url: this.tip.url,
+        address: wallet.client.rpcClient.getCurrentAccount(),
+      };
+      await Backend.claimFromUrl(postData);
+      this.showMenu = false;
+    },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
         && typeof tip.preview !== 'undefined'
@@ -224,10 +276,37 @@ export default {
     justify-content: space-between;
     padding: 0 1rem 0.9rem 1rem;
 
+    .overlay {
+      bottom: 0;
+      left: 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+      z-index: 10;
+    }
+
     .tip__date {
-      display: inline-block;
       font-size: 0.6rem;
-      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .three-dots {
+        font-size: 1.5rem;
+        margin-left: 0.3rem;
+
+        & div {
+          font-size: 0.8rem;
+          background-color: black;
+          min-width: 5rem;
+          margin-top: -0.5rem;
+          margin-left: -1.5rem;
+          padding: 0.3rem;
+          box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+          position: absolute;
+          z-index: 10;
+        }
+      }
     }
 
     .address {

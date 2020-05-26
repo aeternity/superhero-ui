@@ -83,8 +83,8 @@ export const createDeepLinkUrl = ({ type, ...params }) => {
   Object.entries(params)
     .filter(([, value]) => ![undefined, null].includes(value))
     .forEach(([name, value]) => url.searchParams.set(name, value));
-  url.searchParams.set('x-success', 
-      type === 'address' ? window.location + '?address={address}': window.location);
+  url.searchParams.set('x-success',
+    type === 'address' ? `${window.location}?address={address}` : window.location);
   url.searchParams.set('x-cancel', window.location);
   return url;
 };

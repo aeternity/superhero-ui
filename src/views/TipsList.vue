@@ -63,6 +63,8 @@ import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
+import aeternity from '../utils/aeternity';
+import Util from '../utils/util';
 
 export default {
   name: 'TipsList',
@@ -77,11 +79,22 @@ export default {
   data() {
     return {
       showMobileNavigation: true,
+      address: this.$route.query.address,
     };
   },
   computed: mapGetters(['tipSortBy', 'loading', 'searchTerm']),
+  async created() {
+    if (this.address) {
+      await aeternity.initClient();
+      const balance = await aeternity.client.balance(this.address).catch(() => 0);
+      this.setLoggedInAccount({
+        account: this.address,
+        balance: Util.atomsToAe(balance).toFixed(2),
+      });
+    }
+  },
   methods: {
-    ...mapActions(['setTipSortBy']),
+    ...mapActions(['setTipSortBy', 'setLoggedInAccount']),
     toggleMobileNav(show) {
       this.showMobileNavigation = show;
     },

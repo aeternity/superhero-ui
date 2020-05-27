@@ -56,8 +56,8 @@
                   >
                     <div class="menu-item">
                       <Checkbox
-                        :getter="isHiddenContent"
-                        :setter="setIsHiddenContent"
+                        :state="isHiddenContent"
+                        :update-state="setIsHiddenContent"
                         :text="isHiddenContent ?
                           $t('views.TipList.HideFiltered')
                           : $t('views.TipList.ShowFiltered')

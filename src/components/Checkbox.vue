@@ -13,17 +13,17 @@
 export default {
   name: 'Checkbox',
   props: {
-    getter: { type: Boolean, required: true },
+    state: { type: Boolean, required: true },
     text: { type: String, default: '' },
-    setter: { type: Function, required: true },
+    updateState: { type: Function, required: true },
   },
   computed: {
     model: {
       get() {
-        return this.getter;
+        return this.state;
       },
       set(newValue) {
-        this.setter(newValue);
+        this.updateState(newValue);
       },
     },
   },

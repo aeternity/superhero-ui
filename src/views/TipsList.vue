@@ -49,7 +49,6 @@
                   :class="{ 'show-menu': showMenu }"
                   @click.stop="showMenu = true"
                 >
-                  •••
                   <div
                     v-if="showMenu"
                     class="show-content"
@@ -236,6 +235,10 @@ export default {
       width: 10rem;
       top: 1.2rem;
       right: 0;
+    }
+
+    &::after {
+      content: '•••';
     }
   }
 

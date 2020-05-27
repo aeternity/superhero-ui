@@ -2,7 +2,7 @@
   <div>
     <Loading
       v-if="loadingTips"
-      class="m-2 loading-position"
+      class="m-2 loading-position-absolute"
     />
     <div v-if="tips">
       <TipRecord
@@ -148,9 +148,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .loading-position {
-    position: absolute;
-  }
-</style>

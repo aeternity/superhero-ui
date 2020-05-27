@@ -38,6 +38,10 @@ export default {
 
 <style lang="scss" scoped>
 .page {
+  .loading-position-absolute {
+    position: absolute;
+  }
+
   .initial-loading {
     margin-top: 5rem;
   }

@@ -241,7 +241,7 @@
         >
           <Loading
             v-if="showLoading"
-            class="loading-position"
+            class="loading-position-absolute"
           />
           <div
             v-if="showNoResultsMsg"
@@ -672,10 +672,6 @@ export default {
 
   .comments__section {
     min-height: 5rem;
-
-    .tips__container .loading-position {
-      position: absolute;
-    }
 
     .comment.tip__record {
       border-radius: unset;

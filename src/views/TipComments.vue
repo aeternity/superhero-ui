@@ -19,7 +19,7 @@
       <div class="comments__section">
         <Loading
           v-if="showLoading"
-          class="loading-position"
+          class="loading-position-absolute"
         />
         <div
           v-if="comments.length === 0 && !showLoading"
@@ -161,8 +161,7 @@ export default {
     padding: 1rem;
     position: relative;
 
-    .loading-position {
-      position: absolute;
+    .loading-position-absolute {
       margin-left: -1rem;
     }
   }

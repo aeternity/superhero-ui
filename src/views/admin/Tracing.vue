@@ -19,22 +19,17 @@
         Total Claimed:
         <AeAmount
           class="mx-2"
-          :round="2"
           :amount="blockchainTrace.tip.total_claimed_amount"
         />
         Total Unclaimed:
         <AeAmount
           class="mx-2"
-          :round="2"
           :amount="blockchainTrace.tip.total_unclaimed_amount"
         />
         Retips:
         <span class="mx-2">
           {{ blockchainTrace.tip.retips.length }}
-          (<AeAmount
-            :round="2"
-            :amount="blockchainTrace.tip.retip_amount_ae"
-          />)
+          (<AeAmount :amount="blockchainTrace.tip.retip_amount_ae" />)
         </span>
       </div>
       <div class="row">
@@ -42,13 +37,11 @@
         Total Claimed:
         <AeAmount
           class="mx-2"
-          :round="2"
           :amount="blockchainTrace.url_stats.total_claimed_amount"
         />
         Total Unclaimed:
         <AeAmount
           class="mx-2"
-          :round="2"
           :amount="blockchainTrace.url_stats.total_unclaimed_amount"
         />
         Total Tips:
@@ -89,7 +82,6 @@
         <span v-if="event.event === 'CheckPersistClaim'">, {{ event.amount }}%</span>
         <span v-if="event.event === 'TipWithdrawn' || event.event === 'TipReceived'">
           , <AeAmount
-            :round="2"
             aettos
             :amount="event.amount"
           />

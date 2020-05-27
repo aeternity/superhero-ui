@@ -26,6 +26,11 @@ describe('AeAmount', () => {
     round: 5,
     roundedAmount: '0',
   },
+  {
+    name: 'round to 2 if round is empty',
+    amount: '5.374',
+    roundedAmount: '5.37',
+  },
   ].forEach((test) => it(test.name, () => {
     const wrapper = mount(AeAmount, {
       propsData: {

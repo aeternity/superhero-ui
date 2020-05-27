@@ -30,10 +30,7 @@
               class="balance text-ellipsis"
               :title="roundAE + ' AE'"
             >
-              <AeAmount
-                :amount="balance"
-                :round="2"
-              />
+              <AeAmount :amount="balance" />
             </div>
             <div class="choose-fiat">
               <Dropdown

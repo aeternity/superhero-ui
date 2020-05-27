@@ -14,77 +14,63 @@
         </template>
       </i18n>
 
-      <template
-        v-for="(item, index) in
-          Object.keys($i18n.messages[$i18n.fallbackLocale].views.FAQ.questions).length"
+      <ExpandableBlock
+        v-for="(item, index) in $t('views.FAQ.questions').length"
+        :key="index"
+        :title="$t('views.FAQ.questions')[index].title"
       >
-        <ExpandableBlock
-          :key="index"
-          :title="$t('views.FAQ.questions')[index].title"
+        <i18n
+          :path="`views.FAQ.questions[${index}].text`"
+          tag="p"
         >
-          <i18n
-            :key="index"
-            :path="getI18nPath(index)"
-            tag="p"
-          >
-            <template v-slot:mission>
-              <router-link
-                :to="{ name: 'mission' }"
-                target="_blank"
-              >
-                {{ $t('views.FAQ.ourMission') }}
-              </router-link>
-            </template>
-            <template v-slot:aeternityCom>
+          <template v-slot:aeternityCom>
+            <a
+              href="https://aeternity.com/"
+              target="_blank"
+            >
+              {{ $t('views.FAQ.aeternityBlockchain') }}
+            </a>
+          </template>
+          <template v-slot:ourTutorial>
+            <router-link
+              :to="{ name: 'tutorial' }"
+              target="_blank"
+            >
+              {{ $t('views.FAQ.ourTutorial') }}
+            </router-link>
+          </template>
+          <template v-slot:tutorial>
+            <router-link
+              v-slot="{ href }"
+              to="/tutorial"
+            >
               <a
-                href="https://aeternity.com/"
-                target="_blank"
-              > {{ $t('views.FAQ.aeternityBlockchain') }} </a>
-            </template>
-            <template v-slot:ourTutorial>
-              <router-link
-                :to="{ name: 'tutorial' }"
+                :href="href"
                 target="_blank"
               >
-                {{ $t('views.FAQ.ourTutorial') }}
-              </router-link>
-            </template>
-            <template v-slot:tutorial>
-              <router-link
-                v-slot="{ href }"
-                to="/tutorial"
-              >
-                <a
-                  :href="href"
-                  target="_blank"
-                >
-                  {{ $t('views.FAQ.tutorial') }}
-                </a>
-              </router-link>
-            </template>
-            <template v-slot:feedbackForm>
-              <a
-                href="https://form.jotform.com/201075183408046"
-                target="_blank"
-              >
-                {{ $t('views.FAQ.feedbackForm') }}
+                {{ $t('views.FAQ.tutorial') }}
               </a>
-            </template>
-            <template v-slot:forum>
-              <a
-                href="https://forum.aeternity.com/"
-                target="_blank"
-              > {{ $t('views.FAQ.forum') }} </a>
-            </template>
-            <template v-slot:sup>
-              3<sup>rd</sup>
-            </template>
-            <template v-slot:br>
-              <br>
-            </template>
-          </i18n>
-        </ExpandableBlock>
-      </template>
+            </router-link>
+          </template>
+          <template v-slot:feedbackForm>
+            <a
+              href="https://form.jotform.com/201075183408046"
+              target="_blank"
+            >
+              {{ $t('views.FAQ.feedbackForm') }}
+            </a>
+          </template>
+          <template v-slot:forum>
+            <a
+              href="https://forum.aeternity.com/"
+              target="_blank"
+            > {{ $t('views.FAQ.forum') }} </a>
+          </template>
+          <template v-slot:br>
+            <br>
+          </template>
+        </i18n>
+      </ExpandableBlock>
     </div>
   </Page>
 </template>
@@ -98,11 +84,6 @@ export default {
   components: {
     Page,
     ExpandableBlock,
-  },
-  methods: {
-    getI18nPath(index) {
-      return `views.FAQ.questions[${index}].text`;
-    },
   },
 };
 </script>

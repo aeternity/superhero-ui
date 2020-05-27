@@ -36,7 +36,8 @@
             :amount="blockchainTrace.tip.retip_amount_ae"
           />)
         </span>
-      </div>      <div class="row">
+      </div>
+      <div class="row">
         <span class="font-weight-bold mr-1">Tip Url:</span>
         Total Claimed:
         <AeAmount
@@ -89,7 +90,7 @@
         <span v-if="event.event === 'TipWithdrawn' || event.event === 'TipReceived'">
           , <AeAmount
             :round="2"
-            :aettos="true"
+            aettos
             :amount="event.amount"
           />
         </span>)

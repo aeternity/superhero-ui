@@ -53,7 +53,7 @@ export default {
   left: 0;
   height: 0.9rem;
   width: 0.9rem;
-  background-color: #000;
+  background-color: $article_content_color;
   border-radius: 0.15rem;
 }
 

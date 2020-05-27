@@ -79,7 +79,7 @@
             <AeInputAmount v-model="value" />
             <AeButton
               v-if="userAddress || comment"
-              :disabled="!isUserAndCommentDataValid"
+              :disabled="!(value > minTipAmount && isMessageValid)"
               @click="submitAction"
             >
               {{ $t('tip') }}
@@ -183,9 +183,6 @@ export default {
     isDataValid() {
       return ((this.value > this.minTipAmount) && (this.isRetip || this.isMessageValid))
               || (this.isMessageValid && !this.value);
-    },
-    isUserAndCommentDataValid() {
-      return this.value > this.minTipAmount && this.isMessageValid;
     },
     isTipped() {
       if (this.userAddress) {

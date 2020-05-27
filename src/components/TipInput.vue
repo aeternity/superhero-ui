@@ -248,17 +248,12 @@ export default {
   },
   methods: {
     submitAction() {
-      if (this.userAddress) {
-        this.tipUser();
-        return;
-      }
-
       if (!this.isRetip && this.isMessageValid && !this.value) {
         this.sendTipComment();
         return;
       }
 
-      if (this.isDataValid) {
+      if (this.isDataValid || this.userAddress) {
         this.sendTip();
       }
     },
@@ -271,27 +266,14 @@ export default {
         this.resetForm();
       }
     },
-    tipUser() {
-      this.showLoading = true;
-      const amount = util.aeToAtoms(this.value);
-      aeternity.tip(`https://superhero.com/user-profile/${this.userAddress}`, this.message, amount)
-        .then(() => {
-          this.showLoading = false;
-          this.error = false;
-          this.show = false;
-          this.resetForm();
-        }).catch((e) => {
-          console.error(e);
-          this.showLoading = false;
-          this.error = true;
-        });
-    },
     async sendTip() {
       this.showLoading = true;
       const amount = util.aeToAtoms(this.value);
       let url = '';
       if (this.comment) {
         url = `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
+      } else if (this.userAddress) {
+        url = `https://superhero.com/user-profile/${this.userAddress}`;
       } else {
         url = `https://superhero.com/tip/${this.tip.id}`;
       }
@@ -299,8 +281,10 @@ export default {
         ? aeternity.retip(this.tip.id, amount)
         : aeternity.tip(url, this.message, amount))
         .then(async () => {
-          await Backend.cacheInvalidateTips().catch(console.error);
-          EventBus.$emit('reloadData');
+          if (!this.userAddress) {
+            await Backend.cacheInvalidateTips().catch(console.error);
+            EventBus.$emit('reloadData');
+          }
           this.showLoading = false;
           this.error = false;
           this.show = false;

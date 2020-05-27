@@ -58,10 +58,7 @@
                       <Checkbox
                         :state="isHiddenContent"
                         :update-state="setIsHiddenContent"
-                        :text="isHiddenContent ?
-                          $t('views.TipList.HideFiltered')
-                          : $t('views.TipList.ShowFiltered')
-                        "
+                        :text="$t('views.TipList.SafeContentOnly')"
                       />
                     </div>
                   </div>

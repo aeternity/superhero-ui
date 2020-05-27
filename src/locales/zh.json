@@ -415,8 +415,7 @@
       "SortingMostPopular": "最受欢迎",
       "Clear": "Clear",
       "CloseSearch": "Close Search",
-      "ShowFiltered": "Show filtered content",
-      "HideFiltered": "Hide filtered content"
+      "SafeContentOnly": "Safe content only"
     },
     "UserProfileView": {
       "EditProfile": "Edit Profile",

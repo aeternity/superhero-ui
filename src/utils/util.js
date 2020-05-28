@@ -16,6 +16,9 @@ export const wrapTry = async (promise) => {
         EventBus.$emit('backendLive');
         if (!res.ok) throw new Error(`Request failed with ${res.status}`);
         return res.json();
+      }).catch((error) => {
+        console.error(error);
+        return null;
       }),
       new Promise(((resolve, reject) => {
         setTimeout(reject, 10000, 'TIMEOUT');

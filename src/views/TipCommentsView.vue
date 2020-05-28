@@ -105,6 +105,10 @@ export default {
     },
     async reloadData() {
       this.tip = await Backend.getCacheTipById(this.id);
+      if (this.tip === null) {
+        this.error = true;
+        return;
+      }
       this.updateTip();
     },
     async loadTip() {

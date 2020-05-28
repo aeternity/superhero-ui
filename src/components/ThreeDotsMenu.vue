@@ -1,6 +1,7 @@
 <template>
   <div
     class="three-dots"
+    :class="{ active: showMenu }"
     @click="showMenu = true"
   >
     <!--eslint-disable-line vue-i18n/no-raw-text-->
@@ -35,8 +36,13 @@ export default {
   padding: 0 0.25rem;
   border-radius: 0.25rem;
 
+  &.active {
+    background-color: $light_color;
+  }
+
   &:hover {
     cursor: pointer;
+    color: #fff;
   }
 
   /* stylelint-disable-next-line selector-pseudo-element-no-unknown */

@@ -41,7 +41,7 @@ export default {
 
   /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
   ::v-deep .modal-content {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     border-radius: 0.25rem;
     border: 0.05rem solid $article_content_color;
     color: $border_color;

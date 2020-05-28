@@ -11,8 +11,7 @@
       </div>
       <form @submit.prevent>
         <div class="form-group">
-          <Avatar
-            :key="avatarImageKey"
+          <AvatarWrapper
             :address="account"
             class="avatar mr-3"
           />
@@ -61,8 +60,7 @@
       @click="canTip ? toggleSendTip(true) : openTipDeeplink()"
     >
       <div class="form-group">
-        <Avatar
-          :key="avatarImageKey"
+        <AvatarWrapper
           :address="account"
           class="avatar mr-3"
         />
@@ -91,7 +89,7 @@ import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg';
-import Avatar from '../../Avatar.vue';
+import AvatarWrapper from '../../AvatarWrapper.vue';
 import UrlStatus from './UrlStatus.vue';
 import SendTipStatusMsg from './SendTipStatusMsg.vue';
 
@@ -100,7 +98,7 @@ export default {
   components: {
     AeInputAmount,
     AeButton,
-    Avatar,
+    AvatarWrapper,
     UrlStatus,
     SendTipStatusMsg,
   },
@@ -113,7 +111,6 @@ export default {
       },
       sendingTip: false,
       IconDiamond,
-      avatarImageKey: 1,
       isBlacklistedUrl: false,
       success: false,
       error: false,
@@ -137,12 +134,6 @@ export default {
     },
   },
   async created() {
-    const loadUserAvatar = setInterval(() => {
-      if (this.isLoggedIn) {
-        this.avatarImageKey += 1;
-        clearInterval(loadUserAvatar);
-      }
-    }, 1000);
     EventBus.$on('blacklistedUrl', (payload) => {
       this.isBlacklistedUrl = payload;
     });

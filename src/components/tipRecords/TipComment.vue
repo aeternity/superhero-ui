@@ -23,7 +23,7 @@
                 },
               }"
             >
-              <Avatar :address="comment.author" />
+              <AvatarWrapper :address="comment.author" />
               <span
                 v-if="userChainName"
                 class="chain__name"
@@ -83,7 +83,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import FormatDate from './FormatDate.vue';
-import Avatar from '../Avatar.vue';
+import AvatarWrapper from '../AvatarWrapper.vue';
 import Backend from '../../utils/backend';
 import TipInput from '../TipInput.vue';
 
@@ -91,7 +91,7 @@ export default {
   name: 'TipComment',
   components: {
     FormatDate,
-    Avatar,
+    AvatarWrapper,
     TipInput,
   },
   props: {

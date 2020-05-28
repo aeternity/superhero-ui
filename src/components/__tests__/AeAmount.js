@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import AeAmount from '../AeAmount.vue';
 
 describe('AeAmount', () => {
@@ -32,7 +32,7 @@ describe('AeAmount', () => {
     roundedAmount: '5.37',
   },
   ].forEach((test) => it(test.name, () => {
-    const wrapper = mount(AeAmount, {
+    const wrapper = shallowMount(AeAmount, {
       propsData: {
         amount: test.amount,
         round: test.round,

@@ -269,7 +269,7 @@ export default {
       justify-content: center;
 
       .three-dots {
-        font-size: 1.5rem;
+        font-size: 0.75rem;
         margin-left: 0.3rem;
       }
     }

@@ -4,8 +4,8 @@
       class="reply__form"
       @submit.prevent
     >
-      <Avatar
-        :address="address"
+      <AvatarWrapper
+        :address="account"
         class="avatar"
       />
       <div class="input-group">
@@ -41,14 +41,14 @@ import { EventBus } from '../utils/eventBus';
 import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import { wallet } from '../utils/walletSearch';
 import AeButton from './AeButton.vue';
-import Avatar from './Avatar.vue';
+import AvatarWrapper from './AvatarWrapper.vue';
 import Backend from '../utils/backend';
 
 export default {
   name: 'SendComment',
   components: {
     AeButton,
-    Avatar,
+    AvatarWrapper,
   },
   props: {
     tipId: { type: [Number, String], required: true },
@@ -62,14 +62,6 @@ export default {
     };
   },
   computed: mapGetters(['account', 'isLoggedIn']),
-  created() {
-    const loadUserAvatar = setInterval(() => {
-      if (this.isLoggedIn) {
-        this.address = this.account;
-        clearInterval(loadUserAvatar);
-      }
-    }, 500);
-  },
   mounted() {
     autosize(this.$refs.input);
   },

@@ -44,7 +44,7 @@
                 :class="[showLoadingAvatar ? 'blurred' : '']"
                 :title="address"
               >
-                <Avatar
+                <AvatarWrapper
                   :key="avatarEditImageKey"
                   :address="address"
                 />
@@ -64,7 +64,7 @@
                 :title="address"
                 target="_blank"
               >
-                <Avatar
+                <AvatarWrapper
                   :key="!editMode"
                   :address="address"
                 />
@@ -272,7 +272,7 @@ import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
-import Avatar from '../components/Avatar.vue';
+import AvatarWrapper from '../components/AvatarWrapper.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from '../components/TipInput.vue';
 
@@ -284,7 +284,7 @@ export default {
     AeAmountFiat,
     TipComment,
     Page,
-    Avatar,
+    AvatarWrapper,
     TipInput,
   },
   props: {

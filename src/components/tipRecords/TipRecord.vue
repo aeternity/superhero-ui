@@ -19,7 +19,7 @@
           @click.stop
         >
           <router-link :to="'/user-profile/' + tip.sender">
-            <Avatar :address="tip.sender" />
+            <AvatarWrapper :address="tip.sender" />
             <div class="tip__author_name">
               <span
                 v-if="tip.chainName"
@@ -155,7 +155,7 @@ import TipInput from '../TipInput.vue';
 import SuccessModal from '../SuccessModal.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
-import Avatar from '../Avatar.vue';
+import AvatarWrapper from '../AvatarWrapper.vue';
 import { wallet } from '../../utils/walletSearch';
 
 export default {
@@ -163,7 +163,7 @@ export default {
   components: {
     TipTitle,
     FormatDate,
-    Avatar,
+    AvatarWrapper,
     TipInput,
     SuccessModal,
   },

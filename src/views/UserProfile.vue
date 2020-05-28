@@ -459,10 +459,6 @@ export default {
   .profile__section {
     background-color: $actions_ribbon_background_color;
 
-    .spinner__container {
-      top: 40%;
-    }
-
     .row {
       padding: 1.75rem 1rem 1rem 1rem;
       margin-right: -1rem;
@@ -487,14 +483,6 @@ export default {
       display: flex;
       margin-right: 0.5rem;
       vertical-align: super;
-
-      .spinner__container {
-        top: 30%;
-      }
-
-      .blurred {
-        opacity: 0.4;
-      }
 
       .input-group.description {
         margin: 0.5rem 1rem;
@@ -548,17 +536,8 @@ export default {
       display: flex;
       flex-direction: column;
 
-      .profile__displayname {
-        font-size: 1.2rem;
-        height: 1.5rem;
-      }
-
-      .profile__username,
-      .profile__displayname {
-        margin-bottom: 0;
-      }
-
       .profile__username {
+        margin-bottom: 0;
         display: block;
         color: $tip_note_color;
         font-size: 0.6rem;
@@ -582,18 +561,6 @@ export default {
     .profile__description {
       margin: 0.5rem 1rem;
       color: $tip_note_color;
-    }
-  }
-
-  .profile__meta {
-    font-size: 0.6rem;
-    background-color: $thumbnail_background_color;
-    margin: -0.5rem 0 -1rem 0;
-    border-top-right-radius: 0.25rem;
-    padding: 0;
-
-    & > .row.mobile {
-      display: none;
     }
   }
 
@@ -648,27 +615,8 @@ export default {
 }
 
 @media only screen and (max-width: 768px) {
-  .profile__page .profile__meta {
-    margin-top: 0;
-    border-top-right-radius: 0;
-  }
-
   .profile__page .profile__section > .row {
     padding-left: 0.75rem;
-  }
-
-  .profile__page .profile__meta > .row {
-    display: none;
-
-    &.mobile {
-      display: flex;
-      padding-bottom: 0;
-
-      & .row {
-        padding-bottom: 0.5rem;
-        padding-top: 0;
-      }
-    }
   }
 }
 
@@ -700,10 +648,6 @@ export default {
       }
 
       .profile__image {
-        .spinner__container {
-          top: 22%;
-        }
-
         .profile__image--edit > div {
           top: 20%;
         }

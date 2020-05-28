@@ -38,20 +38,16 @@
               >
                 {{ $t('views.TipList.SortingHighestRated') }}
               </a>
-              <div
-                v-if="showMenu"
-                class="overlay-dots"
-                @click="showMenu = false"
-              />
               <div class="actions-menu">
                 <div
                   class="dots"
                   :class="{ 'show-menu': showMenu }"
                   @click.stop="showMenu = true"
                 >
-                  <div
+                  <Modal
                     v-if="showMenu"
                     class="show-content"
+                    @close="showMenu = false"
                   >
                     <div class="menu-item">
                       <Checkbox
@@ -60,7 +56,7 @@
                         :text="$t('views.TipList.SafeContentOnly')"
                       />
                     </div>
-                  </div>
+                  </Modal>
                 </div>
               </div>
             </div>
@@ -83,6 +79,7 @@ import Page from '../components/layout/Page.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
+import Modal from '../components/Modal.vue';
 import Checkbox from '../components/Checkbox.vue';
 
 export default {
@@ -94,6 +91,7 @@ export default {
     SendTip,
     SearchInput,
     Checkbox,
+    Modal,
   },
   data() {
     return {
@@ -193,15 +191,6 @@ export default {
   margin-top: 5rem;
 }
 
-.overlay-dots {
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 10;
-}
-
 .actions-menu {
   float: right;
   margin-top: 0.5rem;
@@ -230,8 +219,6 @@ export default {
       color: $border_color;
       background-color: $actions_ribbon_background_color;
       padding: 0.5rem;
-      position: absolute;
-      z-index: 10;
       width: 10rem;
       top: 1.2rem;
       right: 0;

@@ -24,8 +24,8 @@ a:hover {
 .btn {
   font-size: 0.75rem;
 
-  &.btn-light {
-    color: $primary_color;
+  &:focus {
+    box-shadow: none !important;
   }
 }
 

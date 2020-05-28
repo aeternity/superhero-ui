@@ -38,12 +38,38 @@
               >
                 {{ $t('views.TipList.SortingHighestRated') }}
               </a>
+              <div
+                v-if="showMenu"
+                class="overlay-dots"
+                @click="showMenu = false"
+              />
+              <div class="actions-menu">
+                <div
+                  class="dots"
+                  :class="{ 'show-menu': showMenu }"
+                  @click.stop="showMenu = true"
+                >
+                  <div
+                    v-if="showMenu"
+                    class="show-content"
+                  >
+                    <div class="menu-item">
+                      <Checkbox
+                        :state="isHiddenContent"
+                        :update-state="setIsHiddenContent"
+                        :text="$t('views.TipList.SafeContentOnly')"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <TipsPagination
           :tip-sort-by="tipSortBy"
           :search="searchTerm"
+          :blacklist="isHiddenContent"
         />
       </div>
     </div>
@@ -57,6 +83,7 @@ import Page from '../components/layout/Page.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
+import Checkbox from '../components/Checkbox.vue';
 
 export default {
   name: 'TipsList',
@@ -66,15 +93,19 @@ export default {
     Page,
     SendTip,
     SearchInput,
+    Checkbox,
   },
   data() {
     return {
       showMobileNavigation: true,
+      showMenu: false,
     };
   },
-  computed: mapGetters(['tipSortBy', 'loading', 'searchTerm']),
+  computed: {
+    ...mapGetters(['tipSortBy', 'loading', 'searchTerm', 'isHiddenContent']),
+  },
   methods: {
-    ...mapActions(['setTipSortBy']),
+    ...mapActions(['setTipSortBy', 'setIsHiddenContent']),
     toggleMobileNav(show) {
       this.showMobileNavigation = show;
     },
@@ -158,6 +189,86 @@ export default {
   margin-bottom: 4rem;
 }
 
+.initial-loading {
+  margin-top: 5rem;
+}
+
+.overlay-dots {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.actions-menu {
+  float: right;
+  margin-top: 0.5rem;
+  display: inline-block;
+  color: $light_font_color;
+
+  .dots {
+    position: relative;
+    font-size: 0.8rem;
+    min-width: 5rem;
+    padding: 0 0.25rem;
+    border-radius: 0.25rem;
+    display: inline;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.show-menu {
+      background-color: $light_color;
+    }
+
+    & > div {
+      border-radius: 0.25rem;
+      border: 0.05rem solid $article_content_color;
+      color: $border_color;
+      background-color: $actions_ribbon_background_color;
+      padding: 0.5rem;
+      position: absolute;
+      z-index: 10;
+      width: 10rem;
+      top: 1.2rem;
+      right: 0;
+    }
+
+    &::after {
+      content: '•••';
+    }
+  }
+
+  .show-content {
+    text-align: left;
+    display: inline-block;
+
+    label {
+      margin: 0;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .menu-item {
+    padding-bottom: 0.5rem;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: $standard_font_color;
+    }
+  }
+}
+
 @media (max-width: 1024px) {
   .actions__container:nth-child(2) {
     top: 3.2rem;
@@ -185,7 +296,7 @@ export default {
   .actions__container {
     width: 100%;
     background-color: $actions_ribbon_background_color;
-    overflow-x: hidden;
+    overflow-x: initial;
     z-index: 100;
 
     &:nth-child(2) {
@@ -213,7 +324,7 @@ export default {
 
       a {
         cursor: pointer;
-        width: 32.5%;
+        width: 30%;
         display: inline-block;
         padding-bottom: 0.45rem;
         margin-right: 0;
@@ -236,6 +347,10 @@ export default {
 
   .send__tip__container {
     display: none;
+  }
+
+  .actions-menu {
+    float: initial;
   }
 }
 </style>

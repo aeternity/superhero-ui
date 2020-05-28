@@ -338,7 +338,8 @@
       "SortingHighestRated": "获取♥币最高的 记录排序",
       "SortingMostPopular": "最受欢迎",
       "Clear": "Clear",
-      "CloseSearch": "Close Search"
+      "CloseSearch": "Close Search",
+      "SafeContentOnly": "Safe content only"
     },
     "UserProfileView": {
       "EditProfile": "Edit Profile",

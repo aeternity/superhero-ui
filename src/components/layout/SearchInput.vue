@@ -137,6 +137,7 @@ export default {
 
   input {
     height: 2.2rem;
+    border-radius: 0.5rem;
   }
 
   .search-icon img {

@@ -144,7 +144,6 @@ import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import AvatarWrapper from '../AvatarWrapper.vue';
-import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import { wallet } from '../../utils/walletSearch';
 
 export default {

@@ -5,21 +5,7 @@
   >
     <div class="profile__page">
       <div class="profile__section clearfix position-relative">
-        <div
-          v-if="showLoadingProfile"
-          class="text-center spinner__container w-100"
-        >
-          <div
-            class="spinner-border text-primary"
-            role="status"
-          >
-            <span class="sr-only">{{ $t('loading') }}</span>
-          </div>
-        </div>
-        <div
-          class="row"
-          :class="[showLoadingProfile ? 'invisible' : '']"
-        >
+        <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
             <a
               v-if="!editMode && account === address"
@@ -30,18 +16,9 @@
               {{ $t('views.UserProfileView.EditProfile') }}
             </a>
             <div class="profile__image position-relative">
-              <div
-                v-if="showLoadingAvatar"
-                class="overlay"
-              />
-              <Loading
-                v-if="showLoadingAvatar && editMode"
-                class="position-absolute"
-              />
               <label
                 v-if="editMode"
                 class="profile__image--edit"
-                :class="[showLoadingAvatar ? 'blurred' : '']"
                 :title="address"
               >
                 <Avatar
@@ -59,7 +36,6 @@
               </label>
               <a
                 v-else
-                :class="[showLoadingAvatar ? 'blurred' : '']"
                 :href="openExplorer(address)"
                 :title="address"
                 target="_blank"
@@ -74,12 +50,6 @@
               v-if="!editMode"
               class="profile__info"
             >
-              <h1
-                v-if="!editMode && profile.displayName"
-                class="profile__displayname"
-              >
-                {{ profile.displayName }}
-              </h1>
               <a
                 v-if="!editMode"
                 class="profile__username"
@@ -299,13 +269,10 @@ export default {
       error: false,
       userStats: null,
       editMode: false,
-      showLoadingProfile: false,
-      showLoadingAvatar: false,
       activeTab: 'tips',
       userCommentCount: 0,
       profile: {
         biography: '',
-        displayName: '',
       },
     };
   },
@@ -535,15 +502,6 @@ export default {
         textarea {
           min-height: 4rem;
         }
-      }
-
-      .overlay {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 10;
       }
 
       .profile__image--edit {

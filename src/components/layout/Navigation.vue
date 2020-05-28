@@ -131,6 +131,12 @@ export default {
       .faq & {
         background-image: url('../../assets/iconHelpActive.svg');
       }
+
+      .league & {
+        background-image: url('../../assets/iconDiamondActive.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+      }
     }
   }
 

@@ -13,10 +13,10 @@
     <div class="container wrapper">
       <Onboarding />
       <div class="tips__container">
-        <div class="send__tip__container">
-          <SendTip />
-        </div>
         <div class="actions__container position-sticky">
+          <div class="send__tip__container">
+            <SendTip />
+          </div>
           <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12 sorting">
               <a
@@ -108,11 +108,6 @@ export default {
 .actions__container {
   padding: 0;
   top: 0;
-
-  &:nth-child(2) {
-    top: 0;
-  }
-
   z-index: 100;
   font-size: 0.75rem;
   background-color: $background_color;
@@ -185,8 +180,12 @@ export default {
   color: $light_font_color;
 }
 
+.send__tip__container {
+  margin-bottom: 0.15rem;
+}
+
 @media (max-width: 1024px) {
-  .actions__container:nth-child(2) {
+  .container .actions__container {
     top: 3.2rem;
   }
 }
@@ -214,14 +213,6 @@ export default {
     background-color: $actions_ribbon_background_color;
     overflow-x: initial;
     z-index: 100;
-
-    &:nth-child(2) {
-      width: 100vw;
-      margin-left: -0.2rem;
-      top: 3.1rem;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
 
     .container,
     .row {
@@ -259,6 +250,12 @@ export default {
     .tips__container {
       padding: 0;
     }
+
+    .actions__container {
+      top: 3rem;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
 
   .send__tip__container {
@@ -267,6 +264,10 @@ export default {
 
   .actions-menu {
     float: initial;
+  }
+
+  .search {
+    margin-bottom: 0;
   }
 }
 </style>

@@ -24,42 +24,34 @@
     :title="title"
   >
     <div
-      v-if="show"
-      class="overlay"
-      @click="toggleTip(false)"
-    />
-    <div
-      class="tip__container_wrapper"
-      @:click.stop
+      v-if="!userAddress"
+      class="tip__content"
+      :class="[{ active: show }]"
+      @click="toggleTip(!show)"
     >
-      <div
-        v-if="!userAddress"
-        class="tip__content"
-        :class="[{ active: show }]"
-        @click="toggleTip(!show)"
+      <img
+        class="tip__icon"
+        :src="iconTip"
       >
-        <img
-          class="tip__icon"
-          :src="iconTip"
-        >
-        <AeAmountFiat :amount="amount" />
-      </div>
-      <div
-        v-else
-        class="tip__content user"
-        :class="[{ active: show }]"
-        @click="toggleTip(!show)"
+      <AeAmountFiat :amount="amount" />
+    </div>
+    <div
+      v-else
+      class="tip__content user"
+      :class="[{ active: show }]"
+      @click="toggleTip(!show)"
+    >
+      <img
+        class="tip__icon"
+        :src="iconTip"
       >
-        <img
-          class="tip__icon"
-          :src="iconTip"
-        >
-        <span class="tip-user-text">{{ $t('tip') }}</span>
-      </div>
-      <div
-        v-if="show"
-        class="tip__container"
-      >
+      <span class="tip-user-text">{{ $t('tip') }}</span>
+    </div>
+    <Modal
+      v-if="show"
+      @close="toggleTip(false)"
+    >
+      <div class="tip__container">
         <Loading v-if="showLoading" />
         <div
           v-show="error && !showLoading"
@@ -102,7 +94,7 @@
           </div>
         </form>
       </div>
-    </div>
+    </Modal>
   </div>
 </template>
 
@@ -118,6 +110,7 @@ import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
+import Modal from './Modal.vue';
 import { wallet } from '../utils/walletSearch';
 import { i18n } from '../utils/i18nHelper';
 
@@ -128,6 +121,7 @@ export default {
     AeInputAmount,
     AeButton,
     AeAmountFiat,
+    Modal,
   },
   props: {
     tip: { type: Object, default: null },
@@ -372,19 +366,6 @@ export default {
   .tip-url__wrapper {
     height: 1rem;
 
-    .overlay {
-      bottom: 0;
-      left: 0;
-      position: fixed;
-      right: 0;
-      top: 0;
-      z-index: 10;
-    }
-
-    .tip__container_wrapper {
-      position: relative;
-    }
-
     .tip__container {
       background-color: black;
       border-radius: 0.5rem;
@@ -393,12 +374,6 @@ export default {
       margin-top: 0.25rem;
       min-width: 19rem;
       padding: 1rem;
-      position: absolute;
-      z-index: 10;
-
-      & > div:not(.spinner__container) {
-        display: flex;
-      }
 
       .ae-button {
         margin-left: 0.5rem;

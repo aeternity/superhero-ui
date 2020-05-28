@@ -37,6 +37,7 @@ export default {
   cursor: pointer;
   font-size: 0.75rem;
   user-select: none;
+  margin-bottom: 0;
 }
 
 .checkbox input {

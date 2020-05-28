@@ -39,25 +39,13 @@
                 {{ $t('views.TipList.SortingHighestRated') }}
               </a>
               <div class="actions-menu">
-                <div
-                  class="dots"
-                  :class="{ 'show-menu': showMenu }"
-                  @click.stop="showMenu = true"
-                >
-                  <Modal
-                    v-if="showMenu"
-                    class="show-content"
-                    @close="showMenu = false"
-                  >
-                    <div class="menu-item">
-                      <Checkbox
-                        :state="isHiddenContent"
-                        :update-state="setIsHiddenContent"
-                        :text="$t('views.TipList.SafeContentOnly')"
-                      />
-                    </div>
-                  </Modal>
-                </div>
+                <ThreeDotsMenu>
+                  <Checkbox
+                    :state="isHiddenContent"
+                    :update-state="setIsHiddenContent"
+                    :text="$t('views.TipList.SafeContentOnly')"
+                  />
+                </ThreeDotsMenu>
               </div>
             </div>
           </div>
@@ -79,7 +67,7 @@ import Page from '../components/layout/Page.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
-import Modal from '../components/Modal.vue';
+import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
 import Checkbox from '../components/Checkbox.vue';
 
 export default {
@@ -91,12 +79,11 @@ export default {
     SendTip,
     SearchInput,
     Checkbox,
-    Modal,
+    ThreeDotsMenu,
   },
   data() {
     return {
       showMobileNavigation: true,
-      showMenu: false,
     };
   },
   computed: {
@@ -196,64 +183,6 @@ export default {
   margin-top: 0.5rem;
   display: inline-block;
   color: $light_font_color;
-
-  .dots {
-    position: relative;
-    font-size: 0.8rem;
-    min-width: 5rem;
-    padding: 0 0.25rem;
-    border-radius: 0.25rem;
-    display: inline;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &.show-menu {
-      background-color: $light_color;
-    }
-
-    & > div {
-      border-radius: 0.25rem;
-      border: 0.05rem solid $article_content_color;
-      color: $border_color;
-      background-color: $actions_ribbon_background_color;
-      padding: 0.5rem;
-      width: 10rem;
-      top: 1.2rem;
-      right: 0;
-    }
-
-    &::after {
-      content: '•••';
-    }
-  }
-
-  .show-content {
-    text-align: left;
-    display: inline-block;
-
-    label {
-      margin: 0;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-
-  .menu-item {
-    padding-bottom: 0.5rem;
-
-    &:last-child {
-      padding-bottom: 0;
-    }
-
-    &:hover {
-      cursor: pointer;
-      color: $standard_font_color;
-    }
-  }
 }
 
 @media (max-width: 1024px) {

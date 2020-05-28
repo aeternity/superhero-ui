@@ -36,23 +36,14 @@
           </router-link>
           <span class="tip__date">
             <FormatDate :date-timestamp="new Date(tip.timestamp)" />
-            <span
-              class="three-dots"
-              @click="showMenu = true"
-            >
-              <!--eslint-disable-line vue-i18n/no-raw-text-->•••
-              <Modal
-                v-if="showMenu"
-                @close="showMenu = false"
-              >
-                <span @click.stop="sendReport">
-                  {{ $t('components.tipRecords.TipRecord.reportPost') }}
-                </span>
-                <span @click.stop="claim">
-                  {{ $t('components.tipRecords.TipRecord.claim') }}
-                </span>
-              </Modal>
-            </span>
+            <ThreeDotsMenu>
+              <div @click="sendReport">
+                {{ $t('components.tipRecords.TipRecord.reportPost') }}
+              </div>
+              <div @click="claim">
+                {{ $t('components.tipRecords.TipRecord.claim') }}
+              </div>
+            </ThreeDotsMenu>
           </span>
         </div>
       </div>
@@ -152,7 +143,7 @@ import SuccessModal from '../SuccessModal.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import Avatar from '../Avatar.vue';
-import Modal from '../Modal.vue';
+import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import { wallet } from '../../utils/walletSearch';
 
 export default {
@@ -163,7 +154,7 @@ export default {
     Avatar,
     TipInput,
     SuccessModal,
-    Modal,
+    ThreeDotsMenu,
   },
   props: {
     tip: { type: Object, required: true },
@@ -173,7 +164,6 @@ export default {
   data() {
     return {
       key: `${this.tip.id}_${new Date().getTime()}`,
-      showMenu: false,
       showSuccessModal: false,
     };
   },
@@ -206,7 +196,6 @@ export default {
       }).catch((error) => {
         console.log(error);
       });
-      this.showMenu = false;
     },
     async claim() {
       const postData = {
@@ -214,7 +203,6 @@ export default {
         address: wallet.client.rpcClient.getCurrentAccount(),
       };
       await Backend.claimFromUrl(postData);
-      this.showMenu = false;
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
@@ -283,16 +271,6 @@ export default {
       .three-dots {
         font-size: 1.5rem;
         margin-left: 0.3rem;
-
-        .modal-content {
-          font-size: 0.8rem;
-          background-color: black;
-          max-width: 5rem;
-          margin-top: -0.5rem;
-          margin-left: -1.5rem;
-          padding: 0.3rem;
-          box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-        }
       }
     }
 

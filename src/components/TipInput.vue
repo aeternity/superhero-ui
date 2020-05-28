@@ -386,7 +386,7 @@ export default {
     }
 
     .tip__container {
-      background-color: black;
+      background-color: $article_content_color;
       border-radius: 0.5rem;
       display: flex;
       flex-wrap: wrap;

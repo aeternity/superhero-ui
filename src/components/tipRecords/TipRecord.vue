@@ -189,7 +189,7 @@ export default {
     async sendReport() {
       Backend.sendPostReport(
         this.tip.id,
-        this.tip.sender,
+        wallet.client.rpcClient.getCurrentAccount(),
         (data) => wallet.signMessage(data),
       ).then(() => {
         this.showSuccessModal = true;

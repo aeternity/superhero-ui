@@ -28,13 +28,10 @@
       </router-link>
     </div>
     <div class="navigation__item league">
-      <a
-        href="https://league.superhero.com"
-        target="_blank"
-      >
+      <router-link :to="{ name: 'league' }">
         <div class="navigation__item__image" />
         <span>{{ $t('components.layout.Navigation.League') }}</span>
-      </a>
+      </router-link>
     </div>
     <div class="navigation__item faq">
       <router-link :to="{ name: 'faq' }">
@@ -130,6 +127,12 @@ export default {
 
       .faq & {
         background-image: url('../../assets/iconHelpActive.svg');
+      }
+
+      .league & {
+        background-image: url('../../assets/iconDiamondActive.svg');
+        background-repeat: no-repeat;
+        background-position: center;
       }
     }
   }

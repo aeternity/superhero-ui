@@ -2,6 +2,7 @@
   "loading": "Loading...",
   "cancel": "Cancel",
   "close": "Close",
+  "done": "Done",
   "tip": "Tip",
   "tips": "Tips",
   "amount": "Amount",
@@ -169,7 +170,6 @@
       "tutorial": "tutorial",
       "feedbackForm": "feedback form",
       "ourTutorial": "in our tutorial",
-      "ourMission": "Read our mission >",
       "aeternityBlockchain": "aeternity blockchain"
     },
     "Maintenance": {
@@ -326,7 +326,6 @@
     "TipCommentsView": {
       "NoResultsMsg": "There are no comments at the moment.",
       "Reply": "Reply",
-      "records": "records",
       "AddReply": "Add reply",
       "LatestReplies": "Latest Replies"
     },
@@ -339,7 +338,8 @@
       "SortingHighestRated": "Highest Rated",
       "SortingMostPopular": "Most Popular",
       "Clear": "Clear",
-      "CloseSearch": "Close Search"
+      "CloseSearch": "Close Search",
+      "SafeContentOnly": "Safe content only"
     },
     "UserProfileView": {
       "EditProfile": "Edit Profile",
@@ -360,7 +360,7 @@
       "FooterSection": {
         "Feedback": "Feedback",
         "Support": "Support",
-        "FooterInfo": "Superhero is Open Source {openSource}",
+        "FooterInfo": "Superhero is Open Source",
         "ContributeOnGithub": "Contribute on Github",
         "Terms": "Terms",
         "Privacy": "Privacy",
@@ -368,9 +368,7 @@
       },
       "Navigation": {
         "MyProfile": "My Profile",
-        "Tutorial": "Tutorial",
-        "League": "League",
-        "Mission": "Mission"
+        "League": "League"
       },
       "Overview": {
         "TipsAggregated": "Tips Aggregated",
@@ -382,8 +380,7 @@
       },
       "RightSection": {
         "Wallet": "Wallet",
-        "AllowInstallation": "You have to allow installation of Chrome extensions for your browser",
-        "InstallExtension": "Click here to install the browser extension",
+        "LoginWithWallet": "Login with Web Wallet",
         "InstallWallet": "Install Wallet",
         "Trending": "Trending"
       },
@@ -401,7 +398,7 @@
       "steps": {
         "next": "Next",
         "step1": {
-          "header": "Introducing Superhero:{br} {a} ",
+          "header": "Introducing Superhero:",
           "socialPlatform": "A Social Platform With A Mission",
           "subheader": "The first Superpower of Superhero is to launch a",
           "P2Ptool": "P2P tool to receive or send a tip to a URL",
@@ -436,14 +433,15 @@
           "info": "After your Superhero wallet is installed:{br} {pasteYourWallet} to your URL.{br} {openYourURL} so your wallet can instantly collect tips you receive.",
           "pasteYourWallet": "1. Paste your wallet address",
           "openYourURL": "2. Load your URL",
-          "peaopleCanDirectlySupport": "People can directly support your content, cause, project (or you for simply being you) with no middlemen."
+          "peopleCanDirectlySupport": "People can directly support your content, cause project (or you for simply being you) with no middlemen."
         },
         "step4": {
           "header": "Send Tips: {br} Making the Internet a Better Place",
-          "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {addAMessage} if you want.",
-          "visitTheURL": "1. Paste any URL",
-          "addAMessage": "2. Add a message",
-          "youCanDirectlySupport": "You can directly support any person's content, cause, or project at any public URL with no middleman."
+          "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {clickSendTips} in your wallet. {br} {enterTipAmount} and optionally a message.",
+          "visitTheURL": "1. Visit the URL",
+          "clickSendTips": "2. Click Send tip",
+          "enterTipAmount": "3. Enter tip amount",
+          "youCanDirectlySupport": "You can directly support any person's content, cause, project at any public URL with no middleman."
         },
         "step5": {
           "header": "Welcome to Superhero!",
@@ -459,18 +457,14 @@
     "tipRecords": {
       "TipComment": {
         "Replies": "Replies"
+      },
+      "TipRecord": {
+        "reportPost": "Report Post",
+        "reportPostTitle": "Thanks for letting us know",
+        "reportPostBody": "Our support team will investigate",
+        "claim": "Claim"
       }
     },
-    "AeAmount": {},
-    "AeAmountFiat": {},
-    "AeButton": {},
-    "AeInputAmount": {},
-    "Avatar": {},
-    "BackButtonRibbon": {},
-    "Dropdown": {},
-    "ExpandableBlock": {},
-    "FiatValue": {},
-    "Loading": {},
     "TipInput": {
       "error": "An error occurred while sending the tip. Please try again later.",
       "retip": "Retip",

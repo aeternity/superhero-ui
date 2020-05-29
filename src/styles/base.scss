@@ -24,8 +24,8 @@ a:hover {
 .btn {
   font-size: 0.75rem;
 
-  &.btn-light {
-    color: $primary_color;
+  &:focus {
+    box-shadow: none !important;
   }
 }
 
@@ -79,9 +79,15 @@ a.button {
   .form-control {
     border: 0.05rem solid transparent;
     box-shadow: none;
+    transition: none;
 
     &:focus {
       border: 0.05rem solid $secondary_color;
+
+      & + .message-carret {
+        border-bottom: 0.05rem solid $secondary_color;
+        border-left: 0.05rem solid $secondary_color;
+      }
     }
   }
 }
@@ -120,6 +126,16 @@ a.button {
   .fas.fa-search {
     color: $standard_font_color;
   }
+}
+
+.message-carret {
+  position: absolute;
+  height: 0.8rem;
+  width: 0.8rem;
+  background: $buttons_background;
+  transform: rotate(45deg);
+  border-bottom-left-radius: 0.2rem;
+  z-index: 10;
 }
 
 img.fail {

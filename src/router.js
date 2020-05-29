@@ -3,6 +3,7 @@ import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
 import Maintenance from './views/Maintenance.vue';
 import SingleCommentView from './views/SingleCommentView.vue';
+import League from './views/League.vue';
 import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
@@ -87,6 +88,14 @@ const routes = [
     component: CreateProfile,
     meta: {
       title: 'Tutorial Page',
+    },
+  },
+  {
+    path: '/league',
+    name: 'league',
+    component: League,
+    meta: {
+      title: 'Superhero League',
     },
   },
   {

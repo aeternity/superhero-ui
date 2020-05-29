@@ -51,4 +51,7 @@ export const getters = {
   searchTerm(state) {
     return state.searchTerm;
   },
+  isHiddenContent(state) {
+    return state.isHiddenContent;
+  },
 };

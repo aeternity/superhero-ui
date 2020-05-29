@@ -19,6 +19,7 @@
         class="input-group-text append__ae text-ellipsis"
         :title="value"
       >
+        <!--eslint-disable-next-line vue-i18n/no-raw-text-->
         <span class="ae">AE&nbsp;</span>
         <FiatValue
           display-symbol

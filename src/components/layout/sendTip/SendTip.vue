@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="tip__post"
-  >
+  <div class="tip__post">
     <div v-if="open && !error && !success">
       <div class="tip__post__label clearfix">
         <img
@@ -13,18 +11,20 @@
       </div>
       <form @submit.prevent>
         <div class="form-group">
-          <Avatar
-            :key="avatarImageKey"
+          <AvatarWrapper
             :address="account"
             class="avatar mr-3"
           />
-          <input
-            v-model="sendTipForm.title"
-            type="text"
-            class="form-control comment"
-            maxlength="280"
-            :placeholder="$t('addMessage')"
-          >
+          <span class="message-box">
+            <input
+              v-model="sendTipForm.title"
+              type="text"
+              class="form-control comment"
+              maxlength="280"
+              :placeholder="$t('addMessage')"
+            >
+            <span class="message-carret" />
+          </span>
         </div>
         <div class="form-row">
           <div class="form-group col-md-5 col-lg-6 col-sm-12 send-url">
@@ -40,9 +40,7 @@
             >
           </div>
           <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
-            <AeInputAmount
-              v-model="sendTipForm.amount"
-            />
+            <AeInputAmount v-model="sendTipForm.amount" />
           </div>
           <div class="col-lg-2 col-md-2 col-sm-12">
             <div class="text-right">
@@ -65,17 +63,19 @@
       @click="canTip ? toggleSendTip(true) : openTipDeeplink()"
     >
       <div class="form-group">
-        <Avatar
-          :key="avatarImageKey"
+        <AvatarWrapper
           :address="account"
           class="avatar mr-3"
         />
-        <input
-          type="text"
-          class="form-control comment input-placeholder"
-          :placeholder="$t('components.layout.SendTip.SendNewTip')"
-          disabled
-        >
+        <span class="message-box">
+          <input
+            type="text"
+            class="form-control comment input-placeholder"
+            :placeholder="$t('components.layout.SendTip.SendNewTip')"
+            disabled
+          >
+          <span class="message-carret" />
+        </span>
         <div class="closed-overlay" />
       </div>
     </div>
@@ -95,7 +95,7 @@ import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg';
-import Avatar from '../../Avatar.vue';
+import AvatarWrapper from '../../AvatarWrapper.vue';
 import UrlStatus from './UrlStatus.vue';
 import SendTipStatusMsg from './SendTipStatusMsg.vue';
 
@@ -104,7 +104,7 @@ export default {
   components: {
     AeInputAmount,
     AeButton,
-    Avatar,
+    AvatarWrapper,
     UrlStatus,
     SendTipStatusMsg,
   },
@@ -117,7 +117,6 @@ export default {
       },
       sendingTip: false,
       IconDiamond,
-      avatarImageKey: 1,
       isBlacklistedUrl: false,
       success: false,
       error: false,
@@ -141,12 +140,6 @@ export default {
     },
   },
   async created() {
-    const loadUserAvatar = setInterval(() => {
-      if (this.isLoggedIn) {
-        this.avatarImageKey += 1;
-        clearInterval(loadUserAvatar);
-      }
-    }, 1000);
     EventBus.$on('blacklistedUrl', (payload) => {
       this.isBlacklistedUrl = payload;
     });
@@ -339,6 +332,15 @@ export default {
       height: 2.2rem;
       margin-top: 0.05rem;
       margin-bottom: 1rem;
+    }
+
+    .message-box {
+      position: relative;
+    }
+
+    .message-carret {
+      top: 0.1rem;
+      left: -0.4rem;
     }
 
     @media (min-width: 576px) {

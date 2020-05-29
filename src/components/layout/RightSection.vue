@@ -18,14 +18,11 @@
         <div class="section__body">
           <div v-if="!isLoggedIn">
             <a
-              :href="downloadUrl"
-              target="_blank"
+              :href="createDeepLinkUrl({ type: 'address' })"
               class="button w-100"
-              :title="['opera','vivaldi','brave','edge-chromium'].includes(browser.name)
-                ? $t('components.layout.RightSection.AllowInstallation')
-                : $t('components.layout.RightSection.InstallExtension')"
+              :title="$t('components.layout.RightSection.LoginWithWallet')"
             >
-              {{ $t('components.layout.RightSection.InstallWallet') }}
+              {{ $t('components.layout.RightSection.LoginWithWallet') }}
             </a>
           </div>
           <div v-else>
@@ -92,6 +89,7 @@ import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
 import Dropdown from '../Dropdown.vue';
 import SearchInput from './SearchInput.vue';
+import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'RightSection',
@@ -106,6 +104,7 @@ export default {
   data() {
     return {
       browser: detect(),
+      createDeepLinkUrl,
     };
   },
   computed: {
@@ -122,23 +121,6 @@ export default {
     },
     roundAE() {
       return new BigNumber(this.balance).toFixed(2);
-    },
-    downloadUrl() {
-      if (this.browser) {
-        switch (this.browser.name) {
-          case 'firefox':
-            return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
-          case 'chrome':
-          case 'opera':
-          case 'vivaldi':
-          case 'brave': // might not be detected from browser-detect
-          case 'edge-chromium':
-            return '//chrome.google.com/webstore/detail/mnhmmkepfddpifjkamaligfeemcbhdne/';
-          default:
-            break;
-        }
-      }
-      return '//github.com/aeternity/superhero-wallet/releases/latest/';
     },
   },
   methods: {

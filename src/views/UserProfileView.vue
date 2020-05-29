@@ -1,275 +1,261 @@
 <template>
-  <Page>
-    <Loading
-      v-if="loading.initial"
-      class="mt-5"
-    />
-    <div v-else>
-      <div class="profile__page">
-        <BackButtonRibbon />
-        <div class="profile__section clearfix position-relative">
+  <Page
+    :loading="loading.initial"
+    back
+  >
+    <div class="profile__page">
+      <div class="profile__section clearfix position-relative">
+        <div
+          v-if="showLoadingProfile"
+          class="text-center spinner__container w-100"
+        >
           <div
-            v-if="showLoadingProfile"
-            class="text-center spinner__container w-100"
+            class="spinner-border text-primary"
+            role="status"
           >
-            <div
-              class="spinner-border text-primary"
-              role="status"
-            >
-              <span class="sr-only">{{ $t('loading') }}</span>
-            </div>
+            <span class="sr-only">{{ $t('loading') }}</span>
           </div>
-          <div
-            class="row"
-            :class="[showLoadingProfile ? 'invisible' : '']"
-          >
-            <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
-              <a
-                v-if="!editMode && account === address"
-                class="edit__button button small"
-                title="Edit Profile"
-                @click="toggleEditMode"
-              >
-                {{ $t('views.UserProfileView.EditProfile') }}
-              </a>
-              <div class="profile__image position-relative">
-                <div
-                  v-if="showLoadingAvatar"
-                  class="overlay"
-                />
-                <Loading
-                  v-if="showLoadingAvatar && editMode"
-                  class="position-absolute"
-                />
-                <label
-                  v-if="editMode"
-                  class="profile__image--edit"
-                  :class="[showLoadingAvatar ? 'blurred' : '']"
-                  :title="address"
-                >
-                  <Avatar
-                    :key="avatarEditImageKey"
-                    :address="address"
-                  />
-                  <span>{{ $t('views.UserProfileView.ChangeAvatar') }}</span>
-                  <input
-                    id="file-input"
-                    type="file"
-                    name="avatar"
-                    accept="image/png, image/jpeg"
-                    @change="uploadImage($event)"
-                  >
-                </label>
-                <a
-                  v-else
-                  :class="[showLoadingAvatar ? 'blurred' : '']"
-                  :href="openExplorer(address)"
-                  :title="address"
-                  target="_blank"
-                >
-                  <Avatar
-                    :key="!editMode"
-                    :address="address"
-                  />
-                </a>
-              </div>
-              <div
-                v-if="!editMode"
-                class="profile__info"
-              >
-                <h1
-                  v-if="!editMode && profile.displayName"
-                  class="profile__displayname"
-                >
-                  {{ profile.displayName }}
-                </h1>
-                <!-- <div class="input-group" v-if="editMode">
-                <input
-                  type="text"
-                  v-model="profile.displayName"
-                  class="form-control"
-                  placeholder="Edit Display Name"
-                >
-                </div>-->
-                <a
-                  v-if="!editMode"
-                  class="profile__username"
-                  target="_blank"
-                  :href="openExplorer(address)"
-                  :title="address"
-                >
-                  <span
-                    v-if="userChainName"
-                    class="chain"
-                  >
-                    {{ userChainName }}
-                  </span>
-                  <span v-else>{{ address }}</span>
-                </a>
-                <div
-                  v-if="!editMode && userStats"
-                  class="count"
-                >
-                  {{ userStats.tipsLength }} {{ $t('tips') }}
-                </div>
-                <TipInput
-                  v-if="!editMode"
-                  :user-address="address"
-                  class="tip__user"
-                />
-              </div>
-            </div>
-            <div
-              v-if="editMode"
-              class="input-group delete-avatar"
+        </div>
+        <div
+          class="row"
+          :class="[showLoadingProfile ? 'invisible' : '']"
+        >
+          <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
+            <a
+              v-if="!editMode && account === address"
+              class="edit__button button small"
+              title="Edit Profile"
+              @click="toggleEditMode"
             >
-              <span @click="deleteAvatar">
-                {{ $t('views.UserProfileView.DeleteAvatar') }}
-              </span>
+              {{ $t('views.UserProfileView.EditProfile') }}
+            </a>
+            <div class="profile__image position-relative">
+              <div
+                v-if="showLoadingAvatar"
+                class="overlay"
+              />
+              <Loading
+                v-if="showLoadingAvatar && editMode"
+                class="position-absolute"
+              />
+              <label
+                v-if="editMode"
+                class="profile__image--edit"
+                :class="[showLoadingAvatar ? 'blurred' : '']"
+                :title="address"
+              >
+                <AvatarWrapper
+                  :key="avatarEditImageKey"
+                  :address="address"
+                />
+                <span>{{ $t('views.UserProfileView.ChangeAvatar') }}</span>
+                <input
+                  id="file-input"
+                  type="file"
+                  name="avatar"
+                  accept="image/png, image/jpeg"
+                  @change="uploadImage($event)"
+                >
+              </label>
+              <a
+                v-else
+                :class="[showLoadingAvatar ? 'blurred' : '']"
+                :href="openExplorer(address)"
+                :title="address"
+                target="_blank"
+              >
+                <AvatarWrapper
+                  :key="!editMode"
+                  :address="address"
+                />
+              </a>
             </div>
-
             <div
               v-if="!editMode"
-              class="profile__description"
+              class="profile__info"
             >
-              {{ profile.biography }}
-            </div>
-            <div
-              v-if="editMode"
-              class="input-group description"
-            >
-              <textarea
-                v-model="profile.biography"
-                class="form-control"
-                rows="3"
-                :placeholder="$t('views.UserProfileView.EditBiography')"
+              <h1
+                v-if="!editMode && profile.displayName"
+                class="profile__displayname"
+              >
+                {{ profile.displayName }}
+              </h1>
+              <a
+                v-if="!editMode"
+                class="profile__username"
+                target="_blank"
+                :href="openExplorer(address)"
+                :title="address"
+              >
+                <span
+                  v-if="userChainName"
+                  class="chain"
+                >
+                  {{ userChainName }}
+                </span>
+                <span v-else>{{ address }}</span>
+              </a>
+              <div
+                v-if="!editMode && userStats"
+                class="count"
+              >
+                {{ userStats.tipsLength }} {{ $t('tips') }}
+              </div>
+              <TipInput
+                v-if="!editMode"
+                :user-address="address"
+                class="tip__user"
               />
             </div>
-            <div
-              v-if="editMode"
-              class="edit__buttons"
-            >
-              <button
-                type="button"
-                class="button small"
-                @click="resetEditedValues"
-              >
-                {{ $t('cancel') }}
-              </button>
-              <button
-                type="button"
-                class="button small primary"
-                @click="saveProfile"
-              >
-                {{ $t('views.UserProfileView.Save') }}
-              </button>
-            </div>
+          </div>
+          <div
+            v-if="editMode"
+            class="input-group delete-avatar"
+          >
+            <span @click="deleteAvatar">
+              {{ $t('views.UserProfileView.DeleteAvatar') }}
+            </span>
           </div>
 
           <div
-            v-if="userStats"
-            class="stats"
+            v-if="!editMode"
+            class="profile__description"
           >
-            <div class="stat">
-              <div class="stat-title">
-                {{ $t('views.UserProfileView.TipsSent') }}
-              </div>
-              <div class="stat-value">
-                {{ userStats.tipsLength }}
-              </div>
-            </div>
-            <div class="stat">
-              <div class="stat-title">
-                {{ $t('views.UserProfileView.RetipsSent') }}
-              </div>
-              <div class="stat-value">
-                {{ userStats.retipsLength }}
-              </div>
-            </div>
-            <div class="stat">
-              <div class="stat-title">
-                {{ $t('views.UserProfileView.TotalSentAmount') }}
-              </div>
-              <AeAmountFiat
-                class="stat-value"
-                :amount="userStats.totalTipAmount"
-              />
-            </div>
-            <div class="stat">
-              <div class="stat-title">
-                {{ $t('comments') }}
-              </div>
-              <div class="stat-value">
-                {{ userStats.userComments }}
-              </div>
-            </div>
-            <div class="stat">
-              <div class="stat-title">
-                {{ $t('views.UserProfileView.ClaimedUrls') }}
-              </div>
-              <div class="stat-value">
-                {{ userStats.claimedUrlsLength }}
-              </div>
-            </div>
-            <div class="stat">
-              <div class="stat-title">
-                {{ $t('views.UserProfileView.UnclaimedAmount') }}
-              </div>
-              <AeAmountFiat
-                class="stat-value"
-                :amount="userStats.unclaimedAmount"
-              />
-            </div>
+            {{ profile.biography }}
           </div>
-        </div>
-        <div class="profile__actions">
-          <a
-            :class="{ active: activeTab === 'tips' }"
-            @click="setActiveTab('tips')"
-          >
-            {{ $t('tips') }}
-          </a>
-          <a
-            :class="{ active: activeTab === 'comments' }"
-            @click="setActiveTab('comments')"
-          >
-            {{ $t('comments') }}
-          </a>
-        </div>
-        <div class="comments__section position-relative">
           <div
-            v-if="activeTab === 'tips'"
-            class="tips__container"
+            v-if="editMode"
+            class="input-group description"
           >
-            <TipsPagination
-              tip-sort-by="latest"
-              :address="address"
+            <textarea
+              v-model="profile.biography"
+              class="form-control"
+              rows="3"
+              :placeholder="$t('views.UserProfileView.EditBiography')"
             />
           </div>
           <div
-            v-if="activeTab === 'comments'"
-            class="tips__container"
+            v-if="editMode"
+            class="edit__buttons"
           >
-            <div
-              v-if="showNoResultsMsg"
-              class="no-results text-center w-100 mt-3"
-              :class="[error ? 'error' : '']"
+            <button
+              type="button"
+              class="button small"
+              @click="resetEditedValues"
             >
-              {{ $t('views.UserProfileView.NoActivity') }}
+              {{ $t('cancel') }}
+            </button>
+            <button
+              type="button"
+              class="button small primary"
+              @click="saveProfile"
+            >
+              {{ $t('views.UserProfileView.Save') }}
+            </button>
+          </div>
+        </div>
+
+        <div
+          v-if="userStats"
+          class="stats"
+        >
+          <div class="stat">
+            <div class="stat-title">
+              {{ $t('views.UserProfileView.TipsSent') }}
             </div>
-            <TipComment
-              v-for="(comment, index) in comments"
-              :key="index"
-              :comment="comment"
-              :sender-link="openExplorer(comment.author)"
+            <div class="stat-value">
+              {{ userStats.tipsLength }}
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">
+              {{ $t('views.UserProfileView.RetipsSent') }}
+            </div>
+            <div class="stat-value">
+              {{ userStats.retipsLength }}
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">
+              {{ $t('views.UserProfileView.TotalSentAmount') }}
+            </div>
+            <AeAmountFiat
+              class="stat-value"
+              :amount="userStats.totalTipAmount"
             />
           </div>
-          <div
-            v-if="showLoading || loading.tips"
-            class="mt-3"
-          >
-            <Loading />
+          <div class="stat">
+            <div class="stat-title">
+              {{ $t('comments') }}
+            </div>
+            <div class="stat-value">
+              {{ userStats.userComments }}
+            </div>
           </div>
+          <div class="stat">
+            <div class="stat-title">
+              {{ $t('views.UserProfileView.ClaimedUrls') }}
+            </div>
+            <div class="stat-value">
+              {{ userStats.claimedUrlsLength }}
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">
+              {{ $t('views.UserProfileView.UnclaimedAmount') }}
+            </div>
+            <AeAmountFiat
+              class="stat-value"
+              :amount="userStats.unclaimedAmount"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="profile__actions">
+        <a
+          :class="{ active: activeTab === 'tips' }"
+          @click="setActiveTab('tips')"
+        >
+          {{ $t('tips') }}
+        </a>
+        <a
+          :class="{ active: activeTab === 'comments' }"
+          @click="setActiveTab('comments')"
+        >
+          {{ $t('comments') }}
+        </a>
+      </div>
+      <div class="comments__section position-relative">
+        <div
+          v-if="activeTab === 'tips'"
+          class="tips__container"
+        >
+          <TipsPagination
+            tip-sort-by="latest"
+            :address="address"
+          />
+        </div>
+        <div
+          v-if="activeTab === 'comments'"
+          class="tips__container"
+        >
+          <Loading
+            v-if="showLoading"
+            class="loading-position"
+          />
+          <div
+            v-if="showNoResultsMsg"
+            class="no-results text-center w-100 mt-3"
+            :class="[error ? 'error' : '']"
+          >
+            {{ $t('views.UserProfileView.NoActivity') }}
+          </div>
+          <TipComment
+            v-for="(comment, index) in comments"
+            :key="index"
+            :comment="comment"
+            :sender-link="openExplorer(comment.author)"
+          />
         </div>
       </div>
     </div>
@@ -286,8 +272,7 @@ import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
-import Avatar from '../components/Avatar.vue';
-import BackButtonRibbon from '../components/BackButtonRibbon.vue';
+import AvatarWrapper from '../components/AvatarWrapper.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from '../components/TipInput.vue';
 
@@ -299,8 +284,7 @@ export default {
     AeAmountFiat,
     TipComment,
     Page,
-    Avatar,
-    BackButtonRibbon,
+    AvatarWrapper,
     TipInput,
   },
   props: {
@@ -701,6 +685,10 @@ export default {
 
   .comments__section {
     min-height: 5rem;
+
+    .tips__container .loading-position {
+      position: absolute;
+    }
 
     .comment.tip__record {
       border-radius: unset;

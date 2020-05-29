@@ -4,8 +4,8 @@
       class="reply__form"
       @submit.prevent
     >
-      <Avatar
-        :address="address"
+      <AvatarWrapper
+        :address="account"
         class="avatar"
       />
       <div class="input-group">
@@ -17,6 +17,7 @@
           rows="1"
           @keydown.enter.exact.prevent="sendTipComment"
         />
+        <div class="message-carret" />
       </div>
       <div class="send-comment">
         <AeButton
@@ -41,14 +42,14 @@ import { EventBus } from '../utils/eventBus';
 import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import { wallet } from '../utils/walletSearch';
 import AeButton from './AeButton.vue';
-import Avatar from './Avatar.vue';
+import AvatarWrapper from './AvatarWrapper.vue';
 import Backend from '../utils/backend';
 
 export default {
   name: 'SendComment',
   components: {
     AeButton,
-    Avatar,
+    AvatarWrapper,
   },
   props: {
     tipId: { type: [Number, String], required: true },
@@ -62,14 +63,6 @@ export default {
     };
   },
   computed: mapGetters(['account', 'isLoggedIn']),
-  created() {
-    const loadUserAvatar = setInterval(() => {
-      if (this.isLoggedIn) {
-        this.address = this.account;
-        clearInterval(loadUserAvatar);
-      }
-    }, 500);
-  },
   mounted() {
     autosize(this.$refs.input);
   },
@@ -98,35 +91,48 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .avatar {
-    margin-right: 1rem;
-  }
+.avatar {
+  margin-right: 1rem;
+}
 
-  .reply__form {
-    display: flex;
+.reply__form {
+  display: flex;
+  position: relative;
+
+  .input-group {
     position: relative;
   }
+}
 
-  .reply__input {
-    width: 100%;
-    padding-right: 1.3rem;
+.input-group > textarea.reply__input.form-control {
+  width: 100%;
+  padding-right: 1.3rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  line-height: 1.25rem;
+}
+
+.send-comment .ae-button {
+  padding: 0;
+  height: 2.1rem;
+  background-color: transparent;
+  z-index: 10;
+  min-width: 1rem;
+  right: 0.2rem;
+
+  @include vertical-align(absolute);
+
+  img {
+    width: 0.8rem;
+    color: white;
+    transform: rotate(180deg);
+    vertical-align: baseline;
   }
+}
 
-  .send-comment .ae-button {
-    padding: 0;
-    height: 2.1rem;
-    background-color: transparent;
-    z-index: 10;
-    min-width: 1rem;
-    right: 0.2rem;
+.message-carret {
+  left: -0.4rem;
+  top: 0.7rem;
+}
 
-    @include vertical-align(absolute);
-
-    img {
-      width: 0.8rem;
-      color: white;
-      transform: rotate(180deg);
-      vertical-align: baseline;
-    }
-  }
 </style>

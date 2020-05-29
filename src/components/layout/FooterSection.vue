@@ -17,21 +17,17 @@
       </a>
     </div>
     <div>
-      <i18n
-        path="components.layout.FooterSection.FooterInfo"
-        tag="p"
-      >
-        <template v-slot:openSource>
-          <a
-            href="https://github.com/aeternity/superhero-ui/"
-            target="_blank"
-            class="gh-link"
-          >
-            {{ $t('components.layout.FooterSection.ContributeOnGithub') }}
-            <img src="../../assets/ghLogo.svg">
-          </a>
-        </template>
-      </i18n>
+      <p>
+        {{ $t("components.layout.FooterSection.FooterInfo") }}
+        <a
+          href="https://github.com/aeternity/superhero-ui/"
+          target="_blank"
+          class="gh-link"
+        >
+          {{ $t('components.layout.FooterSection.ContributeOnGithub') }}
+          <img src="../../assets/ghLogo.svg">
+        </a>
+      </p>
     </div>
     <div class="terms-links">
       <router-link

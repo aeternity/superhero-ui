@@ -2,7 +2,7 @@
   <div class="actions-ribbon">
     <img
       src="../assets/backArrow.svg"
-      @click="$router.go(-1)"
+      @click="back"
     >
   </div>
 </template>
@@ -10,6 +10,15 @@
 <script>
 export default {
   name: 'BackButtonRibbon',
+  methods: {
+    back() {
+      if (!this.$store.state.route.from.name) {
+        this.$router.push({ name: 'tips' });
+        return;
+      }
+      this.$router.go(-1);
+    },
+  },
 };
 </script>
 

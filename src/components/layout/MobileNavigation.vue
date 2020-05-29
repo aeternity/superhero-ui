@@ -11,6 +11,7 @@
       class="close-navigation"
       @click="openNavigation(false)"
     >
+      <!--eslint-disable-line vue-i18n/no-raw-text-->
       &#x2715;
     </div>
     <Navigation />

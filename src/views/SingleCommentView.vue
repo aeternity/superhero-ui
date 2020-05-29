@@ -1,7 +1,6 @@
 <template>
-  <Page>
-    <div class="container wrapper comment__page">
-      <BackButtonRibbon />
+  <Page back>
+    <div class="comment__page">
       <div
         v-if="comment"
         class="tipped__url"
@@ -52,7 +51,6 @@ import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
-import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import SendComment from '../components/SendComment.vue';
 
 export default {
@@ -61,7 +59,6 @@ export default {
     Page,
     Loading,
     TipComment,
-    BackButtonRibbon,
     SendComment,
   },
   data() {

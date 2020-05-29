@@ -6,17 +6,11 @@
         alt=""
       >
     </div>
-    <i18n
-      path="components.onboarding.steps.step1.header"
-      tag="h1"
-    >
-      <template v-slot:br>
-        <br>
-      </template>
-      <template v-slot:a>
-        <a>{{ $t('components.onboarding.steps.step1.socialPlatform') }}</a>
-      </template>
-    </i18n>
+    <h1>
+      {{ $t('components.onboarding.steps.step1.header') }}
+      <br>
+      <a>{{ $t('components.onboarding.steps.step1.socialPlatform') }}</a>
+    </h1>
     <p>
       {{ $t('components.onboarding.steps.step1.subheader') }}
       <br>

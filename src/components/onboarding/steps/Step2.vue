@@ -107,6 +107,7 @@
           {{ $t('components.onboarding.steps.step2.tutorial') }}
         </a>
       </router-link>
+      <!--eslint-disable-line vue-i18n/no-raw-text-->
       &
       <router-link
         v-slot="{ href }"

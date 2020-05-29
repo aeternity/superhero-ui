@@ -30,7 +30,7 @@
     </i18n>
     <i18n
       class="highlited"
-      path="components.onboarding.steps.step3.peaopleCanDirectlySupport"
+      path="components.onboarding.steps.step3.peopleCanDirectlySupport"
       tag="p"
     >
       <template v-slot:br>

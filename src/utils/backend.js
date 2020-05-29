@@ -35,6 +35,28 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   });
 
+  static claimFromUrl = async (postParam) => backendFetch('claim/submit', {
+    method: 'post',
+    body: JSON.stringify(postParam),
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  static async sendPostReport(tipId, author, signCb) {
+    const sendReport = async (postParam) => backendFetch('blacklist/api/wallet', {
+      method: 'post',
+      body: JSON.stringify(postParam),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    const responseChallenge = await sendReport({ tipId, author });
+    const signedChallenge = await signCb(responseChallenge.challenge);
+    const respondChallenge = {
+      challenge: responseChallenge.challenge,
+      signature: signedChallenge,
+    };
+    return sendReport(respondChallenge);
+  }
+
   static setProfileImage = async (address, data, image = true) => {
     const request = {
       method: 'post',
@@ -63,10 +85,11 @@ export default class Backend {
 
   static getCacheUserStats = async (address) => backendFetch(`cache/userStats?address=${address}`);
 
-  static getCacheTips = async (ordering, page, address = null, search = null) => {
+  static getCacheTips = async (ordering, page, address = null, search = null, blacklist = true) => {
     let query = `?ordering=${ordering}&page=${page}`;
     if (address) query += `&address=${address}`;
     if (search) query += `&search=${encodeURIComponent(search)}`;
+    query += `&blacklist=${blacklist}`;
 
     return backendFetch(`cache/tips${query}`);
   };

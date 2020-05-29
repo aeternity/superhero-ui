@@ -2,54 +2,59 @@
   <Page
     :toggle-mobile-nav="toggleMobileNav"
     :show-mobile-navigation="showMobileNavigation"
+    :loading="loading.initial"
   >
-    <Loading
-      v-if="loading.initial"
-      class="initial-loading"
-    />
-    <div v-else>
-      <div class="actions__container container position-sticky">
-        <SearchInput
-          :toggle-mobile-nav="toggleMobileNav"
-          :show-mobile-navigation="showMobileNavigation"
-        />
-      </div>
-      <div class="container wrapper">
-        <Onboarding />
-        <div class="tips__container">
+    <div class="actions__container container position-sticky">
+      <SearchInput
+        :toggle-mobile-nav="toggleMobileNav"
+        :show-mobile-navigation="showMobileNavigation"
+      />
+    </div>
+    <div class="container wrapper">
+      <Onboarding />
+      <div class="tips__container">
+        <div class="actions__container position-sticky">
           <div class="send__tip__container">
             <SendTip />
           </div>
-          <div class="actions__container position-sticky">
-            <div class="row">
-              <div class="col-md-12 col-lg-12 col-sm-12 sorting">
-                <a
-                  :class="{ active: tipSortBy === 'hot' }"
-                  @click="setTipSortBy('hot')"
-                >
-                  {{ $t('views.TipList.SortingMostPopular') }}
-                </a>
-                <a
-                  id="sort-latest"
-                  :class="{ active: tipSortBy === 'latest' }"
-                  @click="setTipSortBy('latest')"
-                >
-                  {{ $t('views.TipList.SortingLatest') }}
-                </a>
-                <a
-                  :class="{ active: tipSortBy === 'highest' }"
-                  @click="setTipSortBy('highest')"
-                >
-                  {{ $t('views.TipList.SortingHighestRated') }}
-                </a>
+          <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12 sorting">
+              <a
+                :class="{ active: tipSortBy === 'hot' }"
+                @click="setTipSortBy('hot')"
+              >
+                {{ $t('views.TipList.SortingMostPopular') }}
+              </a>
+              <a
+                id="sort-latest"
+                :class="{ active: tipSortBy === 'latest' }"
+                @click="setTipSortBy('latest')"
+              >
+                {{ $t('views.TipList.SortingLatest') }}
+              </a>
+              <a
+                :class="{ active: tipSortBy === 'highest' }"
+                @click="setTipSortBy('highest')"
+              >
+                {{ $t('views.TipList.SortingHighestRated') }}
+              </a>
+              <div class="actions-menu">
+                <ThreeDotsMenu>
+                  <Checkbox
+                    :state="isHiddenContent"
+                    :update-state="setIsHiddenContent"
+                    :text="$t('views.TipList.SafeContentOnly')"
+                  />
+                </ThreeDotsMenu>
               </div>
             </div>
           </div>
-          <TipsPagination
-            :tip-sort-by="tipSortBy"
-            :search="searchTerm"
-          />
         </div>
+        <TipsPagination
+          :tip-sort-by="tipSortBy"
+          :search="searchTerm"
+          :blacklist="isHiddenContent"
+        />
       </div>
     </div>
   </Page>
@@ -59,22 +64,24 @@
 import { mapGetters, mapActions } from 'vuex';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
-import Loading from '../components/Loading.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
 import aeternity from '../utils/aeternity';
 import Util from '../utils/util';
+import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
+import Checkbox from '../components/Checkbox.vue';
 
 export default {
   name: 'TipsList',
   components: {
     TipsPagination,
     Onboarding,
-    Loading,
     Page,
     SendTip,
     SearchInput,
+    Checkbox,
+    ThreeDotsMenu,
   },
   data() {
     return {
@@ -82,7 +89,7 @@ export default {
       address: this.$route.query.address,
     };
   },
-  computed: mapGetters(['tipSortBy', 'loading', 'searchTerm']),
+  computed: mapGetters(['tipSortBy', 'loading', 'searchTerm', 'isHiddenContent']),
   async created() {
     if (this.address) {
       await aeternity.initClient();
@@ -94,7 +101,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setTipSortBy', 'setLoggedInAccount']),
+    ...mapActions(['setTipSortBy', 'setLoggedInAccount', 'setIsHiddenContent']),
     toggleMobileNav(show) {
       this.showMobileNavigation = show;
     },
@@ -112,11 +119,6 @@ export default {
 .actions__container {
   padding: 0;
   top: 0;
-
-  &:nth-child(2) {
-    top: 0;
-  }
-
   z-index: 100;
   font-size: 0.75rem;
   background-color: $background_color;
@@ -182,8 +184,19 @@ export default {
   margin-top: 5rem;
 }
 
+.actions-menu {
+  float: right;
+  margin-top: 0.5rem;
+  display: inline-block;
+  color: $light_font_color;
+}
+
+.send__tip__container {
+  margin-bottom: 0.15rem;
+}
+
 @media (max-width: 1024px) {
-  .actions__container:nth-child(2) {
+  .container .actions__container {
     top: 3.2rem;
   }
 }
@@ -209,16 +222,8 @@ export default {
   .actions__container {
     width: 100%;
     background-color: $actions_ribbon_background_color;
-    overflow-x: hidden;
+    overflow-x: initial;
     z-index: 100;
-
-    &:nth-child(2) {
-      width: 100vw;
-      margin-left: -0.2rem;
-      top: 3.1rem;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
 
     .container,
     .row {
@@ -237,7 +242,7 @@ export default {
 
       a {
         cursor: pointer;
-        width: 32.5%;
+        width: 30%;
         display: inline-block;
         padding-bottom: 0.45rem;
         margin-right: 0;
@@ -256,10 +261,24 @@ export default {
     .tips__container {
       padding: 0;
     }
+
+    .actions__container {
+      top: 3rem;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
 
   .send__tip__container {
     display: none;
+  }
+
+  .actions-menu {
+    float: initial;
+  }
+
+  .search {
+    margin-bottom: 0;
   }
 }
 </style>

@@ -60,5 +60,7 @@ export default {
   setSearchTerm({ commit }, payload) {
     commit(types.SET_SEARCHTERM, payload);
   },
-
+  setIsHiddenContent({ commit }, payload) {
+    commit(types.SET_IS_HIDDEN_CONTENT, payload);
+  },
 };

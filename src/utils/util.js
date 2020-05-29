@@ -1,5 +1,7 @@
+import { get } from 'lodash-es';
 import BigNumber from 'bignumber.js';
 import { EventBus } from './eventBus';
+import { i18n } from './i18nHelper';
 
 const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000000000000000000));
 const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
@@ -11,11 +13,15 @@ export const wrapTry = async (promise) => {
           EventBus.$emit('backendError');
           return null;
         }
+        EventBus.$emit('backendLive');
         if (!res.ok) throw new Error(`Request failed with ${res.status}`);
         return res.json();
+      }).catch((error) => {
+        console.error(error);
+        return null;
       }),
       new Promise(((resolve, reject) => {
-        setTimeout(reject, 5000, 'TIMEOUT');
+        setTimeout(reject, 10000, 'TIMEOUT');
       })),
     ]);
   } catch (err) {
@@ -109,6 +115,12 @@ export const urlStatus = (tipUrl, verifiedUrls, blacklistedUrls) => {
   return status;
 };
 
+export const isTitle = (index, page) => !!get(i18n.t(`views.${page}.sections[${index}]`), 'title');
+
+export const getI18nPath = (index, page) => (isTitle(index, page)
+  ? `views.${page}.sections[${index}].title`
+  : `views.${page}.sections[${index}].text`);
+
 export default {
   atomsToAe,
   aeToAtoms,
@@ -117,4 +129,6 @@ export default {
   currencySigns,
   createDeepLinkUrl,
   urlStatus,
+  isTitle,
+  getI18nPath,
 };

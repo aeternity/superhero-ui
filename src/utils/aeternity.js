@@ -102,6 +102,7 @@ aeternity.initClient = async () => {
   } else {
     result = await aeternity.initProvider();
   }
+  EventBus.$emit('backendLive');
   return result;
 };
 

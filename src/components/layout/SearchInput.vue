@@ -32,6 +32,7 @@
       :title="$t('views.TipList.CloseSearch')"
       @click="toggleMobileNav(true)"
     >
+      <!--eslint-disable-line vue-i18n/no-raw-text-->
       &#x2715;
     </div>
   </div>
@@ -136,6 +137,7 @@ export default {
 
   input {
     height: 2.2rem;
+    border-radius: 0.5rem;
   }
 
   .search-icon img {

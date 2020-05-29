@@ -15,6 +15,7 @@
         <br>
       </template>
       <template v-slot:superherocom>
+        <!--eslint-disable-next-line vue-i18n/no-raw-text-->
         <a href="https://superhero.com">www.superhero.com</a>
       </template>
     </i18n>

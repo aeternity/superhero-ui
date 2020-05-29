@@ -15,13 +15,16 @@
             :address="account"
             class="avatar mr-3"
           />
-          <input
-            v-model="sendTipForm.title"
-            type="text"
-            class="form-control comment"
-            maxlength="280"
-            :placeholder="$t('addMessage')"
-          >
+          <span class="message-box">
+            <input
+              v-model="sendTipForm.title"
+              type="text"
+              class="form-control comment"
+              maxlength="280"
+              :placeholder="$t('addMessage')"
+            >
+            <span class="message-carret" />
+          </span>
         </div>
         <div class="form-row">
           <div class="form-group col-md-5 col-lg-6 col-sm-12 send-url">
@@ -64,12 +67,15 @@
           :address="account"
           class="avatar mr-3"
         />
-        <input
-          type="text"
-          class="form-control comment input-placeholder"
-          :placeholder="$t('components.layout.SendTip.SendNewTip')"
-          disabled
-        >
+        <span class="message-box">
+          <input
+            type="text"
+            class="form-control comment input-placeholder"
+            :placeholder="$t('components.layout.SendTip.SendNewTip')"
+            disabled
+          >
+          <span class="message-carret" />
+        </span>
         <div class="closed-overlay" />
       </div>
     </div>
@@ -326,6 +332,15 @@ export default {
       height: 2.2rem;
       margin-top: 0.05rem;
       margin-bottom: 1rem;
+    }
+
+    .message-box {
+      position: relative;
+    }
+
+    .message-carret {
+      top: 0.1rem;
+      left: -0.4rem;
     }
 
     @media (min-width: 576px) {

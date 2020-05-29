@@ -2,57 +2,13 @@
   <div class="app__rightcolumn">
     <div class="content">
       <SearchInput class="side-search" />
-      <div
-        class="section wallet-install"
-      >
-        <div class="section__title">
-          <img src="../../assets/iconWallet.svg">
-          {{ $t('components.layout.RightSection.Wallet') }}
-          <div
-            v-if="isLoggedIn"
-            class="account"
-          >
-            {{ account }}
-          </div>
-        </div>
+      <div class="section wallet-install">
         <div class="section__body">
-          <div v-if="!isLoggedIn">
-            <a
-              :href="downloadUrl"
-              target="_blank"
-              class="button w-100"
-              :title="['opera','vivaldi','brave','edge-chromium'].includes(browser.name)
-                ? $t('components.layout.RightSection.AllowInstallation')
-                : $t('components.layout.RightSection.InstallExtension')"
-            >
-              {{ $t('components.layout.RightSection.InstallWallet') }}
-            </a>
-          </div>
-          <div v-else>
-            <div
-              class="balance text-ellipsis"
-              :title="roundAE + ' AE'"
-            >
-              <AeAmount
-                :amount="balance"
-                :round="2"
-              />
-            </div>
-            <div class="choose-fiat">
-              <Dropdown
-                v-if="currencyDropdownOptions"
-                :options="currencyDropdownOptions"
-                :method="selectCurrency"
-                :selected="settings.currency"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="section__body">
-          <p>Settings</p>
-          <p>Names</p>
-          <p>Activity</p>
-          <p>Topup</p>
+          <iframe
+            class="wallet-frame"
+            src="https://wallet.superhero.com"
+            frameborder="0"
+          />
         </div>
       </div>
       <div class="section trending">
@@ -109,14 +65,24 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
+    ...mapGetters([
+      'topics',
+      'loading',
+      'isLoggedIn',
+      'balance',
+      'account',
+      'currencyRates',
+      'settings',
+    ]),
     currencyDropdownOptions() {
       if (this.currencyRates && this.currencyRates.aeternity && this.balance) {
-        return Object.keys(this.currencyRates.aeternity)
-          .map((key) => ({
-            text: `${this.getFiatVal(this.balance, this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
-            value: key,
-          }));
+        return Object.keys(this.currencyRates.aeternity).map((key) => ({
+          text: `${this.getFiatVal(
+            this.balance,
+            this.currencyRates.aeternity[key],
+          )} ${key.toUpperCase()}`,
+          value: key,
+        }));
       }
       return null;
     },
@@ -212,7 +178,6 @@ export default {
     }
 
     .section__body {
-      padding: 0.25rem 1rem 1rem 1rem;
 
       .section__item {
         font-size: 0.75rem;
@@ -235,9 +200,19 @@ export default {
 
     .wallet-install {
       margin-bottom: 0.5rem;
-      max-height: 400px;
+      width: 357px;
+      height: 657px;
+      max-height: 657px;
+      max-width: 357px;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       display: block;
+
+      .wallet-frame {
+        width: 357px;
+        height: 657px;
+        max-height: 657px;
+        max-width: 357px;
+      }
 
       .account {
         color: $light_font_color;

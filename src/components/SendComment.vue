@@ -109,6 +109,7 @@ export default {
   padding-right: 1.3rem;
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
+  line-height: 1.25rem;
 }
 
 .send-comment .ae-button {

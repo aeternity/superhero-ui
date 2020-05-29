@@ -42,21 +42,17 @@
 import { mapGetters, mapActions } from 'vuex';
 import { detect } from 'detect-browser';
 import BigNumber from 'bignumber.js';
-import AeAmount from '../AeAmount.vue';
 import AeAmountFiat from '../AeAmountFiat.vue';
 import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
-import Dropdown from '../Dropdown.vue';
 import SearchInput from './SearchInput.vue';
 
 export default {
   name: 'RightSection',
   components: {
     Topic,
-    AeAmount,
     AeAmountFiat,
     FooterSection,
-    Dropdown,
     SearchInput,
   },
   data() {

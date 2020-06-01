@@ -174,7 +174,6 @@ export default {
     }
 
     .section__body {
-
       .section__item {
         font-size: 0.75rem;
         margin: 0.5rem 0;

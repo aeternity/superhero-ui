@@ -1,5 +1,6 @@
 const path = require('path');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
 module.exports = {
   lintOnSave: false,
@@ -35,6 +36,13 @@ module.exports = {
           windows: false,
         },
       },
+    }],
+    PrerenderSPAPlugin[{
+      staticDir: path.join(__dirname, 'dist'),
+      routes: [
+        '/',
+        '/tip/:id',
+      ],
     }])
     .end()
     .plugin('copy')

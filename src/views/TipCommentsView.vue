@@ -68,6 +68,15 @@ export default {
       tip: null,
     };
   },
+  metaInfo() {
+    return {
+      meta: [
+        { property: 'og:title', content: 'Test title' },
+        { property: 'og:image', content: './assets/iconDiamond.svg' },
+        { property: 'og:description', content: this.tip.preview.description },
+      ],
+    };
+  },
   computed: mapGetters(['chainNames']),
   watch: {
     tip() {

@@ -36,6 +36,14 @@ export default {
       savedScrolls: [],
     };
   },
+  metaInfo() {
+    return {
+      meta: [
+        { property: 'og:title', content: 'Test title' },
+        { property: 'og:image', content: './assets/iconDiamond.svg' },
+      ],
+    };
+  },
   computed: {
     ...mapGetters(['account']),
     isSupportedBrowser() {

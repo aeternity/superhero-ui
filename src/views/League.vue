@@ -1,7 +1,10 @@
 <template>
   <Page>
     <div class="league-page">
-      <iframe src="https://aeternity.com/league-iframe/index.html" width="100%" />
+      <iframe
+        src="https://aeternity.com/league-iframe/index.html"
+        width="100%"
+      />
     </div>
   </Page>
 </template>

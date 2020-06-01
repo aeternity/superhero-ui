@@ -71,6 +71,7 @@ import aeternity from '../utils/aeternity';
 import Util from '../utils/util';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
 import Checkbox from '../components/Checkbox.vue';
+import iconDiamond from '../assets/iconDiamond.svg';
 
 export default {
   name: 'TipsList',
@@ -87,6 +88,18 @@ export default {
     return {
       showMobileNavigation: true,
       address: this.$route.query.address,
+      iconDiamond,
+    };
+  },
+  metaInfo() {
+    return {
+      meta: [
+        { name: 'description', content: 'Test description' },
+        { property: 'og:title', content: 'List title fb' },
+        { property: 'og:description', content: 'List description fb' },
+        { property: 'og:site_name', content: 'Superhero' },
+        { property: 'og:url', content: window.location.href },
+      ],
     };
   },
   computed: mapGetters(['tipSortBy', 'loading', 'searchTerm', 'isHiddenContent']),

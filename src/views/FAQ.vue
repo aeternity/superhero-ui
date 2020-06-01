@@ -85,6 +85,17 @@ export default {
     Page,
     ExpandableBlock,
   },
+  metaInfo() {
+    return {
+      meta: [
+        { name: 'description', content: 'Test description' },
+        { property: 'og:title', content: 'List title fb' },
+        { property: 'og:description', content: 'List description fb' },
+        { property: 'og:site_name', content: 'Superhero' },
+        { property: 'og:url', content: window.location.href },
+      ],
+    };
+  },
 };
 </script>
 

@@ -68,6 +68,13 @@ export default {
       tip: null,
     };
   },
+  metaInfo() {
+    return {
+      meta: [
+        { property: 'og:title', content: 'Tip title' },
+      ],
+    };
+  },
   computed: mapGetters(['chainNames']),
   watch: {
     tip() {

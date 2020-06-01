@@ -36,6 +36,21 @@ export default {
       savedScrolls: [],
     };
   },
+  metaInfo() {
+    return {
+      title: 'Superhero Title',
+      meta: [
+        { name: 'description', content: 'App description' },
+        { property: 'og:url', content: window.location.href },
+        { property: 'og:title', content: 'App title fb' },
+        { property: 'og:description', content: 'App description fb' },
+        { property: 'og:site_name', content: 'Superhero' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:locale', content: 'en_GB' },
+        { name: 'robots', content: 'index,follow' },
+      ],
+    };
+  },
   computed: {
     ...mapGetters(['account']),
     isSupportedBrowser() {

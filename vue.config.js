@@ -1,5 +1,6 @@
 const path = require('path');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
 module.exports = {
   lintOnSave: false,
@@ -36,6 +37,29 @@ module.exports = {
         },
       },
     }])
+    .end()
+    .plugin('prerendersSPA')
+    .use(PrerenderSPAPlugin, [
+      path.join(__dirname, 'dist'),
+      [
+        '/',
+        '/faq',
+      ],
+      {
+        headless: true,
+        renderAfterDocumentEvent: 'render-event',
+        postProcess(context) {
+          // Remove /index.html from the output path if
+          // the dir name ends with a .html file extension.
+          // For example: /dist/dir/special.html/index.html -> /dist/dir/special.html
+          const contextVar = context;
+          if (contextVar.route.endsWith('.html')) {
+            contextVar.outputPath = path.join(__dirname, 'dist', contextVar.route);
+          }
+          return contextVar;
+        },
+      },
+    ])
     .end()
     .plugin('copy')
     .tap((args) => {

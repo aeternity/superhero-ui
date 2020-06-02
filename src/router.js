@@ -36,6 +36,9 @@ const routes = [
     name: 'tips',
     component: TipsList,
     meta: { title: 'Tips' },
+    beforeEnter(to, from, next) {
+      next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
+    },
   },
   {
     path: '/tip/:tipId/comment/:id',

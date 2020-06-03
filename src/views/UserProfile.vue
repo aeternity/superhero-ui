@@ -25,7 +25,7 @@
               v-if="!editMode && account === address"
               class="edit__button button small"
               title="Edit Profile"
-              @click="toggleEditMode"
+              @click="editMode = true"
             >
               {{ $t('views.UserProfileView.EditProfile') }}
             </a>
@@ -54,7 +54,7 @@
                   type="file"
                   name="avatar"
                   accept="image/png, image/jpeg"
-                  @change="uploadImage($event)"
+                  @change="uploadAvatar($event)"
                 >
               </label>
               <a
@@ -265,6 +265,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Backend from '../utils/backend';
+import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
 import { client } from '../utils/aeternity';
@@ -328,6 +329,11 @@ export default {
 
     const interval = setInterval(() => this.reloadData(), 120 * 1000);
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
+
+    const { method, challenge, signature } = this.$route.query;
+    if (USE_DEEP_LINKS && method && challenge && signature) {
+      this.applyBackendChanges(method, { challenge, signature });
+    }
   },
   methods: {
     updateAvatarImageKey() {
@@ -339,43 +345,54 @@ export default {
     openExplorer(address) {
       return this.explorerUrl + address;
     },
-    toggleEditMode() {
-      this.editMode = !this.editMode;
-    },
     resetEditedValues() {
       this.getProfile();
-      this.toggleEditMode();
+      this.editMode = false;
+    },
+    async applyBackendChanges(method, request) {
+      const args = {
+        sendProfileData: [request],
+        deleteProfileImage: [this.account, request],
+        setProfileImage: [this.account, request, false],
+      }[method];
+      if (!args) throw new Error(`Unknown method: ${method}`);
+      await Backend[method](...args);
+      this.resetEditedValues();
+      if (['deleteProfileImage', 'setProfileImage'].includes(method)) {
+        this.updateAvatarImageKey(); // use the new avatar with cache-bust
+      }
+    },
+    async backendAuth(method, challenge) {
+      if (USE_DEEP_LINKS) {
+        const url = new URL(window.location);
+        url.search = '';
+        window.location = createDeepLinkUrl({
+          type: 'sign-message',
+          message: challenge,
+          'x-success': `${url}?method=${method}&challenge=${challenge}&signature={signature}`,
+        });
+      } else {
+        const signature = await client.signMessage(challenge);
+        this.applyBackendChanges(method, { challenge, signature });
+      }
     },
     async saveProfile() {
-      const postData = {
+      const { challenge } = await Backend.sendProfileData({
         biography: this.profile.biography,
-        author: client.rpcClient.getCurrentAccount(),
-      };
-
-      const response = await Backend.sendProfileData(postData);
-      const signedChallenge = await client.signMessage(response.challenge);
-      const respondChallenge = {
-        challenge: response.challenge,
-        signature: signedChallenge,
-      };
-
-      await Backend.sendProfileData(respondChallenge);
-      this.resetEditedValues();
+        author: this.account,
+      });
+      await this.backendAuth('sendProfileData', challenge);
     },
     async deleteAvatar() {
-      const response = await Backend.deleteProfileImage(this.account);
-      const signedChallenge = await client.signMessage(response.challenge);
-      const respondChallenge = {
-        challenge: response.challenge,
-        signature: signedChallenge,
-      };
-
-      await Backend.deleteProfileImage(this.account, respondChallenge).catch(console.error);
-
-      this.resetEditedValues();
-
-      // use the new avatar with cache-bust
-      this.updateAvatarImageKey();
+      const { challenge } = await Backend.deleteProfileImage(this.account);
+      await this.backendAuth('deleteProfileImage', challenge);
+    },
+    async uploadAvatar(event) {
+      const data = new FormData();
+      data.append('name', 'image');
+      data.append('image', event.target.files[0]);
+      const { challenge } = await Backend.setProfileImage(this.account, data);
+      await this.backendAuth('setProfileImage', challenge);
     },
     reloadData() {
       this.getProfile();
@@ -409,27 +426,6 @@ export default {
           this.profile = profile;
         })
         .catch(console.error);
-    },
-    async uploadImage(event) {
-      const data = new FormData();
-      data.append('name', 'image');
-      data.append('image', event.target.files[0]);
-
-      const setImage = await Backend.setProfileImage(this.account, data);
-      const signedChallenge = await client.signMessage(setImage.challenge);
-      const respondChallenge = {
-        challenge: setImage.challenge,
-        signature: signedChallenge,
-      };
-
-      await Backend.setProfileImage(
-        this.account,
-        respondChallenge,
-        false,
-      ).catch(console.error);
-
-      // use the new avatar with cache-bust
-      this.updateAvatarImageKey();
     },
   },
 };

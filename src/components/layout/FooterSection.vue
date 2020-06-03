@@ -61,7 +61,7 @@
       class="login-footer"
     >
       <a
-        :href="createDeepLinkUrl({ type: 'address' })"
+        :href="addressDeepLink"
         class="button"
         :title="$t('components.layout.FooterSection.LoginWithWallet')"
       >
@@ -80,11 +80,12 @@ export default {
   data: () => ({
     version: process.env.npm_package_version,
     commitHash: process.env.COMMIT_HASH,
+    addressDeepLink: createDeepLinkUrl({
+      type: 'address',
+      'x-success': `${window.location}?address={address}`,
+    }),
   }),
   computed: mapGetters(['isLoggedIn']),
-  methods: {
-    createDeepLinkUrl,
-  },
 };
 </script>
 

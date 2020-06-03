@@ -36,6 +36,9 @@ const routes = [
     name: 'tips',
     component: TipsList,
     meta: { title: 'Tips' },
+    beforeEnter(to, from, next) {
+      next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
+    },
   },
   {
     path: '/tip/:tipId/comment/:id',
@@ -134,7 +137,7 @@ const routes = [
   },
 ];
 
-const router = new Router({ mode: 'hash', routes });
+const router = new Router({ mode: 'history', routes });
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - Superhero.com`;

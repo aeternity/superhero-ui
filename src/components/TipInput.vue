@@ -155,27 +155,27 @@ export default {
       if (!this.stats || !this.stats.by_url) {
         return null;
       }
-      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/#/user-profile/${this.userAddress}`);
+      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/user-profile/${this.userAddress}`);
     },
     derivedCommentTipStats() {
       if (!this.stats || !this.stats.by_url) {
         return null;
       }
-      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`);
+      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`);
     },
     deepLink() {
       let url = '';
       if (this.comment) {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url', `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`);
+        url.searchParams.set('url', `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`);
       } else if (this.userAddress) {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url', `https://superhero.com/#/user-profile/${this.userAddress}`);
+        url.searchParams.set('url', `https://superhero.com/user-profile/${this.userAddress}`);
       } else if (this.isRetip) {
         url = createDeepLinkUrl({ type: 'retip', id: this.tip.id });
       } else {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url', `https://superhero.com/#/tip/${this.tip.id}`);
+        url.searchParams.set('url', `https://superhero.com/tip/${this.tip.id}`);
       }
       return url;
     },
@@ -279,7 +279,7 @@ export default {
     tipUser() {
       this.showLoading = true;
       const amount = util.aeToAtoms(this.value);
-      aeternity.tip(`https://superhero.com/#/user-profile/${this.userAddress}`, this.message, amount)
+      aeternity.tip(`https://superhero.com/user-profile/${this.userAddress}`, this.message, amount)
         .then(() => {
           this.showLoading = false;
           this.error = false;
@@ -296,9 +296,9 @@ export default {
       const amount = util.aeToAtoms(this.value);
       let url = '';
       if (this.comment) {
-        url = `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`;
+        url = `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
       } else {
-        url = `https://superhero.com/#/tip/${this.tip.id}`;
+        url = `https://superhero.com/tip/${this.tip.id}`;
       }
       (this.isRetip
         ? aeternity.retip(this.tip.id, amount)

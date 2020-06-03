@@ -315,26 +315,19 @@ export default {
       return this.chainNames[this.address];
     },
     showNoResultsMsg() {
-      if (this.activeTab === 'comments') {
-        return (
-          this.comments.length === 0 && !this.showLoading && !this.loading.tips
-        );
-      }
-      return false;
+      return this.activeTab === 'comments'
+        && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
     },
   },
   mounted() {
+    this.reloadData();
+
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
 
-    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
-  },
-  async created() {
-    this.reloadData();
+    const interval = setInterval(() => this.reloadData(), 120 * 1000);
+    this.$once('hook:beforeDestroy', () => clearInterval(interval));
   },
   methods: {
     updateAvatarImageKey() {

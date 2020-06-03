@@ -142,6 +142,7 @@ export default {
 
   .search-icon img {
     width: 0.7rem;
+    height: 0.7rem;
   }
 
   .clear img {

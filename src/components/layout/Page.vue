@@ -15,11 +15,14 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import LeftSection from './LeftSection.vue';
 import RightSection from './RightSection.vue';
 import MobileNavigation from './MobileNavigation.vue';
 import Loading from '../Loading.vue';
 import BackButtonRibbon from '../BackButtonRibbon.vue';
+import aeternity from '../../utils/aeternity';
+import Util from '../../utils/util';
 
 export default {
   components: {
@@ -32,6 +35,24 @@ export default {
   props: {
     loading: { type: Boolean },
     back: { type: Boolean },
+  },
+  data() {
+    return {
+      address: this.$route.query.address,
+    };
+  },
+  async created() {
+    if (this.address) {
+      await aeternity.initClient();
+      const balance = await aeternity.client.balance(this.address).catch(() => 0);
+      this.setLoggedInAccount({
+        account: this.address,
+        balance: Util.atomsToAe(balance).toFixed(2),
+      });
+    }
+  },
+  methods: {
+    ...mapActions(['setLoggedInAccount']),
   },
 };
 </script>

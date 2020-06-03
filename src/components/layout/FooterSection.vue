@@ -50,13 +50,33 @@
         <img src="../../assets/iconVenture.svg">
       </a>
     </div>
+    <div
+      v-if="!isLoggedIn"
+      class="ww-login-footer"
+    >
+      <a
+        :href="createDeepLinkUrl({ type: 'address' })"
+        class="button"
+        :title="$t('components.layout.RightSection.LoginWithWallet')"
+      >
+        {{ $t('components.layout.RightSection.LoginWithWallet') }}
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'FooterSection',
+  data() {
+    return {
+      createDeepLinkUrl,
+    };
+  },
+  computed: mapGetters(['isLoggedIn']),
 };
 </script>
 
@@ -122,6 +142,22 @@ export default {
           filter: brightness(0.8);
         }
       }
+    }
+
+    .ww-login-footer {
+      display: none;
+      line-height: 0.9rem;
+      margin-top: 0.4rem;
+
+      a {
+        padding: 0.625rem 1rem 0.625rem 1rem;
+      }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .footer .ww-login-footer {
+      display: block;
     }
   }
 

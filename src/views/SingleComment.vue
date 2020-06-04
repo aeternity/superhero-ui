@@ -54,7 +54,6 @@ import { EventBus } from '../utils/eventBus';
 import SendComment from '../components/SendComment.vue';
 
 export default {
-  name: 'CommentView',
   components: {
     Page,
     Loading,

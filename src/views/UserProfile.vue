@@ -277,7 +277,6 @@ import { EventBus } from '../utils/eventBus';
 import TipInput from '../components/TipInput.vue';
 
 export default {
-  name: 'TipCommentsView',
   components: {
     TipsPagination,
     Loading,

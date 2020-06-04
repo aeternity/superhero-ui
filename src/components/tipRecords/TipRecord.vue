@@ -146,7 +146,7 @@ import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import AvatarWrapper from '../AvatarWrapper.vue';
-import aeternity from '../../utils/aeternity';
+import { client } from '../../utils/aeternity';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
@@ -193,8 +193,8 @@ export default {
     async sendReport() {
       Backend.sendPostReport(
         this.tip.id,
-        aeternity.client.rpcClient.getCurrentAccount(),
-        (data) => aeternity.client.signMessage(data),
+        client.rpcClient.getCurrentAccount(),
+        (data) => client.signMessage(data),
       ).then(() => {
         this.showSuccessModal = true;
       }).catch((error) => {
@@ -204,7 +204,7 @@ export default {
     async claim() {
       const postData = {
         url: this.tip.url,
-        address: aeternity.client.rpcClient.getCurrentAccount(),
+        address: client.rpcClient.getCurrentAccount(),
       };
       await Backend.claimFromUrl(postData);
     },

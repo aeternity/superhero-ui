@@ -102,7 +102,7 @@
 import { mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
 import iconTipped from '../assets/iconTipped.svg';
-import aeternity from '../utils/aeternity';
+import * as aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import util, { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';

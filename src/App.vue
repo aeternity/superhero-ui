@@ -23,7 +23,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
-import aeternity from './utils/aeternity';
+import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
@@ -71,7 +71,7 @@ export default {
     ]),
     async reloadAsyncData(stats) {
       // stats
-      Promise.all([Backend.getStats(), aeternity.client.height()])
+      Promise.all([Backend.getStats(), client.height()])
         .then(([backendStats, height]) => {
           const newStats = { ...stats, ...backendStats, height };
           this.updateStats(newStats);
@@ -95,7 +95,7 @@ export default {
       ]);
 
       if (this.account) {
-        const balance = await aeternity.client.balance(this.account).catch(() => 0);
+        const balance = await client.balance(this.account).catch(() => 0);
         this.updateBalance(Util.atomsToAe(balance).toFixed(2));
       }
 
@@ -111,18 +111,18 @@ export default {
     async initialLoad() {
       this.addLoading('initial');
       this.addLoading('wallet');
-      await aeternity.initClient();
+      await initClient();
       await this.reloadData();
       this.removeLoading('initial');
       if (this.account) this.removeLoading('wallet');
 
       let address = this.urlAddress;
       if (!address) {
-        await aeternity.scanForWallets();
-        address = aeternity.client.rpcClient.getCurrentAccount();
+        await scanForWallets();
+        address = client.rpcClient.getCurrentAccount();
         console.log('found wallet');
       }
-      const balance = await aeternity.client.balance(address).catch(() => 0);
+      const balance = await client.balance(address).catch(() => 0);
       this.setLoggedInAccount({
         account: address,
         balance: Util.atomsToAe(balance).toFixed(2),

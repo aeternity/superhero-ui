@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
 import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
@@ -125,7 +125,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['updateCurrency']),
+    ...mapMutations(['updateCurrency']),
     selectCurrency(selectedCurrency) {
       this.updateCurrency(selectedCurrency);
     },

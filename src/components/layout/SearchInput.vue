@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import { EventBus } from '../../utils/eventBus';
 
 export default {
@@ -70,7 +70,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setSearchTerm']),
+    ...mapMutations(['setSearchTerm']),
     onSearchTopic(data) {
       this.setSearchTerm(data);
     },

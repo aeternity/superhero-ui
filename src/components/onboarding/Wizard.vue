@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 import Step1 from './steps/Step1.vue';
 import Step2 from './steps/Step2.vue';
@@ -113,7 +113,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setWizardCurrentStep', 'setWizardIsCollapsed']),
+    ...mapMutations(['setWizardCurrentStep', 'setWizardIsCollapsed']),
     isStepDisabled(index) {
       return index >= 0 && index > this.wizardCurrentStep + 1;
     },

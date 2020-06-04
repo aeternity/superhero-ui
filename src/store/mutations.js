@@ -1,60 +1,67 @@
 import Vue from 'vue';
 import { mergeWith } from 'lodash-es';
-import * as types from './mutation-types';
+import { EventBus } from '../utils/eventBus';
 
 export default {
-  [types.UPDATE_ACCOUNT](state, payload) {
-    state.account = payload;
+  setLoggedInAccount(state, { account, balance }) {
+    state.account = account;
+    state.balance = balance;
   },
-  [types.UPDATE_BALANCE](state, payload) {
-    state.balance = payload;
+  updateCurrencyRates(state, payload) {
+    if (payload) {
+      state.currencyRates = payload;
+      if (payload.aeternity && payload.aeternity.usd) {
+        state.minTipAmount = +(0.01 * (1 / payload.aeternity.usd)).toFixed(2);
+      }
+    }
   },
-  [types.UPDATE_CURRENCY_RATES](state, payload) {
-    state.currencyRates = payload;
-  },
-  [types.UPDATE_TOPICS](state, payload) {
+  updateTopics(state, payload) {
     state.topics = payload;
   },
-  [types.UPDATE_STATS](state, payload) {
+  updateStats(state, payload) {
     state.stats = payload;
   },
-  [types.SET_TIPS_SORT_BY](state, payload) {
+  setTipSortBy(state, payload) {
     state.tipSortBy = payload;
+    EventBus.$emit('setTipSortBy');
   },
-  [types.SET_ORACLE_STATE](state, payload) {
+  setOracleState(state, payload) {
     state.oracleState = payload;
   },
-  [types.SET_LOADING](state, payload) {
-    state.loading = payload;
+  addLoading(state, payload) {
+    state.loading[payload] = true;
   },
-  [types.SET_CHAIN_NAMES](state, payload) {
+  removeLoading(state, payload) {
+    state.loading[payload] = false;
+  },
+  setChainNames(state, payload) {
     state.chainNames = payload;
   },
-  [types.SET_WIZARD_CURRENT_STEP](state, payload) {
-    state.wizardCurrentStep = payload;
+  setWizardCurrentStep(state, payload) {
+    state.wizardCurrentStep = payload * 1;
   },
-  [types.SET_WIZARD_IS_COLLAPSED](state, payload) {
-    state.wizardIsCollapsed = payload;
+  setWizardIsCollapsed(state, payload) {
+    state.wizardIsCollapsed = Boolean(payload);
   },
-  [types.UPDATE_CURRENCY](state, payload) {
+  updateCurrency(state, payload) {
     state.settings.currency = payload;
   },
-  [types.SET_MIN_TIP_AMOUNT](state, payload) {
-    state.minTipAmount = payload;
+  updateBalance(state, payload) {
+    state.balance = payload;
   },
-  [types.SET_GRAYLISTED_URLS](state, payload) {
+  setGraylistedUrls(state, payload) {
     state.graylistedUrls = payload;
   },
-  [types.SET_VERIFIED_URLS](state, payload) {
+  setVerifiedUrls(state, payload) {
     state.verifiedUrls = payload;
   },
-  [types.SET_SEARCHTERM](state, payload) {
+  setSearchTerm(state, payload) {
     state.searchTerm = payload;
   },
-  [types.SET_IS_HIDDEN_CONTENT](state, payload) {
+  setIsHiddenContent(state, payload) {
     state.isHiddenContent = payload;
   },
-  [types.USE_SDK_WALLET](state) {
+  useSdkWallet(state) {
     state.useSdkWallet = true;
   },
   syncState(state, remoteState) {

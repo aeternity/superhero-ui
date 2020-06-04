@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
@@ -88,7 +88,7 @@ export default {
   },
   computed: mapState(['tipSortBy', 'loading', 'searchTerm', 'isHiddenContent']),
   methods: {
-    ...mapActions(['setTipSortBy', 'setIsHiddenContent']),
+    ...mapMutations(['setTipSortBy', 'setIsHiddenContent']),
     toggleMobileNav(show) {
       this.showMobileNavigation = show;
     },

@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import mutations from './mutations';
-import actions from './actions';
 import persistState from './plugins/persistState';
 
 Vue.use(Vuex);
@@ -37,7 +36,6 @@ export default new Vuex.Store({
   getters: {
     isLoggedIn: (state) => !!state.account,
   },
-  actions,
   plugins: [
     persistState(
       (state) => state,

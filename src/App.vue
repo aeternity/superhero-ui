@@ -21,13 +21,12 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import { detect } from 'detect-browser';
 import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
-import { USE_SDK_WALLET } from './store/mutation-types';
 
 export default {
   name: 'App',
@@ -65,10 +64,10 @@ export default {
     });
   },
   methods: {
-    ...mapActions([
+    ...mapMutations([
       'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setVerifiedUrls',
+      'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet',
     ]),
     async reloadAsyncData(stats) {
       // stats
@@ -122,7 +121,7 @@ export default {
         await scanForWallets();
         address = client.rpcClient.getCurrentAccount();
         console.log('found wallet');
-        this.$store.commit(USE_SDK_WALLET);
+        this.useSdkWallet();
       }
       const balance = await client.balance(address).catch(() => 0);
       this.setLoggedInAccount({

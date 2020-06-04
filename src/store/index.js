@@ -20,7 +20,6 @@ export default new Vuex.Store({
     topics: {},
     stats: {},
     tipSortBy: 'hot',
-    isLoggedIn: false,
     oracleState: {},
     loading: {
       wallet: false,
@@ -41,14 +40,13 @@ export default new Vuex.Store({
     persistState(
       (state) => state,
       ({
-        settings, wizardCurrentStep, wizardIsCollapsed, account, balance, isLoggedIn,
+        settings, wizardCurrentStep, wizardIsCollapsed, account, balance,
       }) => ({
         settings,
         wizardCurrentStep,
         wizardIsCollapsed,
         account,
         balance,
-        isLoggedIn,
       }),
     ),
   ],

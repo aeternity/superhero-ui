@@ -84,7 +84,7 @@
                 :href="tip.url"
                 @click.stop
               >
-                <ExternalLink/>
+                <ExternalLink />
                 <span class="text-ellipsis">{{ tip.url }}</span>
               </a>
             </div>
@@ -156,7 +156,7 @@ export default {
     TipInput,
     SuccessModal,
     ThreeDotsMenu,
-    ExternalLink
+    ExternalLink,
   },
   props: {
     tip: { type: Object, required: true },

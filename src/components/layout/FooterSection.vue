@@ -52,14 +52,14 @@
     </div>
     <div
       v-if="!isLoggedIn"
-      class="ww-login-footer"
+      class="login-footer"
     >
       <a
         :href="createDeepLinkUrl({ type: 'address' })"
         class="button"
-        :title="$t('components.layout.RightSection.LoginWithWallet')"
+        :title="$t('components.layout.FooterSection.LoginWithWallet')"
       >
-        {{ $t('components.layout.RightSection.LoginWithWallet') }}
+        {{ $t('components.layout.FooterSection.LoginWithWallet') }}
       </a>
     </div>
   </div>
@@ -144,7 +144,7 @@ export default {
       }
     }
 
-    .ww-login-footer {
+    .login-footer {
       display: none;
       line-height: 0.9rem;
       margin-top: 0.4rem;
@@ -156,7 +156,7 @@ export default {
   }
 
   @media (max-width: 1024px) {
-    .footer .ww-login-footer {
+    .footer .login-footer {
       display: block;
     }
   }

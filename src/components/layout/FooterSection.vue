@@ -29,6 +29,12 @@
         </a>
       </p>
     </div>
+    <span>
+      <a :href="`https://github.com/aeternity/superhero-ui/commit/${commitHash}`">
+        {{ commitHash.slice(0, 7) }}
+      </a><!--eslint-disable-line vue-i18n/no-raw-text-->
+      / {{ version }}
+    </span>
     <div class="terms-links">
       <router-link
         class="footer-links"
@@ -71,6 +77,10 @@ import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'FooterSection',
+  data: () => ({
+    version: process.env.npm_package_version,
+    commitHash: process.env.COMMIT_HASH,
+  }),
   computed: mapGetters(['isLoggedIn']),
   methods: {
     createDeepLinkUrl,

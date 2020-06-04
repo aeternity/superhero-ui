@@ -91,11 +91,6 @@ export default {
 
   .logo {
     margin-bottom: 0;
-
-    img {
-      width: 6.4rem;
-      height: 1.5rem;
-    }
   }
 
   .mobile-actions {

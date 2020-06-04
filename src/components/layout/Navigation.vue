@@ -72,7 +72,6 @@ export default {
 
     img {
       width: 9.2rem;
-      height: 2.1rem;
     }
   }
 

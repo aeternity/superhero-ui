@@ -71,10 +71,8 @@ import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'FooterSection',
-  data() {
-    return {
-      createDeepLinkUrl,
-    };
+  methods: {
+    createDeepLinkUrl,
   },
   computed: mapGetters(['isLoggedIn']),
 };

@@ -10,7 +10,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    account: {},
+    account: null,
     balance: 0,
     currencyRates: {},
     minTipAmount: 0.01,

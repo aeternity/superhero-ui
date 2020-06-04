@@ -33,6 +33,7 @@ export default {
   name: 'App',
   data() {
     return {
+      urlAddress: this.$route.query.address,
       savedScrolls: [],
     };
   },
@@ -73,11 +74,7 @@ export default {
       return Promise.race([
         new Promise((resolve) => wallet.init(async () => {
           const currentAccount = wallet.client.rpcClient.getCurrentAccount();
-          const balance = await aeternity.client.balance(currentAccount).catch(() => 0);
-          this.setLoggedInAccount({
-            account: currentAccount,
-            balance: Util.atomsToAe(balance).toFixed(2),
-          });
+          this.setAccountAndBalanceByAddress(currentAccount);
           console.log('found wallet');
           resolve();
         })),
@@ -129,7 +126,15 @@ export default {
       this.addLoading('initial');
       this.addLoading('wallet');
       await aeternity.initClient();
-      this.initWallet();
+      if (this.urlAddress) {
+        this.setAccountAndBalanceByAddress(this.urlAddress);
+        this.removeLoading('wallet');
+      } else if (this.address && this.isLoggedIn) {
+        this.setAccountAndBalanceByAddress(this.address);
+        this.removeLoading('wallet');
+      } else {
+        this.initWallet();
+      }
 
       await this.reloadData();
 
@@ -137,6 +142,13 @@ export default {
     },
     saveScrollPosition() {
       this.savedScrolls[this.$route.fullPath] = document.scrollingElement.scrollTop;
+    },
+    async setAccountAndBalanceByAddress(address) {
+      const balance = await aeternity.client.balance(address).catch(() => 0);
+      this.setLoggedInAccount({
+        account: address,
+        balance: Util.atomsToAe(balance).toFixed(2),
+      });
     },
   },
 };

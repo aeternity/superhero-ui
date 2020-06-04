@@ -71,10 +71,10 @@ import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'FooterSection',
+  computed: mapGetters(['isLoggedIn']),
   methods: {
     createDeepLinkUrl,
   },
-  computed: mapGetters(['isLoggedIn']),
 };
 </script>
 

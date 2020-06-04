@@ -40,10 +40,15 @@ export default new Vuex.Store({
   plugins: [
     persistState(
       (state) => state,
-      ({ settings, wizardCurrentStep, wizardIsCollapsed }) => ({
+      ({
+        settings, wizardCurrentStep, wizardIsCollapsed, account, balance, isLoggedIn,
+      }) => ({
         settings,
         wizardCurrentStep,
         wizardIsCollapsed,
+        account,
+        balance,
+        isLoggedIn,
       }),
     ),
   ],

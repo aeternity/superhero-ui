@@ -51,7 +51,6 @@ import { EventBus } from '../utils/eventBus';
 import SendComment from '../components/SendComment.vue';
 
 export default {
-  name: 'TipCommentsView',
   components: {
     Loading,
     TipRecord,

@@ -3,7 +3,6 @@ import { EventBus } from '../utils/eventBus';
 
 export default {
   setLoggedInAccount({ commit }, payload) {
-    commit(types.SWITCH_LOGGED_IN, true);
     commit(types.UPDATE_ACCOUNT, payload.account);
     commit(types.UPDATE_BALANCE, payload.balance);
   },

@@ -9,9 +9,6 @@ export default {
   [types.UPDATE_BALANCE](state, payload) {
     state.balance = payload;
   },
-  [types.SWITCH_LOGGED_IN](state, payload) {
-    state.isLoggedIn = payload;
-  },
   [types.UPDATE_CURRENCY_RATES](state, payload) {
     state.currencyRates = payload;
   },

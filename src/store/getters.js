@@ -10,7 +10,7 @@ export const getters = {
     return state.settings;
   },
   isLoggedIn(state) {
-    return state.isLoggedIn;
+    return !!state.account;
   },
   topics(state) {
     return state.topics;

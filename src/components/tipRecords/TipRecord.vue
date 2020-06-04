@@ -84,7 +84,7 @@
                 :href="tip.url"
                 @click.stop
               >
-                <ExternalLink />
+                <ExternalLink/>
                 <span class="text-ellipsis">{{ tip.url }}</span>
               </a>
             </div>
@@ -156,7 +156,7 @@ export default {
     TipInput,
     SuccessModal,
     ThreeDotsMenu,
-    ExternalLink,
+    ExternalLink
   },
   props: {
     tip: { type: Object, required: true },
@@ -351,10 +351,8 @@ export default {
   }
 
   .comment__icon {
-    height: 1rem;
     margin-right: 0.2rem;
     vertical-align: top;
-    width: 1rem;
   }
 
   .tip__footer {
@@ -386,14 +384,8 @@ export default {
     }
   }
 
-  .tip__comments {
-    img {
-      height: 1rem;
-    }
-
-    &:hover img {
-      filter: brightness(1.3);
-    }
+  .tip__comments:hover img {
+    filter: brightness(1.3);
   }
 
   .tip__url {

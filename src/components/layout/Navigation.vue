@@ -107,13 +107,6 @@ export default {
     margin-right: 0.5rem;
     width: 1.3rem;
 
-    .faq & path,
-    .profile & path,
-    .tips & path,
-    .league & path {
-      fill: currentColor;
-    }
-
     .league & {
       padding: 0.2rem;
     }

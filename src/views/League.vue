@@ -16,7 +16,12 @@
   </Page>
 </template>
 <script>
+import { RpcAepp, Node } from '@aeternity/aepp-sdk/es';
+import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
+import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import Page from '../components/layout/Page.vue';
+
+const nodeUrl = 'https://mainnet.aeternity.io';
 
 export default {
   name: 'League',
@@ -28,21 +33,7 @@ export default {
     token: null,
     toTranslateLater: 'Join meeting with aeternity account',
   }),
-  methods: {
-    async joinMeeting() {
-      const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
-      const signature = await this.sdk.signMessage(message);
-      const address = await this.sdk.address();
-      const token = await (await fetch('/claim', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ address, message, signature }),
-      })).text();
-      this.token = token;
-    },
-  },
+
   async created() {
     const sdk = await RpcAepp({
       name: 'JWT token generator',
@@ -67,7 +58,22 @@ export default {
     });
     await sdk.subscribeAddress('subscribe', 'current');
     this.sdk = sdk;
-    window.sdk = sdk;
+    // window.sdk = sdk;
+  },
+  methods: {
+    async joinMeeting() {
+      const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
+      const signature = await this.sdk.signMessage(message);
+      const address = await this.sdk.address();
+      const token = await (await fetch('/claim', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ address, message, signature }),
+      })).text();
+      this.token = token;
+    },
   },
 };
 </script>

@@ -267,7 +267,7 @@ import { mapGetters } from 'vuex';
 import Backend from '../utils/backend';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
-import { wallet } from '../utils/walletSearch';
+import aeternity from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
 import { EXPLORER_URL } from '../config/constants';
@@ -356,11 +356,11 @@ export default {
     async saveProfile() {
       const postData = {
         biography: this.profile.biography,
-        author: wallet.client.rpcClient.getCurrentAccount(),
+        author: aeternity.client.rpcClient.getCurrentAccount(),
       };
 
       const response = await Backend.sendProfileData(postData);
-      const signedChallenge = await wallet.signMessage(response.challenge);
+      const signedChallenge = await aeternity.client.signMessage(response.challenge);
       const respondChallenge = {
         challenge: response.challenge,
         signature: signedChallenge,
@@ -371,7 +371,7 @@ export default {
     },
     async deleteAvatar() {
       const response = await Backend.deleteProfileImage(this.account);
-      const signedChallenge = await wallet.signMessage(response.challenge);
+      const signedChallenge = await aeternity.client.signMessage(response.challenge);
       const respondChallenge = {
         challenge: response.challenge,
         signature: signedChallenge,
@@ -423,7 +423,7 @@ export default {
       data.append('image', event.target.files[0]);
 
       const setImage = await Backend.setProfileImage(this.account, data);
-      const signedChallenge = await wallet.signMessage(setImage.challenge);
+      const signedChallenge = await aeternity.client.signMessage(setImage.challenge);
       const respondChallenge = {
         challenge: setImage.challenge,
         signature: signedChallenge,

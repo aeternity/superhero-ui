@@ -111,7 +111,6 @@ import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Modal from './Modal.vue';
-import { wallet } from '../utils/walletSearch';
 import { i18n } from '../utils/i18nHelper';
 
 export default {
@@ -327,8 +326,8 @@ export default {
       await Backend.sendTipComment(
         this.tip.id,
         this.message,
-        wallet.client.rpcClient.getCurrentAccount(),
-        (data) => wallet.signMessage(data),
+        aeternity.client.rpcClient.getCurrentAccount(),
+        (data) => aeternity.client.signMessage(data),
       );
       this.showLoading = false;
       this.resetForm();

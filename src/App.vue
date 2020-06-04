@@ -24,7 +24,6 @@
 import { mapActions, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
 import aeternity from './utils/aeternity';
-import { wallet } from './utils/walletSearch';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
@@ -45,7 +44,7 @@ export default {
     },
   },
   async created() {
-    await this.initialLoad(true);
+    await this.initialLoad();
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
@@ -70,19 +69,6 @@ export default {
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
       'setGraylistedUrls', 'setVerifiedUrls',
     ]),
-    initWallet() {
-      return Promise.race([
-        new Promise((resolve) => wallet.init(async () => {
-          const currentAccount = wallet.client.rpcClient.getCurrentAccount();
-          this.setAccountAndBalanceByAddress(currentAccount);
-          console.log('found wallet');
-          resolve();
-        })),
-        new Promise((resolve) => setTimeout(resolve, 3000, 'TIMEOUT')),
-      ]).then(() => {
-        this.removeLoading('wallet');
-      }).catch(console.error);
-    },
     async reloadAsyncData(stats) {
       // stats
       Promise.all([Backend.getStats(), aeternity.client.height()])
@@ -126,28 +112,25 @@ export default {
       this.addLoading('initial');
       this.addLoading('wallet');
       await aeternity.initClient();
-      if (this.urlAddress) {
-        this.setAccountAndBalanceByAddress(this.urlAddress);
-        this.removeLoading('wallet');
-      } else if (this.address && this.isLoggedIn) {
-        this.removeLoading('wallet');
-      } else {
-        this.initWallet();
-      }
-
       await this.reloadData();
-
       this.removeLoading('initial');
-    },
-    saveScrollPosition() {
-      this.savedScrolls[this.$route.fullPath] = document.scrollingElement.scrollTop;
-    },
-    async setAccountAndBalanceByAddress(address) {
+      if (this.account) this.removeLoading('wallet');
+
+      let address = this.urlAddress;
+      if (!address) {
+        await aeternity.scanForWallets();
+        address = aeternity.client.rpcClient.getCurrentAccount();
+        console.log('found wallet');
+      }
       const balance = await aeternity.client.balance(address).catch(() => 0);
       this.setLoggedInAccount({
         account: address,
         balance: Util.atomsToAe(balance).toFixed(2),
       });
+      this.removeLoading('wallet');
+    },
+    saveScrollPosition() {
+      this.savedScrolls[this.$route.fullPath] = document.scrollingElement.scrollTop;
     },
   },
 };

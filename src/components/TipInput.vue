@@ -351,11 +351,10 @@ export default {
     line-height: 1;
 
     img {
+      margin: 0.1rem 0.3rem 0.05rem 0;
       height: 0.7rem;
-      margin-right: 0.3rem;
-      margin-bottom: 0.05rem;
-      width: 1rem;
-      flex: 0 0 1rem;
+      flex: 0 0 0.875rem;
+      width: 0.875rem;
     }
 
     &:hover img {

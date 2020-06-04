@@ -49,7 +49,7 @@
                 :loading="sendingTip"
                 @click="sendTip"
               >
-                <IconDiamond/>{{ $t('tip') }}
+                <IconDiamond />{{ $t('tip') }}
               </AeButton>
             </div>
           </div>

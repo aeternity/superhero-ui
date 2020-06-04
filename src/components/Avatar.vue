@@ -39,6 +39,11 @@ export default {
   data: () => ({
     error: false,
   }),
+  watch: {
+    profileImage() {
+      this.error = false;
+    },
+  },
   computed: {
     ...mapGetters(['chainNames']),
     avatar() {

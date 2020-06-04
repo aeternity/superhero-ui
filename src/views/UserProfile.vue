@@ -44,9 +44,9 @@
                 :class="[showLoadingAvatar ? 'blurred' : '']"
                 :title="address"
               >
-                <AvatarWrapper
-                  :key="avatarEditImageKey"
+                <Avatar
                   :address="address"
+                  :profile-image="profileImageUrl"
                 />
                 <span>{{ $t('views.UserProfileView.ChangeAvatar') }}</span>
                 <input
@@ -64,9 +64,9 @@
                 :title="address"
                 target="_blank"
               >
-                <AvatarWrapper
-                  :key="!editMode"
+                <Avatar
                   :address="address"
+                  :profile-image="profileImageUrl"
                 />
               </a>
             </div>
@@ -273,7 +273,7 @@ import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
-import AvatarWrapper from '../components/AvatarWrapper.vue';
+import Avatar from '../components/Avatar.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from '../components/TipInput.vue';
 
@@ -284,7 +284,7 @@ export default {
     AeAmountFiat,
     TipComment,
     Page,
-    AvatarWrapper,
+    Avatar,
     TipInput,
   },
   props: {
@@ -303,7 +303,6 @@ export default {
       showLoadingAvatar: false,
       activeTab: 'tips',
       userCommentCount: 0,
-      avatarEditImageKey: 0,
       profile: {
         biography: '',
         displayName: '',
@@ -318,6 +317,11 @@ export default {
     showNoResultsMsg() {
       return this.activeTab === 'comments'
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
+    },
+    profileImageUrl() {
+      const { imageSignature } = this.profile;
+      const key = imageSignature && imageSignature.slice(0, 5);
+      return `${Backend.getProfileImageUrl(this.address)}?${key}`;
     },
   },
   mounted() {
@@ -336,9 +340,6 @@ export default {
     }
   },
   methods: {
-    updateAvatarImageKey() {
-      this.avatarEditImageKey += 1;
-    },
     setActiveTab(tab) {
       this.activeTab = tab;
     },
@@ -358,9 +359,6 @@ export default {
       if (!args) throw new Error(`Unknown method: ${method}`);
       await Backend[method](...args);
       this.resetEditedValues();
-      if (['deleteProfileImage', 'setProfileImage'].includes(method)) {
-        this.updateAvatarImageKey(); // use the new avatar with cache-bust
-      }
     },
     async backendAuth(method, challenge) {
       if (USE_DEEP_LINKS) {

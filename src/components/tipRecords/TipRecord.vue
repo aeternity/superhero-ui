@@ -84,7 +84,7 @@
                 :href="tip.url"
                 @click.stop
               >
-                <img src="../../assets/externalLink.svg">
+                <ExternalLink />
                 <span class="text-ellipsis">{{ tip.url }}</span>
               </a>
             </div>
@@ -145,6 +145,7 @@ import TipTitle from './TipTitle.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import AvatarWrapper from '../AvatarWrapper.vue';
 import { wallet } from '../../utils/walletSearch';
+import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
   name: 'TipRecord',
@@ -155,6 +156,7 @@ export default {
     TipInput,
     SuccessModal,
     ThreeDotsMenu,
+    ExternalLink,
   },
   props: {
     tip: { type: Object, required: true },
@@ -475,19 +477,14 @@ export default {
     }
 
     .site__url {
-      align-items: flex-start;
+      align-items: center;
       display: flex;
       flex-grow: 1;
       font-weight: 500;
       margin-bottom: 0.45rem;
 
-      img {
-        width: 1rem;
-        height: 1rem;
+      svg {
         margin-right: 0.335rem;
-        padding: 0.135rem 0;
-        flex: 0 0 1rem;
-        vertical-align: initial;
       }
 
       a {
@@ -495,6 +492,7 @@ export default {
         display: inline-flex;
         height: 1rem;
         max-width: 100%;
+        align-items: center;
 
         &:hover {
           text-decoration: underline;

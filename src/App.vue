@@ -130,7 +130,6 @@ export default {
         this.setAccountAndBalanceByAddress(this.urlAddress);
         this.removeLoading('wallet');
       } else if (this.address && this.isLoggedIn) {
-        this.setAccountAndBalanceByAddress(this.address);
         this.removeLoading('wallet');
       } else {
         this.initWallet();

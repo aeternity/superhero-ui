@@ -108,6 +108,10 @@ export default {
 
     .league & {
       padding: 0.2rem;
+
+      path {
+        transform: scale(1.05);
+      }
     }
   }
 

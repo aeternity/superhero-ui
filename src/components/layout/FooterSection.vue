@@ -133,6 +133,7 @@ export default {
       img {
         width: 0.65rem;
         height: 0.65rem;
+        vertical-align: text-bottom;
       }
 
       &:hover {

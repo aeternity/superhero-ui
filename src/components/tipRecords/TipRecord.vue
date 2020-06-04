@@ -114,6 +114,8 @@
           :href="tip.url"
           :title="tip.url"
           class="text-ellipsis"
+          target="_blank"
+          @click.stop
         >
           {{ tip.url }}
         </a>

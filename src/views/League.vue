@@ -1,7 +1,17 @@
 <template>
   <Page class="league-page-container">
-    <div class="league-page">
-      <iframe src="https://league.superhero.com/?iframe=1" />
+    <button
+      v-if="!token"
+      :disabled="!sdk"
+      @click="joinMeeting"
+    >
+      {{ toTranslateLater }}
+    </button>
+    <div
+      v-if="token"
+      class="league-page"
+    >
+      <iframe :src="'https://test.league.aeternity.org/broadcast?jwt=' + token" />
     </div>
   </Page>
 </template>
@@ -12,6 +22,52 @@ export default {
   name: 'League',
   components: {
     Page,
+  },
+  data: () => ({
+    sdk: null,
+    token: null,
+    toTranslateLater: 'Join meeting with aeternity account',
+  }),
+  methods: {
+    async joinMeeting() {
+      const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
+      const signature = await this.sdk.signMessage(message);
+      const address = await this.sdk.address();
+      const token = await (await fetch('/claim', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ address, message, signature }),
+      })).text();
+      this.token = token;
+    },
+  },
+  async created() {
+    const sdk = await RpcAepp({
+      name: 'JWT token generator',
+      compilerUrl: 'https://compiler.aepps.com',
+      nodes: [{
+        name: 'why should I have node defined if I\'m not using it?',
+        instance: await Node({ url: nodeUrl, internalUrl: nodeUrl }),
+      }],
+    });
+    const scannerConnection = await BrowserWindowMessageConnection({
+      connectionInfo: { id: 'spy' },
+    });
+    const detector = await Detector({ connection: scannerConnection });
+    await new Promise((resolve) => {
+      detector.scan(async ({ wallets, newWallet }) => {
+        const wallet = newWallet || Object.values(wallets)[0];
+        console.log(`Connecting to wallet ${wallet.name}`);
+        detector.stopScan();
+        await sdk.connectToWallet(await wallet.getConnection());
+        resolve();
+      });
+    });
+    await sdk.subscribeAddress('subscribe', 'current');
+    this.sdk = sdk;
+    window.sdk = sdk;
   },
 };
 </script>

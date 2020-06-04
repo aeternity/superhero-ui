@@ -95,4 +95,10 @@ module.exports = {
       .end();
     return config;
   },
+  pluginOptions: {
+    express: {
+      shouldServeApp: true,
+      serverDir: './srv',
+    },
+  },
 };

@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
@@ -67,7 +67,7 @@ export default {
       tip: null,
     };
   },
-  computed: mapGetters(['chainNames']),
+  computed: mapState(['chainNames']),
   watch: {
     tip() {
       this.updateTip();

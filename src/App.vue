@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import { detect } from 'detect-browser';
 import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
@@ -38,7 +38,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['account']),
+    ...mapState(['account']),
     isSupportedBrowser() {
       const browser = detect();
       return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));

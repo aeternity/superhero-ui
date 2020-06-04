@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
 import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
@@ -108,7 +108,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
+    ...mapGetters(['isLoggedIn']),
+    ...mapState(['topics', 'loading', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
       if (this.currencyRates && this.currencyRates.aeternity && this.balance) {
         return Object.keys(this.currencyRates.aeternity)

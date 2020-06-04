@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
 import iconTipped from '../assets/iconTipped.svg';
 import * as aeternity from '../utils/aeternity';
@@ -139,7 +139,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['account', 'loading', 'minTipAmount', 'stats', 'isLoggedIn']),
+    ...mapGetters(['isLoggedIn']),
+    ...mapState(['account', 'loading', 'minTipAmount', 'stats']),
     eventPayload() {
       if (!this.userAddress) {
         if (this.comment) {

@@ -233,7 +233,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { createDeepLinkUrl } from '../utils/util';
 import TipComment from '../components/tipRecords/TipComment.vue';
@@ -277,8 +277,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet']),
-    ...mapGetters(['account', 'chainNames', 'loading']),
+    ...mapState(['useSdkWallet', 'account', 'chainNames', 'loading']),
     userChainName() {
       return this.chainNames[this.address];
     },

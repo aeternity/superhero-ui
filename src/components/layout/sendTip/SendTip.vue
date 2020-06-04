@@ -47,10 +47,9 @@
               <AeButton
                 :disabled="!canTip || !isSendTipDataValid"
                 :loading="sendingTip"
-                :src="IconDiamond"
                 @click="sendTip"
               >
-                {{ $t('tip') }}
+                <IconDiamond/>{{ $t('tip') }}
               </AeButton>
             </div>
           </div>
@@ -94,7 +93,7 @@ import aeternity from '../../../utils/aeternity';
 import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
-import IconDiamond from '../../../assets/iconDiamond.svg';
+import IconDiamond from '../../../assets/iconDiamond.svg?icon-component';
 import AvatarWrapper from '../../AvatarWrapper.vue';
 import UrlStatus from './UrlStatus.vue';
 import SendTipStatusMsg from './SendTipStatusMsg.vue';
@@ -107,6 +106,7 @@ export default {
     AvatarWrapper,
     UrlStatus,
     SendTipStatusMsg,
+    IconDiamond,
   },
   data() {
     return {
@@ -116,7 +116,6 @@ export default {
         title: '',
       },
       sendingTip: false,
-      IconDiamond,
       isBlacklistedUrl: false,
       success: false,
       error: false,
@@ -332,6 +331,14 @@ export default {
       height: 2.2rem;
       margin-top: 0.05rem;
       margin-bottom: 1rem;
+
+      span {
+        vertical-align: text-bottom;
+      }
+
+      svg {
+        margin-right: 0.15rem;
+      }
     }
 
     .message-box {

@@ -373,6 +373,7 @@ export default {
       flex-wrap: wrap;
       margin-top: 0.25rem;
       min-width: 19rem;
+      width: fit-content;
       padding: 1rem;
 
       .ae-button {

@@ -41,7 +41,7 @@
     </div>
     <div class="navigation__item networking">
       <router-link :to="{ name: 'networking' }">
-        <span>{{ $t('Networking') || 'Networking' }}</span>
+        <span>{{ $t('Networking') }}</span>
       </router-link>
     </div>
   </div>

@@ -54,6 +54,9 @@ export default {
   [types.SET_IS_HIDDEN_CONTENT](state, payload) {
     state.isHiddenContent = payload;
   },
+  [types.USE_SDK_WALLET](state) {
+    state.useSdkWallet = true;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

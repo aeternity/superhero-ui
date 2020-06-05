@@ -1,6 +1,6 @@
 <template>
   <a
-    v-if="USE_DEEP_LINKS || !canTip"
+    v-if="isLoggedIn"
     :href="deepLink"
     target="_blank"
     class="tip__content"
@@ -105,7 +105,7 @@ import iconTipped from '../assets/iconTipped.svg';
 import * as aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import util, { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
+import util, { createDeepLinkUrl } from '../utils/util';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
@@ -135,7 +135,6 @@ export default {
       show: false,
       showLoading: false,
       error: true,
-      USE_DEEP_LINKS,
       message: '',
     };
   },
@@ -239,9 +238,6 @@ export default {
       }
       return i18n.t('components.TipInput.totalRetips');
     },
-    canTip() {
-      return this.isLoggedIn && !this.loading.wallet;
-    },
   },
   created() {
     EventBus.$on('showTipForm', (payload) => {
@@ -316,7 +312,7 @@ export default {
         });
     },
     async sendTipComment() {
-      if (USE_DEEP_LINKS) {
+      if (!this.$store.state.useSdkWallet) {
         window.location = createDeepLinkUrl(
           { type: 'comment', id: this.tip.id, text: this.message },
         );

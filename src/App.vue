@@ -27,6 +27,7 @@ import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
+import { USE_SDK_WALLET } from './store/mutation-types';
 
 export default {
   name: 'App',
@@ -121,6 +122,7 @@ export default {
         await scanForWallets();
         address = client.rpcClient.getCurrentAccount();
         console.log('found wallet');
+        this.$store.commit(USE_SDK_WALLET);
       }
       const balance = await client.balance(address).catch(() => 0);
       this.setLoggedInAccount({

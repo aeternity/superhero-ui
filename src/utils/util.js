@@ -60,7 +60,6 @@ export const currencySigns = {
 
 export const IS_MOBILE_DEVICE = window.navigator.userAgent.includes('Mobi');
 export const IS_FRAME = window.parent !== window;
-export const USE_DEEP_LINKS = IS_MOBILE_DEVICE && !IS_FRAME;
 
 export const IDENTICON_CONFIG = {
   lightness: {

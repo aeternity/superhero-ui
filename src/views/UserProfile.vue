@@ -263,9 +263,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Backend from '../utils/backend';
-import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
+import { createDeepLinkUrl } from '../utils/util';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
 import { client } from '../utils/aeternity';
@@ -310,6 +310,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(['useSdkWallet']),
     ...mapGetters(['account', 'chainNames', 'loading']),
     userChainName() {
       return this.chainNames[this.address];
@@ -335,7 +336,7 @@ export default {
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
 
     const { method, challenge, signature } = this.$route.query;
-    if (USE_DEEP_LINKS && method && challenge && signature) {
+    if (!this.useSdkWallet && method && challenge && signature) {
       this.applyBackendChanges(method, { challenge, signature });
     }
   },
@@ -361,7 +362,10 @@ export default {
       this.resetEditedValues();
     },
     async backendAuth(method, challenge) {
-      if (USE_DEEP_LINKS) {
+      if (this.useSdkWallet) {
+        const signature = await client.signMessage(challenge);
+        this.applyBackendChanges(method, { challenge, signature });
+      } else {
         const url = new URL(window.location);
         url.search = '';
         window.location = createDeepLinkUrl({
@@ -369,9 +373,6 @@ export default {
           message: challenge,
           'x-success': `${url}?method=${method}&challenge=${challenge}&signature={signature}`,
         });
-      } else {
-        const signature = await client.signMessage(challenge);
-        this.applyBackendChanges(method, { challenge, signature });
       }
     },
     async saveProfile() {

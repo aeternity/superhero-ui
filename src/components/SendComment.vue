@@ -40,7 +40,7 @@ import { mapGetters } from 'vuex';
 import autosize from 'autosize';
 import { EventBus } from '../utils/eventBus';
 import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
-import { wallet } from '../utils/walletSearch';
+import { client } from '../utils/aeternity';
 import AeButton from './AeButton.vue';
 import AvatarWrapper from './AvatarWrapper.vue';
 import Backend from '../utils/backend';
@@ -79,8 +79,8 @@ export default {
       await Backend.sendTipComment(
         this.tipId,
         this.newComment,
-        wallet.client.rpcClient.getCurrentAccount(),
-        (data) => wallet.signMessage(data),
+        client.rpcClient.getCurrentAccount(),
+        (data) => client.signMessage(data),
         this.parentId,
       );
       EventBus.$emit('reloadData');

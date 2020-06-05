@@ -1,6 +1,6 @@
 describe('TipRecord.vue', () => {
   before(() => {
-    cy.visit('/#/tip/1');
+    cy.visit('/tip/1');
   });
 
   it('сontent is visible', () => {

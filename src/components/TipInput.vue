@@ -1,6 +1,6 @@
 <template>
   <a
-    v-if="USE_DEEP_LINKS || !canTip"
+    v-if="isLoggedIn"
     :href="deepLink"
     target="_blank"
     class="tip__content"
@@ -79,7 +79,7 @@
             <AeInputAmount v-model="value" />
             <AeButton
               v-if="userAddress || comment"
-              :disabled="!isUserAndCommentDataValid"
+              :disabled="!(value > minTipAmount && isMessageValid)"
               @click="submitAction"
             >
               {{ $t('tip') }}
@@ -99,19 +99,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
 import iconTipped from '../assets/iconTipped.svg';
-import aeternity from '../utils/aeternity';
+import * as aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import util, { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
+import util, { createDeepLinkUrl } from '../utils/util';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Modal from './Modal.vue';
-import { wallet } from '../utils/walletSearch';
 import { i18n } from '../utils/i18nHelper';
 
 export default {
@@ -136,12 +135,12 @@ export default {
       show: false,
       showLoading: false,
       error: true,
-      USE_DEEP_LINKS,
       message: '',
     };
   },
   computed: {
-    ...mapGetters(['account', 'loading', 'minTipAmount', 'stats', 'isLoggedIn']),
+    ...mapGetters(['isLoggedIn']),
+    ...mapState(['account', 'loading', 'minTipAmount', 'stats']),
     eventPayload() {
       if (!this.userAddress) {
         if (this.comment) {
@@ -155,27 +154,27 @@ export default {
       if (!this.stats || !this.stats.by_url) {
         return null;
       }
-      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/#/user-profile/${this.userAddress}`);
+      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/user-profile/${this.userAddress}`);
     },
     derivedCommentTipStats() {
       if (!this.stats || !this.stats.by_url) {
         return null;
       }
-      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`);
+      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`);
     },
     deepLink() {
       let url = '';
       if (this.comment) {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url', `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`);
+        url.searchParams.set('url', `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`);
       } else if (this.userAddress) {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url', `https://superhero.com/#/user-profile/${this.userAddress}`);
+        url.searchParams.set('url', `https://superhero.com/user-profile/${this.userAddress}`);
       } else if (this.isRetip) {
         url = createDeepLinkUrl({ type: 'retip', id: this.tip.id });
       } else {
         url = createDeepLinkUrl({ type: 'tip' });
-        url.searchParams.set('url', `https://superhero.com/#/tip/${this.tip.id}`);
+        url.searchParams.set('url', `https://superhero.com/tip/${this.tip.id}`);
       }
       return url;
     },
@@ -185,9 +184,6 @@ export default {
     isDataValid() {
       return ((this.value > this.minTipAmount) && (this.isRetip || this.isMessageValid))
               || (this.isMessageValid && !this.value);
-    },
-    isUserAndCommentDataValid() {
-      return this.value > this.minTipAmount && this.isMessageValid;
     },
     isTipped() {
       if (this.userAddress) {
@@ -240,9 +236,6 @@ export default {
       }
       return i18n.t('components.TipInput.totalRetips');
     },
-    canTip() {
-      return this.isLoggedIn && !this.loading.wallet;
-    },
   },
   created() {
     EventBus.$on('showTipForm', (payload) => {
@@ -253,17 +246,12 @@ export default {
   },
   methods: {
     submitAction() {
-      if (this.userAddress) {
-        this.tipUser();
-        return;
-      }
-
       if (!this.isRetip && this.isMessageValid && !this.value) {
         this.sendTipComment();
         return;
       }
 
-      if (this.isDataValid) {
+      if (this.isDataValid || this.userAddress) {
         this.sendTip();
       }
     },
@@ -276,36 +264,25 @@ export default {
         this.resetForm();
       }
     },
-    tipUser() {
-      this.showLoading = true;
-      const amount = util.aeToAtoms(this.value);
-      aeternity.tip(`https://superhero.com/#/user-profile/${this.userAddress}`, this.message, amount)
-        .then(() => {
-          this.showLoading = false;
-          this.error = false;
-          this.show = false;
-          this.resetForm();
-        }).catch((e) => {
-          console.error(e);
-          this.showLoading = false;
-          this.error = true;
-        });
-    },
     async sendTip() {
       this.showLoading = true;
       const amount = util.aeToAtoms(this.value);
       let url = '';
       if (this.comment) {
-        url = `https://superhero.com/#/tip/${this.comment.tipId}/comment/${this.comment.id}`;
+        url = `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
+      } else if (this.userAddress) {
+        url = `https://superhero.com/user-profile/${this.userAddress}`;
       } else {
-        url = `https://superhero.com/#/tip/${this.tip.id}`;
+        url = `https://superhero.com/tip/${this.tip.id}`;
       }
       (this.isRetip
         ? aeternity.retip(this.tip.id, amount)
         : aeternity.tip(url, this.message, amount))
         .then(async () => {
-          await Backend.cacheInvalidateTips().catch(console.error);
-          EventBus.$emit('reloadData');
+          if (!this.userAddress) {
+            await Backend.cacheInvalidateTips().catch(console.error);
+            EventBus.$emit('reloadData');
+          }
           this.showLoading = false;
           this.error = false;
           this.show = false;
@@ -317,7 +294,7 @@ export default {
         });
     },
     async sendTipComment() {
-      if (USE_DEEP_LINKS) {
+      if (!this.$store.state.useSdkWallet) {
         window.location = createDeepLinkUrl(
           { type: 'comment', id: this.tip.id, text: this.message },
         );
@@ -327,8 +304,8 @@ export default {
       await Backend.sendTipComment(
         this.tip.id,
         this.message,
-        wallet.client.rpcClient.getCurrentAccount(),
-        (data) => wallet.signMessage(data),
+        aeternity.client.rpcClient.getCurrentAccount(),
+        (data) => aeternity.client.signMessage(data),
       );
       this.showLoading = false;
       this.resetForm();
@@ -351,11 +328,10 @@ export default {
     line-height: 1;
 
     img {
+      margin: 0.1rem 0.3rem 0.05rem 0;
       height: 0.7rem;
-      margin-right: 0.3rem;
-      margin-bottom: 0.05rem;
-      width: 1rem;
-      flex: 0 0 1rem;
+      flex: 0 0 0.875rem;
+      width: 0.875rem;
     }
 
     &:hover img {
@@ -373,6 +349,7 @@ export default {
       flex-wrap: wrap;
       margin-top: 0.25rem;
       min-width: 19rem;
+      width: fit-content;
       padding: 1rem;
 
       .ae-button {

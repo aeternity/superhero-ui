@@ -19,7 +19,7 @@
       <div class="comments__section">
         <Loading
           v-if="showLoading"
-          class="loading-position"
+          class="loading-position-absolute"
         />
         <div
           v-if="comments.length === 0 && !showLoading"
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
@@ -51,7 +51,6 @@ import { EventBus } from '../utils/eventBus';
 import SendComment from '../components/SendComment.vue';
 
 export default {
-  name: 'TipCommentsView',
   components: {
     Loading,
     TipRecord,
@@ -68,7 +67,7 @@ export default {
       tip: null,
     };
   },
-  computed: mapGetters(['chainNames']),
+  computed: mapState(['chainNames']),
   watch: {
     tip() {
       this.updateTip();
@@ -162,8 +161,7 @@ export default {
     padding: 1rem;
     position: relative;
 
-    .loading-position {
-      position: absolute;
+    .loading-position-absolute {
       margin-left: -1rem;
     }
   }

@@ -5,48 +5,25 @@
   >
     <div class="profile__page">
       <div class="profile__section clearfix position-relative">
-        <div
-          v-if="showLoadingProfile"
-          class="text-center spinner__container w-100"
-        >
-          <div
-            class="spinner-border text-primary"
-            role="status"
-          >
-            <span class="sr-only">{{ $t('loading') }}</span>
-          </div>
-        </div>
-        <div
-          class="row"
-          :class="[showLoadingProfile ? 'invisible' : '']"
-        >
+        <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
             <a
               v-if="!editMode && account === address"
               class="edit__button button small"
               title="Edit Profile"
-              @click="toggleEditMode"
+              @click="editMode = true"
             >
               {{ $t('views.UserProfileView.EditProfile') }}
             </a>
             <div class="profile__image position-relative">
-              <div
-                v-if="showLoadingAvatar"
-                class="overlay"
-              />
-              <Loading
-                v-if="showLoadingAvatar && editMode"
-                class="position-absolute"
-              />
               <label
                 v-if="editMode"
                 class="profile__image--edit"
-                :class="[showLoadingAvatar ? 'blurred' : '']"
                 :title="address"
               >
-                <AvatarWrapper
-                  :key="avatarEditImageKey"
+                <Avatar
                   :address="address"
+                  :profile-image="profileImageUrl"
                 />
                 <span>{{ $t('views.UserProfileView.ChangeAvatar') }}</span>
                 <input
@@ -54,19 +31,18 @@
                   type="file"
                   name="avatar"
                   accept="image/png, image/jpeg"
-                  @change="uploadImage($event)"
+                  @change="uploadAvatar($event)"
                 >
               </label>
               <a
                 v-else
-                :class="[showLoadingAvatar ? 'blurred' : '']"
                 :href="openExplorer(address)"
                 :title="address"
                 target="_blank"
               >
-                <AvatarWrapper
-                  :key="!editMode"
+                <Avatar
                   :address="address"
+                  :profile-image="profileImageUrl"
                 />
               </a>
             </div>
@@ -74,12 +50,6 @@
               v-if="!editMode"
               class="profile__info"
             >
-              <h1
-                v-if="!editMode && profile.displayName"
-                class="profile__displayname"
-              >
-                {{ profile.displayName }}
-              </h1>
               <a
                 v-if="!editMode"
                 class="profile__username"
@@ -241,7 +211,7 @@
         >
           <Loading
             v-if="showLoading"
-            class="loading-position"
+            class="loading-position-absolute"
           />
           <div
             v-if="showNoResultsMsg"
@@ -263,28 +233,28 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import Backend from '../utils/backend';
+import { createDeepLinkUrl } from '../utils/util';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
-import { wallet } from '../utils/walletSearch';
+import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
-import AvatarWrapper from '../components/AvatarWrapper.vue';
+import Avatar from '../components/Avatar.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from '../components/TipInput.vue';
 
 export default {
-  name: 'TipCommentsView',
   components: {
     TipsPagination,
     Loading,
     AeAmountFiat,
     TipComment,
     Page,
-    AvatarWrapper,
+    Avatar,
     TipInput,
   },
   props: {
@@ -299,91 +269,95 @@ export default {
       error: false,
       userStats: null,
       editMode: false,
-      showLoadingProfile: false,
-      showLoadingAvatar: false,
       activeTab: 'tips',
       userCommentCount: 0,
-      avatarEditImageKey: 0,
       profile: {
         biography: '',
-        displayName: '',
       },
     };
   },
   computed: {
-    ...mapGetters(['account', 'chainNames', 'loading']),
+    ...mapState(['useSdkWallet', 'account', 'chainNames', 'loading']),
     userChainName() {
       return this.chainNames[this.address];
     },
     showNoResultsMsg() {
-      if (this.activeTab === 'comments') {
-        return (
-          this.comments.length === 0 && !this.showLoading && !this.loading.tips
-        );
-      }
-      return false;
+      return this.activeTab === 'comments'
+        && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
+    },
+    profileImageUrl() {
+      const { imageSignature } = this.profile;
+      const key = imageSignature && imageSignature.slice(0, 5);
+      return `${Backend.getProfileImageUrl(this.address)}?${key}`;
     },
   },
   mounted() {
+    this.reloadData();
+
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
 
-    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
-  },
-  async created() {
-    this.reloadData();
+    const interval = setInterval(() => this.reloadData(), 120 * 1000);
+    this.$once('hook:beforeDestroy', () => clearInterval(interval));
+
+    const { method, challenge, signature } = this.$route.query;
+    if (!this.useSdkWallet && method && challenge && signature) {
+      this.applyBackendChanges(method, { challenge, signature });
+    }
   },
   methods: {
-    updateAvatarImageKey() {
-      this.avatarEditImageKey += 1;
-    },
     setActiveTab(tab) {
       this.activeTab = tab;
     },
     openExplorer(address) {
       return this.explorerUrl + address;
     },
-    toggleEditMode() {
-      this.editMode = !this.editMode;
-    },
     resetEditedValues() {
       this.getProfile();
-      this.toggleEditMode();
+      this.editMode = false;
+    },
+    async applyBackendChanges(method, request) {
+      const args = {
+        sendProfileData: [request],
+        deleteProfileImage: [this.account, request],
+        setProfileImage: [this.account, request, false],
+      }[method];
+      if (!args) throw new Error(`Unknown method: ${method}`);
+      await Backend[method](...args);
+      this.resetEditedValues();
+    },
+    async backendAuth(method, challenge) {
+      if (this.useSdkWallet) {
+        const signature = await client.signMessage(challenge);
+        this.applyBackendChanges(method, { challenge, signature });
+      } else {
+        const url = new URL(window.location);
+        url.search = '';
+        window.location = createDeepLinkUrl({
+          type: 'sign-message',
+          message: challenge,
+          'x-success': `${url}?method=${method}&challenge=${challenge}&signature={signature}`,
+        });
+      }
     },
     async saveProfile() {
-      const postData = {
+      const { challenge } = await Backend.sendProfileData({
         biography: this.profile.biography,
-        author: wallet.client.rpcClient.getCurrentAccount(),
-      };
-
-      const response = await Backend.sendProfileData(postData);
-      const signedChallenge = await wallet.signMessage(response.challenge);
-      const respondChallenge = {
-        challenge: response.challenge,
-        signature: signedChallenge,
-      };
-
-      await Backend.sendProfileData(respondChallenge);
-      this.resetEditedValues();
+        author: this.account,
+      });
+      await this.backendAuth('sendProfileData', challenge);
     },
     async deleteAvatar() {
-      const response = await Backend.deleteProfileImage(this.account);
-      const signedChallenge = await wallet.signMessage(response.challenge);
-      const respondChallenge = {
-        challenge: response.challenge,
-        signature: signedChallenge,
-      };
-
-      await Backend.deleteProfileImage(this.account, respondChallenge).catch(console.error);
-
-      this.resetEditedValues();
-
-      // use the new avatar with cache-bust
-      this.updateAvatarImageKey();
+      const { challenge } = await Backend.deleteProfileImage(this.account);
+      await this.backendAuth('deleteProfileImage', challenge);
+    },
+    async uploadAvatar(event) {
+      const data = new FormData();
+      data.append('name', 'image');
+      data.append('image', event.target.files[0]);
+      const { challenge } = await Backend.setProfileImage(this.account, data);
+      await this.backendAuth('setProfileImage', challenge);
     },
     reloadData() {
       this.getProfile();
@@ -417,27 +391,6 @@ export default {
           this.profile = profile;
         })
         .catch(console.error);
-    },
-    async uploadImage(event) {
-      const data = new FormData();
-      data.append('name', 'image');
-      data.append('image', event.target.files[0]);
-
-      const setImage = await Backend.setProfileImage(this.account, data);
-      const signedChallenge = await wallet.signMessage(setImage.challenge);
-      const respondChallenge = {
-        challenge: setImage.challenge,
-        signature: signedChallenge,
-      };
-
-      await Backend.setProfileImage(
-        this.account,
-        respondChallenge,
-        false,
-      ).catch(console.error);
-
-      // use the new avatar with cache-bust
-      this.updateAvatarImageKey();
     },
   },
 };
@@ -505,10 +458,6 @@ export default {
   .profile__section {
     background-color: $actions_ribbon_background_color;
 
-    .spinner__container {
-      top: 40%;
-    }
-
     .row {
       padding: 1.75rem 1rem 1rem 1rem;
       margin-right: -1rem;
@@ -534,29 +483,12 @@ export default {
       margin-right: 0.5rem;
       vertical-align: super;
 
-      .spinner__container {
-        top: 30%;
-      }
-
-      .blurred {
-        opacity: 0.4;
-      }
-
       .input-group.description {
         margin: 0.5rem 1rem;
 
         textarea {
           min-height: 4rem;
         }
-      }
-
-      .overlay {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 10;
       }
 
       .profile__image--edit {
@@ -603,17 +535,8 @@ export default {
       display: flex;
       flex-direction: column;
 
-      .profile__displayname {
-        font-size: 1.2rem;
-        height: 1.5rem;
-      }
-
-      .profile__username,
-      .profile__displayname {
-        margin-bottom: 0;
-      }
-
       .profile__username {
+        margin-bottom: 0;
         display: block;
         color: $tip_note_color;
         font-size: 0.6rem;
@@ -637,18 +560,6 @@ export default {
     .profile__description {
       margin: 0.5rem 1rem;
       color: $tip_note_color;
-    }
-  }
-
-  .profile__meta {
-    font-size: 0.6rem;
-    background-color: $thumbnail_background_color;
-    margin: -0.5rem 0 -1rem 0;
-    border-top-right-radius: 0.25rem;
-    padding: 0;
-
-    & > .row.mobile {
-      display: none;
     }
   }
 
@@ -686,10 +597,6 @@ export default {
   .comments__section {
     min-height: 5rem;
 
-    .tips__container .loading-position {
-      position: absolute;
-    }
-
     .comment.tip__record {
       border-radius: unset;
     }
@@ -707,27 +614,8 @@ export default {
 }
 
 @media only screen and (max-width: 768px) {
-  .profile__page .profile__meta {
-    margin-top: 0;
-    border-top-right-radius: 0;
-  }
-
   .profile__page .profile__section > .row {
     padding-left: 0.75rem;
-  }
-
-  .profile__page .profile__meta > .row {
-    display: none;
-
-    &.mobile {
-      display: flex;
-      padding-bottom: 0;
-
-      & .row {
-        padding-bottom: 0.5rem;
-        padding-top: 0;
-      }
-    }
   }
 }
 
@@ -759,10 +647,6 @@ export default {
       }
 
       .profile__image {
-        .spinner__container {
-          top: 22%;
-        }
-
         .profile__image--edit > div {
           top: 20%;
         }
@@ -782,11 +666,6 @@ export default {
       top: -1.5rem;
       right: 0.25rem;
       font-size: 0.6rem;
-    }
-
-    .tip__user {
-      top: -1.25rem;
-      right: 6rem;
     }
   }
 }

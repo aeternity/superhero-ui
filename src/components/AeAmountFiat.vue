@@ -3,7 +3,6 @@
     <AeAmount
       v-bind="$attrs"
       :amount="amount"
-      :round="round"
     />
     <FiatValue
       v-bind="$attrs"
@@ -24,7 +23,6 @@ export default {
   },
   props: {
     amount: { type: String, required: true },
-    round: { type: Number, default: 2 },
   },
 };
 </script>

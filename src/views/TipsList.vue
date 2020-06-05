@@ -61,14 +61,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
 import Onboarding from '../components/onboarding/Wizard.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
-import aeternity from '../utils/aeternity';
-import Util from '../utils/util';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
 import Checkbox from '../components/Checkbox.vue';
 
@@ -86,22 +84,11 @@ export default {
   data() {
     return {
       showMobileNavigation: true,
-      address: this.$route.query.address,
     };
   },
-  computed: mapGetters(['tipSortBy', 'loading', 'searchTerm', 'isHiddenContent']),
-  async created() {
-    if (this.address) {
-      await aeternity.initClient();
-      const balance = await aeternity.client.balance(this.address).catch(() => 0);
-      this.setLoggedInAccount({
-        account: this.address,
-        balance: Util.atomsToAe(balance).toFixed(2),
-      });
-    }
-  },
+  computed: mapState(['tipSortBy', 'loading', 'searchTerm', 'isHiddenContent']),
   methods: {
-    ...mapActions(['setTipSortBy', 'setLoggedInAccount', 'setIsHiddenContent']),
+    ...mapMutations(['setTipSortBy', 'setIsHiddenContent']),
     toggleMobileNav(show) {
       this.showMobileNavigation = show;
     },

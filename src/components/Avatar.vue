@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import jdenticon from 'jdenticon';
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-avataaars-sprites';
@@ -39,8 +39,13 @@ export default {
   data: () => ({
     error: false,
   }),
+  watch: {
+    profileImage() {
+      this.error = false;
+    },
+  },
   computed: {
-    ...mapGetters(['chainNames']),
+    ...mapState(['chainNames']),
     avatar() {
       if (this.chainNames[this.address]) {
         const avatars = new Avatars(sprites, AVATAR_CONFIG);

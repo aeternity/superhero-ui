@@ -17,7 +17,7 @@
 import Page from '../components/layout/Page.vue';
 
 export default {
-  name: 'League',
+  name: 'Networking',
   components: {
     Page,
   },

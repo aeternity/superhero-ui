@@ -69,4 +69,5 @@ export const wallet = {
   signMessage(message) {
     return wallet.client.signMessage(message);
   },
+
 };

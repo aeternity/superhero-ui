@@ -96,7 +96,7 @@ export default {
 
 <style lang="scss">
 .overview {
-  margin-top: 1.2rem;
+  margin-top: 1rem;
 }
 
 .overview__item {

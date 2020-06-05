@@ -1,10 +1,9 @@
 <template>
   <Page class="league-page-container">
     <div
-      v-if="token"
       class="league-page"
     >
-      <iframe :src="'https://test.league.aeternity.org/broadcast?jwt=' + token" />
+      <div id="try_that"></div>
     </div>
   </Page>
 </template>
@@ -21,11 +20,7 @@ export default {
   components: {
     Page,
   },
-  data: () => ({
-    sdk: null,
-    token: null,
-    toTranslateLater: 'Join meeting with aeternity account',
-  }),
+  data: () => ({ sdk: null }),
 
   async created() {
     const sdk = await RpcAepp({
@@ -62,7 +57,13 @@ export default {
       },
       body: JSON.stringify({ address, message, signature }),
     })).text();
-    this.token = token;
+
+    const api = new JitsiMeetExternalAPI(`test.league.aeternity.org/broadcast?jwt=${token}`, {
+      parentNode: document.querySelector('#try_that'),
+      width: '100%',
+      height: 440,
+    });
+
   },
 };
 </script>

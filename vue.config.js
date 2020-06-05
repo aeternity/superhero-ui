@@ -94,5 +94,5 @@ module.exports = {
       .loader('svgo-loader')
       .end();
     return config;
-  }
+  },
 };

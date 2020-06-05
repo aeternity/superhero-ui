@@ -2,6 +2,7 @@
 <template>
   <img
     v-if="!error && profileImage"
+    class="user-identicon"
     :src="profileImage"
     loading="lazy"
     @error="error = true"
@@ -39,11 +40,6 @@ export default {
   data: () => ({
     error: false,
   }),
-  watch: {
-    profileImage() {
-      this.error = false;
-    },
-  },
   computed: {
     ...mapState(['chainNames']),
     avatar() {
@@ -60,6 +56,11 @@ export default {
         type: 'identicon',
         src: jdenticon.toSvg(this.address, 32),
       };
+    },
+  },
+  watch: {
+    profileImage() {
+      this.error = false;
     },
   },
 };

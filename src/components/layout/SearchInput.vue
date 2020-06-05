@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import { EventBus } from '../../utils/eventBus';
 
 export default {
@@ -49,7 +49,7 @@ export default {
     toggleMobileNav: { type: Function, required: false, default: null },
   },
   computed: {
-    ...mapGetters(['searchTerm']),
+    ...mapState(['searchTerm']),
     searchTermValue: {
       get() {
         return this.searchTerm;
@@ -70,7 +70,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setSearchTerm']),
+    ...mapMutations(['setSearchTerm']),
     onSearchTopic(data) {
       this.setSearchTerm(data);
     },

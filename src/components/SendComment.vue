@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import autosize from 'autosize';
 import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl } from '../utils/util';
@@ -61,7 +61,7 @@ export default {
       address: null,
     };
   },
-  computed: mapGetters(['account']),
+  computed: mapState(['account']),
   mounted() {
     autosize(this.$refs.input);
   },

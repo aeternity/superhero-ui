@@ -79,7 +79,7 @@
             <AeInputAmount v-model="value" />
             <AeButton
               v-if="userAddress || comment"
-              :disabled="!isUserAndCommentDataValid"
+              :disabled="!(value > minTipAmount && isMessageValid)"
               @click="submitAction"
             >
               {{ $t('tip') }}
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
 import iconTipped from '../assets/iconTipped.svg';
 import * as aeternity from '../utils/aeternity';
@@ -139,7 +139,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['account', 'loading', 'minTipAmount', 'stats', 'isLoggedIn']),
+    ...mapGetters(['isLoggedIn']),
+    ...mapState(['account', 'loading', 'minTipAmount', 'stats']),
     eventPayload() {
       if (!this.userAddress) {
         if (this.comment) {
@@ -183,9 +184,6 @@ export default {
     isDataValid() {
       return ((this.value > this.minTipAmount) && (this.isRetip || this.isMessageValid))
               || (this.isMessageValid && !this.value);
-    },
-    isUserAndCommentDataValid() {
-      return this.value > this.minTipAmount && this.isMessageValid;
     },
     isTipped() {
       if (this.userAddress) {
@@ -248,17 +246,12 @@ export default {
   },
   methods: {
     submitAction() {
-      if (this.userAddress) {
-        this.tipUser();
-        return;
-      }
-
       if (!this.isRetip && this.isMessageValid && !this.value) {
         this.sendTipComment();
         return;
       }
 
-      if (this.isDataValid) {
+      if (this.isDataValid || this.userAddress) {
         this.sendTip();
       }
     },
@@ -271,27 +264,14 @@ export default {
         this.resetForm();
       }
     },
-    tipUser() {
-      this.showLoading = true;
-      const amount = util.aeToAtoms(this.value);
-      aeternity.tip(`https://superhero.com/user-profile/${this.userAddress}`, this.message, amount)
-        .then(() => {
-          this.showLoading = false;
-          this.error = false;
-          this.show = false;
-          this.resetForm();
-        }).catch((e) => {
-          console.error(e);
-          this.showLoading = false;
-          this.error = true;
-        });
-    },
     async sendTip() {
       this.showLoading = true;
       const amount = util.aeToAtoms(this.value);
       let url = '';
       if (this.comment) {
         url = `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
+      } else if (this.userAddress) {
+        url = `https://superhero.com/user-profile/${this.userAddress}`;
       } else {
         url = `https://superhero.com/tip/${this.tip.id}`;
       }
@@ -299,8 +279,10 @@ export default {
         ? aeternity.retip(this.tip.id, amount)
         : aeternity.tip(url, this.message, amount))
         .then(async () => {
-          await Backend.cacheInvalidateTips().catch(console.error);
-          EventBus.$emit('reloadData');
+          if (!this.userAddress) {
+            await Backend.cacheInvalidateTips().catch(console.error);
+            EventBus.$emit('reloadData');
+          }
           this.showLoading = false;
           this.error = false;
           this.show = false;

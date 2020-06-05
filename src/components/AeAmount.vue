@@ -14,7 +14,7 @@ export default {
   name: 'AeAmount',
   props: {
     amount: { type: String, required: true },
-    round: { type: Number, required: true },
+    round: { type: Number, default: 2 },
     aettos: { type: Boolean, required: false },
   },
   computed: {

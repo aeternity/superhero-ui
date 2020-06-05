@@ -1,9 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import { getters } from './getters';
 import mutations from './mutations';
-import actions from './actions';
 import persistState from './plugins/persistState';
 
 Vue.use(Vuex);
@@ -34,9 +32,10 @@ export default new Vuex.Store({
     isHiddenContent: true,
     useSdkWallet: false,
   },
-  getters,
   mutations,
-  actions,
+  getters: {
+    isLoggedIn: (state) => !!state.account,
+  },
   plugins: [
     persistState(
       (state) => state,

@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import IconTips from '../../assets/iconTips.svg?icon-component';
 import IconUser from '../../assets/iconUser.svg?icon-component';
 import IconHelp from '../../assets/iconHelp.svg?icon-component';
@@ -57,7 +57,10 @@ export default {
     IconHelp,
     IconDiamond,
   },
-  computed: mapGetters(['account', 'isLoggedIn']),
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+    ...mapState(['account']),
+  },
   methods: {
     scrollTop() {
       document.scrollingElement.scrollTop = 0;

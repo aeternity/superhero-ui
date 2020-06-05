@@ -1,18 +1,18 @@
 <template>
   <Page class="league-page-container">
-    <button
-      v-if="!token"
-      :disabled="!sdk"
-      @click="joinMeeting"
-    >
-      {{ toTranslateLater }}
-    </button>
-    <div
-      v-if="token"
-      class="league-page"
-    >
-      <iframe :src="'https://test.league.aeternity.org/broadcast?jwt=' + token" />
-    </div>
+    <template v-if="!token">
+      <button
+        :disabled="!sdk"
+        @click="joinMeeting"
+      >
+        {{ toTranslateLater }}
+      </button>
+    </template>
+    <template v-else>
+      <div class="league-page">
+        <iframe :src="'https://test.league.aeternity.org/broadcast?jwt=' + token" />
+      </div>
+    </template>
   </Page>
 </template>
 <script>
@@ -65,7 +65,7 @@ export default {
       const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
       const signature = await this.sdk.signMessage(message);
       const address = await this.sdk.address();
-      const token = await (await fetch('/claim', {
+      const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

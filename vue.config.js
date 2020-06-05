@@ -94,11 +94,5 @@ module.exports = {
       .loader('svgo-loader')
       .end();
     return config;
-  },
-  pluginOptions: {
-    express: {
-      shouldServeApp: true,
-      serverDir: './srv',
-    },
-  },
+  }
 };

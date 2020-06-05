@@ -72,7 +72,6 @@ export default {
 
     img {
       width: 9.2rem;
-      height: 2.1rem;
     }
   }
 
@@ -109,6 +108,10 @@ export default {
 
     .league & {
       padding: 0.2rem;
+
+      path {
+        transform: scale(1.05);
+      }
     }
   }
 

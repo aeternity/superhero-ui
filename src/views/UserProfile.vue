@@ -782,11 +782,6 @@ export default {
       right: 0.25rem;
       font-size: 0.6rem;
     }
-
-    .tip__user {
-      top: -1.25rem;
-      right: 6rem;
-    }
   }
 }
 </style>

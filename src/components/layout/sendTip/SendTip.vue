@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
 import util, { createDeepLinkUrl } from '../../../utils/util';
 import { tip } from '../../../utils/aeternity';
@@ -123,8 +123,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['loading', 'account', 'isLoggedIn', 'minTipAmount',
-      'verifiedUrls', 'graylistedUrls']),
+    ...mapGetters(['isLoggedIn']),
+    ...mapState(['loading', 'account', 'minTipAmount']),
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation

@@ -5,21 +5,7 @@
   >
     <div class="profile__page">
       <div class="profile__section clearfix position-relative">
-        <div
-          v-if="showLoadingProfile"
-          class="text-center spinner__container w-100"
-        >
-          <div
-            class="spinner-border text-primary"
-            role="status"
-          >
-            <span class="sr-only">{{ $t('loading') }}</span>
-          </div>
-        </div>
-        <div
-          class="row"
-          :class="[showLoadingProfile ? 'invisible' : '']"
-        >
+        <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
             <a
               v-if="!editMode && account === address"
@@ -30,18 +16,9 @@
               {{ $t('views.UserProfileView.EditProfile') }}
             </a>
             <div class="profile__image position-relative">
-              <div
-                v-if="showLoadingAvatar"
-                class="overlay"
-              />
-              <Loading
-                v-if="showLoadingAvatar && editMode"
-                class="position-absolute"
-              />
               <label
                 v-if="editMode"
                 class="profile__image--edit"
-                :class="[showLoadingAvatar ? 'blurred' : '']"
                 :title="address"
               >
                 <Avatar
@@ -59,7 +36,6 @@
               </label>
               <a
                 v-else
-                :class="[showLoadingAvatar ? 'blurred' : '']"
                 :href="openExplorer(address)"
                 :title="address"
                 target="_blank"
@@ -74,12 +50,6 @@
               v-if="!editMode"
               class="profile__info"
             >
-              <h1
-                v-if="!editMode && profile.displayName"
-                class="profile__displayname"
-              >
-                {{ profile.displayName }}
-              </h1>
               <a
                 v-if="!editMode"
                 class="profile__username"
@@ -241,7 +211,7 @@
         >
           <Loading
             v-if="showLoading"
-            class="loading-position"
+            class="loading-position-absolute"
           />
           <div
             v-if="showNoResultsMsg"
@@ -263,7 +233,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { createDeepLinkUrl } from '../utils/util';
 import TipComment from '../components/tipRecords/TipComment.vue';
@@ -299,19 +269,15 @@ export default {
       error: false,
       userStats: null,
       editMode: false,
-      showLoadingProfile: false,
-      showLoadingAvatar: false,
       activeTab: 'tips',
       userCommentCount: 0,
       profile: {
         biography: '',
-        displayName: '',
       },
     };
   },
   computed: {
-    ...mapState(['useSdkWallet']),
-    ...mapGetters(['account', 'chainNames', 'loading']),
+    ...mapState(['useSdkWallet', 'account', 'chainNames', 'loading']),
     userChainName() {
       return this.chainNames[this.address];
     },
@@ -492,10 +458,6 @@ export default {
   .profile__section {
     background-color: $actions_ribbon_background_color;
 
-    .spinner__container {
-      top: 40%;
-    }
-
     .row {
       padding: 1.75rem 1rem 1rem 1rem;
       margin-right: -1rem;
@@ -521,29 +483,12 @@ export default {
       margin-right: 0.5rem;
       vertical-align: super;
 
-      .spinner__container {
-        top: 30%;
-      }
-
-      .blurred {
-        opacity: 0.4;
-      }
-
       .input-group.description {
         margin: 0.5rem 1rem;
 
         textarea {
           min-height: 4rem;
         }
-      }
-
-      .overlay {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 10;
       }
 
       .profile__image--edit {
@@ -590,17 +535,8 @@ export default {
       display: flex;
       flex-direction: column;
 
-      .profile__displayname {
-        font-size: 1.2rem;
-        height: 1.5rem;
-      }
-
-      .profile__username,
-      .profile__displayname {
-        margin-bottom: 0;
-      }
-
       .profile__username {
+        margin-bottom: 0;
         display: block;
         color: $tip_note_color;
         font-size: 0.6rem;
@@ -624,18 +560,6 @@ export default {
     .profile__description {
       margin: 0.5rem 1rem;
       color: $tip_note_color;
-    }
-  }
-
-  .profile__meta {
-    font-size: 0.6rem;
-    background-color: $thumbnail_background_color;
-    margin: -0.5rem 0 -1rem 0;
-    border-top-right-radius: 0.25rem;
-    padding: 0;
-
-    & > .row.mobile {
-      display: none;
     }
   }
 
@@ -673,10 +597,6 @@ export default {
   .comments__section {
     min-height: 5rem;
 
-    .tips__container .loading-position {
-      position: absolute;
-    }
-
     .comment.tip__record {
       border-radius: unset;
     }
@@ -694,27 +614,8 @@ export default {
 }
 
 @media only screen and (max-width: 768px) {
-  .profile__page .profile__meta {
-    margin-top: 0;
-    border-top-right-radius: 0;
-  }
-
   .profile__page .profile__section > .row {
     padding-left: 0.75rem;
-  }
-
-  .profile__page .profile__meta > .row {
-    display: none;
-
-    &.mobile {
-      display: flex;
-      padding-bottom: 0;
-
-      & .row {
-        padding-bottom: 0.5rem;
-        padding-top: 0;
-      }
-    }
   }
 }
 
@@ -746,10 +647,6 @@ export default {
       }
 
       .profile__image {
-        .spinner__container {
-          top: 22%;
-        }
-
         .profile__image--edit > div {
           top: 20%;
         }

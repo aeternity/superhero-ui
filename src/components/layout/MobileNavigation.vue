@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import Navigation from './Navigation.vue';
 import FooterSection from './FooterSection.vue';
 import { createDeepLinkUrl } from '../../utils/util';
@@ -66,10 +66,7 @@ export default {
       open: false,
     };
   },
-  computed: {
-    ...mapState(['useSdkWallet']),
-    ...mapGetters(['balance', 'account']),
-  },
+  computed: mapState(['useSdkWallet', 'balance', 'account']),
   methods: {
     createDeepLinkUrl,
     openNavigation(isOpen) {

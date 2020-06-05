@@ -69,22 +69,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.tutorial-page {
-  color: $standard_font_color;
-
-  .spacer {
-    margin-bottom: 1rem;
-  }
-
-  .icons-margin {
-    margin-right: 1rem;
-  }
-
-  .highlited {
-    color: $standard_font_color;
-    font-weight: 500;
-  }
-}
-</style>

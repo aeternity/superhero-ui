@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import AeAmountFiat from '../AeAmountFiat.vue';
 
 export default {
@@ -90,7 +90,7 @@ export default {
   components: {
     AeAmountFiat,
   },
-  computed: mapGetters(['stats']),
+  computed: mapState(['stats']),
 };
 </script>
 

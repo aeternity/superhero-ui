@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import FormatDate from './FormatDate.vue';
 import AvatarWrapper from '../AvatarWrapper.vue';
 import Backend from '../../utils/backend';
@@ -98,7 +98,7 @@ export default {
     comment: { type: Object, required: true },
   },
   computed: {
-    ...mapGetters(['chainNames']),
+    ...mapState(['chainNames']),
     userChainName() {
       return this.chainNames[this.comment.author];
     },

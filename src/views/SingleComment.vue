@@ -20,6 +20,10 @@
         v-if="comment"
         class="comments__section"
       >
+        <Loading
+          v-if="showLoading"
+          class="loading-position-absolute"
+        />
         <div
           v-if="comment.children.length === 0 && !showLoading"
           class="no-results text-center w-100"
@@ -33,12 +37,6 @@
           :key="nestedComment.id"
           :comment="nestedComment"
         />
-        <div
-          v-if="showLoading"
-          class="text-center w-100 mt-3"
-        >
-          <Loading :show-loading="true" />
-        </div>
       </div>
     </div>
   </Page>

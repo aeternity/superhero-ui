@@ -37,12 +37,12 @@
     </div>
     <div
       v-else
-      class="tip__content user"
+      class="tip__content tip__user"
       :class="[{ active: show }]"
       @click="toggleTip(!show)"
     >
       <img
-        class="tip__icon"
+        class="tip__icon_user"
         :src="iconTip"
       >
       <span class="tip-user-text">{{ $t('tip') }}</span>
@@ -101,6 +101,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
+import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
 import * as aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
@@ -206,6 +207,9 @@ export default {
           || this.tip.retips.filter((retip) => retip.sender === this.account).length > 0;
     },
     iconTip() {
+      if (this.userAddress) {
+        return iconTipUser;
+      }
       return this.isTipped ? iconTipped : iconTip;
     },
     amount() {
@@ -327,14 +331,14 @@ export default {
     align-items: center;
     line-height: 1;
 
-    img {
+    .tip__icon {
       margin: 0.1rem 0.3rem 0.05rem 0;
       height: 0.7rem;
       flex: 0 0 0.875rem;
       width: 0.875rem;
     }
 
-    &:hover img {
+    &:hover .tip__icon {
       filter: brightness(1.3);
     }
   }
@@ -361,9 +365,8 @@ export default {
       right: 0;
     }
 
-    .tip__content.user {
+    .tip__user {
       cursor: pointer;
-      margin-top: 0.1rem;
     }
 
     .tip-user-text {

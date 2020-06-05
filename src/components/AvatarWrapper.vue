@@ -1,6 +1,7 @@
 <template>
   <Avatar
     :key="componentKey"
+    class="avatar"
     :address="address"
     :profile-image="profileImage"
   />

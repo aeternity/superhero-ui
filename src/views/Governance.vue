@@ -39,5 +39,9 @@ export default {
     top: 3.4rem;
     width: 25rem;
   }
+
+  .governance-page-container {
+    padding-top: 0;
+  }
 }
 </style>

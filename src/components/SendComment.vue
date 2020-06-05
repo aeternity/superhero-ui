@@ -39,7 +39,7 @@
 import { mapGetters } from 'vuex';
 import autosize from 'autosize';
 import { EventBus } from '../utils/eventBus';
-import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
+import { createDeepLinkUrl } from '../utils/util';
 import { client } from '../utils/aeternity';
 import AeButton from './AeButton.vue';
 import AvatarWrapper from './AvatarWrapper.vue';
@@ -59,16 +59,15 @@ export default {
     return {
       newComment: '',
       address: null,
-      USE_DEEP_LINKS,
     };
   },
-  computed: mapGetters(['account', 'isLoggedIn']),
+  computed: mapGetters(['account']),
   mounted() {
     autosize(this.$refs.input);
   },
   methods: {
     async sendTipComment() {
-      if (this.USE_DEEP_LINKS || !this.isLoggedIn) {
+      if (!this.$store.state.useSdkWallet) {
         window.location = createDeepLinkUrl(
           {
             type: 'comment', id: this.tipId, text: this.newComment, parentId: this.parentId,

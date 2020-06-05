@@ -25,7 +25,7 @@
               v-if="!editMode && account === address"
               class="edit__button button small"
               title="Edit Profile"
-              @click="toggleEditMode"
+              @click="editMode = true"
             >
               {{ $t('views.UserProfileView.EditProfile') }}
             </a>
@@ -44,9 +44,9 @@
                 :class="[showLoadingAvatar ? 'blurred' : '']"
                 :title="address"
               >
-                <AvatarWrapper
-                  :key="avatarEditImageKey"
+                <Avatar
                   :address="address"
+                  :profile-image="profileImageUrl"
                 />
                 <span>{{ $t('views.UserProfileView.ChangeAvatar') }}</span>
                 <input
@@ -54,7 +54,7 @@
                   type="file"
                   name="avatar"
                   accept="image/png, image/jpeg"
-                  @change="uploadImage($event)"
+                  @change="uploadAvatar($event)"
                 >
               </label>
               <a
@@ -64,9 +64,9 @@
                 :title="address"
                 target="_blank"
               >
-                <AvatarWrapper
-                  :key="!editMode"
+                <Avatar
                   :address="address"
+                  :profile-image="profileImageUrl"
                 />
               </a>
             </div>
@@ -263,8 +263,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Backend from '../utils/backend';
+import { createDeepLinkUrl } from '../utils/util';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
 import { client } from '../utils/aeternity';
@@ -272,7 +273,7 @@ import AeAmountFiat from '../components/AeAmountFiat.vue';
 import Loading from '../components/Loading.vue';
 import { EXPLORER_URL } from '../config/constants';
 import TipsPagination from '../components/TipsPagination.vue';
-import AvatarWrapper from '../components/AvatarWrapper.vue';
+import Avatar from '../components/Avatar.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from '../components/TipInput.vue';
 
@@ -283,7 +284,7 @@ export default {
     AeAmountFiat,
     TipComment,
     Page,
-    AvatarWrapper,
+    Avatar,
     TipInput,
   },
   props: {
@@ -302,7 +303,6 @@ export default {
       showLoadingAvatar: false,
       activeTab: 'tips',
       userCommentCount: 0,
-      avatarEditImageKey: 0,
       profile: {
         biography: '',
         displayName: '',
@@ -310,79 +310,88 @@ export default {
     };
   },
   computed: {
+    ...mapState(['useSdkWallet']),
     ...mapGetters(['account', 'chainNames', 'loading']),
     userChainName() {
       return this.chainNames[this.address];
     },
     showNoResultsMsg() {
-      if (this.activeTab === 'comments') {
-        return (
-          this.comments.length === 0 && !this.showLoading && !this.loading.tips
-        );
-      }
-      return false;
+      return this.activeTab === 'comments'
+        && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
+    },
+    profileImageUrl() {
+      const { imageSignature } = this.profile;
+      const key = imageSignature && imageSignature.slice(0, 5);
+      return `${Backend.getProfileImageUrl(this.address)}?${key}`;
     },
   },
   mounted() {
+    this.reloadData();
+
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
 
-    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
-  },
-  async created() {
-    this.reloadData();
+    const interval = setInterval(() => this.reloadData(), 120 * 1000);
+    this.$once('hook:beforeDestroy', () => clearInterval(interval));
+
+    const { method, challenge, signature } = this.$route.query;
+    if (!this.useSdkWallet && method && challenge && signature) {
+      this.applyBackendChanges(method, { challenge, signature });
+    }
   },
   methods: {
-    updateAvatarImageKey() {
-      this.avatarEditImageKey += 1;
-    },
     setActiveTab(tab) {
       this.activeTab = tab;
     },
     openExplorer(address) {
       return this.explorerUrl + address;
     },
-    toggleEditMode() {
-      this.editMode = !this.editMode;
-    },
     resetEditedValues() {
       this.getProfile();
-      this.toggleEditMode();
+      this.editMode = false;
+    },
+    async applyBackendChanges(method, request) {
+      const args = {
+        sendProfileData: [request],
+        deleteProfileImage: [this.account, request],
+        setProfileImage: [this.account, request, false],
+      }[method];
+      if (!args) throw new Error(`Unknown method: ${method}`);
+      await Backend[method](...args);
+      this.resetEditedValues();
+    },
+    async backendAuth(method, challenge) {
+      if (this.useSdkWallet) {
+        const signature = await client.signMessage(challenge);
+        this.applyBackendChanges(method, { challenge, signature });
+      } else {
+        const url = new URL(window.location);
+        url.search = '';
+        window.location = createDeepLinkUrl({
+          type: 'sign-message',
+          message: challenge,
+          'x-success': `${url}?method=${method}&challenge=${challenge}&signature={signature}`,
+        });
+      }
     },
     async saveProfile() {
-      const postData = {
+      const { challenge } = await Backend.sendProfileData({
         biography: this.profile.biography,
-        author: client.rpcClient.getCurrentAccount(),
-      };
-
-      const response = await Backend.sendProfileData(postData);
-      const signedChallenge = await client.signMessage(response.challenge);
-      const respondChallenge = {
-        challenge: response.challenge,
-        signature: signedChallenge,
-      };
-
-      await Backend.sendProfileData(respondChallenge);
-      this.resetEditedValues();
+        author: this.account,
+      });
+      await this.backendAuth('sendProfileData', challenge);
     },
     async deleteAvatar() {
-      const response = await Backend.deleteProfileImage(this.account);
-      const signedChallenge = await client.signMessage(response.challenge);
-      const respondChallenge = {
-        challenge: response.challenge,
-        signature: signedChallenge,
-      };
-
-      await Backend.deleteProfileImage(this.account, respondChallenge).catch(console.error);
-
-      this.resetEditedValues();
-
-      // use the new avatar with cache-bust
-      this.updateAvatarImageKey();
+      const { challenge } = await Backend.deleteProfileImage(this.account);
+      await this.backendAuth('deleteProfileImage', challenge);
+    },
+    async uploadAvatar(event) {
+      const data = new FormData();
+      data.append('name', 'image');
+      data.append('image', event.target.files[0]);
+      const { challenge } = await Backend.setProfileImage(this.account, data);
+      await this.backendAuth('setProfileImage', challenge);
     },
     reloadData() {
       this.getProfile();
@@ -416,27 +425,6 @@ export default {
           this.profile = profile;
         })
         .catch(console.error);
-    },
-    async uploadImage(event) {
-      const data = new FormData();
-      data.append('name', 'image');
-      data.append('image', event.target.files[0]);
-
-      const setImage = await Backend.setProfileImage(this.account, data);
-      const signedChallenge = await client.signMessage(setImage.challenge);
-      const respondChallenge = {
-        challenge: setImage.challenge,
-        signature: signedChallenge,
-      };
-
-      await Backend.setProfileImage(
-        this.account,
-        respondChallenge,
-        false,
-      ).catch(console.error);
-
-      // use the new avatar with cache-bust
-      this.updateAvatarImageKey();
     },
   },
 };

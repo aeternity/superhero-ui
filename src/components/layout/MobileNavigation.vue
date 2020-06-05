@@ -20,7 +20,7 @@
       class="mobile-actions"
     >
       <a
-        v-if="USE_DEEP_LINKS && $route.name === 'tips'"
+        v-if="!useSdkWallet && $route.name === 'tips'"
         :href="createDeepLinkUrl({ type: 'tip' })"
         target="_blank"
         class="mobile-only"
@@ -44,12 +44,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Navigation from './Navigation.vue';
 import FooterSection from './FooterSection.vue';
-import { USE_DEEP_LINKS, createDeepLinkUrl } from '../../utils/util';
+import { createDeepLinkUrl } from '../../utils/util';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
-
 
 export default {
   name: 'MobileNavigation',
@@ -65,12 +64,14 @@ export default {
   data() {
     return {
       open: false,
-      USE_DEEP_LINKS,
-      createDeepLinkUrl,
     };
   },
-  computed: mapGetters(['balance', 'account']),
+  computed: {
+    ...mapState(['useSdkWallet']),
+    ...mapGetters(['balance', 'account']),
+  },
   methods: {
+    createDeepLinkUrl,
     openNavigation(isOpen) {
       this.open = isOpen;
     },

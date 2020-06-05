@@ -18,7 +18,7 @@
         <div class="section__body">
           <div v-if="!isLoggedIn">
             <a
-              :href="createDeepLinkUrl({ type: 'address' })"
+              :href="addressDeepLink"
               class="button w-100"
               :title="$t('components.layout.RightSection.LoginWithWallet')"
             >
@@ -104,7 +104,10 @@ export default {
   data() {
     return {
       browser: detect(),
-      createDeepLinkUrl,
+      addressDeepLink: createDeepLinkUrl({
+        type: 'address',
+        'x-success': `${window.location}?address={address}`,
+      }),
     };
   },
   computed: {

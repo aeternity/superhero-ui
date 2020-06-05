@@ -32,6 +32,7 @@ export default new Vuex.Store({
     graylistedUrls: [],
     searchTerm: '',
     isHiddenContent: true,
+    useSdkWallet: false,
   },
   getters,
   mutations,

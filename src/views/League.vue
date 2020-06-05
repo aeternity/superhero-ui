@@ -1,18 +1,11 @@
 <template>
   <Page class="league-page-container">
-    <template v-if="!token">
-      <button
-        :disabled="!sdk"
-        @click="joinMeeting"
-      >
-        {{ toTranslateLater }}
-      </button>
-    </template>
-    <template v-else>
-      <div class="league-page">
-        <iframe :src="'https://test.league.aeternity.org/broadcast?jwt=' + token" />
-      </div>
-    </template>
+    <div
+      v-if="token"
+      class="league-page"
+    >
+      <iframe :src="'https://test.league.aeternity.org/broadcast?jwt=' + token" />
+    </div>
   </Page>
 </template>
 <script>
@@ -58,22 +51,18 @@ export default {
     });
     await sdk.subscribeAddress('subscribe', 'current');
     this.sdk = sdk;
-    // window.sdk = sdk;
-  },
-  methods: {
-    async joinMeeting() {
-      const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
-      const signature = await this.sdk.signMessage(message);
-      const address = await this.sdk.address();
-      const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ address, message, signature }),
-      })).text();
-      this.token = token;
-    },
+
+    const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
+    const signature = await this.sdk.signMessage(message);
+    const address = await this.sdk.address();
+    const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ address, message, signature }),
+    })).text();
+    this.token = token;
   },
 };
 </script>

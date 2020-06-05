@@ -102,7 +102,7 @@
 import { mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
 import iconTipped from '../assets/iconTipped.svg';
-import aeternity from '../utils/aeternity';
+import * as aeternity from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import util, { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
@@ -111,7 +111,6 @@ import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Modal from './Modal.vue';
-import { wallet } from '../utils/walletSearch';
 import { i18n } from '../utils/i18nHelper';
 
 export default {
@@ -327,8 +326,8 @@ export default {
       await Backend.sendTipComment(
         this.tip.id,
         this.message,
-        wallet.client.rpcClient.getCurrentAccount(),
-        (data) => wallet.signMessage(data),
+        aeternity.client.rpcClient.getCurrentAccount(),
+        (data) => aeternity.client.signMessage(data),
       );
       this.showLoading = false;
       this.resetForm();

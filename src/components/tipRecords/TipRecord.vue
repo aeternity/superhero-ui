@@ -478,6 +478,8 @@ export default {
       margin-bottom: 0.45rem;
 
       svg {
+        flex-grow: 0;
+        flex-shrink: 0;
         margin-right: 0.335rem;
       }
 

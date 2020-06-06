@@ -22,9 +22,12 @@ export default {
 
 .league-page {
   bottom: 0;
+  max-height: 100vh;
+  max-width: 100vw;
+  overflow: hidden;
   position: absolute;
   top: 0;
-  width: 31rem;
+  width: var(--container-width);
 }
 
 .league-page iframe {
@@ -35,9 +38,7 @@ export default {
 
 @media (max-width: 1024px) {
   .league-page {
-    max-width: 100vw;
     top: 3.4rem;
-    width: 25rem;
   }
 }
 </style>

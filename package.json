@@ -1,5 +1,5 @@
 {
-  "name": "aepp-raendom",
+  "name": "superhero-ui",
   "version": "0.1.8",
   "scripts": {
     "serve": "vue-cli-service serve",

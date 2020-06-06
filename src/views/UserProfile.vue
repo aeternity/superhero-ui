@@ -751,7 +751,7 @@ export default {
   }
 
   img.user-identicon,
-  div.user-identicon svg{
+  div.user-identicon svg {
     border-radius: 100%;
     height: 5.5rem;
     object-fit: cover;
@@ -851,7 +851,7 @@ export default {
     white-space: nowrap;
 
     img.user-identicon,
-    div.user-identicon svg{
+    div.user-identicon svg {
       height: 5rem;
       object-fit: cover;
       width: 5rem;

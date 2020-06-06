@@ -740,8 +740,9 @@ export default {
     position: relative;
   }
 
-  .user-identicon {
-    border-radius: 3.25rem;
+  img.user-identicon,
+  div.user-identicon svg{
+    border-radius: 100%;
     height: 5.5rem;
     object-fit: cover;
     width: 5.5rem;
@@ -838,11 +839,26 @@ export default {
   .profile__header {
     padding: 1.4rem 1rem;
     white-space: nowrap;
+
+    img.user-identicon,
+    div.user-identicon svg{
+      height: 5rem;
+      object-fit: cover;
+      width: 5rem;
+    }
   }
 
   .profile__info {
     vertical-align: middle;
     width: calc(100% - 4.5rem);
+
+    .profile__username {
+      font-size: 0.55rem;
+
+      .chain {
+        font-size: 0.9rem;
+      }
+    }
   }
 
   .profile__page .avatar__button {
@@ -851,29 +867,6 @@ export default {
 
   .profile__page .delete_avatar__button {
     top: -0.5rem;
-  }
-
-  .profile__username {
-    font-size: 0.5rem;
-
-    .chain {
-      font-size: 0.6rem;
-    }
-  }
-
-  .profile__image {
-    .spinner__container {
-      top: 22%;
-    }
-
-    .profile__image--edit > div {
-      top: 20%;
-    }
-
-    .avatar {
-      height: 4rem;
-      width: 4rem;
-    }
   }
 
   .profile__stats {

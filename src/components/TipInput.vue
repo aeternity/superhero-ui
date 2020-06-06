@@ -1,6 +1,6 @@
 <template>
   <a
-    v-if="isLoggedIn"
+    v-if="!isLoggedIn"
     :href="deepLink"
     target="_blank"
     class="tip__content"

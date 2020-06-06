@@ -313,7 +313,6 @@ export default {
     return {
       maxLength: 250,
       explorerUrl: `${EXPLORER_URL}account/transactions/`,
-      tip: this.tipData,
       showLoading: false,
       comments: [],
       error: false,
@@ -333,14 +332,22 @@ export default {
       return this.chainNames[this.address];
     },
     joinedAtISO() {
-      return new Date(this.profile.createdAt).toISOString();
+      try {
+        return new Date(this.profile.createdAt).toISOString();
+      } catch (e) {
+        return '';
+      }
     },
     joinedAt() {
-      return new Date(this.profile.createdAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
+      try {
+        return new Date(this.profile.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+      } catch (e) {
+        return '';
+      }
     },
     countLength() {
       return `${this.profile.biography.length}/${this.maxLength}`;
@@ -350,7 +357,7 @@ export default {
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
     },
     profileImageUrl() {
-      const { imageSignature } = this.profile;
+      const { imageSignature } = this.profile || {};
       const key = imageSignature && imageSignature.slice(0, 5);
       return `${Backend.getProfileImageUrl(this.address)}?${key}`;
     },
@@ -452,6 +459,9 @@ export default {
 
       Backend.getProfile(this.address)
         .then((profile) => {
+          if (!profile) {
+            return;
+          }
           this.profile = profile;
         })
         .catch(console.error);
@@ -740,8 +750,9 @@ export default {
     position: relative;
   }
 
-  .user-identicon {
-    border-radius: 3.25rem;
+  img.user-identicon,
+  div.user-identicon svg {
+    border-radius: 100%;
     height: 5.5rem;
     object-fit: cover;
     width: 5.5rem;
@@ -838,11 +849,26 @@ export default {
   .profile__header {
     padding: 1.4rem 1rem;
     white-space: nowrap;
+
+    img.user-identicon,
+    div.user-identicon svg {
+      height: 5rem;
+      object-fit: cover;
+      width: 5rem;
+    }
   }
 
   .profile__info {
     vertical-align: middle;
     width: calc(100% - 4.5rem);
+
+    .profile__username {
+      font-size: 0.55rem;
+
+      .chain {
+        font-size: 0.9rem;
+      }
+    }
   }
 
   .profile__page .avatar__button {
@@ -851,29 +877,6 @@ export default {
 
   .profile__page .delete_avatar__button {
     top: -0.5rem;
-  }
-
-  .profile__username {
-    font-size: 0.5rem;
-
-    .chain {
-      font-size: 0.6rem;
-    }
-  }
-
-  .profile__image {
-    .spinner__container {
-      top: 22%;
-    }
-
-    .profile__image--edit > div {
-      top: 20%;
-    }
-
-    .avatar {
-      height: 4rem;
-      width: 4rem;
-    }
   }
 
   .profile__stats {

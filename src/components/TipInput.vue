@@ -1,12 +1,15 @@
 <template>
   <a
-    v-if="isLoggedIn"
+    v-if="!isLoggedIn"
     :href="deepLink"
     target="_blank"
     class="tip__content"
     @click.stop
   >
-    <img :src="iconTip">
+    <img
+      :class="!userAddress ? 'tip__icon' : 'tip__icon_user'"
+      :src="iconTip"
+    >
     <AeAmountFiat
       v-if="!userAddress"
       :amount="amount"

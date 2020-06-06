@@ -119,7 +119,6 @@
               >
                 <span>{{ $t('views.UserProfileView.Joined') }}</span>
                 <time :datetime="joinedAtISO">{{ joinedAt }}</time>
-                {{ joinedAt }}
               </div>
             </div>
           </div>

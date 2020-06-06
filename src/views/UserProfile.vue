@@ -114,11 +114,12 @@
                 <div>{{ address }}</div>
               </a>
               <div
-                v-if="userStats"
+                v-if="userStats && hasCreationDate"
                 class="joined"
               >
                 <span>{{ $t('views.UserProfileView.Joined') }}</span>
                 <time :datetime="joinedAtISO">{{ joinedAt }}</time>
+                {{ joinedAt }}
               </div>
             </div>
           </div>
@@ -330,6 +331,9 @@ export default {
     ...mapState(['useSdkWallet', 'account', 'chainNames', 'loading']),
     userChainName() {
       return this.chainNames[this.address];
+    },
+    hasCreationDate() {
+      return this.profile.createdAt.length > 0;
     },
     joinedAtISO() {
       try {

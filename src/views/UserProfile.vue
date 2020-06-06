@@ -4,20 +4,47 @@
     back
   >
     <div class="profile__page">
-      <div class="profile__section clearfix position-relative">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12 profile__editable position-relative">
-            <a
-              v-if="!editMode && account === address"
-              class="edit__button button small"
-              title="Edit Profile"
-              @click="editMode = true"
+      <div class="profile__section clearfix">
+        <div class="profile__row">
+          <div
+            class="profile__header"
+            :class="{ 'profile__editable': account === address }"
+          >
+            <div
+              v-if="account === address"
+              class="edit__buttons"
             >
-              {{ $t('views.UserProfileView.EditProfile') }}
-            </a>
-            <div class="profile__image position-relative">
-              <label
+              <button
+                v-if="!editMode"
+                class="profile__button edit__button"
+                type="button"
+                :title="$t('views.UserProfileView.EditProfile')"
+                @click="editMode = true"
+              >
+                <img src="../assets/buttonEdit.svg">
+              </button>
+              <button
                 v-if="editMode"
+                type="button"
+                class="profile__button cancel__button"
+                :title="$t('cancel')"
+                @click="resetEditedValues"
+              >
+                <img src="../assets/buttonCancel.svg">
+              </button>
+              <button
+                v-if="editMode"
+                type="button"
+                class="profile__button save__button"
+                :title="$t('views.UserProfileView.Save')"
+                @click="saveProfile"
+              >
+                <img src="../assets/buttonSave.svg">
+              </button>
+            </div>
+            <div class="profile__image">
+              <div
+                v-if="account === address"
                 class="profile__image--edit"
                 :title="address"
               >
@@ -25,68 +52,76 @@
                   :address="address"
                   :profile-image="profileImageUrl"
                 />
-                <span>{{ $t('views.UserProfileView.ChangeAvatar') }}</span>
-                <input
-                  id="file-input"
-                  type="file"
-                  name="avatar"
-                  accept="image/png, image/jpeg"
-                  @change="uploadAvatar($event)"
+                <label
+                  v-if="!editMode"
+                  class="profile__button avatar__button"
+                  :title="$t('views.UserProfileView.ChangeAvatar')"
                 >
-              </label>
-              <a
+                  <img src="../assets/buttonPhoto.svg">
+                  <input
+                    id="file-input"
+                    type="file"
+                    name="avatar"
+                    accept="image/png, image/jpeg"
+                    @change="uploadAvatar($event)"
+                  >
+                </label>
+                <button
+                  v-if="!editMode"
+                  class="profile__button delete_avatar__button"
+                  :title="$t('views.UserProfileView.DeleteAvatar')"
+                  @click="deleteAvatar"
+                >
+                  <img src="../assets/buttonCancel.svg">
+                </button>
+              </div>
+              <div
                 v-else
-                :href="openExplorer(address)"
                 :title="address"
-                target="_blank"
               >
                 <Avatar
                   :address="address"
                   :profile-image="profileImageUrl"
                 />
-              </a>
+                <TipInput
+                  v-if="!editMode"
+                  :user-address="address"
+                  class="avatar__button profile__button"
+                />
+              </div>
             </div>
             <div
-              v-if="!editMode"
               class="profile__info"
             >
               <a
-                v-if="!editMode"
                 class="profile__username"
                 target="_blank"
                 :href="openExplorer(address)"
                 :title="address"
               >
-                <span
+                <div
                   v-if="userChainName"
                   class="chain"
                 >
                   {{ userChainName }}
-                </span>
-                <span v-else>{{ address }}</span>
+                </div>
+                <div
+                  v-else
+                  class="chain default_chain_name"
+                >
+                  {{ $t('FellowSuperhero') }}
+                </div>
+                <div>{{ address }}</div>
               </a>
               <div
-                v-if="!editMode && userStats"
-                class="count"
+                v-if="userStats && hasCreationDate"
+                class="joined"
               >
-                {{ userStats.tipsLength }} {{ $t('tips') }}
+                <span>{{ $t('views.UserProfileView.Joined') }}</span>
+                <time :datetime="joinedAtISO">{{ joinedAt }}</time>
               </div>
-              <TipInput
-                v-if="!editMode"
-                :user-address="address"
-                class="tip__user"
-              />
             </div>
           </div>
-          <div
-            v-if="editMode"
-            class="input-group delete-avatar"
-          >
-            <span @click="deleteAvatar">
-              {{ $t('views.UserProfileView.DeleteAvatar') }}
-            </span>
-          </div>
-
           <div
             v-if="!editMode"
             class="profile__description"
@@ -95,89 +130,104 @@
           </div>
           <div
             v-if="editMode"
-            class="input-group description"
+            class="profile__description"
           >
             <textarea
               v-model="profile.biography"
-              class="form-control"
-              rows="3"
+              :maxlength="maxLength"
+              :rows="profile.biography.split('\n').length"
               :placeholder="$t('views.UserProfileView.EditBiography')"
             />
-          </div>
-          <div
-            v-if="editMode"
-            class="edit__buttons"
-          >
-            <button
-              type="button"
-              class="button small"
-              @click="resetEditedValues"
+            <div
+              class="text-length"
+              :class="{ 'error': profile.biography.length > maxLength }"
             >
-              {{ $t('cancel') }}
-            </button>
-            <button
-              type="button"
-              class="button small primary"
-              @click="saveProfile"
-            >
-              {{ $t('views.UserProfileView.Save') }}
-            </button>
+              {{ countLength }}
+            </div>
           </div>
         </div>
-
         <div
           v-if="userStats"
-          class="stats"
+          class="profile__stats"
         >
-          <div class="stat">
-            <div class="stat-title">
-              {{ $t('views.UserProfileView.TipsSent') }}
+          <div class="tip_stats">
+            <div class="tips_stats_block">
+              <div class="stat_row">
+                <span class="stat-value">
+                  {{ userStats.tipsLength + userStats.retipsLength }}
+                </span>
+                <span class="stat-title">
+                  {{ $t('views.UserProfileView.TipsSent') }}
+                </span>
+              </div>
+              <div class="stat_row">
+                <AeAmountFiat
+                  class="stat-value"
+                  :amount="userStats.totalTipAmount"
+                />
+              </div>
             </div>
-            <div class="stat-value">
-              {{ userStats.tipsLength }}
+            <div class="tips_stats_block">
+              <div class="stat_row">
+                <span class="stat-title">
+                  {{ $t('views.UserProfileView.ClaimedAmount') }}
+                </span>
+              </div>
+              <div class="stat_row">
+                <AeAmountFiat
+                  class="stat-value"
+                  :amount="userStats.claimedAmount"
+                />
+              </div>
+            </div>
+            <div class="tips_stats_block">
+              <div class="stat_row">
+                <span class="stat-title">
+                  {{ $t('views.UserProfileView.UnclaimedAmount') }}
+                </span>
+              </div>
+              <div class="stat_row">
+                <AeAmountFiat
+                  class="stat-value"
+                  :amount="userStats.unclaimedAmount"
+                />
+              </div>
             </div>
           </div>
-          <div class="stat">
-            <div class="stat-title">
-              {{ $t('views.UserProfileView.RetipsSent') }}
+          <div class="stats">
+            <div class="stat_block">
+              <span class="stat-value">
+                {{ userStats.userComments }}
+              </span>
+              <span class="stat-title">
+                {{ $t('views.UserProfileView.Comments') }}
+              </span>
             </div>
-            <div class="stat-value">
-              {{ userStats.retipsLength }}
+            <div class="stat_block">
+              <span class="stat-value">
+                {{ userStats.tipsLength }}
+              </span>
+              <span class="stat-title">
+                {{ $t('views.UserProfileView.TipsReceived') }}
+              </span>
             </div>
-          </div>
-          <div class="stat">
-            <div class="stat-title">
-              {{ $t('views.UserProfileView.TotalSentAmount') }}
+            <div class="stat_block">
+              <span class="stat-value">
+                {{ userStats.retipsLength }}
+              </span>
+              <span class="stat-title">
+                {{ $t('views.UserProfileView.RetipsSent') }}
+              </span>
             </div>
-            <AeAmountFiat
-              class="stat-value"
-              :amount="userStats.totalTipAmount"
-            />
-          </div>
-          <div class="stat">
-            <div class="stat-title">
-              {{ $t('comments') }}
+            <div class="stat_block">
+              <span class="stat-value">
+                {{ userStats.claimedUrlsLength }}
+              </span>
+              <span class="stat-title">
+                <img src="../assets/verifiedUrl.svg">
+                {{ $t('views.UserProfileView.ClaimedUrls') }}
+              </span>
             </div>
-            <div class="stat-value">
-              {{ userStats.userComments }}
-            </div>
-          </div>
-          <div class="stat">
-            <div class="stat-title">
-              {{ $t('views.UserProfileView.ClaimedUrls') }}
-            </div>
-            <div class="stat-value">
-              {{ userStats.claimedUrlsLength }}
-            </div>
-          </div>
-          <div class="stat">
-            <div class="stat-title">
-              {{ $t('views.UserProfileView.UnclaimedAmount') }}
-            </div>
-            <AeAmountFiat
-              class="stat-value"
-              :amount="userStats.unclaimedAmount"
-            />
           </div>
         </div>
       </div>
@@ -231,7 +281,6 @@
     </div>
   </Page>
 </template>
-
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
@@ -262,8 +311,8 @@ export default {
   },
   data() {
     return {
+      maxLength: 250,
       explorerUrl: `${EXPLORER_URL}account/transactions/`,
-      tip: this.tipData,
       showLoading: false,
       comments: [],
       error: false,
@@ -273,6 +322,7 @@ export default {
       userCommentCount: 0,
       profile: {
         biography: '',
+        createdAt: '',
       },
     };
   },
@@ -281,12 +331,36 @@ export default {
     userChainName() {
       return this.chainNames[this.address];
     },
+    hasCreationDate() {
+      return this.profile.createdAt.length > 0;
+    },
+    joinedAtISO() {
+      try {
+        return new Date(this.profile.createdAt).toISOString();
+      } catch (e) {
+        return '';
+      }
+    },
+    joinedAt() {
+      try {
+        return new Date(this.profile.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+      } catch (e) {
+        return '';
+      }
+    },
+    countLength() {
+      return `${this.profile.biography.length}/${this.maxLength}`;
+    },
     showNoResultsMsg() {
       return this.activeTab === 'comments'
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
     },
     profileImageUrl() {
-      const { imageSignature } = this.profile;
+      const { imageSignature } = this.profile || {};
       const key = imageSignature && imageSignature.slice(0, 5);
       return `${Backend.getProfileImageUrl(this.address)}?${key}`;
     },
@@ -314,8 +388,8 @@ export default {
       return this.explorerUrl + address;
     },
     resetEditedValues() {
-      this.getProfile();
       this.editMode = false;
+      this.getProfile();
     },
     async applyBackendChanges(method, request) {
       const args = {
@@ -388,6 +462,9 @@ export default {
 
       Backend.getProfile(this.address)
         .then((profile) => {
+          if (!profile) {
+            return;
+          }
           this.profile = profile;
         })
         .catch(console.error);
@@ -395,207 +472,165 @@ export default {
   },
 };
 </script>
-
 <style lang="scss">
 #file-input {
   display: none;
 }
 
+.profile__description {
+  color: $tip_note_color;
+  display: flex;
+  flex-flow: wrap;
+  margin: 0.5rem 1rem;
+
+  textarea {
+    background: no-repeat url('../assets/textEdit.svg') bottom 0.1rem right;
+    border: 0;
+    border-bottom: 1px solid $standard_font_color;
+    color: $tip_note_color;
+    display: flex;
+    flex: 1 1 100%;
+    resize: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &:focus {
+      background: no-repeat url('../assets/textEditFocus.svg') bottom 0.1rem right;
+      border-bottom: 1px solid $secondary_color;
+      outline: 0;
+    }
+  }
+
+  .text-length {
+    color: $light_font_color;
+    flex-grow: 1;
+    margin-top: 0.2rem;
+    text-align: right;
+  }
+}
+
 .profile__page {
-  color: $light_font_color;
+  color: $tip_note_color;
   font-size: 0.75rem;
 
   .count {
     font-size: 0.65rem;
   }
 
-  .stats {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    background-color: $light_color;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-
-    .stat {
-      padding: 0.5rem;
-
-      .stat-title {
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: $tip_note_color;
-      }
-
-      .stat-value {
-        font-size: 0.9rem;
-        color: $secondary_color;
-        font-weight: 400;
-      }
-
-      .stat-value .currency-value {
-        font-size: 80%;
-      }
-    }
+  .error {
+    color: $red_color;
   }
 
   .edit__buttons {
-    margin: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.75rem;
 
-    button {
-      margin-right: 0.75rem;
+    .profile__button {
+      margin-bottom: 0.6rem;
     }
   }
 
-  .profile__editable {
-    align-items: center;
-    display: flex;
+  .profile__button {
+    border: 0;
+    border-radius: 100%;
+    cursor: pointer;
+    flex-basis: 1.5rem;
+    flex-grow: 0;
+    height: 1.5rem;
+    margin: 0;
+    padding: 0;
+    width: 1.5rem;
+
+    img {
+      width: 100%;
+    }
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  .tip__button {
+    background: #2a9cffa8;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+
+    &:hover {
+      background: #2a9cffcc;
+    }
+  }
+
+  .avatar__button {
+    background: #2a9cffa8;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+
+    .tip-user-text {
+      display: none;
+    }
+
+    &:hover {
+      background: #2a9cffcc;
+    }
+  }
+
+  .delete_avatar__button {
+    background: #ff49521e;
+    display: none;
+    position: absolute;
+    right: -0.25rem;
+    top: -0.25rem;
+
+    .tip-user-text {
+      display: none;
+    }
+
+    &:hover {
+      background: #ff495242;
+    }
+  }
+
+  & .profile__image:hover .delete_avatar__button {
+    display: unset;
   }
 
   .edit__button {
-    position: absolute;
-    top: -1.25rem;
-    right: 0.5rem;
-  }
+    background: #babac01e;
 
-  .profile__section {
-    background-color: $actions_ribbon_background_color;
-
-    .row {
-      padding: 1.75rem 1rem 1rem 1rem;
-      margin-right: -1rem;
-    }
-
-    .input-group.delete-avatar {
-      margin-left: 1rem;
-
-      span {
-        &:hover {
-          color: white;
-          cursor: pointer;
-        }
-      }
-    }
-
-    .input-group.description {
-      margin-bottom: 1rem;
-    }
-
-    .profile__image {
-      display: flex;
-      margin-right: 0.5rem;
-      vertical-align: super;
-
-      .input-group.description {
-        margin: 0.5rem 1rem;
-
-        textarea {
-          min-height: 4rem;
-        }
-      }
-
-      .profile__image--edit {
-        cursor: pointer;
-        display: flex;
-        position: relative;
-
-        span {
-          align-items: center;
-          color: $standard_font_color;
-          display: flex;
-          height: 100%;
-          justify-content: center;
-          position: absolute;
-          text-align: center;
-          top: 0;
-          width: 100%;
-        }
-
-        img,
-        .user-identicon svg {
-          opacity: 0.2;
-        }
-
-        &:hover {
-          img,
-          .user-identicon svg {
-            filter: grayscale(1);
-          }
-        }
-      }
-
-      img,
-      .user-identicon svg {
-        width: 6.5rem;
-        height: 6.5rem;
-        border-radius: 3.25rem;
-        object-fit: cover;
-      }
-    }
-
-    .profile__info {
-      width: calc(100% - 8.5rem);
-      display: flex;
-      flex-direction: column;
-
-      .profile__username {
-        margin-bottom: 0;
-        display: block;
-        color: $tip_note_color;
-        font-size: 0.6rem;
-        word-break: break-all;
-        font-weight: 400;
-
-        .chain {
-          font-size: 0.8rem;
-        }
-      }
-    }
-
-    .description {
-      margin: 0.5rem 1rem;
-
-      textarea {
-        min-height: 4rem;
-      }
-    }
-
-    .profile__description {
-      margin: 0.5rem 1rem;
-      color: $tip_note_color;
+    &:hover {
+      background: #babac042;
     }
   }
 
-  .profile__actions {
-    padding-left: 1rem;
-    margin-top: 0.125rem;
-    background-color: $actions_ribbon_background_color;
-    position: sticky;
-    z-index: 21;
-    top: 3.1rem;
+  .save__button {
+    background: #67f7b8a8;
 
-    a {
-      font-weight: 600;
-      color: $light_font_color;
-      padding: 0.5rem;
-      display: inline-block;
-      margin-right: 0.5rem;
+    &:hover {
+      background: #67f7b8cc;
+    }
+  }
 
-      &:last-child {
-        margin-right: 0;
-      }
+  .cancel__button {
+    background: #babac01e;
 
-      &:hover {
-        color: $primary_color;
-        cursor: pointer;
-      }
-
-      &.active {
-        color: $custom_links_color;
-        border-bottom: 0.1rem solid $custom_links_color;
-      }
+    &:hover {
+      background: #babac042;
     }
   }
 
   .comments__section {
     min-height: 5rem;
+
+    .tips__container .loading-position {
+      position: absolute;
+    }
 
     .comment.tip__record {
       border-radius: unset;
@@ -606,67 +641,272 @@ export default {
     color: $standard_font_color;
     font-size: 0.75rem;
     text-align: center;
+  }
+}
 
-    &.error {
-      color: red;
+.profile__header {
+  align-items: flex-start;
+  display: flex;
+  padding: 1rem;
+  position: relative;
+
+  .joined {
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+
+    time {
+      color: $standard_font_color;
+      margin-left: 0.2rem;
+    }
+  }
+}
+
+.profile__stats {
+  display: grid;
+  grid-template-columns: auto;
+}
+
+.tip_stats {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.tips_stats_block {
+  background-color: $thumbnail_background_color;
+  border-right: 1px solid $light_color;
+  padding: 0.5rem 1rem;
+}
+
+.tips_stats_block:last-child {
+  border: 0;
+}
+
+.stat_row {
+  height: 1.15rem;
+}
+
+.stats {
+  background-color: $thumbnail_background_color;
+  border-top: 1px solid $light_color;
+  display: flex;
+  padding: 0.5rem 1rem;
+  width: 100%;
+}
+
+.stat_block {
+  margin-right: 2rem;
+
+  img {
+    height: 0.75rem;
+  }
+}
+
+.stat-value {
+  color: $tip_note_color;
+  font-size: 0.75rem;
+  vertical-align: middle;
+}
+
+.stat-title {
+  color: $lighter_font_color;
+  font-size: 0.7rem;
+  vertical-align: middle;
+}
+
+.stat-value .currency-value {
+  font-size: 80%;
+}
+
+.profile__section {
+  background-color: $light_color;
+  position: relative;
+
+  .spinner__container {
+    top: 40%;
+  }
+}
+
+.profile__image {
+  display: flex;
+  margin-right: 0.5rem;
+  position: relative;
+  vertical-align: super;
+
+  .spinner__container {
+    top: 30%;
+  }
+
+  .blurred {
+    opacity: 0.4;
+  }
+
+  .overlay {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+  }
+
+  .profile__image--edit {
+    position: relative;
+  }
+
+  img.user-identicon,
+  div.user-identicon svg {
+    border-radius: 100%;
+    height: 5.5rem;
+    object-fit: cover;
+    width: 5.5rem;
+  }
+}
+
+.profile__info {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 8.5rem);
+
+  .profile__username {
+    color: $tip_note_color;
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 400;
+    margin-bottom: 0;
+    word-break: break-all;
+
+    .chain {
+      color: $standard_font_color;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.profile__meta {
+  background-color: $thumbnail_background_color;
+  border-top-right-radius: 0.25rem;
+  font-size: 0.6rem;
+  margin: -0.5rem 0 -1rem 0;
+  padding: 0;
+
+  & > .row.mobile {
+    display: none;
+  }
+}
+
+.profile__actions {
+  background-color: $actions_ribbon_background_color;
+  margin-top: 0.125rem;
+  padding-left: 1rem;
+  position: sticky;
+  top: 3.1rem;
+  z-index: 21;
+
+  a {
+    color: $light_font_color;
+    display: inline-block;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    padding: 0.5rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:hover {
+      color: $primary_color;
+      cursor: pointer;
+    }
+
+    &.active {
+      border-bottom: 2px solid $custom_links_color;
+      color: $custom_links_color;
     }
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .profile__page .profile__section > .row {
-    padding-left: 0.75rem;
+  .profile__page .profile__meta {
+    border-top-right-radius: 0;
+    margin-top: 0;
   }
 }
 
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+@media screen and (max-width: 1024px) {
   .profile__page {
     .profile__actions {
       top: 3rem;
-    }
-
-    .profile__section {
-      .row {
-        padding-top: 2rem;
-      }
-
-      .profile__info {
-        width: calc(100% - 4.5rem);
-        vertical-align: middle;
-
-        .profile__username {
-          font-size: 0.5rem;
-
-          .chain {
-            font-size: 0.6rem;
-          }
-        }
-      }
-
-      .profile__image {
-        .profile__image--edit > div {
-          top: 20%;
-        }
-
-        img {
-          width: 4rem;
-          height: 4rem;
-        }
-      }
     }
 
     .tips__container {
       padding: 0.15rem 0.5rem;
     }
 
-    .edit__button {
-      top: -1.5rem;
-      right: 0.25rem;
-      font-size: 0.6rem;
+    .edit__buttons {
+      flex-direction: row;
+      top: 0.4rem;
     }
+  }
+
+  .profile__header {
+    padding: 1.4rem 1rem;
+    white-space: nowrap;
+
+    img.user-identicon,
+    div.user-identicon svg {
+      height: 5rem;
+      object-fit: cover;
+      width: 5rem;
+    }
+  }
+
+  .profile__info {
+    vertical-align: middle;
+    width: calc(100% - 4.5rem);
+
+    .profile__username {
+      font-size: 0.55rem;
+
+      .chain {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .profile__page .avatar__button {
+    bottom: -0.5rem;
+  }
+
+  .profile__page .delete_avatar__button {
+    top: -0.5rem;
+  }
+
+  .profile__stats {
+    display: grid;
+    grid-template-columns: 8rem auto;
+  }
+
+  .tip_stats {
+    display: grid;
+    grid-template-columns: auto;
+    order: 2;
+  }
+
+  .tips_stats_block {
+    border: 0;
+    border-bottom: 1px solid $light_color;
+  }
+
+  .stats {
+    border: 0;
+    border-right: 1px solid $light_color;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .stat_block {
+    margin: 0;
   }
 }
 </style>

@@ -172,7 +172,7 @@ export default {
     text-align: center;
 
     &.error {
-      color: red;
+      color: $red_color;
     }
   }
 

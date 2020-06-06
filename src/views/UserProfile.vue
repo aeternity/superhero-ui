@@ -313,7 +313,6 @@ export default {
     return {
       maxLength: 250,
       explorerUrl: `${EXPLORER_URL}account/transactions/`,
-      tip: this.tipData,
       showLoading: false,
       comments: [],
       error: false,
@@ -333,14 +332,22 @@ export default {
       return this.chainNames[this.address];
     },
     joinedAtISO() {
-      return new Date(this.profile.createdAt).toISOString();
+      try {
+        return new Date(this.profile.createdAt).toISOString();
+      } catch (e) {
+        return '';
+      }
     },
     joinedAt() {
-      return new Date(this.profile.createdAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
+      try {
+        return new Date(this.profile.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+      } catch (e) {
+        return '';
+      }
     },
     countLength() {
       return `${this.profile.biography.length}/${this.maxLength}`;
@@ -350,7 +357,7 @@ export default {
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
     },
     profileImageUrl() {
-      const { imageSignature } = this.profile;
+      const { imageSignature } = this.profile || {};
       const key = imageSignature && imageSignature.slice(0, 5);
       return `${Backend.getProfileImageUrl(this.address)}?${key}`;
     },
@@ -452,6 +459,9 @@ export default {
 
       Backend.getProfile(this.address)
         .then((profile) => {
+          if (!profile) {
+            return;
+          }
           this.profile = profile;
         })
         .catch(console.error);

@@ -75,7 +75,4 @@ export default {
     Object.entries(mergeWith({}, state, remoteState, customizer))
       .forEach(([name, value]) => Vue.set(state, name, value));
   },
-  // setClient(state, payload) {
-  //   state.client = payload;
-  // },
 };

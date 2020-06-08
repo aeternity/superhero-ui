@@ -67,7 +67,7 @@ export default {
     ...mapMutations([
       'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet', 'setClient',
+      'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet',
     ]),
     async reloadAsyncData(stats) {
       // stats

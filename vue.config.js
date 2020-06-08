@@ -22,6 +22,9 @@ module.exports = {
   },
   chainWebpack: (config) => {
     config
+      .resolve
+      .symlinks(true)
+      .end()
       .plugin('favicons')
       .use(FaviconsWebpackPlugin, [{
         logo: path.resolve(__dirname, 'src/assets/favicon.svg'),

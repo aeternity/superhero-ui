@@ -8,13 +8,15 @@
   </Page>
 </template>
 <script>
+// eslint-disable-next-line import/no-extraneous-dependencies
+import JitsiMeetExternalAPI from 'jitsi';
 import { mapState, mapGetters } from 'vuex';
-import isMobile from 'is-mobile';
 import Page from '../components/layout/Page.vue';
 // import { wallet } from '../utils/walletSearch';
 import { EventBus } from '../utils/eventBus';
 // import { createDeepLinkUrl } from '../utils/util';
-import JitsiMeetExternalAPI from '../vendor/jitsi';
+import { IS_MOBILE_DEVICE } from '../utils/util';
+
 import { client } from '../utils/aeternity';
 
 export default {
@@ -33,6 +35,7 @@ export default {
     let address;
 
     EventBus.$on('clientLive', () => {
+      //todo: somthing like if not mobile and useSdkWallet
       EventBus.$on('sdkLive', async () => {
         if (this.useSdkWallet) {
           signature = await client.signMessage(message);
@@ -54,7 +57,7 @@ export default {
           roomName: this.$route.params.room,
           jwt: token,
           configOverwrite: {
-            disableDeepLinking: isMobile,
+            disableDeepLinking: IS_MOBILE_DEVICE,
           },
         });
       });

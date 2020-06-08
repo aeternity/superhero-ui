@@ -57,15 +57,12 @@ export const initClient = async () => {
         nodes: [{ name: 'mainnet', instance: await Node({ url: nodeUrl, internalUrl: nodeUrl }) }],
         compilerUrl,
       });
-      //return client;
     }
   } catch (err) {
     EventBus.$emit('backendError');
     return;
   }
   EventBus.$emit('backendLive');
-
-  // store.commit('client', client);
 };
 
 export const scanForWallets = async () => {

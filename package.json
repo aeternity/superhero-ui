@@ -28,6 +28,7 @@
     "core-js": "^3.6.5",
     "detect-browser": "^4.8.0",
     "i18n": "^0.8.6",
+    "is-mobile": "^2.2.1",
     "jdenticon": "^2.2.0",
     "lodash-es": "^4.17.15",
     "vue": "^2.6.11",

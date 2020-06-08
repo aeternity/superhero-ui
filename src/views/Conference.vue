@@ -8,10 +8,12 @@
   </Page>
 </template>
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex';
+import isMobile from 'is-mobile';
 import Page from '../components/layout/Page.vue';
 // import { wallet } from '../utils/walletSearch';
 import { EventBus } from '../utils/eventBus';
+
 
 export default {
   name: 'Conference',
@@ -44,13 +46,12 @@ export default {
           roomName: this.$route.params.room,
           jwt: token,
           configOverwrite: {
-            disableDeepLinking: true,
+            disableDeepLinking: isMobile,
           },
         });
       } else {
         // this.applyBackendChanges(method, { challenge, signature });
       }
-
     });
   },
 };

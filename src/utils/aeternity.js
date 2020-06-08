@@ -58,7 +58,6 @@ export const initClient = async () => {
         compilerUrl,
       });
     }
-    EventBus.$emit('clientLive', client);
   } catch (err) {
     EventBus.$emit('backendError');
     return;
@@ -78,6 +77,7 @@ export const scanForWallets = async () => {
       detector.stopScan();
       await client.connectToWallet(await newWallet.getConnection());
       await client.subscribeAddress('subscribe', 'current');
+      EventBus.$emit('clientLive');
       resolve();
     });
   });

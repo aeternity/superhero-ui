@@ -122,6 +122,7 @@ export default {
         address = client.rpcClient.getCurrentAccount();
         console.log('found wallet');
         this.useSdkWallet();
+        EventBus.$emit('sdkLive');
       }
       const balance = await client.balance(address).catch(() => 0);
       this.setLoggedInAccount({

@@ -13,7 +13,9 @@ import isMobile from 'is-mobile';
 import Page from '../components/layout/Page.vue';
 // import { wallet } from '../utils/walletSearch';
 import { EventBus } from '../utils/eventBus';
-import { createDeepLinkUrl } from '../utils/util';
+// import { createDeepLinkUrl } from '../utils/util';
+import JitsiMeetExternalAPI from '../vendor/jitsi';
+import { client } from '../utils/aeternity';
 
 export default {
   name: 'Conference',
@@ -21,50 +23,50 @@ export default {
     Page,
   },
   computed: {
-    ...mapState(['useSdkWallet']),
-    ...mapGetters(['isLoggedIn', 'account']),
+    ...mapState(['useSdkWallet', 'account']),
+    ...mapGetters(['isLoggedIn']),
   },
   created() {
-    EventBus.$on('clientLive', async (client) => {
-      const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
-      let signature;
-      let address;
-      if (this.useSdkWallet) {
-        signature = await client.signMessage(message);
-        address = client.rpcClient.getCurrentAccount();
-      } else {
-        // (remove later)
-        // eslint-disable-next-line no-lonely-if
-        if (!this.isLoggedIn) {
-          window.location = createDeepLinkUrl({
-            type: 'address',
-            'x-success': `${window.location}?address={address}`,
-          });
-        } else {
-          // signature =
-          // address = this.account;
-        }
-        address = this.account;
-      }
-      const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ address, message, signature }),
-      })).text();
+    // sdkLive
+    const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
+    let signature;
+    let address;
 
-      // eslint-disable-next-line no-undef, no-new
-      new JitsiMeetExternalAPI('test.league.aeternity.org', {
-        parentNode: document.querySelector('#jitsi'),
-        width: '100%',
-        height: 440,
-        roomName: this.$route.params.room,
-        jwt: token,
-        configOverwrite: {
-          disableDeepLinking: isMobile,
-        },
+    EventBus.$on('clientLive', () => {
+      EventBus.$on('sdkLive', async () => {
+        if (this.useSdkWallet) {
+          signature = await client.signMessage(message);
+          address = client.rpcClient.getCurrentAccount();
+        }
+
+        const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ address, message, signature }),
+        })).text();
+        // eslint-disable-next-line no-undef, no-new
+        new JitsiMeetExternalAPI('test.league.aeternity.org', {
+          parentNode: document.querySelector('#jitsi'),
+          width: '100%',
+          height: 440,
+          roomName: this.$route.params.room,
+          jwt: token,
+          configOverwrite: {
+            disableDeepLinking: isMobile,
+          },
+        });
       });
+      // const link = createDeepLinkUrl({
+      //   type: 'address',
+      //   'x-success': `${window.location}?address={address}`,
+      // });
+      // console.log({ link });
+
+      // } else {
+      //   // this.createDeepLinkUrl(method, { challenge, signature });
+      // }
     });
   },
 };

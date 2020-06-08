@@ -135,7 +135,7 @@
             <textarea
               v-model="profile.biography"
               :maxlength="maxLength"
-              :rows="profile.biography.split('\n').length"
+              :rows="profile.biography.split('\n').length || 1"
               :placeholder="$t('views.UserProfileView.EditBiography')"
             />
             <div
@@ -466,6 +466,7 @@ export default {
             return;
           }
           this.profile = profile;
+          this.profile.biography = this.profile.biography || '';
         })
         .catch(console.error);
     },

@@ -129,7 +129,6 @@ export default {
         balance: Util.atomsToAe(balance).toFixed(2),
       });
       this.removeLoading('wallet');
-      EventBus.$emit('clientLive', client);
     },
     saveScrollPosition() {
       this.savedScrolls[this.$route.fullPath] = document.scrollingElement.scrollTop;

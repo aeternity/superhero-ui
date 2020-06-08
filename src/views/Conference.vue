@@ -13,7 +13,7 @@ import isMobile from 'is-mobile';
 import Page from '../components/layout/Page.vue';
 // import { wallet } from '../utils/walletSearch';
 import { EventBus } from '../utils/eventBus';
-
+import { createDeepLinkUrl } from '../utils/util';
 
 export default {
   name: 'Conference',
@@ -24,7 +24,16 @@ export default {
     ...mapState(['useSdkWallet']),
   },
   created() {
+
+
     EventBus.$on('clientLive', async (client) => {
+
+      const link = createDeepLinkUrl({
+        type: 'address',
+        'x-success': `${window.location}?address={address}`,
+      });
+      console.log({ link });
+
       if (this.useSdkWallet) {
         const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
         const signature = await client.signMessage(message);
@@ -50,7 +59,8 @@ export default {
           },
         });
       } else {
-        // this.applyBackendChanges(method, { challenge, signature });
+        // this.createDeepLinkUrl(method, { challenge, signature });
+
       }
     });
   },

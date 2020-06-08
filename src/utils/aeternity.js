@@ -58,6 +58,7 @@ export const initClient = async () => {
         compilerUrl,
       });
     }
+    EventBus.$emit('clientLive', client);
   } catch (err) {
     EventBus.$emit('backendError');
     return;

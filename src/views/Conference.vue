@@ -8,7 +8,7 @@
   </Page>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import isMobile from 'is-mobile';
 import Page from '../components/layout/Page.vue';
 // import { wallet } from '../utils/walletSearch';
@@ -42,8 +42,9 @@ export default {
           });
         } else {
           // signature =
-          address = this.account;
+          // address = this.account;
         }
+        address = this.account;
       }
       const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
         method: 'POST',

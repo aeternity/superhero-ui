@@ -19,31 +19,38 @@ export default {
     Page,
   },
   computed: {
-    ...mapState(['client', 'useSdkWallet']),
+    ...mapState(['useSdkWallet']),
   },
   created() {
     EventBus.$on('clientLive', async (client) => {
-      const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
-      const signature = await client.signMessage(message);
-      const address = client.rpcClient.getCurrentAccount();
-      // const address = this.account;
+      if (this.useSdkWallet) {
+        const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
+        const signature = await client.signMessage(message);
+        const address = client.rpcClient.getCurrentAccount();
 
-      const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ address, message, signature }),
-      })).text();
+        const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ address, message, signature }),
+        })).text();
 
-      // eslint-disable-next-line no-undef, no-new
-      new JitsiMeetExternalAPI('test.league.aeternity.org', {
-        parentNode: document.querySelector('#jitsi'),
-        width: '100%',
-        height: 440,
-        roomName: this.$route.params.room,
-        jwt: token,
-      });
+        // eslint-disable-next-line no-undef, no-new
+        new JitsiMeetExternalAPI('test.league.aeternity.org', {
+          parentNode: document.querySelector('#jitsi'),
+          width: '100%',
+          height: 440,
+          roomName: this.$route.params.room,
+          jwt: token,
+          configOverwrite: {
+            disableDeepLinking: true,
+          },
+        });
+      } else {
+        // this.applyBackendChanges(method, { challenge, signature });
+      }
+
     });
   },
 };

@@ -18,7 +18,7 @@
         <div class="section__body">
           <div v-if="!isLoggedIn">
             <a
-              :href="createDeepLinkUrl({ type: 'address' })"
+              :href="addressDeepLink"
               class="button w-100"
               :title="$t('components.layout.RightSection.LoginWithWallet')"
             >
@@ -30,10 +30,7 @@
               class="balance text-ellipsis"
               :title="roundAE + ' AE'"
             >
-              <AeAmount
-                :amount="balance"
-                :round="2"
-              />
+              <AeAmount :amount="balance" />
             </div>
             <div class="choose-fiat">
               <Dropdown
@@ -80,7 +77,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
 import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
@@ -104,11 +101,15 @@ export default {
   data() {
     return {
       browser: detect(),
-      createDeepLinkUrl,
+      addressDeepLink: createDeepLinkUrl({
+        type: 'address',
+        'x-success': `${window.location}?address={address}`,
+      }),
     };
   },
   computed: {
-    ...mapGetters(['topics', 'loading', 'isLoggedIn', 'balance', 'account', 'currencyRates', 'settings']),
+    ...mapGetters(['isLoggedIn']),
+    ...mapState(['topics', 'loading', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
       if (this.currencyRates && this.currencyRates.aeternity && this.balance) {
         return Object.keys(this.currencyRates.aeternity)
@@ -124,7 +125,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['updateCurrency']),
+    ...mapMutations(['updateCurrency']),
     selectCurrency(selectedCurrency) {
       this.updateCurrency(selectedCurrency);
     },

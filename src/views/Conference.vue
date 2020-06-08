@@ -8,34 +8,42 @@
   </Page>
 </template>
 <script>
+import { mapGetters, mapState } from 'vuex';
 import Page from '../components/layout/Page.vue';
-import { wallet } from '../utils/walletSearch';
+// import { wallet } from '../utils/walletSearch';
+import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'Conference',
   components: {
     Page,
   },
-  async created() {
-    const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
-    const signature = await wallet.signMessage(message);
-    const address = wallet.client.rpcClient.getCurrentAccount();
+  computed: {
+    ...mapState(['client', 'useSdkWallet']),
+  },
+  created() {
+    EventBus.$on('clientLive', async (client) => {
+      const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
+      const signature = await client.signMessage(message);
+      const address = client.rpcClient.getCurrentAccount();
+      // const address = this.account;
 
-    const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ address, message, signature }),
-    })).text();
+      const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ address, message, signature }),
+      })).text();
 
-    // eslint-disable-next-line no-undef, no-new
-    new JitsiMeetExternalAPI('test.league.aeternity.org', {
-      parentNode: document.querySelector('#jitsi'),
-      width: '100%',
-      height: 440,
-      roomName: this.$route.params.room,
-      jwt: token,
+      // eslint-disable-next-line no-undef, no-new
+      new JitsiMeetExternalAPI('test.league.aeternity.org', {
+        parentNode: document.querySelector('#jitsi'),
+        width: '100%',
+        height: 440,
+        roomName: this.$route.params.room,
+        jwt: token,
+      });
     });
   },
 };

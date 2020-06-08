@@ -10,6 +10,7 @@
   "comments": "Comments",
   "FAQ": "FAQ",
   "noExtensionSupport": "You need a Superhero wallet to comment and send tips.",
+  "FellowSuperhero": "Fellow superhero",
   "views": {
     "CreateProfile": {
       "header1": "HOW TO USE SUPERHERO.COM",
@@ -347,11 +348,15 @@
       "DeleteAvatar": "Delete Avatar",
       "Save": "Save",
       "TipsSent": "Tips Sent",
-      "RetipsSent": "Retips Sent",
+      "TipsReceived": "Tips Received",
+      "RetipsSent": "Retips",
       "TotalSentAmount": "Total Amount Sent",
-      "ClaimedUrls": "Claimed URLs",
-      "UnclaimedAmount": "Unclaimed Amount",
+      "ClaimedUrls": "URLs",
+      "ClaimedAmount": "Tips Claimed",
+      "UnclaimedAmount": "Tips Unclaimed",
       "NoActivity": "There is no activity to display.",
+      "Joined": "Joined",
+      "Comments": "Comments",
       "EditBiography": "Edit Biography"
     }
   },

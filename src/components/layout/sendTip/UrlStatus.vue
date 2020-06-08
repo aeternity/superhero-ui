@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import { urlStatus } from '../../../utils/util';
 import { EventBus } from '../../../utils/eventBus';
 
@@ -33,7 +33,7 @@ export default {
     url: { type: String, default: '' },
   },
   computed: {
-    ...mapGetters(['verifiedUrls', 'graylistedUrls']),
+    ...mapState(['verifiedUrls', 'graylistedUrls']),
     status() {
       let retrievedStatus = '';
       if (this.url) {

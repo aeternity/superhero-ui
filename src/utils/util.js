@@ -60,7 +60,6 @@ export const currencySigns = {
 
 export const IS_MOBILE_DEVICE = window.navigator.userAgent.includes('Mobi');
 export const IS_FRAME = window.parent !== window;
-export const USE_DEEP_LINKS = IS_MOBILE_DEVICE && !IS_FRAME;
 
 export const IDENTICON_CONFIG = {
   lightness: {
@@ -86,12 +85,11 @@ export const AVATAR_CONFIG = {
 
 export const createDeepLinkUrl = ({ type, ...params }) => {
   const url = new URL(`${process.env.VUE_APP_WALLET_URL}/${type}`);
+  url.searchParams.set('x-success', window.location);
+  url.searchParams.set('x-cancel', window.location);
   Object.entries(params)
     .filter(([, value]) => ![undefined, null].includes(value))
     .forEach(([name, value]) => url.searchParams.set(name, value));
-  url.searchParams.set('x-success',
-    type === 'address' ? `${window.location}?address={address}` : window.location);
-  url.searchParams.set('x-cancel', window.location);
   return url;
 };
 

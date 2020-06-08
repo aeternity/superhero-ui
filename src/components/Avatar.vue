@@ -2,6 +2,7 @@
 <template>
   <img
     v-if="!error && profileImage"
+    class="user-identicon"
     :src="profileImage"
     loading="lazy"
     @error="error = true"
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import jdenticon from 'jdenticon';
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-avataaars-sprites';
@@ -40,7 +41,7 @@ export default {
     error: false,
   }),
   computed: {
-    ...mapGetters(['chainNames']),
+    ...mapState(['chainNames']),
     avatar() {
       if (this.chainNames[this.address]) {
         const avatars = new Avatars(sprites, AVATAR_CONFIG);
@@ -55,6 +56,11 @@ export default {
         type: 'identicon',
         src: jdenticon.toSvg(this.address, 32),
       };
+    },
+  },
+  watch: {
+    profileImage() {
+      this.error = false;
     },
   },
 };

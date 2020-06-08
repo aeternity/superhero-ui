@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import autosize from 'autosize';
 import { EventBus } from '../utils/eventBus';
-import { USE_DEEP_LINKS, createDeepLinkUrl } from '../utils/util';
-import { wallet } from '../utils/walletSearch';
+import { createDeepLinkUrl } from '../utils/util';
+import { client } from '../utils/aeternity';
 import AeButton from './AeButton.vue';
 import AvatarWrapper from './AvatarWrapper.vue';
 import Backend from '../utils/backend';
@@ -59,16 +59,15 @@ export default {
     return {
       newComment: '',
       address: null,
-      USE_DEEP_LINKS,
     };
   },
-  computed: mapGetters(['account', 'isLoggedIn']),
+  computed: mapState(['account']),
   mounted() {
     autosize(this.$refs.input);
   },
   methods: {
     async sendTipComment() {
-      if (this.USE_DEEP_LINKS || !this.isLoggedIn) {
+      if (!this.$store.state.useSdkWallet) {
         window.location = createDeepLinkUrl(
           {
             type: 'comment', id: this.tipId, text: this.newComment, parentId: this.parentId,
@@ -79,8 +78,8 @@ export default {
       await Backend.sendTipComment(
         this.tipId,
         this.newComment,
-        wallet.client.rpcClient.getCurrentAccount(),
-        (data) => wallet.signMessage(data),
+        client.rpcClient.getCurrentAccount(),
+        (data) => client.signMessage(data),
         this.parentId,
       );
       EventBus.$emit('reloadData');

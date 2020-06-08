@@ -1,6 +1,12 @@
 const path = require('path');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
+// eslint-disable-next-line camelcase
+const { npm_package_version } = process.env;
+const commitHash = require('child_process')
+  .execSync('git rev-parse HEAD')
+  .toString().trim();
+
 module.exports = {
   lintOnSave: false,
   css: {
@@ -46,6 +52,18 @@ module.exports = {
           toType: 'dir',
         });
         return args;
+      })
+      .end()
+      .plugin('define')
+      .tap((options) => {
+        const definitions = { ...options[0] };
+
+        // eslint-disable-next-line camelcase
+        if (npm_package_version) {
+          definitions['process.env.npm_package_version'] = JSON.stringify(npm_package_version);
+        }
+        definitions['process.env.COMMIT_HASH'] = JSON.stringify(commitHash);
+        return [definitions];
       })
       .end()
       .module

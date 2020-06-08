@@ -29,6 +29,12 @@
         </a>
       </p>
     </div>
+    <span>
+      <a :href="`https://github.com/aeternity/superhero-ui/commit/${commitHash}`">
+        {{ commitHash.slice(0, 7) }}
+      </a><!--eslint-disable-line vue-i18n/no-raw-text-->
+      / {{ version }}
+    </span>
     <div class="terms-links">
       <router-link
         class="footer-links"
@@ -55,7 +61,7 @@
       class="login-footer"
     >
       <a
-        :href="createDeepLinkUrl({ type: 'address' })"
+        :href="addressDeepLink"
         class="button"
         :title="$t('components.layout.FooterSection.LoginWithWallet')"
       >
@@ -71,10 +77,15 @@ import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'FooterSection',
+  data: () => ({
+    version: process.env.npm_package_version,
+    commitHash: process.env.COMMIT_HASH,
+    addressDeepLink: createDeepLinkUrl({
+      type: 'address',
+      'x-success': `${window.location}?address={address}`,
+    }),
+  }),
   computed: mapGetters(['isLoggedIn']),
-  methods: {
-    createDeepLinkUrl,
-  },
 };
 </script>
 
@@ -133,6 +144,7 @@ export default {
       img {
         width: 0.65rem;
         height: 0.65rem;
+        vertical-align: text-bottom;
       }
 
       &:hover {

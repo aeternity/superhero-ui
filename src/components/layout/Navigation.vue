@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import IconTips from '../../assets/iconTips.svg?icon-component';
 import IconUser from '../../assets/iconUser.svg?icon-component';
 import IconHelp from '../../assets/iconHelp.svg?icon-component';
@@ -62,7 +62,10 @@ export default {
     IconHelp,
     IconDiamond,
   },
-  computed: mapGetters(['account', 'isLoggedIn']),
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+    ...mapState(['account']),
+  },
   methods: {
     scrollTop() {
       document.scrollingElement.scrollTop = 0;
@@ -77,7 +80,6 @@ export default {
 
     img {
       width: 9.2rem;
-      height: 2.1rem;
     }
   }
 
@@ -114,6 +116,10 @@ export default {
 
     .league & {
       padding: 0.2rem;
+
+      path {
+        transform: scale(1.05);
+      }
     }
   }
 

@@ -31,7 +31,6 @@ export default {
   border: 0;
   height: 100%;
   width: 100%;
-  filter: invert(100%);
 }
 
 @media (max-width: 1024px) {

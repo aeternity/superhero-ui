@@ -15,7 +15,7 @@ import Page from '../components/layout/Page.vue';
 // import { wallet } from '../utils/walletSearch';
 import { EventBus } from '../utils/eventBus';
 // import { createDeepLinkUrl } from '../utils/util';
-import { IS_MOBILE_DEVICE } from '../utils/util';
+import { IS_MOBILE_DEVICE, createDeepLinkUrl } from '../utils/util';
 
 import { client } from '../utils/aeternity';
 
@@ -34,9 +34,35 @@ export default {
     let signature;
     let address;
 
+    console.log({ useSdkWallet: this.useSdkWallet });
+
+    // if not use extention (useless statment, leaved for semantic)
+    // if (!this.useSdkWallet) {
+    //   console.log('asdasd');
+    //   const currentUrl = new URL(window.location);
+    //   const successUrl = encodeURIComponent(`${currentUrl}/networking?result=success&signature={signature}`);
+    //   currentUrl.search = '';
+    //   window.location = createDeepLinkUrl({
+    //     // type: 'sign-message',
+    //     message,
+    //     'x-success': `${currentUrl}?message=${message}&signature={signature}&x-success=${successUrl}`,
+    //   });
+    // }
+
+    console.log({ SDK: this.$store.state.useSdkWallet });
+
+
+    // maybe don't need and use only sdkLive
     EventBus.$on('clientLive', () => {
-      //todo: somthing like if not mobile and useSdkWallet
+      // todo: somthing like if not mobile and useSdkWallet
+
+      /*
+        if it use extention
+        I can't use this.useSdkWallet because false without the event
+        but it's OK after event. so I can just use event
+      */
       EventBus.$on('sdkLive', async () => {
+
         if (this.useSdkWallet) {
           signature = await client.signMessage(message);
           address = client.rpcClient.getCurrentAccount();

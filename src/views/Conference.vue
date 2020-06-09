@@ -37,20 +37,17 @@ export default {
     console.log({ useSdkWallet: this.useSdkWallet });
 
     // if not use extention (useless statment, leaved for semantic)
-    // if (!this.useSdkWallet) {
-    //   console.log('asdasd');
-    //   const currentUrl = new URL(window.location);
-    //   const successUrl = encodeURIComponent(`${currentUrl}/networking?result=success&signature={signature}`);
-    //   currentUrl.search = '';
-    //   window.location = createDeepLinkUrl({
-    //     // type: 'sign-message',
-    //     message,
-    //     'x-success': `${currentUrl}?message=${message}&signature={signature}&x-success=${successUrl}`,
-    //   });
-    // }
-
-    console.log({ SDK: this.$store.state.useSdkWallet });
-
+    if (!this.useSdkWallet) {
+      console.log('asdasd');
+      const currentUrl = new URL(window.location);
+      const successUrl = encodeURIComponent(`${currentUrl}/networking?result=success&signature={signature}`);
+      currentUrl.search = '';
+      window.location = createDeepLinkUrl({
+        // type: 'sign-message',
+        message,
+        'x-success': `${currentUrl}?message=${message}&signature={signature}&x-success=${successUrl}`,
+      });
+    }
 
     // maybe don't need and use only sdkLive
     EventBus.$on('clientLive', () => {

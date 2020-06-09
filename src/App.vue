@@ -132,6 +132,7 @@ export default {
         address = client.rpcClient.getCurrentAccount();
         console.log('found wallet');
         this.useSdkWallet();
+        // but hpw to know that it's not an SDK...
         store.commit('CHECK');
         // EventBus.$emit('sdkLive');
 

@@ -4,6 +4,7 @@ import FAQ from './views/FAQ.vue';
 import Maintenance from './views/Maintenance.vue';
 import SingleComment from './views/SingleComment.vue';
 import League from './views/League.vue';
+import Governance from './views/Governance.vue';
 import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
@@ -99,6 +100,14 @@ const routes = [
     component: League,
     meta: {
       title: 'Superhero League',
+    },
+  },
+  {
+    path: '/governance',
+    name: 'governance',
+    component: Governance,
+    meta: {
+      title: 'Superhero Governance',
     },
   },
   {

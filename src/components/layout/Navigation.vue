@@ -33,6 +33,12 @@
         <span>{{ $t('components.layout.Navigation.League') }}</span>
       </router-link>
     </div>
+    <div class="navigation__item governance">
+      <router-link :to="{ name: 'governance' }">
+        <IconGovernance class="navigation__item__image" />
+        <span>{{ $t('components.layout.Navigation.Governance') }}</span>
+      </router-link>
+    </div>
     <div class="navigation__item faq">
       <router-link :to="{ name: 'faq' }">
         <IconHelp class="navigation__item__image" />
@@ -48,6 +54,7 @@ import IconTips from '../../assets/iconTips.svg?icon-component';
 import IconUser from '../../assets/iconUser.svg?icon-component';
 import IconHelp from '../../assets/iconHelp.svg?icon-component';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
+import IconGovernance from '../../assets/iconGovernance.svg?icon-component';
 
 export default {
   name: 'Navigation',
@@ -56,6 +63,7 @@ export default {
     IconUser,
     IconHelp,
     IconDiamond,
+    IconGovernance,
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -71,7 +79,7 @@ export default {
 
 <style lang="scss">
   .logo {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
 
     img {
       width: 9.2rem;
@@ -86,7 +94,7 @@ export default {
 
   .navigation__item {
     font-size: 0.93rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.65rem;
 
     a {
       align-items: center;
@@ -109,12 +117,13 @@ export default {
     margin-right: 0.5rem;
     width: 1.3rem;
 
-    .league & {
-      padding: 0.2rem;
+    .league & path {
+      transform: scale(1.05);
+    }
 
-      path {
-        transform: scale(1.05);
-      }
+    .league &,
+    .governance & {
+      padding: 0.2rem;
     }
   }
 

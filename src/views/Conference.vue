@@ -3,7 +3,10 @@
     <div
       class="league-page"
     >
-      <div id="jitsi" />
+      <div
+        v-if="counter > 0"
+        id="jitsi"
+      />
     </div>
   </Page>
 </template>
@@ -12,17 +15,21 @@
 import JitsiMeetExternalAPI from 'jitsi';
 import { mapState, mapGetters } from 'vuex';
 import Page from '../components/layout/Page.vue';
-// import { wallet } from '../utils/walletSearch';
-import { EventBus } from '../utils/eventBus';
-// import { createDeepLinkUrl } from '../utils/util';
 import { IS_MOBILE_DEVICE, createDeepLinkUrl } from '../utils/util';
 
 import { client } from '../utils/aeternity';
+
+const TIMEOUT = 4000;
 
 export default {
   name: 'Conference',
   components: {
     Page,
+  },
+  data() {
+    return {
+      counter: TIMEOUT / 1000,
+    };
   },
   computed: {
     ...mapState(['useSdkWallet', 'account']),
@@ -37,12 +44,15 @@ export default {
   //   },
   // },
   created() {
+    if (this.$route.query.fromWallet) {
+      this.state.counter = 0;
+    }
+
     setTimeout(async () => {
       const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
       let signature;
       let address;
       if (this.useSdkWallet) {
-        console.log('HAS_SDK');
         signature = await client.signMessage(message);
         address = client.rpcClient.getCurrentAccount();
 
@@ -67,14 +77,14 @@ export default {
       } else {
         const currentUrl = new URL(window.location);
         currentUrl.search = '';
-        const successUrl = encodeURIComponent(`${currentUrl}?result=success&signature={signature}`);
+        const successUrl = encodeURIComponent(`${currentUrl}?result=success&signature={signature}&fromWallet=true`);
         window.location = createDeepLinkUrl({
           type: 'sign-message',
           message,
           'x-success': successUrl,
         });
       }
-    }, 4000);
+    }, TIMEOUT);
   },
 };
 </script>

@@ -5,6 +5,8 @@
     >
       <template v-if="counter > 0">
         {{ counter }}
+        <div style="width: 100px;">
+        </div>
       </template>
       <template v-else>
         <div
@@ -17,13 +19,13 @@
 <script>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import JitsiMeetExternalAPI from 'jitsi';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Page from '../components/layout/Page.vue';
 import { IS_MOBILE_DEVICE, createDeepLinkUrl } from '../utils/util';
 
 import { client } from '../utils/aeternity';
 
-const TIMEOUT = 4000;
+const TIMEOUT = 400000;
 
 export default {
   name: 'Conference',
@@ -33,16 +35,34 @@ export default {
   data() {
     return {
       counter: TIMEOUT / 1000,
+      some: '',
     };
   },
   computed: {
     ...mapState(['useSdkWallet', 'account']),
+    ...mapGetters(['isLoggedIn']),
   },
   created() {
     if (this.$route.query.fromWallet) {
-      this.state.counter = 0;
+      this.counter = 0;
     } else {
       this.runCounter();
+    }
+
+    if (!this.isLoggedIn) {
+      const currentUrl = new URL(window.location);
+      currentUrl.search = '';
+      const successUrl = encodeURIComponent(`${currentUrl}?result=success&signature={signature}&fromWallet=true`);
+      const signLink = createDeepLinkUrl({
+        type: 'sign-message',
+        message: `I would like to generate JWT token at ${new Date().toUTCString()}`,
+        'x-success': successUrl,
+      }).href;
+
+      window.location = createDeepLinkUrl({
+        type: 'address',
+        'x-success': `${signLink}?address={address}`,
+      });
     }
 
     setTimeout(async () => {
@@ -75,6 +95,7 @@ export default {
         const currentUrl = new URL(window.location);
         currentUrl.search = '';
         const successUrl = encodeURIComponent(`${currentUrl}?result=success&signature={signature}&fromWallet=true`);
+        // window.location = createDeepLinkUrl({
         window.location = createDeepLinkUrl({
           type: 'sign-message',
           message,

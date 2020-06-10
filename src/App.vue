@@ -13,7 +13,7 @@
       >
         {{ $t('noExtensionSupport') }}
       </div>
-      <keep-alive :max="5" v-if="$store.ready">
+      <keep-alive :max="5">
         <router-view :key="$route.fullPath" />
       </keep-alive>
     </div>
@@ -27,8 +27,6 @@ import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
-// just to test
-import store from './store/index.js';
 
 export default {
   name: 'App',
@@ -40,11 +38,6 @@ export default {
   },
   state: {
     ready: false,
-  },
-  mutations: {
-    CHECK(state) {
-      state.ready = true;
-    },
   },
   computed: {
     ...mapState(['account']),
@@ -132,10 +125,6 @@ export default {
         address = client.rpcClient.getCurrentAccount();
         console.log('found wallet');
         this.useSdkWallet();
-        // but hpw to know that it's not an SDK...
-        store.commit('CHECK');
-        // EventBus.$emit('sdkLive');
-
       }
       const balance = await client.balance(address).catch(() => 0);
       this.setLoggedInAccount({

@@ -77,7 +77,6 @@ export const scanForWallets = async () => {
       detector.stopScan();
       await client.connectToWallet(await newWallet.getConnection());
       await client.subscribeAddress('subscribe', 'current');
-      EventBus.$emit('clientLive');
       resolve();
     });
   });

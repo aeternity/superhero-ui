@@ -28,42 +28,23 @@ export default {
     ...mapState(['useSdkWallet', 'account']),
     ...mapGetters(['isLoggedIn']),
   },
+  // methods: {
+  //   sdkLogin() {
+
+  //   },
+  //   deepLinkLogin() {
+
+  //   },
+  // },
   created() {
-    // sdkLive
-    const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
-    let signature;
-    let address;
-
-    console.log({ useSdkWallet: this.useSdkWallet });
-
-    // if not use extention (useless statment, leaved for semantic)
-    if (!this.useSdkWallet) {
-      console.log('asdasd');
-      const currentUrl = new URL(window.location);
-      const successUrl = encodeURIComponent(`${currentUrl}/networking?result=success&signature={signature}`);
-      currentUrl.search = '';
-      window.location = createDeepLinkUrl({
-        // type: 'sign-message',
-        message,
-        'x-success': `${currentUrl}?message=${message}&signature={signature}&x-success=${successUrl}`,
-      });
-    }
-
-    // maybe don't need and use only sdkLive
-    EventBus.$on('clientLive', () => {
-      // todo: somthing like if not mobile and useSdkWallet
-
-      /*
-        if it use extention
-        I can't use this.useSdkWallet because false without the event
-        but it's OK after event. so I can just use event
-      */
-      EventBus.$on('sdkLive', async () => {
-
-        if (this.useSdkWallet) {
-          signature = await client.signMessage(message);
-          address = client.rpcClient.getCurrentAccount();
-        }
+    setTimeout(async () => {
+      const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
+      let signature;
+      let address;
+      if (this.useSdkWallet) {
+        console.log('HAS_SDK');
+        signature = await client.signMessage(message);
+        address = client.rpcClient.getCurrentAccount();
 
         const token = await (await fetch('https://jwt.z52da5wt.xyz/claim ', {
           method: 'POST',
@@ -83,17 +64,17 @@ export default {
             disableDeepLinking: IS_MOBILE_DEVICE,
           },
         });
-      });
-      // const link = createDeepLinkUrl({
-      //   type: 'address',
-      //   'x-success': `${window.location}?address={address}`,
-      // });
-      // console.log({ link });
-
-      // } else {
-      //   // this.createDeepLinkUrl(method, { challenge, signature });
-      // }
-    });
+      } else {
+        const currentUrl = new URL(window.location);
+        currentUrl.search = '';
+        const successUrl = encodeURIComponent(`${currentUrl}?result=success&signature={signature}`);
+        window.location = createDeepLinkUrl({
+          type: 'sign-message',
+          message,
+          'x-success': successUrl,
+        });
+      }
+    }, 4000);
   },
 };
 </script>

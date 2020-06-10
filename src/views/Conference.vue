@@ -5,8 +5,6 @@
     >
       <template v-if="counter > 0">
         {{ counter }}
-        <div style="width: 100px;">
-        </div>
       </template>
       <template v-else>
         <div
@@ -51,18 +49,21 @@ export default {
 
     if (!this.isLoggedIn) {
       const currentUrl = new URL(window.location);
-      currentUrl.search = '';
-      const successUrl = encodeURIComponent(`${currentUrl}?result=success&signature={signature}&fromWallet=true`);
+      // currentUrl.search = '';
       const signLink = createDeepLinkUrl({
         type: 'sign-message',
         message: `I would like to generate JWT token at ${new Date().toUTCString()}`,
-        'x-success': successUrl,
-      }).href;
+        'x-success': `${currentUrl}?result=success&signature={signature}&fromWallet=true`,
+      });
+
+      // console.log(signLink);
 
       window.location = createDeepLinkUrl({
         type: 'address',
-        'x-success': `${signLink}?address={address}`,
+        'x-success': `${signLink}?address={address}&result=success`,
       });
+
+      // console.log(location);
     }
 
     setTimeout(async () => {

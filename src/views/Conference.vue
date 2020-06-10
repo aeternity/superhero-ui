@@ -17,7 +17,7 @@
 <script>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import JitsiMeetExternalAPI from 'jitsi';
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import Page from '../components/layout/Page.vue';
 import { IS_MOBILE_DEVICE, createDeepLinkUrl } from '../utils/util';
 
@@ -37,20 +37,6 @@ export default {
   },
   computed: {
     ...mapState(['useSdkWallet', 'account']),
-    ...mapGetters(['isLoggedIn']),
-  },
-  methods: {
-    sdkLogin() {
-
-    },
-    deepLinkLogin() {
-
-    },
-    runCounter() {
-      setInterval(() => {
-        this.counter -= 1;
-      }, 1000);
-    },
   },
   created() {
     if (this.$route.query.fromWallet) {
@@ -96,6 +82,19 @@ export default {
         });
       }
     }, TIMEOUT);
+  },
+  methods: {
+    sdkLogin() {
+
+    },
+    deepLinkLogin() {
+
+    },
+    runCounter() {
+      setInterval(() => {
+        this.counter -= 1;
+      }, 1000);
+    },
   },
 };
 </script>

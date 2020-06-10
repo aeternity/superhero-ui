@@ -3,10 +3,14 @@
     <div
       class="league-page"
     >
-      <div
-        v-if="counter > 0"
-        id="jitsi"
-      />
+      <template v-if="counter > 0">
+        {{ counter }}
+      </template>
+      <template v-else>
+        <div
+          id="jitsi"
+        />
+      </template>
     </div>
   </Page>
 </template>
@@ -35,17 +39,24 @@ export default {
     ...mapState(['useSdkWallet', 'account']),
     ...mapGetters(['isLoggedIn']),
   },
-  // methods: {
-  //   sdkLogin() {
+  methods: {
+    sdkLogin() {
 
-  //   },
-  //   deepLinkLogin() {
+    },
+    deepLinkLogin() {
 
-  //   },
-  // },
+    },
+    runCounter() {
+      setInterval(() => {
+        this.counter -= 1;
+      }, 1000);
+    },
+  },
   created() {
     if (this.$route.query.fromWallet) {
       this.state.counter = 0;
+    } else {
+      this.runCounter();
     }
 
     setTimeout(async () => {

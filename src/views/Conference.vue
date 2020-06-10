@@ -17,10 +17,9 @@
 <script>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import JitsiMeetExternalAPI from 'jitsi';
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import Page from '../components/layout/Page.vue';
-import { IS_MOBILE_DEVICE, createDeepLinkUrl } from '../utils/util';
-
+import Util, { IS_MOBILE_DEVICE, createDeepLinkUrl } from '../utils/util';
 import { client } from '../utils/aeternity';
 
 const TIMEOUT = 400000;
@@ -39,31 +38,35 @@ export default {
   computed: {
     ...mapState(['useSdkWallet', 'account']),
     ...mapGetters(['isLoggedIn']),
+    ...mapMutations(['setLoggedInAccount']),
   },
   created() {
-    if (this.$route.query.fromWallet) {
+    if (this.$route.query.fromWallet === 'true') {
       this.counter = 0;
     } else {
       this.runCounter();
     }
 
+    // with deeplink
     if (!this.isLoggedIn) {
       const currentUrl = new URL(window.location);
-      // currentUrl.search = '';
+      currentUrl.search = '';
       const signLink = createDeepLinkUrl({
         type: 'sign-message',
         message: `I would like to generate JWT token at ${new Date().toUTCString()}`,
         'x-success': `${currentUrl}?result=success&signature={signature}&fromWallet=true`,
       });
 
-      // console.log(signLink);
-
       window.location = createDeepLinkUrl({
         type: 'address',
-        'x-success': `${signLink}?address={address}&result=success`,
+        'x-success': `${signLink}?address={address}&balance={balance}&result=success`,
       });
 
-      // console.log(location);
+      const { address, balance } = this.$route.query.address;
+      this.setLoggedInAccount({
+        account: address,
+        balance: Util.atomsToAe(balance).toFixed(2),
+      });
     }
 
     setTimeout(async () => {

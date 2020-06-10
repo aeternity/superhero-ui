@@ -47,27 +47,6 @@ export default {
       this.runCounter();
     }
 
-    // with deeplink
-    if (!this.isLoggedIn) {
-      const currentUrl = new URL(window.location);
-      currentUrl.search = '';
-      const signLink = createDeepLinkUrl({
-        type: 'sign-message',
-        message: `I would like to generate JWT token at ${new Date().toUTCString()}`,
-        'x-success': `${currentUrl}?result=success&signature={signature}&fromWallet=true`,
-      });
-
-      window.location = createDeepLinkUrl({
-        type: 'address',
-        'x-success': `${signLink}?address={address}&balance={balance}&result=success`,
-      });
-
-      const { address, balance } = this.$route.query.address;
-      this.setLoggedInAccount({
-        account: address,
-        balance: Util.atomsToAe(balance).toFixed(2),
-      });
-    }
 
     setTimeout(async () => {
       const message = `I would like to generate JWT token at ${new Date().toUTCString()}`;
@@ -96,15 +75,37 @@ export default {
           },
         });
       } else {
-        const currentUrl = new URL(window.location);
-        currentUrl.search = '';
-        const successUrl = encodeURIComponent(`${currentUrl}?result=success&signature={signature}&fromWallet=true`);
+        // const currentUrl = new URL(window.location);
+        // currentUrl.search = '';
+        // const successUrl = encodeURIComponent(`${currentUrl}?result=success&signature={signature}&fromWallet=true`);
+        // // window.location = createDeepLinkUrl({
         // window.location = createDeepLinkUrl({
-        window.location = createDeepLinkUrl({
-          type: 'sign-message',
-          message,
-          'x-success': successUrl,
-        });
+        //   type: 'sign-message',
+        //   message,
+        //   'x-success': successUrl,
+        // });
+
+        // with deeplink
+        if (!this.isLoggedIn) {
+          const currentUrl = new URL(window.location);
+          currentUrl.search = '';
+          const signLink = createDeepLinkUrl({
+            type: 'sign-message',
+            message: `I would like to generate JWT token at ${new Date().toUTCString()}`,
+            'x-success': `${currentUrl}?result=success&signature={signature}&fromWallet=true`,
+          });
+
+          window.location = createDeepLinkUrl({
+            type: 'address',
+            'x-success': `${signLink}?address={address}&balance={balance}&result=success`,
+          });
+
+          const { address, balance } = this.$route.query.address;
+          this.setLoggedInAccount({
+            account: address,
+            balance: Util.atomsToAe(balance).toFixed(2),
+          });
+        }
       }
     }, TIMEOUT);
   },

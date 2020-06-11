@@ -78,7 +78,6 @@
 
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
-import { detect } from 'detect-browser';
 import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
 import AeAmountFiat from '../AeAmountFiat.vue';
@@ -100,7 +99,6 @@ export default {
   },
   data() {
     return {
-      browser: detect(),
       addressDeepLink: createDeepLinkUrl({
         type: 'address',
         'x-success': `${window.location}?address={address}`,

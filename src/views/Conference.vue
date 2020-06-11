@@ -23,7 +23,7 @@ import Page from '../components/layout/Page.vue';
 import Util, { IS_MOBILE_DEVICE, createDeepLinkUrl } from '../utils/util';
 import { client } from '../utils/aeternity';
 
-const TIMEOUT = 400000;
+const TIMEOUT = 4000;
 
 export default {
   name: 'Conference',

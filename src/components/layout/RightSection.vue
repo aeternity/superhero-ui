@@ -2,12 +2,13 @@
   <div class="app__rightcolumn">
     <div class="content">
       <SearchInput class="side-search" />
-      <div class="section wallet-install">
+      <div
+        class="section wallet-install"
+      >
         <div class="section__body">
           <iframe
             class="wallet-frame"
-            src="https://wallet.superhero.com"
-            frameborder="0"
+            :src="walletUrl"
           />
         </div>
       </div>
@@ -26,10 +27,16 @@
             :key="idx"
             class="section__item"
           >
-            <div class="topic-container text-ellipsis">
+            <div
+              v-if="topic !== '#test'"
+              class="topic-container text-ellipsis"
+            >
               <Topic :topic="topic" />
             </div>
-            <AeAmountFiat :amount="data.amount" />
+            <AeAmountFiat
+              v-if="topic !== '#test'"
+              :amount="data.amount"
+            />
           </div>
         </div>
       </div>
@@ -39,13 +46,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { detect } from 'detect-browser';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import AeAmountFiat from '../AeAmountFiat.vue';
 import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
 import SearchInput from './SearchInput.vue';
+import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'RightSection',
@@ -57,19 +64,16 @@ export default {
   },
   data() {
     return {
-      browser: detect(),
+      addressDeepLink: createDeepLinkUrl({
+        type: 'address',
+        'x-success': `${window.location}?address={address}`,
+      }),
+      walletUrl: process.env.VUE_APP_WALLET_URL,
     };
   },
   computed: {
-    ...mapGetters([
-      'topics',
-      'loading',
-      'isLoggedIn',
-      'balance',
-      'account',
-      'currencyRates',
-      'settings',
-    ]),
+    ...mapGetters(['isLoggedIn']),
+    ...mapState(['topics', 'loading', 'balance', 'account', 'currencyRates', 'settings']),
     currencyDropdownOptions() {
       if (this.currencyRates && this.currencyRates.aeternity && this.balance) {
         return Object.keys(this.currencyRates.aeternity).map((key) => ({
@@ -85,26 +89,9 @@ export default {
     roundAE() {
       return new BigNumber(this.balance).toFixed(2);
     },
-    downloadUrl() {
-      if (this.browser) {
-        switch (this.browser.name) {
-          case 'firefox':
-            return '//addons.mozilla.org/en-US/firefox/addon/superhero-wallet/';
-          case 'chrome':
-          case 'opera':
-          case 'vivaldi':
-          case 'brave': // might not be detected from browser-detect
-          case 'edge-chromium':
-            return '//chrome.google.com/webstore/detail/mnhmmkepfddpifjkamaligfeemcbhdne/';
-          default:
-            break;
-        }
-      }
-      return '//github.com/aeternity/superhero-wallet/releases/latest/';
-    },
   },
   methods: {
-    ...mapActions(['updateCurrency']),
+    ...mapMutations(['updateCurrency']),
     selectCurrency(selectedCurrency) {
       this.updateCurrency(selectedCurrency);
     },
@@ -207,6 +194,7 @@ export default {
         height: 657px;
         max-height: 657px;
         max-width: 357px;
+        border: none;
       }
 
       .account {

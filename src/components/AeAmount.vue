@@ -1,6 +1,7 @@
 <template>
   <span class="ae-amount">
     <span>{{ roundedAmount }}</span>
+    <!--eslint-disable-next-line vue-i18n/no-raw-text-->
     <span class="ae">AE</span>
   </span>
 </template>
@@ -13,7 +14,7 @@ export default {
   name: 'AeAmount',
   props: {
     amount: { type: String, required: true },
-    round: { type: Number, required: true },
+    round: { type: Number, default: 2 },
     aettos: { type: Boolean, required: false },
   },
   computed: {

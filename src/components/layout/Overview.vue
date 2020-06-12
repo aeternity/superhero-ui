@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import AeAmountFiat from '../AeAmountFiat.vue';
 
 export default {
@@ -90,13 +90,13 @@ export default {
   components: {
     AeAmountFiat,
   },
-  computed: mapGetters(['stats']),
+  computed: mapState(['stats']),
 };
 </script>
 
 <style lang="scss">
 .overview {
-  margin-top: 1.2rem;
+  margin-top: 1rem;
 }
 
 .overview__item {

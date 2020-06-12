@@ -17,22 +17,24 @@
       </a>
     </div>
     <div>
-      <i18n
-        path="components.layout.FooterSection.FooterInfo"
-        tag="p"
-      >
-        <template v-slot:openSource>
-          <a
-            href="https://github.com/aeternity/superhero-ui/"
-            target="_blank"
-            class="gh-link"
-          >
-            {{ $t('components.layout.FooterSection.ContributeOnGithub') }}
-            <img src="../../assets/ghLogo.svg">
-          </a>
-        </template>
-      </i18n>
+      <p>
+        {{ $t("components.layout.FooterSection.FooterInfo") }}
+        <a
+          href="https://github.com/aeternity/superhero-ui/"
+          target="_blank"
+          class="gh-link"
+        >
+          {{ $t('components.layout.FooterSection.ContributeOnGithub') }}
+          <img src="../../assets/ghLogo.svg">
+        </a>
+      </p>
     </div>
+    <span>
+      <a :href="`https://github.com/aeternity/superhero-ui/commit/${commitHash}`">
+        {{ commitHash.slice(0, 7) }}
+      </a><!--eslint-disable-line vue-i18n/no-raw-text-->
+      / {{ version }}
+    </span>
     <div class="terms-links">
       <router-link
         class="footer-links"
@@ -54,13 +56,36 @@
         <img src="../../assets/iconVenture.svg">
       </a>
     </div>
+    <div
+      v-if="!isLoggedIn"
+      class="login-footer"
+    >
+      <a
+        :href="addressDeepLink"
+        class="button"
+        :title="$t('components.layout.FooterSection.LoginWithWallet')"
+      >
+        {{ $t('components.layout.FooterSection.LoginWithWallet') }}
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
   name: 'FooterSection',
+  data: () => ({
+    version: process.env.npm_package_version,
+    commitHash: process.env.COMMIT_HASH,
+    addressDeepLink: createDeepLinkUrl({
+      type: 'address',
+      'x-success': `${window.location}?address={address}`,
+    }),
+  }),
+  computed: mapGetters(['isLoggedIn']),
 };
 </script>
 
@@ -119,6 +144,7 @@ export default {
       img {
         width: 0.65rem;
         height: 0.65rem;
+        vertical-align: text-bottom;
       }
 
       &:hover {
@@ -126,6 +152,22 @@ export default {
           filter: brightness(0.8);
         }
       }
+    }
+
+    .login-footer {
+      display: none;
+      line-height: 0.9rem;
+      margin-top: 0.4rem;
+
+      a {
+        padding: 0.625rem 1rem 0.625rem 1rem;
+      }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .footer .login-footer {
+      display: block;
     }
   }
 

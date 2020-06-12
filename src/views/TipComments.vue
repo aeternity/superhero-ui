@@ -1,7 +1,6 @@
 <template>
-  <Page>
-    <div class="container wrapper url__page">
-      <BackButtonRibbon />
+  <Page back>
+    <div class="url__page">
       <div
         v-if="tip"
         class="tipped__url"
@@ -15,11 +14,13 @@
         <p class="latest__comments">
           {{ $t('views.TipCommentsView.LatestReplies') }}
         </p>
-        <SendComment
-          :tip-id="tip.id"
-        />
+        <SendComment :tip-id="tip.id" />
       </div>
       <div class="comments__section">
+        <Loading
+          v-if="showLoading"
+          class="loading-position-absolute"
+        />
         <div
           v-if="comments.length === 0 && !showLoading"
           class="no-results text-center w-100"
@@ -33,19 +34,13 @@
           :key="index"
           :comment="comment"
         />
-        <div
-          v-if="showLoading"
-          class="text-center w-100 mt-3"
-        >
-          <Loading />
-        </div>
       </div>
     </div>
   </Page>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
@@ -53,17 +48,14 @@ import TipCommentList from '../components/tipRecords/TipCommentList.vue';
 import Page from '../components/layout/Page.vue';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
-import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import SendComment from '../components/SendComment.vue';
 
 export default {
-  name: 'TipCommentsView',
   components: {
     Loading,
     TipRecord,
     TipCommentList,
     Page,
-    BackButtonRibbon,
     SendComment,
   },
   data() {
@@ -75,7 +67,7 @@ export default {
       tip: null,
     };
   },
-  computed: mapGetters(['chainNames', 'loading']),
+  computed: mapState(['chainNames']),
   watch: {
     tip() {
       this.updateTip();
@@ -95,6 +87,7 @@ export default {
   },
   methods: {
     updateTip() {
+      this.showLoading = true;
       Backend.getTipComments(this.id).then((response) => {
         this.error = false;
         this.comments = response.map((comment) => {
@@ -111,6 +104,10 @@ export default {
     },
     async reloadData() {
       this.tip = await Backend.getCacheTipById(this.id);
+      if (this.tip === null) {
+        this.error = true;
+        return;
+      }
       this.updateTip();
     },
     async loadTip() {
@@ -162,6 +159,11 @@ export default {
   .comments__section {
     background-color: $thumbnail_background_color;
     padding: 1rem;
+    position: relative;
+
+    .loading-position-absolute {
+      margin-left: -1rem;
+    }
   }
 
   .no-results {
@@ -170,7 +172,7 @@ export default {
     text-align: center;
 
     &.error {
-      color: red;
+      color: $red_color;
     }
   }
 

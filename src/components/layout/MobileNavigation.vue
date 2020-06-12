@@ -11,6 +11,7 @@
       class="close-navigation"
       @click="openNavigation(false)"
     >
+      <!--eslint-disable-line vue-i18n/no-raw-text-->
       &#x2715;
     </div>
     <Navigation />
@@ -19,15 +20,12 @@
       class="mobile-actions"
     >
       <a
-        v-if="USE_DEEP_LINKS && $route.name === 'tips'"
+        v-if="!useSdkWallet && $route.name === 'tips'"
         :href="createDeepLinkUrl({ type: 'tip' })"
         target="_blank"
         class="mobile-only"
       >
-        <img
-          class="tip"
-          src="../../assets/iconDiamond.svg"
-        >
+        <IconDiamond class="tip" />
       </a>
       <img
         v-if="$route.name === 'tips'"
@@ -46,16 +44,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import Navigation from './Navigation.vue';
 import FooterSection from './FooterSection.vue';
-import { USE_DEEP_LINKS, createDeepLinkUrl } from '../../utils/util';
+import { createDeepLinkUrl } from '../../utils/util';
+import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
 
 export default {
   name: 'MobileNavigation',
   components: {
     Navigation,
     FooterSection,
+    IconDiamond,
   },
   props: {
     showMobileNavigation: { type: Boolean },
@@ -64,12 +64,11 @@ export default {
   data() {
     return {
       open: false,
-      USE_DEEP_LINKS,
-      createDeepLinkUrl,
     };
   },
-  computed: mapGetters(['balance', 'account']),
+  computed: mapState(['useSdkWallet', 'balance', 'account']),
   methods: {
+    createDeepLinkUrl,
     openNavigation(isOpen) {
       this.open = isOpen;
     },
@@ -90,11 +89,6 @@ export default {
 
   .logo {
     margin-bottom: 0;
-
-    img {
-      width: 6.4rem;
-      height: 1.5rem;
-    }
   }
 
   .mobile-actions {

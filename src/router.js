@@ -2,13 +2,15 @@ import Router from 'vue-router';
 import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
 import Maintenance from './views/Maintenance.vue';
-import SingleCommentView from './views/SingleCommentView.vue';
+import SingleComment from './views/SingleComment.vue';
+import League from './views/League.vue';
+import Governance from './views/Governance.vue';
 import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
-import TipCommentsView from './views/TipCommentsView.vue';
+import TipComments from './views/TipComments.vue';
 import TipsList from './views/TipsList.vue';
-import UserProfileView from './views/UserProfileView.vue';
+import UserProfile from './views/UserProfile.vue';
 import Tracing from './views/admin/Tracing.vue';
 
 const guardTipComments = (to, from, next) => {
@@ -35,11 +37,14 @@ const routes = [
     name: 'tips',
     component: TipsList,
     meta: { title: 'Tips' },
+    beforeEnter(to, from, next) {
+      next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
+    },
   },
   {
     path: '/tip/:tipId/comment/:id',
     name: 'comment',
-    component: SingleCommentView,
+    component: SingleComment,
     meta: {
       title: 'Comment View',
     },
@@ -49,7 +54,7 @@ const routes = [
   {
     path: '/tip/:id',
     name: 'tip',
-    component: TipCommentsView,
+    component: TipComments,
     meta: {
       title: 'Comments for a Tip',
     },
@@ -59,7 +64,7 @@ const routes = [
   {
     path: '/user-profile/:address',
     name: 'user-profile',
-    component: UserProfileView,
+    component: UserProfile,
     meta: {
       title: 'User Profile',
     },
@@ -87,6 +92,22 @@ const routes = [
     component: CreateProfile,
     meta: {
       title: 'Tutorial Page',
+    },
+  },
+  {
+    path: '/league',
+    name: 'league',
+    component: League,
+    meta: {
+      title: 'Superhero League',
+    },
+  },
+  {
+    path: '/governance',
+    name: 'governance',
+    component: Governance,
+    meta: {
+      title: 'Superhero Governance',
     },
   },
   {
@@ -125,7 +146,7 @@ const routes = [
   },
 ];
 
-const router = new Router({ mode: 'hash', routes });
+const router = new Router({ mode: 'history', routes });
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - Superhero.com`;

@@ -3,12 +3,13 @@
     v-if="currencyRates.aeternity"
     class="currency-value"
   >
+    <!--eslint-disable-next-line vue-i18n/no-raw-text-->
     <span>(~ {{ fiatValue }})</span>
   </span>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   name: 'FiatValue',
@@ -16,7 +17,7 @@ export default {
     amount: { type: String, required: true },
   },
   computed: {
-    ...mapGetters(['settings', 'currencyRates']),
+    ...mapState(['settings', 'currencyRates']),
     fiatValue() {
       const rate = this.currencyRates.aeternity[this.settings.currency];
       if (!this.amount) {

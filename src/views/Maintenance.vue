@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { EventBus } from '../utils/eventBus';
+
 export default {
   name: 'Maintenance',
   data() {
@@ -32,13 +34,29 @@ export default {
       view: 'recharge',
     };
   },
+  created() {
+    EventBus.$on('backendLive', () => {
+      clearInterval(this.interval);
+      this.$router.push({
+        name: 'tips',
+      }).catch((err) => { console.error(err); });
+    });
+
+    this.interval = setInterval(() => EventBus.$emit('reloadData'), 10 * 1000);
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .maintenance {
-  margin: 4rem auto;
   padding: 1rem;
+  background-color: #14151f;
+  min-width: 100vw;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
   h1 {
     font-size: 55px;

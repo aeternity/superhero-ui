@@ -45,7 +45,7 @@ export default {
   }
 
   &[disabled] {
-    background-color: $preview_description_font_color;
+    opacity: 0.4;
   }
 
   span {

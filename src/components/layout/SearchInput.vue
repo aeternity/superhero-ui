@@ -32,13 +32,14 @@
       :title="$t('views.TipList.CloseSearch')"
       @click="toggleMobileNav(true)"
     >
+      <!--eslint-disable-line vue-i18n/no-raw-text-->
       &#x2715;
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import { EventBus } from '../../utils/eventBus';
 
 export default {
@@ -48,7 +49,7 @@ export default {
     toggleMobileNav: { type: Function, required: false, default: null },
   },
   computed: {
-    ...mapGetters(['searchTerm']),
+    ...mapState(['searchTerm']),
     searchTermValue: {
       get() {
         return this.searchTerm;
@@ -69,7 +70,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setSearchTerm']),
+    ...mapMutations(['setSearchTerm']),
     onSearchTopic(data) {
       this.setSearchTerm(data);
     },
@@ -136,10 +137,16 @@ export default {
 
   input {
     height: 2.2rem;
+    border-radius: 0.25rem;
   }
 
-  .search-icon img {
-    width: 0.7rem;
+  .search-icon {
+    line-height: 0.91rem;
+
+    img {
+      width: 0.91rem;
+      height: 0.91rem;
+    }
   }
 
   .clear img {

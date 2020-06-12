@@ -5,6 +5,12 @@
     class="tip__record row"
     @click="goToTip(tip.id)"
   >
+    <SuccessModal
+      v-if="showSuccessModal"
+      :title="$t('components.tipRecords.TipRecord.reportPostTitle')"
+      :body="$t('components.tipRecords.TipRecord.reportPostBody')"
+      @close="showSuccessModal = false"
+    />
     <div class="tip__body">
       <div class="tip__description">
         <div
@@ -13,7 +19,7 @@
           @click.stop
         >
           <router-link :to="'/user-profile/' + tip.sender">
-            <Avatar :address="tip.sender" />
+            <AvatarWrapper :address="tip.sender" />
             <div class="tip__author_name">
               <span
                 v-if="tip.chainName"
@@ -30,6 +36,14 @@
           </router-link>
           <span class="tip__date">
             <FormatDate :date-timestamp="new Date(tip.timestamp)" />
+            <ThreeDotsMenu>
+              <div @click="sendReport">
+                {{ $t('components.tipRecords.TipRecord.reportPost') }}
+              </div>
+              <div @click="claim">
+                {{ $t('components.tipRecords.TipRecord.claim') }}
+              </div>
+            </ThreeDotsMenu>
           </span>
         </div>
       </div>
@@ -70,7 +84,7 @@
                 :href="tip.url"
                 @click.stop
               >
-                <img src="../../assets/externalLink.svg">
+                <ExternalLink />
                 <span class="text-ellipsis">{{ tip.url }}</span>
               </a>
             </div>
@@ -100,6 +114,8 @@
           :href="tip.url"
           :title="tip.url"
           class="text-ellipsis"
+          target="_blank"
+          @click.stop
         >
           {{ tip.url }}
         </a>
@@ -125,17 +141,24 @@
 <script>
 import Backend from '../../utils/backend';
 import TipInput from '../TipInput.vue';
+import SuccessModal from '../SuccessModal.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
-import Avatar from '../Avatar.vue';
+import ThreeDotsMenu from '../ThreeDotsMenu.vue';
+import AvatarWrapper from '../AvatarWrapper.vue';
+import { client } from '../../utils/aeternity';
+import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
   name: 'TipRecord',
   components: {
     TipTitle,
     FormatDate,
-    Avatar,
+    AvatarWrapper,
     TipInput,
+    SuccessModal,
+    ThreeDotsMenu,
+    ExternalLink,
   },
   props: {
     tip: { type: Object, required: true },
@@ -145,6 +168,7 @@ export default {
   data() {
     return {
       key: `${this.tip.id}_${new Date().getTime()}`,
+      showSuccessModal: false,
     };
   },
   computed: {
@@ -166,6 +190,24 @@ export default {
     },
   },
   methods: {
+    async sendReport() {
+      Backend.sendPostReport(
+        this.tip.id,
+        client.rpcClient.getCurrentAccount(),
+        (data) => client.signMessage(data),
+      ).then(() => {
+        this.showSuccessModal = true;
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    async claim() {
+      const postData = {
+        url: this.tip.url,
+        address: client.rpcClient.getCurrentAccount(),
+      };
+      await Backend.claimFromUrl(postData);
+    },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
         && typeof tip.preview !== 'undefined'
@@ -225,9 +267,15 @@ export default {
     padding: 0 1rem 0.9rem 1rem;
 
     .tip__date {
-      display: inline-block;
       font-size: 0.6rem;
-      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .three-dots {
+        font-size: 0.75rem;
+        margin-left: 0.3rem;
+      }
     }
 
     .address {
@@ -305,10 +353,8 @@ export default {
   }
 
   .comment__icon {
-    height: 1rem;
     margin-right: 0.2rem;
     vertical-align: top;
-    width: 1rem;
   }
 
   .tip__footer {
@@ -340,14 +386,8 @@ export default {
     }
   }
 
-  .tip__comments {
-    img {
-      height: 1rem;
-    }
-
-    &:hover img {
-      filter: brightness(1.3);
-    }
+  .tip__comments:hover img {
+    filter: brightness(1.3);
   }
 
   .tip__url {
@@ -431,19 +471,16 @@ export default {
     }
 
     .site__url {
-      align-items: flex-start;
+      align-items: center;
       display: flex;
       flex-grow: 1;
       font-weight: 500;
       margin-bottom: 0.45rem;
 
-      img {
-        width: 1rem;
-        height: 1rem;
+      svg {
+        flex-grow: 0;
+        flex-shrink: 0;
         margin-right: 0.335rem;
-        padding: 0.135rem 0;
-        flex: 0 0 1rem;
-        vertical-align: initial;
       }
 
       a {
@@ -451,6 +488,7 @@ export default {
         display: inline-flex;
         height: 1rem;
         max-width: 100%;
+        align-items: center;
 
         &:hover {
           text-decoration: underline;

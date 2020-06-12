@@ -4,6 +4,7 @@ module.exports = {
     node: true,
   },
   extends: [
+    'plugin:vue-i18n/recommended',
     'plugin:vue/recommended',
     '@vue/airbnb',
   ],
@@ -36,6 +37,9 @@ module.exports = {
     'vue/space-infix-ops': 'error',
     'vue/space-unary-ops': 'error',
     'vue/v-on-function-call': 'error',
+    'vue-i18n/no-dynamic-keys': 'error',
+    'vue-i18n/no-unused-keys': 'error',
+    'vue-i18n/no-raw-text': 'error',
   },
   overrides: [
     {
@@ -48,4 +52,9 @@ module.exports = {
       },
     },
   ],
+  settings: {
+    'vue-i18n': {
+      localeDir: './src/locales/*.json',
+    },
+  },
 };

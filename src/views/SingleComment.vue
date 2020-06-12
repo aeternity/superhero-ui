@@ -1,7 +1,6 @@
 <template>
-  <Page>
-    <div class="container wrapper comment__page">
-      <BackButtonRibbon />
+  <Page back>
+    <div class="comment__page">
       <div
         v-if="comment"
         class="tipped__url"
@@ -21,6 +20,10 @@
         v-if="comment"
         class="comments__section"
       >
+        <Loading
+          v-if="showLoading"
+          class="loading-position-absolute"
+        />
         <div
           v-if="comment.children.length === 0 && !showLoading"
           class="no-results text-center w-100"
@@ -34,12 +37,6 @@
           :key="nestedComment.id"
           :comment="nestedComment"
         />
-        <div
-          v-if="showLoading"
-          class="text-center w-100 mt-3"
-        >
-          <Loading :show-loading="true" />
-        </div>
       </div>
     </div>
   </Page>
@@ -52,16 +49,13 @@ import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
-import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import SendComment from '../components/SendComment.vue';
 
 export default {
-  name: 'CommentView',
   components: {
     Page,
     Loading,
     TipComment,
-    BackButtonRibbon,
     SendComment,
   },
   data() {

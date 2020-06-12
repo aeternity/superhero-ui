@@ -1,17 +1,17 @@
 import Router from 'vue-router';
+import Tracing from './views/admin/Tracing.vue';
 import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
-import Maintenance from './views/Maintenance.vue';
-import SingleComment from './views/SingleComment.vue';
-import League from './views/League.vue';
 import Governance from './views/Governance.vue';
+import League from './views/League.vue';
+import Maintenance from './views/Maintenance.vue';
 import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
+import SingleComment from './views/SingleComment.vue';
 import Terms from './views/Terms.vue';
 import TipComments from './views/TipComments.vue';
 import TipsList from './views/TipsList.vue';
 import UserProfile from './views/UserProfile.vue';
-import Tracing from './views/admin/Tracing.vue';
 
 const guardTipComments = (to, from, next) => {
   if (to.name === 'tip' && typeof to.params.id !== 'undefined') {
@@ -103,11 +103,11 @@ const routes = [
     },
   },
   {
-    path: '/governance',
-    name: 'governance',
+    path: '/voting',
+    name: 'voting',
     component: Governance,
     meta: {
-      title: 'Superhero Governance',
+      title: 'Superhero Voting',
     },
   },
   {

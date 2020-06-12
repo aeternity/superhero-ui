@@ -34,7 +34,7 @@
       </router-link>
     </div>
     <div class="navigation__item governance">
-      <router-link :to="{ name: 'governance' }">
+      <router-link :to="{ name: 'voting' }">
         <IconGovernance class="navigation__item__image" />
         <span>{{ $t('components.layout.Navigation.Governance') }}</span>
       </router-link>

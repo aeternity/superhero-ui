@@ -11,7 +11,7 @@
 </template>
 <script>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import JitsiMeetExternalAPI from 'jitsi';
+import JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import Page from '../components/layout/Page.vue';
 import { IS_MOBILE_DEVICE } from '../utils/util';
 
@@ -20,7 +20,7 @@ export default {
   components: {
     Page,
   },
-  created() {
+  mounted() {
     // eslint-disable-next-line no-new
     new JitsiMeetExternalAPI('test.league.aeternity.org', {
       parentNode: document.querySelector('#jitsi'),

@@ -1,6 +1,6 @@
 {
   "name": "superhero-ui",
-  "version": "0.1.8",
+  "version": "0.1.11",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

@@ -1,16 +1,17 @@
 import Router from 'vue-router';
+import Tracing from './views/admin/Tracing.vue';
 import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
-import Maintenance from './views/Maintenance.vue';
-import SingleComment from './views/SingleComment.vue';
+import Governance from './views/Governance.vue';
 import League from './views/League.vue';
+import Maintenance from './views/Maintenance.vue';
 import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
+import SingleComment from './views/SingleComment.vue';
 import Terms from './views/Terms.vue';
 import TipComments from './views/TipComments.vue';
 import TipsList from './views/TipsList.vue';
 import UserProfile from './views/UserProfile.vue';
-import Tracing from './views/admin/Tracing.vue';
 import Networking from './views/Networking.vue';
 import Conference from './views/Conference.vue';
 
@@ -101,6 +102,14 @@ const routes = [
     component: League,
     meta: {
       title: 'Superhero League',
+    },
+  },
+  {
+    path: '/voting',
+    name: 'voting',
+    component: Governance,
+    meta: {
+      title: 'Superhero Voting',
     },
   },
   {

@@ -38,7 +38,8 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-  .loading-position-absolute {
+  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+  ::v-deep .loading-position-absolute {
     position: absolute;
   }
 

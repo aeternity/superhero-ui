@@ -374,7 +374,8 @@
       },
       "Navigation": {
         "MyProfile": "My Profile",
-        "League": "League"
+        "League": "League",
+        "Governance": "Voting"
       },
       "Overview": {
         "TipsAggregated": "Tips Aggregated",

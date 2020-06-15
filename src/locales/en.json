@@ -490,5 +490,9 @@
       "blacklisted": ""
     }
   },
-  "Networking": "Networking"
+  "Networking": {
+    "MenuLink": "Networking",
+    "Placeholder": "Room name",
+    "Start": "Start"
+  }
 }

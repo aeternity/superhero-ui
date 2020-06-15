@@ -5,10 +5,10 @@
     >
       <input
         v-model="room"
-        :placeholder="toTranslateLater.placeholder"
+        :placeholder="$t('Networking.Placeholder')"
       >
       <button @click="newRoom(room)">
-        {{ toTranslateLater.button }}
+        {{ $t('Networking.Start') }}
       </button>
     </div>
   </Page>
@@ -22,11 +22,6 @@ export default {
     Page,
   },
   data: () => ({
-    sdk: null,
-    toTranslateLater: {
-      placeholder: 'room name',
-      button: 'Start',
-    },
     room: '',
   }),
   methods: {

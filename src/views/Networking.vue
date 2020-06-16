@@ -7,7 +7,7 @@
         v-model="room"
         :placeholder="$t('Networking.Placeholder')"
       >
-      <button @click="newRoom(room)">
+      <RouterLink :to="{ name: 'conference', params: { room } }">
         {{ $t('Networking.Start') }}
       </button>
     </div>

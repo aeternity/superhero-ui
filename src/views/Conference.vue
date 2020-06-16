@@ -1,12 +1,8 @@
 <template>
   <Page class="league-page-container">
     <div
-      class="conference-page"
-    >
-      <div
-        id="jitsi"
-      />
-    </div>
+      ref="jitsi"
+    />
   </Page>
 </template>
 <script>
@@ -22,8 +18,8 @@ export default {
   },
   mounted() {
     // eslint-disable-next-line no-new
-    new JitsiMeetExternalAPI('localhost:8081', {
-      parentNode: document.querySelector('#jitsi'),
+    new JitsiMeetExternalAPI('test.league.aeternity.org', {
+      parentNode: this.$refs.jitsi,
       width: '100%',
       height: 440,
       roomName: this.$route.params.room,

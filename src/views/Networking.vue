@@ -24,16 +24,6 @@ export default {
   data: () => ({
     room: '',
   }),
-  methods: {
-    newRoom() {
-      this.$router.push({
-        name: 'networking',
-        params: {
-          room: this.room,
-        },
-      });
-    },
-  },
 };
 </script>
 <style lang="scss" scoped>

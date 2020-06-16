@@ -22,7 +22,7 @@ export default {
   },
   mounted() {
     // eslint-disable-next-line no-new
-    new JitsiMeetExternalAPI('test.league.aeternity.org', {
+    new JitsiMeetExternalAPI('localhost:8081', {
       parentNode: document.querySelector('#jitsi'),
       width: '100%',
       height: 440,

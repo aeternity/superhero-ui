@@ -36,9 +36,6 @@ export default {
       savedScrolls: [],
     };
   },
-  state: {
-    ready: false,
-  },
   computed: {
     ...mapState(['account']),
     isSupportedBrowser() {

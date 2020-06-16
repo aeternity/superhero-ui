@@ -8,8 +8,6 @@ import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wa
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import { EventBus } from './eventBus';
 
-// import store from '../store';
-
 const nodeUrl = 'https://mainnet.aeternity.io';
 const nodeUrlTestNet = 'https://testnet.aeternity.io';
 const compilerUrl = 'https://latest.compiler.aepps.com';

@@ -17,7 +17,7 @@ export default {
     Page,
   },
   props: {
-    name: { type: String, required: true },
+    room: { type: String, required: true },
   },
   mounted() {
     // eslint-disable-next-line no-new
@@ -25,7 +25,7 @@ export default {
       parentNode: this.$refs.jitsi,
       width: '100%',
       height: 440,
-      roomName: this.$route.params.room,
+      roomName: this.room,
       configOverwrite: {
         disableDeepLinking: IS_MOBILE_DEVICE,
       },

@@ -7,9 +7,9 @@
         v-model="room"
         :placeholder="$t('Networking.Placeholder')"
       >
-      <RouterLink :to="{ name: 'conference', params: { room } }">
+      <router-link :to="'/league/' + room">
         {{ $t('Networking.Start') }}
-      </RouterLink>
+      </router-link>
     </div>
   </Page>
 </template>

@@ -155,7 +155,7 @@ const routes = [
     },
   },
   {
-    path: '/networking/:room',
+    path: '/league/:room',
     name: 'conference',
     component: Conference,
     props: true,

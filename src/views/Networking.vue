@@ -36,7 +36,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .league-page-container {
   padding-top: 1rem;
 }

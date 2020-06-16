@@ -4,7 +4,7 @@
       class="conference-page"
     >
       <div
-        id="jitsi"
+        ref="jitsi"
       />
     </div>
   </Page>

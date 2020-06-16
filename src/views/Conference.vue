@@ -23,7 +23,7 @@ export default {
   mounted() {
     // eslint-disable-next-line no-new
     new JitsiMeetExternalAPI('test.league.aeternity.org', {
-      parentNode: document.querySelector('#jitsi'),
+      parentNode: this.$refs.jitsi,
       width: '100%',
       height: 440,
       roomName: this.$route.params.room,

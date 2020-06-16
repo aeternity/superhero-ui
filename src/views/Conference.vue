@@ -20,6 +20,9 @@ export default {
   components: {
     Page,
   },
+  props: {
+    name: { type: String, required: true },
+  },
   mounted() {
     // eslint-disable-next-line no-new
     new JitsiMeetExternalAPI('test.league.aeternity.org', {

@@ -6,7 +6,6 @@
   </Page>
 </template>
 <script>
-// eslint-disable-next-line import/no-extraneous-dependencies
 import JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import Page from '../components/layout/Page.vue';
 import { IS_MOBILE_DEVICE } from '../utils/util';

@@ -27,7 +27,7 @@ export default {
   methods: {
     newRoom() {
       this.$router.push({
-        name: 'conference',
+        name: 'networking',
         params: {
           room: this.room,
         },

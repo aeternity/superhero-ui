@@ -48,10 +48,7 @@
                 class="profile__image--edit"
                 :title="address"
               >
-                <Avatar
-                  :address="address"
-                  :profile-image="profileImageUrl"
-                />
+                <Avatar :address="address" />
                 <label
                   v-if="!editMode"
                   class="profile__button avatar__button"
@@ -79,10 +76,7 @@
                 v-else
                 :title="address"
               >
-                <Avatar
-                  :address="address"
-                  :profile-image="profileImageUrl"
-                />
+                <Avatar :address="address" />
                 <TipInput
                   v-if="!editMode"
                   :user-address="address"
@@ -359,11 +353,6 @@ export default {
       return this.activeTab === 'comments'
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
     },
-    profileImageUrl() {
-      const { imageSignature } = this.profile || {};
-      const key = imageSignature && imageSignature.slice(0, 5);
-      return `${Backend.getProfileImageUrl(this.address)}?${key}`;
-    },
   },
   mounted() {
     this.reloadData();
@@ -467,6 +456,7 @@ export default {
           }
           this.profile = profile;
           this.profile.biography = this.profile.biography || '';
+          this.$store.commit('setUserProfile', profile);
         })
         .catch(console.error);
     },

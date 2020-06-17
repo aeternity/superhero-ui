@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     account: null,
     balance: 0,
+    profile: {},
     currencyRates: {},
     minTipAmount: 0.01,
     settings: {

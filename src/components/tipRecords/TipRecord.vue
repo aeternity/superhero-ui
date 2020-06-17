@@ -19,7 +19,7 @@
           @click.stop
         >
           <router-link :to="'/user-profile/' + tip.sender">
-            <AvatarWrapper :address="tip.sender" />
+            <Avatar :address="tip.sender" />
             <div class="tip__author_name">
               <span
                 v-if="tip.chainName"
@@ -145,7 +145,7 @@ import SuccessModal from '../SuccessModal.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
-import AvatarWrapper from '../AvatarWrapper.vue';
+import Avatar from '../Avatar.vue';
 import { client } from '../../utils/aeternity';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
@@ -154,7 +154,7 @@ export default {
   components: {
     TipTitle,
     FormatDate,
-    AvatarWrapper,
+    Avatar,
     TipInput,
     SuccessModal,
     ThreeDotsMenu,

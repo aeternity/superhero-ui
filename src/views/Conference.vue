@@ -23,7 +23,7 @@ export default {
     new JitsiMeetExternalAPI('test.league.aeternity.org', {
       parentNode: this.$refs.jitsi,
       width: '100%',
-      height: 440,
+      height: 540,
       roomName: this.room,
       configOverwrite: {
         disableDeepLinking: IS_MOBILE_DEVICE,
@@ -35,13 +35,5 @@ export default {
 <style lang="scss" scoped>
 .league-page-container {
   padding-top: 1rem;
-}
-
-@media (max-width: 1024px) {
-  .league-page {
-    max-width: 100vw;
-    top: 3.4rem;
-    width: 25rem;
-  }
 }
 </style>

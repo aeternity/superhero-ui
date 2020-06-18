@@ -37,6 +37,7 @@ export default {
 .league-page-container {
   padding-top: 1rem;
 }
+
 .jitsi-container,
 .league-page-container {
   height: calc(100vh - 2em);

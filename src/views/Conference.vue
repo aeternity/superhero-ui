@@ -39,6 +39,6 @@ export default {
 }
 .jitsi-container,
 .league-page-container {
-  height: 100vh;
+  height: calc(100vh - 2em);
 }
 </style>

@@ -1,16 +1,12 @@
 <template>
   <Page class="league-page-container">
-    <div
-      class="networking-page"
+    <input
+      v-model="room"
+      :placeholder="$t('Networking.Placeholder')"
     >
-      <input
-        v-model="room"
-        :placeholder="$t('Networking.Placeholder')"
-      >
-      <router-link :to="'/league/' + room">
-        {{ $t('Networking.Start') }}
-      </router-link>
-    </div>
+    <router-link :to="'/league/' + room">
+      {{ $t('Networking.Start') }}
+    </router-link>
   </Page>
 </template>
 <script>

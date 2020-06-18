@@ -1,7 +1,7 @@
 //Bootstrap customizations go here:
 $theme-colors: (
   "primary": $primary_color,
-  "light": $light_color
+  "danger": $red_color,
 );
 
 @import "fonts";
@@ -128,6 +128,30 @@ a.button {
   }
 }
 
+.b-form-datepicker.form-control {
+  margin-right: 1rem;
+  background: $buttons_background;
+  border: none;
+  font-size: 0.75rem;
+  outline: none;
+  color: $light_font_color;
+
+  label.form-control.text-muted,
+  svg {
+    color: $light_font_color;
+  }
+
+  label.form-control {
+    color: $standard_font_color;
+  }
+
+  &:focus,
+  &.focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
 .message-carret {
   position: absolute;
   height: 0.8rem;
@@ -140,6 +164,14 @@ a.button {
 
 img.fail {
   visibility: hidden;
+}
+
+.absolute-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 @media only screen and (max-width: 768px) {

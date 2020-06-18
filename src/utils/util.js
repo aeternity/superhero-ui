@@ -119,6 +119,11 @@ export const getI18nPath = (index, page) => (isTitle(index, page)
   ? `views.${page}.sections[${index}].title`
   : `views.${page}.sections[${index}].text`);
 
+export const testValidUrl = (url) => {
+  const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
+  return urlRegex.test(url);
+};
+
 export default {
   atomsToAe,
   aeToAtoms,
@@ -129,4 +134,5 @@ export default {
   urlStatus,
   isTitle,
   getI18nPath,
+  testValidUrl,
 };

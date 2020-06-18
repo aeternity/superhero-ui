@@ -39,6 +39,12 @@
         <span>{{ $t('components.layout.Navigation.Governance') }}</span>
       </router-link>
     </div>
+    <div class="navigation__item time-machine">
+      <router-link :to="{ name: 'time-machine' }">
+        <TimeMachine class="navigation__item__image" />
+        <span>{{ $t('components.layout.Navigation.TimeMachine') }}</span>
+      </router-link>
+    </div>
     <div class="navigation__item faq">
       <router-link :to="{ name: 'faq' }">
         <IconHelp class="navigation__item__image" />
@@ -55,6 +61,7 @@ import IconUser from '../../assets/iconUser.svg?icon-component';
 import IconHelp from '../../assets/iconHelp.svg?icon-component';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
 import IconGovernance from '../../assets/iconGovernance.svg?icon-component';
+import TimeMachine from '../../assets/timeMachine.svg?icon-component';
 
 export default {
   name: 'Navigation',
@@ -64,6 +71,7 @@ export default {
     IconHelp,
     IconDiamond,
     IconGovernance,
+    TimeMachine,
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -124,6 +132,10 @@ export default {
     .league &,
     .governance & {
       padding: 0.2rem;
+    }
+
+    .time-machine & {
+      padding: 0.1rem;
     }
   }
 

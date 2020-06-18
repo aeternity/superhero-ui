@@ -75,7 +75,7 @@
           >
           <span class="message-carret" />
         </span>
-        <div class="closed-overlay" />
+        <div class="absolute-overlay" />
       </div>
     </div>
     <SendTipStatusMsg
@@ -88,7 +88,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
-import util, { createDeepLinkUrl } from '../../../utils/util';
+import util, { createDeepLinkUrl, testValidUrl } from '../../../utils/util';
 import { tip } from '../../../utils/aeternity';
 import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
@@ -126,12 +126,11 @@ export default {
     ...mapGetters(['isLoggedIn']),
     ...mapState(['loading', 'account', 'minTipAmount']),
     isSendTipDataValid() {
-      const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
       return this.sendTipForm.amount > this.minTipAmount
           && this.sendTipForm.url.length > 0
           && this.sendTipForm.title.length > 0
-          && urlRegex.test(this.sendTipForm.url)
+          && testValidUrl(this.sendTipForm.url)
           && !this.isBlacklistedUrl;
     },
     canTip() {
@@ -298,14 +297,6 @@ export default {
       }
     }
 
-    .closed-overlay {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-    }
-
     .input-placeholder[disabled] {
       &::placeholder {
         color: $standard_font_color;
@@ -340,34 +331,34 @@ export default {
         margin-right: 0.15rem;
       }
     }
+  }
 
-    .message-box {
-      position: relative;
+  .message-box {
+    position: relative;
+  }
+
+  .message-carret {
+    top: 0.1rem;
+    left: -0.4rem;
+  }
+
+  @media (min-width: 576px) {
+    .send-url,
+    .send-amount,
+    .tip__post .col-md-2 {
+      padding: 0;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .send-url,
+    .send-amount {
+      padding-right: 0.25rem;
+      padding-left: 0.25rem;
     }
 
-    .message-carret {
-      top: 0.1rem;
-      left: -0.4rem;
-    }
-
-    @media (min-width: 576px) {
-      .send-url,
-      .send-amount,
-      .col-md-2 {
-        padding: 0;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .send-url,
-      .send-amount {
-        padding-right: 0.25rem;
-        padding-left: 0.25rem;
-      }
-
-      .col-md-2 {
-        padding: 0;
-      }
+    .tip__post .col-md-2 {
+      padding: 0;
     }
   }
 </style>

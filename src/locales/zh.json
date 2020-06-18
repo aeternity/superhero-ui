@@ -342,6 +342,14 @@
       "CloseSearch": "Close Search",
       "SafeContentOnly": "Safe content only"
     },
+    "TimeMachine": {
+      "SortingLatest": "Latest",
+      "SortingHighestRated": "Highest Tip",
+      "SortingMostPopular": "Most Tipped",
+      "SafeContentOnly": "Safe content only",
+      "BrowseRecords": "Browse Records",
+      "NewRecord": "New Record"
+    },
     "UserProfileView": {
       "EditProfile": "Edit Profile",
       "ChangeAvatar": "Change Avatar",
@@ -375,7 +383,8 @@
       "Navigation": {
         "MyProfile": "My Profile",
         "League": "League",
-        "Governance": "Governance"
+        "Governance": "Governance",
+        "TimeMachine": "Time Machine"
       },
       "Overview": {
         "TipsAggregated": "Tips Aggregated",
@@ -399,6 +408,12 @@
         "ErrorHeader": "Something went wrong",
         "ErrorText": "Tip not sent, please try again",
         "SendNewTip": "Send New Tip"
+      },
+      "BrowseRecords": {
+        "EnterUrl": "Enter URL to browse records for",
+        "FromDate": "From date",
+        "ToDate": "To date",
+        "BrowseRecords": "Browse Records"
       }
     },
     "onboarding": {

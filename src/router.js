@@ -12,6 +12,7 @@ import Terms from './views/Terms.vue';
 import TipComments from './views/TipComments.vue';
 import TipsList from './views/TipsList.vue';
 import UserProfile from './views/UserProfile.vue';
+import TimeMachine from './views/TimeMachine.vue';
 
 const guardTipComments = (to, from, next) => {
   if (to.name === 'tip' && typeof to.params.id !== 'undefined') {
@@ -116,6 +117,14 @@ const routes = [
     component: Mission,
     meta: {
       title: 'Mission Page',
+    },
+  },
+  {
+    path: '/time-machine',
+    name: 'time-machine',
+    component: TimeMachine,
+    meta: {
+      title: 'Superhero Time Back Machine',
     },
   },
   {

@@ -2,6 +2,7 @@
   <Page class="league-page-container">
     <div
       ref="jitsi"
+      class="jitsi-container"
     />
   </Page>
 </template>
@@ -23,7 +24,7 @@ export default {
     new JitsiMeetExternalAPI('test.league.aeternity.org', {
       parentNode: this.$refs.jitsi,
       width: '100%',
-      height: 540,
+      height: '100%',
       roomName: this.room,
       configOverwrite: {
         disableDeepLinking: IS_MOBILE_DEVICE,
@@ -35,5 +36,9 @@ export default {
 <style lang="scss" scoped>
 .league-page-container {
   padding-top: 1rem;
+}
+.jitsi-container,
+.league-page-container {
+  height: 100vh;
 }
 </style>

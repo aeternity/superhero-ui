@@ -13,6 +13,8 @@ import TipComments from './views/TipComments.vue';
 import TipsList from './views/TipsList.vue';
 import UserProfile from './views/UserProfile.vue';
 import TimeMachine from './views/TimeMachine.vue';
+import Networking from './views/Networking.vue';
+import Conference from './views/Conference.vue';
 
 const guardTipComments = (to, from, next) => {
   if (to.name === 'tip' && typeof to.params.id !== 'undefined') {
@@ -151,6 +153,23 @@ const routes = [
     component: Tracing,
     meta: {
       title: 'Tip Tracing',
+    },
+  },
+  {
+    path: '/networking',
+    name: 'networking',
+    component: Networking,
+    meta: {
+      title: 'Networking',
+    },
+  },
+  {
+    path: '/league/:room?',
+    name: 'conference',
+    component: Conference,
+    props: true,
+    meta: {
+      title: 'Conference',
     },
   },
 ];

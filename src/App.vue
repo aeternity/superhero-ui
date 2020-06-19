@@ -124,6 +124,11 @@ export default {
         this.useSdkWallet();
       }
       const balance = await client.balance(address).catch(() => 0);
+      Backend.getProfile(this.address)
+        .then((userProfile) => {
+          if (userProfile) this.$store.commit('setUserProfile', userProfile);
+        })
+        .catch(console.error);
       this.setLoggedInAccount({
         account: address,
         balance: Util.atomsToAe(balance).toFixed(2),

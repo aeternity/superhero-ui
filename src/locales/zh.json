@@ -510,5 +510,10 @@
       "notverifiedTitle": "",
       "blacklisted": ""
     }
+  },
+  "Networking": {
+    "MenuLink": "Networking",
+    "Placeholder": "Room name",
+    "Start": "Start"
   }
 }

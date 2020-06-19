@@ -64,6 +64,9 @@ export default {
   useSdkWallet(state) {
     state.useSdkWallet = true;
   },
+  setUserProfile(state, profile) {
+    state.profile = profile;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

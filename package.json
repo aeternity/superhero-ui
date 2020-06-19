@@ -9,7 +9,7 @@
     "test:e2e": "vue-cli-service test:e2e",
     "lint:vue": "vue-cli-service lint --no-fix",
     "lint:vue:fix": "vue-cli-service lint --fix",
-    "lint:css": "stylelint **/*.{css,scss,vue}",
+    "lint:css": "stylelint src/**/*.{css,scss,vue}",
     "lint": "npm run lint:vue && npm run lint:css",
     "test": "npm run lint && npm run test:unit",
     "test:withe2e": "npm run lint && npm run test:unit && npm run test:e2e -- --headless"
@@ -29,6 +29,7 @@
     "detect-browser": "^4.8.0",
     "i18n": "^0.8.6",
     "jdenticon": "^2.2.0",
+    "jitsi-iframe-api": "^1.0.0",
     "lodash-es": "^4.17.15",
     "vue": "^2.6.11",
     "vue-i18n": "^8.18.1",

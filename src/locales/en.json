@@ -348,7 +348,9 @@
       "SortingMostPopular": "Most Tipped",
       "SafeContentOnly": "Safe content only",
       "BrowseRecords": "Browse Records",
-      "NewRecord": "New Record"
+      "NewRecord": "New Record",
+      "Title": "Censorship Free Internet Archive",
+      "SubTitle": "Tipped URL Ledger Stored On The Blockchain For æternity"
     },
     "UserProfileView": {
       "EditProfile": "Edit Profile",

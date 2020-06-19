@@ -6,7 +6,13 @@
   >
     <div class="container wrapper">
       <div class="transactions-page">
-        <TimeMachineCover class="cover-photo" />
+        <div class="cover-section">
+          <TimeMachineCover class="cover-photo" />
+          <div class="cover-text">
+            <h1>{{ $t('views.TimeMachine.Title') }}</h1>
+            <p>{{ $t('views.TimeMachine.SubTitle') }}</p>
+          </div>
+        </div>
         <div class="actions">
           <div class="records-ribbon">
             <div
@@ -103,6 +109,30 @@ export default {
 
 .cover-photo {
   width: var(--container-width);
+}
+
+.cover-section {
+  position: relative;
+
+  h1 {
+    font-size: 1.5rem;
+    color: $secondary_color;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: $tip_note_color;
+    font-weight: 400;
+  }
+
+  .cover-text {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
 .actions {

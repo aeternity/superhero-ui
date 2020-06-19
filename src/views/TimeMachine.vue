@@ -29,7 +29,11 @@
             </div>
           </div>
           <div class="send-tip">
-            <BrowseRecords />
+            <BrowseRecords v-if="action === 'browse'" />
+            <SendTip
+              v-if="action === 'new'"
+              time-machine
+            />
           </div>
           <div class="navigation">
             <a
@@ -69,6 +73,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import BrowseRecords from '../components/layout/sendTip/BrowseRecords.vue';
+import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
 import Checkbox from '../components/Checkbox.vue';
@@ -82,6 +87,7 @@ export default {
     Checkbox,
     ThreeDotsMenu,
     TimeMachineCover,
+    SendTip,
   },
   data() {
     return {

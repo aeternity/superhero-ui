@@ -21,7 +21,10 @@
               type="text"
               class="form-control comment"
               maxlength="280"
-              :placeholder="$t('addMessage')"
+              :placeholder="
+                timeMachine
+                  ? $t('components.layout.SendTip.TimeBackMessageInputText')
+                  : $t('addMessage')"
             >
             <span class="message-carret" />
           </span>
@@ -36,7 +39,10 @@
               v-model.trim="sendTipForm.url"
               type="text"
               class="form-control url-input"
-              :placeholder="$t('components.layout.SendTip.EnterURL')"
+              :placeholder="
+                timeMachine
+                  ? $t('components.layout.SendTip.TimeBackEnterUrl')
+                  : $t('components.layout.SendTip.EnterURL')"
             >
           </div>
           <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
@@ -108,6 +114,9 @@ export default {
     SendTipStatusMsg,
     IconDiamond,
   },
+  props: {
+    timeMachine: { type: Boolean },
+  },
   data() {
     return {
       sendTipForm: {
@@ -119,7 +128,7 @@ export default {
       isBlacklistedUrl: false,
       success: false,
       error: false,
-      open: false,
+      open: this.timeMachine || false,
     };
   },
   computed: {
@@ -286,6 +295,7 @@ export default {
 
     .url-input {
       padding-left: 2.1rem;
+      padding-right: 0.5rem;
     }
 
     .closed-view {

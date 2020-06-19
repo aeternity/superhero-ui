@@ -409,7 +409,9 @@
         "SuccessText": "Tip sent!",
         "ErrorHeader": "Something went wrong",
         "ErrorText": "Tip not sent, please try again",
-        "SendNewTip": "Send New Tip"
+        "SendNewTip": "Send New Tip",
+        "TimeBackMessageInputText": "Your words will be stored for #aeternity #TimeBackMachine",
+        "TimeBackEnterUrl": "Tip URL to create a snapshot record"
       },
       "BrowseRecords": {
         "EnterUrl": "Enter URL to browse records for",

@@ -19,12 +19,14 @@
               :class="['records-action', { active: action === 'browse' }]"
               @click="action = 'browse'"
             >
+              <BrowseRecordsIcon />
               {{ $t('views.TimeMachine.BrowseRecords') }}
             </div>
             <div
               :class="['records-action', { active: action === 'new' }]"
               @click="action = 'new'"
             >
+              <AddNew />
               {{ $t('views.TimeMachine.NewRecord') }}
             </div>
           </div>
@@ -37,16 +39,16 @@
           </div>
           <div class="navigation">
             <a
-              :class="{ active: sortBy === 'hot' }"
-              @click="sortBy = 'hot'"
-            >
-              {{ $t('views.TimeMachine.SortingMostPopular') }}
-            </a>
-            <a
               :class="{ active: sortBy === 'latest' }"
               @click="sortBy = 'latest'"
             >
               {{ $t('views.TimeMachine.SortingLatest') }}
+            </a>
+            <a
+              :class="{ active: sortBy === 'hot' }"
+              @click="sortBy = 'hot'"
+            >
+              {{ $t('views.TimeMachine.SortingMostPopular') }}
             </a>
             <a
               :class="{ active: sortBy === 'highest' }"
@@ -54,16 +56,26 @@
             >
               {{ $t('views.TimeMachine.SortingHighestRated') }}
             </a>
-            <div class="actions-menu">
-              <ThreeDotsMenu>
-                <Checkbox
-                  :state="isHiddenContent"
-                  :update-state="setIsHiddenContent"
-                  :text="$t('views.TimeMachine.SafeContentOnly')"
-                />
-              </ThreeDotsMenu>
-            </div>
           </div>
+        </div>
+        <div class="transaction-records">
+          <TransactionRecord
+            :transaction-tip="{
+              amount: '100000000000000000000',
+              sender: 'ak_LAfaJPBcCva1L37wc8ddx17LZtaGNSAQzFJYrq3fkvTSoiqBL',
+              id: 698,
+              retips: [],
+              amount_ae: '100',
+              retip_amount_ae: '0',
+              total_amount: '100',
+              total_unclaimed_amount: '100',
+              total_claimed_amount: '0',
+              commentCount: 0,
+              date: '5:13PM 5/13/2020',
+              link: 'https://twitter.com/Titanbarry/status/1268526583234641920',
+              address: 'th_1natPBJM3EU5LiAVG5R44Kj131bN3zcv79K8stZznJaS3dsuw5',
+            }"
+          />
         </div>
       </div>
     </div>
@@ -75,19 +87,21 @@ import { mapState, mapMutations } from 'vuex';
 import BrowseRecords from '../components/layout/sendTip/BrowseRecords.vue';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
-import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
-import Checkbox from '../components/Checkbox.vue';
 import TimeMachineCover from '../assets/timeMachineCover.svg?icon-component';
+import TransactionRecord from '../components/tipRecords/TransactionRecord.vue';
+import BrowseRecordsIcon from '../assets/timeMachine.svg?icon-component';
+import AddNew from '../assets/addNew.svg?icon-component';
 
 export default {
   name: 'TimeMachine',
   components: {
     Page,
     BrowseRecords,
-    Checkbox,
-    ThreeDotsMenu,
     TimeMachineCover,
     SendTip,
+    TransactionRecord,
+    BrowseRecordsIcon,
+    AddNew,
   },
   data() {
     return {
@@ -180,7 +194,7 @@ export default {
 
 .navigation {
   text-align: left;
-  padding: 0 1rem;
+  padding: 0 0.75rem 0 1rem;
   font-size: 0.8rem;
   background-color: $actions_ribbon_background_color;
   margin: 0;
@@ -220,15 +234,12 @@ export default {
   margin-bottom: 4rem;
 }
 
-.actions-menu {
-  float: right;
-  margin-top: 0.5rem;
-  display: inline-block;
-  color: $light_font_color;
-}
-
 .send-tip {
   margin-bottom: 0.15rem;
+}
+
+.transaction-records {
+  position: relative;
 }
 
 @media (max-width: 1024px) {

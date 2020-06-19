@@ -491,6 +491,10 @@
         "reportPostTitle": "Thanks for letting us know",
         "reportPostBody": "Our support team will investigate",
         "claim": "Claim"
+      },
+      "TransactionRecord": {
+        "ViewTip": "View Tip",
+        "TraceTip": "Trace Tip"
       }
     },
     "TipInput": {

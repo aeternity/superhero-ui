@@ -415,7 +415,9 @@
         "EnterUrl": "Enter URL to browse records for",
         "FromDate": "From date",
         "ToDate": "To date",
-        "BrowseRecords": "Browse Records"
+        "BrowseRecords": "Browse Records",
+        "InvalidUrlMsg": "Please enter a valid URL address.",
+        "DateErrorMsg": "Please pick correct Start and End dates."
       }
     },
     "onboarding": {

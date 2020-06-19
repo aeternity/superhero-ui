@@ -57,6 +57,18 @@
             {{ $t('components.layout.BrowseRecords.BrowseRecords') }}
           </AeButton>
         </div>
+        <div
+          v-if="invalidUrl"
+          class="error-msg"
+        >
+          {{ $t('components.layout.BrowseRecords.InvalidUrlMsg') }}
+        </div>
+        <div
+          v-if="invalidDate"
+          class="error-msg"
+        >
+          {{ $t('components.layout.BrowseRecords.DateErrorMsg') }}
+        </div>
       </form>
     </div>
     <div
@@ -97,6 +109,8 @@ export default {
         url: '',
       },
       appliedUrlFilter: '',
+      invalidUrl: false,
+      invalidDate: false,
     };
   },
   methods: {
@@ -104,11 +118,17 @@ export default {
       this.open = openSection;
     },
     isDataValid() {
+      this.invalidUrl = this.browseRecords.url.length > 0 && !testValidUrl(this.browseRecords.url);
       return testValidUrl(this.browseRecords.url) && this.validateDates();
     },
     validateDates() {
       const startDate = new Date(this.browseRecords.startDate);
       const endDate = new Date(this.browseRecords.endDate);
+      if (endDate >= startDate) {
+        this.invalidDate = false;
+      } else {
+        this.invalidDate = true;
+      }
       return endDate >= startDate;
     },
     submitBrowseRecordsForm() {
@@ -210,6 +230,11 @@ export default {
       cursor: pointer;
       opacity: 0.6;
     }
+  }
+
+  .error-msg {
+    color: $red_color;
+    margin-bottom: 0.25rem;
   }
 
   @media (max-width: 1024px) {

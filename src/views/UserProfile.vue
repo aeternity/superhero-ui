@@ -92,17 +92,8 @@
                 :href="openExplorer(address)"
                 :title="address"
               >
-                <div
-                  v-if="userChainName"
-                  class="chain"
-                >
-                  {{ userChainName }}
-                </div>
-                <div
-                  v-else
-                  class="chain default_chain_name"
-                >
-                  {{ $t('FellowSuperhero') }}
+                <div class="chain">
+                  {{ userChainName ? userChainName : $t('FellowSuperhero') }}
                 </div>
                 <div>{{ address }}</div>
               </a>

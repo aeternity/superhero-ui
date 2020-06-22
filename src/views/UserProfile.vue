@@ -134,83 +134,34 @@
           v-if="userStats"
           class="profile__stats"
         >
-          <div class="tip_stats">
-            <div class="tips_stats_block">
-              <div class="stat_row">
-                <span class="stat-value">
-                  {{ userStats.tipsLength + userStats.retipsLength }}
-                </span>
-                <span class="stat-title">
-                  {{ $t('views.UserProfileView.TipsSent') }}
-                </span>
-              </div>
-              <div class="stat_row">
-                <AeAmountFiat
-                  class="stat-value"
-                  :amount="userStats.totalTipAmount"
-                />
-              </div>
-            </div>
-            <div class="tips_stats_block">
-              <div class="stat_row">
-                <span class="stat-title">
-                  {{ $t('views.UserProfileView.ClaimedAmount') }}
-                </span>
-              </div>
-              <div class="stat_row">
-                <AeAmountFiat
-                  class="stat-value"
-                  :amount="userStats.claimedAmount"
-                />
-              </div>
-            </div>
-            <div class="tips_stats_block">
-              <div class="stat_row">
-                <span class="stat-title">
-                  {{ $t('views.UserProfileView.UnclaimedAmount') }}
-                </span>
-              </div>
-              <div class="stat_row">
-                <AeAmountFiat
-                  class="stat-value"
-                  :amount="userStats.unclaimedAmount"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="stats">
-            <div class="stat_block">
-              <span class="stat-value">
-                {{ userStats.userComments }}
+          <div
+            v-for="(divClass, index) in ['tip_stats', 'stats']"
+            :key="index"
+            :class="divClass"
+          >
+            <div
+              v-for="(stat, idx) in divClass === 'tip_stats' ? tipStats : showedStats"
+              :key="idx"
+              :class="divClass === 'tip_stats' ? 'tips_stats_block' : 'stat_block'"
+            >
+              <span
+                v-if="stat.value || stat.image"
+                class="stat-value"
+              >
+                {{ stat.value }}
               </span>
               <span class="stat-title">
-                {{ $t('views.UserProfileView.Comments') }}
+                <img
+                  v-if="stat.image"
+                  :src="stat.image"
+                >
+                {{ stat.title }}
               </span>
-            </div>
-            <div class="stat_block">
-              <span class="stat-value">
-                {{ userStats.tipsLength }}
-              </span>
-              <span class="stat-title">
-                {{ $t('views.UserProfileView.TipsReceived') }}
-              </span>
-            </div>
-            <div class="stat_block">
-              <span class="stat-value">
-                {{ userStats.retipsLength }}
-              </span>
-              <span class="stat-title">
-                {{ $t('views.UserProfileView.RetipsSent') }}
-              </span>
-            </div>
-            <div class="stat_block">
-              <span class="stat-value">
-                {{ userStats.claimedUrlsLength }}
-              </span>
-              <span class="stat-title">
-                <img src="../assets/verifiedUrl.svg">
-                {{ $t('views.UserProfileView.ClaimedUrls') }}
-              </span>
+              <AeAmountFiat
+                v-if="stat.amount"
+                :amount="stat.amount"
+                class="stat-value"
+              />
             </div>
           </div>
         </div>
@@ -280,6 +231,7 @@ import TipsPagination from '../components/TipsPagination.vue';
 import Avatar from '../components/Avatar.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from '../components/TipInput.vue';
+import SuccessIcon from '../assets/verifiedUrl.svg';
 
 export default {
   components: {
@@ -343,6 +295,35 @@ export default {
     showNoResultsMsg() {
       return this.activeTab === 'comments'
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
+    },
+    tipStats() {
+      return [
+        {
+          value: this.userStats.tipsLength + this.userStats.retipsLength,
+          title: this.$t('views.UserProfileView.TipsSent'),
+          amount: this.userStats.totalTipAmount,
+        },
+        {
+          title: this.$t('views.UserProfileView.ClaimedAmount'),
+          amount: this.userStats.claimedAmount,
+        },
+        {
+          title: this.$t('views.UserProfileView.UnclaimedAmount'),
+          amount: this.userStats.unclaimedAmount,
+        },
+      ];
+    },
+    showedStats() {
+      return [
+        { value: this.userStats.userComments, title: this.$t('views.UserProfileView.Comments') },
+        { value: this.userStats.tipsLength, title: this.$t('views.UserProfileView.TipsReceived') },
+        { value: this.userStats.retipsLength, title: this.$t('views.UserProfileView.RetipsSent') },
+        {
+          value: this.userStats.claimedUrlsLength,
+          image: SuccessIcon,
+          title: this.$t('views.UserProfileView.ClaimedUrls'),
+        },
+      ];
     },
   },
   mounted() {
@@ -623,10 +604,6 @@ export default {
 
 .tips_stats_block:last-child {
   border: 0;
-}
-
-.stat_row {
-  height: 1.15rem;
 }
 
 .stats {

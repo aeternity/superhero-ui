@@ -166,53 +166,7 @@
           </div>
         </div>
       </div>
-      <div class="profile__actions">
-        <a
-          :class="{ active: activeTab === 'tips' }"
-          @click="setActiveTab('tips')"
-        >
-          {{ $t('tips') }}
-        </a>
-        <a
-          :class="{ active: activeTab === 'comments' }"
-          @click="setActiveTab('comments')"
-        >
-          {{ $t('comments') }}
-        </a>
-      </div>
-      <div class="position-relative">
-        <div
-          v-if="activeTab === 'tips'"
-          class="tips__container"
-        >
-          <TipsPagination
-            tip-sort-by="latest"
-            :address="address"
-          />
-        </div>
-        <div
-          v-if="activeTab === 'comments'"
-          class="tips__container"
-        >
-          <Loading
-            v-if="showLoading"
-            class="loading-position-absolute"
-          />
-          <div
-            v-if="showNoResultsMsg"
-            class="no-results text-center w-100 mt-3"
-            :class="[error ? 'error' : '']"
-          >
-            {{ $t('views.UserProfileView.NoActivity') }}
-          </div>
-          <TipComment
-            v-for="(comment, index) in comments"
-            :key="index"
-            :comment="comment"
-            :sender-link="openExplorer(comment.author)"
-          />
-        </div>
-      </div>
+      <ListOfTipsAndComments :address="address" />
     </div>
   </Page>
 </template>
@@ -221,13 +175,11 @@
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { createDeepLinkUrl } from '../utils/util';
-import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
-import Loading from '../components/Loading.vue';
 import { EXPLORER_URL } from '../config/constants';
-import TipsPagination from '../components/TipsPagination.vue';
+import ListOfTipsAndComments from '../components/ListOfTipsAndComments.vue';
 import Avatar from '../components/Avatar.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from '../components/TipInput.vue';
@@ -235,10 +187,8 @@ import SuccessIcon from '../assets/verifiedUrl.svg';
 
 export default {
   components: {
-    TipsPagination,
-    Loading,
+    ListOfTipsAndComments,
     AeAmountFiat,
-    TipComment,
     Page,
     Avatar,
     TipInput,
@@ -250,12 +200,9 @@ export default {
     return {
       maxLength: 250,
       explorerUrl: `${EXPLORER_URL}account/transactions/`,
-      showLoading: false,
-      comments: [],
       error: false,
       userStats: null,
       editMode: false,
-      activeTab: 'tips',
       userCommentCount: 0,
       profile: {
         biography: '',
@@ -291,10 +238,6 @@ export default {
     },
     countLength() {
       return `${this.profile.biography.length}/${this.maxLength}`;
-    },
-    showNoResultsMsg() {
-      return this.activeTab === 'comments'
-        && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
     },
     tipStats() {
       return [
@@ -342,9 +285,6 @@ export default {
     }
   },
   methods: {
-    setActiveTab(tab) {
-      this.activeTab = tab;
-    },
     openExplorer(address) {
       return this.explorerUrl + address;
     },
@@ -399,20 +339,6 @@ export default {
       Backend.getCacheUserStats(this.address).then((stats) => {
         this.userStats = stats;
       });
-      this.showLoading = true;
-      Backend.getAllComments()
-        .then((allComments) => {
-          this.showLoading = false;
-          this.error = false;
-          this.comments = allComments.filter(
-            (comment) => comment.author === this.address,
-          );
-        })
-        .catch((e) => {
-          console.error(e);
-          this.error = true;
-          this.showLoading = false;
-        });
     },
     getProfile() {
       Backend.getCommentCountForAddress(this.address)
@@ -688,37 +614,6 @@ export default {
 
   & > .row.mobile {
     display: none;
-  }
-}
-
-.profile__actions {
-  background-color: $actions_ribbon_background_color;
-  margin-top: 0.125rem;
-  padding-left: 1rem;
-  position: sticky;
-  top: 3.1rem;
-  z-index: 21;
-
-  a {
-    color: $light_font_color;
-    display: inline-block;
-    font-weight: 600;
-    margin-right: 0.5rem;
-    padding: 0.5rem;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &:hover {
-      color: $primary_color;
-      cursor: pointer;
-    }
-
-    &.active {
-      border-bottom: 2px solid $custom_links_color;
-      color: $custom_links_color;
-    }
   }
 }
 

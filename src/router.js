@@ -12,7 +12,6 @@ import Terms from './views/Terms.vue';
 import TipComments from './views/TipComments.vue';
 import TipsList from './views/TipsList.vue';
 import UserProfile from './views/UserProfile.vue';
-import Networking from './views/Networking.vue';
 import Conference from './views/Conference.vue';
 
 const guardTipComments = (to, from, next) => {

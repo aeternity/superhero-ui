@@ -18,18 +18,14 @@ export default {
     Page,
   },
   props: {
-    room: { type: String },
+    room: { type: String, default: '' },
   },
   async mounted() {
-    // console.log({ room: this.room });
-
     const connection = await BrowserWindowMessageConnection({
       origin: 'https://localhost:8080',
     });
 
-
     connection.connect(({ room }) => {
-      console.log({ room });
       this.$router.push({ name: 'conference', params: { room } });
     });
 

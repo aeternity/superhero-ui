@@ -54,20 +54,14 @@
           :class="{ active: topics && topics.length > 0 }"
         >
           <div
-            v-for="([topic, data], idx) in topics"
+            v-for="([topic, data], idx) in topics.length && topics.filter(([t]) => t !== '#test')"
             :key="idx"
             class="section__item"
           >
-            <div
-              v-if="topic !== '#test'"
-              class="topic-container text-ellipsis"
-            >
+            <div class="topic-container text-ellipsis">
               <Topic :topic="topic" />
             </div>
-            <AeAmountFiat
-              v-if="topic !== '#test'"
-              :amount="data.amount"
-            />
+            <AeAmountFiat :amount="data.amount" />
           </div>
         </div>
       </div>

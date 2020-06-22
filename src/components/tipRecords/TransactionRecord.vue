@@ -26,10 +26,14 @@
         <ExternalLink />
         <span>{{ transactionTip.link }}</span>
       </a>
-      <img
-        class="preview-image"
-        src="../../assets/timeMachineCover.svg"
-      >
+      <div class="preview-image">
+        <img
+          src="../../assets/timeMachineCover.svg"
+        >
+        <div class="absolute-overlay hover-overlay">
+          <img src="../../assets/browseThumbnail.svg">
+        </div>
+      </div>
     </div>
     <div class="actions">
       <TipInput
@@ -144,8 +148,33 @@ export default {
 }
 
 .preview-image {
-  width: 6.5rem;
-  height: 3.3rem;
+  position: relative;
+
+  .hover-overlay {
+    display: none;
+    background-color: rgba(18, 18, 27, 0.6);
+    text-align: center;
+
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+      transform: translateY(60%);
+    }
+  }
+
+  img {
+    border-radius: 0.25rem;
+    width: 6.5rem;
+    height: 3.3rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    .hover-overlay {
+      display: block;
+    }
+  }
 }
 
 .link:hover,

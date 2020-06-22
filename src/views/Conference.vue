@@ -7,6 +7,7 @@
   </Page>
 </template>
 <script>
+import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import Page from '../components/layout/Page.vue';
 import { IS_MOBILE_DEVICE } from '../utils/util';
@@ -17,15 +18,26 @@ export default {
     Page,
   },
   props: {
-    room: { type: String, required: true },
+    room: { type: String },
   },
-  mounted() {
+  async mounted() {
+    // console.log({ room: this.room });
+
+    const connection = await BrowserWindowMessageConnection({
+      origin: 'https://localhost:8080',
+    });
+
+    connection.connect(({ room }) => {
+      console.log({ room });
+      this.$router.push({ name: 'league', params: { room } });
+    });
+
     // eslint-disable-next-line no-new
-    new JitsiMeetExternalAPI('test.league.aeternity.org', {
+    new JitsiMeetExternalAPI('localhost:8080 ', {
       parentNode: this.$refs.jitsi,
       width: '100%',
       height: '100%',
-      roomName: this.room,
+      roomName: this.room || '',
       configOverwrite: {
         disableDeepLinking: IS_MOBILE_DEVICE,
       },

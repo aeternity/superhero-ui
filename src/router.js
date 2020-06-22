@@ -149,7 +149,7 @@ const routes = [
   {
     path: '/networking',
     name: 'networking',
-    component: Networking,
+    component: Conference,
     meta: {
       title: 'Networking',
     },

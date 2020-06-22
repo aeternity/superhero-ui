@@ -27,9 +27,10 @@ export default {
       origin: 'https://localhost:8080',
     });
 
+
     connection.connect(({ room }) => {
       console.log({ room });
-      this.$router.push({ name: 'league', params: { room } });
+      this.$router.push({ name: 'conference', params: { room } });
     });
 
     // eslint-disable-next-line no-new

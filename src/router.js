@@ -103,6 +103,7 @@ const routes = [
     meta: {
       title: 'Superhero League',
     },
+    // children: []
   },
   {
     path: '/voting',

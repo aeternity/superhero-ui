@@ -45,7 +45,6 @@
             <div class="profile__image">
               <div
                 v-if="account === address"
-                class="profile__image--edit"
                 :title="address"
               >
                 <Avatar :address="address" />
@@ -239,7 +238,7 @@
           {{ $t('comments') }}
         </a>
       </div>
-      <div class="comments__section position-relative">
+      <div class="position-relative">
         <div
           v-if="activeTab === 'tips'"
           class="tips__container"
@@ -275,6 +274,7 @@
     </div>
   </Page>
 </template>
+
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
@@ -463,6 +463,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 #file-input {
   display: none;
@@ -506,10 +507,6 @@ export default {
   color: $tip_note_color;
   font-size: 0.75rem;
 
-  .count {
-    font-size: 0.65rem;
-  }
-
   .error {
     color: $red_color;
   }
@@ -543,17 +540,6 @@ export default {
 
     &:focus {
       outline: 0;
-    }
-  }
-
-  .tip__button {
-    background: #2a9cffa8;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-
-    &:hover {
-      background: #2a9cffcc;
     }
   }
 
@@ -592,7 +578,8 @@ export default {
     display: unset;
   }
 
-  .edit__button {
+  .edit__button,
+  .cancel__button {
     background: #babac01e;
 
     &:hover {
@@ -605,26 +592,6 @@ export default {
 
     &:hover {
       background: #67f7b8cc;
-    }
-  }
-
-  .cancel__button {
-    background: #babac01e;
-
-    &:hover {
-      background: #babac042;
-    }
-  }
-
-  .comments__section {
-    min-height: 5rem;
-
-    .tips__container .loading-position {
-      position: absolute;
-    }
-
-    .comment.tip__record {
-      border-radius: unset;
     }
   }
 
@@ -650,11 +617,6 @@ export default {
       margin-left: 0.2rem;
     }
   }
-}
-
-.profile__stats {
-  display: grid;
-  grid-template-columns: auto;
 }
 
 .tip_stats {
@@ -711,10 +673,6 @@ export default {
 .profile__section {
   background-color: $light_color;
   position: relative;
-
-  .spinner__container {
-    top: 40%;
-  }
 }
 
 .profile__image {
@@ -722,27 +680,6 @@ export default {
   margin-right: 0.5rem;
   position: relative;
   vertical-align: super;
-
-  .spinner__container {
-    top: 30%;
-  }
-
-  .blurred {
-    opacity: 0.4;
-  }
-
-  .overlay {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 10;
-  }
-
-  .profile__image--edit {
-    position: relative;
-  }
 
   img.user-identicon,
   div.user-identicon svg {
@@ -826,10 +763,6 @@ export default {
 
 @media screen and (max-width: 1024px) {
   .profile__page {
-    .profile__actions {
-      top: 3rem;
-    }
-
     .tips__container {
       padding: 0.15rem 0.5rem;
     }
@@ -858,10 +791,6 @@ export default {
 
     .profile__username {
       font-size: 0.55rem;
-
-      .chain {
-        font-size: 0.9rem;
-      }
     }
   }
 
@@ -879,7 +808,6 @@ export default {
   }
 
   .tip_stats {
-    display: grid;
     grid-template-columns: auto;
     order: 2;
   }

@@ -178,4 +178,19 @@ export default {
     margin-bottom: 0.4rem;
   }
 }
+
+@media (max-height: 595px) {
+  .overview__value {
+    font-size: 0.8rem;
+    line-height: 0.8rem;
+  }
+
+  .overview {
+    margin-top: 0.7rem;
+  }
+
+  .logo {
+    margin-bottom: 0.3rem;
+  }
+}
 </style>

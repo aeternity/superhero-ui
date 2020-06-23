@@ -101,7 +101,6 @@ export default {
   },
   data() {
     return {
-      isBlacklistedUrl: false,
       open: true,
       browseRecords: {
         startDate: '',

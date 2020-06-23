@@ -153,4 +153,12 @@ export default {
       margin-bottom: 1.55rem;
     }
   }
+
+  @media (max-height: 595px) {
+    .navigation__item {
+      font-size: 0.8rem;
+      line-height: 0.8rem;
+      margin-bottom: 0.4rem;
+    }
+  }
 </style>

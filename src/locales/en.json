@@ -54,7 +54,7 @@
           "title": "SECURING YOUR WALLET",
           "text": "With great freedom comes great responsibility. You’re in charge of keeping the keys to your account. There are no third-party custodians to store nor connect any password with any account. {br}{br} The task of keeping the keys to your wallet is yours and yours alone, Superhero. {br}{br} Here’s how to secure and backup your wallet: {br} Once you’re in your dashboard, you’ll get a series of words called a seed phrase. The seed phrase is somewhat like a password – it’s a unique, order-sensitive set of words which connects you to your wallet. {br}{br} - Click the hamburger menu on the upper right of your wallet. {br} - Go to Settings, chose Security. {br} - On the next screen, click Show seed phrase. {br} - Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place. Simple as that. {br}{br} IMPORTANT: You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)"
         }
-      ],
+      ]
     },
     "Mission": {
       "header": "SUPERHERO: AN ORIGIN STORY WITH A MISSION",
@@ -108,11 +108,11 @@
         {
           "title": "SOCIAL MEDIA MEETS THE POWER OF BLOCKCHAIN.",
           "text": "Superhero is a social media platform powered by blockchain under the hood and created to support social sharing with a mission."
-        }
-        {,
-        "title": "Where can I get tips with Superhero?",
+        },
+        {
+          "title": "Where can I get tips with Superhero?",
           "text": "Use Superhero alone to give / accept a tip of AE. Use Superhero alongside other existing fiat-based tools to additionally give / accept tips in AE. {br}{br} Join a community by posting, commenting, and tipping other Superheroes directly. {br} Off Superhero’s platform, add a Superhero button or link to your site so anyone can tip you directly."
-        }
+        },
         {
           "title": "Where can I send tips with Superhero? (Even URLs off Superhero?)",
           "text": "Any public URL can be tipped with Superhero."

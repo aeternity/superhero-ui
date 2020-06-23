@@ -59,22 +59,26 @@
           </div>
         </div>
         <div class="transaction-records">
+          <div
+            v-if="!loading && !error && !transactionRecords.length"
+            class="no-results"
+          >
+            {{ $t('views.TimeMachine.NoResults') }}
+          </div>
+          <div
+            v-if="!loading && error"
+            class="error"
+          >
+            {{ $t('views.TimeMachine.Error') }}
+          </div>
+          <Loading
+            v-if="loading"
+            class="loading"
+          />
           <TransactionRecord
-            :transaction-tip="{
-              amount: '100000000000000000000',
-              sender: 'ak_LAfaJPBcCva1L37wc8ddx17LZtaGNSAQzFJYrq3fkvTSoiqBL',
-              id: 698,
-              retips: [],
-              amount_ae: '100',
-              retip_amount_ae: '0',
-              total_amount: '100',
-              total_unclaimed_amount: '100',
-              total_claimed_amount: '0',
-              commentCount: 0,
-              date: '5:13PM 5/13/2020',
-              link: 'https://twitter.com/Titanbarry/status/1268526583234641920',
-              address: 'th_1natPBJM3EU5LiAVG5R44Kj131bN3zcv79K8stZznJaS3dsuw5',
-            }"
+            v-for="transactionRecord in transactionRecords"
+            :key="transactionRecord.id"
+            :transaction-tip="transactionRecord"
           />
         </div>
       </div>
@@ -83,7 +87,6 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
 import BrowseRecords from '../components/layout/sendTip/BrowseRecords.vue';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
@@ -91,6 +94,7 @@ import TimeMachineCover from '../assets/timeMachineCover.svg?icon-component';
 import TransactionRecord from '../components/tipRecords/TransactionRecord.vue';
 import BrowseRecordsIcon from '../assets/timeMachine.svg?icon-component';
 import AddNew from '../assets/addNew.svg?icon-component';
+import Loading from '../components/Loading.vue';
 
 export default {
   name: 'TimeMachine',
@@ -102,17 +106,33 @@ export default {
     TransactionRecord,
     BrowseRecordsIcon,
     AddNew,
+    Loading,
   },
   data() {
     return {
       showMobileNavigation: true,
-      sortBy: 'highest',
+      sortBy: 'latest',
       action: 'browse',
+      transactionRecords: [{
+        amount: '100000000000000000000',
+        sender: 'ak_LAfaJPBcCva1L37wc8ddx17LZtaGNSAQzFJYrq3fkvTSoiqBL',
+        id: 698,
+        retips: [],
+        amount_ae: '100',
+        retip_amount_ae: '0',
+        total_amount: '100',
+        total_unclaimed_amount: '100',
+        total_claimed_amount: '0',
+        commentCount: 0,
+        date: '5:13PM 5/13/2020',
+        link: 'https://twitter.com/Titanbarry/status/1268526583234641920',
+        address: 'th_1natPBJM3EU5LiAVG5R44Kj131bN3zcv79K8stZznJaS3dsuw5',
+      }],
+      loading: false,
+      error: false,
     };
   },
-  computed: mapState(['loading', 'isHiddenContent']),
   methods: {
-    ...mapMutations(['setIsHiddenContent']),
     toggleMobileNav(show) {
       this.showMobileNavigation = show;
     },
@@ -166,7 +186,6 @@ export default {
 
 .records-ribbon {
   background-color: $actions_ribbon_background_color;
-  border-bottom: 0.15rem solid $background_color;
   padding: 0.45rem 1rem;
 }
 
@@ -228,14 +247,26 @@ export default {
   padding-top: 0.1rem;
 }
 
-.no-results {
+.no-results,
+.error {
   color: $standard_font_color;
   font-size: 0.75rem;
-  margin-bottom: 4rem;
+  text-align: center;
 }
 
-.send-tip {
-  margin-bottom: 0.15rem;
+.loading,
+.no-results,
+.error {
+  padding: 1rem;
+}
+
+.error {
+  color: $red_color;
+}
+
+.send-tip,
+.records-ribbon {
+  border-bottom: 0.15rem solid $background_color;
 }
 
 .transaction-records {

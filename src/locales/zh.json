@@ -350,7 +350,9 @@
       "BrowseRecords": "Browse Records",
       "NewRecord": "New Record",
       "Title": "Censorship Free Internet Archive",
-      "SubTitle": "Tipped URL Ledger Stored On The Blockchain For æternity"
+      "SubTitle": "Tipped URL Ledger Stored On The Blockchain For æternity",
+      "NoResults": "There are no transaction records to display",
+      "Error": "An error occurred while loading transaction records. Please try again later."
     },
     "UserProfileView": {
       "EditProfile": "Edit Profile",

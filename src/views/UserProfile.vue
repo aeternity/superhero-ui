@@ -45,7 +45,6 @@
             <div class="profile__image">
               <div
                 v-if="account === address"
-                class="profile__image--edit"
                 :title="address"
               >
                 <Avatar :address="address" />
@@ -93,17 +92,8 @@
                 :href="openExplorer(address)"
                 :title="address"
               >
-                <div
-                  v-if="userChainName"
-                  class="chain"
-                >
-                  {{ userChainName }}
-                </div>
-                <div
-                  v-else
-                  class="chain default_chain_name"
-                >
-                  {{ $t('FellowSuperhero') }}
+                <div class="chain">
+                  {{ userChainName ? userChainName : $t('FellowSuperhero') }}
                 </div>
                 <div>{{ address }}</div>
               </a>
@@ -144,158 +134,61 @@
           v-if="userStats"
           class="profile__stats"
         >
-          <div class="tip_stats">
-            <div class="tips_stats_block">
-              <div class="stat_row">
-                <span class="stat-value">
-                  {{ userStats.tipsLength + userStats.retipsLength }}
-                </span>
-                <span class="stat-title">
-                  {{ $t('views.UserProfileView.TipsSent') }}
-                </span>
-              </div>
-              <div class="stat_row">
-                <AeAmountFiat
-                  class="stat-value"
-                  :amount="userStats.totalTipAmount"
-                />
-              </div>
-            </div>
-            <div class="tips_stats_block">
-              <div class="stat_row">
-                <span class="stat-title">
-                  {{ $t('views.UserProfileView.ClaimedAmount') }}
-                </span>
-              </div>
-              <div class="stat_row">
-                <AeAmountFiat
-                  class="stat-value"
-                  :amount="userStats.claimedAmount"
-                />
-              </div>
-            </div>
-            <div class="tips_stats_block">
-              <div class="stat_row">
-                <span class="stat-title">
-                  {{ $t('views.UserProfileView.UnclaimedAmount') }}
-                </span>
-              </div>
-              <div class="stat_row">
-                <AeAmountFiat
-                  class="stat-value"
-                  :amount="userStats.unclaimedAmount"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="stats">
-            <div class="stat_block">
-              <span class="stat-value">
-                {{ userStats.userComments }}
-              </span>
-              <span class="stat-title">
-                {{ $t('views.UserProfileView.Comments') }}
-              </span>
-            </div>
-            <div class="stat_block">
-              <span class="stat-value">
-                {{ userStats.tipsLength }}
-              </span>
-              <span class="stat-title">
-                {{ $t('views.UserProfileView.TipsReceived') }}
-              </span>
-            </div>
-            <div class="stat_block">
-              <span class="stat-value">
-                {{ userStats.retipsLength }}
-              </span>
-              <span class="stat-title">
-                {{ $t('views.UserProfileView.RetipsSent') }}
-              </span>
-            </div>
-            <div class="stat_block">
-              <span class="stat-value">
-                {{ userStats.claimedUrlsLength }}
-              </span>
-              <span class="stat-title">
-                <img src="../assets/verifiedUrl.svg">
-                {{ $t('views.UserProfileView.ClaimedUrls') }}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="profile__actions">
-        <a
-          :class="{ active: activeTab === 'tips' }"
-          @click="setActiveTab('tips')"
-        >
-          {{ $t('tips') }}
-        </a>
-        <a
-          :class="{ active: activeTab === 'comments' }"
-          @click="setActiveTab('comments')"
-        >
-          {{ $t('comments') }}
-        </a>
-      </div>
-      <div class="comments__section position-relative">
-        <div
-          v-if="activeTab === 'tips'"
-          class="tips__container"
-        >
-          <TipsPagination
-            tip-sort-by="latest"
-            :address="address"
-          />
-        </div>
-        <div
-          v-if="activeTab === 'comments'"
-          class="tips__container"
-        >
-          <Loading
-            v-if="showLoading"
-            class="loading-position-absolute"
-          />
           <div
-            v-if="showNoResultsMsg"
-            class="no-results text-center w-100 mt-3"
-            :class="[error ? 'error' : '']"
-          >
-            {{ $t('views.UserProfileView.NoActivity') }}
-          </div>
-          <TipComment
-            v-for="(comment, index) in comments"
+            v-for="(divClass, index) in ['tip_stats', 'stats']"
             :key="index"
-            :comment="comment"
-            :sender-link="openExplorer(comment.author)"
-          />
+            :class="divClass"
+          >
+            <div
+              v-for="(stat, idx) in divClass === 'tip_stats' ? tipStats : showedStats"
+              :key="idx"
+              :class="divClass === 'tip_stats' ? 'tips_stats_block' : 'stat_block'"
+            >
+              <span
+                v-if="stat.value || stat.image"
+                class="stat-value"
+              >
+                {{ stat.value }}
+              </span>
+              <span class="stat-title">
+                <img
+                  v-if="stat.image"
+                  :src="stat.image"
+                >
+                {{ stat.title }}
+              </span>
+              <AeAmountFiat
+                v-if="stat.amount"
+                :amount="stat.amount"
+                class="stat-value"
+              />
+            </div>
+          </div>
         </div>
       </div>
+      <ListOfTipsAndComments :address="address" />
     </div>
   </Page>
 </template>
+
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { createDeepLinkUrl } from '../utils/util';
-import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
-import Loading from '../components/Loading.vue';
 import { EXPLORER_URL } from '../config/constants';
-import TipsPagination from '../components/TipsPagination.vue';
+import ListOfTipsAndComments from '../components/ListOfTipsAndComments.vue';
 import Avatar from '../components/Avatar.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from '../components/TipInput.vue';
+import SuccessIcon from '../assets/verifiedUrl.svg';
 
 export default {
   components: {
-    TipsPagination,
-    Loading,
+    ListOfTipsAndComments,
     AeAmountFiat,
-    TipComment,
     Page,
     Avatar,
     TipInput,
@@ -307,12 +200,9 @@ export default {
     return {
       maxLength: 250,
       explorerUrl: `${EXPLORER_URL}account/transactions/`,
-      showLoading: false,
-      comments: [],
       error: false,
       userStats: null,
       editMode: false,
-      activeTab: 'tips',
       userCommentCount: 0,
       profile: {
         biography: '',
@@ -349,9 +239,34 @@ export default {
     countLength() {
       return `${this.profile.biography.length}/${this.maxLength}`;
     },
-    showNoResultsMsg() {
-      return this.activeTab === 'comments'
-        && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
+    tipStats() {
+      return [
+        {
+          value: this.userStats.tipsLength + this.userStats.retipsLength,
+          title: this.$t('views.UserProfileView.TipsSent'),
+          amount: this.userStats.totalTipAmount,
+        },
+        {
+          title: this.$t('views.UserProfileView.ClaimedAmount'),
+          amount: this.userStats.claimedAmount,
+        },
+        {
+          title: this.$t('views.UserProfileView.UnclaimedAmount'),
+          amount: this.userStats.unclaimedAmount,
+        },
+      ];
+    },
+    showedStats() {
+      return [
+        { value: this.userStats.userComments, title: this.$t('views.UserProfileView.Comments') },
+        { value: this.userStats.tipsLength, title: this.$t('views.UserProfileView.TipsReceived') },
+        { value: this.userStats.retipsLength, title: this.$t('views.UserProfileView.RetipsSent') },
+        {
+          value: this.userStats.claimedUrlsLength,
+          image: SuccessIcon,
+          title: this.$t('views.UserProfileView.ClaimedUrls'),
+        },
+      ];
     },
   },
   mounted() {
@@ -370,9 +285,6 @@ export default {
     }
   },
   methods: {
-    setActiveTab(tab) {
-      this.activeTab = tab;
-    },
     openExplorer(address) {
       return this.explorerUrl + address;
     },
@@ -427,20 +339,6 @@ export default {
       Backend.getCacheUserStats(this.address).then((stats) => {
         this.userStats = stats;
       });
-      this.showLoading = true;
-      Backend.getAllComments()
-        .then((allComments) => {
-          this.showLoading = false;
-          this.error = false;
-          this.comments = allComments.filter(
-            (comment) => comment.author === this.address,
-          );
-        })
-        .catch((e) => {
-          console.error(e);
-          this.error = true;
-          this.showLoading = false;
-        });
     },
     getProfile() {
       Backend.getCommentCountForAddress(this.address)
@@ -463,6 +361,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 #file-input {
   display: none;
@@ -506,10 +405,6 @@ export default {
   color: $tip_note_color;
   font-size: 0.75rem;
 
-  .count {
-    font-size: 0.65rem;
-  }
-
   .error {
     color: $red_color;
   }
@@ -543,17 +438,6 @@ export default {
 
     &:focus {
       outline: 0;
-    }
-  }
-
-  .tip__button {
-    background: #2a9cffa8;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-
-    &:hover {
-      background: #2a9cffcc;
     }
   }
 
@@ -592,7 +476,8 @@ export default {
     display: unset;
   }
 
-  .edit__button {
+  .edit__button,
+  .cancel__button {
     background: #babac01e;
 
     &:hover {
@@ -605,26 +490,6 @@ export default {
 
     &:hover {
       background: #67f7b8cc;
-    }
-  }
-
-  .cancel__button {
-    background: #babac01e;
-
-    &:hover {
-      background: #babac042;
-    }
-  }
-
-  .comments__section {
-    min-height: 5rem;
-
-    .tips__container .loading-position {
-      position: absolute;
-    }
-
-    .comment.tip__record {
-      border-radius: unset;
     }
   }
 
@@ -652,11 +517,6 @@ export default {
   }
 }
 
-.profile__stats {
-  display: grid;
-  grid-template-columns: auto;
-}
-
 .tip_stats {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -670,10 +530,6 @@ export default {
 
 .tips_stats_block:last-child {
   border: 0;
-}
-
-.stat_row {
-  height: 1.15rem;
 }
 
 .stats {
@@ -711,10 +567,6 @@ export default {
 .profile__section {
   background-color: $light_color;
   position: relative;
-
-  .spinner__container {
-    top: 40%;
-  }
 }
 
 .profile__image {
@@ -722,27 +574,6 @@ export default {
   margin-right: 0.5rem;
   position: relative;
   vertical-align: super;
-
-  .spinner__container {
-    top: 30%;
-  }
-
-  .blurred {
-    opacity: 0.4;
-  }
-
-  .overlay {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 10;
-  }
-
-  .profile__image--edit {
-    position: relative;
-  }
 
   img.user-identicon,
   div.user-identicon svg {
@@ -786,37 +617,6 @@ export default {
   }
 }
 
-.profile__actions {
-  background-color: $actions_ribbon_background_color;
-  margin-top: 0.125rem;
-  padding-left: 1rem;
-  position: sticky;
-  top: 3.1rem;
-  z-index: 21;
-
-  a {
-    color: $light_font_color;
-    display: inline-block;
-    font-weight: 600;
-    margin-right: 0.5rem;
-    padding: 0.5rem;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &:hover {
-      color: $primary_color;
-      cursor: pointer;
-    }
-
-    &.active {
-      border-bottom: 2px solid $custom_links_color;
-      color: $custom_links_color;
-    }
-  }
-}
-
 @media only screen and (max-width: 768px) {
   .profile__page .profile__meta {
     border-top-right-radius: 0;
@@ -826,10 +626,6 @@ export default {
 
 @media screen and (max-width: 1024px) {
   .profile__page {
-    .profile__actions {
-      top: 3rem;
-    }
-
     .tips__container {
       padding: 0.15rem 0.5rem;
     }
@@ -858,10 +654,6 @@ export default {
 
     .profile__username {
       font-size: 0.55rem;
-
-      .chain {
-        font-size: 0.9rem;
-      }
     }
   }
 
@@ -879,7 +671,6 @@ export default {
   }
 
   .tip_stats {
-    display: grid;
     grid-template-columns: auto;
     order: 2;
   }

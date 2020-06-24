@@ -25,7 +25,7 @@
     </div>
 
     <AeAmountFiat
-      :amount="stats.total_amount"
+      :amount="stats.total_amount_ae"
       class="value"
     />
     <div class="label">
@@ -33,7 +33,7 @@
     </div>
 
     <AeAmountFiat
-      :amount="stats.total_claimed_amount"
+      :amount="stats.total_claimed_amount_ae"
       class="value"
     />
     <div class="label">

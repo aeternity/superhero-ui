@@ -10,7 +10,7 @@
       <img :src="iconTip">
       <AeAmountFiat
         v-if="!userAddress"
-        :amount="tipUrlStats.amount"
+        :amount="tipUrlStats.amount_ae"
       />
     </Component>
     <Modal

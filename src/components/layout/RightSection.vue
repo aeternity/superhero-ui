@@ -1,63 +1,99 @@
 <template>
   <div class="app__rightcolumn">
-    <div class="content">
+    <div :class="['content', { iframe: useIframeWallet }]">
       <SearchInput class="side-search" />
 
-      <iframe
-        v-if="useIframeWallet"
-        class="wallet-frame"
-        :src="walletUrl"
-      />
-      <div
-        v-else-if="isLoggedIn"
-        class="section wallet-install"
-      >
+      <div class="section wallet-install">
         <div class="section__title">
-          <img src="../../assets/iconWallet.svg">
-          {{ $t('components.layout.RightSection.Wallet') }}
-          <div class="account">
+          <div>
+            <img src="../../assets/iconWallet.svg">
+            {{ $t('components.layout.RightSection.Wallet') }}
+          </div>
+          <div
+            v-if="useIframeWallet"
+            @click="showTrending = !showTrending"
+          >
+            <img
+              :class="{ rotate: showTrending }"
+              src="../../assets/iconExpanded.svg"
+            >
+          </div>
+          <div
+            v-else-if="isLoggedIn"
+            class="account"
+          >
             {{ account }}
           </div>
         </div>
         <div class="section__body">
-          <div
-            class="balance text-ellipsis"
-            :title="roundAE + ' AE'"
-          >
-            <AeAmount :amount="balance" />
-          </div>
-          <div class="choose-fiat">
-            <Dropdown
-              v-if="currencyDropdownOptions"
-              :options="currencyDropdownOptions"
-              :method="selectCurrency"
-              :selected="settings.currency"
-            />
-          </div>
+          <template v-if="useIframeWallet">
+            <transition
+              name="component-fade"
+              appear
+              mode="out-in"
+            >
+              <iframe
+                :class="['wallet-frame', { shrink: showTrending }]"
+                :src="walletUrl"
+              />
+            </transition>
+          </template>
+          <template v-else-if="isLoggedIn">
+            <div
+              class="balance text-ellipsis"
+              :title="roundAE + ' AE'"
+            >
+              <AeAmount :amount="balance" />
+            </div>
+            <div class="choose-fiat">
+              <Dropdown
+                v-if="currencyDropdownOptions"
+                :options="currencyDropdownOptions"
+                :method="selectCurrency"
+                :selected="settings.currency"
+              />
+            </div>
+          </template>
         </div>
       </div>
-
       <div class="section trending">
         <div class="section__title">
-          <img src="../../assets/iconTrending.svg">
-          {{ $t('components.layout.RightSection.Trending') }}
-        </div>
-        <div
-          v-if="!loading.tips"
-          class="section__body topics-section"
-          :class="{ active: topics && topics.length > 0 }"
-        >
+          <div>
+            <img src="../../assets/iconTrending.svg">
+            {{ $t('components.layout.RightSection.Trending') }}
+          </div>
           <div
-            v-for="([topic, data], idx) in topics.length && topics.filter(([t]) => t !== '#test')"
-            :key="idx"
-            class="section__item"
+            v-if="useIframeWallet"
+            @click="showTrending = !showTrending"
           >
-            <div class="topic-container text-ellipsis">
-              <Topic :topic="topic" />
-            </div>
-            <AeAmountFiat :amount="data.amount" />
+            <img
+              :class="{ rotate: !showTrending }"
+              src="../../assets/iconExpanded.svg"
+            >
           </div>
         </div>
+        <transition
+          name="component-fade"
+          appear
+          mode="out-in"
+        >
+          <div
+            v-if="!loading.tips && (showTrending || (isLoggedIn && !useIframeWallet))"
+            class="section__body topics-section"
+            :class="{ active: topics && topics.length > 0 }"
+          >
+            <div
+              v-for="([topic, data], idx) in topics.length && topics.filter(([t]) => t !== '#test')"
+              :key="idx"
+              class="section__item"
+            >
+              <div class="topic-container text-ellipsis">
+                <Topic :topic="topic" />
+              </div>
+              <AeAmountFiat :amount="data.amount" />
+            </div>
+          </div>
+        </transition>
       </div>
 
       <FooterSection />
@@ -87,6 +123,7 @@ export default {
   },
   data: () => ({
     walletUrl: process.env.VUE_APP_WALLET_URL,
+    showTrending: false,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -132,6 +169,29 @@ export default {
 
   .content {
     max-width: 18rem;
+
+    &.iframe .section {
+      .section__title {
+        display: flex;
+        justify-content: space-between;
+
+        > div {
+          display: inline-block;
+
+          &:hover {
+            filter: brightness(1.3);
+          }
+
+          .rotate {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      &.wallet-install .section__body {
+        padding: 0;
+      }
+    }
 
     .section {
       background-color: $article_content_color;
@@ -197,17 +257,22 @@ export default {
       }
     }
 
-    .wallet-frame {
-      border: none;
-      width: 100%;
-      height: 657px;
-    }
-
     .wallet-install {
       margin-bottom: 0.5rem;
-      max-height: 400px;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       display: block;
+
+      .wallet-frame {
+        width: 350px;
+        height: 470px;
+        max-height: 470px;
+        max-width: 350px;
+        border: none;
+
+        &.shrink {
+          height: 150px;
+        }
+      }
 
       .account {
         color: $light_font_color;

@@ -1,6 +1,20 @@
 <template>
   <div>
     <div class="profile__actions">
+      <div class="activity-ribbon">
+        <div
+          :class="['filter-button', { active: activity === 'channel' }]"
+          @click="activity = 'channel'"
+        >
+          {{ $t('components.ListOfTipsAndComments.MyChannel') }}
+        </div>
+        <div
+          :class="['filter-button', { active: activity === 'activity' }]"
+          @click="activity = 'activity'"
+        >
+          {{ $t('components.ListOfTipsAndComments.Activity') }}
+        </div>
+      </div>
       <a
         :class="{ active: activeTab === 'tips' }"
         @click="setActiveTab('tips')"
@@ -72,6 +86,7 @@ export default {
     error: false,
     comments: [],
     activeTab: 'tips',
+    activity: 'activity',
   }),
   computed: {
     ...mapState(['loading']),
@@ -146,6 +161,13 @@ export default {
       border-bottom: 2px solid $custom_links_color;
       color: $custom_links_color;
     }
+  }
+
+  .activity-ribbon {
+    background-color: $light_color;
+    padding: 0.5rem 0;
+    margin-left: -1rem;
+    padding-left: 1rem;
   }
 }
 </style>

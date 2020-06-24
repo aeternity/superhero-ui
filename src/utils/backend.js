@@ -63,7 +63,18 @@ export default class Backend {
       body: image ? data : JSON.stringify(data),
     };
     Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
+
     return wrapTry(fetch(Backend.getProfileImageUrl(address), request));
+  };
+
+  static setCoverImage = async (address, data, image = true) => {
+    const request = {
+      method: 'post',
+      body: image ? data : JSON.stringify(data),
+    };
+    Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
+
+    return wrapTry(fetch(Backend.getCoverImageUrl(address), request));
   };
 
   static deleteProfileImage = async (address, postParam = false) => {
@@ -78,6 +89,8 @@ export default class Backend {
   };
 
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
+
+  static getCoverImageUrl = (address) => `${BACKEND_URL}/cover/image/${address}`;
 
   static getStats = async () => backendFetch('static/stats/');
 

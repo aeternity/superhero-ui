@@ -300,15 +300,15 @@ export default {
         {
           value: this.userStats.tipsLength + this.userStats.retipsLength,
           title: this.$t('views.UserProfileView.TipsSent'),
-          amount: this.userStats.totalTipAmount,
+          amount: this.userStats.totalTipAmountAe,
         },
         {
           title: this.$t('views.UserProfileView.ClaimedAmount'),
-          amount: this.userStats.claimedAmount,
+          amount: this.userStats.claimedAmountAe,
         },
         {
           title: this.$t('views.UserProfileView.UnclaimedAmount'),
-          amount: this.userStats.unclaimedAmount,
+          amount: this.userStats.unclaimedAmountAe,
         },
       ];
     },

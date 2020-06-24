@@ -220,11 +220,11 @@ export default {
         if (!this.stats || !this.derivedCommentTipStats) {
           return '0';
         }
-        return this.derivedCommentTipStats.total_amount;
+        return this.derivedCommentTipStats.total_amount_ae;
       }
 
       return this.isRetip
-        ? this.tip.total_amount
+        ? this.tip.total_amount_ae
         : this.tip.retip_amount_ae;
     },
     title() {

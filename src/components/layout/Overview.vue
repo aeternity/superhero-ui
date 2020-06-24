@@ -34,11 +34,11 @@
       </div>
     </div>
     <div
-      v-if="stats.total_amount"
+      v-if="stats.total_amount_ae"
       class="overview__item"
     >
       <AeAmountFiat
-        :amount="stats.total_amount"
+        :amount="stats.total_amount_ae"
         class="overview__value"
       />
       <div class="overview__label">
@@ -46,11 +46,11 @@
       </div>
     </div>
     <div
-      v-if="stats.total_claimed_amount"
+      v-if="stats.total_claimed_amount_ae"
       class="overview__item"
     >
       <AeAmountFiat
-        :amount="stats.total_claimed_amount"
+        :amount="stats.total_claimed_amount_ae"
         class="overview__value"
       />
       <div class="overview__label">

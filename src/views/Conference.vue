@@ -1,6 +1,8 @@
 <template>
   <Page class="league-page-container">
+    <Loading v-show="loading" />
     <div
+      v-show="!loading"
       ref="jitsi"
       class="jitsi-container"
     />
@@ -11,17 +13,20 @@ import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wa
 import JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import Page from '../components/layout/Page.vue';
 import { IS_MOBILE_DEVICE } from '../utils/util';
+import Loading from '../components/Loading.vue';
 
 export default {
   name: 'Conference',
   components: {
     Page,
+    Loading,
   },
   props: {
     room: { type: String, default: '' },
   },
   data: () => ({
     connection: null,
+    loading: true,
   }),
   async mounted() {
     this.connection = await BrowserWindowMessageConnection({
@@ -40,6 +45,9 @@ export default {
       roomName: this.room || '',
       configOverwrite: {
         disableDeepLinking: IS_MOBILE_DEVICE,
+      },
+      onload: () => {
+        this.loading = false;
       },
     });
   },

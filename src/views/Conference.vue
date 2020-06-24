@@ -20,17 +20,20 @@ export default {
   props: {
     room: { type: String, default: '' },
   },
+  data: () => ({
+    connection: null,
+  }),
   async mounted() {
-    const connection = await BrowserWindowMessageConnection({
-      origin: 'https://localhost:8080',
+    this.connection = await BrowserWindowMessageConnection({
+      origin: `https://${process.env.VUE_APP_JITSI_URL}`,
     });
 
-    connection.connect(({ room }) => {
+    this.connection.connect(({ room }) => {
       this.$router.push({ name: 'conference', params: { room } });
     });
 
     // eslint-disable-next-line no-new
-    new JitsiMeetExternalAPI('localhost:8080 ', {
+    new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_URL, {
       parentNode: this.$refs.jitsi,
       width: '100%',
       height: '100%',
@@ -39,6 +42,9 @@ export default {
         disableDeepLinking: IS_MOBILE_DEVICE,
       },
     });
+  },
+  destroyed() {
+    this.connection.disconnect();
   },
 };
 </script>

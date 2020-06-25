@@ -42,7 +42,7 @@ export default {
       parentNode: this.$refs.jitsi,
       width: '100%',
       height: '100%',
-      roomName: this.room || '',
+      roomName: this.room,
       configOverwrite: {
         disableDeepLinking: IS_MOBILE_DEVICE,
       },

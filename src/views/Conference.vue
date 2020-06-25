@@ -1,6 +1,6 @@
 <template>
   <Page class="league-page-container">
-    <Loading v-show="loading" />
+    <Loading v-if="loading" />
     <div
       v-show="!loading"
       ref="jitsi"
@@ -25,18 +25,9 @@ export default {
     room: { type: String, default: '' },
   },
   data: () => ({
-    connection: null,
     loading: true,
   }),
   async mounted() {
-    this.connection = await BrowserWindowMessageConnection({
-      origin: `https://${process.env.VUE_APP_JITSI_URL}`,
-    });
-
-    this.connection.connect(({ room }) => {
-      this.$router.push({ name: 'conference', params: { room } });
-    });
-
     // eslint-disable-next-line no-new
     new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_URL, {
       parentNode: this.$refs.jitsi,
@@ -50,9 +41,18 @@ export default {
         this.loading = false;
       },
     });
-  },
-  destroyed() {
-    this.connection.disconnect();
+
+    const connection = await BrowserWindowMessageConnection({
+      origin: `https://${process.env.VUE_APP_JITSI_URL}`,
+    });
+
+    connection.connect(({ room }) => {
+      this.$router.push({ name: 'conference', params: { room } });
+    });
+
+    this.$once('hook:destroyed', () => {
+      connection.disconnect();
+    });
   },
 };
 </script>

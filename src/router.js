@@ -146,15 +146,7 @@ const routes = [
     },
   },
   {
-    path: '/networking',
-    name: 'networking',
-    component: Conference,
-    meta: {
-      title: 'Networking',
-    },
-  },
-  {
-    path: '/league/:room',
+    path: '/league/:room?',
     name: 'conference',
     component: Conference,
     props: true,

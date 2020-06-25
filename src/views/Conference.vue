@@ -50,7 +50,7 @@ export default {
       this.$router.push({ name: 'conference', params: { room } });
     });
 
-    this.$once('hook:deactivated', () => {
+    this.$once('hook:destroyed', () => {
       connection.disconnect();
     });
   },

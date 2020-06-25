@@ -6,8 +6,8 @@ import i18n from './i18nHelper';
 const shiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(decimals);
 const unshiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(-decimals);
 
-const atomsToAe = (atoms) => shiftDecimalPlaces(atoms, 18);
-const aeToAtoms = (ae) => unshiftDecimalPlaces(ae, 18);
+const atomsToAe = (atoms) => unshiftDecimalPlaces(atoms, 18);
+const aeToAtoms = (ae) => shiftDecimalPlaces(ae, 18);
 
 export const wrapTry = async (promise) => {
   try {

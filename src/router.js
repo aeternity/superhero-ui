@@ -96,8 +96,8 @@ const routes = [
     },
   },
   {
-    path: '/league',
-    name: 'league',
+    path: '/events',
+    name: 'events',
     component: League,
     meta: {
       title: 'Superhero League',

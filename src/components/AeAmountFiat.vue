@@ -3,8 +3,10 @@
     <AeAmount
       v-bind="$attrs"
       :amount="amount"
+      :token="token"
     />
     <FiatValue
+      v-if="!token"
       v-bind="$attrs"
       :amount="amount"
     />
@@ -22,6 +24,7 @@ export default {
     AeAmount,
   },
   props: {
+    token: { type: String, required: false, default: null },
     amount: { type: String, required: true },
   },
 };

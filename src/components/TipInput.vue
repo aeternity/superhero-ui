@@ -36,7 +36,7 @@
         class="tip__icon"
         :src="iconTip"
       >
-      <AeAmountFiat :amount="amount" />
+      <AeAmountFiat :amount="amount" :token="tip.token" />
     </div>
     <div
       v-else
@@ -144,7 +144,7 @@ export default {
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['account', 'loading', 'minTipAmount', 'stats']),
+    ...mapState(['account', 'loading', 'minTipAmount', 'stats', 'tokenInfo']),
     eventPayload() {
       if (!this.userAddress) {
         if (this.comment) {
@@ -223,8 +223,14 @@ export default {
         return this.derivedCommentTipStats.total_amount_ae;
       }
 
+      // TODO adjust UX for tokens, this example is just showing the initial tip amount
+      // TODO for total there can be AE + multiple token amounts
+      const tokenOrAeAmount = this.tip.token
+        ? this.tip.token_amount.toString()
+        : this.tip.total_amount_ae;
+
       return this.isRetip
-        ? this.tip.total_amount_ae
+        ? tokenOrAeAmount
         : this.tip.retip_amount_ae;
     },
     title() {
@@ -273,7 +279,9 @@ export default {
     },
     async sendTip() {
       this.showLoading = true;
-      const amount = util.aeToAtoms(this.value);
+
+      // TODO differentiate between AE or token tip
+      const amount = util.shiftDecimalPlaces(this.value, this.tokenInfo['ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf'].decimals).toFixed();
       let url = '';
       if (this.comment) {
         url = `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
@@ -282,9 +290,11 @@ export default {
       } else {
         url = `https://superhero.com/tip/${this.tip.id}`;
       }
+
+      // TODO differentiate between AE or token tip
       (this.isRetip
-        ? aeternity.retip(this.tip.id, amount)
-        : aeternity.tip(url, this.message, amount))
+        ? aeternity.retipToken(this.tip.id, amount, 'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf')
+        : aeternity.tipToken(url, this.message, amount, 'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf'))
         .then(async () => {
           if (!this.userAddress) {
             await Backend.cacheInvalidateTips().catch(console.error);

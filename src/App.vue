@@ -62,7 +62,7 @@ export default {
     ...mapMutations([
       'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet', 'setPinnedItems',
+      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'setPinnedItems',
     ]),
     async reloadAsyncData(stats) {
       // stats
@@ -78,7 +78,7 @@ export default {
     async reloadData() {
       // await fetch
       const [
-        stats, chainNames, rates, oracleState, topics, verifiedUrls, graylistedUrls,
+        stats, chainNames, rates, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
       ] = await Promise.all([
         Backend.getCacheStats(),
         Backend.getCacheChainNames(),
@@ -87,6 +87,7 @@ export default {
         Backend.getTopicsCache(),
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
+        Backend.getTokenInfo(),
       ]);
 
       if (this.account) {
@@ -102,6 +103,7 @@ export default {
       this.setOracleState(oracleState);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
+      this.setTokenInfo(tokenInfo);
     },
     async fetchUserData() {
       await Promise.all([

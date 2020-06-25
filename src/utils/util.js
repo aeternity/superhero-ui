@@ -3,8 +3,12 @@ import BigNumber from 'bignumber.js';
 import { EventBus } from './eventBus';
 import i18n from './i18nHelper';
 
-const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000000000000000000));
-const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
+const shiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(decimals);
+const unshiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(-decimals);
+
+const atomsToAe = (atoms) => shiftDecimalPlaces(atoms, 18);
+const aeToAtoms = (ae) => unshiftDecimalPlaces(ae, 18);
+
 export const wrapTry = async (promise) => {
   try {
     return Promise.race([
@@ -103,6 +107,8 @@ export const getI18nPath = (index, page) => (isTitle(index, page)
 
 export default {
   atomsToAe,
+  shiftDecimalPlaces,
+  unshiftDecimalPlaces,
   aeToAtoms,
   wrapTry,
   currencySigns,

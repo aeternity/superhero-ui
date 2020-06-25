@@ -124,7 +124,7 @@ export default {
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['loading', 'account', 'minTipAmount']),
+    ...mapState(['loading', 'account', 'minTipAmount', 'tokenInfo']),
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
@@ -147,8 +147,11 @@ export default {
     async sendTip() {
       this.sendingTip = true;
       this.resetStatuses();
-      const amount = util.aeToAtoms(this.sendTipForm.amount);
-      tipToken(this.sendTipForm.url, this.sendTipForm.title, this.sendTipForm.amount, 'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf')
+      // TODO differentiate between AE or token tip
+      const amount = util.shiftDecimalPlaces(this.sendTipForm.amount, this.tokenInfo['ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf'].decimals).toFixed();
+
+      // TODO differentiate between AE or token tip
+      tipToken(this.sendTipForm.url, this.sendTipForm.title, amount, 'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf')
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();

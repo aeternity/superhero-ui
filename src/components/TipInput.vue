@@ -9,7 +9,7 @@
     >
       <img :src="iconTip">
       <template v-if="!userAddress">
-        &nbsp;<AeAmountFiat :amount="tipUrlStats.amount" />
+        &nbsp;<AeAmountFiat :amount="tipUrlStats.amount_ae" :token="tip.token" />
       </template>
     </Component>
     <Modal
@@ -83,8 +83,8 @@ export default {
     message: '',
   }),
   computed: {
-    ...mapState(['useSdkWallet', 'address']),
-    ...mapGetters('backend', ['minTipAmount']),
+    ...mapState(['useSdkWallet', 'address', 'tokenInfo']),
+    ...mapGetters(['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
         const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);

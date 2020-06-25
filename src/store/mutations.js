@@ -39,6 +39,9 @@ export default {
   setGraylistedUrls(state, payload) {
     state.graylistedUrls = payload;
   },
+  setTokenInfo(state, payload) {
+    state.tokenInfo = payload;
+  },
   setVerifiedUrls(state, payload) {
     state.verifiedUrls = payload;
   },

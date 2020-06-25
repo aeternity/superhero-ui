@@ -26,6 +26,7 @@ export default new Vuex.Store({
     chainNames: [],
     verifiedUrls: [],
     graylistedUrls: [],
+    tokenInfo: {},
     isHiddenContent: true,
     useSdkWallet: false,
     useIframeWallet: false,

@@ -11,6 +11,7 @@
       <AeAmountFiat
         v-if="!userAddress"
         :amount="tipUrlStats.amount_ae"
+        :token="tip.token"
       />
     </Component>
     <Modal
@@ -84,7 +85,7 @@ export default {
     message: '',
   }),
   computed: {
-    ...mapState(['useSdkWallet', 'account', 'minTipAmount']),
+    ...mapState(['useSdkWallet', 'account', 'minTipAmount', 'tokenInfo']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
         const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);

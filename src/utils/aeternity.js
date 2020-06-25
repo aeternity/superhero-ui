@@ -109,3 +109,15 @@ export const retip = async (id, amount) => {
   await initTippingContractIfNeeded();
   return contract.methods.retip(id, { amount });
 };
+
+export const retipToken = async (id, amount, tokenAddress) => {
+  await initTippingContractIfNeeded();
+  const tokenContract = await client
+    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
+  await tokenContract.methods.change_allowance(contractAddress.replace('ct_', 'ak_'), amount)
+    .catch((e) => {
+      console.log(e);
+      tokenContract.methods.create_allowance(contractAddress.replace('ct_', 'ak_'), amount);
+    });
+  return contract.methods.retip_token(id, tokenAddress, amount);
+};

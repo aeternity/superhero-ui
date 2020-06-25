@@ -1,6 +1,6 @@
 <template>
   <Page class="league-page-container">
-    <Loading v-show="loading" />
+    <Loading v-if="loading" />
     <div
       v-show="!loading"
       ref="jitsi"

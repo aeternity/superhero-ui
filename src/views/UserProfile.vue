@@ -110,7 +110,7 @@
               <div class="chain">
                 {{ userChainName ? userChainName : $t('FellowSuperhero') }}
               </div>
-              <div>{{ address }}</div>
+              <div class="text-ellipsis">{{ address }}</div>
             </a>
             <div
               v-if="profile.balance"
@@ -118,7 +118,7 @@
             >
               <span>{{ $t('Balance') }}</span>
               <AeAmountFiat
-                :amount="'profile.balance'"
+                :amount="profile.balance"
               />
             </div>
             <div class="profile__row">
@@ -548,7 +548,7 @@ input[type="file"] {
   }
 
   .location {
-    margin-right: 1rem;
+    margin-right: 0.5rem;
 
     img {
       vertical-align: top;
@@ -780,6 +780,14 @@ input[type="file"] {
     div.user-identicon svg {
       height: 4.5rem;
       width: 4.5rem;
+    }
+  }
+
+  .profile__row {
+    display: block;
+
+    input {
+      margin-bottom: 0.3rem;
     }
   }
 }

@@ -43,6 +43,9 @@
               <div @click="claim">
                 {{ $t('components.tipRecords.TipRecord.claim') }}
               </div>
+              <div>
+                {{ $t('components.tipRecords.TipRecord.Pin') }}
+              </div>
             </ThreeDotsMenu>
           </span>
         </div>

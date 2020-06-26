@@ -45,10 +45,18 @@
               </span>
             </router-link>
           </span>
-          <span class="tip__date">
+          <span
+            class="tip__date"
+            @click.stop
+          >
             <FormatDate
               :date-timestamp="formatDate"
             />
+            <ThreeDotsMenu class="three-dots">
+              <div>
+                {{ $t('components.tipRecords.TipRecord.Pin') }}
+              </div>
+            </ThreeDotsMenu>
           </span>
         </div>
       </div>
@@ -86,6 +94,7 @@ import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 import Backend from '../../utils/backend';
 import TipInput from '../TipInput.vue';
+import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 
 export default {
   name: 'TipComment',
@@ -93,6 +102,7 @@ export default {
     FormatDate,
     Avatar,
     TipInput,
+    ThreeDotsMenu,
   },
   props: {
     comment: { type: Object, required: true },
@@ -159,9 +169,13 @@ export default {
   justify-content: space-between;
 
   .tip__date {
-    display: inline-block;
+    display: flex;
     font-size: 0.6rem;
     text-align: right;
+  }
+
+  .user-display {
+    max-width: 80%;
   }
 
   .address {
@@ -212,10 +226,6 @@ export default {
   }
 }
 
-.user-display {
-  max-width: 85%;
-}
-
 .comment__actions {
   padding: 0.25rem 1rem 1rem 1rem;
   color: $standard_font_color;
@@ -230,6 +240,10 @@ export default {
 
 .comments {
   margin-left: 3rem;
+}
+
+.three-dots {
+  display: inline-block;
 }
 
 @media only screen

@@ -473,7 +473,9 @@
         "reportPost": "Report Post",
         "reportPostTitle": "Thanks for letting us know",
         "reportPostBody": "Our support team will investigate",
-        "claim": "Claim"
+        "claim": "Claim",
+        "Pin": "Pin to Channel",
+        "UnPin": "Unpin from Channel"
       }
     },
     "TipInput": {

@@ -358,6 +358,50 @@
       "Joined": "Joined",
       "Comments": "Comments",
       "EditBiography": "Edit Biography"
+    },
+    "Widget": {
+      "header": "[[ Widget page header text placeholder ]]",
+      "sections": [
+        {
+          "text": "section 1 placeholder."
+        },
+        {
+          "text": "section 2 placeholder."
+        }
+      ]
+    },
+    "Voting": {
+      "header": "[[ Voting page header text placeholder ]]",
+      "sections": [
+        {
+          "text": "section 1 placeholder."
+        },
+        {
+          "text": "section 2 placeholder."
+        }
+      ]
+    },
+    "Wallet": {
+      "header": "[[ Wallet page header text placeholder ]]",
+      "sections": [
+        {
+          "text": "section 1 placeholder."
+        },
+        {
+          "text": "section 2 placeholder."
+        }
+      ]
+    },
+    "Meet": {
+      "header": "[[ Meet page header text placeholder ]]",
+      "sections": [
+        {
+          "text": "section 1 placeholder."
+        },
+        {
+          "text": "section 2 placeholder."
+        }
+      ]
     }
   },
   "components": {

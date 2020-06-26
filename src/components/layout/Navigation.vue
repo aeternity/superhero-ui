@@ -28,7 +28,7 @@
       </router-link>
     </div>
     <div class="navigation__item league">
-      <router-link :to="{ name: 'league' }">
+      <router-link :to="{ name: 'events' }">
         <IconDiamond class="navigation__item__image" />
         <span>{{ $t('components.layout.Navigation.League') }}</span>
       </router-link>
@@ -46,7 +46,7 @@
       </router-link>
     </div>
     <div class="navigation__item networking">
-      <router-link :to="{ name: 'networking' }">
+      <router-link :to="{ name: 'conference' }">
         <span>{{ $t('Networking.MenuLink') }}</span>
       </router-link>
     </div>

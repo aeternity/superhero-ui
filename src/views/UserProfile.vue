@@ -272,11 +272,12 @@ export default {
     },
     joinedAt() {
       try {
-        return new Date(this.profile.createdAt).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        });
+        return new Date(this.profile.createdAt.substring(0, this.profile.createdAt.length - 7))
+          .toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
       } catch (e) {
         return '';
       }

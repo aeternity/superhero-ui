@@ -1,6 +1,4 @@
 // about cypress and iframes https://www.cypress.io/blog/2020/02/12/working-with-iframes-in-cypress/
-const { expect } = require('chai');
-
 const getIframeDocument = () => cy
   .get('#jitsiConferenceFrame0')
   .its('0.contentDocument')

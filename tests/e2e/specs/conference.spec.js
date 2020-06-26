@@ -21,8 +21,6 @@ describe('Conference.vue', () => {
     getIframeBody().find('#enter_room_field').type(ROOM);
 
     getIframeBody().find('#enter_room_button').click();
-    cy.window().then(({ location: { pathname } }) => {
-      expect(pathname).to.equal(`/league/${ROOM}`);
-    });
+    cy.location('pathname').should('eq', `/league/${ROOM}`);
   });
 });

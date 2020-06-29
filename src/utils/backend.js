@@ -96,7 +96,7 @@ export default class Backend {
 
   static getTopicsCache = async () => backendFetch('cache/topics');
 
-  static getTokenInfo = async () => backendFetch('cache/tokenInfo');
+  static getTokenInfo = async () => backendFetch('tokenCache/tokenInfo');
 
   static cacheInvalidateTips = async () => backendFetch('cache/invalidate/tips');
 

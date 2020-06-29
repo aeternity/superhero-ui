@@ -113,12 +113,13 @@
               <div class="text-ellipsis">{{ address }}</div>
             </a>
             <div
-              v-if="profile.balance"
+              v-if="balance"
               class="balance"
+              :placeholder="balance"
             >
               <span>{{ $t('Balance') }}</span>
               <AeAmountFiat
-                :amount="profile.balance"
+                :amount="balance"
               />
             </div>
             <div class="profile__row">
@@ -128,6 +129,7 @@
                 <img src="../assets/location.svg">
                 <input
                   v-if="editMode"
+                  v-model="profile.location"
                   type="text"
                   :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
                 >
@@ -216,7 +218,7 @@
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
-import { createDeepLinkUrl } from '../utils/util';
+import util, { createDeepLinkUrl } from '../utils/util';
 import Page from '../components/layout/Page.vue';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
@@ -250,9 +252,9 @@ export default {
         biography: '',
         createdAt: '',
         location: '',
-        balance: '',
         coverPhoto: '',
       },
+      balance: '',
     };
   },
   computed: {
@@ -272,7 +274,7 @@ export default {
     },
     joinedAt() {
       try {
-        return new Date(this.profile.createdAt.substring(0, this.profile.createdAt.length - 7))
+        return new Date(this.profile.createdAt)
           .toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -318,6 +320,8 @@ export default {
   mounted() {
     this.reloadData();
 
+    this.getBalance();
+
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
@@ -331,6 +335,19 @@ export default {
     }
   },
   methods: {
+    getBalance() {
+      if (client) {
+        client.balance(this.address).then((balance) => {
+          this.balance = util.atomsToAe(balance).toFixed(2);
+        }).catch(() => 0);
+      } else {
+        const that = this;
+
+        setTimeout(() => {
+          that.getBalance();
+        }, 200);
+      }
+    },
     openExplorer(address) {
       return this.explorerUrl + address;
     },
@@ -365,6 +382,7 @@ export default {
     async saveProfile() {
       const { challenge } = await Backend.sendProfileData({
         biography: this.profile.biography,
+        location: this.profile.location,
         author: this.account,
       });
       await this.backendAuth('sendProfileData', challenge);
@@ -564,13 +582,17 @@ input[type="file"] {
   .balance {
     margin-top: 0.3rem;
     font-size: 0.7rem;
+    display: flex;
 
     span {
       margin-right: 0.2rem;
     }
 
     .ae-amount-fiat {
-      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
     }
   }
 

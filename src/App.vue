@@ -44,7 +44,6 @@ export default {
     },
   },
   async created() {
-    await this.initialLoad();
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
@@ -54,6 +53,7 @@ export default {
         name: 'maintenance',
       }).catch((err) => { console.error(err); });
     });
+    await this.initialLoad();
     this.$router.afterEach((to) => {
       setTimeout(
         () => {

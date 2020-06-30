@@ -126,14 +126,20 @@
               <div
                 class="location"
               >
-                <img src="../assets/location.svg">
+                <img
+                  v-if="profile.location.length || account === address"
+                  src="../assets/location.svg"
+                >
                 <input
                   v-if="editMode"
                   v-model="profile.location"
+                  class="location-input"
                   type="text"
                   :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
                 >
-                <span v-if="!editMode">
+                <span
+                  v-if="!editMode && (profile.location.length || account === address)"
+                >
                   {{
                     profile.location.length
                       ? profile.location
@@ -572,6 +578,10 @@ input[type="file"] {
   .location {
     margin-right: 0.5rem;
 
+    &:empty {
+      margin-right: 0;
+    }
+
     img {
       vertical-align: top;
     }
@@ -587,8 +597,8 @@ input[type="file"] {
     font-size: 0.7rem;
     display: flex;
 
-    span {
-      margin-right: 0.2rem;
+    .ae-amount {
+      margin-left: 0.2rem;
     }
 
     .ae-amount-fiat {
@@ -600,7 +610,7 @@ input[type="file"] {
   }
 
   textarea,
-  input[type="text"] {
+  .location-input {
     background: no-repeat url('../assets/textEdit.svg') bottom 0.1rem right;
     border: 0;
     border-bottom: 1px solid $standard_font_color;

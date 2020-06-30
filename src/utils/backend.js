@@ -35,13 +35,11 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  static setCoverImage = async (address, data, image = true) => {
+  static setCoverImage = async (address, data) => {
     const request = {
       method: 'post',
-      body: image ? data : JSON.stringify(data),
+      body: data,
     };
-    Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
-
     return backendFetch(`profile/${address}`, request);
   };
 

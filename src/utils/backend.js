@@ -29,11 +29,21 @@ export default class Backend {
 
   static getProfile = async (address) => backendFetch(`profile/${address}`);
 
-  static sendProfileData = async (postParam) => backendFetch('profile', {
+  static sendProfileData = async (address, postParam) => backendFetch(`profile/${address}`, {
     method: 'post',
     body: JSON.stringify(postParam),
     headers: { 'Content-Type': 'application/json' },
   });
+
+  static setCoverImage = async (address, data, image = true) => {
+    const request = {
+      method: 'post',
+      body: image ? data : JSON.stringify(data),
+    };
+    Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
+
+    return backendFetch(`profile/${address}`, request);
+  };
 
   static claimFromUrl = async (postParam) => backendFetch('claim/submit', {
     method: 'post',
@@ -67,16 +77,6 @@ export default class Backend {
     return wrapTry(fetch(Backend.getProfileImageUrl(address), request));
   };
 
-  static setCoverImage = async (address, data, image = true) => {
-    const request = {
-      method: 'post',
-      body: image ? data : JSON.stringify(data),
-    };
-    Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
-
-    return wrapTry(fetch(Backend.getCoverImageUrl(address), request));
-  };
-
   static deleteProfileImage = async (address, postParam = false) => {
     const request = {
       method: 'delete',
@@ -89,8 +89,6 @@ export default class Backend {
   };
 
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
-
-  static getCoverImageUrl = (address) => `${BACKEND_URL}/cover/image/${address}`;
 
   static getStats = async () => backendFetch('static/stats/');
 

@@ -7,7 +7,7 @@
       <div class="profile__section clearfix">
         <div
           class="cover-photo"
-          :style="{ 'background-image': 'url(' + profile.coverPhoto + ')' }"
+          :style="{ 'background-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
         />
         <div
           class="profile__header"
@@ -115,7 +115,7 @@
             <div
               v-if="balance"
               class="balance"
-              :placeholder="balance"
+              :title="balance"
             >
               <span>{{ $t('Balance') }}</span>
               <AeAmountFiat
@@ -218,11 +218,12 @@
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
+import { BACKEND_URL, EXPLORER_URL } from '../config/constants';
 import util, { createDeepLinkUrl } from '../utils/util';
 import Page from '../components/layout/Page.vue';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
-import { EXPLORER_URL } from '../config/constants';
+
 import ListOfTipsAndComments from '../components/ListOfTipsAndComments.vue';
 import Avatar from '../components/Avatar.vue';
 import { EventBus } from '../utils/eventBus';
@@ -252,9 +253,10 @@ export default {
         biography: '',
         createdAt: '',
         location: '',
-        coverPhoto: '',
+        coverImage: '',
       },
       balance: '',
+      BACKEND_URL,
     };
   },
   computed: {
@@ -357,7 +359,7 @@ export default {
     },
     async applyBackendChanges(method, request) {
       const args = {
-        sendProfileData: [request],
+        sendProfileData: [this.account, request],
         deleteProfileImage: [this.account, request],
         setProfileImage: [this.account, request, false],
       }[method];
@@ -380,7 +382,7 @@ export default {
       }
     },
     async saveProfile() {
-      const { challenge } = await Backend.sendProfileData({
+      const { challenge } = await Backend.sendProfileData(this.address, {
         biography: this.profile.biography,
         location: this.profile.location,
         author: this.account,
@@ -400,10 +402,9 @@ export default {
     },
     async uploadCoverPhoto(event) {
       const data = new FormData();
-      data.append('name', 'image');
-      data.append('image', event.target.files[0]);
-      const { challenge } = await Backend.setCoverImage(this.account, data);
-      await this.backendAuth('setCoverImage', challenge);
+      data.append('coverImage', event.target.files[0]);
+      const { challenge } = await Backend.setCoverImage(this.address, data);
+      await this.backendAuth('sendProfileData', challenge);
     },
     reloadData() {
       this.getProfile();
@@ -426,6 +427,7 @@ export default {
           this.profile = profile;
           this.profile.location = this.profile.location || '';
           this.profile.biography = this.profile.biography || '';
+          this.profile.coverImage = this.profile.coverImage || '';
           this.$store.commit('setUserProfile', profile);
         })
         .catch(console.error);
@@ -444,6 +446,7 @@ input[type="file"] {
   display: flex;
   flex-flow: wrap;
   margin: 0 1rem;
+  position: relative;
 
   .text-length {
     color: $light_font_color;
@@ -623,6 +626,7 @@ input[type="file"] {
     width: 100%;
     height: 100%;
     background-size: cover;
+    background-position: center;
   }
 }
 

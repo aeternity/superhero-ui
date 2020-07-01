@@ -13,6 +13,7 @@
     <AeAmountFiat
       v-if="!userAddress"
       :amount="amount"
+      :token="tip.token"
     />
     <span
       v-else
@@ -37,6 +38,13 @@
         :src="iconTip"
       >
       <AeAmountFiat :amount="amount" :token="tip.token" />
+      <AeAmountFiat
+        v-for="tokenTip in tip.token_total_amount.filter((t) => t.token !== tip.token)"
+        :amount="tokenTip.amount"
+        :token="tokenTip.token"
+        :key="tokenTip.token"
+        style="padding-left: .5rem"
+      />
     </div>
     <div
       v-else

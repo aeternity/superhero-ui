@@ -86,6 +86,22 @@ export const scanForWallets = async () => {
     });
   });
 };
+const createOrChangeAllowance = async (tokenAddress, amount) => {
+  const tokenContract = await client
+    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
+
+  await tokenContract.methods.allowance({
+    from_account: await client.address(),
+    for_account: contractAddress.replace('ct_', 'ak_'),
+  }).then((r) => {
+    console.log('allowance', r.decodedResult);
+    if (r.decodedResult !== undefined) {
+      return tokenContract.methods.change_allowance(contractAddress.replace('ct_', 'ak_'), amount);
+    }
+
+    return tokenContract.methods.create_allowance(contractAddress.replace('ct_', 'ak_'), amount);
+  });
+};
 
 export const tip = async (url, title, amount) => {
   await initTippingContractIfNeeded();
@@ -94,13 +110,8 @@ export const tip = async (url, title, amount) => {
 
 export const tipToken = async (url, title, amount, tokenAddress) => {
   await initTippingContractIfNeeded();
-  const tokenContract = await client
-    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
-  await tokenContract.methods.change_allowance(contractAddress.replace('ct_', 'ak_'), amount)
-    .catch((e) => {
-      console.log(e);
-      tokenContract.methods.create_allowance(contractAddress.replace('ct_', 'ak_'), amount);
-    });
+  await createOrChangeAllowance(tokenAddress, amount);
+
   return contract.methods.tip_token(url, title, tokenAddress, amount);
 };
 
@@ -111,12 +122,7 @@ export const retip = async (id, amount) => {
 
 export const retipToken = async (id, amount, tokenAddress) => {
   await initTippingContractIfNeeded();
-  const tokenContract = await client
-    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
-  await tokenContract.methods.change_allowance(contractAddress.replace('ct_', 'ak_'), amount)
-    .catch((e) => {
-      console.log(e);
-      tokenContract.methods.create_allowance(contractAddress.replace('ct_', 'ak_'), amount);
-    });
+  await createOrChangeAllowance(tokenAddress, amount);
+
   return contract.methods.retip_token(id, tokenAddress, amount);
 };

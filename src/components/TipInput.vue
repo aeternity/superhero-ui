@@ -103,6 +103,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import BigNumber from 'bignumber.js';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
@@ -225,8 +226,8 @@ export default {
 
       // TODO adjust UX for tokens, this example is just showing the initial tip amount
       // TODO for total there can be AE + multiple token amounts
-      const tokenOrAeAmount = this.tip.token
-        ? this.tip.token_amount.toString()
+      const tokenOrAeAmount = this.tip.token && new BigNumber(this.tip.total_amount_ae).isZero()
+        ? this.tip.token_total_amount.find((t) => t.token === this.tip.token).amount
         : this.tip.total_amount_ae;
 
       return this.isRetip

@@ -74,6 +74,9 @@ export default {
   setUserProfile(state, profile) {
     state.profile = profile;
   },
+  addTokenBalances(state, payload) {
+    state.tokenBalances[payload.token] = payload.balance;
+  },
   setPinnedItems(state, pinnedItems) {
     state.pinnedItems = pinnedItems;
   },

@@ -28,7 +28,9 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 import { detect } from 'detect-browser';
-import { client, initClient, scanForWallets } from './utils/aeternity';
+import {
+  client, initClient, scanForWallets, tokenBalance,
+} from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
@@ -62,7 +64,8 @@ export default {
     ...mapMutations([
       'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'setPinnedItems',
+      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalances',
+      'setPinnedItems',
     ]),
     async reloadAsyncData(stats) {
       // stats
@@ -134,6 +137,20 @@ export default {
         account: address,
         balance: Util.atomsToAe(balance).toFixed(2),
       });
+
+      // trigger run async in background
+      Backend.getTokenBalances(address).then(async (tokens) => {
+        await Object.entries(tokens).asyncMap(async ([token]) => {
+          return this.addTokenBalances({ token, balance: await tokenBalance(token, address) });
+        });
+        this.reloadData(); // TODO currently hacky way to force refresh with updated tokenBalances
+      }).catch(console.error);
+
+      // trigger run async in background
+      Backend.getPinnedItems(this.account).then((pinnedItems) => {
+        this.$store.commit('setPinnedItems', pinnedItems);
+      }).catch(console.error);
+
       this.fetchUserData();
       this.removeLoading('wallet');
     },

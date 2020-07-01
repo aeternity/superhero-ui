@@ -35,7 +35,7 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  static setCoverImage = async (address, data) => {
+  static setImage = async (address, data) => {
     const request = {
       method: 'post',
       body: data,
@@ -64,27 +64,6 @@ export default class Backend {
     };
     return sendReport(respondChallenge);
   }
-
-  static setProfileImage = async (address, data, image = true) => {
-    const request = {
-      method: 'post',
-      body: image ? data : JSON.stringify(data),
-    };
-    Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
-
-    return wrapTry(fetch(Backend.getProfileImageUrl(address), request));
-  };
-
-  static deleteProfileImage = async (address, postParam = false) => {
-    const request = {
-      method: 'delete',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      ...postParam && { body: JSON.stringify(postParam) },
-    };
-    return backendFetch(`profile/image/${address}`, request);
-  };
 
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 
@@ -118,8 +97,6 @@ export default class Backend {
   static getCommentCountForAddress = async (address) => backendFetch(`comment/count/author/${address}`);
 
   static getTipPreviewUrl = (previewLink) => `${BACKEND_URL}${previewLink}`;
-
-  static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 
   static getCommentById = async (id) => backendFetch(`comment/api/${id}`);
 

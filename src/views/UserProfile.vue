@@ -27,7 +27,7 @@
                 type="file"
                 name="cover"
                 accept="image/png, image/jpeg"
-                @change="uploadCoverPhoto($event)"
+                @change="uploadPhoto($event, true)"
               >
             </label>
             <button
@@ -74,7 +74,7 @@
                   type="file"
                   name="avatar"
                   accept="image/png, image/jpeg"
-                  @change="uploadAvatar($event)"
+                  @change="uploadPhoto($event)"
                 >
               </label>
               <button
@@ -366,8 +366,6 @@ export default {
     async applyBackendChanges(method, request) {
       const args = {
         sendProfileData: [this.account, request],
-        deleteProfileImage: [this.account, request],
-        setProfileImage: [this.account, request, false],
       }[method];
       if (!args) throw new Error(`Unknown method: ${method}`);
       await Backend[method](...args);
@@ -396,20 +394,19 @@ export default {
       await this.backendAuth('sendProfileData', challenge);
     },
     async deleteAvatar() {
-      const { challenge } = await Backend.deleteProfileImage(this.account);
-      await this.backendAuth('deleteProfileImage', challenge);
+      const { challenge } = await Backend.sendProfileData(this.address, {
+        image: null,
+      });
+      await this.backendAuth('sendProfileData', challenge);
     },
-    async uploadAvatar(event) {
+    async uploadPhoto(event, isCoverPhoto) {
       const data = new FormData();
-      data.append('name', 'image');
-      data.append('image', event.target.files[0]);
-      const { challenge } = await Backend.setProfileImage(this.account, data);
-      await this.backendAuth('setProfileImage', challenge);
-    },
-    async uploadCoverPhoto(event) {
-      const data = new FormData();
-      data.append('coverImage', event.target.files[0]);
-      const { challenge } = await Backend.setCoverImage(this.address, data);
+      if (isCoverPhoto) {
+        data.append('coverImage', event.target.files[0]);
+      } else {
+        data.append('image', event.target.files[0]);
+      }
+      const { challenge } = await Backend.setImage(this.address, data);
       await this.backendAuth('sendProfileData', challenge);
     },
     reloadData() {

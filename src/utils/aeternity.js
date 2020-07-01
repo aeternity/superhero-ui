@@ -10,7 +10,7 @@ import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import FUNGIBLE_TOKEN_CONTRACT from '../contracts/FungibleTokenInterface.aes';
 import { EventBus } from './eventBus';
 import store from '../store';
-import {BigNumber} from "bignumber.js";
+import { BigNumber } from "bignumber.js";
 
 const nodeUrl = 'https://testnet.aeternity.io';
 const nodeUrlTestNet = 'https://testnet.aeternity.io';
@@ -90,6 +90,15 @@ export const scanForWallets = async () => {
     });
   });
 };
+
+export const tokenBalance = async (token, address) => {
+  const tokenContract = await client
+    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token });
+
+  return tokenContract.methods.balance(address)
+    .then((r) => new BigNumber(r.decodedResult ? r.decodedResult : 0).toFixed());
+};
+
 const createOrChangeAllowance = async (tokenAddress, amount) => {
   const tokenContract = await client
     .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });

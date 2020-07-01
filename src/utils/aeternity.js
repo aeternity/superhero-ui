@@ -9,6 +9,7 @@ import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import FUNGIBLE_TOKEN_CONTRACT from '../contracts/FungibleTokenInterface.aes';
 import { EventBus } from './eventBus';
 import store from '../store';
+import {BigNumber} from "bignumber.js";
 
 const nodeUrl = 'https://testnet.aeternity.io';
 const nodeUrlTestNet = 'https://testnet.aeternity.io';
@@ -95,9 +96,11 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
     from_account: await client.address(),
     for_account: contractAddress.replace('ct_', 'ak_'),
   }).then((r) => {
-    console.log('allowance', r.decodedResult);
     if (r.decodedResult !== undefined) {
-      return tokenContract.methods.change_allowance(contractAddress.replace('ct_', 'ak_'), amount);
+      const allowanceAmount = new BigNumber(r.decodedResult)
+        .multipliedBy(-1).plus(amount).toNumber();
+
+      return tokenContract.methods.change_allowance(contractAddress.replace('ct_', 'ak_'), allowanceAmount);
     }
 
     return tokenContract.methods.create_allowance(contractAddress.replace('ct_', 'ak_'), amount);

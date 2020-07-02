@@ -66,7 +66,7 @@ export default {
       open: false,
     };
   },
-  computed: mapState(['useSdkWallet', 'balance', 'account']),
+  computed: mapState(['useSdkWallet']),
   methods: {
     createDeepLinkUrl,
     openNavigation(isOpen) {

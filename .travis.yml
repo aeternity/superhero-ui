@@ -5,7 +5,7 @@ node_js: '12'
 
 script:
   - npm run test
-  - npm run build
+  - npm run build -- --report
 
 before_deploy: scripts/before-deploy.sh
 

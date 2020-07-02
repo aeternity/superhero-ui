@@ -18,13 +18,13 @@ export default {
       const today = new Date();
       const tipDate = this.dateTimestamp;
       const isToday = (today.toDateString() === tipDate.toDateString());
-      return isToday ? tipDate.toLocaleTimeString('en-US', { hourCycle: 'h24' }) : tipDate.toLocaleDateString('en-US');
+      return isToday ? tipDate.toLocaleTimeString('en-GB') : tipDate.toLocaleDateString('en-US');
     },
     wholeDateAndTime() {
-      return new Date(this.dateTimestamp).toLocaleString('en-US', { hourCycle: 'h24' });
+      return this.dateTimestamp.toLocaleString('en-US', { hourCycle: 'h24' });
     },
     isoFormattedDateAndTime() {
-      return new Date(this.dateTimestamp).toISOString();
+      return this.dateTimestamp.toISOString();
     },
   },
 };

@@ -250,6 +250,7 @@ export default {
       color: $light_font_color;
       margin-left: 0.1rem;
       font-size: 0.7rem;
+      flex-shrink: 1;
     }
   }
 

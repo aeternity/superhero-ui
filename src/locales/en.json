@@ -83,7 +83,8 @@
     },
     "FAQ": {
       "header": "Frequently Asked Questions",
-      "subheader": "If you can't find the answer of you question below visit our {tutorialPage} to receive more information about using Superhero platform and wallet.",
+      "subheader": "ABOUT SUPERHERO.com",
+      "info": "For detailed information on specific features, Tutorial Pages are available for each of the features. Scroll down to the Features Section below.",
       "questions": [
         {
           "title": "SUPERHERO.com: Social platform with no hidden agenda.",
@@ -107,63 +108,11 @@
         },
         {
           "title": "SOCIAL MEDIA MEETS THE POWER OF BLOCKCHAIN.",
-          "text": "Superhero is a social media platform powered by blockchain under the hood and created to support social sharing with a mission."
-        },
-        {
-          "title": "Where can I get tips with Superhero?",
-          "text": "Use Superhero alone to give / accept a tip of AE. Use Superhero alongside other existing fiat-based tools to additionally give / accept tips in AE. {br}{br} Join a community by posting, commenting, and tipping other Superheroes directly. {br} Off Superhero’s platform, add a Superhero button or link to your site so anyone can tip you directly."
-        },
-        {
-          "title": "Where can I send tips with Superhero? (Even URLs off Superhero?)",
-          "text": "Any public URL can be tipped with Superhero."
-        },
-        {
-          "title": "Where does a tip go if there are more than one wallet addresses on a URL?",
-          "text": "The first wallet address among the addresses on the page to claim the tip, gets the tip."
-        },
-        {
-          "title": "When do I have to claim my tips?",
-          "text": "Tips must be claimed within one (1) year."
-        },
-        {
-          "title": "What happens if a tip isn’t claimed?",
-          "text": "After one (1) year, unclaimed tips can be retrieved by tip senders. If a tip remains unclaimed after two (2) years by the sender or receiver, it is transferred to the aeternity crypto foundation."
-        },
-        {
-          "title": "How do I withdraw my tips?",
-          "text": "Check out Withdraw in our {tutorial}."
-        },
-        {
-          "title": "How do I document my tips?",
-          "text": "All transactions made through Superhero are timestamped and recorded on the blockchain. These records are accessible to the public trough https://www.aeknow.org https://mainnet.aeternal.io and https://explorer.aeternity.io. Just type in your wallet address to view all transactions involving your wallet."
-        },
-        {
-          "title": "Can I use my Base æpp wallet for my Superhero wallet?",
-          "text": "Yes. Just choose \"Retrieve Existing Account\" and input your Base æpp wallet’s seed phrase."
-        },
-        {
-          "title": "What about other wallets?",
-          "text": "So long as you have the private keys/seed phrase for the AE address, you can use it on Superhero through the Retrieve Account option at start-up. For some wallets, the seed phrase is not in the user’s custody. In this case, the AE address cannot be used for Superhero. {br} {br}You can simply Generate a New Wallet on Superhero and top it up by sending AE form your other wallets to your Superhero wallet address."
-        },
-        {
-          "title": "Can I use an AE address from a centralized exchange for my Superhero wallet?",
-          "text": "No. For centralized exchanges, the exchange holds custody of users' private keys. This means that the user cannot use the AE address on Superhero because he/she does not have the private keys/seed phrase to retrieve the account. {br} {br}You can simply Generate a New Wallet on Superhero and top it up by sending AE form your other wallets to your Superhero wallet address."
-        },
-        {
-          "title": "Can I edit my profile?",
-          "text": "Currently, users can only add short descriptions for their profile and set their avatar photo. We're continuously working on making profiles even better."
-        },
-        {
-          "title": "Do I have to add my wallet address to every Tweet?",
-          "text": "No. The Superhero wallet can detect the wallet address on a user's Twitter profile. No need to add it in the tweets."
-        },
-        {
-          "title": "If the owner of the URL I tipped doesn’t have an AE address on their site, will they still receive their tips?",
-          "text": "Yes. As soon as the webpage owner creates a Superhero wallet and adds their wallet address to their URL, tips they’ve received in the past will be added into their wallet."
+          "text": "Superhero is a social media platform powered by blockchain under the hood, created to support social sharing with a mission."
         },
         {
           "title": "Can I get support? My question isn’t answered here…",
-          "text": "Need assistance? Report technical issue? Post feedback? Suggestion? Find people supporting people with answers in Superhero's {forum}."
+          "text": "Need assistance? Want to report technical issues, give feedback and suggestions? Please use the FEEDBACK or SUPPORT button on the bottom right of Superhero.com."
         }
       ],
       "forum": "Forum",
@@ -358,6 +307,50 @@
       "Joined": "Joined",
       "Comments": "Comments",
       "EditBiography": "Edit Biography"
+    },
+    "Widget": {
+      "header": "[[ Widget page header text placeholder ]]",
+      "sections": [
+        {
+          "text": "section 1 placeholder."
+        },
+        {
+          "text": "section 2 placeholder."
+        }
+      ]
+    },
+    "Voting": {
+      "header": "[[ Voting page header text placeholder ]]",
+      "sections": [
+        {
+          "text": "section 1 placeholder."
+        },
+        {
+          "text": "section 2 placeholder."
+        }
+      ]
+    },
+    "Wallet": {
+      "header": "[[ Wallet page header text placeholder ]]",
+      "sections": [
+        {
+          "text": "section 1 placeholder."
+        },
+        {
+          "text": "section 2 placeholder."
+        }
+      ]
+    },
+    "Meet": {
+      "header": "[[ Meet page header text placeholder ]]",
+      "sections": [
+        {
+          "text": "section 1 placeholder."
+        },
+        {
+          "text": "section 2 placeholder."
+        }
+      ]
     }
   },
   "components": {

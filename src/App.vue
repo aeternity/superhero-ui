@@ -143,7 +143,6 @@ export default {
         await Object.entries(tokens).asyncMap(async ([token]) => {
           return this.addTokenBalances({ token, balance: await tokenBalance(token, address) });
         });
-        this.reloadData(); // TODO currently hacky way to force refresh with updated tokenBalances
       }).catch(console.error);
 
       // trigger run async in background

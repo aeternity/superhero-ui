@@ -1,13 +1,11 @@
 import Router from 'vue-router';
 import Tracing from './views/admin/Tracing.vue';
-import Conference from './views/Conference.vue';
 import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
 import Governance from './views/Governance.vue';
 import League from './views/League.vue';
 import Maintenance from './views/Maintenance.vue';
 import Mission from './views/Mission.vue';
-import Networking from './views/Networking.vue';
 import Privacy from './views/Privacy.vue';
 import SingleComment from './views/SingleComment.vue';
 import Terms from './views/Terms.vue';
@@ -18,6 +16,7 @@ import TutorialVoting from './views/tutorial/Voting.vue';
 import TutorialWallet from './views/tutorial/Wallet.vue';
 import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
+import Conference from './views/Conference.vue';
 
 const guardTipComments = (to, from, next) => {
   if (to.name === 'tip' && typeof to.params.id !== 'undefined') {
@@ -101,8 +100,8 @@ const routes = [
     },
   },
   {
-    path: '/league',
-    name: 'league',
+    path: '/events',
+    name: 'events',
     component: League,
     meta: {
       title: 'Superhero League',
@@ -180,14 +179,6 @@ const routes = [
     component: Tracing,
     meta: {
       title: 'Tip Tracing',
-    },
-  },
-  {
-    path: '/networking',
-    name: 'networking',
-    component: Networking,
-    meta: {
-      title: 'Networking',
     },
   },
   {

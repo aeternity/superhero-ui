@@ -11,7 +11,6 @@
       />
     </div>
     <div class="container wrapper">
-      <Onboarding />
       <div class="tips__container">
         <div class="actions__container position-sticky">
           <div class="send__tip__container">
@@ -64,7 +63,6 @@
 import { mapState, mapMutations } from 'vuex';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
-import Onboarding from '../components/onboarding/Wizard.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
@@ -74,7 +72,6 @@ export default {
   name: 'TipsList',
   components: {
     TipsPagination,
-    Onboarding,
     Page,
     SendTip,
     SearchInput,

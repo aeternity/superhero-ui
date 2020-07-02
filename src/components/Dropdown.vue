@@ -8,11 +8,18 @@
         {{ displayValue }}
       </div>
       <img src="../assets/carretDown.svg">
-      <b-form-select
+      <select
         v-model="selectedVal"
-        :options="optionsVal"
         @change="method(selectedVal)"
-      />
+      >
+        <option
+          v-for="(option, idx) in optionsVal"
+          :key="idx"
+          :value="option.value"
+        >
+          {{ option.text }}
+        </option>
+      </select>
     </div>
   </div>
 </template>
@@ -64,22 +71,27 @@ export default {
       right: 0.85rem;
     }
 
-    &:hover {
-      cursor: pointer;
-    }
-
     & > div {
       display: inline-block;
     }
   }
 
   select {
+    width: 100%;
     bottom: 0;
     left: 0;
     opacity: 0;
     position: absolute;
     right: 0;
     top: 0;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    option {
+      font-size: 1rem;
+    }
   }
 }
 </style>

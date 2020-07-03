@@ -44,7 +44,6 @@ export default {
     },
   },
   async created() {
-    await this.initialLoad();
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
@@ -54,6 +53,7 @@ export default {
         name: 'maintenance',
       }).catch((err) => { console.error(err); });
     });
+    await this.initialLoad();
     this.$router.afterEach((to) => {
       setTimeout(
         () => {
@@ -124,6 +124,11 @@ export default {
         this.useSdkWallet();
       }
       const balance = await client.balance(address).catch(() => 0);
+      Backend.getProfile(this.address)
+        .then((userProfile) => {
+          if (userProfile) this.$store.commit('setUserProfile', userProfile);
+        })
+        .catch(console.error);
       this.setLoggedInAccount({
         account: address,
         balance: Util.atomsToAe(balance).toFixed(2),

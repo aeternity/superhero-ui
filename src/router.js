@@ -11,6 +11,10 @@ import SingleComment from './views/SingleComment.vue';
 import Terms from './views/Terms.vue';
 import TipComments from './views/TipComments.vue';
 import TipsList from './views/TipsList.vue';
+import TutorialMeet from './views/tutorial/Meet.vue';
+import TutorialVoting from './views/tutorial/Voting.vue';
+import TutorialWallet from './views/tutorial/Wallet.vue';
+import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
 import Conference from './views/Conference.vue';
 
@@ -117,6 +121,38 @@ const routes = [
     component: Mission,
     meta: {
       title: 'Mission Page',
+    },
+  },
+  {
+    path: '/tutorial/widget',
+    name: 'widget',
+    component: TutorialWidget,
+    meta: {
+      title: 'Tutorial Widget Page',
+    },
+  },
+  {
+    path: '/tutorial/voting',
+    name: 'voting',
+    component: TutorialVoting,
+    meta: {
+      title: 'Tutorial Voting Page',
+    },
+  },
+  {
+    path: '/tutorial/wallet',
+    name: 'wallet',
+    component: TutorialWallet,
+    meta: {
+      title: 'Tutorial Wallet Page',
+    },
+  },
+  {
+    path: '/tutorial/meet',
+    name: 'meet',
+    component: TutorialMeet,
+    meta: {
+      title: 'Tutorial Meet Page',
     },
   },
   {

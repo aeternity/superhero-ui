@@ -27,6 +27,24 @@ export default class Backend {
 
   static getAllComments = async () => backendFetch('comment/api/');
 
+  static async pinOrUnPinItem(entryId, type, address, signCb, pinItem = true) {
+    const sendData = async (postParam) => backendFetch(`pin/${address}`, {
+      method: pinItem ? 'post' : 'delete',
+      body: JSON.stringify(postParam),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    const responseChallenge = await sendData({ entryId, type });
+    const signedChallenge = await signCb(responseChallenge.challenge);
+    const respondChallenge = {
+      challenge: responseChallenge.challenge,
+      signature: signedChallenge,
+    };
+    return sendData(respondChallenge);
+  }
+
+  static getPinnedItems = async (address) => backendFetch(`pin/${address}`);
+
   static getProfile = async (address) => backendFetch(`profile/${address}`);
 
   static sendProfileData = async (address, postParam) => backendFetch(`profile/${address}`, {

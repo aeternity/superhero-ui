@@ -22,6 +22,6 @@ describe('Conference.vue', () => {
       // cut all from iframe src after # symbol
       .then((url) => url.substring(0, url.indexOf('#')))
       // check if it's equals
-      .should('be.eq', `https://${Cypress.env('jitsi_url')}/${ROOM_NAME}`);
+      .should('be.eq', `https://${Cypress.env('JITSI_DOMAIN')}/${ROOM_NAME}`);
   });
 });

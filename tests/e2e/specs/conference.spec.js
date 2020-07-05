@@ -15,13 +15,12 @@ describe('Conference.vue', () => {
       .get('#jitsiConferenceFrame0')
 
       .should('exist')
+      // it's iframe
       .should('have.attr', 'src')
       // check if that just contains ROOM_NAME
       .and('contains', ROOM_NAME)
 
-      // cut all from iframe src after # symbol
-      .then((url) => url.substring(0, url.indexOf('#')))
       // check if it's equals
-      .should('be.eq', `https://${Cypress.env('JITSI_DOMAIN')}/${ROOM_NAME}`);
+      .should('be.eq', `https://${Cypress.env('JITSI_DOMAIN')}/${ROOM_NAME}#jitsi_meet_external_api_id=0&config.disableDeepLinking=false`);
   });
 });

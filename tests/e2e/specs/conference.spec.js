@@ -11,6 +11,8 @@ describe('Conference.vue', () => {
   });
 
   it('set the correct iframe path by Vue route', () => {
+    const options = 'jitsi_meet_external_api_id=0&config.disableDeepLinking=false';
+
     cy
       .get('#jitsiConferenceFrame0')
 
@@ -21,6 +23,6 @@ describe('Conference.vue', () => {
       .and('contains', ROOM_NAME)
 
       // check if it's equals
-      .should('be.eq', `https://${Cypress.env('JITSI_DOMAIN')}/${ROOM_NAME}#jitsi_meet_external_api_id=0&config.disableDeepLinking=false`);
+      .should('be.eq', `https://${Cypress.env('JITSI_DOMAIN')}/${ROOM_NAME}#${options}`);
   });
 });

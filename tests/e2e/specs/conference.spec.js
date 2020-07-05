@@ -1,5 +1,5 @@
 describe('Conference.vue', () => {
-  const ROOM_NAME = 'SOME_VALID_ROOM_NAME_1234567890$()[]-+{><}^';
+  const ROOM_NAME = 'SOME_VALID_ROOM_NAME_1234567890$()[]-+{><}^!@$_()';
   // regarding to the https://github.com/aeternity/jitsi-meet/blob/80463517e9216cbb2e51d08bb69f5477af005bdb/react/features/welcome/components/WelcomePage.web.js#L23
   const isValid = ROOM_NAME.match(/^[^?&:\u0022\u0027%#]+$/);
 
@@ -15,14 +15,11 @@ describe('Conference.vue', () => {
 
     cy
       .get('#jitsiConferenceFrame0')
-
+      // check if
       .should('exist')
-      // it's iframe
+      // it's an iframe because it
       .should('have.attr', 'src')
-      // check if that just contains ROOM_NAME
-      .and('contains', ROOM_NAME)
-
-      // check if it's equals
+      // and src value should be equals
       .should('be.eq', `https://${Cypress.env('JITSI_DOMAIN')}/${ROOM_NAME}#${options}`);
   });
 });

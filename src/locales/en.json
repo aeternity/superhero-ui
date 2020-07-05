@@ -309,7 +309,7 @@
       "EditBiography": "Edit Biography"
     },
      "Wallet": {
-      "header": "[[ WALLET: Fully P2P, instant tipping with no third-party leeches. ]]",
+      "header": "WALLET: Fully P2P, instant tipping with no third-party leeches.",
       "sections": [
         {
           "text": "Censorship-free content monetization with no third party custodians. Want to get started?"
@@ -358,11 +358,11 @@
         },
         {
           "text": "If the owner of the URL I tipped doesn’t have an AE address on their site, will they still receive their tips? {br} YES. As soon as the webpage owner creates a Superhero wallet and adds their wallet address to their URL, tips they’ve received in the past will be added into their wallet balance."
-
+        }
       ]
     },
     "Widget": {
-      "header": "[[ WIDGET: Get instant tips from your website visitors! ]]",
+      "header": "WIDGET: Get instant tips from your website visitors!",
       "sections": [
         {
           "text": "Add the Superhero widget to your website and visitors can send you tips with just one click!"
@@ -373,7 +373,7 @@
       ]
     },
     "Voting": {
-      "header": "[[ VOTING: The governance æpp is now on SUPERHERO.com! ]]",
+      "header": "VOTING: The governance æpp is now on SUPERHERO.com!",
       "sections": [
         {
           "text": "On-chain voting—transparent and publicly verifiable."
@@ -393,7 +393,7 @@
       ]
     },
     "Meet": {
-      "header": "[[ Superhero MEET: launch your own online conferences. ]]",
+      "header": "Superhero MEET: launch your own online conferences.",
       "sections": [
         {
           "text": "Launch your own edition of SuperheroLeague and online meet-ups!"
@@ -403,8 +403,8 @@
         }
       ]
     },
-    "Profile & Channels": {
-      "header": "[[ PROFILE & CHANNELS: *coming shortly.* ]]",
+    "Profile_Channels": {
+      "header": "PROFILE & CHANNELS: *coming shortly.*",
       "sections": [
         {
           "text": "Build up your profile and followers. Show off your stuff on your very own channel!"
@@ -414,8 +414,8 @@
         }
       ]
     },
-    "Graffiti æpp": {
-      "header": "[[ GRAFFITI æpp: *coming soon!* ]]",
+    "Graffiti": {
+      "header": "GRAFFITI æpp: *coming soon!*",
       "sections": [
         {
           "text": "Decentralized art collaboration and shared ownership through the graffiti æpp."
@@ -426,7 +426,7 @@
       ]
     },
     "Time-back": {
-      "header": "[[ TIME-BACK MACHINE: *coming soon!* ]]",
+      "header": "TIME-BACK MACHINE: *coming soon!*",
       "sections": [
         {
           "text": "This superpower enables users to rewind to a website's past state based on timestamped blockchain records of instances when it was tipped."
@@ -434,7 +434,7 @@
       ]
     },
     "TipWall": {
-      "header": "[[ TIPWALL: *coming soon* ]]",
+      "header": "TIPWALL: *coming soon*",
       "sections": [
         {
           "text": "Monetize your content by allowing your followers to support you with tips to view the entirety of your work."
@@ -442,7 +442,7 @@
       ]
     },
     "Tokens & Communities": {
-      "header": "[[ TOKENS and COMMUNITIES: Launch token sales for your project or community. *coming soon!* ]]",
+      "header": "TOKENS and COMMUNITIES: Launch token sales for your project or community. *coming soon!*",
       "sections": [
         {
           "text": "Social interaction and collaboration through communities. Launch missions with fellow Superheroes!"

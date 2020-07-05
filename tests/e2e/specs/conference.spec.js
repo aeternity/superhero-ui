@@ -5,7 +5,7 @@ describe('Conference.vue', () => {
 
   before(() => {
     if (!isValid) {
-      throw new Error('your input test data (const ROOM_NAME) is not valid for that test');
+      throw new Error('your const ROOM_NAME is not valid for that test');
     }
     cy.visit(`/league/${ROOM_NAME}`);
   });

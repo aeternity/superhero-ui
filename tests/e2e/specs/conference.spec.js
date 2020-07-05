@@ -14,12 +14,13 @@ describe('Conference.vue', () => {
     const options = 'jitsi_meet_external_api_id=0&config.disableDeepLinking=false';
 
     cy
-      .get('#jitsiConferenceFrame0')
-      // check if
+      .get('iframe#jitsiConferenceFrame0')
+
       .should('exist')
-      // it's an iframe because it
-      .should('have.attr', 'src')
-      // and src value should be equals
-      .should('be.eq', `https://${Cypress.env('JITSI_DOMAIN')}/${ROOM_NAME}#${options}`);
+      .should('be.visible')
+
+      .and('have.attr', 'src')
+      // that value
+      .should('be.equal', `https://${Cypress.env('JITSI_DOMAIN')}/${ROOM_NAME}#${options}`);
   });
 });

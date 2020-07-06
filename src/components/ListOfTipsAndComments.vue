@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="profile__actions">
-      <div class="activity-ribbon">
+      <div
+        v-if="account === address"
+        class="activity-ribbon"
+      >
         <div
           :class="['filter-button', { active: activity === 'channel' }]"
           @click="activity = 'channel'; activeTab = 'tips'"
@@ -109,7 +112,7 @@ export default {
     activity: 'activity',
   }),
   computed: {
-    ...mapState(['loading', 'pinnedItems']),
+    ...mapState(['loading', 'pinnedItems', 'account']),
     showNoResultsMsg() {
       return this.activeTab === 'comments'
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;

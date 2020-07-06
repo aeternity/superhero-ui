@@ -106,10 +106,12 @@ export default {
     async sendTip() {
       this.sendingTip = true;
       // TODO differentiate between AE or token tip
-      const amount = util.shiftDecimalPlaces(this.sendTipForm.amount, this.tokenInfo['ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf'].decimals).toFixed();
+      const amount = util.shiftDecimalPlaces(this.sendTipForm.amount,
+        this.tokenInfo.ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf.decimals).toFixed();
 
       // TODO differentiate between AE or token tip
-      tipToken(this.sendTipForm.url, this.sendTipForm.title, amount, 'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf')
+      tipToken(this.sendTipForm.url, this.sendTipForm.title, amount,
+        'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf')
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();

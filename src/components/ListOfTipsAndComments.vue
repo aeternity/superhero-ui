@@ -2,7 +2,6 @@
   <div>
     <div class="profile__actions">
       <div
-        v-if="account === address"
         class="activity-ribbon"
       >
         <div
@@ -10,7 +9,7 @@
           @click="activity = 'channel'; activeTab = 'tips'"
         >
           <IconChannel />
-          {{ $t('components.ListOfTipsAndComments.MyChannel') }}
+          {{ $t('components.ListOfTipsAndComments.Channel') }}
         </div>
         <div
           :class="['filter-button', { active: activity === 'activity' }]"
@@ -57,7 +56,7 @@
           class="no-results"
           :class="[error ? 'error' : '']"
         >
-          {{ $t('views.UserProfileView.NoActivity') }}
+          {{ $t('components.ListOfTipsAndComments.NoActivity') }}
         </div>
         <TipComment
           v-for="(comment, index) in comments"
@@ -70,18 +69,34 @@
         v-if="activeTab === 'tips' && activity === 'channel'"
         class="tips__container"
       >
-        <div
-          v-if="!pinnedItems.length"
-          class="no-results"
-          :class="[error ? 'error' : '']"
-        >
-          {{ $t('views.UserProfileView.noPinnedItems') }}
+        <div v-if="address === account">
+          <div
+            v-if="!pinnedItems.length"
+            class="no-results"
+            :class="[error ? 'error' : '']"
+          >
+            {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
+          </div>
+          <TipRecord
+            v-for="pinnedItem in pinnedItems"
+            :key="pinnedItem.id"
+            :tip="pinnedItem"
+          />
         </div>
-        <TipRecord
-          v-for="pinnedItem in pinnedItems"
-          :key="pinnedItem.id"
-          :tip="pinnedItem"
-        />
+        <div v-else>
+          <div
+            v-if="!userPinnedItems.length"
+            class="no-results"
+            :class="[error ? 'error' : '']"
+          >
+            {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
+          </div>
+          <TipRecord
+            v-for="userPinnedItem in userPinnedItems"
+            :key="userPinnedItem.id"
+            :tip="userPinnedItem"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -116,6 +131,7 @@ export default {
     comments: [],
     activeTab: 'tips',
     activity: 'activity',
+    userPinnedItems: [],
   }),
   computed: {
     ...mapState(['loading', 'pinnedItems', 'account']),
@@ -130,6 +146,14 @@ export default {
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
+
+    if (this.address !== this.account) {
+      Backend.getPinnedItems(this.address)
+        .then((pinnedItems) => {
+          this.userPinnedItems = pinnedItems;
+        })
+        .catch(console.error);
+    }
 
     const interval = setInterval(() => this.reloadData(), 120 * 1000);
     this.$once('hook:beforeDestroy', () => clearInterval(interval));

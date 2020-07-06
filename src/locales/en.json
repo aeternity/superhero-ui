@@ -355,7 +355,6 @@
       "ClaimedUrls": "URLs",
       "ClaimedAmount": "Tips Claimed",
       "UnclaimedAmount": "Tips Unclaimed",
-      "NoActivity": "There is no activity to display.",
       "Joined": "Joined",
       "Comments": "Comments",
       "EditBiography": "Edit Biography",
@@ -541,8 +540,10 @@
       "blacklisted": ""
     },
     "ListOfTipsAndComments": {
-      "MyChannel": "My Channel",
-      "Activity": "Activity"
+      "Channel": "Channel",
+      "Activity": "Activity",
+      "NoPinnedItems": "There are no pinned items to display.",
+      "NoActivity": "There is no activity to display."
     }
   },
   "Networking": {

@@ -361,8 +361,7 @@
       "EditBiography": "Edit Biography",
       "ChangeCoverPhoto": "Change Cover Photo",
       "LocationPlaceholder": "Edit Location",
-      "Location": "Location",
-      "noPinnedItems": "There are no pinned items to display."
+      "Location": "Location"
     }
   },
   "components": {
@@ -497,8 +496,10 @@
       "blacklisted": ""
     },
     "ListOfTipsAndComments": {
-      "MyChannel": "My Channel",
-      "Activity": "Activity"
+      "Channel": "Channel",
+      "Activity": "Activity",
+      "NoPinnedItems": "There are no pinned items to display.",
+      "NoActivity": "There is no activity to display."
     }
   },
   "Networking": {

@@ -164,10 +164,9 @@ export default {
 <style lang="scss" scoped>
 .profile__actions {
   background-color: $actions_ribbon_background_color;
-  margin-top: 0.125rem;
   padding-left: 1rem;
   position: sticky;
-  top: 3.1rem;
+  top: 3rem;
   z-index: 21;
 
   a {

@@ -10,6 +10,9 @@
           :style="{ 'background-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
         />
         <div
+          class="cover-overlay"
+        />
+        <div
           class="profile__header"
           :class="{ 'profile__editable': account === address }"
         >
@@ -628,12 +631,21 @@ input[type="file"] {
     }
   }
 
+  .cover-overlay,
   .cover-photo {
     position: absolute;
     width: 100%;
     height: 100%;
+  }
+
+  .cover-photo {
     background-size: cover;
     background-position: center;
+  }
+
+  .cover-overlay {
+    background-color: $light_color;
+    opacity: 0.8;
   }
 }
 

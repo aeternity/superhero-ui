@@ -15,10 +15,10 @@
       />
       <AeAmountFiat
         v-for="tokenTip in tip.token_total_amount.filter((t) => t.token !== tip.token)"
+        :key="tokenTip.token"
         :amount="tokenTip.amount"
         :token="tokenTip.token"
-        :key="tokenTip.token"
-        style="padding-left: .5rem"
+        style="padding-left: 0.5rem;"
       />
     </Component>
     <Modal

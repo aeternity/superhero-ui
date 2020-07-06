@@ -37,13 +37,16 @@
         class="tip__icon"
         :src="iconTip"
       >
-      <AeAmountFiat :amount="amount" :token="tip.token" />
+      <AeAmountFiat
+        :amount="amount"
+        :token="tip.token"
+      />
       <AeAmountFiat
         v-for="tokenTip in tip.token_total_amount.filter((t) => t.token !== tip.token)"
+        :key="tokenTip.token"
         :amount="tokenTip.amount"
         :token="tokenTip.token"
-        :key="tokenTip.token"
-        style="padding-left: .5rem"
+        style="padding-left: 0.5rem;"
       />
     </div>
     <div
@@ -290,7 +293,8 @@ export default {
       this.showLoading = true;
 
       // TODO differentiate between AE or token tip
-      const amount = util.shiftDecimalPlaces(this.value, this.tokenInfo['ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf'].decimals).toFixed();
+      const amount = util.shiftDecimalPlaces(this.value,
+        this.tokenInfo.ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf.decimals).toFixed();
       let url = '';
       if (this.comment) {
         url = `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;

@@ -140,9 +140,9 @@ export default {
 
       // trigger run async in background
       Backend.getTokenBalances(address).then(async (tokens) => {
-        await Object.entries(tokens).asyncMap(async ([token]) => {
-          return this.addTokenBalances({ token, balance: await tokenBalance(token, address) });
-        });
+        await Object.entries(tokens)
+          .asyncMap(async ([token]) => this
+            .addTokenBalances({ token, balance: await tokenBalance(token, address) }));
       }).catch(console.error);
 
       // trigger run async in background

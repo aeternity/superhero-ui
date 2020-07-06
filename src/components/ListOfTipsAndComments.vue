@@ -220,6 +220,10 @@ export default {
     padding: 0.5rem 0;
     margin-left: -1rem;
     padding-left: 1rem;
+
+    .filter-button:first-child {
+      margin-left: -0.5rem;
+    }
   }
 }
 

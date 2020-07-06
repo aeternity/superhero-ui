@@ -67,7 +67,7 @@ export default {
     ...mapMutations([
       'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet',
+      'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet', 'setPinnedItems',
     ]),
     async reloadAsyncData(stats) {
       // stats
@@ -133,6 +133,11 @@ export default {
         account: address,
         balance: Util.atomsToAe(balance).toFixed(2),
       });
+      Backend.getPinnedItems(this.account)
+        .then((pinnedItems) => {
+          this.$store.commit('setPinnedItems', pinnedItems);
+        })
+        .catch(console.error);
       this.removeLoading('wallet');
     },
     saveScrollPosition() {

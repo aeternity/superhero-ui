@@ -27,13 +27,39 @@ export default class Backend {
 
   static getAllComments = async () => backendFetch('comment/api/');
 
+  static async pinOrUnPinItem(entryId, type, address, signCb, pinItem = true) {
+    const sendData = async (postParam) => backendFetch(`pin/${address}`, {
+      method: pinItem ? 'post' : 'delete',
+      body: JSON.stringify(postParam),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    const responseChallenge = await sendData({ entryId, type });
+    const signedChallenge = await signCb(responseChallenge.challenge);
+    const respondChallenge = {
+      challenge: responseChallenge.challenge,
+      signature: signedChallenge,
+    };
+    return sendData(respondChallenge);
+  }
+
+  static getPinnedItems = async (address) => backendFetch(`pin/${address}`);
+
   static getProfile = async (address) => backendFetch(`profile/${address}`);
 
-  static sendProfileData = async (postParam) => backendFetch('profile', {
+  static sendProfileData = async (address, postParam) => backendFetch(`profile/${address}`, {
     method: 'post',
     body: JSON.stringify(postParam),
     headers: { 'Content-Type': 'application/json' },
   });
+
+  static setImage = async (address, data) => {
+    const request = {
+      method: 'post',
+      body: data,
+    };
+    return backendFetch(`profile/${address}`, request);
+  };
 
   static claimFromUrl = async (postParam) => backendFetch('claim/submit', {
     method: 'post',
@@ -56,26 +82,6 @@ export default class Backend {
     };
     return sendReport(respondChallenge);
   }
-
-  static setProfileImage = async (address, data, image = true) => {
-    const request = {
-      method: 'post',
-      body: image ? data : JSON.stringify(data),
-    };
-    Object.assign(request, !image && { headers: { 'Content-Type': 'application/json' } });
-    return wrapTry(fetch(Backend.getProfileImageUrl(address), request));
-  };
-
-  static deleteProfileImage = async (address, postParam = false) => {
-    const request = {
-      method: 'delete',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      ...postParam && { body: JSON.stringify(postParam) },
-    };
-    return backendFetch(`profile/image/${address}`, request);
-  };
 
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 
@@ -109,8 +115,6 @@ export default class Backend {
   static getCommentCountForAddress = async (address) => backendFetch(`comment/count/author/${address}`);
 
   static getTipPreviewUrl = (previewLink) => `${BACKEND_URL}${previewLink}`;
-
-  static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 
   static getCommentById = async (id) => backendFetch(`comment/api/${id}`);
 

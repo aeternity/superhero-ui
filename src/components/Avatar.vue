@@ -56,7 +56,7 @@ export default {
     },
     profileImageUrl() {
       const imageSignature = this.$store.state.account === this.address && this.$store.state.profile
-        ? this.$store.state.profile.imageSignature
+        ? this.$store.state.profile.signature
         : '';
       const key = imageSignature && imageSignature.slice(0, 5);
       return `${Backend.getProfileImageUrl(this.address)}?${key}`;

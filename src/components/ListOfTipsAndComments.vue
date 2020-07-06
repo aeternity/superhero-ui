@@ -4,7 +4,7 @@
       <div class="activity-ribbon">
         <div
           :class="['filter-button', { active: activity === 'channel' }]"
-          @click="activity = 'channel'"
+          @click="activity = 'channel'; activeTab = 'tips'"
         >
           {{ $t('components.ListOfTipsAndComments.MyChannel') }}
         </div>
@@ -22,6 +22,7 @@
         {{ $t('tips') }}
       </a>
       <a
+        v-if="activity === 'activity'"
         :class="{ active: activeTab === 'comments' }"
         @click="setActiveTab('comments')"
       >
@@ -30,7 +31,7 @@
     </div>
     <div class="position-relative">
       <div
-        v-if="activeTab === 'tips'"
+        v-if="activeTab === 'tips' && activity === 'activity'"
         class="tips__container"
       >
         <TipsPagination
@@ -39,7 +40,7 @@
         />
       </div>
       <div
-        v-if="activeTab === 'comments'"
+        v-if="activeTab === 'comments' && activity === 'activity'"
         class="tips__container"
       >
         <Loading
@@ -48,7 +49,7 @@
         />
         <div
           v-if="showNoResultsMsg"
-          class="no-results text-center w-100 mt-3"
+          class="no-results"
           :class="[error ? 'error' : '']"
         >
           {{ $t('views.UserProfileView.NoActivity') }}
@@ -58,6 +59,23 @@
           :key="index"
           :comment="comment"
           :sender-link="openExplorer(comment.author)"
+        />
+      </div>
+      <div
+        v-if="activeTab === 'tips' && activity === 'channel'"
+        class="tips__container"
+      >
+        <div
+          v-if="!pinnedItems.length"
+          class="no-results"
+          :class="[error ? 'error' : '']"
+        >
+          {{ $t('views.UserProfileView.noPinnedItems') }}
+        </div>
+        <TipRecord
+          v-for="pinnedItem in pinnedItems"
+          :key="pinnedItem.id"
+          :tip="pinnedItem"
         />
       </div>
     </div>
@@ -72,12 +90,14 @@ import { EXPLORER_URL } from '../config/constants';
 import Loading from './Loading.vue';
 import TipsPagination from './TipsPagination.vue';
 import TipComment from './tipRecords/TipComment.vue';
+import TipRecord from './tipRecords/TipRecord.vue';
 
 export default {
   components: {
     TipsPagination,
     Loading,
     TipComment,
+    TipRecord,
   },
   props: { address: { type: String, required: true } },
   data: () => ({
@@ -89,7 +109,7 @@ export default {
     activity: 'activity',
   }),
   computed: {
-    ...mapState(['loading']),
+    ...mapState(['loading', 'pinnedItems']),
     showNoResultsMsg() {
       return this.activeTab === 'comments'
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
@@ -169,5 +189,10 @@ export default {
     margin-left: -1rem;
     padding-left: 1rem;
   }
+}
+
+.no-results {
+  text-align: center;
+  margin-top: 1rem;
 }
 </style>

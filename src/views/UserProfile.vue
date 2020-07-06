@@ -5,98 +5,151 @@
   >
     <div class="profile__page">
       <div class="profile__section clearfix">
-        <div class="profile__row">
+        <div
+          class="cover-photo"
+          :style="{ 'background-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
+        />
+        <div
+          class="cover-overlay"
+        />
+        <div
+          class="profile__header"
+          :class="{ 'profile__editable': account === address }"
+        >
           <div
-            class="profile__header"
-            :class="{ 'profile__editable': account === address }"
+            v-if="account === address"
+            class="edit__buttons"
           >
+            <label
+              v-if="!editMode"
+              :title="$t('views.UserProfileView.ChangeCoverPhoto')"
+              class="profile__button edit__button"
+            >
+              <img src="../assets/coverPhotoEdit.svg">
+              <input
+                type="file"
+                name="cover"
+                accept="image/png, image/jpeg"
+                @change="uploadPhoto($event, true)"
+              >
+            </label>
+            <button
+              v-if="!editMode"
+              class="profile__button edit__button"
+              type="button"
+              :title="$t('views.UserProfileView.EditProfile')"
+              @click="editMode = true"
+            >
+              <img src="../assets/buttonEdit.svg">
+            </button>
+            <button
+              v-if="editMode"
+              type="button"
+              class="profile__button cancel__button"
+              :title="$t('cancel')"
+              @click="resetEditedValues"
+            >
+              <img src="../assets/buttonCancel.svg">
+            </button>
+            <button
+              v-if="editMode"
+              type="button"
+              class="profile__button save__button"
+              :title="$t('views.UserProfileView.Save')"
+              @click="saveProfile"
+            >
+              <img src="../assets/buttonSave.svg">
+            </button>
+          </div>
+          <div class="profile__image">
             <div
               v-if="account === address"
-              class="edit__buttons"
+              :title="address"
             >
+              <Avatar :address="address" />
+              <label
+                v-if="!editMode"
+                class="profile__button avatar__button"
+                :title="$t('views.UserProfileView.ChangeAvatar')"
+              >
+                <img src="../assets/buttonPhoto.svg">
+                <input
+                  type="file"
+                  name="avatar"
+                  accept="image/png, image/jpeg"
+                  @change="uploadPhoto($event)"
+                >
+              </label>
               <button
                 v-if="!editMode"
-                class="profile__button edit__button"
-                type="button"
-                :title="$t('views.UserProfileView.EditProfile')"
-                @click="editMode = true"
-              >
-                <img src="../assets/buttonEdit.svg">
-              </button>
-              <button
-                v-if="editMode"
-                type="button"
-                class="profile__button cancel__button"
-                :title="$t('cancel')"
-                @click="resetEditedValues"
+                class="profile__button delete_avatar__button"
+                :title="$t('views.UserProfileView.DeleteAvatar')"
+                @click="deleteAvatar"
               >
                 <img src="../assets/buttonCancel.svg">
               </button>
-              <button
-                v-if="editMode"
-                type="button"
-                class="profile__button save__button"
-                :title="$t('views.UserProfileView.Save')"
-                @click="saveProfile"
-              >
-                <img src="../assets/buttonSave.svg">
-              </button>
-            </div>
-            <div class="profile__image">
-              <div
-                v-if="account === address"
-                :title="address"
-              >
-                <Avatar :address="address" />
-                <label
-                  v-if="!editMode"
-                  class="profile__button avatar__button"
-                  :title="$t('views.UserProfileView.ChangeAvatar')"
-                >
-                  <img src="../assets/buttonPhoto.svg">
-                  <input
-                    id="file-input"
-                    type="file"
-                    name="avatar"
-                    accept="image/png, image/jpeg"
-                    @change="uploadAvatar($event)"
-                  >
-                </label>
-                <button
-                  v-if="!editMode"
-                  class="profile__button delete_avatar__button"
-                  :title="$t('views.UserProfileView.DeleteAvatar')"
-                  @click="deleteAvatar"
-                >
-                  <img src="../assets/buttonCancel.svg">
-                </button>
-              </div>
-              <div
-                v-else
-                :title="address"
-              >
-                <Avatar :address="address" />
-                <TipInput
-                  v-if="!editMode"
-                  :user-address="address"
-                  class="avatar__button profile__button"
-                />
-              </div>
             </div>
             <div
-              class="profile__info"
+              v-else
+              :title="address"
             >
-              <a
-                class="profile__username"
-                target="_blank"
-                :href="openExplorer(address)"
-                :title="address"
+              <Avatar :address="address" />
+              <TipInput
+                v-if="!editMode"
+                :user-address="address"
+                class="avatar__button profile__button"
+              />
+            </div>
+          </div>
+          <div
+            class="profile__info"
+          >
+            <a
+              class="profile__username"
+              target="_blank"
+              :href="openExplorer(address)"
+              :title="address"
+            >
+              <div class="chain">
+                {{ userChainName ? userChainName : $t('FellowSuperhero') }}
+              </div>
+              <div class="text-ellipsis">{{ address }}</div>
+            </a>
+            <div
+              v-if="balance"
+              class="balance"
+              :title="balance"
+            >
+              <span>{{ $t('Balance') }}</span>
+              <AeAmountFiat
+                :amount="balance"
+              />
+            </div>
+            <div class="profile__row">
+              <div
+                class="location"
               >
-                <div class="chain">
-                  {{ userChainName ? userChainName : $t('FellowSuperhero') }}
-                </div>
-                <div>{{ address }}</div>
-              </a>
+                <img
+                  v-if="profile.location.length || account === address"
+                  src="../assets/location.svg"
+                >
+                <input
+                  v-if="editMode"
+                  v-model="profile.location"
+                  class="location-input"
+                  type="text"
+                  :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
+                >
+                <span
+                  v-if="!editMode && (profile.location.length || account === address)"
+                >
+                  {{
+                    profile.location.length
+                      ? profile.location
+                      : $t('views.UserProfileView.Location')
+                  }}
+                </span>
+              </div>
               <div
                 v-if="userStats && hasCreationDate"
                 class="joined"
@@ -106,63 +159,63 @@
               </div>
             </div>
           </div>
-          <div
-            v-if="!editMode"
-            class="profile__description"
-          >
-            {{ profile.biography }}
-          </div>
-          <div
-            v-if="editMode"
-            class="profile__description"
-          >
-            <textarea
-              v-model="profile.biography"
-              :maxlength="maxLength"
-              :rows="profile.biography.split('\n').length || 1"
-              :placeholder="$t('views.UserProfileView.EditBiography')"
-            />
-            <div
-              class="text-length"
-              :class="{ 'error': profile.biography.length > maxLength }"
-            >
-              {{ countLength }}
-            </div>
-          </div>
         </div>
         <div
-          v-if="userStats"
-          class="profile__stats"
+          v-if="!editMode"
+          class="profile__description"
+        >
+          {{ profile.biography }}
+        </div>
+        <div
+          v-if="editMode"
+          class="profile__description"
+        >
+          <textarea
+            v-model="profile.biography"
+            :maxlength="maxLength"
+            :rows="profile.biography.split('\n').length || 1"
+            :placeholder="$t('views.UserProfileView.EditBiography')"
+          />
+          <div
+            class="text-length"
+            :class="{ 'error': profile.biography.length > maxLength }"
+          >
+            {{ countLength }}
+          </div>
+        </div>
+      </div>
+      <div
+        v-if="userStats"
+        class="profile__stats"
+      >
+        <div
+          v-for="(divClass, index) in ['tip_stats', 'stats']"
+          :key="index"
+          :class="divClass"
         >
           <div
-            v-for="(divClass, index) in ['tip_stats', 'stats']"
-            :key="index"
-            :class="divClass"
+            v-for="(stat, idx) in divClass === 'tip_stats' ? tipStats : showedStats"
+            :key="idx"
+            :class="divClass === 'tip_stats' ? 'tips_stats_block' : 'stat_block'"
           >
-            <div
-              v-for="(stat, idx) in divClass === 'tip_stats' ? tipStats : showedStats"
-              :key="idx"
-              :class="divClass === 'tip_stats' ? 'tips_stats_block' : 'stat_block'"
+            <span
+              v-if="stat.value || stat.image"
+              class="stat-value"
             >
-              <span
-                v-if="stat.value || stat.image"
-                class="stat-value"
+              {{ stat.value }}
+            </span>
+            <span class="stat-title">
+              <img
+                v-if="stat.image"
+                :src="stat.image"
               >
-                {{ stat.value }}
-              </span>
-              <span class="stat-title">
-                <img
-                  v-if="stat.image"
-                  :src="stat.image"
-                >
-                {{ stat.title }}
-              </span>
-              <AeAmountFiat
-                v-if="stat.amount"
-                :amount="stat.amount"
-                class="stat-value"
-              />
-            </div>
+              {{ stat.title }}
+            </span>
+            <AeAmountFiat
+              v-if="stat.amount"
+              :amount="stat.amount"
+              class="stat-value"
+            />
           </div>
         </div>
       </div>
@@ -174,11 +227,12 @@
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
-import { createDeepLinkUrl } from '../utils/util';
+import { BACKEND_URL, EXPLORER_URL } from '../config/constants';
+import util, { createDeepLinkUrl } from '../utils/util';
 import Page from '../components/layout/Page.vue';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
-import { EXPLORER_URL } from '../config/constants';
+
 import ListOfTipsAndComments from '../components/ListOfTipsAndComments.vue';
 import Avatar from '../components/Avatar.vue';
 import { EventBus } from '../utils/eventBus';
@@ -207,7 +261,11 @@ export default {
       profile: {
         biography: '',
         createdAt: '',
+        location: '',
+        coverImage: '',
       },
+      balance: '',
+      BACKEND_URL,
     };
   },
   computed: {
@@ -227,11 +285,12 @@ export default {
     },
     joinedAt() {
       try {
-        return new Date(this.profile.createdAt).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        });
+        return new Date(this.profile.createdAt)
+          .toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
       } catch (e) {
         return '';
       }
@@ -272,6 +331,8 @@ export default {
   mounted() {
     this.reloadData();
 
+    this.getBalance();
+
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
@@ -285,6 +346,19 @@ export default {
     }
   },
   methods: {
+    getBalance() {
+      if (client) {
+        client.balance(this.address).then((balance) => {
+          this.balance = util.atomsToAe(balance).toFixed(2);
+        }).catch(() => 0);
+      } else {
+        const that = this;
+
+        setTimeout(() => {
+          that.getBalance();
+        }, 200);
+      }
+    },
     openExplorer(address) {
       return this.explorerUrl + address;
     },
@@ -294,9 +368,7 @@ export default {
     },
     async applyBackendChanges(method, request) {
       const args = {
-        sendProfileData: [request],
-        deleteProfileImage: [this.account, request],
-        setProfileImage: [this.account, request, false],
+        sendProfileData: [this.account, request],
       }[method];
       if (!args) throw new Error(`Unknown method: ${method}`);
       await Backend[method](...args);
@@ -317,22 +389,28 @@ export default {
       }
     },
     async saveProfile() {
-      const { challenge } = await Backend.sendProfileData({
+      const { challenge } = await Backend.sendProfileData(this.address, {
         biography: this.profile.biography,
+        location: this.profile.location,
         author: this.account,
       });
       await this.backendAuth('sendProfileData', challenge);
     },
     async deleteAvatar() {
-      const { challenge } = await Backend.deleteProfileImage(this.account);
-      await this.backendAuth('deleteProfileImage', challenge);
+      const { challenge } = await Backend.sendProfileData(this.address, {
+        image: null,
+      });
+      await this.backendAuth('sendProfileData', challenge);
     },
-    async uploadAvatar(event) {
+    async uploadPhoto(event, isCoverPhoto) {
       const data = new FormData();
-      data.append('name', 'image');
-      data.append('image', event.target.files[0]);
-      const { challenge } = await Backend.setProfileImage(this.account, data);
-      await this.backendAuth('setProfileImage', challenge);
+      if (isCoverPhoto) {
+        data.append('coverImage', event.target.files[0]);
+      } else {
+        data.append('image', event.target.files[0]);
+      }
+      const { challenge } = await Backend.setImage(this.address, data);
+      await this.backendAuth('sendProfileData', challenge);
     },
     reloadData() {
       this.getProfile();
@@ -353,7 +431,9 @@ export default {
             return;
           }
           this.profile = profile;
+          this.profile.location = this.profile.location || '';
           this.profile.biography = this.profile.biography || '';
+          this.profile.coverImage = this.profile.coverImage || '';
           this.$store.commit('setUserProfile', profile);
         })
         .catch(console.error);
@@ -363,7 +443,7 @@ export default {
 </script>
 
 <style lang="scss">
-#file-input {
+input[type="file"] {
   display: none;
 }
 
@@ -371,27 +451,8 @@ export default {
   color: $tip_note_color;
   display: flex;
   flex-flow: wrap;
-  margin: 0.5rem 1rem;
-
-  textarea {
-    background: no-repeat url('../assets/textEdit.svg') bottom 0.1rem right;
-    border: 0;
-    border-bottom: 1px solid $standard_font_color;
-    color: $tip_note_color;
-    display: flex;
-    flex: 1 1 100%;
-    resize: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
-    &:focus {
-      background: no-repeat url('../assets/textEditFocus.svg') bottom 0.1rem right;
-      border-bottom: 1px solid $secondary_color;
-      outline: 0;
-    }
-  }
+  margin: 0 1rem;
+  position: relative;
 
   .text-length {
     color: $light_font_color;
@@ -498,23 +559,106 @@ export default {
     font-size: 0.75rem;
     text-align: center;
   }
+
+  .location,
+  .joined {
+    font-size: 0.7rem;
+  }
+
+  .location,
+  .joined time {
+    color: $standard_font_color;
+  }
+
+  .location span,
+  .joined time {
+    margin-left: 0.2rem;
+  }
+
+  .location {
+    margin-right: 0.5rem;
+
+    &:empty {
+      margin-right: 0;
+    }
+
+    img {
+      vertical-align: top;
+    }
+
+    input[type="text"] {
+      display: inline;
+      padding-left: 0.25rem;
+    }
+  }
+
+  .balance {
+    margin-top: 0.3rem;
+    font-size: 0.7rem;
+    display: flex;
+
+    .ae-amount {
+      margin-left: 0.2rem;
+    }
+
+    .ae-amount-fiat {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
+    }
+  }
+
+  textarea,
+  .location-input {
+    background: no-repeat url('../assets/textEdit.svg') bottom 0.1rem right;
+    border: 0;
+    border-bottom: 1px solid $standard_font_color;
+    color: $tip_note_color;
+    display: flex;
+    flex: 1 1 100%;
+    resize: none;
+    padding-right: 1rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &:focus {
+      background: no-repeat url('../assets/textEditFocus.svg') bottom 0.1rem right;
+      border-bottom: 1px solid $secondary_color;
+      outline: 0;
+    }
+  }
+
+  .cover-overlay,
+  .cover-photo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cover-photo {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .cover-overlay {
+    background-color: $light_color;
+    opacity: 0.8;
+  }
 }
 
 .profile__header {
   align-items: flex-start;
   display: flex;
-  padding: 1rem;
+  padding: 1rem  1rem 0.5rem 1rem;
   position: relative;
+}
 
-  .joined {
-    font-size: 0.7rem;
-    margin-top: 0.5rem;
-
-    time {
-      color: $standard_font_color;
-      margin-left: 0.2rem;
-    }
-  }
+.profile__row {
+  margin-top: 0.3rem;
+  display: flex;
 }
 
 .tip_stats {
@@ -567,6 +711,7 @@ export default {
 .profile__section {
   background-color: $light_color;
   position: relative;
+  padding-bottom: 1rem;
 }
 
 .profile__image {
@@ -605,25 +750,6 @@ export default {
   }
 }
 
-.profile__meta {
-  background-color: $thumbnail_background_color;
-  border-top-right-radius: 0.25rem;
-  font-size: 0.6rem;
-  margin: -0.5rem 0 -1rem 0;
-  padding: 0;
-
-  & > .row.mobile {
-    display: none;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .profile__page .profile__meta {
-    border-top-right-radius: 0;
-    margin-top: 0;
-  }
-}
-
 @media screen and (max-width: 1024px) {
   .profile__page {
     .tips__container {
@@ -637,7 +763,6 @@ export default {
   }
 
   .profile__header {
-    padding: 1.4rem 1rem;
     white-space: nowrap;
 
     img.user-identicon,
@@ -689,6 +814,27 @@ export default {
 
   .stat_block {
     margin: 0;
+  }
+}
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  .profile__header {
+    img.user-identicon,
+    div.user-identicon svg {
+      height: 4.5rem;
+      width: 4.5rem;
+    }
+  }
+
+  .profile__row {
+    display: block;
+
+    input {
+      margin-bottom: 0.3rem;
+    }
   }
 }
 </style>

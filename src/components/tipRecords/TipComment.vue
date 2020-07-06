@@ -45,7 +45,10 @@
               </span>
             </router-link>
           </span>
-          <span class="tip__date">
+          <span
+            class="tip__date"
+            @click.stop
+          >
             <FormatDate
               :date-timestamp="formatDate"
             />
@@ -159,9 +162,13 @@ export default {
   justify-content: space-between;
 
   .tip__date {
-    display: inline-block;
+    display: flex;
     font-size: 0.6rem;
     text-align: right;
+  }
+
+  .user-display {
+    max-width: 85%;
   }
 
   .address {
@@ -212,10 +219,6 @@ export default {
   }
 }
 
-.user-display {
-  max-width: 85%;
-}
-
 .comment__actions {
   padding: 0.25rem 1rem 1rem 1rem;
   color: $standard_font_color;
@@ -230,6 +233,10 @@ export default {
 
 .comments {
   margin-left: 3rem;
+}
+
+.three-dots {
+  display: inline-block;
 }
 
 @media only screen

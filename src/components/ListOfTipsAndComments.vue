@@ -9,12 +9,14 @@
           :class="['filter-button', { active: activity === 'channel' }]"
           @click="activity = 'channel'; activeTab = 'tips'"
         >
+          <IconChannel />
           {{ $t('components.ListOfTipsAndComments.MyChannel') }}
         </div>
         <div
           :class="['filter-button', { active: activity === 'activity' }]"
           @click="activity = 'activity'"
         >
+          <IconActivity />
           {{ $t('components.ListOfTipsAndComments.Activity') }}
         </div>
       </div>
@@ -94,6 +96,8 @@ import Loading from './Loading.vue';
 import TipsPagination from './TipsPagination.vue';
 import TipComment from './tipRecords/TipComment.vue';
 import TipRecord from './tipRecords/TipRecord.vue';
+import IconChannel from '../assets/iconChannel.svg?icon-component';
+import IconActivity from '../assets/iconActivity.svg?icon-component';
 
 export default {
   components: {
@@ -101,6 +105,8 @@ export default {
     Loading,
     TipComment,
     TipRecord,
+    IconChannel,
+    IconActivity,
   },
   props: { address: { type: String, required: true } },
   data: () => ({
@@ -192,6 +198,10 @@ export default {
     margin-left: -1rem;
     padding-left: 1rem;
   }
+}
+
+.filter-button svg {
+  margin-right: 0.15rem;
 }
 
 .no-results {

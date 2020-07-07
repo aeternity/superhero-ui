@@ -96,7 +96,6 @@ export default {
 <style lang="scss" scoped>
 .container.wrapper {
   padding-top: 0;
-  margin-top: -0.125rem;
   min-height: 4rem;
 }
 

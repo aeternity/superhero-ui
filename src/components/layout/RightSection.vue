@@ -17,13 +17,13 @@
         </div>
         <div class="section__body">
           <div v-if="!isLoggedIn">
-            <a
+            <OutlinedButton
               :href="addressDeepLink"
-              class="button w-100"
               :title="$t('components.layout.RightSection.LoginWithWallet')"
+              class="fullwidth"
             >
               {{ $t('components.layout.RightSection.LoginWithWallet') }}
-            </a>
+            </OutlinedButton>
           </div>
           <div v-else>
             <div
@@ -79,6 +79,7 @@ import Topic from '../tipRecords/Topic.vue';
 import FooterSection from './FooterSection.vue';
 import Dropdown from '../Dropdown.vue';
 import SearchInput from './SearchInput.vue';
+import OutlinedButton from '../OutlinedButton.vue';
 import { createDeepLinkUrl } from '../../utils/util';
 
 export default {
@@ -90,6 +91,7 @@ export default {
     FooterSection,
     Dropdown,
     SearchInput,
+    OutlinedButton,
   },
   data() {
     return {

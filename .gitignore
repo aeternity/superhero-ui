@@ -25,6 +25,3 @@ yarn-error.log*
 
 *.iml
 cypress/*
-
-# remove later
-src/assets/minified

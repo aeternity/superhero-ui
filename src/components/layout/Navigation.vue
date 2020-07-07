@@ -144,4 +144,10 @@ export default {
       margin-bottom: 1.55rem;
     }
   }
+
+  .iconMeet {
+    width: 27px;
+    height: 18px;
+    padding-left: 5px;
+  }
 </style>

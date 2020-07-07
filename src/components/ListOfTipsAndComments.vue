@@ -9,14 +9,14 @@
           @click="activity = 'channel'; activeTab = 'tips'"
         >
           <IconChannel />
-          {{ $t('components.ListOfTipsAndComments.Channel') }}
+          <span>{{ $t('components.ListOfTipsAndComments.Channel') }}</span>
         </div>
         <div
           :class="['filter-button', { active: activity === 'activity' }]"
           @click="activity = 'activity'"
         >
           <IconActivity />
-          {{ $t('components.ListOfTipsAndComments.Activity') }}
+          <span>{{ $t('components.ListOfTipsAndComments.Activity') }}</span>
         </div>
       </div>
       <a
@@ -227,8 +227,14 @@ export default {
   }
 }
 
-.filter-button svg {
-  margin-right: 0.15rem;
+.filter-button {
+  span {
+    vertical-align: middle;
+  }
+
+  svg {
+    margin-right: 0.3rem;
+  }
 }
 
 .no-results {

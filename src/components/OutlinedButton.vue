@@ -34,8 +34,9 @@ export default {
   display: inline-block;
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 0.625rem 2.15rem 0.725rem 2.15rem;
+  padding: 0.6rem;
   text-align: center;
+  min-width: 8rem;
 
   &:hover {
     border: 0.05rem solid $custom_links_color;
@@ -44,14 +45,20 @@ export default {
     text-decoration: none;
   }
 
-  &.primary {
+  &.blue {
     color: $secondary_color;
     border: 0.05rem solid $secondary_color;
+  }
 
-    &:hover {
-      color: $custom_links_color;
-      border: 0.05rem solid $custom_links_color;
-    }
+  &.green {
+    color: $custom_links_color;
+    border: 0.05rem solid $custom_links_color;
+  }
+
+  &.blue:hover,
+  &.green:hover {
+    color: $standard_font_color;
+    border: 0.05rem solid $standard_font_color;
   }
 
   &.fullwidth {

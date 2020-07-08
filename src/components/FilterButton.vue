@@ -1,5 +1,5 @@
 <template>
-  <div
+  <button
     class="filter-button"
     @click="$emit('click', $event)"
   >

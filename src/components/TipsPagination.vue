@@ -105,7 +105,7 @@ export default {
       }
     },
     async loadMoreTips() {
-      if (!this.endReached) {
+      if (!this.endReached && !this.loadingMoreTips) {
         this.loadingMoreTips = true;
         const tips = await Backend
           .getCacheTips(this.tipSortBy, this.page + 1, this.address, this.search, this.blacklist);

@@ -47,6 +47,13 @@ const routes = [
     },
   },
   {
+    path: '/search/:query',
+    name: 'tips-search',
+    component: TipsList,
+    meta: { title: 'Tips' },
+    props: true,
+  },
+  {
     path: '/tip/:tipId/comment/:id',
     name: 'comment',
     component: SingleComment,

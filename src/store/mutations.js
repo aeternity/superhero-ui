@@ -55,9 +55,6 @@ export default {
   setVerifiedUrls(state, payload) {
     state.verifiedUrls = payload;
   },
-  setSearchTerm(state, payload) {
-    state.searchTerm = payload;
-  },
   setIsHiddenContent(state, payload) {
     state.isHiddenContent = payload;
   },

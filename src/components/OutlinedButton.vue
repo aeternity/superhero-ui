@@ -4,9 +4,7 @@
     v-bind="{ disabled, href, target, title }"
     @click="$emit('click', $event)"
   >
-    <template>
-      <slot />
-    </template>
+    <slot />
   </a>
 </template>
 

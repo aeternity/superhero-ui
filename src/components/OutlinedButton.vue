@@ -24,7 +24,6 @@ export default {
 
 <style lang="scss" scoped>
 .button-link {
-  background: transparent;
   border: 0.05rem solid $standard_font_color;
   border-radius: 0.25rem;
   color: $standard_font_color;

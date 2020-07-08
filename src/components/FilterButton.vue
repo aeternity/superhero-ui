@@ -4,7 +4,7 @@
     @click="$emit('click', $event)"
   >
     <slot />
-  </div>
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -15,14 +15,16 @@
   color: $light_font_color;
   display: inline-block;
   padding: 0.45rem 0.9rem;
+  border: none;
+  background-color: transparent;
 
   &.active {
     color: $custom_links_color;
     background-color: $thumbnail_background_color;
   }
 
-  &:hover {
-    cursor: pointer;
+  &:focus {
+    outline: none;
   }
 }
 </style>

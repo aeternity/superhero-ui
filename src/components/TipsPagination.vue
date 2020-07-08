@@ -8,7 +8,6 @@
       <TipRecord
         v-for="tip in tips"
         :key="tip.id"
-        :ref="`tip-id-${tip.id}`"
         :tip="tip"
         :fiat-value="tip.fiatValue"
         :sender-link="openExplorer(tip.sender)"
@@ -28,7 +27,6 @@
 </template>
 
 <script>
-import { get, isEmpty } from 'lodash-es';
 import Loading from './Loading.vue';
 import Backend from '../utils/backend';
 import { MIDDLEWARE_URL } from '../config/constants';
@@ -55,7 +53,6 @@ export default {
       endReached: false,
       page: 1,
       tips: null,
-      lastTipId: -1,
     };
   },
   watch: {
@@ -73,19 +70,23 @@ export default {
     this.loadData();
   },
   mounted() {
-    this.scroll();
+    const scrollHandler = () => {
+      const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+      if (scrollHeight - scrollTop <= clientHeight + 100) {
+        this.loadMoreTips();
+      }
+    };
+    window.addEventListener('scroll', scrollHandler);
+    this.$on('hook:activated', () => window.addEventListener('scroll', scrollHandler));
+    this.$on('hook:deactivated', () => window.removeEventListener('scroll', scrollHandler));
+    this.$once('hook:destroyed', () => window.removeEventListener('scroll', scrollHandler));
 
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
 
-    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
-  },
-  activated() {
-    this.scroll();
+    const interval = setInterval(() => this.reloadData(), 120 * 1000);
+    this.$once('hook:destroyed', () => clearInterval(interval));
   },
   methods: {
     async startFromTop() {
@@ -100,19 +101,17 @@ export default {
       this.tips = await Backend.getCacheTips(this.tipSortBy, this.page,
         this.address, this.search, this.blacklist);
       if (this.tips) {
-        this.lastTipId = get(this.tips[this.tips.length - 1], 'id');
         this.loadingTips = false;
       }
     },
     async loadMoreTips() {
-      if (!this.endReached) {
+      if (!this.endReached && !this.loadingMoreTips) {
         this.loadingMoreTips = true;
         const tips = await Backend
           .getCacheTips(this.tipSortBy, this.page + 1, this.address, this.search, this.blacklist);
         this.tips = this.tips.concat(tips);
         if (tips.length > 0) {
           this.page += 1;
-          this.lastTipId = tips[tips.length - 1].id;
         } else {
           this.endReached = true;
         }
@@ -125,25 +124,10 @@ export default {
       this.tips = await Util.range(1, this.page)
         .asyncMap(async (page) => Backend
           .getCacheTips(this.tipSortBy, page, this.address, this.search, this.blacklist));
-      this.lastTipId = get(this.tips[this.tips.length - 1], 'id');
       this.loadingTips = false;
     },
     openExplorer(address) {
       return `${MIDDLEWARE_URL}account/transactions/${address}`;
-    },
-    scroll() {
-      window.onscroll = () => {
-        const isLastTipInViewport = this.lastTipId !== -1
-          && !isEmpty(this.$refs[`tip-id-${this.lastTipId}`])
-          && this.$refs[`tip-id-${this.lastTipId}`][0].$el
-            .getBoundingClientRect()
-            .bottom <= (window.innerHeight || document.documentElement.clientHeight);
-
-        if (isLastTipInViewport) {
-          this.lastTipId = -1;
-          this.loadMoreTips();
-        }
-      };
     },
   },
 };

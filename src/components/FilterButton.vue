@@ -7,12 +7,6 @@
   </div>
 </template>
 
-<script>
-
-export default {
-};
-</script>
-
 <style lang="scss" scoped>
 .filter-button {
   border-radius: 0.9rem;

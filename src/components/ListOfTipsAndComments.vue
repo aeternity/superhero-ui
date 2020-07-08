@@ -171,10 +171,8 @@ export default {
         .then((userComments) => {
           this.showLoading = false;
           this.error = false;
-          if (userComments.length) {
-            this.comments = userComments
-              .sort((prev, next) => new Date(next.createdAt) - new Date(prev.createdAt));
-          }
+          this.comments = userComments
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         })
         .catch((e) => {
           console.error(e);

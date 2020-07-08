@@ -25,7 +25,7 @@ export default class Backend {
     return sendComment(respondChallenge);
   }
 
-  static getAllComments = async () => backendFetch('comment/api/');
+  static getUserComments = async (address) => backendFetch(`comment/api/author/${address}`);
 
   static async pinOrUnPinItem(entryId, type, address, signCb, pinItem = true) {
     const sendData = async (postParam) => backendFetch(`pin/${address}`, {

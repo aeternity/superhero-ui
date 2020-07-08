@@ -1,20 +1,20 @@
 <template>
   <div class="footer">
-    <div>
-      <a
-        href="https://form.jotform.com/201075183408046"
+    <div class="footer-btns">
+      <OutlinedButton
         target="_blank"
-        class="feedback footer-btns"
+        :href="'https://form.jotform.com/201075183408046'"
+        class="green feedback"
       >
         {{ $t('components.layout.FooterSection.Feedback') }}
-      </a>
-      <a
-        href="https://thesuperherowallet.typeform.com/to/vh8Ffu"
+      </OutlinedButton>
+      <OutlinedButton
         target="_blank"
-        class="footer-btns support"
+        :href="'https://thesuperherowallet.typeform.com/to/vh8Ffu'"
+        class="blue"
       >
         {{ $t('components.layout.FooterSection.Support') }}
-      </a>
+      </OutlinedButton>
     </div>
     <div>
       <p>
@@ -60,13 +60,12 @@
       v-if="!isLoggedIn"
       class="login-footer"
     >
-      <a
+      <OutlinedButton
         :href="addressDeepLink"
-        class="button"
         :title="$t('components.layout.FooterSection.LoginWithWallet')"
       >
         {{ $t('components.layout.FooterSection.LoginWithWallet') }}
-      </a>
+      </OutlinedButton>
     </div>
   </div>
 </template>
@@ -74,9 +73,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import { createDeepLinkUrl } from '../../utils/util';
+import OutlinedButton from '../OutlinedButton.vue';
 
 export default {
   name: 'FooterSection',
+  components: {
+    OutlinedButton,
+  },
   data: () => ({
     version: process.env.npm_package_version,
     commitHash: process.env.COMMIT_HASH,
@@ -94,34 +97,12 @@ export default {
     font-size: 0.55rem;
     text-align: center;
 
-    .footer-btns {
-      text-decoration: none;
-      margin-bottom: 0.85rem;
-      text-align: center;
-      padding: 0.6rem;
-      width: 8rem;
-      display: inline-block;
-      border-radius: 0.25rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      line-height: 0.9rem;
-
-      &:hover {
-        color: $standard_font_color;
-        border: 0.05rem solid $standard_font_color;
-        cursor: pointer;
-      }
-    }
-
-    .support {
-      border: 0.05rem solid $secondary_color;
-      color: $secondary_color;
-    }
-
     .feedback {
-      border: 0.05rem solid $custom_links_color;
-      color: $custom_links_color;
       margin-right: 1rem;
+    }
+
+    .footer-btns {
+      margin-bottom: 0.85rem;
     }
 
     .venture {

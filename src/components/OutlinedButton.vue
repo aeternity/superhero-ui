@@ -1,10 +1,7 @@
 <template>
   <a
-    :disabled="disabled"
     class="button-link"
-    :href="href"
-    :target="target"
-    :title="title"
+    v-bind="{ disabled, href, target, title }"
     @click="$emit('click', $event)"
   >
     <template>

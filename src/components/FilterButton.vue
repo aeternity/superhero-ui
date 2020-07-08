@@ -9,7 +9,7 @@
 
 <style lang="scss" scoped>
 .filter-button {
-  border-radius: 0.9rem;
+  border-radius: 1rem;
   font-size: 0.8rem;
   font-weight: 600;
   color: $light_font_color;

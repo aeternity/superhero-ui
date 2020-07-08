@@ -34,7 +34,6 @@ export default {
   &:hover {
     border-color: $custom_links_color;
     color: $custom_links_color;
-    cursor: pointer;
     text-decoration: none;
   }
 

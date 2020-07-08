@@ -4,20 +4,24 @@
       <div
         class="activity-ribbon"
       >
-        <div
-          :class="['filter-button', { active: activity === 'channel' }]"
+        <FilterButton
+          :class="{ active: activity === 'channel' }"
           @click="activity = 'channel'; activeTab = 'tips'"
         >
           <IconChannel />
-          {{ $t('components.ListOfTipsAndComments.Channel') }}
-        </div>
-        <div
-          :class="['filter-button', { active: activity === 'activity' }]"
+          <span class="vertical-align-mid">
+            {{ $t('components.ListOfTipsAndComments.Channel') }}
+          </span>
+        </FilterButton>
+        <FilterButton
+          :class="{ active: activity === 'activity' }"
           @click="activity = 'activity'"
         >
           <IconActivity />
-          {{ $t('components.ListOfTipsAndComments.Activity') }}
-        </div>
+          <span class="vertical-align-mid">
+            {{ $t('components.ListOfTipsAndComments.Activity') }}
+          </span>
+        </FilterButton>
       </div>
       <a
         :class="{ active: activeTab === 'tips' }"
@@ -113,6 +117,7 @@ import TipComment from './tipRecords/TipComment.vue';
 import TipRecord from './tipRecords/TipRecord.vue';
 import IconChannel from '../assets/iconChannel.svg?icon-component';
 import IconActivity from '../assets/iconActivity.svg?icon-component';
+import FilterButton from './FilterButton.vue';
 
 export default {
   components: {
@@ -122,6 +127,7 @@ export default {
     TipRecord,
     IconChannel,
     IconActivity,
+    FilterButton,
   },
   props: { address: { type: String, required: true } },
   data: () => ({
@@ -218,16 +224,8 @@ export default {
     background-color: $light_color;
     padding: 0.5rem 0;
     margin-left: -1rem;
-    padding-left: 1rem;
-
-    .filter-button:first-child {
-      margin-left: -0.5rem;
-    }
+    padding-left: 0.75rem;
   }
-}
-
-.filter-button svg {
-  margin-right: 0.15rem;
 }
 
 .no-results {

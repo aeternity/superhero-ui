@@ -39,40 +39,6 @@ a:hover {
   vertical-align: middle;
 }
 
-.button,
-a.button {
-  background: transparent;
-  border: 0.05rem solid $standard_font_color;
-  border-radius: 0.25rem;
-  color: $standard_font_color;
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.625rem 2.15rem 0.725rem 2.15rem;
-  text-align: center;
-
-  &:hover {
-    border: 0.05rem solid $custom_links_color;
-    color: $custom_links_color;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-  &.small {
-    padding: 0.425rem 1rem 0.425rem 1rem;
-  }
-
-  &.primary {
-    color: $secondary_color;
-    border: 0.05rem solid $secondary_color;
-
-    &:hover {
-      color: $custom_links_color;
-      border: 0.05rem solid $custom_links_color;
-    }
-  }
-}
-
 .input-group,
 .form-group {
   .form-control {
@@ -102,29 +68,6 @@ a.button {
     font-size: 0.75rem;
     height: 2.2rem;
   }
-
-  .input-group-text {
-    background-color: $search_icon_backgound;
-    border: 1px solid $white_color;
-    height: 2.2rem;
-
-    &:hover {
-      background-color: $primary_color;
-      cursor: pointer;
-
-      .fas.fa-search {
-        color: $search_icon_hover_color;
-      }
-    }
-
-    &:active {
-      background-color: $secondary_color;
-    }
-  }
-
-  .fas.fa-search {
-    color: $standard_font_color;
-  }
 }
 
 .message-carret {
@@ -139,31 +82,6 @@ a.button {
 
 img.fail {
   visibility: hidden;
-}
-
-.filter-button {
-  border-radius: 0.9rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: $light_font_color;
-  display: inline-block;
-  padding: 0.45rem 0.9rem;
-
-  &.active {
-    color: $custom_links_color;
-    background-color: $thumbnail_background_color;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .header__body.container {
-    display: block;
-    margin: 0 auto;
-  }
 }
 
 /* Chrome, Safari, Edge, Opera */

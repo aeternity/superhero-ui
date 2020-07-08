@@ -167,13 +167,14 @@ export default {
     },
     reloadData() {
       this.showLoading = true;
-      Backend.getAllComments()
-        .then((allComments) => {
+      Backend.getUserComments(this.address)
+        .then((userComments) => {
           this.showLoading = false;
           this.error = false;
-          this.comments = allComments.filter(
-            (comment) => comment.author === this.address,
-          );
+          if (userComments.length) {
+            this.comments = userComments
+              .sort((prev, next) => new Date(next.createdAt) - new Date(prev.createdAt));
+          }
         })
         .catch((e) => {
           console.error(e);

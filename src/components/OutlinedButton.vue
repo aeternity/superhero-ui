@@ -36,7 +36,7 @@ export default {
   min-width: 8rem;
 
   &:hover {
-    border: 0.05rem solid $custom_links_color;
+    border-color: $custom_links_color;
     color: $custom_links_color;
     cursor: pointer;
     text-decoration: none;
@@ -44,18 +44,18 @@ export default {
 
   &.blue {
     color: $secondary_color;
-    border: 0.05rem solid $secondary_color;
+    border-color: $secondary_color;
   }
 
   &.green {
     color: $custom_links_color;
-    border: 0.05rem solid $custom_links_color;
+    border-color: $custom_links_color;
   }
 
   &.blue:hover,
   &.green:hover {
     color: $standard_font_color;
-    border: 0.05rem solid $standard_font_color;
+    border-color: $standard_font_color;
   }
 
   &.fullwidth {

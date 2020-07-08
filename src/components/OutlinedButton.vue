@@ -1,6 +1,6 @@
 <template>
   <a
-    class="button-link"
+    class="outlined-button"
     v-bind="{ disabled, href, target, title }"
     @click="$emit('click', $event)"
   >
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.button-link {
+.outlined-button {
   border: 0.05rem solid $standard_font_color;
   border-radius: 0.25rem;
   color: $standard_font_color;

@@ -3,9 +3,7 @@
     class="filter-button"
     @click="$emit('click', $event)"
   >
-    <template>
-      <slot />
-    </template>
+    <slot />
   </div>
 </template>
 

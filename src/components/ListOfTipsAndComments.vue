@@ -66,7 +66,6 @@
           v-for="(comment, index) in comments"
           :key="index"
           :comment="comment"
-          :sender-link="openExplorer(comment.author)"
         />
       </div>
       <div
@@ -110,7 +109,6 @@
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import { EXPLORER_URL } from '../config/constants';
 import Loading from './Loading.vue';
 import TipsPagination from './TipsPagination.vue';
 import TipComment from './tipRecords/TipComment.vue';
@@ -131,7 +129,6 @@ export default {
   },
   props: { address: { type: String, required: true } },
   data: () => ({
-    explorerUrl: `${EXPLORER_URL}account/transactions/`,
     showLoading: false,
     error: false,
     comments: [],
@@ -167,9 +164,6 @@ export default {
   methods: {
     setActiveTab(tab) {
       this.activeTab = tab;
-    },
-    openExplorer(address) {
-      return this.explorerUrl + address;
     },
     reloadData() {
       this.showLoading = true;

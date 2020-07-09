@@ -58,7 +58,7 @@
         <div
           v-if="showNoResultsMsg"
           class="no-results"
-          :class="[error ? 'error' : '']"
+          :class="{ error }"
         >
           {{ $t('components.ListOfTipsAndComments.NoActivity') }}
         </div>
@@ -76,7 +76,7 @@
           <div
             v-if="!pinnedItems.length"
             class="no-results"
-            :class="[error ? 'error' : '']"
+            :class="{ error }"
           >
             {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
           </div>
@@ -90,7 +90,7 @@
           <div
             v-if="!userPinnedItems.length"
             class="no-results"
-            :class="[error ? 'error' : '']"
+            :class="{ error }"
           >
             {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
           </div>

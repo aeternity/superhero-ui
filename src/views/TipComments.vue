@@ -57,9 +57,11 @@ export default {
     Page,
     SendComment,
   },
+  props: {
+    id: { type: [String, Number], required: true },
+  },
   data() {
     return {
-      id: this.$route.params.id,
       showLoading: true,
       comments: [],
       error: false,

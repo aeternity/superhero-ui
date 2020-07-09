@@ -57,13 +57,15 @@ export default {
     TipComment,
     SendComment,
   },
+  props: {
+    id: { type: [String, Number], required: true },
+    tipId: { type: [String, Number], required: true },
+  },
   data() {
     return {
-      id: this.$route.params.id,
       showLoading: true,
       error: false,
       comment: null,
-      tipId: this.$route.params.tipId,
     };
   },
   created() {

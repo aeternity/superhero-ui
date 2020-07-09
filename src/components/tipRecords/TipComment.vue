@@ -87,7 +87,6 @@
 import { mapState } from 'vuex';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
-import Backend from '../../utils/backend';
 import TipInput from '../TipInput.vue';
 
 export default {
@@ -116,10 +115,6 @@ export default {
     },
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.defaultAvatar;
-    },
     goToCommentPage(tipId, id) {
       this.$router.push({
         name: 'comment',

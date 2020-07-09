@@ -12,6 +12,7 @@ export default {
     tipsNextPageLoading: {},
     tipsEndReached: {},
     userComments: {},
+    tip: {},
   },
   mutations: {
     setTips({ tips, tipsReloading }, { args, value }) {
@@ -38,6 +39,9 @@ export default {
     setUserComments({ userComments }, { address, value }) {
       Vue.set(userComments, address, value);
     },
+    setTip({ tip }, { id, value }) {
+      Vue.set(tip, id, value);
+    },
   },
   actions: {
     async reloadTips({ commit, state: { tipsPageCount, tipsReloading } }, args) {
@@ -60,6 +64,22 @@ export default {
         value: (await Backend.getUserComments(address))
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
       });
+    },
+    async reloadTip({ commit, rootState: { chainNames } }, id) {
+      const [tip, comments] = await Promise.all([
+        Backend.getCacheTipById(id),
+        Backend.getTipComments(id),
+      ]);
+      commit('setTip', {
+        id,
+        value: {
+          ...tip,
+          comments: comments.map((comment) => ({
+            ...comment,
+            chainName: chainNames[comment.author],
+          })),
+        }
+      })
     },
   },
 };

@@ -27,21 +27,17 @@ export default class Backend {
 
   static getUserComments = async (address) => backendFetch(`comment/api/author/${address}`);
 
-  static async pinOrUnPinItem(entryId, type, address, signCb, pinItem = true) {
-    const sendData = async (postParam) => backendFetch(`pin/${address}`, {
-      method: pinItem ? 'post' : 'delete',
-      body: JSON.stringify(postParam),
-      headers: { 'Content-Type': 'application/json' },
-    });
+  static pinItem = async (address, postParam) => backendFetch(`pin/${address}`, {
+    method: 'post',
+    body: JSON.stringify(postParam),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
-    const responseChallenge = await sendData({ entryId, type });
-    const signedChallenge = await signCb(responseChallenge.challenge);
-    const respondChallenge = {
-      challenge: responseChallenge.challenge,
-      signature: signedChallenge,
-    };
-    return sendData(respondChallenge);
-  }
+  static unPinItem = async (address, postParam) => backendFetch(`pin/${address}`, {
+    method: 'delete',
+    body: JSON.stringify(postParam),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   static getPinnedItems = async (address) => backendFetch(`pin/${address}`);
 
@@ -67,21 +63,11 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  static async sendPostReport(tipId, author, signCb) {
-    const sendReport = async (postParam) => backendFetch('blacklist/api/wallet', {
-      method: 'post',
-      body: JSON.stringify(postParam),
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    const responseChallenge = await sendReport({ tipId, author });
-    const signedChallenge = await signCb(responseChallenge.challenge);
-    const respondChallenge = {
-      challenge: responseChallenge.challenge,
-      signature: signedChallenge,
-    };
-    return sendReport(respondChallenge);
-  }
+  static sendPostReport = async (author, postParam) => backendFetch('blacklist/api/wallet', {
+    method: 'post',
+    body: JSON.stringify({ ...postParam, author }),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 

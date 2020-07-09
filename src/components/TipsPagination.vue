@@ -10,7 +10,6 @@
         :key="tip.id"
         :tip="tip"
         :fiat-value="tip.fiatValue"
-        :sender-link="openExplorer(tip.sender)"
       />
       <Loading
         v-if="loadingMoreTips"
@@ -29,7 +28,6 @@
 <script>
 import Loading from './Loading.vue';
 import Backend from '../utils/backend';
-import { MIDDLEWARE_URL } from '../config/constants';
 import TipRecord from './tipRecords/TipRecord.vue';
 import Util from '../utils/util';
 import { EventBus } from '../utils/eventBus';
@@ -125,9 +123,6 @@ export default {
         .asyncMap(async (page) => Backend
           .getCacheTips(this.tipSortBy, page, this.address, this.search, this.blacklist));
       this.loadingTips = false;
-    },
-    openExplorer(address) {
-      return `${MIDDLEWARE_URL}account/transactions/${address}`;
     },
   },
 };

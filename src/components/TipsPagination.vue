@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loading
-      v-if="loadingTips"
+      v-if="tipsReloading"
       class="m-2 loading-position-absolute"
     />
     <div v-if="tips">
@@ -12,7 +12,7 @@
         :fiat-value="tip.fiatValue"
       />
       <Loading
-        v-if="loadingMoreTips"
+        v-if="tipsNextPageLoading"
         class="m-2"
       />
       <div
@@ -26,11 +26,13 @@
 </template>
 
 <script>
-import { times } from 'lodash-es';
+import { mapState } from 'vuex';
 import Loading from './Loading.vue';
-import Backend from '../utils/backend';
 import TipRecord from './tipRecords/TipRecord.vue';
 import { EventBus } from '../utils/eventBus';
+
+const namesToHandlers = (names, getHandler) => names
+  .reduce((acc, name) => ({ ...acc, [name]: getHandler(name) }), {});
 
 export default {
   name: 'TipsPagination',
@@ -40,81 +42,59 @@ export default {
   },
   props: {
     tipSortBy: { type: String, required: true },
-    address: { type: String, required: false, default: null },
-    search: { type: String, required: false, default: null },
-    blacklist: { type: Boolean, required: false },
+    address: { type: String, default: null },
+    search: { type: String, default: null },
+    blacklist: Boolean,
   },
-  data() {
-    return {
-      loadingMoreTips: false,
-      loadingTips: false,
-      endReached: false,
-      page: 1,
-      tips: null,
-    };
-  },
-  watch: {
-    tipSortBy() {
-      this.startFromTop();
+  computed: {
+    args() {
+      return [this.tipSortBy, this.address, this.search, this.blacklist];
     },
-    search() {
-      this.startFromTop();
-    },
-    blacklist() {
-      this.startFromTop();
-    },
+    ...mapState(
+      'backend',
+      namesToHandlers(
+        ['tips', 'tipsReloading', 'tipsNextPageLoading'],
+        (name) => function getState(state) { return state[name][this.args]; },
+      ),
+    ),
   },
-  async created() {
-    await this.reloadData();
-  },
-  mounted() {
+  async mounted() {
+    await this.reloadTips();
+
     const scrollHandler = () => {
       const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
       if (scrollHeight - scrollTop <= clientHeight + 100) {
-        this.loadMoreTips();
+        this.loadNextPageOfTips();
       }
     };
     window.addEventListener('scroll', scrollHandler);
     this.$on('hook:activated', () => window.addEventListener('scroll', scrollHandler));
     this.$on('hook:deactivated', () => window.removeEventListener('scroll', scrollHandler));
-    this.$once('hook:destroyed', () => window.removeEventListener('scroll', scrollHandler));
 
-    EventBus.$on('reloadData', () => this.reloadData());
+    const reloadTips = () => this.reloadTips();
+    EventBus.$on('reloadData', reloadTips);
 
-    const interval = setInterval(() => this.reloadData(), 120 * 1000);
-    this.$once('hook:destroyed', () => clearInterval(interval));
+    const interval = setInterval(reloadTips, 120 * 1000);
+
+    this.$once('hook:destroyed', () => {
+      window.removeEventListener('scroll', scrollHandler);
+      EventBus.$off('reloadData', reloadTips);
+      clearInterval(interval);
+    });
+
+    this.$watch(
+      ({ args }) => args,
+      async () => {
+        window.scrollTo(0, 0);
+        await this.reloadTips();
+      },
+    );
   },
-  methods: {
-    async startFromTop() {
-      window.scrollTo(0, 0);
-      this.endReached = false;
-      this.page = 1;
-      this.tips = null;
-      await this.reloadData();
+  methods: namesToHandlers(
+    ['reloadTips', 'loadNextPageOfTips'],
+    (name) => async function callAction() {
+      await this.$store.dispatch(`backend/${name}`, this.args);
     },
-    getCacheTips(page) {
-      return Backend.getCacheTips(this.tipSortBy, page, this.address, this.search, this.blacklist);
-    },
-    async loadMoreTips() {
-      if (!this.endReached && !this.loadingMoreTips) {
-        this.loadingMoreTips = true;
-        const tips = await this.getCacheTips(this.page + 1);
-        this.tips = this.tips.concat(tips);
-        if (tips.length > 0) {
-          this.page += 1;
-        } else {
-          this.endReached = true;
-        }
-        this.loadingMoreTips = false;
-      }
-    },
-    async reloadData() {
-      this.loadingTips = true;
-      this.tips = (await Promise.all(
-        times(this.page, (page) => this.getCacheTips(page + 1)),
-      )).flat();
-      this.loadingTips = false;
-    },
-  },
+  ),
 };
 </script>

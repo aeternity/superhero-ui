@@ -91,7 +91,7 @@ export default class Backend {
 
   static getCacheUserStats = async (address) => backendFetch(`cache/userStats?address=${address}`);
 
-  static getCacheTips = async (ordering, page, address = null, search = null, blacklist = true) => {
+  static getCacheTips = async (page, ordering, address = null, search = null, blacklist = true) => {
     let query = `?ordering=${ordering}&page=${page}`;
     if (address) query += `&address=${address}`;
     if (search) query += `&search=${encodeURIComponent(search)}`;

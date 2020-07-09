@@ -44,7 +44,6 @@ export default {
     },
   },
   async created() {
-    await this.initialLoad();
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
@@ -54,6 +53,7 @@ export default {
         name: 'maintenance',
       }).catch((err) => { console.error(err); });
     });
+    await this.initialLoad();
     this.$router.afterEach((to) => {
       setTimeout(
         () => {
@@ -67,7 +67,7 @@ export default {
     ...mapMutations([
       'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet',
+      'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet', 'setPinnedItems',
     ]),
     async reloadAsyncData(stats) {
       // stats
@@ -124,10 +124,20 @@ export default {
         this.useSdkWallet();
       }
       const balance = await client.balance(address).catch(() => 0);
+      Backend.getProfile(this.address)
+        .then((userProfile) => {
+          if (userProfile) this.$store.commit('setUserProfile', userProfile);
+        })
+        .catch(console.error);
       this.setLoggedInAccount({
         account: address,
         balance: Util.atomsToAe(balance).toFixed(2),
       });
+      Backend.getPinnedItems(this.account)
+        .then((pinnedItems) => {
+          this.$store.commit('setPinnedItems', pinnedItems);
+        })
+        .catch(console.error);
       this.removeLoading('wallet');
     },
     saveScrollPosition() {

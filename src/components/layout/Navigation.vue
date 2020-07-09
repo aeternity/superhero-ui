@@ -45,6 +45,12 @@
         <span>{{ $t('FAQ') }}</span>
       </router-link>
     </div>
+    <!-- <div class="navigation__item networking">
+      <router-link :to="{ name: 'conference' }">
+        <IconMeet class="navigation__item__image" />
+        <span>{{ $t('Networking.MenuLink') }}</span>
+      </router-link>
+    </div> -->
   </div>
 </template>
 
@@ -55,6 +61,7 @@ import IconUser from '../../assets/iconUser.svg?icon-component';
 import IconHelp from '../../assets/iconHelp.svg?icon-component';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
 import IconGovernance from '../../assets/iconGovernance.svg?icon-component';
+// import IconMeet from '../../assets/iconMeet.svg?icon-component';
 
 export default {
   name: 'Navigation',
@@ -64,6 +71,7 @@ export default {
     IconHelp,
     IconDiamond,
     IconGovernance,
+    // IconMeet,
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -135,5 +143,11 @@ export default {
       line-height: 1.2rem;
       margin-bottom: 1.55rem;
     }
+  }
+
+  .iconMeet {
+    width: 27px;
+    height: 18px;
+    padding-left: 5px;
   }
 </style>

@@ -11,7 +11,7 @@
       </div>
       <form @submit.prevent>
         <div class="form-group">
-          <AvatarWrapper
+          <Avatar
             :address="account"
             class="avatar mr-3"
           />
@@ -62,7 +62,7 @@
       @click="canTip ? toggleSendTip(true) : openTipDeeplink()"
     >
       <div class="form-group">
-        <AvatarWrapper
+        <Avatar
           :address="account"
           class="avatar mr-3"
         />
@@ -94,7 +94,7 @@ import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg?icon-component';
-import AvatarWrapper from '../../AvatarWrapper.vue';
+import Avatar from '../../Avatar.vue';
 import UrlStatus from './UrlStatus.vue';
 import SendTipStatusMsg from './SendTipStatusMsg.vue';
 
@@ -103,7 +103,7 @@ export default {
   components: {
     AeInputAmount,
     AeButton,
-    AvatarWrapper,
+    Avatar,
     UrlStatus,
     SendTipStatusMsg,
     IconDiamond,

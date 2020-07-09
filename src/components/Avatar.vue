@@ -1,9 +1,9 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <img
-    v-if="!error && profileImage"
+    v-if="!error && profileImageUrl"
     class="user-identicon"
-    :src="profileImage"
+    :src="profileImageUrl"
     loading="lazy"
     @error="error = true"
   >
@@ -24,15 +24,12 @@ import { mapState } from 'vuex';
 import jdenticon from 'jdenticon';
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-avataaars-sprites';
+import Backend from '../utils/backend';
 import { IDENTICON_CONFIG, AVATAR_CONFIG } from '../utils/util';
 
 export default {
   props: {
     address: {
-      type: [String, Object],
-      default: null,
-    },
-    profileImage: {
       type: [String, Object],
       default: null,
     },
@@ -57,9 +54,16 @@ export default {
         src: jdenticon.toSvg(this.address, 32),
       };
     },
+    profileImageUrl() {
+      const imageSignature = this.$store.state.account === this.address && this.$store.state.profile
+        ? this.$store.state.profile.signature
+        : '';
+      const key = imageSignature && imageSignature.slice(0, 5);
+      return `${Backend.getProfileImageUrl(this.address)}?${key}`;
+    },
   },
   watch: {
-    profileImage() {
+    profileImageUrl() {
       this.error = false;
     },
   },

@@ -4,7 +4,7 @@
       class="reply__form"
       @submit.prevent
     >
-      <AvatarWrapper
+      <Avatar
         :address="account"
         class="avatar"
       />
@@ -42,14 +42,14 @@ import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl } from '../utils/util';
 import { client } from '../utils/aeternity';
 import AeButton from './AeButton.vue';
-import AvatarWrapper from './AvatarWrapper.vue';
+import Avatar from './Avatar.vue';
 import Backend from '../utils/backend';
 
 export default {
   name: 'SendComment',
   components: {
     AeButton,
-    AvatarWrapper,
+    Avatar,
   },
   props: {
     tipId: { type: [Number, String], required: true },

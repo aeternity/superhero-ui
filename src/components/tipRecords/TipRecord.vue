@@ -19,7 +19,7 @@
           @click.stop
         >
           <router-link :to="'/user-profile/' + tip.sender">
-            <AvatarWrapper :address="tip.sender" />
+            <Avatar :address="tip.sender" />
             <div class="tip__author_name">
               <span
                 v-if="tip.chainName"
@@ -42,6 +42,16 @@
               </div>
               <div @click="claim">
                 {{ $t('components.tipRecords.TipRecord.claim') }}
+              </div>
+              <div
+                v-if="account"
+                @click="pinOrUnPinTip(!isTipPinned)"
+              >
+                {{
+                  isTipPinned ?
+                    $t('components.tipRecords.TipRecord.UnPin')
+                    : $t('components.tipRecords.TipRecord.Pin')
+                }}
               </div>
             </ThreeDotsMenu>
           </span>
@@ -139,13 +149,14 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
 import Backend from '../../utils/backend';
 import TipInput from '../TipInput.vue';
 import SuccessModal from '../SuccessModal.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
-import AvatarWrapper from '../AvatarWrapper.vue';
+import Avatar from '../Avatar.vue';
 import { client } from '../../utils/aeternity';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
@@ -154,7 +165,7 @@ export default {
   components: {
     TipTitle,
     FormatDate,
-    AvatarWrapper,
+    Avatar,
     TipInput,
     SuccessModal,
     ThreeDotsMenu,
@@ -172,6 +183,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(['account', 'pinnedItems']),
     shouldRender() {
       return !this.tip.url.includes('https://superhero.com/tip/' && '/comment/');
     },
@@ -188,8 +200,14 @@ export default {
     tipPreviewImage() {
       return this.isPreviewToBeVisualized(this.tip) && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
+    isTipPinned() {
+      if (!this.pinnedItems.length) return false;
+      const isPinned = this.pinnedItems.findIndex((pinnedItem) => pinnedItem.id === this.tip.id);
+      return isPinned !== -1;
+    },
   },
   methods: {
+    ...mapMutations(['setPinnedItems']),
     async sendReport() {
       Backend.sendPostReport(
         this.tip.id,
@@ -207,6 +225,26 @@ export default {
         address: client.rpcClient.getCurrentAccount(),
       };
       await Backend.claimFromUrl(postData);
+    },
+    pinOrUnPinTip(pinTip = true) {
+      if (!this.account) {
+        return;
+      }
+      Backend.pinOrUnPinItem(
+        this.tip.id,
+        'TIP',
+        this.account,
+        (data) => client.signMessage(data),
+        pinTip,
+      ).then(() => {
+        Backend.getPinnedItems(this.account)
+          .then((updatedPinnedItems) => {
+            this.$store.commit('setPinnedItems', updatedPinnedItems);
+          })
+          .catch(console.error);
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
@@ -250,6 +288,7 @@ export default {
       color: $light_font_color;
       margin-left: 0.1rem;
       font-size: 0.7rem;
+      flex-shrink: 0;
     }
   }
 

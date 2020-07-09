@@ -23,7 +23,7 @@
                 },
               }"
             >
-              <AvatarWrapper :address="comment.author" />
+              <Avatar :address="comment.author" />
               <span
                 v-if="userChainName"
                 class="chain__name"
@@ -45,7 +45,10 @@
               </span>
             </router-link>
           </span>
-          <span class="tip__date">
+          <span
+            class="tip__date"
+            @click.stop
+          >
             <FormatDate
               :date-timestamp="formatDate"
             />
@@ -83,7 +86,7 @@
 <script>
 import { mapState } from 'vuex';
 import FormatDate from './FormatDate.vue';
-import AvatarWrapper from '../AvatarWrapper.vue';
+import Avatar from '../Avatar.vue';
 import Backend from '../../utils/backend';
 import TipInput from '../TipInput.vue';
 
@@ -91,7 +94,7 @@ export default {
   name: 'TipComment',
   components: {
     FormatDate,
-    AvatarWrapper,
+    Avatar,
     TipInput,
   },
   props: {
@@ -159,9 +162,13 @@ export default {
   justify-content: space-between;
 
   .tip__date {
-    display: inline-block;
+    display: flex;
     font-size: 0.6rem;
     text-align: right;
+  }
+
+  .user-display {
+    max-width: 85%;
   }
 
   .address {
@@ -212,10 +219,6 @@ export default {
   }
 }
 
-.user-display {
-  max-width: 85%;
-}
-
 .comment__actions {
   padding: 0.25rem 1rem 1rem 1rem;
   color: $standard_font_color;
@@ -230,6 +233,10 @@ export default {
 
 .comments {
   margin-left: 3rem;
+}
+
+.three-dots {
+  display: inline-block;
 }
 
 @media only screen

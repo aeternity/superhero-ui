@@ -11,6 +11,7 @@
   "FAQ": "FAQ",
   "noExtensionSupport": "You need a Superhero wallet to comment and send tips.",
   "FellowSuperhero": "Fellow superhero",
+  "Balance": "Balance:",
   "views": {
     "CreateProfile": {
       "header1": "HOW TO USE SUPERHERO.COM",
@@ -357,7 +358,10 @@
       "NoActivity": "There is no activity to display.",
       "Joined": "Joined",
       "Comments": "Comments",
-      "EditBiography": "Edit Biography"
+      "EditBiography": "Edit Biography",
+      "ChangeCoverPhoto": "Change Cover Photo",
+      "LocationPlaceholder": "Edit Location",
+      "Location": "Location"
     }
   },
   "components": {
@@ -469,7 +473,9 @@
         "reportPost": "Report Post",
         "reportPostTitle": "Thanks for letting us know",
         "reportPostBody": "Our support team will investigate",
-        "claim": "Claim"
+        "claim": "Claim",
+        "Pin": "Pin to Channel",
+        "UnPin": "Unpin from Channel"
       }
     },
     "TipInput": {
@@ -488,6 +494,17 @@
       "verifiedTitle": "",
       "notverifiedTitle": "",
       "blacklisted": ""
+    },
+    "ListOfTipsAndComments": {
+      "Channel": "Channel",
+      "Activity": "Activity",
+      "NoPinnedItems": "There are no pinned items to display.",
+      "NoActivity": "There is no activity to display."
     }
+  },
+  "Networking": {
+    "MenuLink": "Meet",
+    "Placeholder": "Room name",
+    "Start": "Start"
   }
 }

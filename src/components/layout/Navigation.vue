@@ -28,7 +28,7 @@
       </router-link>
     </div>
     <div class="navigation__item league">
-      <router-link :to="{ name: 'events' }">
+      <router-link :to="{ name: 'league' }">
         <IconDiamond class="navigation__item__image" />
         <span>{{ $t('components.layout.Navigation.League') }}</span>
       </router-link>

@@ -13,6 +13,7 @@ export default {
     tipsEndReached: {},
     userComments: {},
     tip: {},
+    comment: {},
   },
   mutations: {
     setTips({ tips, tipsReloading }, { args, value }) {
@@ -41,6 +42,9 @@ export default {
     },
     setTip({ tip }, { id, value }) {
       Vue.set(tip, id, value);
+    },
+    setComment({ comment }, { id, value }) {
+      Vue.set(comment, id, value);
     },
   },
   actions: {
@@ -78,8 +82,11 @@ export default {
             ...comment,
             chainName: chainNames[comment.author],
           })),
-        }
-      })
+        },
+      });
+    },
+    async reloadComment({ commit }, id) {
+      commit('setComment', { id, value: await Backend.getCommentById(id) });
     },
   },
 };

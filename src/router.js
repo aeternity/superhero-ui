@@ -196,7 +196,6 @@ const router = new Router({ mode: 'history', routes });
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - Superhero.com`;
-  window.scrollTo(0, 0);
   next();
 });
 

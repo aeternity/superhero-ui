@@ -68,8 +68,6 @@ export default {
       }
     };
     window.addEventListener('scroll', scrollHandler);
-    this.$on('hook:activated', () => window.addEventListener('scroll', scrollHandler));
-    this.$on('hook:deactivated', () => window.removeEventListener('scroll', scrollHandler));
 
     const reloadTips = () => this.reloadTips();
     EventBus.$on('reloadData', reloadTips);

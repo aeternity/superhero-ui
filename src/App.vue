@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="app"
-    @mousedown="saveScrollPosition"
-  >
+  <div id="app">
     <div
       ref="wrapper"
       class="min-h-screen wrapper"
@@ -13,9 +10,7 @@
       >
         {{ $t('noExtensionSupport') }}
       </div>
-      <keep-alive :max="5">
-        <router-view :key="$route.fullPath" />
-      </keep-alive>
+      <router-view />
     </div>
   </div>
 </template>
@@ -33,7 +28,6 @@ export default {
   data() {
     return {
       urlAddress: this.$route.query.address,
-      savedScrolls: [],
     };
   },
   computed: {
@@ -54,14 +48,6 @@ export default {
       }).catch((err) => { console.error(err); });
     });
     await this.initialLoad();
-    this.$router.afterEach((to) => {
-      setTimeout(
-        () => {
-          document.scrollingElement.scrollTop = this.savedScrolls[to.fullPath] || 0;
-        },
-        100,
-      );
-    });
   },
   methods: {
     ...mapMutations([
@@ -139,9 +125,6 @@ export default {
         })
         .catch(console.error);
       this.removeLoading('wallet');
-    },
-    saveScrollPosition() {
-      this.savedScrolls[this.$route.fullPath] = document.scrollingElement.scrollTop;
     },
   },
 };

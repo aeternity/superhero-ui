@@ -72,34 +72,18 @@
         v-if="activeTab === 'tips' && activity === 'channel'"
         class="tips__container"
       >
-        <div v-if="address === account">
-          <div
-            v-if="!pinnedItems.length"
-            class="no-results"
-            :class="{ error }"
-          >
-            {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
-          </div>
-          <TipRecord
-            v-for="pinnedItem in pinnedItems"
-            :key="pinnedItem.id"
-            :tip="pinnedItem"
-          />
+        <div
+          v-if="!pinnedItems.length"
+          class="no-results"
+          :class="{ error }"
+        >
+          {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
         </div>
-        <div v-else>
-          <div
-            v-if="!userPinnedItems.length"
-            class="no-results"
-            :class="{ error }"
-          >
-            {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
-          </div>
-          <TipRecord
-            v-for="userPinnedItem in userPinnedItems"
-            :key="userPinnedItem.id"
-            :tip="userPinnedItem"
-          />
-        </div>
+        <TipRecord
+          v-for="pinnedItem in pinnedItems"
+          :key="pinnedItem.id"
+          :tip="pinnedItem"
+        />
       </div>
     </div>
   </div>
@@ -137,7 +121,10 @@ export default {
     userPinnedItems: [],
   }),
   computed: {
-    ...mapState(['loading', 'pinnedItems', 'account']),
+    ...mapState(['loading', 'account']),
+    pinnedItems() {
+      return this.address === this.account ? this.$store.state.pinnedItems : this.userPinnedItems;
+    },
     showNoResultsMsg() {
       return this.activeTab === 'comments'
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;

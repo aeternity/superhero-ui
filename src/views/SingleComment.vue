@@ -43,7 +43,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';

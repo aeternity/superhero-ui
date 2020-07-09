@@ -41,7 +41,6 @@
 
 <script>
 import { mapState } from 'vuex';
-// eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipCommentList from '../components/tipRecords/TipCommentList.vue';

@@ -11,6 +11,7 @@ export default {
     tipsReloading: {},
     tipsNextPageLoading: {},
     tipsEndReached: {},
+    userComments: {},
   },
   mutations: {
     setTips({ tips, tipsReloading }, { args, value }) {
@@ -34,6 +35,9 @@ export default {
       Vue.set(tipsNextPageLoading, args, true);
       if (!tipsPageCount[args]) Vue.set(tipsPageCount, args, 1);
     },
+    setUserComments({ userComments }, { address, value }) {
+      Vue.set(userComments, address, value);
+    },
   },
   actions: {
     async reloadTips({ commit, state: { tipsPageCount, tipsReloading } }, args) {
@@ -49,6 +53,13 @@ export default {
       commit('tipsNextPageLoading', args);
       const value = await Backend.getCacheTips(state.tipsPageCount[args] + 1, ...args);
       commit('addTips', { args, value });
+    },
+    async reloadUserComments({ commit }, address) {
+      commit('setUserComments', {
+        address,
+        value: (await Backend.getUserComments(address))
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+      });
     },
   },
 };

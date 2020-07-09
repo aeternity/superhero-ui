@@ -115,7 +115,6 @@ export default {
   data: () => ({
     showLoading: false,
     error: false,
-    comments: [],
     activeTab: 'tips',
     activity: 'activity',
     userPinnedItems: [],
@@ -128,6 +127,9 @@ export default {
     showNoResultsMsg() {
       return this.activeTab === 'comments'
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
+    },
+    comments() {
+      return this.$store.state.backend.userComments[this.address] || [];
     },
   },
   mounted() {
@@ -152,20 +154,17 @@ export default {
     setActiveTab(tab) {
       this.activeTab = tab;
     },
-    reloadData() {
+    async reloadData() {
       this.showLoading = true;
-      Backend.getUserComments(this.address)
-        .then((userComments) => {
-          this.showLoading = false;
-          this.error = false;
-          this.comments = userComments
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        })
-        .catch((e) => {
-          console.error(e);
-          this.error = true;
-          this.showLoading = false;
-        });
+      try {
+        await this.$store.dispatch('backend/reloadUserComments', this.address);
+        this.error = false;
+      } catch (error) {
+        this.error = true;
+        throw error;
+      } finally {
+        this.showLoading = false;
+      }
     },
   },
 };

@@ -45,7 +45,7 @@
               </div>
               <div
                 v-if="account"
-                @click="pinOrUnPinTip(!isTipPinned)"
+                @click="pinOrUnPinTip"
               >
                 {{
                   isTipPinned ?
@@ -151,6 +151,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 import Backend from '../../utils/backend';
+import { createDeepLinkUrl } from '../../utils/util';
 import TipInput from '../TipInput.vue';
 import SuccessModal from '../SuccessModal.vue';
 import FormatDate from './FormatDate.vue';
@@ -183,7 +184,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['account', 'pinnedItems']),
+    ...mapState(['account', 'pinnedItems', 'useSdkWallet']),
     shouldRender() {
       return !this.tip.url.includes('https://superhero.com/tip/' && '/comment/');
     },
@@ -206,6 +207,15 @@ export default {
       return isPinned !== -1;
     },
   },
+  mounted() {
+    if (!this.$route.path.includes(`/tip/${this.tip.id}`)) {
+      return;
+    }
+    const { method, challenge, signature } = this.$route.query;
+    if (!this.useSdkWallet && method && challenge && signature) {
+      this.applyBackendChanges(method, { challenge, signature });
+    }
+  },
   methods: {
     ...mapMutations(['setPinnedItems']),
     async sendReport() {
@@ -226,25 +236,44 @@ export default {
       };
       await Backend.claimFromUrl(postData);
     },
-    pinOrUnPinTip(pinTip = true) {
-      if (!this.account) {
-        return;
+    async applyBackendChanges(method, request) {
+      const args = {
+        pinItem: [this.account, request],
+        unPinItem: [this.account, request],
+      }[method];
+
+      if (!args) throw new Error(`Unknown method: ${method}`);
+      await Backend[method](...args);
+
+      const updatedPinnedItems = await Backend.getPinnedItems(this.account);
+      this.$store.commit('setPinnedItems', updatedPinnedItems);
+    },
+    async backendAuth(method, challenge) {
+      if (this.useSdkWallet) {
+        const signature = await client.signMessage(challenge);
+        this.applyBackendChanges(method, { challenge, signature });
+      } else {
+        const url = new URL(`${window.location.origin}/tip/${this.tip.id}`);
+        url.search = '';
+        window.location = createDeepLinkUrl({
+          type: 'sign-message',
+          message: challenge,
+          'x-success': `${url}?method=${method}&challenge=${challenge}&signature={signature}`,
+        });
       }
-      Backend.pinOrUnPinItem(
-        this.tip.id,
-        'TIP',
-        this.account,
-        (data) => client.signMessage(data),
-        pinTip,
-      ).then(() => {
-        Backend.getPinnedItems(this.account)
-          .then((updatedPinnedItems) => {
-            this.$store.commit('setPinnedItems', updatedPinnedItems);
-          })
-          .catch(console.error);
-      }).catch((error) => {
-        console.log(error);
-      });
+    },
+    async pinOrUnPinTip() {
+      const postData = {
+        entryId: this.tip.id,
+        type: 'TIP',
+      };
+      if (this.isTipPinned) {
+        const { challenge } = await Backend.unPinItem(this.account, postData);
+        await this.backendAuth('unPinItem', challenge);
+      } else {
+        const { challenge } = await Backend.pinItem(this.account, postData);
+        await this.backendAuth('pinItem', challenge);
+      }
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null

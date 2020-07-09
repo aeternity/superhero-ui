@@ -45,12 +45,12 @@
         <span>{{ $t('FAQ') }}</span>
       </router-link>
     </div>
-    <div class="navigation__item networking">
+    <!-- <div class="navigation__item networking">
       <router-link :to="{ name: 'conference' }">
         <IconMeet class="navigation__item__image" />
         <span>{{ $t('Networking.MenuLink') }}</span>
       </router-link>
-    </div>
+    </div> -->
   </div>
 </template>
 

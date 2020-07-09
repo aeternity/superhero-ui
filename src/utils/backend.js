@@ -63,21 +63,11 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  static async sendPostReport(tipId, author, signCb) {
-    const sendReport = async (postParam) => backendFetch('blacklist/api/wallet', {
-      method: 'post',
-      body: JSON.stringify(postParam),
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    const responseChallenge = await sendReport({ tipId, author });
-    const signedChallenge = await signCb(responseChallenge.challenge);
-    const respondChallenge = {
-      challenge: responseChallenge.challenge,
-      signature: signedChallenge,
-    };
-    return sendReport(respondChallenge);
-  }
+  static sendPostReport = async (postParam) => backendFetch('blacklist/api/wallet', {
+    method: 'post',
+    body: JSON.stringify(postParam),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
 

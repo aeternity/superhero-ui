@@ -218,17 +218,6 @@ export default {
   },
   methods: {
     ...mapMutations(['setPinnedItems']),
-    async sendReport() {
-      Backend.sendPostReport(
-        this.tip.id,
-        client.rpcClient.getCurrentAccount(),
-        (data) => client.signMessage(data),
-      ).then(() => {
-        this.showSuccessModal = true;
-      }).catch((error) => {
-        console.log(error);
-      });
-    },
     async claim() {
       const postData = {
         url: this.tip.url,
@@ -240,13 +229,20 @@ export default {
       const args = {
         pinItem: [this.account, request],
         unPinItem: [this.account, request],
+        sendPostReport: [request],
       }[method];
 
       if (!args) throw new Error(`Unknown method: ${method}`);
       await Backend[method](...args);
 
-      const updatedPinnedItems = await Backend.getPinnedItems(this.account);
-      this.$store.commit('setPinnedItems', updatedPinnedItems);
+      if (method === 'pinItem' || method === 'unPinItem') {
+        const updatedPinnedItems = await Backend.getPinnedItems(this.account);
+        this.$store.commit('setPinnedItems', updatedPinnedItems);
+      }
+
+      if (method === 'sendPostReport') {
+        this.showSuccessModal = true;
+      }
     },
     async backendAuth(method, challenge) {
       if (this.useSdkWallet) {
@@ -261,6 +257,14 @@ export default {
           'x-success': `${url}?method=${method}&challenge=${challenge}&signature={signature}`,
         });
       }
+    },
+    async sendReport() {
+      const postData = {
+        tipId: this.tip.id,
+        author: this.account,
+      };
+      const { challenge } = await Backend.sendPostReport(postData);
+      await this.backendAuth('sendPostReport', challenge);
     },
     async pinOrUnPinTip() {
       const postData = {

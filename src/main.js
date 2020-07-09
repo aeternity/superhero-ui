@@ -6,7 +6,7 @@ import { sync } from 'vuex-router-sync';
 import App from './App.vue';
 import store from './store';
 import router from './router';
-import { i18n } from './utils/i18nHelper';
+import i18n from './utils/i18nHelper';
 
 Vue.use(VueRouter);
 

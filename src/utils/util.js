@@ -1,7 +1,7 @@
 import { get } from 'lodash-es';
 import BigNumber from 'bignumber.js';
 import { EventBus } from './eventBus';
-import { i18n } from './i18nHelper';
+import i18n from './i18nHelper';
 
 const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000000000000000000));
 const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));

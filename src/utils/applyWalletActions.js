@@ -27,8 +27,3 @@ export const backendAuth = async (method, challenge, client, requestParams, url,
     });
   }
 };
-
-export default {
-  applyBackendChanges,
-  backendAuth,
-};

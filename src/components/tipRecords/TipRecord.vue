@@ -154,7 +154,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 import Backend from '../../utils/backend';
-import { createDeepLinkUrl } from '../../utils/util';
+import { applyBackendChanges, backendAuth } from '../../utils/applyWalletActions';
 import TipInput from '../TipInput.vue';
 import SuccessModal from '../SuccessModal.vue';
 import FormatDate from './FormatDate.vue';
@@ -216,11 +216,16 @@ export default {
     }
     const { method, challenge, signature } = this.$route.query;
     if (!this.useSdkWallet && method && challenge && signature) {
-      this.applyBackendChanges(method, { challenge, signature });
+      const cb = method === 'sendPostReport' ? this.showSuccessModalCallback : this.updatePinnedItems;
+      const params = method !== 'sendPostReport' ? [this.account] : [];
+      applyBackendChanges(method, { challenge, signature }, params, cb);
     }
   },
   methods: {
     ...mapMutations(['setPinnedItems']),
+    showSuccessModalCallback() {
+      this.showSuccessModal = true;
+    },
     async claim() {
       const postData = {
         url: this.tip.url,
@@ -228,46 +233,14 @@ export default {
       };
       await Backend.claimFromUrl(postData);
     },
-    async applyBackendChanges(method, request) {
-      const args = {
-        pinItem: [this.account, request],
-        unPinItem: [this.account, request],
-        sendPostReport: [request],
-      }[method];
-
-      if (!args) throw new Error(`Unknown method: ${method}`);
-      await Backend[method](...args);
-
-      if (method === 'pinItem' || method === 'unPinItem') {
-        const updatedPinnedItems = await Backend.getPinnedItems(this.account);
-        this.$store.commit('setPinnedItems', updatedPinnedItems);
-      }
-
-      if (method === 'sendPostReport') {
-        this.showSuccessModal = true;
-      }
-    },
-    async backendAuth(method, challenge) {
-      if (this.useSdkWallet) {
-        const signature = await client.signMessage(challenge);
-        this.applyBackendChanges(method, { challenge, signature });
-      } else {
-        const url = new URL(`${window.location.origin}/tip/${this.tip.id}`);
-        url.search = '';
-        window.location = createDeepLinkUrl({
-          type: 'sign-message',
-          message: challenge,
-          'x-success': `${url}?method=${method}&challenge=${challenge}&signature={signature}`,
-        });
-      }
-    },
     async sendReport() {
       const postData = {
         tipId: this.tip.id,
         author: this.account,
       };
       const { challenge } = await Backend.sendPostReport(postData);
-      await this.backendAuth('sendPostReport', challenge);
+      const url = new URL(`${window.location.origin}/tip/${this.tip.id}`);
+      await backendAuth('sendPostReport', challenge, client, [this.account], url, this.showSuccessModalCallback);
     },
     async pinOrUnPinTip() {
       const postData = {
@@ -276,7 +249,12 @@ export default {
       };
       const method = this.isTipPinned ? 'unPinItem' : 'pinItem';
       const { challenge } = await Backend[method](this.account, postData);
-      await this.backendAuth(method, challenge);
+      const url = new URL(`${window.location.origin}/tip/${this.tip.id}`);
+      await backendAuth(method, challenge, client, [this.account], url, this.updatePinnedItems);
+    },
+    async updatePinnedItems() {
+      const updatedPinnedItems = await Backend.getPinnedItems(this.account);
+      this.$store.commit('setPinnedItems', updatedPinnedItems);
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null

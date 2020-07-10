@@ -228,11 +228,11 @@
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { BACKEND_URL, EXPLORER_URL } from '../config/constants';
-import util, { createDeepLinkUrl } from '../utils/util';
+import util from '../utils/util';
 import Page from '../components/layout/Page.vue';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
-
+import { applyBackendChanges, backendAuth } from '../utils/applyWalletActions';
 import ListOfTipsAndComments from '../components/ListOfTipsAndComments.vue';
 import Avatar from '../components/Avatar.vue';
 import { EventBus } from '../utils/eventBus';
@@ -342,7 +342,7 @@ export default {
 
     const { method, challenge, signature } = this.$route.query;
     if (!this.useSdkWallet && method && challenge && signature) {
-      this.applyBackendChanges(method, { challenge, signature });
+      applyBackendChanges(method, { challenge, signature }, [this.account], this.resetEditedValues);
     }
   },
   methods: {
@@ -366,41 +366,19 @@ export default {
       this.editMode = false;
       this.getProfile();
     },
-    async applyBackendChanges(method, request) {
-      const args = {
-        sendProfileData: [this.account, request],
-      }[method];
-      if (!args) throw new Error(`Unknown method: ${method}`);
-      await Backend[method](...args);
-      this.resetEditedValues();
-    },
-    async backendAuth(method, challenge) {
-      if (this.useSdkWallet) {
-        const signature = await client.signMessage(challenge);
-        this.applyBackendChanges(method, { challenge, signature });
-      } else {
-        const url = new URL(window.location);
-        url.search = '';
-        window.location = createDeepLinkUrl({
-          type: 'sign-message',
-          message: challenge,
-          'x-success': `${url}?method=${method}&challenge=${challenge}&signature={signature}`,
-        });
-      }
-    },
     async saveProfile() {
       const { challenge } = await Backend.sendProfileData(this.address, {
         biography: this.profile.biography,
         location: this.profile.location,
         author: this.account,
       });
-      await this.backendAuth('sendProfileData', challenge);
+      await backendAuth('sendProfileData', challenge, client, [this.account], null, this.resetEditedValues);
     },
     async deleteAvatar() {
       const { challenge } = await Backend.sendProfileData(this.address, {
         image: null,
       });
-      await this.backendAuth('sendProfileData', challenge);
+      await backendAuth('sendProfileData', challenge, client, [this.account], null, this.resetEditedValues);
     },
     async uploadPhoto(event, isCoverPhoto) {
       const data = new FormData();
@@ -410,7 +388,7 @@ export default {
         data.append('image', event.target.files[0]);
       }
       const { challenge } = await Backend.setImage(this.address, data);
-      await this.backendAuth('sendProfileData', challenge);
+      await backendAuth('sendProfileData', challenge, client, [this.account], null, this.resetEditedValues);
     },
     reloadData() {
       this.getProfile();

@@ -274,13 +274,9 @@ export default {
         entryId: this.tip.id,
         type: 'TIP',
       };
-      if (this.isTipPinned) {
-        const { challenge } = await Backend.unPinItem(this.account, postData);
-        await this.backendAuth('unPinItem', challenge);
-      } else {
-        const { challenge } = await Backend.pinItem(this.account, postData);
-        await this.backendAuth('pinItem', challenge);
-      }
+      const method = this.isTipPinned ? 'unPinItem' : 'pinItem';
+      const { challenge } = await Backend[method](this.account, postData);
+      await this.backendAuth(method, challenge);
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null

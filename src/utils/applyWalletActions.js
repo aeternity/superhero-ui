@@ -3,10 +3,7 @@ import { createDeepLinkUrl } from './util';
 
 export const applyBackendChanges = async (method, request, requestParams, cb) => {
   const args = {
-    sendProfileData: [...requestParams, request],
-    pinItem: [...requestParams, request],
-    unPinItem: [...requestParams, request],
-    sendPostReport: [request],
+    [method]: [...requestParams, request],
   }[method];
   if (!args) throw new Error(`Unknown method: ${method}`);
   await Backend[method](...args);

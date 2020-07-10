@@ -211,7 +211,7 @@ export default {
     },
   },
   mounted() {
-    if (!this.$route.path.includes(`/tip/${this.tip.id}`)) {
+    if (this.$route.name !== 'tip') {
       return;
     }
     const { method, challenge, signature } = this.$route.query;

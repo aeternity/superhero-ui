@@ -115,7 +115,7 @@ import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Modal from './Modal.vue';
-import { i18n } from '../utils/i18nHelper';
+import i18n from '../utils/i18nHelper';
 
 export default {
   name: 'TipInput',

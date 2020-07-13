@@ -43,7 +43,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
@@ -58,13 +57,15 @@ export default {
     TipComment,
     SendComment,
   },
+  props: {
+    id: { type: [String, Number], required: true },
+    tipId: { type: [String, Number], required: true },
+  },
   data() {
     return {
-      id: this.$route.params.id,
       showLoading: true,
       error: false,
       comment: null,
-      tipId: this.$route.params.tipId,
     };
   },
   created() {

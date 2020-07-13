@@ -10,7 +10,6 @@
         :key="tip.id"
         :tip="tip"
         :fiat-value="tip.fiatValue"
-        :sender-link="openExplorer(tip.sender)"
       />
       <Loading
         v-if="loadingMoreTips"
@@ -30,7 +29,6 @@
 import { times } from 'lodash-es';
 import Loading from './Loading.vue';
 import Backend from '../utils/backend';
-import { MIDDLEWARE_URL } from '../config/constants';
 import TipRecord from './tipRecords/TipRecord.vue';
 import { EventBus } from '../utils/eventBus';
 
@@ -116,9 +114,6 @@ export default {
         times(this.page, (page) => this.getCacheTips(page + 1)),
       )).flat();
       this.loadingTips = false;
-    },
-    openExplorer(address) {
-      return `${MIDDLEWARE_URL}account/transactions/${address}`;
     },
   },
 };

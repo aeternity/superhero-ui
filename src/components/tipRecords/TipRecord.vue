@@ -173,8 +173,6 @@ export default {
   },
   props: {
     tip: { type: Object, required: true },
-    foundWallet: { type: Boolean },
-    senderLink: { type: String, default: '' },
   },
   data() {
     return {

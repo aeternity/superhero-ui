@@ -58,7 +58,7 @@
         <div
           v-if="showNoResultsMsg"
           class="no-results"
-          :class="[error ? 'error' : '']"
+          :class="{ error }"
         >
           {{ $t('components.ListOfTipsAndComments.NoActivity') }}
         </div>
@@ -66,41 +66,24 @@
           v-for="(comment, index) in comments"
           :key="index"
           :comment="comment"
-          :sender-link="openExplorer(comment.author)"
         />
       </div>
       <div
         v-if="activeTab === 'tips' && activity === 'channel'"
         class="tips__container"
       >
-        <div v-if="address === account">
-          <div
-            v-if="!pinnedItems.length"
-            class="no-results"
-            :class="[error ? 'error' : '']"
-          >
-            {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
-          </div>
-          <TipRecord
-            v-for="pinnedItem in pinnedItems"
-            :key="pinnedItem.id"
-            :tip="pinnedItem"
-          />
+        <div
+          v-if="!pinnedItems.length"
+          class="no-results"
+          :class="{ error }"
+        >
+          {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
         </div>
-        <div v-else>
-          <div
-            v-if="!userPinnedItems.length"
-            class="no-results"
-            :class="[error ? 'error' : '']"
-          >
-            {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
-          </div>
-          <TipRecord
-            v-for="userPinnedItem in userPinnedItems"
-            :key="userPinnedItem.id"
-            :tip="userPinnedItem"
-          />
-        </div>
+        <TipRecord
+          v-for="pinnedItem in pinnedItems"
+          :key="pinnedItem.id"
+          :tip="pinnedItem"
+        />
       </div>
     </div>
   </div>
@@ -110,7 +93,6 @@
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import { EXPLORER_URL } from '../config/constants';
 import Loading from './Loading.vue';
 import TipsPagination from './TipsPagination.vue';
 import TipComment from './tipRecords/TipComment.vue';
@@ -131,7 +113,6 @@ export default {
   },
   props: { address: { type: String, required: true } },
   data: () => ({
-    explorerUrl: `${EXPLORER_URL}account/transactions/`,
     showLoading: false,
     error: false,
     comments: [],
@@ -140,7 +121,10 @@ export default {
     userPinnedItems: [],
   }),
   computed: {
-    ...mapState(['loading', 'pinnedItems', 'account']),
+    ...mapState(['loading', 'account']),
+    pinnedItems() {
+      return this.address === this.account ? this.$store.state.pinnedItems : this.userPinnedItems;
+    },
     showNoResultsMsg() {
       return this.activeTab === 'comments'
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
@@ -167,9 +151,6 @@ export default {
   methods: {
     setActiveTab(tab) {
       this.activeTab = tab;
-    },
-    openExplorer(address) {
-      return this.explorerUrl + address;
     },
     reloadData() {
       this.showLoading = true;

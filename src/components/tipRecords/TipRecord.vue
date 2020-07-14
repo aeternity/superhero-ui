@@ -1,6 +1,5 @@
 <template>
   <div
-    :key="key"
     class="tip__record row"
     @click="goToTip(tip.id)"
   >
@@ -175,7 +174,6 @@ export default {
   },
   data() {
     return {
-      key: `${this.tip.id}_${new Date().getTime()}`,
       showSuccessModal: false,
     };
   },

@@ -183,7 +183,7 @@ export default {
   computed: {
     ...mapState(['account', 'pinnedItems']),
     shouldRender() {
-      return !this.tip.url.includes('https://superhero.com/tip/' && '/comment/');
+      return !this.tip.url.includes('/comment/');
     },
     tipPreviewDescription() {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';

@@ -15,6 +15,12 @@ export default {
       }
     }
   },
+  resetState(state) {
+    state.useSdkWallet = false;
+    state.account = null;
+    state.balance = 0;
+    state.profile = {};
+  },
   updateTopics(state, payload) {
     state.topics = payload;
   },

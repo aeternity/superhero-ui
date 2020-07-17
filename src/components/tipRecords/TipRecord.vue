@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="shouldRender"
     :key="key"
     class="tip__record row"
     @click="goToTip(tip.id)"
@@ -177,8 +176,6 @@ export default {
   },
   props: {
     tip: { type: Object, required: true },
-    foundWallet: { type: Boolean },
-    senderLink: { type: String, default: '' },
   },
   data() {
     return {
@@ -188,9 +185,6 @@ export default {
   },
   computed: {
     ...mapState(['account', 'pinnedItems', 'useSdkWallet']),
-    shouldRender() {
-      return !this.tip.url.includes('https://superhero.com/tip/' && '/comment/');
-    },
     tipPreviewDescription() {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
 

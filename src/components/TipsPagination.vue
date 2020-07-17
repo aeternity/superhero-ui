@@ -10,7 +10,6 @@
         :key="tip.id"
         :tip="tip"
         :fiat-value="tip.fiatValue"
-        :sender-link="openExplorer(tip.sender)"
       />
       <Loading
         v-if="loadingMoreTips"
@@ -27,11 +26,10 @@
 </template>
 
 <script>
+import { times } from 'lodash-es';
 import Loading from './Loading.vue';
 import Backend from '../utils/backend';
-import { MIDDLEWARE_URL } from '../config/constants';
 import TipRecord from './tipRecords/TipRecord.vue';
-import Util from '../utils/util';
 import { EventBus } from '../utils/eventBus';
 
 export default {
@@ -67,7 +65,7 @@ export default {
     },
   },
   async created() {
-    this.loadData();
+    await this.reloadData();
   },
   mounted() {
     const scrollHandler = () => {
@@ -81,9 +79,7 @@ export default {
     this.$on('hook:deactivated', () => window.removeEventListener('scroll', scrollHandler));
     this.$once('hook:destroyed', () => window.removeEventListener('scroll', scrollHandler));
 
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
-    });
+    EventBus.$on('reloadData', () => this.reloadData());
 
     const interval = setInterval(() => this.reloadData(), 120 * 1000);
     this.$once('hook:destroyed', () => clearInterval(interval));
@@ -94,21 +90,15 @@ export default {
       this.endReached = false;
       this.page = 1;
       this.tips = null;
-      this.loadData();
+      await this.reloadData();
     },
-    async loadData() {
-      this.loadingTips = true;
-      this.tips = await Backend.getCacheTips(this.tipSortBy, this.page,
-        this.address, this.search, this.blacklist);
-      if (this.tips) {
-        this.loadingTips = false;
-      }
+    getCacheTips(page) {
+      return Backend.getCacheTips(this.tipSortBy, page, this.address, this.search, this.blacklist);
     },
     async loadMoreTips() {
       if (!this.endReached && !this.loadingMoreTips) {
         this.loadingMoreTips = true;
-        const tips = await Backend
-          .getCacheTips(this.tipSortBy, this.page + 1, this.address, this.search, this.blacklist);
+        const tips = await this.getCacheTips(this.page + 1);
         this.tips = this.tips.concat(tips);
         if (tips.length > 0) {
           this.page += 1;
@@ -120,14 +110,10 @@ export default {
     },
     async reloadData() {
       this.loadingTips = true;
-
-      this.tips = await Util.range(1, this.page)
-        .asyncMap(async (page) => Backend
-          .getCacheTips(this.tipSortBy, page, this.address, this.search, this.blacklist));
+      this.tips = (await Promise.all(
+        times(this.page, (page) => this.getCacheTips(page + 1)),
+      )).flat();
       this.loadingTips = false;
-    },
-    openExplorer(address) {
-      return `${MIDDLEWARE_URL}account/transactions/${address}`;
     },
   },
 };

@@ -7,6 +7,7 @@ import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wal
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import { EventBus } from './eventBus';
+import store from '../store';
 
 const nodeUrl = 'https://mainnet.aeternity.io';
 const nodeUrlTestNet = 'https://testnet.aeternity.io';
@@ -54,6 +55,9 @@ export const initClient = async () => {
         name: 'Superhero',
         nodes: [{ name: 'mainnet', instance: await Node({ url: nodeUrl, internalUrl: nodeUrl }) }],
         compilerUrl,
+        onDisconnect() {
+          store.commit('resetState');
+        },
       });
     }
   } catch (err) {

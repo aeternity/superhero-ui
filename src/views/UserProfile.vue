@@ -253,7 +253,6 @@ export default {
   data() {
     return {
       maxLength: 250,
-      explorerUrl: `${EXPLORER_URL}account/transactions/`,
       error: false,
       userStats: null,
       editMode: false,
@@ -360,7 +359,7 @@ export default {
       }
     },
     openExplorer(address) {
-      return this.explorerUrl + address;
+      return `${EXPLORER_URL}account/transactions/${address}`;
     },
     resetEditedValues() {
       this.editMode = false;

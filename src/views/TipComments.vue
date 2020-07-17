@@ -41,7 +41,6 @@
 
 <script>
 import { mapState } from 'vuex';
-// eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipCommentList from '../components/tipRecords/TipCommentList.vue';
@@ -58,9 +57,11 @@ export default {
     Page,
     SendComment,
   },
+  props: {
+    id: { type: [String, Number], required: true },
+  },
   data() {
     return {
-      id: this.$route.params.id,
       showLoading: true,
       comments: [],
       error: false,

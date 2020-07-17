@@ -173,7 +173,7 @@ const routes = [
     },
   },
   {
-    path: '/admin/tracing/:id',
+    path: '/admin/tracing/:tipId',
     name: 'tracing',
     props: true,
     component: Tracing,

@@ -8,10 +8,7 @@
         >
       </router-link>
     </div>
-    <div
-      class="navigation__item tips"
-      @click="scrollTop"
-    >
+    <div class="navigation__item tips">
       <router-link :to="{ name: 'tips' }">
         <IconTips class="navigation__item__image" />
         <span>{{ $t('tips') }}</span>
@@ -20,7 +17,6 @@
     <div
       v-if="isLoggedIn"
       class="navigation__item profile"
-      @click="scrollTop"
     >
       <router-link :to="{ name: 'user-profile', params: { address: account } }">
         <IconUser class="navigation__item__image" />
@@ -76,11 +72,6 @@ export default {
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState(['account']),
-  },
-  methods: {
-    scrollTop() {
-      document.scrollingElement.scrollTop = 0;
-    },
   },
 };
 </script>

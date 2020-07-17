@@ -21,27 +21,27 @@
           v-if="showLoading"
           class="loading-position-absolute"
         />
-        <div
-          v-if="comments.length === 0 && !showLoading"
-          class="no-results text-center w-100"
-          :class="[error ? 'error' : '']"
-        >
-          {{ $t('views.TipCommentsView.NoResultsMsg') }}
-        </div>
+        <template v-if="tip">
+          <div
+            v-if="tip.comments.length === 0 && !showLoading"
+            class="no-results text-center w-100"
+            :class="[error ? 'error' : '']"
+          >
+            {{ $t('views.TipCommentsView.NoResultsMsg') }}
+          </div>
 
-        <TipCommentList
-          v-for="(comment, index) in comments"
-          :key="index"
-          :comment="comment"
-        />
+          <TipCommentList
+            v-for="(comment, index) in tip.comments"
+            :key="index"
+            :comment="comment"
+          />
+        </template>
       </div>
     </div>
   </Page>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import Backend from '../utils/backend';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipCommentList from '../components/tipRecords/TipCommentList.vue';
 import Page from '../components/layout/Page.vue';
@@ -60,61 +60,37 @@ export default {
   props: {
     id: { type: [String, Number], required: true },
   },
-  data() {
-    return {
-      showLoading: true,
-      comments: [],
-      error: false,
-      tip: null,
-    };
-  },
-  computed: mapState(['chainNames']),
-  watch: {
+  data: () => ({
+    showLoading: false,
+    error: false,
+  }),
+  computed: {
     tip() {
-      this.updateTip();
+      return this.$store.state.backend.tip[this.id];
     },
   },
-  created() {
-    this.loadTip();
+  async mounted() {
+    const handler = () => this.reloadTip();
+    this.$watch(({ tip }) => tip, handler, { immediate: true });
+    EventBus.$on('reloadData', handler);
+    const interval = setInterval(handler, 120 * 1000);
 
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
+    this.$once('hook:destroyed', () => {
+      EventBus.$off('reloadData', handler);
+      clearInterval(interval);
     });
-
-    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
   },
   methods: {
-    updateTip() {
+    async reloadTip() {
       this.showLoading = true;
-      Backend.getTipComments(this.id).then((response) => {
-        this.error = false;
-        this.comments = response.map((comment) => {
-          const newComment = comment;
-          newComment.chainName = this.chainNames[newComment.author];
-          return newComment;
-        });
-        this.showLoading = false;
-      }).catch((e) => {
-        console.error(e);
+      try {
+        await this.$store.dispatch('backend/reloadTip', this.id);
+      } catch (error) {
         this.error = true;
+        throw error;
+      } finally {
         this.showLoading = false;
-      });
-    },
-    async reloadData() {
-      this.tip = await Backend.getCacheTipById(this.id);
-      if (this.tip === null) {
-        this.error = true;
-        return;
       }
-      this.updateTip();
-    },
-    async loadTip() {
-      this.showLoading = true;
-      await this.reloadData();
-      this.showLoading = false;
     },
   },
 };

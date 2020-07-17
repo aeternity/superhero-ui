@@ -27,7 +27,7 @@
         <div
           v-if="comment.children.length === 0 && !showLoading"
           class="no-results text-center w-100"
-          :class="[error ? 'error' : '']"
+          :class="{ error }"
         >
           {{ $t('views.SingleCommentView.NoResultsMsg') }}
         </div>
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import Backend from '../utils/backend';
 import TipComment from '../components/tipRecords/TipComment.vue';
 import Page from '../components/layout/Page.vue';
 import Loading from '../components/Loading.vue';
@@ -61,33 +60,37 @@ export default {
     id: { type: [String, Number], required: true },
     tipId: { type: [String, Number], required: true },
   },
-  data() {
-    return {
-      showLoading: true,
-      error: false,
-      comment: null,
-    };
+  data: () => ({
+    showLoading: true,
+    error: false,
+  }),
+  computed: {
+    comment() {
+      return this.$store.state.backend.comment[this.id];
+    },
   },
-  created() {
-    this.loadComment();
+  mounted() {
+    const handler = () => this.reloadComment();
+    this.$watch(({ id }) => id, handler, { immediate: true });
+    EventBus.$on('reloadData', handler);
+    const interval = setInterval(handler, 120 * 1000);
 
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
+    this.$once('hook:destroyed', () => {
+      EventBus.$off('reloadData', handler);
+      clearInterval(interval);
     });
-
-    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
   },
   methods: {
-    async reloadData() {
-      this.comment = await Backend.getCommentById(this.id);
-    },
-    async loadComment() {
+    async reloadComment() {
       this.showLoading = true;
-      await this.reloadData();
-      this.showLoading = false;
+      try {
+        await this.$store.dispatch('backend/reloadComment', this.id);
+      } catch (error) {
+        this.error = true;
+        throw error;
+      } finally {
+        this.showLoading = false;
+      }
     },
   },
 };

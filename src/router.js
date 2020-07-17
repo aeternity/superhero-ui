@@ -47,6 +47,13 @@ const routes = [
     },
   },
   {
+    path: '/search/:query',
+    name: 'tips-search',
+    component: TipsList,
+    meta: { title: 'Tips' },
+    props: true,
+  },
+  {
     path: '/tip/:tipId/comment/:id',
     name: 'comment',
     component: SingleComment,
@@ -196,7 +203,6 @@ const router = new Router({ mode: 'history', routes });
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - Superhero.com`;
-  window.scrollTo(0, 0);
   next();
 });
 

@@ -1,32 +1,17 @@
 <template>
-  <span
-    :title="topic"
+  <RouterLink
     class="topic"
-    @click="searchTopic(topic)"
+    :to="{ name: 'tips-search', params: { query: topic } }"
   >
     {{ topic }}
-  </span>
+  </RouterLink>
 </template>
 
 <script>
-import { EventBus } from '../../utils/eventBus';
-
 export default {
   name: 'Topic',
   props: {
     topic: { type: String, required: true },
-  },
-  methods: {
-    searchTopic(topic) {
-      if (this.$route.name !== 'tips') {
-        this.$router.push({
-          name: 'tips',
-          query: { searchTopicPhrase: topic },
-        });
-      } else {
-        EventBus.$emit('searchTopic', topic);
-      }
-    },
   },
 };
 </script>

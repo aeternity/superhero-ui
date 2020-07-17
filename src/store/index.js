@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import mutations from './mutations';
+import backend from './modules/backend';
 import persistState from './plugins/persistState';
 
 Vue.use(Vuex);
@@ -30,7 +31,6 @@ export default new Vuex.Store({
     wizardIsCollapsed: false,
     verifiedUrls: [],
     graylistedUrls: [],
-    searchTerm: '',
     isHiddenContent: true,
     useSdkWallet: false,
   },
@@ -38,6 +38,7 @@ export default new Vuex.Store({
   getters: {
     isLoggedIn: (state) => !!state.account,
   },
+  modules: { backend },
   plugins: [
     persistState(
       (state) => state,

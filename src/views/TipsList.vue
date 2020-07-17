@@ -51,7 +51,7 @@
         </div>
         <TipsPagination
           :tip-sort-by="tipSortBy"
-          :search="searchTerm"
+          :search="query"
           :blacklist="isHiddenContent"
         />
       </div>
@@ -78,12 +78,15 @@ export default {
     Checkbox,
     ThreeDotsMenu,
   },
+  props: {
+    query: { type: String, default: '' },
+  },
   data() {
     return {
       showMobileNavigation: true,
     };
   },
-  computed: mapState(['tipSortBy', 'loading', 'searchTerm', 'isHiddenContent']),
+  computed: mapState(['tipSortBy', 'loading', 'isHiddenContent']),
   methods: {
     ...mapMutations(['setTipSortBy', 'setIsHiddenContent']),
     toggleMobileNav(show) {

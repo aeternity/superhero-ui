@@ -7,22 +7,21 @@
     }"
   >
     <input
-      v-model="searchTermValue"
+      v-model="query"
       type="text"
       class="search-input"
       :placeholder="$t('views.TipList.SearchPlaceholder')"
-      @searchTopic="onSearchTopic"
     >
-    <div
-      v-if="searchTermValue.length"
+    <RouterLink
+      v-if="query.length"
       class="clear"
       :title="$t('views.TipList.Clear')"
-      @click="setSearchTerm('')"
+      :to="{ name: 'tips' }"
     >
       <img src="../../assets/iconEraser.svg">
-    </div>
+    </RouterLink>
     <div
-      v-if="!searchTermValue.length"
+      v-else
       class="search-icon"
     >
       <img src="../../assets/iconSearch.svg">
@@ -39,9 +38,6 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import { EventBus } from '../../utils/eventBus';
-
 export default {
   name: 'SearchInput',
   props: {
@@ -49,30 +45,15 @@ export default {
     toggleMobileNav: { type: Function, required: false, default: null },
   },
   computed: {
-    ...mapState(['searchTerm']),
-    searchTermValue: {
+    query: {
       get() {
-        return this.searchTerm;
+        return this.$route.params.query || '';
       },
-      set(value) {
-        this.setSearchTerm(value);
+      set(query) {
+        this.$router[this.$route.name.startsWith('tips') ? 'replace' : 'push']({
+          name: query ? 'tips-search' : 'tips', params: { query },
+        });
       },
-    },
-  },
-  async created() {
-    EventBus.$on('searchTopic', (topic) => {
-      window.scrollTo(0, 0);
-      this.onSearchTopic(topic);
-    });
-
-    if (this.$route.query.searchTopicPhrase) {
-      this.onSearchTopic(this.$route.query.searchTopicPhrase);
-    }
-  },
-  methods: {
-    ...mapMutations(['setSearchTerm']),
-    onSearchTopic(data) {
-      this.setSearchTerm(data);
     },
   },
 };

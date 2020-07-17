@@ -121,13 +121,9 @@ export default {
     border-radius: 0.25rem;
   }
 
-  .search-icon {
-    line-height: 0.91rem;
-
-    img {
-      width: 0.91rem;
-      height: 0.91rem;
-    }
+  .search-icon img {
+    width: 0.91rem;
+    height: 0.91rem;
   }
 
   .clear img {

@@ -43,7 +43,7 @@ export default {
     });
 
     const connection = await BrowserWindowMessageConnection({
-      origin: process.env.VUE_APP_JITSI_URL,
+      origin: `https://${process.env.VUE_APP_JITSI_URL}`,
     });
 
     connection.connect(({ room }) => {

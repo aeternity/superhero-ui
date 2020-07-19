@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import mutations from './mutations';
 import backend from './modules/backend';
 import persistState from './plugins/persistState';
+import Backend from '../utils/backend';
 
 Vue.use(Vuex);
 
@@ -35,6 +36,14 @@ export default new Vuex.Store({
     useSdkWallet: false,
   },
   mutations,
+  actions: {
+    async updateUserProfile({ commit, state: { account } }) {
+      commit('setUserProfile', await Backend.getProfile(account));
+    },
+    async updatePinnedItems({ commit, state: { account } }) {
+      commit('setPinnedItems', await Backend.getPinnedItems(account));
+    },
+  },
   getters: {
     isLoggedIn: (state) => !!state.account,
   },

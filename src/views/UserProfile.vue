@@ -228,11 +228,11 @@
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { BACKEND_URL, EXPLORER_URL } from '../config/constants';
-import util, { createDeepLinkUrl } from '../utils/util';
+import util from '../utils/util';
 import Page from '../components/layout/Page.vue';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
-
+import backendAuthMixin from '../utils/backendAuthMixin';
 import ListOfTipsAndComments from '../components/ListOfTipsAndComments.vue';
 import Avatar from '../components/Avatar.vue';
 import { EventBus } from '../utils/eventBus';
@@ -240,6 +240,7 @@ import TipInput from '../components/TipInput.vue';
 import SuccessIcon from '../assets/verifiedUrl.svg';
 
 export default {
+  mixins: [backendAuthMixin()],
   components: {
     ListOfTipsAndComments,
     AeAmountFiat,
@@ -338,11 +339,6 @@ export default {
 
     const interval = setInterval(() => this.reloadData(), 120 * 1000);
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
-
-    const { method, challenge, signature } = this.$route.query;
-    if (!this.useSdkWallet && method && challenge && signature) {
-      this.applyBackendChanges(method, { challenge, signature });
-    }
   },
   methods: {
     getBalance() {
@@ -361,55 +357,27 @@ export default {
     openExplorer(address) {
       return `${EXPLORER_URL}account/transactions/${address}`;
     },
-    resetEditedValues() {
+    async resetEditedValues() {
       this.editMode = false;
-      this.getProfile();
-    },
-    async applyBackendChanges(method, request) {
-      const args = {
-        sendProfileData: [this.account, request],
-      }[method];
-      if (!args) throw new Error(`Unknown method: ${method}`);
-      await Backend[method](...args);
-      this.resetEditedValues();
-    },
-    async backendAuth(method, challenge) {
-      if (this.useSdkWallet) {
-        const signature = await client.signMessage(challenge);
-        this.applyBackendChanges(method, { challenge, signature });
-      } else {
-        const url = new URL(window.location);
-        url.search = '';
-        window.location = createDeepLinkUrl({
-          type: 'sign-message',
-          message: challenge,
-          'x-success': `${url}?method=${method}&challenge=${challenge}&signature={signature}`,
-        });
-      }
+      await this.getProfile();
     },
     async saveProfile() {
-      const { challenge } = await Backend.sendProfileData(this.address, {
+      await this.backendAuth('sendProfileData', {
         biography: this.profile.biography,
         location: this.profile.location,
         author: this.account,
       });
-      await this.backendAuth('sendProfileData', challenge);
+      await this.resetEditedValues();
     },
     async deleteAvatar() {
-      const { challenge } = await Backend.sendProfileData(this.address, {
-        image: null,
-      });
-      await this.backendAuth('sendProfileData', challenge);
+      await this.backendAuth('sendProfileData', { image: null });
+      await this.resetEditedValues();
     },
     async uploadPhoto(event, isCoverPhoto) {
       const data = new FormData();
-      if (isCoverPhoto) {
-        data.append('coverImage', event.target.files[0]);
-      } else {
-        data.append('image', event.target.files[0]);
-      }
-      const { challenge } = await Backend.setImage(this.address, data);
-      await this.backendAuth('sendProfileData', challenge);
+      data.append(isCoverPhoto ? 'coverImage' : 'image', event.target.files[0]);
+      await this.backendAuth('sendProfileData', data);
+      await this.resetEditedValues();
     },
     reloadData() {
       this.getProfile();
@@ -417,7 +385,7 @@ export default {
         this.userStats = stats;
       });
     },
-    getProfile() {
+    async getProfile() {
       Backend.getCommentCountForAddress(this.address)
         .then((userComment) => {
           this.userCommentCount = userComment.count;

@@ -38,6 +38,12 @@
         </template>
       </div>
     </div>
+    <SuccessModal
+      v-if="showSuccessModal"
+      :title="$t('components.tipRecords.TipRecord.reportPostTitle')"
+      :body="$t('components.tipRecords.TipRecord.reportPostBody')"
+      @close="showSuccessModal = false"
+    />
   </Page>
 </template>
 
@@ -47,15 +53,19 @@ import TipCommentList from '../components/tipRecords/TipCommentList.vue';
 import Page from '../components/layout/Page.vue';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
+import backendAuthMixin from '../utils/backendAuthMixin';
 import SendComment from '../components/SendComment.vue';
+import SuccessModal from '../components/SuccessModal.vue';
 
 export default {
+  mixins: [backendAuthMixin()],
   components: {
     Loading,
     TipRecord,
     TipCommentList,
     Page,
     SendComment,
+    SuccessModal,
   },
   props: {
     id: { type: [String, Number], required: true },
@@ -63,6 +73,7 @@ export default {
   data: () => ({
     showLoading: false,
     error: false,
+    showSuccessModal: false,
   }),
   computed: {
     tip() {
@@ -81,6 +92,18 @@ export default {
     });
   },
   methods: {
+    async handleBackendSucceedCall(methodName) {
+      switch (methodName) {
+        case 'unPinItem':
+        case 'pinItem':
+          await this.$store.dispatch('updatePinnedItems');
+          break;
+        case 'sendPostReport':
+          this.showSuccessModal = true;
+          break;
+        default:
+      }
+    },
     async reloadTip() {
       this.showLoading = true;
       try {

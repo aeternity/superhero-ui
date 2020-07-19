@@ -25,11 +25,6 @@ import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
 
 export default {
   name: 'App',
-  data() {
-    return {
-      urlAddress: this.$route.query.address,
-    };
-  },
   computed: {
     ...mapState(['account']),
     isSupportedBrowser() {
@@ -94,15 +89,24 @@ export default {
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
     },
+    async fetchUserData() {
+      await Promise.all([
+        this.$store.dispatch('updatePinnedItems'),
+        this.$store.dispatch('updateUserProfile'),
+      ]);
+    },
     async initialLoad() {
       this.addLoading('initial');
       this.addLoading('wallet');
       await initClient();
       await this.reloadData();
       this.removeLoading('initial');
-      if (this.account) this.removeLoading('wallet');
+      if (this.account) {
+        this.removeLoading('wallet');
+        this.fetchUserData();
+      }
 
-      let address = this.urlAddress;
+      let { address } = this.$route.query;
       if (!address) {
         await scanForWallets();
         address = client.rpcClient.getCurrentAccount();
@@ -110,20 +114,11 @@ export default {
         this.useSdkWallet();
       }
       const balance = await client.balance(address).catch(() => 0);
-      Backend.getProfile(this.address)
-        .then((userProfile) => {
-          if (userProfile) this.$store.commit('setUserProfile', userProfile);
-        })
-        .catch(console.error);
       this.setLoggedInAccount({
         account: address,
         balance: Util.atomsToAe(balance).toFixed(2),
       });
-      Backend.getPinnedItems(this.account)
-        .then((pinnedItems) => {
-          this.$store.commit('setPinnedItems', pinnedItems);
-        })
-        .catch(console.error);
+      this.fetchUserData();
       this.removeLoading('wallet');
     },
   },

@@ -1,7 +1,10 @@
 <template>
   <div class="app__rightcolumn">
     <div class="content">
-      <SearchInput class="side-search" />
+      <SearchInput
+        class="section"
+        sided
+      />
       <div
         class="section wallet-install"
       >
@@ -149,10 +152,9 @@ export default {
     .section {
       background-color: $article_content_color;
       border-radius: 0.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
 
       &.trending {
-        margin-bottom: 0.5rem;
         padding-bottom: 0.5rem;
 
         .section__item {
@@ -211,7 +213,6 @@ export default {
     }
 
     .wallet-install {
-      margin-bottom: 0.5rem;
       max-height: 400px;
       transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
       display: block;

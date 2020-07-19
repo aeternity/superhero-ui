@@ -2,7 +2,6 @@
   <Page
     :toggle-mobile-nav="toggleMobileNav"
     :show-mobile-navigation="showMobileNavigation"
-    :loading="loading.initial"
   >
     <div class="actions__container container position-sticky">
       <SearchInput
@@ -86,7 +85,7 @@ export default {
       showMobileNavigation: true,
     };
   },
-  computed: mapState(['tipSortBy', 'loading', 'isHiddenContent']),
+  computed: mapState(['tipSortBy', 'isHiddenContent']),
   methods: {
     ...mapMutations(['setTipSortBy', 'setIsHiddenContent']),
     toggleMobileNav(show) {

@@ -1,8 +1,5 @@
 <template>
-  <Page
-    :loading="loading.initial"
-    back
-  >
+  <Page back>
     <div class="profile__page">
       <div class="profile__section clearfix">
         <div
@@ -269,7 +266,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'account', 'chainNames', 'loading']),
+    ...mapState(['useSdkWallet', 'account', 'chainNames']),
     userChainName() {
       return this.chainNames[this.address];
     },

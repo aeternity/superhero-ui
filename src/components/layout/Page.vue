@@ -15,9 +15,7 @@
 </template>
 
 <script>
-import LeftSection from './LeftSection.vue';
-import RightSection from './RightSection.vue';
-import MobileNavigation from './MobileNavigation.vue';
+import { mapState } from 'vuex';
 import Loading from '../Loading.vue';
 import BackButtonRibbon from '../BackButtonRibbon.vue';
 
@@ -30,9 +28,11 @@ export default {
     BackButtonRibbon,
   },
   props: {
-    loading: { type: Boolean },
     back: { type: Boolean },
   },
+  computed: mapState({
+    loading: ({ loading: { initial } }) => initial,
+  }),
 };
 </script>
 

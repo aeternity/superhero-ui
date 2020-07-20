@@ -53,10 +53,7 @@ export default {
     margin-top: 0.5rem;
   }
 
-  @media only screen
-    and (min-device-width: 320px)
-    and (max-device-width: 480px)
-    and (-webkit-min-device-pixel-ratio: 2) {
+  @include smallest {
     .content {
       padding: 1rem;
     }

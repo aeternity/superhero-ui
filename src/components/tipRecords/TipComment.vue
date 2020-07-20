@@ -234,10 +234,7 @@ export default {
   display: inline-block;
 }
 
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+@include smallest {
   .comment.tip__record {
     padding: 0.5rem;
 

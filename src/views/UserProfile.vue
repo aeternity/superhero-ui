@@ -781,10 +781,7 @@ input[type="file"] {
   }
 }
 
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+@include smallest {
   .profile__header {
     img.user-identicon,
     div.user-identicon svg {

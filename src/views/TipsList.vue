@@ -1,20 +1,9 @@
 <template>
-  <Page
-    :toggle-mobile-nav="toggleMobileNav"
-    :show-mobile-navigation="showMobileNavigation"
-  >
-    <div class="actions__container container position-sticky">
-      <SearchInput
-        :toggle-mobile-nav="toggleMobileNav"
-        :show-mobile-navigation="showMobileNavigation"
-      />
-    </div>
+  <Page>
     <div class="container wrapper">
       <div class="tips__container">
         <div class="actions__container position-sticky">
-          <div class="send__tip__container">
-            <SendTip />
-          </div>
+          <SendTip class="send__tip__container" />
           <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12 sorting">
               <a
@@ -63,7 +52,6 @@ import { mapState, mapMutations } from 'vuex';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
 import TipsPagination from '../components/TipsPagination.vue';
-import SearchInput from '../components/layout/SearchInput.vue';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
 import Checkbox from '../components/Checkbox.vue';
 
@@ -73,25 +61,14 @@ export default {
     TipsPagination,
     Page,
     SendTip,
-    SearchInput,
     Checkbox,
     ThreeDotsMenu,
   },
   props: {
     query: { type: String, default: '' },
   },
-  data() {
-    return {
-      showMobileNavigation: true,
-    };
-  },
   computed: mapState(['tipSortBy', 'isHiddenContent']),
-  methods: {
-    ...mapMutations(['setTipSortBy', 'setIsHiddenContent']),
-    toggleMobileNav(show) {
-      this.showMobileNavigation = show;
-    },
-  },
+  methods: mapMutations(['setTipSortBy', 'setIsHiddenContent']),
 };
 </script>
 
@@ -152,10 +129,9 @@ export default {
 .tips__container {
   width: 100%;
   background-color: $background_color;
-  padding-top: 0.1rem;
 
-  &:empty {
-    visibility: hidden;
+  @media (min-width: 1025px) {
+    padding-top: 0.1rem;
   }
 }
 
@@ -182,7 +158,7 @@ export default {
 
 @media (max-width: 1024px) {
   .container .actions__container {
-    top: 3.2rem;
+    top: $mobile_navigation_height;
   }
 }
 
@@ -199,11 +175,7 @@ export default {
   }
 }
 
-//Smallest devices Portrait and Landscape
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+@include smallest {
   .actions__container {
     width: 100%;
     background-color: $actions_ribbon_background_color;
@@ -243,12 +215,7 @@ export default {
   .container.wrapper {
     padding: 0.15rem 0.25rem 0 0.25rem;
 
-    .tips__container {
-      padding: 0;
-    }
-
     .actions__container {
-      top: 3rem;
       padding-top: 0;
       padding-bottom: 0;
     }

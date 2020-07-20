@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <MobileNavigation v-bind="$attrs" />
+    <MobileNavigation />
     <RightSection />
     <LeftSection />
     <Loading

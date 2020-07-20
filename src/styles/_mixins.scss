@@ -14,3 +14,9 @@
   -webkit-line-clamp: $property;
   -webkit-box-orient: vertical;
 }
+
+@mixin smallest {
+  @media (max-width: 480px) {
+    @content;
+  }
+}

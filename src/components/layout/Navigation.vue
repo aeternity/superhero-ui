@@ -1,6 +1,10 @@
 <template>
-  <div class="navigation">
+  <div
+    class="navigation"
+    :class="{ mobile }"
+  >
     <RouterLink
+      v-if="!mobile"
       class="logo"
       to="/"
     >
@@ -56,6 +60,9 @@ export default {
     IconGovernance,
     IconMeet,
   },
+  props: {
+    mobile: Boolean,
+  },
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState(['account']),
@@ -100,6 +107,11 @@ export default {
       width: 1em;
       margin-right: 0.7rem;
     }
+  }
+
+  &.mobile a:not(.logo) {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
   }
 }
 </style>

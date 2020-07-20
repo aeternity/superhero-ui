@@ -1,6 +1,6 @@
 <template>
   <Page>
-    <div class="container wrapper">
+    <div class="wrapper">
       <div class="tips__container">
         <div class="actions__container position-sticky">
           <SendTip class="send__tip__container" />
@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container.wrapper {
+.wrapper {
   padding-top: 0;
   min-height: 4rem;
 }
@@ -87,10 +87,6 @@ export default {
 
   .form-control {
     padding-right: 1.25rem;
-  }
-
-  .container {
-    padding: 0;
   }
 
   .row {
@@ -157,7 +153,7 @@ export default {
 }
 
 @media (max-width: 1024px) {
-  .container .actions__container {
+  .actions__container {
     top: $mobile_navigation_height;
   }
 }
@@ -182,7 +178,6 @@ export default {
     overflow-x: initial;
     z-index: 100;
 
-    .container,
     .row {
       padding: 0;
     }
@@ -212,7 +207,7 @@ export default {
     }
   }
 
-  .container.wrapper {
+  .wrapper {
     padding: 0.15rem 0.25rem 0 0.25rem;
 
     .actions__container {

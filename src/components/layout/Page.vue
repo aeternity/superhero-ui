@@ -1,18 +1,11 @@
 <template>
-  <div class="page">
-    <MobileNavigation />
-    <div class="app__rightcolumn">
-      <RightSection />
-    </div>
-    <LeftSection />
-    <Loading
-      v-if="loading"
-      class="initial-loading"
-    />
-    <div v-else>
-      <BackButtonRibbon v-if="back" />
-      <slot />
-    </div>
+  <Loading v-if="loading" />
+  <div
+    v-else
+    class="page"
+  >
+    <BackButtonRibbon v-if="back" />
+    <slot />
   </div>
 </template>
 
@@ -23,9 +16,6 @@ import BackButtonRibbon from '../BackButtonRibbon.vue';
 
 export default {
   components: {
-    LeftSection,
-    RightSection,
-    MobileNavigation,
     Loading,
     BackButtonRibbon,
   },
@@ -39,26 +29,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
-  ::v-deep .loading-position-absolute {
-    position: absolute;
-  }
+/* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+.page ::v-deep .loading-position-absolute {
+  position: absolute;
+}
 
-  .initial-loading {
-    margin-top: 5rem;
-  }
-
-  .content {
-    color: $primary_color;
-    min-height: 4rem;
-    margin-top: 0.5rem;
-  }
-
-  @include smallest {
-    .content {
-      padding: 1rem;
-    }
-  }
+.loading {
+  margin-top: 5rem;
 }
 </style>

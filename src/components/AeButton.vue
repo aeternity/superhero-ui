@@ -39,7 +39,7 @@ export default {
   background-color: $secondary_color;
   border: none;
 
-  .spinner__container {
+  .loading {
     transform: scale(0.6);
     margin-top: -0.3rem;
   }

@@ -1,7 +1,9 @@
 <template>
   <div class="page">
     <MobileNavigation />
-    <RightSection />
+    <div class="app__rightcolumn">
+      <RightSection />
+    </div>
     <LeftSection />
     <Loading
       v-if="loading"

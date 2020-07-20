@@ -1,75 +1,61 @@
 <template>
-  <div class="app__rightcolumn">
-    <div class="content">
-      <SearchInput
-        class="section"
-        sided
-      />
-      <div
-        class="section wallet-install"
+  <div class="right-section">
+    <SearchInput
+      class="section"
+      sided
+    />
+
+    <div class="section wallet">
+      <h2>
+        <img src="../../assets/iconWallet.svg">
+        {{ $t('components.layout.RightSection.Wallet') }}
+      </h2>
+
+      <template v-if="isLoggedIn">
+        <div class="account">
+          {{ account }}
+        </div>
+        <div class="not-bootstrap-row">
+          <AeAmount :amount="balance" />
+          <Dropdown
+            v-if="currencyDropdownOptions"
+            :options="currencyDropdownOptions"
+            :method="updateCurrency"
+            :selected="selectedCurrency"
+          />
+        </div>
+      </template>
+      <OutlinedButton
+        v-else
+        :href="addressDeepLink"
+        class="fullwidth"
       >
-        <div class="section__title">
-          <img src="../../assets/iconWallet.svg">
-          {{ $t('components.layout.RightSection.Wallet') }}
-          <div
-            v-if="isLoggedIn"
-            class="account"
-          >
-            {{ account }}
-          </div>
-        </div>
-        <div class="section__body">
-          <div v-if="!isLoggedIn">
-            <OutlinedButton
-              :href="addressDeepLink"
-              :title="$t('components.layout.RightSection.LoginWithWallet')"
-              class="fullwidth"
-            >
-              {{ $t('components.layout.RightSection.LoginWithWallet') }}
-            </OutlinedButton>
-          </div>
-          <div v-else>
-            <div
-              class="balance text-ellipsis"
-              :title="roundAE + ' AE'"
-            >
-              <AeAmount :amount="balance" />
-            </div>
-            <div class="choose-fiat">
-              <Dropdown
-                v-if="currencyDropdownOptions"
-                :options="currencyDropdownOptions"
-                :method="selectCurrency"
-                :selected="settings.currency"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section trending">
-        <div class="section__title">
-          <img src="../../assets/iconTrending.svg">
-          {{ $t('components.layout.RightSection.Trending') }}
-        </div>
-        <div
-          v-if="!loading.tips"
-          class="section__body topics-section"
-          :class="{ active: topics && topics.length > 0 }"
-        >
-          <div
-            v-for="([topic, data], idx) in topics.length && topics.filter(([t]) => t !== '#test')"
-            :key="idx"
-            class="section__item"
-          >
-            <div class="topic-container text-ellipsis">
-              <Topic :topic="topic" />
-            </div>
-            <AeAmountFiat :amount="data.amount" />
-          </div>
-        </div>
-      </div>
-      <FooterSection />
+        {{ $t('components.layout.RightSection.LoginWithWallet') }}
+      </OutlinedButton>
     </div>
+
+    <div class="section trending">
+      <h2>
+        <img src="../../assets/iconTrending.svg">
+        {{ $t('components.layout.RightSection.Trending') }}
+      </h2>
+
+      <div class="topics-list">
+        <div
+          v-for="[topic, data] in topics"
+          :key="topic"
+          class="not-bootstrap-row"
+        >
+          <Topic
+            class="text-ellipsis"
+            :topic="topic"
+          />
+          <AeAmountFiat :amount="data.amount" />
+        </div>
+      </div>
+    </div>
+
+    <FooterSection />
   </div>
 </template>
 
@@ -96,171 +82,111 @@ export default {
     SearchInput,
     OutlinedButton,
   },
-  data() {
-    return {
-      addressDeepLink: createDeepLinkUrl({
-        type: 'address',
-        'x-success': `${window.location}?address={address}`,
-      }),
-    };
-  },
+  data: () => ({
+    addressDeepLink: createDeepLinkUrl({
+      type: 'address',
+      'x-success': `${window.location}?address={address}`,
+    }),
+  }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['topics', 'loading', 'balance', 'account', 'currencyRates', 'settings']),
-    currencyDropdownOptions() {
-      if (this.currencyRates && this.currencyRates.aeternity && this.balance) {
-        return Object.keys(this.currencyRates.aeternity)
-          .map((key) => ({
-            text: `${this.getFiatVal(this.balance, this.currencyRates.aeternity[key])} ${key.toUpperCase()}`,
-            value: key,
-          }));
-      }
-      return null;
-    },
-    roundAE() {
-      return new BigNumber(this.balance).toFixed(2);
-    },
+    ...mapState(['balance', 'account']),
+    ...mapState({
+      topics: ({ topics }) => topics.filter(([t]) => t !== '#test'),
+      selectedCurrency: ({ settings }) => settings.currency,
+      currencyDropdownOptions({ currencyRates: { aeternity } = {}, balance }) {
+        if (!aeternity || !balance) return null;
+        return Object.keys(aeternity).map((currency) => ({
+          text: [
+            new BigNumber(balance).multipliedBy(aeternity[currency]).toFixed(2),
+            currency.toUpperCase(),
+          ].join(' '),
+          value: currency,
+        }));
+      },
+    }),
   },
-  methods: {
-    ...mapMutations(['updateCurrency']),
-    selectCurrency(selectedCurrency) {
-      this.updateCurrency(selectedCurrency);
-    },
-    getFiatVal(value, rate) {
-      return new BigNumber(value).multipliedBy(rate).toFixed(2);
-    },
-  },
+  methods: mapMutations(['updateCurrency']),
 };
 </script>
 
-<style lang="scss">
-.topics-section {
-  transition: max-height 0.25s ease-in;
-
-  &.active {
-    max-height: 25rem;
-  }
-}
-
-.app__rightcolumn {
+<style lang="scss" scoped>
+.right-section {
   color: $light_font_color;
   font-size: 0.75rem;
 
-  .content {
-    max-width: 18rem;
+  .section {
+    background-color: $article_content_color;
+    border-radius: 0.5rem;
+    padding: 0.8rem 1rem 1rem 1rem;
+    margin-bottom: 0.5rem;
 
-    .section {
-      background-color: $article_content_color;
-      border-radius: 0.5rem;
-      margin-bottom: 0.5rem;
-
-      &.trending {
-        padding-bottom: 0.5rem;
-
-        .section__item {
-          display: flex;
-
-          & > div {
-            &.ae-amount-fiat {
-              width: 52%;
-              justify-content: flex-end;
-            }
-
-            width: 48%;
-          }
-        }
-
-        .section__body {
-          padding-bottom: 0.25rem;
-          -ms-overflow-style: none;
-          overflow-y: auto;
-          scrollbar-width: none;
-
-          &::-webkit-scrollbar {
-            display: none;
-          }
-        }
-      }
-    }
-
-    .section__title {
+    h2 {
       color: $standard_font_color;
       font-size: 1rem;
       font-weight: 600;
-      padding: 0.65rem 0.75rem;
-    }
+      padding-bottom: 0.65rem;
 
-    .section__body {
-      padding: 0.25rem 1rem 1rem 1rem;
-
-      .section__item {
-        font-size: 0.75rem;
-        margin: 0.5rem 0;
-        text-transform: none;
-
-        &:first-child {
-          margin-top: 0;
-        }
-
-        .ae {
-          color: $secondary_color;
-        }
-      }
-
-      .tag {
-        color: $custom_links_color;
+      img {
+        height: 1.2rem;
+        margin-right: 0.2rem;
       }
     }
 
-    .wallet-install {
-      max-height: 400px;
-      transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
-      display: block;
+    .ae-amount .ae {
+      color: $secondary_color;
+    }
 
+    .not-bootstrap-row {
+      display: flex;
+      align-items: center;
+
+      > :nth-child(1) {
+        flex-grow: 1;
+      }
+    }
+
+    &.search-input {
+      padding: 0;
+    }
+
+    &.wallet {
       .account {
         color: $light_font_color;
         font-size: 0.52rem;
-        padding: 0 0.2rem;
+        position: relative;
+        top: -0.5rem;
       }
 
-      .balance {
+      .ae-amount {
         font-size: 1.3rem;
         color: $standard_font_color;
-        width: calc(100% - 8rem);
-      }
-
-      .section__body > div {
-        display: flex;
-      }
-
-      .dropdown {
-        max-width: 8rem;
-      }
-
-      .choose-fiat {
-        width: 8rem;
-        text-align: right;
       }
     }
-  }
-}
 
-//Fixes issue: Smaller screens cut part of the footer
-@media (max-width: 1280px) {
-  .topics-section.active {
-    max-height: 10rem;
-  }
-}
+    &.trending .topics-list {
+      transition: max-height 0.25s ease-in;
+      -ms-overflow-style: none;
+      overflow-y: auto;
+      scrollbar-width: none;
+      max-height: 25rem;
 
-@media (min-width: 768px) {
-  .app__rightcolumn .content .section__body .section__item {
-    font-size: 0.65rem;
-  }
-}
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
-@media (min-width: 992px) {
-  .app__rightcolumn .content .section__body .section__item {
-    font-size: 0.75rem;
+      @media (max-height: 650px) {
+        max-height: 10rem;
+      }
+
+      .not-bootstrap-row {
+        margin: 0.5rem 0;
+
+        .ae-amount-fiat {
+          flex-shrink: 0;
+        }
+      }
+    }
   }
 }
 </style>

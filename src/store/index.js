@@ -19,7 +19,7 @@ export default new Vuex.Store({
     settings: {
       currency: 'eur',
     },
-    topics: {},
+    topics: [],
     stats: {},
     tipSortBy: 'hot',
     oracleState: {},

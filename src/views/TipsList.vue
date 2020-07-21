@@ -137,10 +137,6 @@ export default {
   margin-bottom: 4rem;
 }
 
-.initial-loading {
-  margin-top: 5rem;
-}
-
 .actions-menu {
   float: right;
   margin-top: 0.5rem;

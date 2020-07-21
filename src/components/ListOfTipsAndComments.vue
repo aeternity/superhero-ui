@@ -53,7 +53,7 @@
       >
         <Loading
           v-if="showLoading"
-          class="loading-position-absolute"
+          above-content
         />
         <div
           v-if="showNoResultsMsg"

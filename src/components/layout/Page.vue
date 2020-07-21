@@ -1,9 +1,10 @@
 <template>
-  <Loading v-if="loading" />
-  <div
-    v-else
-    class="page"
-  >
+  <!-- TODO: Get rid of this component by inlining loader and back button to pages -->
+  <Loading
+    v-if="loading"
+    class="page-loader"
+  />
+  <div v-else>
     <BackButtonRibbon v-if="back" />
     <slot />
   </div>
@@ -29,12 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* stylelint-disable-next-line selector-pseudo-element-no-unknown */
-.page ::v-deep .loading-position-absolute {
-  position: absolute;
-}
-
-.loading {
-  margin-top: 5rem;
+.page-loader {
+  margin: 5rem;
 }
 </style>

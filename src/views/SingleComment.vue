@@ -22,7 +22,7 @@
       >
         <Loading
           v-if="showLoading"
-          class="loading-position-absolute"
+          above-content
         />
         <div
           v-if="comment.children.length === 0 && !showLoading"

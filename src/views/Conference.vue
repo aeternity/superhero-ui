@@ -27,20 +27,15 @@ export default {
   data: () => ({
     loading: true,
   }),
+  watch: {
+    room() {
+      this.loading = true;
+      this.$refs.jitsi.innerHTML = '';
+      this.initJitsi();
+    },
+  },
   async mounted() {
-    // eslint-disable-next-line no-new
-    new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_URL, {
-      parentNode: this.$refs.jitsi,
-      width: '100%',
-      height: '100%',
-      roomName: this.room,
-      configOverwrite: {
-        disableDeepLinking: IS_MOBILE_DEVICE,
-      },
-      onload: () => {
-        this.loading = false;
-      },
-    });
+    this.initJitsi();
 
     const connection = await BrowserWindowMessageConnection({
       origin: `https://${process.env.VUE_APP_JITSI_URL}`,
@@ -53,6 +48,23 @@ export default {
     this.$once('hook:destroyed', () => {
       connection.disconnect();
     });
+  },
+  methods: {
+    initJitsi() {
+      // eslint-disable-next-line no-new
+      new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_URL, {
+        parentNode: this.$refs.jitsi,
+        width: '100%',
+        height: '100%',
+        roomName: this.room,
+        configOverwrite: {
+          disableDeepLinking: IS_MOBILE_DEVICE,
+        },
+        onload: () => {
+          this.loading = false;
+        },
+      });
+    },
   },
 };
 </script>

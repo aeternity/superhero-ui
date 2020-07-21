@@ -8,11 +8,17 @@
     </div>
     <MobileNavigation />
     <div class="not-bootstrap-row">
-      <div class="sidebar-sticky">
+      <div
+        v-if="!$route.meta.hideSidebars"
+        class="sidebar-sticky"
+      >
         <LeftSection />
       </div>
       <RouterView class="router-view" />
-      <div class="sidebar-sticky">
+      <div
+        v-if="!$route.meta.hideSidebars"
+        class="sidebar-sticky"
+      >
         <RightSection />
       </div>
     </div>
@@ -161,7 +167,10 @@ export default {
 #app {
   font-family: Roboto, Helvetica, Arial, sans-serif;
   margin: 0 auto;
+  min-height: 100vh;
   max-width: var(--container-width);
+  display: flex;
+  flex-direction: column;
 
   .supportedbrowser--alert {
     text-align: center;
@@ -169,6 +178,7 @@ export default {
   }
 
   .not-bootstrap-row {
+    flex-grow: 1;
     display: flex;
     flex-wrap: nowrap;
 

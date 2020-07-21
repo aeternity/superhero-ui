@@ -1,38 +1,34 @@
 <template>
-  <Page>
-    <div class="row content">
-      <div class="col-sm-12">
-        <h1>{{ $t('views.Privacy.title') }}</h1>
+  <div class="privacy">
+    <h1>{{ $t('views.Privacy.title') }}</h1>
 
-        <p>
-          {{ $t('views.Privacy.subtitle') }}
-        </p>
+    <p>
+      {{ $t('views.Privacy.subtitle') }}
+    </p>
 
-        <i18n
-          v-for="(item, index) in $t('views.Privacy.sections').length"
-          :key="index"
-          :path="getI18nPath(index, 'Privacy')"
-          :tag="isTitle(index, 'Privacy') ? 'h5' : 'p'"
-        />
-      </div>
-    </div>
-  </Page>
+    <i18n
+      v-for="(item, index) in $t('views.Privacy.sections').length"
+      :key="index"
+      :path="getI18nPath(index, 'Privacy')"
+      :tag="isTitle(index, 'Privacy') ? 'h5' : 'p'"
+    />
+  </div>
 </template>
 
 <script>
-import Page from '../components/layout/Page.vue';
 import { isTitle, getI18nPath } from '../utils/util';
 
 export default {
   name: 'Privacy',
-  components: {
-    Page,
-  },
-  data() {
-    return {
-      getI18nPath,
-      isTitle,
-    };
+  methods: {
+    getI18nPath,
+    isTitle,
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.privacy {
+  padding-top: 0.5rem;
+}
+</style>

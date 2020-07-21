@@ -81,6 +81,11 @@ export default {
       return ['tips', 'tips-search'].includes(this.$route.name);
     },
   },
+  watch: {
+    $route() {
+      this.showOverlay = false;
+    },
+  },
 };
 </script>
 

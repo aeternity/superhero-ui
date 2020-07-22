@@ -1,45 +1,52 @@
 <template>
+  <!-- TODO: Extract overlay to a separate component -->
   <div
-    v-show="$route.name !== 'tips' || showMobileNavigation"
-    class="mobile-navigation clearfix"
-    :class="{
-      open: open,
-    }"
+    v-if="showOverlay"
+    class="mobile-navigation-overlay"
   >
-    <div
-      v-if="open"
-      class="close-navigation"
-      @click="openNavigation(false)"
+    <button
+      class="close-button"
+      @click="showOverlay = false"
     >
       <!--eslint-disable-line vue-i18n/no-raw-text-->
       &#x2715;
-    </div>
-    <Navigation />
-    <div
-      v-if="!open"
-      class="mobile-actions"
+    </button>
+    <Navigation mobile />
+    <FooterSection />
+  </div>
+  <SearchInput
+    v-else-if="isTipsRoute && showSearchInput"
+    class="mobile-navigation-sticky"
+    @close="showSearchInput = false"
+  />
+  <div
+    v-else
+    class="mobile-navigation-sticky mobile-navigation"
+  >
+    <RouterLink
+      class="logo"
+      to="/"
     >
-      <a
-        v-if="!useSdkWallet && $route.name === 'tips'"
-        :href="createDeepLinkUrl({ type: 'tip' })"
-        target="_blank"
-        class="mobile-only"
-      >
-        <IconDiamond class="tip" />
-      </a>
-      <img
-        v-if="$route.name === 'tips'"
-        class="trigger-search"
-        src="../../assets/iconSearch.svg"
-        @click="toggleMobileNav(false)"
-      >
-      <img
-        class="trigger-navigation"
-        src="../../assets/iconMobileMenu.svg"
-        @click="openNavigation(true)"
-      >
-    </div>
-    <FooterSection v-if="open" />
+      <img src="../../assets/headerLogo.svg">
+    </RouterLink>
+
+    <div class="separator" />
+
+    <a
+      v-if="!useSdkWallet && isTipsRoute"
+      :href="tipDeepLink"
+    >
+      <IconDiamond />
+    </a>
+    <button
+      v-if="isTipsRoute"
+      @click="showSearchInput = true"
+    >
+      <IconSearch />
+    </button>
+    <button @click="showOverlay = true">
+      <IconMobileMenu />
+    </button>
   </div>
 </template>
 
@@ -47,136 +54,115 @@
 import { mapState } from 'vuex';
 import Navigation from './Navigation.vue';
 import FooterSection from './FooterSection.vue';
+import SearchInput from './SearchInput.vue';
 import { createDeepLinkUrl } from '../../utils/util';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
+import IconSearch from '../../assets/iconSearch.svg?icon-component';
+import IconMobileMenu from '../../assets/iconMobileMenu.svg?icon-component';
 
 export default {
   name: 'MobileNavigation',
   components: {
     Navigation,
     FooterSection,
+    SearchInput,
     IconDiamond,
+    IconSearch,
+    IconMobileMenu,
   },
-  props: {
-    showMobileNavigation: { type: Boolean },
-    toggleMobileNav: { type: Function, required: false, default: null },
+  data: () => ({
+    showOverlay: false,
+    showSearchInput: false,
+    tipDeepLink: createDeepLinkUrl({ type: 'tip' }),
+  }),
+  computed: {
+    ...mapState(['useSdkWallet']),
+    isTipsRoute() {
+      return ['tips', 'tips-search'].includes(this.$route.name);
+    },
   },
-  data() {
-    return {
-      open: false,
-    };
-  },
-  computed: mapState(['useSdkWallet']),
-  methods: {
-    createDeepLinkUrl,
-    openNavigation(isOpen) {
-      this.open = isOpen;
+  watch: {
+    $route() {
+      this.showOverlay = false;
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.mobile-navigation-overlay,
 .mobile-navigation {
-  position: sticky;
-  width: 100%;
-  z-index: 101;
-  top: 0;
   background-color: $background_color;
+
+  button {
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+  }
+}
+
+.mobile-navigation-overlay {
+  z-index: 101;
   color: $light_font_color;
-  padding: 0.85rem 0.6rem 0.85rem 1rem;
-  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem;
 
-  .logo {
-    margin-bottom: 0;
-  }
-
-  .mobile-actions {
-    display: inline-block;
+  .close-button {
     float: right;
-    max-width: fit-content;
-    text-align: right;
-    width: 100%;
-
-    img {
-      margin-left: 1rem;
-    }
-
-    .tip {
-      height: 0.9rem;
-    }
-  }
-
-  .close-navigation {
-    text-align: right;
     color: $standard_font_color;
   }
 
-  .trigger-navigation:hover,
-  .close-navigation:hover {
-    cursor: pointer;
-  }
-
   .navigation {
-    display: inline-block;
-  }
-
-  .navigation__item {
-    display: none;
-  }
-
-  .navigation__item__image {
-    height: 1.65rem;
-    width: 1.65rem;
-  }
-
-  &.open {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-
-    .logo {
-      display: none;
-    }
-
-    .navigation__item {
-      display: block;
-      min-width: 8rem;
-    }
-  }
-
-  .mobile-only {
-    display: none;
-  }
-
-  .trigger-search:hover {
-    cursor: pointer;
+    margin-top: 1.5rem;
   }
 }
 
-@media (max-width: 1024px) {
-  .mobile-navigation {
-    display: block;
-    width: var(--container-width);
-    margin: 0 auto;
+.mobile-navigation {
+  padding-right: 0.6rem;
+  padding-left: 1rem;
+  display: flex;
+  align-items: center;
+
+  .logo img {
+    width: 9.2rem;
+  }
+
+  .separator {
+    flex-grow: 1;
+
+    ~ * {
+      margin-left: 1rem;
+    }
+  }
+
+  a:not(.logo),
+  button {
+    svg {
+      color: $standard_font_color;
+      height: 1.1rem;
+    }
   }
 }
 
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-  .mobile-navigation {
-    width: 100%;
-    left: 0;
-    padding: 0.75rem 0.6rem 0.75rem 1rem;
+.mobile-navigation-sticky {
+  z-index: 101;
+  position: sticky;
+  top: 0;
+  width: var(--container-width);
+  height: $mobile_navigation_height;
+  margin: 0 auto;
 
-    .mobile-only {
-      display: initial;
-    }
+  @media (min-width: 1025px) {
+    display: none;
+  }
+
+  @include smallest {
+    width: 100%;
   }
 }
 </style>

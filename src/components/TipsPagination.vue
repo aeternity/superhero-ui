@@ -2,7 +2,7 @@
   <div>
     <Loading
       v-if="tipsReloading"
-      class="m-2 loading-position-absolute"
+      above-content
     />
     <div v-if="tips">
       <TipRecord
@@ -11,10 +11,7 @@
         :tip="tip"
         :fiat-value="tip.fiatValue"
       />
-      <Loading
-        v-if="tipsNextPageLoading"
-        class="m-2"
-      />
+      <Loading v-if="tipsNextPageLoading" />
       <div
         v-if="tips.length === 0"
         class="no-results text-center m-2"

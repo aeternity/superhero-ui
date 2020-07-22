@@ -14,3 +14,15 @@
   -webkit-line-clamp: $property;
   -webkit-box-orient: vertical;
 }
+
+@mixin smallest {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}

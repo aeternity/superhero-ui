@@ -1,21 +1,9 @@
 <template>
-  <Page
-    :toggle-mobile-nav="toggleMobileNav"
-    :show-mobile-navigation="showMobileNavigation"
-    :loading="loading.initial"
-  >
-    <div class="actions__container container position-sticky">
-      <SearchInput
-        :toggle-mobile-nav="toggleMobileNav"
-        :show-mobile-navigation="showMobileNavigation"
-      />
-    </div>
-    <div class="container wrapper">
+  <Page>
+    <div class="wrapper">
       <div class="tips__container">
         <div class="actions__container position-sticky">
-          <div class="send__tip__container">
-            <SendTip />
-          </div>
+          <SendTip class="send__tip__container" />
           <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12 sorting">
               <a
@@ -64,7 +52,6 @@ import { mapState, mapMutations } from 'vuex';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import Page from '../components/layout/Page.vue';
 import TipsPagination from '../components/TipsPagination.vue';
-import SearchInput from '../components/layout/SearchInput.vue';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
 import Checkbox from '../components/Checkbox.vue';
 
@@ -74,30 +61,19 @@ export default {
     TipsPagination,
     Page,
     SendTip,
-    SearchInput,
     Checkbox,
     ThreeDotsMenu,
   },
   props: {
     query: { type: String, default: '' },
   },
-  data() {
-    return {
-      showMobileNavigation: true,
-    };
-  },
-  computed: mapState(['tipSortBy', 'loading', 'isHiddenContent']),
-  methods: {
-    ...mapMutations(['setTipSortBy', 'setIsHiddenContent']),
-    toggleMobileNav(show) {
-      this.showMobileNavigation = show;
-    },
-  },
+  computed: mapState(['tipSortBy', 'isHiddenContent']),
+  methods: mapMutations(['setTipSortBy', 'setIsHiddenContent']),
 };
 </script>
 
 <style lang="scss" scoped>
-.container.wrapper {
+.wrapper {
   padding-top: 0;
   min-height: 4rem;
 }
@@ -111,10 +87,6 @@ export default {
 
   .form-control {
     padding-right: 1.25rem;
-  }
-
-  .container {
-    padding: 0;
   }
 
   .row {
@@ -153,10 +125,9 @@ export default {
 .tips__container {
   width: 100%;
   background-color: $background_color;
-  padding-top: 0.1rem;
 
-  &:empty {
-    visibility: hidden;
+  @media (min-width: 1025px) {
+    padding-top: 0.1rem;
   }
 }
 
@@ -164,10 +135,6 @@ export default {
   color: $standard_font_color;
   font-size: 0.75rem;
   margin-bottom: 4rem;
-}
-
-.initial-loading {
-  margin-top: 5rem;
 }
 
 .actions-menu {
@@ -182,8 +149,8 @@ export default {
 }
 
 @media (max-width: 1024px) {
-  .container .actions__container {
-    top: 3.2rem;
+  .actions__container {
+    top: $mobile_navigation_height;
   }
 }
 
@@ -200,18 +167,13 @@ export default {
   }
 }
 
-//Smallest devices Portrait and Landscape
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+@include smallest {
   .actions__container {
     width: 100%;
     background-color: $actions_ribbon_background_color;
     overflow-x: initial;
     z-index: 100;
 
-    .container,
     .row {
       padding: 0;
     }
@@ -241,15 +203,10 @@ export default {
     }
   }
 
-  .container.wrapper {
+  .wrapper {
     padding: 0.15rem 0.25rem 0 0.25rem;
 
-    .tips__container {
-      padding: 0;
-    }
-
     .actions__container {
-      top: 3rem;
       padding-top: 0;
       padding-bottom: 0;
     }

@@ -1,26 +1,22 @@
 <template>
-  <Page class="league-page-container">
+  <div class="conference">
     <Loading v-if="loading" />
     <div
       v-show="!loading"
       ref="jitsi"
       class="jitsi-container"
     />
-  </Page>
+  </div>
 </template>
 <script>
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import JitsiMeetExternalAPI from 'jitsi-iframe-api';
-import Page from '../components/layout/Page.vue';
 import { IS_MOBILE_DEVICE } from '../utils/util';
 import Loading from '../components/Loading.vue';
 
 export default {
   name: 'Conference',
-  components: {
-    Page,
-    Loading,
-  },
+  components: { Loading },
   props: {
     room: { type: String, default: '' },
   },
@@ -69,12 +65,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.league-page-container {
-  padding-top: 1rem;
-}
+.conference {
+  display: flex;
 
-.jitsi-container,
-.league-page-container {
-  height: calc(100vh - 2em);
+  .loading {
+    margin: auto;
+  }
+
+  .jitsi-container {
+    flex-grow: 1;
+  }
 }
 </style>

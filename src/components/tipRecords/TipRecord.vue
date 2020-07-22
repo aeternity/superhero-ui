@@ -562,10 +562,7 @@ export default {
     }
   }
 
-  //Smallest devices Portrait and Landscape
-  @media only screen
-    and (max-device-width: 480px)
-    and (-webkit-min-device-pixel-ratio: 2) {
+  @include smallest {
     .tip__body {
       padding: 0;
     }

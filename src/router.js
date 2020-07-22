@@ -177,6 +177,7 @@ const routes = [
     component: Maintenance,
     meta: {
       title: 'Maintenance',
+      hideSidebars: true,
     },
   },
   {

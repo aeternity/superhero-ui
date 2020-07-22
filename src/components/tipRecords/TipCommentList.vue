@@ -74,10 +74,7 @@ export default {
   padding: 0 1rem 1rem 1rem;
 }
 
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+@include smallest {
   .child-comments {
     margin: 0 0.5rem;
 

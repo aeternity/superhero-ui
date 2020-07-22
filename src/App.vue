@@ -1,16 +1,26 @@
 <template>
   <div id="app">
     <div
-      ref="wrapper"
-      class="min-h-screen wrapper"
+      v-if="isSupportedBrowser"
+      class="supportedbrowser--alert"
     >
+      {{ $t('noExtensionSupport') }}
+    </div>
+    <MobileNavigation />
+    <div class="not-bootstrap-row">
       <div
-        v-if="isSupportedBrowser"
-        class="supportedbrowser--alert"
+        v-if="!$route.meta.hideSidebars"
+        class="sidebar-sticky"
       >
-        {{ $t('noExtensionSupport') }}
+        <LeftSection />
       </div>
-      <router-view />
+      <RouterView class="router-view" />
+      <div
+        v-if="!$route.meta.hideSidebars"
+        class="sidebar-sticky"
+      >
+        <RightSection />
+      </div>
     </div>
   </div>
 </template>
@@ -22,9 +32,13 @@ import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
+import MobileNavigation from './components/layout/MobileNavigation.vue';
+import LeftSection from './components/layout/LeftSection.vue';
+import RightSection from './components/layout/RightSection.vue';
 
 export default {
   name: 'App',
+  components: { MobileNavigation, LeftSection, RightSection },
   computed: {
     ...mapState(['account']),
     isSupportedBrowser() {
@@ -126,20 +140,84 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "styles/layout";
+:root {
+  --container-width: 59rem;
+}
 
-  .min-h-screen {
-    min-height: 100vh;
-    min-width: 100%;
-    padding-bottom: 0;
+@include mobile {
+  :root {
+    --container-width: 25rem;
   }
+}
 
-  #app {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
+@media (min-width: 1200px) {
+  html {
+    font-size: 125%;
   }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --container-width: 61rem;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+#app {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  margin: 0 auto;
+  min-height: 100vh;
+  max-width: var(--container-width);
+  display: flex;
+  flex-direction: column;
 
   .supportedbrowser--alert {
     text-align: center;
     line-height: 3rem;
   }
+
+  .not-bootstrap-row {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: nowrap;
+
+    .sidebar-sticky {
+      flex-shrink: 0;
+
+      > div {
+        position: sticky;
+        top: 0;
+      }
+
+      @include mobile {
+        display: none;
+      }
+
+      .left-section,
+      .right-section {
+        padding-top: 1rem;
+      }
+
+      .left-section {
+        width: 9.2rem;
+        margin-right: 15px;
+
+        @media (min-width: 1440px) {
+          margin-right: calc(15px + 1rem); // TODO: Replace with a rem value
+        }
+      }
+
+      .right-section {
+        width: 17.5rem;
+        margin-left: calc(15px + 0.8rem); // TODO: Replace with a rem value
+      }
+    }
+
+    .router-view {
+      flex-grow: 1;
+      min-width: 0; // https://css-tricks.com/flexbox-truncated-text/
+    }
+  }
+}
 </style>

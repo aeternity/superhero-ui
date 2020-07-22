@@ -19,7 +19,7 @@
       <div class="comments__section">
         <Loading
           v-if="showLoading"
-          class="loading-position-absolute"
+          :above-content="!!(tip && tip.comments.length)"
         />
         <template v-if="tip">
           <div
@@ -160,10 +160,6 @@ export default {
     background-color: $thumbnail_background_color;
     padding: 1rem;
     position: relative;
-
-    .loading-position-absolute {
-      margin-left: -1rem;
-    }
   }
 
   .no-results {

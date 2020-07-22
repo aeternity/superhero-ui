@@ -1,8 +1,5 @@
 <template>
-  <Page
-    :loading="loading.initial"
-    back
-  >
+  <Page back>
     <div class="profile__page">
       <div class="profile__section clearfix">
         <div
@@ -269,7 +266,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'account', 'chainNames', 'loading']),
+    ...mapState(['useSdkWallet', 'account', 'chainNames']),
     userChainName() {
       return this.chainNames[this.address];
     },
@@ -784,10 +781,7 @@ input[type="file"] {
   }
 }
 
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+@include smallest {
   .profile__header {
     img.user-identicon,
     div.user-identicon svg {

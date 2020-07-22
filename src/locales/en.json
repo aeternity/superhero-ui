@@ -125,9 +125,7 @@
     },
     "Maintenance": {
       "RechargeTitle": "We're recharging our powers.",
-      "RechargeSubTitle": "We'll be up, up and away in no time.",
-      "CleaningTitle": "Cleaning up the HQ.",
-      "CleaningSubTitle": "We'll be flying again in a few minutes."
+      "RechargeSubTitle": "We'll be up, up and away in no time."
     },
     "Privacy": {
       "title": "PRIVACY POLICY",

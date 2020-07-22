@@ -1,9 +1,7 @@
 <template>
-  <div class="app__leftcolumn">
-    <div class="content">
-      <Navigation />
-      <Overview />
-    </div>
+  <div class="left-section">
+    <Navigation />
+    <Overview />
   </div>
 </template>
 

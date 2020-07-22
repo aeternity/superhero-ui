@@ -11,6 +11,16 @@
       {{ $t('components.layout.RightSection.Wallet') }}
     </RightSectionTitle>
 
+    <div
+      v-for="tokenBalance in tokenBalances"
+      :key="tokenBalance.token"
+    >
+      <AeAmount
+        :amount="tokenBalance.balance"
+        :token="tokenBalance.token"
+      />
+    </div>
+
     <iframe
       v-if="useIframeWallet"
       :class="{ 'half-closed': closed }"
@@ -48,7 +58,7 @@ export default {
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency']),
+    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency', 'tokenBalances']),
     ...mapState({
       currencyDropdownOptions({ backend: { prices }, balance }) {
         return Object.entries(prices).map(([currency, price]) => ({

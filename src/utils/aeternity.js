@@ -8,9 +8,9 @@ import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wa
 import { CONTRACT_ADDRESS, COMPILER_URL, NODE_URL } from '@/config/constants';
 import TIPPING_INTERFACE from 'tipping-contract/TippingInterface.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
+import { BigNumber } from 'bignumber.js';
 import { EventBus } from './eventBus';
 import store from '../store';
-import { BigNumber } from "bignumber.js";
 
 const nodeUrl = 'https://testnet.aeternity.io';
 const nodeUrlTestNet = 'https://testnet.aeternity.io';

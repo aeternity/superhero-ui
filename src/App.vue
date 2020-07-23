@@ -6,17 +6,17 @@
     >
       {{ $t('noExtensionSupport') }}
     </div>
-    <MobileNavigation />
+    <MobileNavigation v-if="!$route.meta.fullScreen" />
     <div class="not-bootstrap-row">
       <div
-        v-if="!$route.meta.hideSidebars"
+        v-if="!$route.meta.fullScreen"
         class="sidebar-sticky"
       >
         <LeftSection />
       </div>
       <RouterView class="router-view" />
       <div
-        v-if="!$route.meta.hideSidebars"
+        v-if="!$route.meta.fullScreen"
         class="sidebar-sticky"
       >
         <RightSection />

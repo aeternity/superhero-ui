@@ -34,6 +34,7 @@ export default new Vuex.Store({
     graylistedUrls: [],
     isHiddenContent: true,
     useSdkWallet: false,
+    useIframeWallet: false,
   },
   mutations,
   actions: {

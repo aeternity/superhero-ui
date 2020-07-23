@@ -72,10 +72,12 @@ export const scanForWallets = async () => {
     connectionInfo: { id: 'spy' },
   });
   const detector = await Detector({ connection: scannerConnection });
+  const webWalletTimeout = setTimeout(() => store.commit('useIframeWallet'), 2000);
 
   return new Promise((resolve) => {
     detector.scan(async ({ newWallet }) => {
       if (!newWallet) return;
+      clearInterval(webWalletTimeout);
       detector.stopScan();
       await client.connectToWallet(await newWallet.getConnection());
       await client.subscribeAddress('subscribe', 'current');

@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import { mergeWith } from 'lodash-es';
-import { EventBus } from '../utils/eventBus';
 
 export default {
   setLoggedInAccount(state, { account, balance }) {
@@ -29,7 +28,6 @@ export default {
   },
   setTipSortBy(state, payload) {
     state.tipSortBy = payload;
-    EventBus.$emit('setTipSortBy');
   },
   setOracleState(state, payload) {
     state.oracleState = payload;

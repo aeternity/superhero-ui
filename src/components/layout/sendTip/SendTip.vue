@@ -1,5 +1,5 @@
 <template>
-  <div class="tip__post">
+  <div class="send-tip tip__post">
     <div v-if="open && !error && !success">
       <div class="tip__post__label clearfix">
         <img

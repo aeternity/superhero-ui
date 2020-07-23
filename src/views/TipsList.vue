@@ -28,10 +28,11 @@
               <div class="actions-menu">
                 <ThreeDotsMenu>
                   <Checkbox
-                    :state="isHiddenContent"
-                    :update-state="setIsHiddenContent"
-                    :text="$t('views.TipList.SafeContentOnly')"
-                  />
+                    :checked="isHiddenContent"
+                    @change="setIsHiddenContent(!isHiddenContent)"
+                  >
+                    {{ $t('views.TipList.SafeContentOnly') }}
+                  </Checkbox>
                 </ThreeDotsMenu>
               </div>
             </div>

@@ -36,7 +36,7 @@ export default {
     font-weight: bold;
     text-align: center;
     line-height: 80px;
-    margin: 50px 0;
+    margin: 50px 1rem;
     color: white;
   }
 
@@ -49,7 +49,7 @@ export default {
     font-size: 35px;
     line-height: 55px;
     text-align: center;
-    margin: 50px 0;
+    margin: 50px 1rem;
     color: #3290e2;
   }
 }

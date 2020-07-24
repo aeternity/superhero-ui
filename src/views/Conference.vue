@@ -26,11 +26,12 @@ export default {
   },
   data: () => ({
     loading: true,
+    jitsi: null,
   }),
   watch: {
     room() {
       this.loading = true;
-      this.$refs.jitsi.innerHTML = '';
+      this.jitsi.dispose();
       this.initJitsi();
     },
   },
@@ -47,12 +48,13 @@ export default {
 
     this.$once('hook:destroyed', () => {
       connection.disconnect();
+      this.jitsi.dispose();
     });
   },
   methods: {
     initJitsi() {
       // eslint-disable-next-line no-new
-      new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_URL, {
+      this.jitsi = new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_URL, {
         parentNode: this.$refs.jitsi,
         width: '100%',
         height: '100%',

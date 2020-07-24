@@ -30,7 +30,7 @@
       v-if="!userAddress"
       class="tip__content"
       :class="[{ active: show }]"
-      @click="toggleTip(!show)"
+      @click="show = true"
     >
       <img
         class="tip__icon"
@@ -42,7 +42,7 @@
       v-else
       class="tip__content tip__user"
       :class="[{ active: show }]"
-      @click="toggleTip(!show)"
+      @click="show = true"
     >
       <img
         class="tip__icon_user"
@@ -52,7 +52,7 @@
     </div>
     <Modal
       v-if="show"
-      @close="toggleTip(false)"
+      @close="resetForm(); show = false"
     >
       <div class="tip__container">
         <Loading v-if="showLoading" />
@@ -138,22 +138,13 @@ export default {
       value: 0,
       show: false,
       showLoading: false,
-      error: true,
+      error: false,
       message: '',
     };
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState(['account', 'loading', 'minTipAmount', 'stats']),
-    eventPayload() {
-      if (!this.userAddress) {
-        if (this.comment) {
-          return `${this.comment.id}:${this.show}`;
-        }
-        return `${this.tip.id}:${this.show}`;
-      }
-      return null;
-    },
     derivedUserTipStats() {
       if (!this.stats || !this.stats.by_url) {
         return null;
@@ -244,13 +235,6 @@ export default {
       return i18n.t('components.TipInput.totalRetips');
     },
   },
-  created() {
-    EventBus.$on('showTipForm', (payload) => {
-      if (payload !== this.eventPayload) {
-        this.show = false;
-      }
-    });
-  },
   methods: {
     submitAction() {
       if (!this.isRetip && this.isMessageValid && !this.value) {
@@ -260,15 +244,6 @@ export default {
 
       if (this.isDataValid || this.userAddress) {
         this.sendTip();
-      }
-    },
-    toggleTip(showTipForm) {
-      this.show = showTipForm;
-      if (showTipForm) {
-        if (!this.userAddress) {
-          EventBus.$emit('showTipForm', this.eventPayload);
-        }
-        this.resetForm();
       }
     },
     async sendTip() {

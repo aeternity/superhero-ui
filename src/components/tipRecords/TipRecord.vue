@@ -126,12 +126,32 @@
             {{ tip.url }}
           </a>
         </div>
-        <div v-else>
+        <div
+          v-if="tip.receiver"
+          class="tip__author"
+          :title="tip.receiver"
+          @click.stop
+        >
           <TipInput
-            class="tip__note"
             is-retip
             :tip="tip"
           />
+          <router-link :to="'/user-profile/' + tip.receiver">
+            <Avatar :address="tip.receiver"/>
+            <div class="tip__author_name">
+              <span
+                v-if="tip.chainName"
+                class="chain__name"
+              >
+                {{ tip.chainName }}
+              </span>
+              <span
+                v-else
+                class="chain__name"
+              />
+              <span class="address">{{ tip.receiver }}</span>
+            </div>
+          </router-link>
         </div>
       </div>
       <div class="tip__footer">

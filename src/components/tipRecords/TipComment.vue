@@ -61,15 +61,9 @@
       >
         {{ comment.text }}
       </div>
-      <div
-        class="comment__actions"
-      >
-        <span
-          @click.stop
-        >
-          <TipInput
-            :comment="comment"
-          />
+      <div class="comment__actions">
+        <span @click.stop>
+          <TipInput :comment="comment" />
         </span>
         <span
           :title="$t('components.tipRecords.TipComment.Replies')"

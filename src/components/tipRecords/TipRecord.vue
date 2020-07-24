@@ -103,10 +103,21 @@
             </a>
           </div>
           <div
-            class="tip__amount"
+            v-if="tip.receiver"
+            class="tip__author"
+            :title="tip.receiver"
             @click.stop
           >
             <TipInput :tip="tip" />
+            <router-link :to="{ name: 'user-profile', params: { address: tip.receiver } }">
+              <Avatar :address="tip.receiver" />
+              <div class="tip__author_name">
+                <span class="chain__name">
+                  {{ tip.chainName }}
+                </span>
+                <span class="address">{{ tip.receiver }}</span>
+              </div>
+            </router-link>
           </div>
         </div>
       </div>

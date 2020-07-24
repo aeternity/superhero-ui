@@ -114,19 +114,25 @@
           >
         </div>
       </div>
-      <div
-        v-else
-        class="tip__url"
-      >
-        <a
-          :href="tip.url"
-          :title="tip.url"
-          class="text-ellipsis"
-          target="_blank"
-          @click.stop
-        >
-          {{ tip.url }}
-        </a>
+      <div v-else>
+        <div v-if="tip.url">
+          <a
+            :href="tip.url"
+            :title="tip.url"
+            class="text-ellipsis"
+            target="_blank"
+            @click.stop
+          >
+            {{ tip.url }}
+          </a>
+        </div>
+        <div v-else>
+          <TipInput
+            class="tip__note"
+            is-retip
+            :tip="tip"
+          />
+        </div>
       </div>
       <div class="tip__footer">
         <div class="tip__footer_wrapper">

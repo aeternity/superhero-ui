@@ -461,10 +461,6 @@ input[type="file"] {
     left: 0;
     position: absolute;
 
-    .tip-user-text {
-      display: none;
-    }
-
     &:hover {
       background: #2a9cffcc;
     }
@@ -476,10 +472,6 @@ input[type="file"] {
     position: absolute;
     right: -0.25rem;
     top: -0.25rem;
-
-    .tip-user-text {
-      display: none;
-    }
 
     &:hover {
       background: #ff495242;

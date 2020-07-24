@@ -7,19 +7,13 @@
     @click.stop
   >
     <img
-      :class="!userAddress ? 'tip__icon' : 'tip__icon_user'"
+      :class="{ tip__icon: !userAddress }"
       :src="iconTip"
     >
     <AeAmountFiat
       v-if="!userAddress"
       :amount="amount"
     />
-    <span
-      v-else
-      class="tip-user-text"
-    >
-      {{ $t('tip') }}
-    </span>
   </a>
   <div
     v-else
@@ -29,7 +23,7 @@
     <div
       v-if="!userAddress"
       class="tip__content"
-      :class="[{ active: show }]"
+      :class="{ active: show }"
       @click="show = true"
     >
       <img
@@ -38,18 +32,13 @@
       >
       <AeAmountFiat :amount="amount" />
     </div>
-    <div
+    <img
       v-else
       class="tip__content tip__user"
-      :class="[{ active: show }]"
+      :class="{ active: show }"
+      :src="iconTip"
       @click="show = true"
     >
-      <img
-        class="tip__icon_user"
-        :src="iconTip"
-      >
-      <span class="tip-user-text">{{ $t('tip') }}</span>
-    </div>
     <Modal
       v-if="show"
       @close="resetForm(); show = false"
@@ -345,10 +334,6 @@ export default {
 
     .tip__user {
       cursor: pointer;
-    }
-
-    .tip-user-text {
-      color: $standard_font_color;
     }
   }
 

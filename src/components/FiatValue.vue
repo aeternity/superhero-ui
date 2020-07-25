@@ -17,13 +17,13 @@ export default {
     amount: { type: [String, Number], default: 0 },
   },
   computed: {
-    ...mapState(['settings', 'currencyRates']),
+    ...mapState(['selectedCurrency', 'currencyRates']),
     fiatValue() {
-      const rate = this.currencyRates.aeternity[this.settings.currency];
+      const rate = this.currencyRates.aeternity[this.selectedCurrency];
       if (!this.amount) {
         return 0;
       }
-      return (this.amount * rate).toLocaleString('en-US', { style: 'currency', currency: this.settings.currency });
+      return (this.amount * rate).toLocaleString('en-US', { style: 'currency', currency: this.selectedCurrency });
     },
   },
 };

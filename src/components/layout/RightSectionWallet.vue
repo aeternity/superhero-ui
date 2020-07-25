@@ -48,9 +48,8 @@ export default {
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['balance', 'account', 'useIframeWallet']),
+    ...mapState(['balance', 'account', 'useIframeWallet', 'selectedCurrency']),
     ...mapState({
-      selectedCurrency: ({ settings }) => settings.currency,
       currencyDropdownOptions({ currencyRates: { aeternity } = {}, balance }) {
         if (!aeternity || !balance) return null;
         return Object.keys(aeternity).map((currency) => ({

@@ -45,7 +45,7 @@ export default {
     state.wizardIsCollapsed = Boolean(payload);
   },
   updateCurrency(state, payload) {
-    state.settings.currency = payload;
+    state.selectedCurrency = payload;
   },
   updateBalance(state, payload) {
     state.balance = payload;

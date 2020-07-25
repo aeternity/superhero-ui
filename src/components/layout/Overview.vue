@@ -85,7 +85,7 @@ export default {
           padding-left: 0.25rem;
         }
 
-        .currency-value {
+        .fiat-value {
           line-height: 1rem;
         }
       }

@@ -254,7 +254,7 @@ export default {
       align-items: center;
     }
 
-    .currency-value {
+    .fiat-value {
       color: $light_font_color;
       margin-left: 0.1rem;
       font-size: 0.7rem;

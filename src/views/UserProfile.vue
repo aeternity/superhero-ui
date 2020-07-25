@@ -653,7 +653,7 @@ input[type="file"] {
   vertical-align: middle;
 }
 
-.stat-value .currency-value {
+.stat-value .fiat-value {
   font-size: 80%;
 }
 

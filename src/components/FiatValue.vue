@@ -1,7 +1,7 @@
 <template>
   <span
     v-if="rate"
-    class="currency-value"
+    class="fiat-value"
   >
     <!--eslint-disable-next-line vue-i18n/no-raw-text-->
     <span>(~ {{ fiatValue }})</span>

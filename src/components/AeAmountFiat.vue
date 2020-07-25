@@ -23,7 +23,7 @@ export default {
   display: flex;
   align-items: center;
 
-  .currency-value {
+  .fiat-value {
     font-size: 0.7rem;
     color: $light_font_color;
     margin-left: 0.1rem;

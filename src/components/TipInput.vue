@@ -1,93 +1,59 @@
 <template>
-  <a
-    v-if="!isLoggedIn"
-    :href="deepLink"
-    target="_blank"
-    class="tip__content"
-    @click.stop
-  >
-    <img
-      :class="{ tip__icon: !userAddress }"
-      :src="iconTip"
+  <div class="tip-input">
+    <Component
+      :is="useSdkWallet ? 'button' : 'a'"
+      :href="useSdkWallet ? undefined : deepLink"
+      class="button"
+      :title="title"
+      @click="useSdkWallet && (showModal = true)"
     >
-    <AeAmountFiat
-      v-if="!userAddress"
-      :amount="amount"
-    />
-  </a>
-  <div
-    v-else
-    class="tip-url__wrapper"
-    :title="title"
-  >
-    <div
-      v-if="!userAddress"
-      class="tip__content"
-      :class="{ active: show }"
-      @click="show = true"
-    >
-      <img
-        class="tip__icon"
-        :src="iconTip"
-      >
-      <AeAmountFiat :amount="amount" />
-    </div>
-    <img
-      v-else
-      class="tip__content tip__user"
-      :class="{ active: show }"
-      :src="iconTip"
-      @click="show = true"
-    >
+      <img :src="iconTip">
+      <AeAmountFiat
+        v-if="!userAddress"
+        :amount="amount"
+      />
+    </Component>
     <Modal
-      v-if="show"
-      @close="resetForm(); show = false"
+      v-if="showModal"
+      @close="hideModal"
     >
-      <div class="tip__container">
-        <Loading v-if="showLoading" />
+      <Loading v-if="showLoading" />
+      <template v-else>
         <div
-          v-show="error && !showLoading"
-          class="text-center mb-2"
+          v-if="error"
+          class="error"
         >
           {{ $t('components.TipInput.error') }}
         </div>
-        <form
-          v-if="!showLoading"
-          @submit.prevent
-        >
-          <div
-            v-if="isTip"
-            class="input-group"
-          >
+        <form @submit.prevent="sendTip">
+          <div class="input-group"><!-- TODO: Remove this wrapper after removing bootstrap -->
             <input
+              v-if="tipUrl"
               v-model="message"
               maxlength="280"
-              type="text"
-              class="form-control tip__message"
+              class="message form-control"
               :placeholder="$t('addMessage')"
             >
           </div>
-          <div class="amount__row">
+          <div class="not-bootstrap-row">
             <AeInputAmount v-model="value" />
-            <AeButton
-              :disabled="!isDataValid"
-              @click="submitAction"
-            >
-              {{ isTip ? $t('tip') : $t('retip') }}
+            <AeButton :disabled="!isValid">
+              {{ tipUrl ? $t('tip') : $t('retip') }}
             </AeButton>
           </div>
         </form>
-      </div>
+      </template>
     </Modal>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
+import { get } from 'lodash-es';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
-import * as aeternity from '../utils/aeternity';
+import { tip, retip } from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import util, { createDeepLinkUrl } from '../utils/util';
@@ -111,34 +77,20 @@ export default {
     userAddress: { type: String, default: '' },
     comment: { type: Object, default: null },
   },
-  data() {
-    return {
-      fiatValue: 0.00,
-      value: 0,
-      show: false,
-      showLoading: false,
-      error: false,
-      message: '',
-    };
-  },
+  data: () => ({
+    value: 0,
+    showModal: false,
+    showLoading: false,
+    error: false,
+    message: '',
+  }),
   computed: {
-    ...mapGetters(['isLoggedIn']),
-    ...mapState(['account', 'loading', 'minTipAmount', 'stats']),
-    derivedUserTipStats() {
-      if (!this.stats || !this.stats.by_url) {
-        return null;
-      }
-      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/user-profile/${this.userAddress}`);
-    },
-    derivedCommentTipStats() {
-      if (!this.stats || !this.stats.by_url) {
-        return null;
-      }
-      return this.stats.by_url.find((tipStats) => tipStats.url === `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`);
-    },
-    isTip() {
-      return !!(this.comment || this.userAddress);
-    },
+    ...mapState(['useSdkWallet', 'account', 'minTipAmount']),
+    ...mapState({
+      derivedTipStats({ stats }) {
+        return get(stats, 'by_url', []).find((tipStats) => tipStats.url === this.tipUrl);
+      },
+    }),
     tipUrl() {
       if (this.comment) {
         return `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
@@ -146,52 +98,26 @@ export default {
       if (this.userAddress) {
         return `https://superhero.com/user-profile/${this.userAddress}`;
       }
-      return `https://superhero.com/tip/${this.tip.id}`;
+      return '';
     },
     deepLink() {
-      if (this.tip) return createDeepLinkUrl({ type: 'retip', id: this.tip.id });
-      return createDeepLinkUrl({ type: 'tip', url: this.tipUrl });
+      return createDeepLinkUrl(this.tipUrl
+        ? { type: 'tip', url: this.tipUrl } : { type: 'retip', id: this.tip.id });
     },
-    isMessageValid() {
-      return this.message.trim().length > 0;
-    },
-    isDataValid() {
-      return (!this.isTip || this.isMessageValid) && this.value > this.minTipAmount;
+    isValid() {
+      return (!this.tipUrl || this.message.trim().length > 0) && this.value > this.minTipAmount;
     },
     isTipped() {
-      if (this.userAddress) {
-        if (!this.stats || !this.derivedUserTipStats) {
-          return false;
-        }
-        return this.derivedUserTipStats.senders.find((sender) => sender === this.account) !== null;
-      }
-
-      if (this.comment) {
-        if (!this.stats || !this.derivedCommentTipStats) {
-          return false;
-        }
-        return this.derivedCommentTipStats.senders
-          .find((sender) => sender === this.account) !== null;
-      }
-
-      return !this.loading
-          || (this.tip.sender === this.account)
-          || this.tip.retips.filter((retip) => retip.sender === this.account).length > 0;
+      if (this.tipUrl) return get(this.derivedTipStats, 'senders', []).includes(this.account);
+      return this.tip.sender === this.account
+        || this.tip.retips.some(({ sender }) => sender === this.account);
     },
     iconTip() {
-      if (this.userAddress) {
-        return iconTipUser;
-      }
+      if (this.userAddress) return iconTipUser;
       return this.isTipped ? iconTipped : iconTip;
     },
     amount() {
-      if (this.comment) {
-        if (!this.stats || !this.derivedCommentTipStats) {
-          return '0';
-        }
-        return this.derivedCommentTipStats.total_amount;
-      }
-
+      if (this.tipUrl) return get(this.derivedTipStats, 'total_amount', '0');
       return this.tip.total_amount;
     },
     title() {
@@ -203,23 +129,18 @@ export default {
     },
   },
   methods: {
-    submitAction() {
-      if (this.isDataValid || this.userAddress) {
-        this.sendTip();
-      }
-    },
     async sendTip() {
+      if (!this.isValid) return;
       this.showLoading = true;
-      const amount = util.aeToAtoms(this.value);
       try {
-        if (this.tip) await aeternity.retip(this.tip.id, amount);
-        else await aeternity.tip(this.tipUrl, this.message, amount)
+        const amount = util.aeToAtoms(this.value);
+        if (this.tipUrl) await tip(this.tipUrl, this.message, amount);
+        else await retip(this.tip.id, amount);
         if (!this.userAddress) {
-          await Backend.cacheInvalidateTips().catch(console.error);
+          await Backend.cacheInvalidateTips();
           EventBus.$emit('reloadData');
         }
-        this.show = false;
-        this.resetForm();
+        this.hideModal();
       } catch (error) {
         this.error = true;
         throw error;
@@ -227,27 +148,10 @@ export default {
         this.showLoading = false;
       }
     },
-    async sendTipComment() {
-      if (!this.$store.state.useSdkWallet) {
-        window.location = createDeepLinkUrl(
-          { type: 'comment', id: this.tip.id, text: this.message },
-        );
-        return;
-      }
-      this.showLoading = true;
-      await Backend.sendTipComment(
-        this.tip.id,
-        this.message,
-        aeternity.client.rpcClient.getCurrentAccount(),
-        (data) => aeternity.client.signMessage(data),
-      );
-      this.showLoading = false;
-      this.resetForm();
-    },
-    resetForm() {
+    hideModal() {
+      this.showModal = false;
       this.message = '';
       this.value = 0;
-      this.fiatValue = 0.00;
       this.error = false;
     },
   },
@@ -255,63 +159,57 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .tip__content {
-    position: relative;
-    display: flex;
-    align-items: center;
-    line-height: 1;
+.tip-input {
+  .button {
+    border: none;
+    background: none;
+    outline: none;
+    padding: 0;
 
-    .tip__icon {
-      margin: 0.1rem 0.3rem 0.05rem 0;
-      height: 0.7rem;
-      flex: 0 0 0.875rem;
-      width: 0.875rem;
+    &:hover img {
+      filter: brightness(1.3);
     }
 
-    &:hover .tip__icon {
-      filter: brightness(1.3);
+    img {
+      height: 1em;
+    }
+
+    .ae-amount-fiat {
+      display: inline-flex;
+      vertical-align: middle;
+      margin-left: 0.2rem;
     }
   }
 
-  .tip-url__wrapper {
-    height: 1rem;
+  .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
+    background-color: $article_content_color;
+    border-radius: 0.5rem;
+    margin-top: 0.25rem;
+    min-width: 19rem;
+    padding: 1rem;
 
-    .tip__container {
-      background-color: $article_content_color;
-      border-radius: 0.5rem;
+    @include smallest {
+      min-width: 16rem;
+      padding: 0.5rem;
+    }
+  }
+
+  .not-bootstrap-modal .not-bootstrap-modal-content {
+    .error {
+      text-align: center;
+    }
+
+    .message {
+      margin-bottom: 0.5rem;
+    }
+
+    .not-bootstrap-row {
       display: flex;
-      flex-wrap: wrap;
-      margin-top: 0.25rem;
-      min-width: 19rem;
-      width: fit-content;
-      padding: 1rem;
 
       .ae-button {
         margin-left: 0.5rem;
       }
     }
-
-    .tip__content.user ~ .tip__container {
-      right: 0;
-    }
-
-    .tip__user {
-      cursor: pointer;
-    }
   }
-
-  @include smallest {
-    .tip__container {
-      min-width: 13rem;
-      padding: 0.5rem;
-    }
-  }
-
-  .tip__message {
-    margin-bottom: 0.5rem;
-  }
-
-  .amount__row {
-    display: flex;
-  }
+}
 </style>

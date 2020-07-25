@@ -46,7 +46,7 @@ export default {
   }
 
   /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
-  ::v-deep .modal-content {
+  ::v-deep .not-bootstrap-modal-content {
     font-size: 0.75rem;
     border-radius: 0.25rem;
     border: 0.05rem solid $article_content_color;
@@ -55,7 +55,6 @@ export default {
     padding: 0.5rem;
     top: 1.2rem;
     right: 0;
-    width: fit-content;
     white-space: nowrap;
 
     & > div {

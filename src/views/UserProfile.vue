@@ -450,6 +450,10 @@ input[type="file"] {
       width: 100%;
     }
 
+    &.tip-input img {
+      height: 100%;
+    }
+
     &:focus {
       outline: 0;
     }

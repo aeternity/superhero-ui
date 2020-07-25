@@ -70,7 +70,7 @@
           class="comments"
         >
           <img src="../../assets/iconReply.svg">
-          {{ childComments }}
+          &nbsp;<span>{{ childComments }}</span>
         </span>
       </div>
     </div>
@@ -222,6 +222,10 @@ export default {
 
 .comments {
   margin-left: 3rem;
+
+  > * {
+    vertical-align: middle;
+  }
 }
 
 .three-dots {

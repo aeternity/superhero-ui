@@ -23,7 +23,7 @@
       <div class="not-bootstrap-row">
         <AeAmount :amount="balance" />
         <Dropdown
-          v-if="currencyDropdownOptions"
+          v-if="currencyDropdownOptions.length"
           :options="currencyDropdownOptions"
           :method="updateCurrency"
           :selected="selectedCurrency"
@@ -50,11 +50,10 @@ export default {
     ...mapGetters(['isLoggedIn']),
     ...mapState(['balance', 'account', 'useIframeWallet', 'selectedCurrency']),
     ...mapState({
-      currencyDropdownOptions({ currencyRates: { aeternity } = {}, balance }) {
-        if (!aeternity || !balance) return null;
-        return Object.keys(aeternity).map((currency) => ({
+      currencyDropdownOptions({ backend: { prices }, balance }) {
+        return Object.entries(prices).map(([currency, price]) => ({
           text: [
-            new BigNumber(balance).multipliedBy(aeternity[currency]).toFixed(2),
+            new BigNumber(balance).multipliedBy(price).toFixed(2),
             currency.toUpperCase(),
           ].join(' '),
           value: currency,

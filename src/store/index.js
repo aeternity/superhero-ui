@@ -14,8 +14,6 @@ export default new Vuex.Store({
     balance: 0,
     profile: {},
     pinnedItems: [],
-    currencyRates: {},
-    minTipAmount: 0.01,
     selectedCurrency: 'eur',
     topics: [],
     tipSortBy: 'hot',

@@ -6,14 +6,6 @@ export default {
     state.account = account;
     state.balance = balance;
   },
-  updateCurrencyRates(state, payload) {
-    if (payload) {
-      state.currencyRates = payload;
-      if (payload.aeternity && payload.aeternity.usd) {
-        state.minTipAmount = +(0.01 * (1 / payload.aeternity.usd)).toFixed(2);
-      }
-    }
-  },
   resetState(state) {
     state.useSdkWallet = false;
     state.account = null;

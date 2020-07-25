@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
@@ -84,7 +84,8 @@ export default {
     message: '',
   }),
   computed: {
-    ...mapState(['useSdkWallet', 'account', 'minTipAmount']),
+    ...mapState(['useSdkWallet', 'account']),
+    ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
         const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);

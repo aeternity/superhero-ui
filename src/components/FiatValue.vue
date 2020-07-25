@@ -1,6 +1,6 @@
 <template>
   <span
-    v-if="currencyRates.aeternity"
+    v-if="rate"
     class="currency-value"
   >
     <!--eslint-disable-next-line vue-i18n/no-raw-text-->
@@ -16,15 +16,14 @@ export default {
   props: {
     amount: { type: [String, Number], default: 0 },
   },
-  computed: {
-    ...mapState(['selectedCurrency', 'currencyRates']),
-    fiatValue() {
-      const rate = this.currencyRates.aeternity[this.selectedCurrency];
+  computed: mapState({
+    rate: ({ selectedCurrency, backend: { prices } }) => prices[selectedCurrency],
+    fiatValue({ selectedCurrency }) {
       if (!this.amount) {
         return 0;
       }
-      return (this.amount * rate).toLocaleString('en-US', { style: 'currency', currency: this.selectedCurrency });
+      return (this.amount * this.rate).toLocaleString('en-US', { style: 'currency', currency: selectedCurrency });
     },
-  },
+  }),
 };
 </script>

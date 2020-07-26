@@ -22,9 +22,8 @@ describe('AeAmount', () => {
   },
   {
     name: 'does not break if amount is empty',
-    amount: '',
     round: 5,
-    roundedAmount: '0',
+    roundedAmount: '0.00000',
   },
   {
     name: 'round to 2 if round is empty',
@@ -38,6 +37,6 @@ describe('AeAmount', () => {
         round: test.round,
       },
     });
-    expect(wrapper.find('.ae-amount > span:first-child').element.textContent).toBe(test.roundedAmount);
+    expect(wrapper.element.textContent.trim()).toBe(`${test.roundedAmount} AE`);
   }));
 });

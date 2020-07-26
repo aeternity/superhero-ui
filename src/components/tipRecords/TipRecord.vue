@@ -244,22 +244,6 @@ export default {
     &:hover {
       cursor: pointer;
     }
-
-    .ae-amount {
-      color: $standard_font_color;
-      font-size: 0.8rem;
-    }
-
-    .ae-amount-fiat {
-      align-items: center;
-    }
-
-    .fiat-value {
-      color: $light_font_color;
-      margin-left: 0.1rem;
-      font-size: 0.7rem;
-      flex-shrink: 0;
-    }
   }
 
   .tip__body {

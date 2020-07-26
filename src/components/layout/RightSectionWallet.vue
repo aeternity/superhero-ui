@@ -104,11 +104,6 @@ export default {
     .ae-amount {
       flex-grow: 1;
       font-size: 1.3rem;
-      color: $standard_font_color;
-
-      .ae {
-        color: $secondary_color;
-      }
     }
   }
 }

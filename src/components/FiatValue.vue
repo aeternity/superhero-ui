@@ -4,7 +4,7 @@
     class="fiat-value"
   >
     <!--eslint-disable-next-line vue-i18n/no-raw-text-->
-    <span>(~ {{ fiatValue }})</span>
+    <template>(~ {{ fiatValue }})</template>
   </span>
 </template>
 
@@ -19,11 +19,16 @@ export default {
   computed: mapState({
     rate: ({ selectedCurrency, backend: { prices } }) => prices[selectedCurrency],
     fiatValue({ selectedCurrency }) {
-      if (!this.amount) {
-        return 0;
-      }
-      return (this.amount * this.rate).toLocaleString('en-US', { style: 'currency', currency: selectedCurrency });
+      return (this.amount * this.rate).toLocaleString(
+        'en-US', { style: 'currency', currency: selectedCurrency },
+      );
     },
   }),
 };
 </script>
+
+<style lang="scss" scoped>
+.fiat-value {
+  color: $light_font_color;
+}
+</style>

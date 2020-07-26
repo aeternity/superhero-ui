@@ -613,6 +613,10 @@ input[type="file"] {
 .tip_stats {
   display: grid;
   grid-template-columns: auto auto auto;
+
+  .ae-amount-fiat {
+    display: block;
+  }
 }
 
 .tips_stats_block {
@@ -651,10 +655,6 @@ input[type="file"] {
   color: $lighter_font_color;
   font-size: 0.7rem;
   vertical-align: middle;
-}
-
-.stat-value .fiat-value {
-  font-size: 80%;
 }
 
 .profile__section {

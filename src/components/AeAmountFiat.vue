@@ -1,8 +1,8 @@
 <template>
-  <div class="ae-amount-fiat">
+  <span class="ae-amount-fiat">
     <AeAmount v-bind="$attrs" />
-    <FiatValue v-bind="$attrs" />
-  </div>
+    &nbsp;<FiatValue v-bind="$attrs" />
+  </span>
 </template>
 
 <script>
@@ -17,16 +17,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.ae-amount-fiat {
-  display: flex;
-  align-items: center;
-
-  .fiat-value {
-    font-size: 0.7rem;
-    color: $light_font_color;
-    margin-left: 0.1rem;
-  }
-}
-</style>

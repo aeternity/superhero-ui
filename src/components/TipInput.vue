@@ -8,10 +8,9 @@
       @click="useSdkWallet && (showModal = true)"
     >
       <img :src="iconTip">
-      <AeAmountFiat
-        v-if="!userAddress"
-        :amount="tipUrlStats.amount"
-      />
+      <template v-if="!userAddress">
+        &nbsp;<AeAmountFiat :amount="tipUrlStats.amount" />
+      </template>
     </Component>
     <Modal
       v-if="showModal"
@@ -171,9 +170,18 @@ export default {
     }
 
     .ae-amount-fiat {
-      display: inline-flex;
       vertical-align: middle;
-      margin-left: 0.2rem;
+
+      ::v-deep {
+        .ae-amount {
+          font-size: 0.8rem;
+        }
+
+        .fiat-value {
+          font-size: 0.7rem;
+          vertical-align: 0.05rem;
+        }
+      }
     }
   }
 

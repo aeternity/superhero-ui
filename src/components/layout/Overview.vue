@@ -72,22 +72,20 @@ export default {
       line-height: 1rem;
     }
 
-    &.ae-amount-fiat {
-      display: block;
+    &.ae-amount-fiat ::v-deep {
+      .ae-amount,
+      .fiat-value {
+        display: block;
+      }
 
-      ::v-deep {
-        > * {
-          display: block;
-        }
+      .ae-amount .ae {
+        font-size: 0.7rem;
+        padding-left: 0.25rem;
+      }
 
-        .ae-amount .ae {
-          font-size: 0.7rem;
-          padding-left: 0.25rem;
-        }
-
-        .fiat-value {
-          line-height: 1rem;
-        }
+      .fiat-value {
+        font-size: 0.7rem;
+        line-height: 1rem;
       }
     }
 

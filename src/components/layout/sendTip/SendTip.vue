@@ -49,7 +49,7 @@
                 :loading="sendingTip"
                 @click="sendTip"
               >
-                <IconDiamond />{{ $t('tip') }}
+                <IconDiamond /> {{ $t('tip') }}
               </AeButton>
             </div>
           </div>
@@ -332,12 +332,8 @@ export default {
       margin-top: 0.05rem;
       margin-bottom: 1rem;
 
-      span {
-        vertical-align: text-bottom;
-      }
-
       svg {
-        margin-right: 0.15rem;
+        height: 1.1em;
       }
     }
 

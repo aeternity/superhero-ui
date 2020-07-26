@@ -14,6 +14,7 @@ export default {
     userComments: {},
     tip: {},
     comment: {},
+    stats: null,
   },
   mutations: {
     setTips({ tips, tipsReloading }, { args, value }) {
@@ -45,6 +46,9 @@ export default {
     },
     setComment({ comment }, { id, value }) {
       Vue.set(comment, id, value);
+    },
+    setStats(state, stats) {
+      state.stats = stats;
     },
   },
   actions: {
@@ -87,6 +91,14 @@ export default {
     },
     async reloadComment({ commit }, id) {
       commit('setComment', { id, value: await Backend.getCommentById(id) });
+    },
+    async reloadStats({ commit, rootState: { sdk } }) {
+      const [stats1, stats2, height] = await Promise.all([
+        Backend.getCacheStats(),
+        Backend.getStats(),
+        sdk.height(),
+      ]);
+      commit('setStats', { ...stats1, ...stats2, height });
     },
   },
 };

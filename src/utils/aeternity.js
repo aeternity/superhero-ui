@@ -60,6 +60,7 @@ export const initClient = async () => {
         },
       });
     }
+    store.commit('setSdk', client);
   } catch (err) {
     EventBus.$emit('backendError');
     return;

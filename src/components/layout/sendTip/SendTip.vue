@@ -40,7 +40,10 @@
             >
           </div>
           <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
-            <AeInputAmount v-model="sendTipForm.amount" />
+            <AeInputAmount
+              v-model="sendTipForm.amount"
+             :select-token-f="(token) => inputToken = token"
+            />
           </div>
           <div class="col-lg-2 col-md-2 col-sm-12">
             <div class="text-right">
@@ -87,10 +90,10 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import { tip, tipToken } from '@/utils/aeternity';
+import { EventBus } from '@/utils/eventBus';
 import AeInputAmount from '../../AeInputAmount.vue';
 import util, { createDeepLinkUrl } from '../../../utils/util';
-import { tipToken } from '../../../utils/aeternity';
-import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg?icon-component';
@@ -110,6 +113,7 @@ export default {
   },
   data() {
     return {
+      inputToken: 'native',
       sendTipForm: {
         amount: 0,
         url: '',
@@ -147,13 +151,14 @@ export default {
     async sendTip() {
       this.sendingTip = true;
       this.resetStatuses();
-      // TODO differentiate between AE or token tip
-      const amount = util.shiftDecimalPlaces(this.sendTipForm.amount,
-        this.tokenInfo.ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf.decimals).toFixed();
 
-      // TODO differentiate between AE or token tip
-      tipToken(this.sendTipForm.url, this.sendTipForm.title, amount,
-        'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf')
+      const isTokenTip = this.inputToken !== 'native';
+      const amount = util.shiftDecimalPlaces(this.sendTipForm.amount,
+        isTokenTip ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
+
+      (isTokenTip
+        ? tipToken(this.sendTipForm.url, this.sendTipForm.title, amount, this.inputToken)
+        : tip(this.sendTipForm.url, this.sendTipForm.title, amount))
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();

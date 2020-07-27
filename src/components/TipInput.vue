@@ -9,20 +9,20 @@
     >
       <img :src="iconTip">
       <AeAmountFiat
-        v-if="!userAddress"
+        v-if="!userAddress && !zeroAeAmount"
         :amount="tipUrlStats.amount_ae"
-        :token="tip.token"
+        class="amount"
       />
       <AeAmountFiat
-        v-for="tokenTip in tip.token_total_amount.filter((t) => t.token !== tip.token)"
+        v-for="tokenTip in tipUrlStats.token_total_amount"
         :key="tokenTip.token"
         :amount="tokenTip.amount"
         :token="tokenTip.token"
-        style="padding-left: 0.5rem;"
+        class="amount"
       />
     </Component>
     <Modal
-      v-if="showModal"
+      v-if="showModal && tip.url"
       @close="hideModal"
     >
       <Loading v-if="showLoading" />
@@ -44,7 +44,10 @@
             >
           </div>
           <div class="not-bootstrap-row">
-            <AeInputAmount v-model="value" />
+            <AeInputAmount
+              v-model="inputValue"
+              :select-token-f="(token) => inputToken = token"
+            />
             <AeButton :disabled="!isValid">
               {{ tip ? $t('retip') : $t('tip') }}
             </AeButton>
@@ -57,7 +60,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import { retip, tip } from '@/utils/aeternity';
+import {
+  retip, tip, tipToken, retipToken,
+} from '@/utils/aeternity';
 import { EventBus } from '@/utils/eventBus';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
@@ -85,7 +90,8 @@ export default {
     comment: { type: Object, default: null },
   },
   data: () => ({
-    value: 0,
+    inputValue: 0,
+    inputToken: 'native',
     showModal: false,
     showLoading: false,
     error: false,
@@ -100,6 +106,7 @@ export default {
         return {
           isTipped: urlStats.senders.includes(this.account),
           amount_ae: urlStats.total_amount_ae,
+          token_total_amount: urlStats.token_total_amount,
         };
       },
     }),
@@ -136,13 +143,19 @@ export default {
       if (!this.isValid) return;
       this.showLoading = true;
       try {
-        // TODO differentiate between AE or token tip
-        // const amount = util.shiftDecimalPlaces(this.value,
-        // this.tokenInfo.ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf.decimals).toFixed();
+        const isTokenTip = this.inputToken !== 'native';
+        const amount = util.shiftDecimalPlaces(this.inputValue,
+          isTokenTip ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
-        const amount = util.aeToAtoms(this.value);
-        if (this.tip) await retip(this.tip.id, amount);
-        else await tip(this.tipUrl, this.message, amount);
+        if (this.tipUrl !== this.tip.url) {
+          if (isTokenTip) await tipToken(this.tipUrl, this.message, amount, this.inputToken);
+          else await tip(this.tipUrl, this.message, amount);
+        } else {
+          // eslint-disable-next-line no-lonely-if
+          if (isTokenTip) await retipToken(this.tip.id, amount, this.inputToken);
+          else await retip(this.tip.id, amount);
+        }
+
         if (!this.userAddress) {
           await Backend.cacheInvalidateTips();
           EventBus.$emit('reloadData');
@@ -158,7 +171,7 @@ export default {
     hideModal() {
       this.showModal = false;
       this.message = '';
-      this.value = 0;
+      this.inputValue = 0;
       this.error = false;
     },
   },

@@ -18,7 +18,7 @@
       <Dropdown
         :options="selectTokenOptions"
         :selected="selectedToken"
-        :method="(selected) => selectedToken = selected"
+        :method="selectToken"
       />
     </div>
     <div
@@ -52,6 +52,7 @@ export default {
     min: { type: Number, default: 0 },
     step: { type: Number, default: 0.01 },
     value: { type: [Number, String], required: true },
+    selectTokenF: { type: Function, required: true },
     disabled: { type: Boolean },
   },
   data: () => ({
@@ -61,6 +62,12 @@ export default {
     ...mapState(['tokenBalances', 'tokenInfo']),
     selectTokenOptions() {
       return [{ text: 'AE', value: 'native' }].concat(this.tokenBalances.map((tokenBalance) => ({ text: this.tokenInfo[tokenBalance.token].symbol, value: tokenBalance.token })));
+    },
+  },
+  methods: {
+    selectToken(selected) {
+      this.selectedToken = selected;
+      this.selectTokenF(this.selectedToken);
     },
   },
 };

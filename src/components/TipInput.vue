@@ -56,13 +56,13 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import { retip, tip } from '@/utils/aeternity';
+import { EventBus } from '@/utils/eventBus';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
-import { tip, retip } from '../utils/aeternity';
 import Backend from '../utils/backend';
-import { EventBus } from '../utils/eventBus';
-import util, { createDeepLinkUrl } from '../utils/util';
+import util, {createDeepLinkUrl} from '../utils/util';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';

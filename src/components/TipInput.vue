@@ -135,6 +135,10 @@ export default {
       if (!this.isValid) return;
       this.showLoading = true;
       try {
+        // TODO differentiate between AE or token tip
+        // const amount = util.shiftDecimalPlaces(this.value,
+        // this.tokenInfo.ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf.decimals).toFixed();
+
         const amount = util.aeToAtoms(this.value);
         if (this.tip) await retip(this.tip.id, amount);
         else await tip(this.tipUrl, this.message, amount);

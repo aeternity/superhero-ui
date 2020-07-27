@@ -110,7 +110,7 @@
             :src="tipPreviewImage"
             :onerror="`this.className+=' fail'`"
             :loading="`lazy`"
-            class="preview__image"
+            class="author_img preview__image"
           >
         </div>
       </div>
@@ -327,7 +327,7 @@ export default {
       word-break: break-all;
     }
 
-    img,
+    img.author_img,
     svg {
       border-radius: 50%;
       flex-shrink: 0;

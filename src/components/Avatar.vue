@@ -2,19 +2,19 @@
 <template>
   <img
     v-if="!error && profileImageUrl"
-    class="user-identicon"
+    class="author_img user-identicon"
     :src="profileImageUrl"
     loading="lazy"
     @error="error = true"
   >
   <img
     v-else-if="avatar.type === 'avatar'"
-    class="user-identicon"
+    class="author_img user-identicon"
     :src="avatar.src"
   >
   <div
     v-else-if="avatar.type === 'identicon'"
-    class="user-identicon"
+    class="author_img user-identicon"
     v-html="avatar.src"
   />
 </template>

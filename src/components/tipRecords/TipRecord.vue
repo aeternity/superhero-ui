@@ -103,10 +103,7 @@
               class="tip__amount"
               @click.stop
             >
-              <TipInput
-                is-retip
-                :tip="tip"
-              />
+              <TipInput :tip="tip" />
             </div>
           </div>
           <img

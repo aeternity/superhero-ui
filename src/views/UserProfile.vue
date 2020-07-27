@@ -59,13 +59,14 @@
             </button>
           </div>
           <div class="profile__image">
-            <div
-              v-if="account === address"
-              :title="address"
-            >
-              <Avatar :address="address" />
+            <Avatar :address="address" />
+            <TipInput
+              v-if="account !== address"
+              :user-address="address"
+              class="avatar__button profile__button"
+            />
+            <template v-else-if="!editMode">
               <label
-                v-if="!editMode"
                 class="profile__button avatar__button"
                 :title="$t('views.UserProfileView.ChangeAvatar')"
               >
@@ -78,25 +79,13 @@
                 >
               </label>
               <button
-                v-if="!editMode"
                 class="profile__button delete_avatar__button"
                 :title="$t('views.UserProfileView.DeleteAvatar')"
                 @click="deleteAvatar"
               >
                 <img src="../assets/buttonCancel.svg">
               </button>
-            </div>
-            <div
-              v-else
-              :title="address"
-            >
-              <Avatar :address="address" />
-              <TipInput
-                v-if="!editMode"
-                :user-address="address"
-                class="avatar__button profile__button"
-              />
-            </div>
+            </template>
           </div>
           <div
             class="profile__info"
@@ -461,6 +450,10 @@ input[type="file"] {
       width: 100%;
     }
 
+    &.tip-input img {
+      height: 100%;
+    }
+
     &:focus {
       outline: 0;
     }
@@ -471,10 +464,6 @@ input[type="file"] {
     bottom: 0;
     left: 0;
     position: absolute;
-
-    .tip-user-text {
-      display: none;
-    }
 
     &:hover {
       background: #2a9cffcc;
@@ -487,10 +476,6 @@ input[type="file"] {
     position: absolute;
     right: -0.25rem;
     top: -0.25rem;
-
-    .tip-user-text {
-      display: none;
-    }
 
     &:hover {
       background: #ff495242;

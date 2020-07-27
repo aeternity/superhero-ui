@@ -4,6 +4,7 @@
   "close": "Close",
   "done": "Done",
   "tip": "Tip",
+  "retip": "Retip",
   "tips": "Tips",
   "amount": "Amount",
   "addMessage": "What do you appreciate?",
@@ -571,11 +572,9 @@
     },
     "TipInput": {
       "error": "An error occurred while sending the tip. Please try again later.",
-      "retip": "Retip",
       "tipUser": "Tip User",
       "totalTipsWithYou": "Total tips (you tipped too)",
       "totalTips": "Total tips (click to retip the same URL)",
-      "totalRetips": "Total amount of retips",
       "tipComment": "Tip Comment"
     },
     "TipsPagination": {

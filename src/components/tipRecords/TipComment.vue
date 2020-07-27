@@ -61,22 +61,16 @@
       >
         {{ comment.text }}
       </div>
-      <div
-        class="comment__actions"
-      >
-        <span
-          @click.stop
-        >
-          <TipInput
-            :comment="comment"
-          />
+      <div class="comment__actions">
+        <span @click.stop>
+          <TipInput :comment="comment" />
         </span>
         <span
           :title="$t('components.tipRecords.TipComment.Replies')"
           class="comments"
         >
           <img src="../../assets/iconReply.svg">
-          {{ childComments }}
+          &nbsp;<span>{{ childComments }}</span>
         </span>
       </div>
     </div>
@@ -228,6 +222,10 @@ export default {
 
 .comments {
   margin-left: 3rem;
+
+  > * {
+    vertical-align: middle;
+  }
 }
 
 .three-dots {

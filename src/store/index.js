@@ -20,7 +20,6 @@ export default new Vuex.Store({
       currency: 'eur',
     },
     topics: [],
-    stats: {},
     tipSortBy: 'hot',
     oracleState: {},
     loading: {
@@ -35,6 +34,7 @@ export default new Vuex.Store({
     isHiddenContent: true,
     useSdkWallet: false,
     useIframeWallet: false,
+    sdk: null,
   },
   mutations,
   actions: {

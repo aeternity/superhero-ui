@@ -60,33 +60,22 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
+      'setLoggedInAccount', 'updateTopics', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
       'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet', 'setPinnedItems',
     ]),
-    async reloadAsyncData(stats) {
-      // stats
-      Promise.all([Backend.getStats(), client.height()])
-        .then(([backendStats, height]) => {
-          const newStats = { ...stats, ...backendStats, height };
-          this.updateStats(newStats);
-        }).catch((e) => {
-          this.updateStats(stats);
-          console.error(e);
-        });
-    },
     async reloadData() {
       // await fetch
       const [
-        stats, chainNames, rates, oracleState, topics, verifiedUrls, graylistedUrls,
+        chainNames, rates, oracleState, topics, verifiedUrls, graylistedUrls,
       ] = await Promise.all([
-        Backend.getCacheStats(),
         Backend.getCacheChainNames(),
         Backend.getPrice(),
         Backend.getOracleCache(),
         Backend.getTopicsCache(),
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
+        this.$store.dispatch('backend/reloadStats'),
       ]);
 
       if (this.account) {
@@ -95,7 +84,6 @@ export default {
       }
 
       // async fetch
-      this.reloadAsyncData(stats);
       this.updateTopics(topics);
       this.setChainNames(chainNames);
       this.updateCurrencyRates(rates);

@@ -23,9 +23,6 @@ export default {
   updateTopics(state, payload) {
     state.topics = payload;
   },
-  updateStats(state, payload) {
-    state.stats = payload;
-  },
   setTipSortBy(state, payload) {
     state.tipSortBy = payload;
   },
@@ -84,5 +81,8 @@ export default {
     };
     Object.entries(mergeWith({}, state, remoteState, customizer))
       .forEach(([name, value]) => Vue.set(state, name, value));
+  },
+  setSdk(state, sdk) {
+    state.sdk = sdk;
   },
 };

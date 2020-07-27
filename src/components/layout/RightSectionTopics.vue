@@ -21,7 +21,7 @@
           class="text-ellipsis"
           :topic="topic"
         />
-        <AeAmountFiat :amount="data.amount" />
+        <AeAmountFiat :amount="data.amount_ae" />
       </div>
     </div>
   </div>

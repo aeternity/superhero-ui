@@ -11,16 +11,6 @@
       {{ $t('components.layout.RightSection.Wallet') }}
     </RightSectionTitle>
 
-    <div
-      v-for="tokenBalance in tokenBalances"
-      :key="tokenBalance.token"
-    >
-      <AeAmount
-        :amount="tokenBalance.balance"
-        :token="tokenBalance.token"
-      />
-    </div>
-
     <iframe
       v-if="useIframeWallet"
       :class="{ 'half-closed': closed }"
@@ -37,6 +27,15 @@
           :options="currencyDropdownOptions"
           :method="updateCurrency"
           :selected="selectedCurrency"
+        />
+      </div>
+      <div
+        v-for="tokenBalance in tokenBalances"
+        :key="tokenBalance.token"
+      >
+        <AeAmount
+          :amount="tokenBalance.balance"
+          :token="tokenBalance.token"
         />
       </div>
     </template>

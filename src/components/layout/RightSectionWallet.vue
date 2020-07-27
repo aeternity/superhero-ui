@@ -27,6 +27,7 @@
           :options="currencyDropdownOptions"
           :method="updateCurrency"
           :selected="selectedCurrency"
+          :rounded="true"
         />
       </div>
       <div

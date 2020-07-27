@@ -79,7 +79,7 @@
             :src="tipPreviewImage"
             :onerror="`this.className+=' fail'`"
             :loading="`lazy`"
-            class="preview__image"
+            class="author_img preview__image"
           >
         </div>
       </div>
@@ -253,6 +253,66 @@ export default {
   .tip__body {
     padding-top: 1rem;
     width: 100%;
+  }
+
+  .tip__author {
+    align-items: center;
+    color: $light_font_color;
+    display: flex;
+    font-size: 0.8rem;
+    justify-content: space-between;
+    padding: 0 1rem 0.9rem 1rem;
+
+    .tip__date {
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .three-dots {
+        font-size: 0.75rem;
+        margin-left: 0.3rem;
+      }
+    }
+
+    .address {
+      font-size: 0.65rem;
+    }
+
+    .address,
+    .chain__name {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+      word-break: break-all;
+    }
+
+    img.author_img,
+    svg {
+      border-radius: 50%;
+      flex-shrink: 0;
+      height: 2rem;
+      margin-right: 0.25rem;
+      object-fit: cover;
+      width: 2rem;
+    }
+
+    a {
+      color: $light_font_color;
+      display: flex;
+      margin-right: 1rem;
+      overflow: hidden;
+
+      &:hover {
+        filter: brightness(1.3);
+      }
+    }
+
+    .chain__name {
+      color: #fff;
+    }
 
     .tip__description .author-and-date .date .three-dots {
       font-size: 0.75rem;

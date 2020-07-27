@@ -15,6 +15,16 @@
       @input="$emit('input', $event.target.value)"
     >
     <div class="input-group-append">
+      <Dropdown
+        :options="selectTokenOptions"
+        :selected="selectedToken"
+        :method="(selected) => selectedToken = selected"
+      />
+    </div>
+    <div
+      v-if="selectedToken === 'native'"
+      class="input-group-append"
+    >
       <span
         class="input-group-text append__ae text-ellipsis"
         :title="value"
@@ -31,17 +41,28 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import FiatValue from './FiatValue.vue';
+import Dropdown from './Dropdown.vue';
 
 export default {
   components: {
-    FiatValue,
+    Dropdown, FiatValue,
   },
   props: {
     min: { type: Number, default: 0 },
     step: { type: Number, default: 0.01 },
     value: { type: [Number, String], required: true },
     disabled: { type: Boolean },
+  },
+  data: () => ({
+    selectedToken: 'native',
+  }),
+  computed: {
+    ...mapState(['tokenBalances', 'tokenInfo']),
+    selectTokenOptions() {
+      return [{ text: 'AE', value: 'native' }].concat(this.tokenBalances.map((tokenBalance) => ({ text: this.tokenInfo[tokenBalance.token].symbol, value: tokenBalance.token })));
+    },
   },
 };
 </script>

@@ -1,6 +1,8 @@
 <template>
   <div class="dropdown">
-    <div class="display">
+    <div class="display"
+         :class="rounded ? 'rounded' : ''"
+    >
       <div
         class="text-ellipsis"
         :title="displayValue"
@@ -30,6 +32,7 @@ export default {
     options: { type: Array, default: null },
     selected: { type: String, default: '' },
     method: { type: Function, required: true },
+    rounded: { type: Boolean },
   },
   data() {
     return {
@@ -59,11 +62,14 @@ export default {
     font-size: 0.75rem;
     background-color: $light_color;
     padding: 0.6rem 2.2rem 0.6rem 0.85rem;
-    border-radius: 0.25rem;
     line-height: 0.9rem;
     min-height: 2.2rem;
     display: flex;
     align-items: center;
+
+    .rounded {
+      border-radius: 0.25rem;
+    }
 
     img {
       position: absolute;

@@ -4,8 +4,8 @@
     :class="{ iframe: useIframeWallet }"
   >
     <RightSectionTitle
-      :open="open"
-      @toggle="$emit('toggle')"
+      v-bind="$attrs"
+      :closed="closed"
     >
       <img src="../../assets/iconWallet.svg">
       {{ $t('components.layout.RightSection.Wallet') }}
@@ -13,7 +13,7 @@
 
     <iframe
       v-if="useIframeWallet"
-      :class="{ 'half-closed': !open }"
+      :class="{ 'half-closed': closed }"
       :src="walletUrl"
     />
     <template v-else-if="isLoggedIn">
@@ -42,7 +42,7 @@ import RightSectionTitle from './RightSectionTitle.vue';
 
 export default {
   components: { RightSectionTitle, AeAmount, Dropdown },
-  props: { open: Boolean },
+  props: { closed: Boolean },
   data: () => ({
     walletUrl: process.env.VUE_APP_WALLET_URL,
   }),

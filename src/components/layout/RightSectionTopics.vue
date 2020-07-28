@@ -1,11 +1,11 @@
 <template>
   <div
     class="right-section-topics"
-    :class="{ closed: !open }"
+    :class="{ closed }"
   >
     <RightSectionTitle
-      :open="open"
-      @toggle="$emit('toggle')"
+      v-bind="$attrs"
+      :closed="closed"
     >
       <img src="../../assets/iconTrending.svg">
       {{ $t('components.layout.RightSection.Trending') }}
@@ -35,7 +35,7 @@ import AeAmountFiat from '../AeAmountFiat.vue';
 
 export default {
   components: { RightSectionTitle, Topic, AeAmountFiat },
-  props: { open: Boolean },
+  props: { closed: Boolean },
   computed: mapState({
     topics: ({ topics }) => topics.filter(([t]) => t !== '#test'),
   }),

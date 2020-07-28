@@ -3,22 +3,23 @@
     <span><slot /></span>
 
     <button
-      v-if="useIframeWallet"
-      @click="$emit('toggle')"
+      v-if="toggleHandler"
+      @click="toggleHandler"
     >
-      <IconExpanded :class="{ open }" />
+      <IconExpanded :class="{ closed }" />
     </button>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import IconExpanded from '../../assets/iconExpanded.svg?icon-component';
 
 export default {
   components: { IconExpanded },
-  computed: mapState(['useIframeWallet']),
-  props: { open: Boolean },
+  props: {
+    closed: Boolean,
+    toggleHandler: { type: Function, default: null },
+  },
 };
 </script>
 
@@ -48,10 +49,9 @@ export default {
 
     svg {
       height: 1em;
-      transform: rotate(180deg);
 
-      &.open {
-        transform: rotate(0);
+      &.closed {
+        transform: rotate(180deg);
       }
     }
   }

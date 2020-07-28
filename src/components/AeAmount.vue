@@ -13,7 +13,7 @@ import util from '../utils/util';
 export default {
   name: 'AeAmount',
   props: {
-    amount: { type: String, required: true },
+    amount: { type: [String, Number], default: 0 },
     round: { type: Number, default: 2 },
     aettos: { type: Boolean, required: false },
   },

@@ -10,7 +10,7 @@
       <img :src="iconTip">
       <AeAmountFiat
         v-if="!userAddress"
-        :amount="amount"
+        :amount="tipUrlStats.amount"
       />
     </Component>
     <Modal
@@ -28,7 +28,7 @@
         <form @submit.prevent="sendTip">
           <div class="input-group"><!-- TODO: Remove this wrapper after removing bootstrap -->
             <input
-              v-if="tipUrl"
+              v-if="!tip"
               v-model="message"
               maxlength="280"
               class="message form-control"
@@ -38,7 +38,7 @@
           <div class="not-bootstrap-row">
             <AeInputAmount v-model="value" />
             <AeButton :disabled="!isValid">
-              {{ tipUrl ? $t('tip') : $t('retip') }}
+              {{ tip ? $t('retip') : $t('tip') }}
             </AeButton>
           </div>
         </form>
@@ -49,7 +49,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import { get } from 'lodash-es';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
@@ -86,9 +85,14 @@ export default {
   }),
   computed: {
     ...mapState(['useSdkWallet', 'account', 'minTipAmount']),
-    ...mapState({
-      derivedTipStats({ stats }) {
-        return get(stats, 'by_url', []).find((tipStats) => tipStats.url === this.tipUrl);
+    ...mapState('backend', {
+      tipUrlStats({ stats }) {
+        const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);
+        if (!urlStats) return {};
+        return {
+          isTipped: urlStats.senders.includes(this.account),
+          amount: urlStats.total_amount,
+        };
       },
     }),
     tipUrl() {
@@ -98,32 +102,23 @@ export default {
       if (this.userAddress) {
         return `https://superhero.com/user-profile/${this.userAddress}`;
       }
-      return '';
+      return this.tip.url;
     },
     deepLink() {
-      return createDeepLinkUrl(this.tipUrl
-        ? { type: 'tip', url: this.tipUrl } : { type: 'retip', id: this.tip.id });
+      return createDeepLinkUrl(this.tip
+        ? { type: 'retip', id: this.tip.id } : { type: 'tip', url: this.tipUrl });
     },
     isValid() {
-      return (!this.tipUrl || this.message.trim().length > 0) && this.value > this.minTipAmount;
-    },
-    isTipped() {
-      if (this.tipUrl) return get(this.derivedTipStats, 'senders', []).includes(this.account);
-      return this.tip.sender === this.account
-        || this.tip.retips.some(({ sender }) => sender === this.account);
+      return (this.tip || this.message.trim().length > 0) && this.value > this.minTipAmount;
     },
     iconTip() {
       if (this.userAddress) return iconTipUser;
-      return this.isTipped ? iconTipped : iconTip;
-    },
-    amount() {
-      if (this.tipUrl) return get(this.derivedTipStats, 'total_amount', '0');
-      return this.tip.total_amount;
+      return this.tipUrlStats.isTipped ? iconTipped : iconTip;
     },
     title() {
       if (this.userAddress) return this.$t('components.TipInput.tipUser');
       if (this.comment) return this.$t('components.TipInput.tipComment');
-      return this.isTipped
+      return this.tipUrlStats.isTipped
         ? this.$t('components.TipInput.totalTipsWithYou')
         : this.$t('components.TipInput.totalTips');
     },
@@ -134,8 +129,8 @@ export default {
       this.showLoading = true;
       try {
         const amount = util.aeToAtoms(this.value);
-        if (this.tipUrl) await tip(this.tipUrl, this.message, amount);
-        else await retip(this.tip.id, amount);
+        if (this.tip) await retip(this.tip.id, amount);
+        else await tip(this.tipUrl, this.message, amount);
         if (!this.userAddress) {
           await Backend.cacheInvalidateTips();
           EventBus.$emit('reloadData');

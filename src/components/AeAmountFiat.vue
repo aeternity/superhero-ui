@@ -1,13 +1,7 @@
 <template>
   <div class="ae-amount-fiat">
-    <AeAmount
-      v-bind="$attrs"
-      :amount="amount"
-    />
-    <FiatValue
-      v-bind="$attrs"
-      :amount="amount"
-    />
+    <AeAmount v-bind="$attrs" />
+    <FiatValue v-bind="$attrs" />
   </div>
 </template>
 
@@ -20,9 +14,6 @@ export default {
   components: {
     FiatValue,
     AeAmount,
-  },
-  props: {
-    amount: { type: String, required: true },
   },
 };
 </script>

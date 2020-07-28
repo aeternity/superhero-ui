@@ -82,7 +82,7 @@ export default {
   },
   async mounted() {
     const handler = () => this.reloadTip();
-    this.$watch(({ tip }) => tip, handler, { immediate: true });
+    this.$watch(({ id }) => id, handler, { immediate: true });
     EventBus.$on('reloadData', handler);
     const interval = setInterval(handler, 120 * 1000);
 

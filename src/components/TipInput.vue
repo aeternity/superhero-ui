@@ -9,7 +9,7 @@
     >
       <img :src="iconTip">
       <AeAmountFiat
-        v-if="!userAddress && !zeroAeAmount"
+        v-if="!userAddress"
         :amount="tipUrlStats.amount_ae"
         class="amount"
       />

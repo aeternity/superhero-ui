@@ -42,7 +42,7 @@
           <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
             <AeInputAmount
               v-model="sendTipForm.amount"
-             :select-token-f="(token) => inputToken = token"
+              :select-token-f="(token) => inputToken = token"
             />
           </div>
           <div class="col-lg-2 col-md-2 col-sm-12">

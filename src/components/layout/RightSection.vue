@@ -7,14 +7,18 @@
 
     <RightSectionWallet
       class="section"
-      :open="!showTopics"
-      @toggle="showTopics = !showTopics"
+      v-bind="toggleable && {
+        closed: showTopics,
+        toggleHandler: () => showTopics = !showTopics,
+      }"
     />
 
     <RightSectionTopics
       class="section"
-      :open="showTopics"
-      @toggle="showTopics = !showTopics"
+      v-bind="toggleable && {
+        closed: !showTopics,
+        toggleHandler: () => showTopics = !showTopics,
+      }"
     />
 
     <FooterSection />
@@ -22,6 +26,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import FooterSection from './FooterSection.vue';
 import SearchInput from './SearchInput.vue';
 import RightSectionWallet from './RightSectionWallet.vue';
@@ -38,6 +43,7 @@ export default {
   data: () => ({
     showTopics: false,
   }),
+  computed: mapState({ toggleable: 'useIframeWallet' }),
 };
 </script>
 

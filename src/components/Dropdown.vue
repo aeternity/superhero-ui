@@ -54,7 +54,6 @@ export default {
 .dropdown {
   display: inline-block;
   position: relative;
-  min-width: 6rem;
 
   .display {
     text-align: center;

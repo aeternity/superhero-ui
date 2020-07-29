@@ -65,11 +65,12 @@ import {
   retip, tip, tipToken, retipToken,
 } from '@/utils/aeternity';
 import { EventBus } from '@/utils/eventBus';
+import BigNumber from 'bignumber.js';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
 import Backend from '../utils/backend';
-import util, {createDeepLinkUrl} from '../utils/util';
+import util, { createDeepLinkUrl } from '../utils/util';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
@@ -111,6 +112,11 @@ export default {
         };
       },
     }),
+    isTokenAndZeroAeTip() {
+      return new BigNumber(this.tipUrlStats.amount_ae || '0').isZero()
+        && new BigNumber(this.tip.total_amount_ae).isZero()
+        && this.tip.token;
+    },
     tipUrl() {
       if (this.comment) {
         return `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
@@ -125,7 +131,7 @@ export default {
         ? { type: 'retip', id: this.tip.id } : { type: 'tip', url: this.tipUrl });
     },
     isValid() {
-      return (this.tip || this.message.trim().length > 0) && this.value > this.minTipAmount;
+      return (this.tip || this.message.trim().length > 0) && this.inputValue > this.minTipAmount;
     },
     iconTip() {
       if (this.userAddress) return iconTipUser;

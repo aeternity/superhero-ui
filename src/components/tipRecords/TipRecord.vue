@@ -137,7 +137,7 @@
             :tip="tip"
           />
           <router-link :to="'/user-profile/' + tip.receiver">
-            <Avatar :address="tip.receiver"/>
+            <Avatar :address="tip.receiver" />
             <div class="tip__author_name">
               <span
                 v-if="tip.chainName"

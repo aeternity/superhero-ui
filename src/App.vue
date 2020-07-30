@@ -95,6 +95,7 @@ export default {
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
       this.setTokenInfo(tokenInfo);
+      if (this.account) this.loadTokenBalances(this.account);
     },
     async fetchUserData() {
       await Promise.all([
@@ -127,11 +128,7 @@ export default {
       });
 
       // trigger run async in background
-      Backend.getTokenBalances(address).then(async (tokens) => {
-        await Object.entries(tokens)
-          .asyncMap(async ([token]) => this
-            .addTokenBalances({ token, balance: await tokenBalance(token, address) }));
-      }).catch(console.error);
+      this.loadTokenBalances(address);
 
       // trigger run async in background
       Backend.getPinnedItems(this.account).then((pinnedItems) => {
@@ -140,6 +137,13 @@ export default {
 
       this.fetchUserData();
       this.removeLoading('wallet');
+    },
+    loadTokenBalances(address) {
+      Backend.getTokenBalances(address).then(async (tokens) => {
+        await Object.entries(tokens)
+          .asyncMap(async ([token]) => this
+            .addTokenBalances({ token, balance: await tokenBalance(token, address) }));
+      }).catch(console.error);
     },
   },
 };

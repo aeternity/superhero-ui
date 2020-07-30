@@ -1,7 +1,7 @@
 <template>
   <div
-    class="overview"
     v-if="stats"
+    class="overview"
   >
     <div class="value">
       {{ stats.total_tips_length }}

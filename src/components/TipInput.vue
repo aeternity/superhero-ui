@@ -33,25 +33,27 @@
         >
           {{ $t('components.TipInput.error') }}
         </div>
-        <form @submit.prevent="sendTip">
-          <div class="input-group"><!-- TODO: Remove this wrapper after removing bootstrap -->
-            <input
-              v-if="!tip"
-              v-model="message"
-              maxlength="280"
-              class="message form-control"
-              :placeholder="$t('addMessage')"
-            >
-          </div>
-          <div class="not-bootstrap-row">
-            <AeInputAmount
-              v-model="inputValue"
-              :select-token-f="(token) => inputToken = token"
-            />
-            <AeButton :disabled="!isValid">
-              {{ tip ? $t('retip') : $t('tip') }}
-            </AeButton>
-          </div>
+        <form
+          class="d-flex flex-row"
+          @submit.prevent="sendTip"
+        >
+          <input
+            v-if="!tip"
+            v-model="message"
+            maxlength="280"
+            class="message form-control"
+            :placeholder="$t('addMessage')"
+          >
+          <AeInputAmount
+            v-model="inputValue"
+            :select-token-f="(token) => inputToken = token"
+          />
+          <AeButton
+            :disabled="!isValid"
+            class="ml-2"
+          >
+            {{ tip ? $t('retip') : $t('tip') }}
+          </AeButton>
         </form>
       </template>
     </Modal>

@@ -186,7 +186,6 @@ import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
   name: 'TipRecord',
-  mixins: [backendAuthMixin(true)],
   components: {
     TipTitle,
     FormatDate,
@@ -196,6 +195,7 @@ export default {
     ThreeDotsMenu,
     ExternalLink,
   },
+  mixins: [backendAuthMixin(true)],
   props: {
     tip: { type: Object, required: true },
   },

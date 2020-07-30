@@ -58,7 +58,6 @@ import SendComment from '../components/SendComment.vue';
 import SuccessModal from '../components/SuccessModal.vue';
 
 export default {
-  mixins: [backendAuthMixin()],
   components: {
     Loading,
     TipRecord,
@@ -67,6 +66,7 @@ export default {
     SendComment,
     SuccessModal,
   },
+  mixins: [backendAuthMixin()],
   props: {
     id: { type: [String, Number], required: true },
   },

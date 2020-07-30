@@ -226,7 +226,6 @@ import TipInput from '../components/TipInput.vue';
 import SuccessIcon from '../assets/verifiedUrl.svg';
 
 export default {
-  mixins: [backendAuthMixin()],
   components: {
     ListOfTipsAndComments,
     AeAmountFiat,
@@ -234,6 +233,7 @@ export default {
     Avatar,
     TipInput,
   },
+  mixins: [backendAuthMixin()],
   props: {
     address: { type: String, required: true },
   },

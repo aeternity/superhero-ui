@@ -240,9 +240,9 @@ export default {
     }
 
     .send-url {
+      position: relative;
       background-color: $buttons_background;
       color: $standard_font_color;
-
       border: 0.05rem solid $buttons_background;
       border-radius: 0.25rem;
       padding: 0;
@@ -277,10 +277,6 @@ export default {
         font-size: 0.75rem;
         height: 2.2rem;
       }
-    }
-
-    .send-url {
-      position: relative;
     }
 
     .send-url,
@@ -324,6 +320,7 @@ export default {
 
     .url-input {
       padding-left: 2.1rem;
+
       &:focus {
         box-shadow: none;
       }

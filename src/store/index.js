@@ -50,11 +50,13 @@ export default new Vuex.Store({
     persistState(
       (state) => state,
       ({
-        selectedCurrency, address, balance,
+        selectedCurrency, address, balance, tokenInfo, tokenBalances,
       }) => ({
         selectedCurrency,
         address,
         balance,
+        tokenInfo,
+        tokenBalances,
       }),
     ),
     modals,

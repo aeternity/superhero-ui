@@ -1,7 +1,8 @@
 <template>
   <div class="dropdown">
-    <div class="display"
-         :class="rounded ? 'rounded' : ''"
+    <div
+      class="display"
+      :class="rounded ? 'rounded' : ''"
     >
       <div
         class="text-ellipsis"

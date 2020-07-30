@@ -55,13 +55,15 @@ export default new Vuex.Store({
     persistState(
       (state) => state,
       ({
-        settings, wizardCurrentStep, wizardIsCollapsed, account, balance,
+        settings, wizardCurrentStep, wizardIsCollapsed, account, balance, tokenInfo, tokenBalances,
       }) => ({
         settings,
         wizardCurrentStep,
         wizardIsCollapsed,
         account,
         balance,
+        tokenInfo,
+        tokenBalances,
       }),
     ),
   ],

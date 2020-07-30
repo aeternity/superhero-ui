@@ -72,7 +72,11 @@ export default {
     state.profile = profile;
   },
   addTokenBalances(state, payload) {
-    state.tokenBalances = [...new Set(state.tokenBalances.concat([payload]))];
+    state.tokenBalances = [payload].concat(state.tokenBalances).reduce((acc, bal) => {
+      const contains = acc.find((b) => b.token === bal.token);
+      if (!contains) acc.push(bal);
+      return acc;
+    }, []).sort((a, b) => a.token.localeCompare(b.token));
   },
   setPinnedItems(state, pinnedItems) {
     state.pinnedItems = pinnedItems;

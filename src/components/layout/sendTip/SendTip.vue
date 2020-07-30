@@ -9,7 +9,7 @@
           @click="toggleSendTip(false)"
         >
       </div>
-      <form @submit.prevent>
+      <form @submit.prevent="sendTip">
         <MessageInput
           v-model="sendTipForm.title"
           maxlength="280"
@@ -28,22 +28,22 @@
               :placeholder="$t('components.layout.SendTip.EnterURL')"
             >
           </div>
-          <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
+          <div class="send-amount">
             <AeInputAmount
               v-model="sendTipForm.amount"
               :select-token-f="(token) => inputToken = token"
             />
           </div>
-          <div class="col-lg-2 col-md-2 col-sm-12">
-            <div class="text-right">
-              <AeButton
-                :disabled="!canTip || !isSendTipDataValid"
-                :loading="sendingTip"
-                @click="sendTip"
-              >
+          <div class="text-right">
+            <AeButton
+              :disabled="!canTip || !isSendTipDataValid"
+              :loading="sendingTip"
+              @click="sendTip"
+            >
+              <span class="text-nowrap">
                 <IconDiamond /> {{ $t('tip') }}
-              </AeButton>
-            </div>
+              </span>
+            </AeButton>
           </div>
         </div>
       </form>
@@ -186,6 +186,30 @@ export default {
       }
     }
 
+    .send-url {
+      background-color: $buttons_background;
+      color: $standard_font_color;
+
+      border: 0.05rem solid $buttons_background;
+      border-radius: 0.25rem;
+      padding: 0;
+
+      input,
+      input:focus {
+        border: 0;
+      }
+
+      &:focus-within {
+        border-color: $secondary_color;
+      }
+
+      input {
+        background-color: $buttons_background;
+        color: $standard_font_color;
+        font-size: 0.75rem;
+      }
+    }
+
     .form-group {
       margin-bottom: 0;
 
@@ -200,6 +224,10 @@ export default {
         font-size: 0.75rem;
         height: 2.2rem;
       }
+    }
+
+    .send-url {
+      position: relative;
     }
 
     .send-url,

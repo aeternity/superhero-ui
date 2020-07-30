@@ -8,7 +8,7 @@
       :min="min"
       :step="step"
       :placeholder="$t('amount')"
-      class="form-control"
+      class="form-control input-amount"
       aria-label="Default"
       aria-describedby="inputGroup-sizing-mn"
       :disabled="disabled"
@@ -112,6 +112,10 @@ export default {
     .ae {
       color: $secondary_color;
     }
+  }
+
+  .input-amount {
+    max-width: 95px;
   }
 }
 </style>

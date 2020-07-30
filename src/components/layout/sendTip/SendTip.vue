@@ -261,6 +261,9 @@ export default {
 
     .url-input {
       padding-left: 2.1rem;
+      &:focus {
+        box-shadow: none;
+      }
     }
 
     .closed-view.message-input {

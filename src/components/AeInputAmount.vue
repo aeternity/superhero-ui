@@ -114,7 +114,7 @@ export default {
   }
 
   .input-amount {
-    max-width: 95px;
+    max-width: 5rem;
   }
 }
 </style>

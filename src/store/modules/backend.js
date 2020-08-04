@@ -18,7 +18,7 @@ export default {
     prices: {},
   },
   getters: {
-    minTipAmount: ({ prices: { usd } }) => 0.01 / usd || 0.06,
+    minTipAmount: ({ prices: { usd } }) => 0.01 / usd,
   },
   mutations: {
     setTips({ tips, tipsReloading }, { args, value }) {

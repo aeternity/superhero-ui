@@ -226,7 +226,6 @@ import TipInput from '../components/TipInput.vue';
 import SuccessIcon from '../assets/verifiedUrl.svg';
 
 export default {
-  mixins: [backendAuthMixin()],
   components: {
     ListOfTipsAndComments,
     AeAmountFiat,
@@ -234,6 +233,7 @@ export default {
     Avatar,
     TipInput,
   },
+  mixins: [backendAuthMixin()],
   props: {
     address: { type: String, required: true },
   },
@@ -613,6 +613,10 @@ input[type="file"] {
 .tip_stats {
   display: grid;
   grid-template-columns: auto auto auto;
+
+  .ae-amount-fiat {
+    display: block;
+  }
 }
 
 .tips_stats_block {
@@ -651,10 +655,6 @@ input[type="file"] {
   color: $lighter_font_color;
   font-size: 0.7rem;
   vertical-align: middle;
-}
-
-.stat-value .currency-value {
-  font-size: 80%;
 }
 
 .profile__section {

@@ -14,11 +14,7 @@ export default new Vuex.Store({
     balance: 0,
     profile: {},
     pinnedItems: [],
-    currencyRates: {},
-    minTipAmount: 0.01,
-    settings: {
-      currency: 'eur',
-    },
+    selectedCurrency: 'eur',
     topics: [],
     tipSortBy: 'hot',
     oracleState: {},
@@ -53,9 +49,9 @@ export default new Vuex.Store({
     persistState(
       (state) => state,
       ({
-        settings, wizardCurrentStep, wizardIsCollapsed, account, balance,
+        selectedCurrency, wizardCurrentStep, wizardIsCollapsed, account, balance,
       }) => ({
-        settings,
+        selectedCurrency,
         wizardCurrentStep,
         wizardIsCollapsed,
         account,

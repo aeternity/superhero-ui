@@ -20,7 +20,7 @@
         :title="value"
       >
         <!--eslint-disable-next-line vue-i18n/no-raw-text-->
-        <span class="ae">AE&nbsp;</span>
+        <span class="ae">AE</span>&nbsp;
         <FiatValue
           display-symbol
           :amount="value.toString()"

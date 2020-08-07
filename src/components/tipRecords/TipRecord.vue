@@ -160,7 +160,6 @@ import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
   name: 'TipRecord',
-  mixins: [backendAuthMixin(true)],
   components: {
     TipTitle,
     FormatDate,
@@ -170,6 +169,7 @@ export default {
     ThreeDotsMenu,
     ExternalLink,
   },
+  mixins: [backendAuthMixin(true)],
   props: {
     tip: { type: Object, required: true },
   },
@@ -243,22 +243,6 @@ export default {
 
     &:hover {
       cursor: pointer;
-    }
-
-    .ae-amount {
-      color: $standard_font_color;
-      font-size: 0.8rem;
-    }
-
-    .ae-amount-fiat {
-      align-items: center;
-    }
-
-    .currency-value {
-      color: $light_font_color;
-      margin-left: 0.1rem;
-      font-size: 0.7rem;
-      flex-shrink: 0;
     }
   }
 

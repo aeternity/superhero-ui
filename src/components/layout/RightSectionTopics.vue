@@ -83,10 +83,6 @@ export default {
 
       .ae-amount-fiat {
         flex-shrink: 0;
-
-        .ae-amount .ae {
-          color: $secondary_color;
-        }
       }
     }
   }

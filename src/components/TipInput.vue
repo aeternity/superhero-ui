@@ -8,10 +8,9 @@
       @click="useSdkWallet && (showModal = true)"
     >
       <img :src="iconTip">
-      <AeAmountFiat
-        v-if="!userAddress"
-        :amount="tipUrlStats.amount"
-      />
+      <template v-if="!userAddress">
+        &nbsp;<AeAmountFiat :amount="tipUrlStats.amount" />
+      </template>
     </Component>
     <Modal
       v-if="showModal"
@@ -48,7 +47,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
@@ -84,7 +83,8 @@ export default {
     message: '',
   }),
   computed: {
-    ...mapState(['useSdkWallet', 'account', 'minTipAmount']),
+    ...mapState(['useSdkWallet', 'account']),
+    ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
         const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);
@@ -170,9 +170,18 @@ export default {
     }
 
     .ae-amount-fiat {
-      display: inline-flex;
       vertical-align: middle;
-      margin-left: 0.2rem;
+
+      ::v-deep {
+        .ae-amount {
+          font-size: 0.8rem;
+        }
+
+        .fiat-value {
+          font-size: 0.7rem;
+          vertical-align: 0.05rem;
+        }
+      }
     }
   }
 

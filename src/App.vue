@@ -67,15 +67,15 @@ export default {
     async reloadData() {
       // await fetch
       const [
-        chainNames, rates, oracleState, topics, verifiedUrls, graylistedUrls,
+        chainNames, oracleState, topics, verifiedUrls, graylistedUrls,
       ] = await Promise.all([
         Backend.getCacheChainNames(),
-        Backend.getPrice(),
         Backend.getOracleCache(),
         Backend.getTopicsCache(),
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
         this.$store.dispatch('backend/reloadStats'),
+        this.$store.dispatch('backend/reloadPrices'),
       ]);
 
       if (this.account) {
@@ -86,7 +86,6 @@ export default {
       // async fetch
       this.updateTopics(topics);
       this.setChainNames(chainNames);
-      this.updateCurrencyRates(rates);
       this.setOracleState(oracleState);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);

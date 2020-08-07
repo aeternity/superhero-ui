@@ -124,7 +124,8 @@ export default {
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['loading', 'account', 'minTipAmount']),
+    ...mapGetters('backend', ['minTipAmount']),
+    ...mapState(['loading', 'account']),
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation

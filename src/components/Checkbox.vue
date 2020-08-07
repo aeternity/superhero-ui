@@ -5,8 +5,8 @@
     </span>
     <input
       :checked="checked"
-      @change="$emit('change')"
       type="checkbox"
+      @change="$emit('change')"
     >
     <span class="checkmark" />
   </label>

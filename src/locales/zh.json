@@ -24,7 +24,7 @@
       "sections": [
         {
           "title": "创建帐户",
-          "text": "通过超级英雄网注册或者下载Chrome或Firefox扩展插件. {br}{br} Chrome扩展可以用于Brave、Opera以及任何基于Chromium内核的浏览器. {br}{br} 如果您已经有的AE钱包,您可以选择"恢复现有帐户"并输入助记词.否则,请选择“生成新钱包”. {br}{br} 您可以阅读入门指南或选择跳过,即可找到你的钱包.这是你的帐户！"
+          "text": "通过超级英雄网注册或者下载Chrome或Firefox扩展插件. {br}{br} Chrome扩展可以用于Brave、Opera以及任何基于Chromium内核的浏览器. {br}{br} 如果您已经有的AE钱包,您可以选择”恢复现有帐户”并输入助记词.否则,请选择“生成新钱包”. {br}{br} 您可以阅读入门指南或选择跳过,即可找到你的钱包.这是你的帐户！"
         },
         {
           "title": "发送 TIPS",

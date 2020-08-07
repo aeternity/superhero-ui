@@ -1,0 +1,601 @@
+{
+  "loading": "Chargement...",
+  "cancel": "Annuler",
+  "close": "Fermer",
+  "done": "Terminé",
+  "tip": "Donner un pourboire",
+  "retip": "Redonner un pourboire",
+  "tips": "Pourboires",
+  "amount": "Montant",
+  "addMessage": "Qu'est-ce que vous appréciez?",
+  "comments": "Commentaires",
+  "FAQ": "FAQ",
+  "noExtensionSupport": "Vous devez détenir un portefeuille Superhero pour commenter et donner des pourboires.",
+  "FellowSuperhero": "Membres superhero",
+  "Balance": "Balance:",
+  "views": {
+    "CreateProfile": {
+      "header1": "COMMENT UTILISER SUPERHERO.COM",
+      "header2": "Plateforme sociale qui respecte votre liberté d'expression.",
+      "header3": "Pas de censure, beaucoup de transparence, pas de frais cachés.",
+      "click": "Cliquez ici",
+      "add": "Ajouter",
+      "here": "ici",
+      "names": "Noms",
+      "feedbackForm": "Formulaire d'évaluation",
+      "sections": [
+        {
+          "title": "CRÉER UN COMPTE",
+          "text": "Créez un compte sur le site Superhero.com ou téléchargez l'extension Chrome ou Firefox. {br}{br} L'extension Chrome peut être utilisée sur les navigateurs Brave, Opera, et tous ceux utilisant la technologie Chrome. {br}{br} Si vous avez déjà un portefeuille AE, vous pouvez choisir de récupérer votre compte existant et d'entrer votre phrase de récupération. Sinon vous pouvez créer un nouveau portefeuille. {br}{br} Vous pouvez lire le guide de démarrage ou sauter entièrement cette étape. Cela vous mènera ensuite sur votre portefeuille. C'est tout! votre compte est créé!"
+        },
+        {
+          "title": "ENVOYER DES POURBOIRES",
+          "text": "Cliquez sur Envoyer un Pourboire. {br} Collez l'adresse URL que vous souhaitez récompenser avec un pourboire. {br} Entrez le montant que vous désirez donner,  ainsi qu'un message accompagnant ce pourboire (ceci est optionnel). {br} Cliquez sur Envoyer le pourboire afin de vérifier la transaction."
+        },
+        {
+          "title": "RECEVOIR DES POURBOIRES",
+          "text": "Pour commencer à recevoir des pourboires d'après une adresse URL, copiez l'adresse de votre portefeuille Superhero (la chaîne de lettres au dessus de votre portefeuille commence par les caractères ak_) et copiez cela sur votre site internet ou sur votre profil en ligne. {br}{br} Veuillez noter que les adresses URL publiques sont les seules à pouvoir recevoir un pourboire. Les profils qui recquièrent l'obligation de se connecter afin de pouvoir consulter leur page (comme les profils Facebook) ne peuvent pas être récompensés par un pourboire pour le moment. {br}{br} Cliquez sur le bouton Réclamer le Pourboire et entrez votre adresse URL. Cliquez sur Confirmer pour valider. {br}{br} Tous les pourboires que votre adresse URL recevra par le futur, et ceux, reçus par le passé seront ajouté à la balance de votre portefeuille."
+        },
+        {
+          "title": "RÉAPPROVISIONER MON PORTEFEUILLE",
+          "text": "Cliquez sur le bouton Réapprovisioner votre portefeuille. {br}{br} Vous pouvez ACHETER des TOKENS AE en petite quantité grâce à la boutique æternity. {br} Vous pouvez également ÉCHANGER instantanémpent vos CRYPTOMONNAIES pour des TOKENS AE à travers la plateforme JellySwap. {br}{br} Alternativement, vous pouvez réapprovisionner votre portefeuille SUPERHERO en envoyant des tokens AE depuis votre plateforme favorite d'échange de cryptomonnaies. Nous sommes actuellement en train de rassembler toutes les informations sur un wiki complet pour trouver les moyens les plus économiques d'obtenir des tokens AE et nous publierons bientôt ce document."
+        },
+        {
+          "title": "FAIRE UN RETRAIT",
+          "text": "De la même manière que vous ne marchez pas dans la rue avec un gros montant d'argent liquide caché dans votre sac, il est hautement recommandé de ne pas garder de gros montants de tokens AE dans votre portefeuille. Pour garder sur le long terme de grandes quantités de tokens AE, nous vous recommandons d'utiliser un portefeuille de cryptomonnaie non connecté à Internet comme AirGap. {br}{br} Pour effectuer le retrait des pourboires que vous avez collecté, vous pouvez envoyer des pourboires depuis votre portefeuille SUPERHERO à votre adresse de portefeuille AE sur une plateforme d'échange de cryptomonnaies qui supporte les tokens AE. {br}{br} - Pour effectuer le retrait, allez sur le menu hamburger. {br} - Cliquez sur Faire un Retrait. {br} - Entrez votre adresse de portefeuille depuis la plateforme d'échange de cryptomonnaies de votre choix. Vous pouvez aussi envoyer ce retrait au portefeuille de quelqu'un d'autre en collant l'adresse de son portefeuille dans le champs réservé à cet effet. {br} - Entrez le montant que vous souhaiter retirer. {br} Cliquez sur Révision afin de vérifier les détails de la transaction. {br} - Appuyez sur le bouton Confirmer le Retrait. {br}{br} Les pourboires peuvent être convertis en d'autres cryptomonnaies ou monnaies fiduciaires et transférés à votre banque locale. {br}{br} Les procédures d'échanges peuvent varier en fonction des pays. Dans la plupart des cas, il y aura quelques minutes d'attente dépendemment des capacités de la plateforme d'échange et des procédures employées. Mais vous pouvez suivre aisément vos transactions en cliquant sur le bouton en forme d'oeil juste à côté de votre transaction dans le rapport historique des activités."
+        },
+        {
+          "title": "ENREGISTRER UN NOM .CHAIN",
+          "text": "Vous pouvez réclamer un nom .chain grâce à l'extension du portefeuille Superhero. Un nom .chain sert d'alternative à l'adresse de votre portefeuille, et rend l'envoi de pourboires plus facile pour les autres utilisateurs. Vous pouvez aussi utiliser votre nom .chain pour votre profil Superhero. {br}{br} Pour réclamer un nom grâce à votre portefeuille Superhero: {br}{br} - Ouvrez le menu hamburger dans le coin en haut à droite de l'écran. {br} - Cliquez sur Noms. {br} - Sur l'onglet Réclamation, écrivez le nom souhaité. Veuillez noter que le suffixe .chain est automatiquement annexé à votre nom. Ceci est obligatoire dans le cadre des nominations système. {br} - Cliquez sur le bouton + pour procéder à la registration du nom. {br} - Cliquez sur Confirmer. {br}{br} Notez que les seuls caractères autorisés dans les noms .chain sont les lettres et les chiffres. Actuellement, seulement les noms d'un nombre de 13 caractères et au-dessus peuvent être réclamés grâce à votre portefeuille Superhero. Ceci sera amélioré plus tard. {br}{br} Vous pouvez réclamer autant de noms que vous le souhaitez. Assurez vous d'avoir suffisamment de tokens AE dans votre portefeuille pour couvrir les frais du nom choisi. Idéalement, vous devriez avoir au moins 3 tokens AE dans votre compte pour pouvoir réclamer des noms."
+        },
+        {
+          "title": "PARAMÉTRER VOTRE NOM DE PROFIL SUPERHERO",
+          "text": "Pour paramétrer un nom .chain que vous détenez pour votre profil Superhero: {br}{br} - Cliquez sur le menu hamburger et allez sur la catégorie Vos Noms. {br} - Sous votre nom .chain favori, cliquez sur PARAMÉTRER LE NOM. {br} - Collez l'adresse de votre portefeuille SUPERHERO dans le champs approprié et cliquez sur PARAMÉTRER LE NOM afin de confirmer l'action. Attendez quelques minutes pour la confirmation. {br} - Vous pouvez ensuite cliquer sur PARAMÉTRER LE NOM PAR DÉFAUT pour votre profil SUPERHERO.COM."
+        },
+        {
+          "title": "SÉCURISER VOTRE PORTEFEUILLE",
+          "text": "De grands pouvoirs impliquent de lourdes responsabilités. Vous êtes responsable de garder privés les mots de passe de votre compte. Il n'existe pas de partie tierce gardienne du stockage des mots de passe. {br}{br} La tâche consistant à garder les accès privés de votre portefeuille vous revient donc, à vous seul, Superhero. {br}{br} Voici comment sécuriser et garder une sauvegarde de votre portefeuille: {br} Une fois que vous êtes sur votre tableau de bord, vous allez recevoir une série de mots appelée phrase de récupération. Cette phrase de récupération est comme un mot de passe – c'est à dire unique, sensible à l'ordre des mots et qui vous connecte à votre portefeuilleit. {br}{br} - Cliquez sur le menu hamburger dans le coin droit de votre portefeuille. {br} - Allez sur Paramétrages, choissisez l'onglet Sécurité. {br} - Sur le prochain écran, choissisez l'option Voir la phrase de récupération. {br} - Écrivez sur un morceau de papier les 12 mots affichés à l'écran et gardez le dans un endroit sûr et secret. Simple comme Bonjour. {br}{br} IMPORTANT: Vous aurez besoin de cette phrase de récupération pour retrouver votre portefeuille dans le cas ou pour une raison quelconque vous auriez perdu les accès à l'extension (une migration sur un nouveau système, une réinstallation de navigateur, etc.)"
+        }
+      ]
+    },
+    "Mission": {
+      "header": "SUPERHERO: UNE HISTOIRE ORIGINALE ASSORTIE D'UNE MISSION",
+      "sections": [
+        {
+          "text": "Dans les bandes dessinées de type Comics les Super Héros croient qu'il est de leur devoir d'aider et de faire triompher le bien. Cependant - la véritable réalité des temps modernes continue de tester l'humanité."
+        },
+        {
+          "text": "Depuis les artistes aux scientifiques, les professeurs, les groupes médicaux, les projets non lucratifs, les initiatives sociales à fort impact, les causes communautaires, le bien-être animal, la défense de l'environnement, à celui qui ne fait que vous inspirer… Nous pouvons (et nous devons) faire une différence tous les jours les uns pour les autres. Les gens soutenant l'Humanité sont des Super Héros contemporains."
+        },
+        {
+          "text": "Superhero.com a été conçu comme une façon tangible de célébrer la différence qui peut provenir des personnes menant des projets valorisants pouvant aider les gens, Peer 2 Peer, et cela, sans aucun intermédiaire."
+        },
+        {
+          "text": "Superhero.com a été construit comme un projet open source qui transfère le pouvoir aux initiatives valorisantes pouvant aider l'Humanité, loin des intérêts privés de certaines entités et contrôlés uniquement par la volonté publique."
+        },
+        {
+          "text": "Ceux qui font partie de la communauté {aeternityBlockchain} et qui ont mené le projet Superhero.com à la vie sont unis dans la promesse d'aider à donner un meilleur internet pour chacun d'entre nous."
+        },
+        {
+          "text": "Bienvenue dans un meilleur monde virtuel – un internet avec une liberté quantifiable de transactions. Nous avons juste commencé à voir ou nos super-pouvoirs d'êtres humains aidant les uns et les autres peuvent nous mener."
+        }
+      ],
+      "footer": "FAITES-VOUS UNE DIFFÉRENCE ?",
+      "footerContent": "Superhero.com l'outil du bien construit sur la blockchain æternity"
+    },
+    "FAQ": {
+      "header": "Questions féquemment posées",
+      "subheader": "A PROPOS DE SUPERHERO.com",
+      "info": "Pour plus d'informations sur des fonctionnalités spécifiques, Les Tutoriels sont disponibles pour chacune de ces fonctionnalités. Faites défiler la page tout en bas jusqu'à la section Fonctionnalités ci-dessous.",
+      "questions": [
+        {
+          "title": "SUPERHERO.com: Une plateforme sociale transparente.",
+          "text": "SUPERHERO.com est un réseau social bien construit. Pas de censure, beaucoup de transparence, pas de frais cachés.  {br} {router}"
+        },
+        {
+          "title": "LA TRANSPARENCE.",
+          "text": "Superhero est GRATUIT POUR TOUS à l'utilisation et ne prends pas de commissions sur les pourboires envoyés ou reçus à travers la plateforme. Cela restera toujours le cas. {br} Les frais des transferts (qui ne vont généralement pas au-delà de $0.01) vont directement à un éco-système de mineurs qui mettent à disposition leur puissance de traitement afin de sécuriser les transactions. {br}{br}{br} Superhero ne surveille pas, ne collecte pas, et ne vend pas les données personnelles. Il ne le fera jamais. {br} Beaucoup de plateformes sociales comptent sur les publicités pour toucher un revenu, pour cela elles collectent, utilisent, partagent et parfois même vendent les données personnelles de leurs utilisateurs. Superhero est une plateforme non lucrative et qui a été construite pour en finir avec ces mauvaises pratiques. {br}{br}{br} Alors, qu'est-ce que nous y gagnons? {br} Superhero a été créé par une communauté de membres afin de délivrer les bénéfices de la technologie æternity au public. Ce projet renforce l'écosystème æternity, il permet aussi de rendre les fonctionnalités de la blockchain puissantes et accessibles au citoyen moyen, Joe's et Jane's."
+        },
+        {
+          "title": "SUPERHERO EST CRÉÉ POUR LE MONDE, PAR TOUT LE MONDE.",
+          "text": "Superhero est un projet open source et gratuit pour tout un chacun. N'importe qui peut utiliser la platforme, les outils, et ajouter des widget à son propre site. {br}{br} Dans le même temps, n'importe qui peut affiner le code afin qu'il s'ajuste à ses besoins, ou améliorer les outils simplement par désir de contribution au projet Superhero et en faire une plateforme encore plus géniale."
+        },
+        {
+          "title": "LIBERTÉ D'EXPRESSION.",
+          "text": "Pendant que le front-end Superhero sera filtré afin de garder les choses sécuritaires pour l'audience générale, tous les pourboires seront envoyés et reçus, avec les messages accompagnant chacun d'eux, ces derniers sont enregistrés et immortalisés dans la blockchain æternity. Ces registres sont publics et ouverts à tous. {br}{br} Les ramifications de la plateforme ont été créées pour répondre au besoin de garder un contenu réservé aux adultes ou aux autres contenus pouvant être considérés comme trop sensibles. {br}{br} N'importe qui est libre de ramifier la plateforme afin de créer sa propre page, qu'il s'agisse d'un dessein à but non lucratif ou à but commercial."
+        },
+        {
+          "title": "AUCUNE TIERCE PARTIE AUTORISÉE À VOUS DIRE 'NON.'",
+          "text": "Cela importe peut que nous apprécions ou non. Aussi longtemps que votre site est public et existe, il pourra recevoir des pourboires. Aussi longtemps que vous avez un accès à votre portefeuille, les pourboires vous appartiennent."
+        },
+        {
+          "title": "LA PUISSANCE DU RÉSEAU SOCIAL RENCONTRE LE POUVOIR DE LA BLOCKCHAIN.",
+          "text": "Superhero est une plateforme sociale alimentée par la blockchain, et créée afin de soutenir les initiatives sociales porteuses d'une mission."
+        },
+        {
+          "title": "Puis-je obtenir de l'aide? Ma question n'a reçue aucune réponse ici…",
+          "text": "Vous avez besoin d'assistance? Vous souhaitez faire remonter des problèmes techniques, nous donner un retour ou des suggestions? Veuillez utiliser le bouton RETOURS ou SUPPORT dans le coin en bas à droite de l'écran sur Superhero.com."
+        }
+      ],
+      "forum": "Forum",
+      "tutorialPage": "Tutoriels",
+      "tutorial": "tutoriel",
+      "feedbackForm": "Formulaire de retours",
+      "ourTutorial": "dans notre tutoriel",
+      "aeternityBlockchain": "aeternity blockchain"
+    },
+    "Maintenance": {
+      "RechargeTitle": "Nous rechargeons nos pouvoirs.",
+      "RechargeSubTitle": "Nous serons de retour prochainement."
+    },
+    "Privacy": {
+      "title": "POLITIQUE DE PROTECTION DE LA VIE PRIVÉE",
+      "subtitle": "Le présent document légal à été créé le 13 Février 2020.",
+      "sections": [
+        {
+          "title": "I. Introduction"
+        },
+        {
+          "text": "Superhero.com LVC, Dr. Grass Str 12, 9490 Vaduz, Liechtenstein (“Superhero.com”, “nous”, “notre” ou “nos”) est une compagnie qui prend la vie privée et la protection des informations personnelles des utilisateurs très au sérieux."
+        },
+        {
+          "text": "Cette politique de protection de la vie privée (“Politique”) est applicable sur le site Superhero.com créé et opéré à l'adresse https://superhero.com/ (le “site web” ou “le site”), faisant état des donations des utilisateurs et des commentaires sur les contenus donnant la possibilité aux autres d'effectuer des dons et de commenter activement sur les dernières publications sur le mur des actualités du site web."
+        },
+        {
+          "text": "Si vous avez des questions au sujet de cette politique de protection de la vie privée, Contactez-nous s'il vous plait à l'adresse superherowallet@protonmail.com. Si vous êtes en désaccord avec les termes de cette politique, veuillez ne pas utiliser notre site web. A chaque fois que vous utilisez le site web, la présente version de cette politique devra s'appliquer. La nouvelle version de cette politique devient applicable à partir du jour ou elle est annoncée publiquement sur le site sauf indications contraires. En conséquence, quand vous utilisez le site, Vous devriez vérifier la date de version de cette Politique (qui apparait dès le début de ce document). Si vous continuez à utiliser le site web après que les changements aient été appliqués, Nous considérons qu'il s'agit d'un consentement et d'une acceptation du contenu modifié. Si vous êtes en désaccord avec les nouvelles modifications, Veuillez nous contacter pour plus d'assistance grâce à l'adresse courriel mentionnée plus haut dans le précédent paragraphe."
+        },
+        {
+          "title": "II. Définitions"
+        },
+        {
+          "text": "Aux fins de la présente politique, les termes ont la signification suivante:"
+        },
+        {
+          "text": "„Responsable des Données“ est la personne, ou entité, seule ou composante d'un groupe, qui détermine les objectifs et les raisons d'être du traitement des données personnelles;"
+        },
+        {
+          "text": "„Données Personnelles“ signifie toute informations relatives à l'identification d'une personne physique ou morale (‘UTILISATEURS’);"
+        },
+        {
+          "text": "„Traitement“ signifie toute opération ou série d'opérations qui est réalisé sur les données personnelles;"
+        },
+        {
+          "text": "„Destinataire“ signifie une personne physique ou morale, une autorité publique, une agence ou une autre entité, pour qui les données personnelles sont exposées, qu'elles soient ou non une personne tierce;"
+        },
+        {
+          "text": "„Une faille de sécurité“ signifie une brèche dans le système de sécurité menant de manière accidentelle ou illégale à la destruction, la perte, l'altération, ou la divulgation non autorisée des accès aux données personnelles transmises, enregistrées ou autrement transformées."
+        },
+        {
+          "title": "III. La Collecte des Données Personnelles"
+        },
+        {
+          "text": "Les données personnelles des utilisateurs du site Superhero.com sont collectées complètement limitative, et concernent uniquement des informations, qui se révèlent adéquates, pertinentes et limitées à la bonne utilisation du site web."
+        },
+        {
+          "text": "Superhero.com collecte deux principaux groupes de données personnelles selon leur objectif:"
+        },
+        {
+          "text": "Données à caractère personnel en relation avec des identifiants indirects, Les données concernant les donnations et commentaires sont collectées via l'application du portefeuille Superhero. Le portefeuille Superhero est une application construite sur la blockchain sur lequel une adresse de compte est généré pour l'identification des utilisateurs. Une fois les donnations et commentaires traités, ils apparaissent sur le site web avec un lien hyper texte qui renvoie au site que l'utilisateur a décidé de récompenser par un pourboire. En outre, les autres utilisateurs du site web peuvent également effectuer des dons et commenter sur les dernières publications ajoutés au site. Par conséquent, l'adresse du compte va apparaître sur le site. Les adresses du compte peuvent être traitées comme des identifiants indirects. Un identifiant indirect est une valeur qui ne peut être utilisée seule pour identifier un sujet de données, toutefois, cette valeur pourrait être identifiée si elle est combinée à d'autres identifiants indirects. Le traitement est nécessaire aux fins de la fourniture du service - à savoir le site web. La période de conservation des données personnelles doit durer jusqu'à la fin de la prestation de service."
+        },
+        {
+          "text": "Les données personnelles relatives à l'assistance des utilisateurs et à la communication pendant l'utilisation de notre site web, les utilisateurs peuvent décider de contacter l'équipe en ce qui concerne l'assistance du site web, les problèmes techniques, les questions, etc.. La collecte des données personnelles est initiée par les utilisateurs et ces derniers décident du type de données personnelles qu'ils souhaitent inclure dans la communication avec notre équipe. Par conséquent, le raisonnement juridique implique que l'utilisateur a donné son consentement au traitement de ses données à caractère personnel pour une ou plusieurs finalités spécifiques. La période de conservation est valable jusqu'à ce que les questions aient reçues une réponse, que l'équipe ait fourni l'assistance nécessaire, que les problèmes aient été résolus ou, dans tout autre cas, jusqu'au retrait du consentement de l'utilisateur. Superhero.com peut conserver les informations personnelles pendant une période supplémentaire, si cela est requis par la loi ou pour la prévention et la sécurité en matière de criminalité,violation,infraction."
+
+        },
+        {
+          "title": "IV. Vos Droits:"
+        },
+        {
+          "text": "VOUS avez le droit de:"
+        },
+        {
+          "text": "Demander à Superhero.com un accès à vos données personnelles que le site détient à votre sujet sous un format portatif."
+        },
+        {
+          "text": "Demander à Superhero.com une correction concernant n'importe laquelle de vos données personnelles. Les informations ne doivent inclure que la collecte des données qui vous concerne."
+        },
+        {
+          "text": "Recevoir une copie électronique de vos données personnelles."
+        },
+        {
+          "text": "“Le Droit à l'oubli” - Vous avez le droit de recquérir la suppression de vos données à caractère personnel à tout moment lorsque la conservation de ces données enfreint les dispositions pertinentes de la législation."
+        },
+        {
+          "text": "Recevoir des informations à propos de Nous Nos activités en relation avec vos données à caractère personnel, incluant les objectifs de collecte et d'enregistrement, les périodes de temps de conservation, les méthodes de collecte, la présence de modes de traitement automatisé."
+        },
+        {
+          "text": "Recevoir vos données personnelles et les transférer à un autre responsable."
+        },
+        {
+          "text": "Vous avez le droit de déposer une plainte auprès d'une autorité de contrôle, en particulier dans le pays de votre résidence habituelle, votre lieu de travail ou le lieu de l'infraction présumée si vous estimez qu'il y a une violation de vos données à caractère personnel."
+        },
+        {
+          "title": "V. Partager des informations avec des Tierces Parties - Destinataires"
+        },
+        {
+          "text": " Nous pouvons éventuellement divulguer les informations personnelles identifiant les utilisateurs à des parties tierces sous certaines circonstances particulières:"
+        },
+        {
+          "text": "(i) pour se conformer à une exigence légale, une procédure judiciaire, une ordonnance d'un tribunal ou une procédure légale signifiée à Superhero.com ou à ses affiliés, (ii) pour enquêter sur un éventuel délit, tel qu'une fraude ou un vol d'identité; (iii) aux autorités publiques conformément à leur obligation légale pour l'exercice de leur mission officielle, telles que les autorités fiscales et douanières, les unités d'investigation financière, les autorités administratives indépendantes ou les autorités financières chargées de la surveillance des marchés des valeurs mobilières ; (iv) en relation avec la vente, l'achat, la transmission d'entreprise sous quelque forme que ce soit, la fusion, la dissolution, la réorganisation, la liquidation de Superhero. com ; Nous pouvons être amenés à divulguer les informations que vous nous avez données au successeur ou au repreneur du site, qui fait partie de la transition, (v) lorsque nous pensons que c'est nécessaire pour protéger les droits, la propriété ou la sécurité de Superhero.com ou d'autres personnes (vi) ou comme autrement requis ou autorisé par la loi, y compris toute obligation contractuelle concernant Superhero.com."
+        },
+        {
+          "title": "VI. Enfants et Respect de la Vie Privée"
+        },
+        {
+          "text": "Superhero.com ne traite pas les informations relatives aux personnes n'ayant pas atteint l'âge de la pleine capacité juridique (18 ans dans la plupart des pays) en raison du caractère spécifique du site web et de la détention de portefeuille."
+        },
+        {
+          "text": "Superhero.com supprimera immédiatement toutes informations personnelles se référant aux personnes n'ayant pas atteint l'âge de la pleine capacité juridique."
+        },
+        {
+          "text": "Nous ne sommes en aucun cas responsables si VOUS fournissez de fausses informations sur votre âge ou si vous utilisez le site web avant d'avoir atteint l'âge susmentionné."
+        },
+        {
+          "title": "VII. Mesures prise en cas de violation des données"
+        },
+        {
+          "text": "Dans le cas d'une faille de sécurité, Nous entreprendrons toutes les actions possibles conformément à la législation applicable, de manière appropriée et en temps utile, afin d'éviter tout dommage matériel ou non matériel aux utilisateurs et ce, afin de protéger les données personnelles des utilisateurs."
+        },
+        {
+          "title": "VIII. Comment je contacte Superhero.com ?"
+        },
+        {
+          "text": "Pour nous contacter et nous faire part de vos questions ou commentaires concernant cette politique ou les pratiques de Superhero.com en matière de collecte et de diffusion d'informations relatives à votre utilisation du site Web, veuillez nous envoyer un courriel à superherowallet@protonmail.com."
+        }
+      ]
+    },
+    "Terms": {
+      "title": "DOCUMENT JURIDIQUE",
+      "subtitle": "Le présent document juridique a été créé le 13 Février 2020.",
+      "sections": [
+        {
+          "title": "I. Information sur l'Entreprise"
+        },
+        {
+          "text": "Le service sur https://superhero.com/ est fourni par Superhero.com LVC, courriel pour la correspondance : superherowallet@protonmail.com."
+        },
+        {
+          "title": "II. Objet de l'Activité"
+        },
+        {
+          "text": "Superhero.com a développé un site web qui reflète un flux d'informations de dons et de commentaires sur tout ce que les utilisateurs aiment sur Internet et donne la possibilité aux autres utilisateurs de faire des dons et de commenter activement les nouvelles disponibles sur le mur d'actualités. Ce centre d'information permet aux utilisateurs d'encourager les initiatives  informatives, actuelles et sur tout ce qui se passe dans le monde entier, qu'elles soient créées par des organismes ou par des personnes ordinaires. Par conséquent, grâce au rôle actif des utilisateurs, le site web est une plateforme sur laquelle les meilleurs contenus mondiaux mis à jour en temps réel sont partagés."
+        },
+        {
+          "title": "III. Droits d'auteur concernant les liens de tierce partie."
+        },
+        {
+          "text": "Veuillez garder à l'esprit que la principale fonction du site web est de refléter objectivement et sans interférence les dons et les commentaires des utilisateurs à des tiers - organisations ou personnes ordinaires, partageant des nouvelles en ligne concernant les meilleurs contenus. Par conséquent, Superhero.com n'est pas le propriétaire ou l'auteur des nouvelles partagées sur le fil d'actualités et ne revendique en aucune façon des droits sur les écrits produits en tout ou en partie. Les publications postées sur le fil d'actualités sont des objets de propriété intellectuelle des personnes ou organisations revendiquées dans les liens tiers. En ce qui concerne les liens tiers, veuillez garder à l'esprit qu'en cliquant sur les liens hyper texte disponibles, les utilisateurs sont redirigés vers des sites web tiers. Ces sites web tiers ne sont pas connectés à Superhero.com et ils ont des politiques indépendantes et distinctes concernant leur utilisation. Les utilisateurs doivent s'informer sur les règles applicables à chaque site web et adapter leur comportement en ligne en conséquence. Veuillez noter que l'apparition des liens sur le fil d'actualité n'est pas sous le contrôle de Superhero.com mais des utilisateurs. Superhero.com n'assume aucune responsabilité quant aux informations fournies par des tiers et à leur relation par les liens hyper texte sur le site. Les hyperliens peuvent renvoyer à des informations dont le contenu est très sensible ou inapproprié pour certaines personnes. Les utilisateurs qui cliquent sur les hyperliens et qui visitent les sites web de tierce partie font donc cela en connaissance de cause, et à leurs propres risques."
+        },
+        {
+          "title": "IV. Droits d'auteur concernant le site web"
+        },
+        {
+          "text": "Les mentions légales applicables peuvent être consultées à l'adresse internet suivante : https://superhero.com/ (ci-après le “site web”). Le site web appartient et est exploité par Superhero.com . Le concept du site web, la présentation du site web les composants et structures intégrés pour sa création, y compris les logos, marques, noms de domaine, codes, (liste non exhaustive) qui apparaissent de quelque manière que ce soit sur le site web ou sont accessibles de quelque manière que ce soit par l'intermédiaire du site web : https://superhero.com/ sont protégés par les lois en vigueur ayant trait à la propriété intellectuelle. Par conséquent, ils appartiennent strictement et exclusivement à Superhero.com et l'utilisation de l'un des éléments susmentionnés est soumise à une autorisation préalable. Aucun des éléments précités ne peut être reproduit, copié, édité, transmis, téléchargé ou distribué de quelque manière que ce soit, partiellement ou totalement, sur quelque support que ce soit, sans l'accord préalable écrit de Superhero.com . En dehors de cela, l'utilisation pour les besoins de la presse est autorisée uniquement dans le respect des droits de propriété intellectuelle qui sont mentionnés. L'acte de copie n'est autorisé que pour un usage privé, non commercial et personnel sur les appareils techniques personnels de l'utilisateur (notamment téléphone, ordinateur portable, ordinateur, tablette). L'utilisation autorisée ne doit pas être dénaturée, modifiée, altérée ou changée de quelque manière que ce soit."
+        }
+      ],
+      "copyrights": "“DROITS D'AUTEUR – 2020 – Superhero.com TOUS DROITS RÉSERVÉS”. Superhero.com se réserve le droit de prendre toutes les mesures juridiques nécessaires contre toute violation ou infraction à ses droits de propriété intellectuelle. Les règles mentionnées ci-dessus s'appliquent aux bases de données du site web, qui sont protégées en vertu de la directive 96/9/CE du Parlement européen et du Conseil du 11 mars 1996 concernant la protection juridique des bases de données. Pour toute question supplémentaire, veuillez contacter l'équipe de Superhero.com à l'adresse suivante : superherowallet@protonmail.com"
+    },
+    "TipCommentsView": {
+      "NoResultsMsg": "Il n'y a pas de commentaires pour le moment.",
+      "Reply": "Répondre",
+      "AddReply": "Ajouter une réponse",
+      "LatestReplies": "Dernières réponses"
+    },
+    "SingleCommentView": {
+      "NoResultsMsg": "Il n'y a pas de commentaires à afficher"
+    },
+    "TipList": {
+      "SearchPlaceholder": "Rechercher un Superhero",
+      "SortingLatest": "Dernier Pourboire",
+      "SortingHighestRated": "Le mieux noté",
+      "SortingMostPopular": "Le plus populaire",
+      "Clear": "Effacer",
+      "CloseSearch": "Fermer la recherche",
+      "SafeContentOnly": "Contenu sécurisé uniquement"
+    },
+    "UserProfileView": {
+      "EditProfile": "Éditer le Profil",
+      "ChangeAvatar": "Changer son Avatar",
+      "DeleteAvatar": "Supprimer son Avatar",
+      "Save": "Sauvegarder",
+      "TipsSent": "Pourboires Envoyés",
+      "TipsReceived": "Pourboires Reçus",
+      "RetipsSent": "Ajouter un pourboire",
+      "TotalSentAmount": "Montant Total Envoyé",
+      "ClaimedUrls": " Adresses URLs",
+      "ClaimedAmount": "Pourboires Réclamés",
+      "UnclaimedAmount": "Pourboires non Réclamés",
+      "Joined": "Rejoindre",
+      "Comments": "Commentaires",
+      "EditBiography": "Éditer sa Biographie",
+      "ChangeCoverPhoto": "Changer sa photo de couverture",
+      "LocationPlaceholder": "Éditer sa Location",
+      "Location": "Location",
+      "noPinnedItems": "Il n'y a pas d'épingles à afficher."
+    },
+     "Wallet": {
+      "header": "PORTEFEUILLE: Complétement Peer 2 Peer, pourboires instantanés sans frais cachés.",
+      "sections": [
+        {
+          "text": "Monétisation du contenu sans censure, sans aucune tierce partie. Vous voulez commencer ?"
+        },
+        {
+          "text": "CRÉER UN COMPTE {br}{br} Créez un compte sur le site Superhero.com ou téléchargez l'extension Chrome ou Firefox. {br} L'extension Chrome peut être utilisée sur les navigateurs Brave, Opera, et tous ceux utilisant la technologie Chrome. {br} Si vous avez déjà un portefeuille AE, vous pouvez choisir de récupérer votre compte existant et d'entrer votre phrase de récupération. Sinon vous pouvez créer un nouveau portefeuille. {br} 2. Vous pouvez lire le guide de démarrage ou sauter entièrement cette étape. Cela vous mènera ensuite sur votre portefeuille. C'est tout! votre compte est créé!"
+        },
+        {
+          "text": "ENVOYER DES POURBOIRES {br}{br} Cliquez sur Envoyer un Pourboire. {br} Collez l'adresse URL que vous souhaitez récompenser avec un pourboire. {br} Entrez le montant que vous désirez donner,  ainsi qu'un message accompagnant ce pourboire (ceci est optionnel). {br} Cliquez sur Envoyer le pourboire afin de vérifier la transaction."
+        },
+        {
+          "text": "RECEVOIR DES POURBOIRES {br}{br} Pour commencer à recevoir des pourboires d'après une adresse URL, copiez l'adresse de votre portefeuille Superhero (la chaîne de lettres au dessus de votre portefeuille commence par les caractères ak_) et copiez cela sur votre site internet ou sur votre profil en ligne. Voux pouvez aussi l'ajouter sur le code HTML de votre site. {br} Veuillez noter que les adresses URL publiques sont les seules à pouvoir recevoir un pourboire. Les profils qui recquièrent l'obligation de se connecter afin de pouvoir consulter leur page (comme les profils Facebook) ne peuvent pas être récompensés par un pourboire pour le moment. {br} Clicquez sur le bouton Réclamer le pourboire et entrez votre adresse URL. Cliquez sur Confirmer pour valider. {br} Tous les pourboires que votre adresse URL recevra par le futur, et ceux, reçus par le passé seront ajouté à la balance de votre portefeuille."
+        },
+        {
+          "text": "RÉAPPROVISIONNER SON PORTEFEUILLE {br}{br} Cliquez sur le bouton Réapprovisioner votre portefeuille. Vous pouvez ACHETER des TOKENS AE en petite quantité grâce à la boutique æternity. Vous pouvez également ÉCHANGER instantanémpent vos CRYPTOMONNAIES pour des TOKENS AE à travers la plateforme JellySwap. {br} Alternativement, vous pouvez réapprovisionner votre portefeuille SUPERHERO en envoyant des tokens AE depuis votre plateforme favorite d'échange de cryptomonnaies. Nous sommes actuellement en train de rassembler toutes les informations sur un wiki complet pour trouver les moyens les plus économiques d'obtenir des tokens AE et nous publierons bientôt ce document."
+        }, 
+        {
+          "text": "FAIRE UN RETRAIT {br}{br} De la même manière que vous ne marchez pas dans la rue avec un gros montant d'argent liquide caché dans votre sac, il est hautement recommandé de ne pas garder de gros montants de tokens AE dans votre portefeuille Superhero. Pour garder sur le long terme de grandes quantités de tokens AE, nous vous recommandons d'utiliser un portefeuille de cryptomonnaie non connecté à Internet comme AirGap. {br} Pour effectuer le retrait des pourboires que vous avez collecté, vous pouvez envoyer des pourboires depuis votre portefeuille SUPERHERO à votre adresse de portefeuille AE sur une plateforme d'échange de cryptomonnaies qui supporte les tokens AE. {br} - Pour effectuer le retrait, allez sur le menu hamburger. {br} - Cliquez sur Faire un Retrait. {br} - Entrez votre adresse de portefeuille depuis la plateforme d'échange de cryptomonnaies de votre choix. Vous pouvez aussi envoyer ce retrait au portefeuille de quelqu'un d'autre en collant l'adresse de son portefeuille dans le champs réservé à cet effet. {br} - Entrez le montant que vous souhaiter retirer. {br} Cliquez sur Révision afin de vérifier les détails de la transaction. {br} - Appuyez sur le bouton Confirmer le Retrait. {br} Les pourboires peuvent être convertis en d'autres cryptomonnaies ou monnaies fiduciaires et transférés à votre banque locale. {br} Les procédures d'échanges peuvent varier en fonction des pays. Dans la plupart des cas, il y aura quelques minutes d'attente dépendemment des capacités de la plateforme d'échange et des procédures employées. Mais vous pouvez suivre aisément vos transactions en cliquant sur le bouton en forme d'oeil juste à côté de votre transaction dans le rapport historique des activités."
+        },
+        {
+          "text": "SÉCURISER VOTRE PORTEFEUILLE {br}{br} De grands pouvoirs impliquent de lourdes responsabilités. Vous êtes responsable de garder privés les mots de passe de votre compte. Il n'existe pas de partie tierce gardienne du stockage des mots de passe. La tâche consistant à garder les accès privés de votre portefeuille vous revient donc, à vous seul, Superhero. {br} Voici comment sécuriser et garder une sauvegarde de votre portefeuille: {br} Une fois que vous êtes sur votre tableau de bord, vous allez recevoir une série de mots appelée phrase de récupération. Cette phrase de récupération est comme un mot de passe – c'est à dire unique, sensible à l'ordre des mots et qui vous connecte à votre portefeuille. {br} - Cliquez sur le menu hamburger dans le coin droit de votre portefeuille. {br} - Allez sur Paramétrages, choissisez l'onglet Sécurité. {br} - Sur le prochain écran, choissisez l'option Voir la phrase de récupération. {br} - Écrivez sur un morceau de papier les 12 mots affichés à l'écran et gardez le dans un endroit sûr et secret. Simple comme Bonjour. {br} IMPORTANT: Vous aurez besoin de cette phrase de récupération pour retrouver votre portefeuille dans le cas ou pour une raison quelconque vous auriez perdu les accès à l'extension (une migration sur un nouveau système, une réinstallation de navigateur, etc.)"
+        },
+        {
+          "text": "FAQ"
+        },
+        {
+          "text": "Utilisez Superhero pour donner / accepter un pourboire d'AE. Utilisez Superhero avec d'autres outils existants basés sur des monnaies fiduciaires pour ajouter d'autres fonctionnalités de pourboires en tokens AE. {br}{br} Rejoignez une communauté en postant, commentant et donnant directement des pourboires à d'autres super-héros. {br} En dehors de la plateforme de Superhero, ajoutez un bouton Superhero ou un lien vers votre site pour que tout le monde puisse vous donner un pourboire directement."
+        },
+        {
+          "text": "Puis-je envoyer des pourboires sur n'importe quel site? {br} OUI. N'importe quelle adresse URL publique peut recevoir un pourboire via Superhero."
+        },
+        {
+          "text": "Où va le pourboire s'il y a plus d'une adresse de portefeuille sur une URL? {br} La première adresse de portefeuille où le pourboire est réclamé reçoit le montant." 
+        },
+        {
+          "text": "Existe-t-il une limite de temps pour réclamer les pourboires? {br} OUI. Les pourboires doivent être réclamés dans une limite de un (1) an. Si ce délai est écoulé, les pourboires non réclamés ne peuvent être récupérés par les expéditeurs. Si un pourboire reste non réclamé après deux (2) ans par l'expéditeur ou le destinataire, il est transféré à la fondation cryptomonnaie d'aeternity."
+        },
+        {
+          "text": "Puis-je utiliser mon Base æpp portefeuille pour mon portefeuille Superhero? {br} OUI. Choissisez simplement de récupérez votre compte existant et entrez la phrase de récupération de votre portefeuille Base æpp."
+        },
+        {
+          "text": "Puis-je utiliser une adresse AE depuis une plateforme d'échange centralisée pour mon portefeuille Superhero? {br} NON. Vous avez besoin d'une adresse de portefeuille AE qui vous permet de détenir votre clef privée ou votre phrase de récupération. En ce qui concerne les plateformes centralisées d'échanges, ces dernières détiennent la garde des clefs privées des utilisateurs. Cela signifie que l'utilisateur ne peut pas utiliser son adresse de portefeuille AE sur Superheros car il/elle n'a pas la clef privée/phrase de récupération pour retrouver son compte. {br}{br} Vous pouvez simplement générer un nouveau portefeuille sur Superhero et le réapprovisionner en envoyant le formulaire AE de vos autres portefeuilles à l'adresse de votre portefeuille Superhero."
+        },
+        {
+          "text": "Dois-je ajouter l'adresse de mon portefeuille à chaque Tweet? {br} NON. Le portefeuille du Superheros peut détecter l'adresse du portefeuille sur le profil Twitter d'un utilisateur. Pas besoin de l'ajouter dans les tweets."
+        },
+        {
+          "text": "Si le propriétaire de l'URL que j'ai renseignée n'a pas d'adresse AE sur son site, recevra-t-il quand même ses pourboires? {br} OUI. Dès que le propriétaire de la page web crée un portefeuille de Superheros et ajoute l'adresse de son portefeuille à son URL, les pourboires qu'il a reçus dans le passé seront ajoutés au solde de son portefeuille."
+        }
+      ]
+    },
+    "Widget": {
+      "header": "WIDGET: Recevez des pourboires instantanés de la part des visiteurs de votre site!",
+      "sections": [
+        {
+          "text": "Ajoutez un Superhero widget à votre site et vos visiteurs pourront vous envoyer des pourboires en un clic!"
+        },
+        {
+          "text": "Vous voulez ajouter un Widget à votre site?"
+        }
+      ]
+    },
+    "Voting": {
+      "header": "VOTER: La governance æpp est maintenant sur SUPERHERO.com!",
+      "sections": [
+        {
+          "text": "Le vote utilisant la technologie Blockchain - transparent et vérifiable par le public."
+        },
+        {
+          "text": "Mettre en place des mécanismes de gouvernance pour des organisations autonomes."
+        },
+        {
+          "text": "POUR LANCER UN SONDAGE {br}{br} Allez sur la section Votes sur SUPERHERO.com. {br}Cliquez sur le bouton + dans le coin en bas à droite de l'écran des votes. {br} Remplissez le titre du sondage, sa description et ajoutez un lien vers une discussion ou un document de référence. {br} Les sondages peuvent être rendus publics ou non catégorisés. {br} Ajoutez des options de sondage. {br} Paramétrez une date et une heure pour le sondage. Si vous voulez que votre sondage marche en tout temps, paramétrez à zéro le champs fermeture du sondage. {br} Cliquez sur Créer un sondage. {br} Une fenêtre va s'ouvrir vous demandant une confirmation pour le sondage. Cliquez sur Confirmer."
+        },
+        {
+          "text": "POUR VOTER SUR UN SONDAGE {br}{br} Choissisez un sondage ouvert dans la section des votes sur SUPERHERO.com. {br} Cochez la case à côté de votre vote. Un fenêtre va apparaître. Cliquez sur CONFIRMER."
+        },
+        {
+          "text": "IMPORTANT: Veuillez noter que votre capacité de vote dépend du solde de votre portefeuille AE AU MOMENT DE LA FIN DU SONDAGE, et non au moment où vous votez. Pour maximiser votre pouvoir de vote sur un sondage particulier ou une décision de gouvernance, assurez-vous d'avoir beaucoup de tokens AE dans votre portefeuille au moment où le sondage prévoit de se terminer."
+        }
+      ]
+    },
+    "Meet": {
+      "header": "Superhero CONFÉRENCES: lancez vos propres conférences en ligne.",
+      "sections": [
+        {
+          "text": "Lancez votre propre édition de SuperheroLeague et des rencontres en ligne!"
+        },
+        {
+          "text": "Prêt à démarrer?"
+        }
+      ]
+    },
+    "Profile_Channels": {
+      "header": "PAGE DE PROFIL & CHAINES: *A venir bientôt.*",
+      "sections": [
+        {
+          "text": "Construisez votre page de profil et votre communauté. Montrez vos talents sur votre propre chaîne!"
+        },
+        {
+          "text": "Faites connaître votre projet à d'autres Superheros. Permettez à vos abonnés de voir vos dernières mises à jour et votre nouveau contenu, et de vous donner instantanément des pourboires pour votre bon travail."
+        }
+      ]
+    },
+    "Graffiti": {
+      "header": "GRAFFITI æpp: *A venir bientôt!*",
+      "sections": [
+        {
+          "text": "Collaboration artistique décentralisée et propriété partagée par le biais du graffiti æpp."
+        },
+        {
+          "text": "Possédez des portions d'œuvres d'art - qu'elles soient numériques ou physiques - et en échanger facilement la propriété avec le monde entier."
+        }
+      ]
+    },
+    "Time-back": {
+      "header": "MACHINE À REMONTER LE TEMPS: *A venir bientôt!*",
+      "sections": [
+        {
+          "text": "Cette superpuissance permet aux utilisateurs de revenir à l'état antérieur d'un site web en se basant sur les enregistrements horodatés de la blockchain."
+        }
+      ]
+    },
+    "TipWall": {
+      "header": "MUR DES POURBOIRES: *A venir bientôt*",
+      "sections": [
+        {
+          "text": "Monétisez votre contenu en permettant à vos abonnés de vous soutenir grâce à des pourboires et en les laissant visualiser l'ensemble de votre travail."
+        }
+      ]
+    },
+    "Tokens & Communities": {
+      "header": "TOKENS ET COMMUNAUTÉS: Lancez la vente de tokens pour votre projet ou pour votre communauté. *A Venir bientôt!*",
+      "sections": [
+        {
+          "text": "L'interaction sociale et la collaboration à travers les communautés. Lancez des missions avec d'autres Superhéros!"
+        },
+        {
+          "text": "Inscrivez-vous pour recevoir les dernières mises à jour sur les tokens et autres fonctionnalités à venir sur Superhero.com!"
+        }
+      ] 
+    }
+  },
+  "components": {
+    "layout": {
+      "FooterSection": {
+        "Feedback": "Retours",
+        "Support": "Support Technique",
+        "FooterInfo": "Superhero est Open Source",
+        "ContributeOnGithub": "Contribuer sur Github",
+        "Terms": "Termes",
+        "Privacy": "Vie Privée",
+        "HowItWorks": "Comment ça marche",
+        "LoginWithWallet": "S'identifier avec le portefeuille Web"
+      },
+      "Navigation": {
+        "MyProfile": "Mon Profil",
+        "League": "Ligue",
+        "Governance": "Voter"
+      },
+      "Overview": {
+        "TipsAggregated": "Montant des pourboires cumulés",
+        "UniqueTipSenders": "Expéditeurs de pourboires",
+        "TotalTipsValue": "Valeur totale des pourboires",
+        "TotalTipsClaimed": "Montant total des pourboires réclamés",
+        "LatestBlock": "Dernier bloc",
+        "PoweredBy": "Produit par"
+      },
+      "RightSection": {
+        "Wallet": "Portefeuille",
+        "LoginWithWallet": "S'identifier avec le portefeuille Web",
+        "InstallWallet": "Installer le portefeuille",
+        "Trending": "Tendance"
+      },
+      "SendTip": {
+        "NewTip": "Nouveau Pourboire",
+        "EnterURL": "Entrer l'adresse URL",
+        "SuccessHeader": "Vous êtes un Superhero",
+        "SuccessText": "Pourboire envoyé!",
+        "ErrorHeader": "Quelque chose n'a pas fonctionné",
+        "ErrorText": "Pourboire non envoyé, Veuillez réessayer",
+        "SendNewTip": "Envoyer un nouveau pourboire"
+      }
+    },
+    "onboarding": {
+      "steps": {
+        "next": "Suivant",
+        "step1": {
+          "header": "Introduction Superhero:",
+          "socialPlatform": "Plateforme Sociale transparente.",
+          "subheader": "Le premier super pouvoir d'un Superhero est de lancer un",
+          "P2Ptool": "L'outil Peer 2 Peer pour recevoir ou envoyer un pourboire grâce à une adresse URL",
+          "with": "avec...",
+          "zeroTxFees": " Transaction proches du sans-frais.",
+          "cutOurIntermediaries": "Éviter les intermédiaires,",
+          "SendingorReceiving": "profiter de l'envoi ou de la réception d'une aide.",
+          "noWaitTime": "Pas de temps d'attente.",
+          "Transfers": "Transferts",
+          "instant": "sont instantanées.",
+          "noCensorship": "Aucune censure.",
+          "No3rdParty": "Pas de tierce partie contrôlant",
+          "keepIP": " ni l'approbation ni la diffusion des pourboires. Conservez votre propriété intellectuelle.",
+          "welcome": "Bienvenue sur un site web vous permettant de transiger comme vous le souhaitez!",
+          "button": "Commencez votre journée de Superhero"
+        },
+        "step2": {
+          "header": "Installer votre portefeuille Superhero {br} Un outil pour le bien fondé {a}",
+          "subheader": "Un Superhero donne du pouvoir {lesgensquiaidentl'Humanité} {br} incluant la possibilité de transférer des crytomonnaies AE en Peer 2 Peer. {br} {Envoyez des pourboires} directement à vos créateurs favoris, causes, ou projets... {br} {recevez des pourboires} directement de la part de vos abonnés. {br} {Obtientoudonnedel'aide} à partir de n'importe quelle URL du site qui vous plait. {br}",
+          "peopleSupportingPeople": "Les gens qui aident l'Humanité,",
+          "sendTips": "Envoyer des pourboires",
+          "receiveTips": "Recevoir des pourboires",
+          "getOrGiveHelp": "Obtenir ou donner de l'aide",
+          "bolder": "Pour commencer vous avez besoin d'un portefeuille. C'est gratuit. C'est facile. {br} {cliquez} {br} pour installer votre portefeuille Superhero:",
+          "click": "Choissisez l'extention de navigateur ou l'application mobile",
+          "learnMore": "En savoir plus:",
+          "tutorial": "Tutoriel",
+          "aeternityBlockchain": "aeternity blockchain"
+        },
+        "step3": {
+          "header": "Recevoir des Pourboires: {br} Faire d'Internet une Place plus Juste",
+          "info": "Une fois votre portefeuille Superhero installé:{br} {collez l'adresse de votre portefeuille} à votre URL.{br} {ouvrez votre URL} maintenant votre portefeuille peut recevoir instantanément et collecter les pourboires.",
+          "pasteYourWallet": "1. Collez l'adresse de votre portefeuille",
+          "openYourURL": "2. Chargez votre adresse URL",
+          "peopleCanDirectlySupport": "Les utilisateurs peuvent directement soutenir votre contenu, causes et projet (ou simplement votre personne) sans aucun intermédiaire."
+        },
+        "step4": {
+          "header": "Envoyer des pourboires: {br} Faire d'Internet une Meilleure Place",
+          "info": "Une fois votre portefeuille Superhero installé {br} {visitezl'URL} Vous souhaitez de l'aide. {br} {cliquezsurenvoyerdespourboires} dans votre portefeuille. {br} {Entrezlemontantdupourboire} et écrivez, un message (c'est optionnel).",
+          "visitTheURL": "1. Visitez l'URL",
+          "clickSendTips": "2. Cliquez sur envoyer un pourboire",
+          "enterTipAmount": "3. Entrez le montant du pourboire",
+          "youCanDirectlySupport": "Vous pouvez directement soutenir n'importe lequel auteur de contenu, causes, projet présentés sur une adresse URL publique sans aucun intermédiaire."
+        },
+        "step5": {
+          "header": "Bienvenue sur Superhero",
+          "info": "Vous pouvez maintenant mettre à jour votre profil {br} le personnaliser et choisir vos préférences pour {superherocom}",
+          "installWallet": "Créer un profil",
+          "setUpProfile": "Mettre à jour votre Profil"
+        }
+      },
+      "wizard": {
+        "title": "Joindre Superhero"
+      }
+    },
+    "tipRecords": {
+      "TipComment": {
+        "Replies": "Réponses"
+      },
+      "TipRecord": {
+        "reportPost": "Signaler la publication",
+        "reportPostTitle": "Merci d'avoir effectué le signalement",
+        "reportPostBody": "Notre équipe de support va enquêter",
+        "claim": "Réclamer",
+        "Pin": "Épingler à la chaîne",
+        "UnPin": "Désépingler de la chaîne"
+      }
+    },
+    "TipInput": {
+      "error": "Une erreur s'est produite durant l'envoi du pourboire. Veuillez réessayer plus tard.",
+      "tipUser": "Pourboire Utilisateur",
+      "totalTipsWithYou": "Total des pourboires (vous avez donné des pourboires aussi)",
+      "totalTips": "Pourboires totaux (cliquez sur ajouter un pourboire sur la même adresse URL)",
+      "tipComment": "Commentaire du pourboire"
+    },
+    "TipsPagination": {
+      "NoResultsMsg": "Aucun résultat trouvé"
+    },
+    "UrlStatus": {
+      "verifiedTitle": "",
+      "notverifiedTitle": "",
+      "blacklisted": ""
+    },
+    "ListOfTipsAndComments": {
+      "Channel": "Chaîne",
+      "Activity": "Activité",
+      "NoPinnedItems": "Il n'y a pas d'épingles à afficher.",
+      "NoActivity": "Il n'y a pas d'activités à afficher."
+    }
+  },
+  "Networking": {
+    "MenuLink": "Rencontrer",
+    "Placeholder": "Nom de la pièce",
+    "Start": "Commencer"
+  }
+}

@@ -394,66 +394,6 @@
         "SendNewTip": "发送新小费"
       }
     },
-    "onboarding": {
-      "steps": {
-        "next": "下一页",
-        "step1": {
-          "header": "超级英雄简介:",
-          "socialPlatform": "没有隐藏议程的社交平台.",
-          "subheader": "超级英雄的第一个超级大国",
-          "P2Ptool": "P2P工具，用于接收或向URL发送提示",
-          "with": "with...",
-          "zeroTxFees": " 接近零的交易费用.",
-          "cutOurIntermediaries": "无中间人,",
-          "SendingorReceiving": "从提供或接受支持中获利.",
-          "noWaitTime": "无等待时间.",
-          "Transfers": "交易",
-          "instant": "即时的.",
-          "noCensorship": "无审查制度.",
-          "No3rdParty": "无第三方控制",
-          "keepIP": "批准或发布小费。保护你的知识产权所有权.",
-          "welcome": "欢迎来到一个你可以随意发挥的网站!",
-          "button": "开始你的超级英雄之旅"
-        },
-        "step2": {
-          "header": "安装超级英雄钱包 {br} 好的工具建立在 {a}",
-          "subheader": "超级英雄授予 {peopleSupportingPeople} {br} 包括转移AE加密货币P2P的能力. {br} {sendTips} 直接给你的创造者，事业，项目... {br} 直接从你的粉丝那里 {receiveTips}. {br} 在网上的任何网址 {getOrGiveHelp}. {br}",
-          "peopleSupportingPeople": "人们支持的人,",
-          "sendTips": "发送小费",
-          "receiveTips": "接收小费",
-          "getOrGiveHelp": "获取或给予帮助",
-          "bolder": "首先，您需要一个钱包。它是免费的。这很简单。 {br} {click} {br}安装Superhero钱包:",
-          "click": "选择浏览器扩展程序或移动APP应用程序",
-          "learnMore": "了解更多:",
-          "tutorial": "教程",
-          "aeternityBlockchain": "aeternity 区块链"
-        },
-        "step3": {
-          "header": "接收小费: {br} 让互联网变得更加公平",
-          "info": "在你的超级英雄钱包安装好之后:{br} {pasteYourWallet} 到您的URL.{br} {openYourURL} 你的钱包可以立即收集你收到的小费.",
-          "pasteYourWallet": "1. 粘贴您的钱包地址",
-          "openYourURL": "2. 加载你的网址",
-          "peopleCanDirectlySupport": "人们可以直接支持你的内容，事业项目，没有中间人（仅仅只有你自己）."
-        },
-        "step4": {
-          "header": "发送小费: {br} 使互联网更美好",
-          "info": "安装超级英雄钱包后 {br} {visitTheURL} -你想支持. {br} 在你的钱包里 {clickSendTips} . {br} {enterTipAmount} 以及评论.",
-          "visitTheURL": "1. 访问URL",
-          "clickSendTips": "2. 点击发送小费",
-          "enterTipAmount": "3. 输入小费金额",
-          "youCanDirectlySupport": "您可以直接在任何公共URL上支持任何人的内容，事业，项目，而无需中间人."
-        },
-        "step5": {
-          "header": "欢迎来到超级英雄!",
-          "info": "现在，您可以通过设置{br}个性化的个人资料和{superherocom}的首选项来进行操作",
-          "installWallet": "创建配置文件",
-          "setUpProfile": "设置您的个人资料"
-        }
-      },
-      "wizard": {
-        "title": "加入超级英雄"
-      }
-    },
     "tipRecords": {
       "TipComment": {
         "Replies": "回复"

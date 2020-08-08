@@ -23,8 +23,6 @@ export default new Vuex.Store({
       initial: false,
     },
     chainNames: [],
-    wizardCurrentStep: 0,
-    wizardIsCollapsed: false,
     verifiedUrls: [],
     graylistedUrls: [],
     isHiddenContent: true,
@@ -49,11 +47,9 @@ export default new Vuex.Store({
     persistState(
       (state) => state,
       ({
-        selectedCurrency, wizardCurrentStep, wizardIsCollapsed, account, balance,
+        selectedCurrency, account, balance,
       }) => ({
         selectedCurrency,
-        wizardCurrentStep,
-        wizardIsCollapsed,
         account,
         balance,
       }),

@@ -30,12 +30,6 @@ export default {
   setChainNames(state, payload) {
     state.chainNames = payload;
   },
-  setWizardCurrentStep(state, payload) {
-    state.wizardCurrentStep = payload * 1;
-  },
-  setWizardIsCollapsed(state, payload) {
-    state.wizardIsCollapsed = Boolean(payload);
-  },
   updateCurrency(state, payload) {
     state.selectedCurrency = payload;
   },

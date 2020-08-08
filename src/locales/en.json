@@ -13,16 +13,12 @@
   "noExtensionSupport": "You need a Superhero wallet to comment and send tips.",
   "FellowSuperhero": "Fellow superhero",
   "Balance": "Balance:",
+  "aeternityBlockchain": "aeternity blockchain",
   "views": {
     "CreateProfile": {
       "header1": "HOW TO USE SUPERHERO.COM",
       "header2": "Social platform with no hidden agenda.",
       "header3": "No censorship, no tracking, no revenue leeches.",
-      "click": "Click",
-      "add": "Add",
-      "here": "here",
-      "names": "Names",
-      "feedbackForm": "feedback form",
       "sections": [
         {
           "title": "CREATING AN ACCOUNT",
@@ -86,11 +82,10 @@
     "FAQ": {
       "header": "Frequently Asked Questions",
       "subheader": "ABOUT SUPERHERO.com",
-      "info": "For detailed information on specific features, Tutorial Pages are available for each of the features. Scroll down to the Features Section below.",
       "questions": [
         {
           "title": "SUPERHERO.com: Social platform with no hidden agenda.",
-          "text": "SUPERHERO.com is social media done right. No censorship, no tracking, no revenue leeches.  {br} {router}"
+          "text": "SUPERHERO.com is social media done right. No censorship, no tracking, no revenue leeches."
         },
         {
           "title": "NO HIDDEN AGENDA.",
@@ -116,13 +111,7 @@
           "title": "Can I get support? My question isn’t answered here…",
           "text": "Need assistance? Want to report technical issues, give feedback and suggestions? Please use the FEEDBACK or SUPPORT button on the bottom right of Superhero.com."
         }
-      ],
-      "forum": "Forum",
-      "tutorialPage": "Tutorial Page",
-      "tutorial": "tutorial",
-      "feedbackForm": "feedback form",
-      "ourTutorial": "in our tutorial",
-      "aeternityBlockchain": "aeternity blockchain"
+      ]
     },
     "Maintenance": {
       "RechargeTitle": "We're recharging our powers.",

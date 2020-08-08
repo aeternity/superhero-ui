@@ -15,7 +15,7 @@
             href="https://aeternity.com/"
             target="_blank"
           >
-            {{ $t('views.FAQ.aeternityBlockchain') }}
+            {{ $t('aeternityBlockchain') }}
           </a>
         </template>
       </i18n>

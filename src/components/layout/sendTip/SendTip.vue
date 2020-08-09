@@ -13,7 +13,7 @@
         <div class="form-group">
           <Avatar
             :address="account"
-            class="avatar mr-3"
+            class="mr-3"
           />
           <span class="message-box">
             <input
@@ -254,17 +254,6 @@ export default {
     .tip__post__balance span {
       font-size: 0.75rem;
       color: $standard_font_color;
-    }
-
-    .avatar,
-    .user-identicon svg {
-      width: 2rem;
-      height: 2rem;
-      border-radius: 1rem;
-    }
-
-    .avatar {
-      vertical-align: middle;
     }
 
     .tip__post__label {

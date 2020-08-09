@@ -669,11 +669,8 @@ input[type="file"] {
   position: relative;
   vertical-align: super;
 
-  img.user-identicon,
-  div.user-identicon svg {
-    border-radius: 100%;
+  .avatar {
     height: 5.5rem;
-    object-fit: cover;
     width: 5.5rem;
   }
 }
@@ -714,10 +711,8 @@ input[type="file"] {
   .profile__header {
     white-space: nowrap;
 
-    img.user-identicon,
-    div.user-identicon svg {
+    .profile__image .avatar {
       height: 5rem;
-      object-fit: cover;
       width: 5rem;
     }
   }
@@ -767,12 +762,9 @@ input[type="file"] {
 }
 
 @include smallest {
-  .profile__header {
-    img.user-identicon,
-    div.user-identicon svg {
-      height: 4.5rem;
-      width: 4.5rem;
-    }
+  .profile__header .profile__image .avatar {
+    height: 4.5rem;
+    width: 4.5rem;
   }
 
   .profile__row {

@@ -125,13 +125,6 @@ export default {
   color: $light_font_color;
   font-size: 0.75rem;
 
-  .avatar,
-  .user-identicon svg {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-  }
-
   .tipped__url .tip__record {
     margin-bottom: 0;
 

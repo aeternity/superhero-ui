@@ -285,14 +285,8 @@ export default {
       word-break: break-all;
     }
 
-    img,
-    svg {
-      border-radius: 50%;
-      flex-shrink: 0;
-      height: 2rem;
+    .avatar {
       margin-right: 0.25rem;
-      object-fit: cover;
-      width: 2rem;
     }
 
     a {

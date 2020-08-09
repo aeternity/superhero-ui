@@ -30,7 +30,7 @@
           <div class="form-group col-md-5 col-lg-6 col-sm-12 send-url">
             <UrlStatus
               :url="sendTipForm.url"
-              class="url-status"
+              @is-blacklisted-url="isBlacklistedUrl = $event"
             />
             <input
               v-model.trim="sendTipForm.url"
@@ -138,11 +138,6 @@ export default {
     canTip() {
       return this.isLoggedIn && !this.loading.wallet;
     },
-  },
-  async created() {
-    EventBus.$on('blacklistedUrl', (payload) => {
-      this.isBlacklistedUrl = payload;
-    });
   },
   methods: {
     async sendTip() {
@@ -270,9 +265,9 @@ export default {
 
     .url-status {
       position: absolute;
-      left: 0.85rem;
+      left: 0.55rem;
       top: 50%;
-      transform: translateY(-60%);
+      transform: translateY(-50%);
     }
 
     .url-input {

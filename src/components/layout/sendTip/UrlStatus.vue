@@ -1,62 +1,39 @@
 <template>
-  <span class="status">
-    <img
-      v-show="status === 'verified'"
-      :title="$t('components.UrlStatus.verifiedTitle')"
-      src="../../../assets/verifiedUrl.svg"
-    >
-    <img
-      v-show="status === 'not-verified'"
-      src="../../../assets/notVerifiedUrl.svg"
-      :title="$t('components.UrlStatus.notverifiedTitle')"
-    >
-    <img
-      v-show="status === 'blacklisted'"
-      src="../../../assets/blacklistedUrl.svg"
-      :title="$t('components.UrlStatus.blacklisted')"
-    >
-    <img
-      v-show="status === ''"
-      src="../../../assets/defaultUrl.svg"
-    >
-  </span>
+  <img
+    class="url-status"
+    v-bind="imgAttrs"
+  >
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import { urlStatus } from '../../../utils/util';
-import { EventBus } from '../../../utils/eventBus';
+import verifiedUrl from '../../../assets/verifiedUrl.svg';
+import notVerifiedUrl from '../../../assets/notVerifiedUrl.svg';
+import blacklistedUrl from '../../../assets/blacklistedUrl.svg';
+import defaultUrl from '../../../assets/defaultUrl.svg';
 
 export default {
   name: 'UrlStatus',
   props: {
     url: { type: String, default: '' },
   },
-  computed: {
-    ...mapState(['verifiedUrls', 'graylistedUrls']),
-    status() {
-      let retrievedStatus = '';
-      if (this.url) {
-        retrievedStatus = urlStatus(this.url, this.verifiedUrls, this.graylistedUrls);
+  computed: mapState({
+    imgAttrs({ verifiedUrls, graylistedUrls }) {
+      const status = urlStatus(this.url, verifiedUrls, graylistedUrls);
+      this.$emit('is-blacklisted-url', status === 'blacklisted');
 
-        if (retrievedStatus === 'blacklisted') {
-          EventBus.$emit('blacklistedUrl', true);
-        } else {
-          EventBus.$emit('blacklistedUrl', false);
-        }
+      switch (status) {
+        case 'verified':
+          return { src: verifiedUrl, title: this.$t('components.UrlStatus.verifiedTitle') };
+        case 'not-verified':
+          return { src: notVerifiedUrl, title: this.$t('components.UrlStatus.notverifiedTitle') };
+        case 'blacklisted':
+          return { src: blacklistedUrl, title: this.$t('components.UrlStatus.blacklisted') };
+        default:
+          return { src: defaultUrl };
       }
-      return retrievedStatus;
     },
-  },
+  }),
 };
 </script>
-
-<style lang="scss" scoped>
-  .status {
-    width: 0.85rem;
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-</style>

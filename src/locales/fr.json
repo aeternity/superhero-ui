@@ -498,66 +498,6 @@
         "SendNewTip": "Envoyer un nouveau pourboire"
       }
     },
-    "onboarding": {
-      "steps": {
-        "next": "Suivant",
-        "step1": {
-          "header": "Introduction Superhero:",
-          "socialPlatform": "Plateforme Sociale transparente.",
-          "subheader": "Le premier super pouvoir d'un Superhero est de lancer un",
-          "P2Ptool": "L'outil Peer 2 Peer pour recevoir ou envoyer un pourboire grâce à une adresse URL",
-          "with": "avec...",
-          "zeroTxFees": " Transaction proches du sans-frais.",
-          "cutOurIntermediaries": "Éviter les intermédiaires,",
-          "SendingorReceiving": "profiter de l'envoi ou de la réception d'une aide.",
-          "noWaitTime": "Pas de temps d'attente.",
-          "Transfers": "Transferts",
-          "instant": "sont instantanées.",
-          "noCensorship": "Aucune censure.",
-          "No3rdParty": "Pas de tierce partie contrôlant",
-          "keepIP": " ni l'approbation ni la diffusion des pourboires. Conservez votre propriété intellectuelle.",
-          "welcome": "Bienvenue sur un site web vous permettant de transiger comme vous le souhaitez!",
-          "button": "Commencez votre journée de Superhero"
-        },
-        "step2": {
-          "header": "Installer votre portefeuille Superhero {br} Un outil pour le bien fondé {a}",
-          "subheader": "Un Superhero donne du pouvoir {lesgensquiaidentl'Humanité} {br} incluant la possibilité de transférer des crytomonnaies AE en Peer 2 Peer. {br} {Envoyez des pourboires} directement à vos créateurs favoris, causes, ou projets... {br} {recevez des pourboires} directement de la part de vos abonnés. {br} {Obtientoudonnedel'aide} à partir de n'importe quelle URL du site qui vous plait. {br}",
-          "peopleSupportingPeople": "Les gens qui aident l'Humanité,",
-          "sendTips": "Envoyer des pourboires",
-          "receiveTips": "Recevoir des pourboires",
-          "getOrGiveHelp": "Obtenir ou donner de l'aide",
-          "bolder": "Pour commencer vous avez besoin d'un portefeuille. C'est gratuit. C'est facile. {br} {cliquez} {br} pour installer votre portefeuille Superhero:",
-          "click": "Choissisez l'extention de navigateur ou l'application mobile",
-          "learnMore": "En savoir plus:",
-          "tutorial": "Tutoriel",
-          "aeternityBlockchain": "aeternity blockchain"
-        },
-        "step3": {
-          "header": "Recevoir des Pourboires: {br} Faire d'Internet une Place plus Juste",
-          "info": "Une fois votre portefeuille Superhero installé:{br} {collez l'adresse de votre portefeuille} à votre URL.{br} {ouvrez votre URL} maintenant votre portefeuille peut recevoir instantanément et collecter les pourboires.",
-          "pasteYourWallet": "1. Collez l'adresse de votre portefeuille",
-          "openYourURL": "2. Chargez votre adresse URL",
-          "peopleCanDirectlySupport": "Les utilisateurs peuvent directement soutenir votre contenu, causes et projet (ou simplement votre personne) sans aucun intermédiaire."
-        },
-        "step4": {
-          "header": "Envoyer des pourboires: {br} Faire d'Internet une Meilleure Place",
-          "info": "Une fois votre portefeuille Superhero installé {br} {visitezl'URL} Vous souhaitez de l'aide. {br} {cliquezsurenvoyerdespourboires} dans votre portefeuille. {br} {Entrezlemontantdupourboire} et écrivez, un message (c'est optionnel).",
-          "visitTheURL": "1. Visitez l'URL",
-          "clickSendTips": "2. Cliquez sur envoyer un pourboire",
-          "enterTipAmount": "3. Entrez le montant du pourboire",
-          "youCanDirectlySupport": "Vous pouvez directement soutenir n'importe lequel auteur de contenu, causes, projet présentés sur une adresse URL publique sans aucun intermédiaire."
-        },
-        "step5": {
-          "header": "Bienvenue sur Superhero",
-          "info": "Vous pouvez maintenant mettre à jour votre profil {br} le personnaliser et choisir vos préférences pour {superherocom}",
-          "installWallet": "Créer un profil",
-          "setUpProfile": "Mettre à jour votre Profil"
-        }
-      },
-      "wizard": {
-        "title": "Joindre Superhero"
-      }
-    },
     "tipRecords": {
       "TipComment": {
         "Replies": "Réponses"

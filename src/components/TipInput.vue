@@ -25,7 +25,8 @@
           {{ $t('components.TipInput.error') }}
         </div>
         <form @submit.prevent="sendTip">
-          <div class="input-group"><!-- TODO: Remove this wrapper after removing bootstrap -->
+          <div class="input-group">
+            <!-- TODO: Remove this wrapper after removing bootstrap -->
             <input
               v-if="!tip"
               v-model="message"

@@ -13,16 +13,12 @@
   "noExtensionSupport": "Vous devez détenir un portefeuille Superhero pour commenter et donner des pourboires.",
   "FellowSuperhero": "Membres superhero",
   "Balance": "Balance:",
+  "aeternityBlockchain": "aeternity blockchain",
   "views": {
     "CreateProfile": {
       "header1": "COMMENT UTILISER SUPERHERO.COM",
       "header2": "Plateforme sociale qui respecte votre liberté d'expression.",
       "header3": "Pas de censure, beaucoup de transparence, pas de frais cachés.",
-      "click": "Cliquez ici",
-      "add": "Ajouter",
-      "here": "ici",
-      "names": "Noms",
-      "feedbackForm": "Formulaire d'évaluation",
       "sections": [
         {
           "title": "CRÉER UN COMPTE",
@@ -86,11 +82,10 @@
     "FAQ": {
       "header": "Questions féquemment posées",
       "subheader": "A PROPOS DE SUPERHERO.com",
-      "info": "Pour plus d'informations sur des fonctionnalités spécifiques, Les Tutoriels sont disponibles pour chacune de ces fonctionnalités. Faites défiler la page tout en bas jusqu'à la section Fonctionnalités ci-dessous.",
       "questions": [
         {
           "title": "SUPERHERO.com: Une plateforme sociale transparente.",
-          "text": "SUPERHERO.com est un réseau social bien construit. Pas de censure, beaucoup de transparence, pas de frais cachés.  {br} {router}"
+          "text": "SUPERHERO.com est un réseau social bien construit. Pas de censure, beaucoup de transparence, pas de frais cachés."
         },
         {
           "title": "LA TRANSPARENCE.",
@@ -116,13 +111,7 @@
           "title": "Puis-je obtenir de l'aide? Ma question n'a reçue aucune réponse ici…",
           "text": "Vous avez besoin d'assistance? Vous souhaitez faire remonter des problèmes techniques, nous donner un retour ou des suggestions? Veuillez utiliser le bouton RETOURS ou SUPPORT dans le coin en bas à droite de l'écran sur Superhero.com."
         }
-      ],
-      "forum": "Forum",
-      "tutorialPage": "Tutoriels",
-      "tutorial": "tutoriel",
-      "feedbackForm": "Formulaire de retours",
-      "ourTutorial": "dans notre tutoriel",
-      "aeternityBlockchain": "aeternity blockchain"
+      ]
     },
     "Maintenance": {
       "RechargeTitle": "Nous rechargeons nos pouvoirs.",

@@ -6,66 +6,17 @@
       <i18n
         path="views.FAQ.subheader"
         tag="p"
-      >
-        <template v-slot:tutorialPage>
-          <router-link to="/tutorial">
-            {{ $t('views.FAQ.tutorialPage') }}
-          </router-link>
-        </template>
-      </i18n>
+      />
 
       <ExpandableBlock
-        v-for="(item, index) in $t('views.FAQ.questions').length"
-        :key="index"
-        :title="$t('views.FAQ.questions')[index].title"
+        v-for="({ title }, index) in $t('views.FAQ.questions')"
+        :key="title"
+        :title="title"
       >
         <i18n
           :path="`views.FAQ.questions[${index}].text`"
           tag="p"
         >
-          <template v-slot:aeternityCom>
-            <a
-              href="https://aeternity.com/"
-              target="_blank"
-            >
-              {{ $t('views.FAQ.aeternityBlockchain') }}
-            </a>
-          </template>
-          <template v-slot:ourTutorial>
-            <router-link
-              :to="{ name: 'tutorial' }"
-              target="_blank"
-            >
-              {{ $t('views.FAQ.ourTutorial') }}
-            </router-link>
-          </template>
-          <template v-slot:tutorial>
-            <router-link
-              v-slot="{ href }"
-              to="/tutorial"
-            >
-              <a
-                :href="href"
-                target="_blank"
-              >
-                {{ $t('views.FAQ.tutorial') }}
-              </a>
-            </router-link>
-          </template>
-          <template v-slot:feedbackForm>
-            <a
-              href="https://form.jotform.com/201075183408046"
-              target="_blank"
-            >
-              {{ $t('views.FAQ.feedbackForm') }}
-            </a>
-          </template>
-          <template v-slot:forum>
-            <a
-              href="https://forum.aeternity.com/"
-              target="_blank"
-            > {{ $t('views.FAQ.forum') }} </a>
-          </template>
           <template v-slot:br>
             <br>
           </template>

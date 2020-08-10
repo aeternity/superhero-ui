@@ -11,16 +11,12 @@
   "FAQ": "常见问题解答",
   "noExtensionSupport": "你需要一个超级英雄钱包来评论和打赏小费.",
   "FellowSuperhero": "超级英雄",
+  "aeternityBlockchain": "AEternity区块链",
   "views": {
     "CreateProfile": {
       "header1": "如何使用 SUPERHERO.COM",
       "header2": "没有隐藏协议的社交平台.",
       "header3": "无需审查,不被追踪,收入没有水蛭不抽金.",
-      "click": "点击",
-      "add": "添加",
-      "here": "在这里",
-      "names": "Names",
-      "feedbackForm": "反馈形式",
       "sections": [
         {
           "title": "创建帐户",
@@ -84,11 +80,10 @@
     "FAQ": {
       "header": "常见问题解答",
       "subheader": "关于 SUPERHERO.com",
-      "info": "有关特定功能的详细信息，每个功能都可以使用“教程页面”。 向下滚动到功能部分.",
       "questions": [
         {
           "title": "SUPERHERO.com: 没有隐藏协议的社交平台.",
-          "text": "SUPERHERO.com 社交媒体.没有审查，没有跟踪，没有佣金.  {br} {router}"
+          "text": "SUPERHERO.com 社交媒体.没有审查，没有跟踪，没有佣金."
         },
         {
           "title": "没有隐藏协议.",
@@ -114,13 +109,7 @@
           "title": "我能得到支持吗？我的问题没有找到答案…",
           "text": "需要帮助吗？想报告技术问题，给出反馈和建议吗？请使用右下角的“反馈”或“支持”按钮 Superhero.com."
         }
-      ],
-      "forum": "论坛",
-      "tutorialPage": "教程页",
-      "tutorial": "教程",
-      "feedbackForm": "反馈表",
-      "ourTutorial": "在我们的教程中",
-      "aeternityBlockchain": "AEternity区块链"
+      ]
     },
     "Maintenance": {
       "RechargeTitle": "我们正在维护.",

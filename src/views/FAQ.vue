@@ -1,39 +1,41 @@
 <template>
-  <Page>
-    <div class="faq-page">
-      <h1>{{ $t('views.FAQ.header') }}</h1>
-      <hr width="30%">
-      <i18n
-        path="views.FAQ.subheader"
-        tag="p"
-      />
+  <div class="faq-page">
+    <h1>{{ $t('views.FAQ.header') }}</h1>
+    <hr width="30%">
+    <i18n
+      path="views.FAQ.subheader"
+      tag="p"
+    >
+      <template v-slot:tutorialPage>
+        <router-link to="/tutorial">
+          {{ $t('views.FAQ.tutorialPage') }}
+        </router-link>
+      </template>
+    </i18n>
 
-      <ExpandableBlock
-        v-for="({ title }, index) in $t('views.FAQ.questions')"
-        :key="title"
-        :title="title"
+    <ExpandableBlock
+      v-for="({ title }, index) in $t('views.FAQ.questions')"
+      :key="title"
+      :title="title"
+    >
+      <i18n
+        :path="`views.FAQ.questions[${index}].text`"
+        tag="p"
       >
-        <i18n
-          :path="`views.FAQ.questions[${index}].text`"
-          tag="p"
-        >
-          <template v-slot:br>
-            <br>
-          </template>
-        </i18n>
-      </ExpandableBlock>
-    </div>
-  </Page>
+        <template v-slot:br>
+          <br>
+        </template>
+      </i18n>
+    </ExpandableBlock>
+  </div>
 </template>
 
 <script>
-import Page from '../components/layout/Page.vue';
 import ExpandableBlock from '../components/ExpandableBlock.vue';
 
 export default {
   name: 'FAQ',
   components: {
-    Page,
     ExpandableBlock,
   },
 };
@@ -44,8 +46,7 @@ export default {
 .mission-page,
 .tutorial-page {
   background-color: $light_color;
-  padding: 2rem;
-  margin-top: 0.75rem;
+  padding: 2.75rem 2rem;
 
   h1 {
     font-size: 1.5rem;

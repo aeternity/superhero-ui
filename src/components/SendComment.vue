@@ -1,5 +1,8 @@
 <template>
-  <form class="send-comment" @submit.prevent="sendTipComment">
+  <form
+    class="send-comment"
+    @submit.prevent="sendTipComment"
+  >
     <MessageInput
       v-model="comment"
       :placeholder="$t('views.TipCommentsView.AddReply')"

@@ -1,57 +1,56 @@
 <template>
-  <Page back>
-    <div class="comment__page">
-      <div
-        v-if="comment"
-        class="tipped__url"
-      >
-        <TipComment :comment="comment" />
-      </div>
-      <div class="comment__section">
-        <p class="latest__comments">
-          {{ $t('views.TipCommentsView.LatestReplies') }}
-        </p>
-        <SendComment
-          :tip-id="tipId"
-          :parent-id="id"
-        />
-      </div>
-      <div
-        v-if="comment"
-        class="comments__section"
-      >
-        <Loading
-          v-if="showLoading"
-          above-content
-        />
-        <div
-          v-if="comment.children.length === 0 && !showLoading"
-          class="no-results text-center w-100"
-          :class="{ error }"
-        >
-          {{ $t('views.SingleCommentView.NoResultsMsg') }}
-        </div>
-
-        <TipComment
-          v-for="nestedComment in comment.children"
-          :key="nestedComment.id"
-          :comment="nestedComment"
-        />
-      </div>
+  <div class="comment__page">
+    <BackButtonRibbon />
+    <div
+      v-if="comment"
+      class="tipped__url"
+    >
+      <TipComment :comment="comment" />
     </div>
-  </Page>
+    <div class="comment__section">
+      <p class="latest__comments">
+        {{ $t('views.TipCommentsView.LatestReplies') }}
+      </p>
+      <SendComment
+        :tip-id="tipId"
+        :parent-id="id"
+      />
+    </div>
+    <div
+      v-if="comment"
+      class="comments__section"
+    >
+      <Loading
+        v-if="showLoading"
+        above-content
+      />
+      <div
+        v-if="comment.children.length === 0 && !showLoading"
+        class="no-results text-center w-100"
+        :class="{ error }"
+      >
+        {{ $t('views.SingleCommentView.NoResultsMsg') }}
+      </div>
+
+      <TipComment
+        v-for="nestedComment in comment.children"
+        :key="nestedComment.id"
+        :comment="nestedComment"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
 import TipComment from '../components/tipRecords/TipComment.vue';
-import Page from '../components/layout/Page.vue';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
 import SendComment from '../components/SendComment.vue';
 
 export default {
   components: {
-    Page,
+    BackButtonRibbon,
     Loading,
     TipComment,
     SendComment,

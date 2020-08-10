@@ -6,11 +6,11 @@
       <textarea
         ref="input"
         v-bind="$attrs"
+        rows="1"
         v-on="{
           ...$listeners,
           input: event => $emit('input', event.target.value),
         }"
-        rows="1"
       />
       <button
         v-if="showSubmitButton"

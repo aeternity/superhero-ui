@@ -1,38 +1,36 @@
 <template>
-  <Page>
-    <div class="tips-list">
-      <div class="actions">
-        <SendTip />
-        <div class="not-bootstrap-row">
-          <button
-            :class="{ active: tipSortBy === 'hot' }"
-            @click="setTipSortBy('hot')"
+  <div class="tips-list">
+    <div class="actions">
+      <SendTip />
+      <div class="not-bootstrap-row">
+        <button
+          :class="{ active: tipSortBy === 'hot' }"
+          @click="setTipSortBy('hot')"
+        >
+          {{ $t('views.TipList.SortingMostPopular') }}
+        </button>
+        <button
+          id="sort-latest"
+          :class="{ active: tipSortBy === 'latest' }"
+          @click="setTipSortBy('latest')"
+        >
+          {{ $t('views.TipList.SortingLatest') }}
+        </button>
+        <button
+          :class="{ active: tipSortBy === 'highest' }"
+          @click="setTipSortBy('highest')"
+        >
+          {{ $t('views.TipList.SortingHighestRated') }}
+        </button>
+        <div class="separator" />
+        <ThreeDotsMenu>
+          <Checkbox
+            :checked="isHiddenContent"
+            @change="setIsHiddenContent(!isHiddenContent)"
           >
-            {{ $t('views.TipList.SortingMostPopular') }}
-          </button>
-          <button
-            id="sort-latest"
-            :class="{ active: tipSortBy === 'latest' }"
-            @click="setTipSortBy('latest')"
-          >
-            {{ $t('views.TipList.SortingLatest') }}
-          </button>
-          <button
-            :class="{ active: tipSortBy === 'highest' }"
-            @click="setTipSortBy('highest')"
-          >
-            {{ $t('views.TipList.SortingHighestRated') }}
-          </button>
-          <div class="separator" />
-          <ThreeDotsMenu>
-            <Checkbox
-              :checked="isHiddenContent"
-              @change="setIsHiddenContent(!isHiddenContent)"
-            >
-              {{ $t('views.TipList.SafeContentOnly') }}
-            </Checkbox>
-          </ThreeDotsMenu>
-        </div>
+            {{ $t('views.TipList.SafeContentOnly') }}
+          </Checkbox>
+        </ThreeDotsMenu>
       </div>
 
       <TipsPagination
@@ -41,13 +39,18 @@
         :blacklist="isHiddenContent"
       />
     </div>
-  </Page>
+
+    <TipsPagination
+      :tip-sort-by="tipSortBy"
+      :search="query"
+      :blacklist="isHiddenContent"
+    />
+  </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
-import Page from '../components/layout/Page.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
 import Checkbox from '../components/Checkbox.vue';
@@ -56,7 +59,6 @@ export default {
   name: 'TipsList',
   components: {
     TipsPagination,
-    Page,
     SendTip,
     Checkbox,
     ThreeDotsMenu,

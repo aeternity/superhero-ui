@@ -10,27 +10,16 @@
         >
       </div>
       <form @submit.prevent>
-        <div class="form-group">
-          <Avatar
-            :address="account"
-            class="avatar mr-3"
-          />
-          <span class="message-box">
-            <input
-              v-model="sendTipForm.title"
-              type="text"
-              class="form-control comment"
-              maxlength="280"
-              :placeholder="$t('addMessage')"
-            >
-            <span class="message-carret" />
-          </span>
-        </div>
+        <MessageInput
+          v-model="sendTipForm.title"
+          maxlength="280"
+          :placeholder="$t('addMessage')"
+        />
         <div class="form-row">
           <div class="form-group col-md-5 col-lg-6 col-sm-12 send-url">
             <UrlStatus
               :url="sendTipForm.url"
-              class="url-status"
+              @is-blacklisted-url="isBlacklistedUrl = $event"
             />
             <input
               v-model.trim="sendTipForm.url"
@@ -56,28 +45,12 @@
         </div>
       </form>
     </div>
-    <div
+    <MessageInput
       v-else-if="!open && !error && !success"
       class="closed-view"
-      @click="canTip ? toggleSendTip(true) : openTipDeeplink()"
-    >
-      <div class="form-group">
-        <Avatar
-          :address="account"
-          class="avatar mr-3"
-        />
-        <span class="message-box">
-          <input
-            type="text"
-            class="form-control comment input-placeholder"
-            :placeholder="$t('components.layout.SendTip.SendNewTip')"
-            disabled
-          >
-          <span class="message-carret" />
-        </span>
-        <div class="closed-overlay" />
-      </div>
-    </div>
+      :placeholder="$t('components.layout.SendTip.SendNewTip')"
+      @focus="canTip ? toggleSendTip(true) : openTipDeeplink()"
+    />
     <SendTipStatusMsg
       v-else
       :status="success"
@@ -94,7 +67,7 @@ import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg?icon-component';
-import Avatar from '../../Avatar.vue';
+import MessageInput from '../../MessageInput.vue';
 import UrlStatus from './UrlStatus.vue';
 import SendTipStatusMsg from './SendTipStatusMsg.vue';
 
@@ -103,7 +76,7 @@ export default {
   components: {
     AeInputAmount,
     AeButton,
-    Avatar,
+    MessageInput,
     UrlStatus,
     SendTipStatusMsg,
     IconDiamond,
@@ -138,11 +111,6 @@ export default {
     canTip() {
       return this.isLoggedIn && !this.loading.wallet;
     },
-  },
-  async created() {
-    EventBus.$on('blacklistedUrl', (payload) => {
-      this.isBlacklistedUrl = payload;
-    });
   },
   methods: {
     async sendTip() {
@@ -256,17 +224,6 @@ export default {
       color: $standard_font_color;
     }
 
-    .avatar,
-    .user-identicon svg {
-      width: 2rem;
-      height: 2rem;
-      border-radius: 1rem;
-    }
-
-    .avatar {
-      vertical-align: middle;
-    }
-
     .tip__post__label {
       font-weight: 600;
       font-size: 0.8rem;
@@ -281,39 +238,20 @@ export default {
 
     .url-status {
       position: absolute;
-      left: 0.85rem;
+      left: 0.55rem;
       top: 50%;
-      transform: translateY(-60%);
+      transform: translateY(-50%);
     }
 
     .url-input {
       padding-left: 2.1rem;
     }
 
-    .closed-view {
+    .closed-view.message-input {
       padding: 1rem;
-      position: relative;
 
-      &:hover {
-        cursor: pointer;
-      }
-    }
-
-    .closed-overlay {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-    }
-
-    .input-placeholder[disabled] {
-      &::placeholder {
+      textarea::placeholder {
         color: $standard_font_color;
-      }
-
-      &:hover {
-        cursor: pointer;
       }
     }
 
@@ -340,11 +278,6 @@ export default {
 
     .message-box {
       position: relative;
-    }
-
-    .message-carret {
-      top: 0.1rem;
-      left: -0.4rem;
     }
 
     @media (min-width: 576px) {

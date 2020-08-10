@@ -30,13 +30,13 @@
       <IconGovernance />
       {{ $t('components.layout.Navigation.Governance') }}
     </RouterLink>
-    <RouterLink :to="{ name: 'faq' }">
-      <IconHelp />
-      {{ $t('FAQ') }}
-    </RouterLink>
     <RouterLink :to="{ name: 'conference' }">
       <IconMeet />
       {{ $t('Networking.MenuLink') }}
+    </RouterLink>
+    <RouterLink :to="{ name: 'faq' }">
+      <IconHelp />
+      {{ $t('FAQ') }}
     </RouterLink>
   </div>
 </template>

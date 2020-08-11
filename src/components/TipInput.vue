@@ -84,14 +84,14 @@ export default {
     message: '',
   }),
   computed: {
-    ...mapState(['useSdkWallet', 'account']),
+    ...mapState(['useSdkWallet', 'address']),
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
         const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);
         if (!urlStats) return {};
         return {
-          isTipped: urlStats.senders.includes(this.account),
+          isTipped: urlStats.senders.includes(this.address),
           amount: urlStats.total_amount,
         };
       },

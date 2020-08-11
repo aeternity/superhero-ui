@@ -33,7 +33,7 @@ export default {
     showSubmitButton: Boolean,
     submitButtonTitle: { type: String, default: '' },
   },
-  computed: mapState({ address: 'account' }),
+  computed: mapState(['address']),
   mounted() {
     autosize(this.$refs.input);
   },

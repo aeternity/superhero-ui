@@ -120,9 +120,11 @@ export default {
     userPinnedItems: [],
   }),
   computed: {
-    ...mapState(['loading', 'account']),
+    ...mapState(['loading']),
+    ...mapState({ currentAddress: 'address' }),
     pinnedItems() {
-      return this.address === this.account ? this.$store.state.pinnedItems : this.userPinnedItems;
+      return this.address === this.currentAddress
+        ? this.$store.state.pinnedItems : this.userPinnedItems;
     },
     showNoResultsMsg() {
       return this.activeTab === 'comments'
@@ -139,7 +141,7 @@ export default {
       this.reloadData();
     });
 
-    if (this.address !== this.account) {
+    if (this.address !== this.currentAddress) {
       Backend.getPinnedItems(this.address)
         .then((pinnedItems) => {
           this.userPinnedItems = pinnedItems;

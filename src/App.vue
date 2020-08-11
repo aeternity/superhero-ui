@@ -40,7 +40,7 @@ export default {
   name: 'App',
   components: { MobileNavigation, LeftSection, RightSection },
   computed: {
-    ...mapState(['account']),
+    ...mapState(['address']),
     isSupportedBrowser() {
       const browser = detect();
       return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));
@@ -78,8 +78,8 @@ export default {
         this.$store.dispatch('backend/reloadPrices'),
       ]);
 
-      if (this.account) {
-        const balance = await client.balance(this.account).catch(() => 0);
+      if (this.address) {
+        const balance = await client.balance(this.address).catch(() => 0);
         this.updateBalance(Util.atomsToAe(balance).toFixed(2));
       }
 
@@ -102,7 +102,7 @@ export default {
       await initClient();
       await this.reloadData();
       this.removeLoading('initial');
-      if (this.account) {
+      if (this.address) {
         this.removeLoading('wallet');
         this.fetchUserData();
       }
@@ -116,7 +116,7 @@ export default {
       }
       const balance = await client.balance(address).catch(() => 0);
       this.setLoggedInAccount({
-        account: address,
+        address,
         balance: Util.atomsToAe(balance).toFixed(2),
       });
       this.fetchUserData();

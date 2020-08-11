@@ -45,7 +45,7 @@
                 {{ $t('components.tipRecords.TipRecord.claim') }}
               </div>
               <div
-                v-if="account"
+                v-if="address"
                 @click="pinOrUnPinTip"
               >
                 {{
@@ -179,7 +179,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['account', 'useSdkWallet']),
+    ...mapState(['address', 'useSdkWallet']),
     ...mapState({
       isTipPinned({ pinnedItems }) {
         return pinnedItems.some(({ id }) => id === this.tip.id);
@@ -210,7 +210,7 @@ export default {
     async claim() {
       await Backend.claimFromUrl({
         url: this.tip.url,
-        address: this.account,
+        address: this.address,
       });
     },
     async pinOrUnPinTip() {

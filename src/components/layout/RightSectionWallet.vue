@@ -17,8 +17,8 @@
       :src="walletUrl"
     />
     <template v-else-if="isLoggedIn">
-      <div class="account">
-        {{ account }}
+      <div class="address">
+        {{ address }}
       </div>
       <div class="not-bootstrap-row">
         <AeAmount :amount="balance" />
@@ -48,7 +48,7 @@ export default {
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['balance', 'account', 'useIframeWallet', 'selectedCurrency']),
+    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency']),
     ...mapState({
       currencyDropdownOptions({ backend: { prices }, balance }) {
         return Object.entries(prices).map(([currency, price]) => ({
@@ -90,7 +90,7 @@ export default {
     }
   }
 
-  .account {
+  .address {
     color: $light_font_color;
     font-size: 0.52rem;
     position: relative;

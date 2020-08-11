@@ -31,8 +31,8 @@ export default {
         ? new Avatars(sprites, AVATAR_CONFIG).create(name)
         : `data:image/svg+xml;base64,${btoa(jdenticon.toSvg(this.address, 32))}`;
     },
-    profileImageUrl({ account, profile }) {
-      const key = account === this.address && profile?.signature?.slice(0, 5);
+    profileImageUrl({ address, profile }) {
+      const key = address === this.address && profile?.signature?.slice(0, 5);
       return `${Backend.getProfileImageUrl(this.address)}?${key || ''}`;
     },
   }),

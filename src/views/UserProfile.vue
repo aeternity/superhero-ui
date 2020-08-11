@@ -314,9 +314,14 @@ export default {
     },
   },
   mounted() {
-    this.reloadData();
-
-    this.getBalance();
+    this.$watch(
+      () => this.address,
+      () => {
+        this.reloadData();
+        this.getBalance();
+      },
+      { immediate: true },
+    );
 
     EventBus.$on('reloadData', () => {
       this.reloadData();

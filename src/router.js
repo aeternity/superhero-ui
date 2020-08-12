@@ -178,6 +178,10 @@ const routes = [
       title: 'Conference',
     },
   },
+  {
+    path: '*',
+    redirect: '/',
+  },
 ];
 
 const router = new Router({ mode: 'history', routes });

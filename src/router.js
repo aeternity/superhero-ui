@@ -18,24 +18,6 @@ import TutorialWallet from './views/tutorial/Wallet.vue';
 import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
 
-const guardTipComments = (to, from, next) => {
-  if (to.name === 'tip' && typeof to.params.id !== 'undefined') {
-    next();
-  } else {
-    next('/');
-  }
-};
-
-const guardCommentView = (to, from, next) => {
-  if (to.name === 'comment'
-      && typeof to.params.id !== 'undefined'
-      && typeof to.params.tipId !== 'undefined') {
-    next();
-  } else {
-    next('/');
-  }
-};
-
 const routes = [
   {
     path: '/',
@@ -61,7 +43,6 @@ const routes = [
       title: 'Comment View',
     },
     props: true,
-    beforeEnter: guardCommentView,
   },
   {
     path: '/tip/:id',
@@ -71,7 +52,6 @@ const routes = [
       title: 'Comments for a Tip',
     },
     props: true,
-    beforeEnter: guardTipComments,
   },
   {
     path: '/user-profile/:address',

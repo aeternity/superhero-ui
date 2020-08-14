@@ -7,7 +7,7 @@
     <div v-if="tips">
       <TipRecord
         v-for="tip in tips"
-        :key="tip.id"
+        :key="`${tip.id}_${tip.contractId}`"
         :tip="tip"
         :fiat-value="tip.fiatValue"
       />

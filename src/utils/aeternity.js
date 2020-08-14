@@ -117,6 +117,7 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
   });
 };
 
+// will always tip to the latest contract
 export const tip = async (url, title, amount) => {
   await initTippingContractIfNeeded();
   return contract.methods.tip(url, title, { amount });
@@ -130,11 +131,13 @@ export const tipToken = async (url, title, amount, tokenAddress) => {
 };
 
 export const retip = async (id, amount) => {
+  // TODO needs to be adjusted to work with v1 and v2 contract
   await initTippingContractIfNeeded();
   return contract.methods.retip(id, { amount });
 };
 
 export const retipToken = async (id, amount, tokenAddress) => {
+  // TODO needs to be forbidden for tips in v1 contract
   await initTippingContractIfNeeded();
   await createOrChangeAllowance(tokenAddress, amount);
 

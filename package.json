@@ -16,7 +16,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "tipping-contract": "github:aeternity/tipping-contract#develop",
+    "tipping-contract": "github:aeternity/tipping-contract#feature/remove-owner",
     "aeternity-fungible-token": "github:mradkov/aeternity-fungible-token",
     "@aeternity/aepp-sdk": "^7.5.0",
     "@aeternity/superhero-button": "^0.1.3",

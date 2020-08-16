@@ -10,7 +10,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    account: null,
+    address: null,
     balance: 0,
     profile: {},
     pinnedItems: [],
@@ -32,25 +32,25 @@ export default new Vuex.Store({
   },
   mutations,
   actions: {
-    async updateUserProfile({ commit, state: { account } }) {
-      commit('setUserProfile', await Backend.getProfile(account));
+    async updateUserProfile({ commit, state: { address } }) {
+      commit('setUserProfile', await Backend.getProfile(address));
     },
-    async updatePinnedItems({ commit, state: { account } }) {
-      commit('setPinnedItems', await Backend.getPinnedItems(account));
+    async updatePinnedItems({ commit, state: { address } }) {
+      commit('setPinnedItems', await Backend.getPinnedItems(address));
     },
   },
   getters: {
-    isLoggedIn: (state) => !!state.account,
+    isLoggedIn: (state) => !!state.address,
   },
   modules: { backend },
   plugins: [
     persistState(
       (state) => state,
       ({
-        selectedCurrency, account, balance,
+        selectedCurrency, address, balance,
       }) => ({
         selectedCurrency,
-        account,
+        address,
         balance,
       }),
     ),

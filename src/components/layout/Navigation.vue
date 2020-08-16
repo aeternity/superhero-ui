@@ -17,7 +17,7 @@
     </RouterLink>
     <RouterLink
       v-if="isLoggedIn"
-      :to="{ name: 'user-profile', params: { address: account } }"
+      :to="{ name: 'user-profile', params: { address } }"
     >
       <IconUser />
       {{ $t('components.layout.Navigation.MyProfile') }}
@@ -65,7 +65,7 @@ export default {
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['account']),
+    ...mapState(['address']),
   },
 };
 </script>

@@ -11,10 +11,10 @@
       />
       <div
         class="profile__header"
-        :class="{ 'profile__editable': account === address }"
+        :class="{ 'profile__editable': currentAddress === address }"
       >
         <div
-          v-if="account === address"
+          v-if="currentAddress === address"
           class="edit__buttons"
         >
           <label
@@ -61,7 +61,7 @@
         <div class="profile__image">
           <Avatar :address="address" />
           <TipInput
-            v-if="account !== address"
+            v-if="currentAddress !== address"
             :user-address="address"
             class="avatar__button profile__button"
           />
@@ -116,7 +116,7 @@
               class="location"
             >
               <img
-                v-if="profile.location.length || account === address"
+                v-if="profile.location.length || currentAddress === address"
                 src="../assets/location.svg"
               >
               <input
@@ -127,7 +127,7 @@
                 :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
               >
               <span
-                v-if="!editMode && (profile.location.length || account === address)"
+                v-if="!editMode && (profile.location.length || currentAddress === address)"
               >
                 {{
                   profile.location.length
@@ -254,7 +254,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'account', 'chainNames']),
+    ...mapState(['useSdkWallet', 'chainNames']),
+    ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];
     },
@@ -355,7 +356,7 @@ export default {
       await this.backendAuth('sendProfileData', {
         biography: this.profile.biography,
         location: this.profile.location,
-        author: this.account,
+        author: this.currentAddress,
       });
       await this.resetEditedValues();
     },

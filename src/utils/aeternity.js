@@ -17,7 +17,7 @@ const nodeUrlTestNet = 'https://testnet.aeternity.io';
 const compilerUrl = 'https://latest.compiler.aepps.com';
 const contractAddress = window.Cypress
   ? 'ct_2GRP3xp7KWrKtZSnYfdcLnreRWrntWf5aTsxtLqpBHp71EFc3i'
-  : 'ct_217sVfSyoAQHPsrRQEVEpw4hiiqVaQro7SvcoYt9pG9kzTyV6r';
+  : 'ct_2ZEoCKcqXkbz2uahRrsWeaPooZs9SdCv6pmC4kc55rD4MhqYSu';
 let contract;
 
 export let client; // eslint-disable-line import/no-mutable-exports

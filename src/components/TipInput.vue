@@ -117,6 +117,9 @@ export default {
         && new BigNumber(this.tip.total_amount_ae).isZero()
         && this.tip.token;
     },
+    isTokenTipable() {
+      return this.tip.id.split('_')[1] === 'v2';
+    },
     tipUrl() {
       if (this.comment) {
         return `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
@@ -160,7 +163,7 @@ export default {
         } else {
           // eslint-disable-next-line no-lonely-if
           if (isTokenTip) await retipToken(this.tip.id, amount, this.inputToken);
-          else await retip(this.tip.id, amount);
+          else await retip(this.tip.contractId, this.tip.id, amount);
         }
 
         if (!this.userAddress) {

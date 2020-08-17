@@ -14,7 +14,10 @@
       :disabled="disabled"
       @input="$emit('input', $event.target.value)"
     >
-    <div class="input-group-append">
+    <div
+      class="input-group-append"
+      v-if="!notTokenTipable"
+    >
       <Dropdown
         :options="selectTokenOptions"
         :selected="selectedToken"
@@ -55,6 +58,7 @@ export default {
     value: { type: [Number, String], required: true },
     selectTokenF: { type: Function, required: true },
     disabled: { type: Boolean },
+    notTokenTipable: { type: Boolean },
   },
   data: () => ({
     selectedToken: 'native',

@@ -32,12 +32,6 @@
           </Checkbox>
         </ThreeDotsMenu>
       </div>
-
-      <TipsPagination
-        :tip-sort-by="tipSortBy"
-        :search="query"
-        :blacklist="isHiddenContent"
-      />
     </div>
 
     <TipsPagination

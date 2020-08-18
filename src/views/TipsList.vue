@@ -1,70 +1,57 @@
 <template>
-  <Page
-    :toggle-mobile-nav="toggleMobileNav"
-    :show-mobile-navigation="showMobileNavigation"
-    :loading="loading.initial"
-  >
-    <div class="actions__container container position-sticky">
-      <SearchInput
-        :toggle-mobile-nav="toggleMobileNav"
-        :show-mobile-navigation="showMobileNavigation"
+  <div class="tips-list">
+    <div class="actions">
+      <SendTip />
+      <div class="not-bootstrap-row">
+        <button
+          :class="{ active: tipSortBy === 'hot' }"
+          @click="setTipSortBy('hot')"
+        >
+          {{ $t('views.TipList.SortingMostPopular') }}
+        </button>
+        <button
+          id="sort-latest"
+          :class="{ active: tipSortBy === 'latest' }"
+          @click="setTipSortBy('latest')"
+        >
+          {{ $t('views.TipList.SortingLatest') }}
+        </button>
+        <button
+          :class="{ active: tipSortBy === 'highest' }"
+          @click="setTipSortBy('highest')"
+        >
+          {{ $t('views.TipList.SortingHighestRated') }}
+        </button>
+        <div class="separator" />
+        <ThreeDotsMenu>
+          <Checkbox
+            :checked="isHiddenContent"
+            @change="setIsHiddenContent(!isHiddenContent)"
+          >
+            {{ $t('views.TipList.SafeContentOnly') }}
+          </Checkbox>
+        </ThreeDotsMenu>
+      </div>
+
+      <TipsPagination
+        :tip-sort-by="tipSortBy"
+        :search="query"
+        :blacklist="isHiddenContent"
       />
     </div>
-    <div class="container wrapper">
-      <div class="tips__container">
-        <div class="actions__container position-sticky">
-          <div class="send__tip__container">
-            <SendTip />
-          </div>
-          <div class="row">
-            <div class="col-md-12 col-lg-12 col-sm-12 sorting">
-              <a
-                :class="{ active: tipSortBy === 'hot' }"
-                @click="setTipSortBy('hot')"
-              >
-                {{ $t('views.TipList.SortingMostPopular') }}
-              </a>
-              <a
-                id="sort-latest"
-                :class="{ active: tipSortBy === 'latest' }"
-                @click="setTipSortBy('latest')"
-              >
-                {{ $t('views.TipList.SortingLatest') }}
-              </a>
-              <a
-                :class="{ active: tipSortBy === 'highest' }"
-                @click="setTipSortBy('highest')"
-              >
-                {{ $t('views.TipList.SortingHighestRated') }}
-              </a>
-              <div class="actions-menu">
-                <ThreeDotsMenu>
-                  <Checkbox
-                    :state="isHiddenContent"
-                    :update-state="setIsHiddenContent"
-                    :text="$t('views.TipList.SafeContentOnly')"
-                  />
-                </ThreeDotsMenu>
-              </div>
-            </div>
-          </div>
-        </div>
-        <TipsPagination
-          :tip-sort-by="tipSortBy"
-          :search="searchTerm"
-          :blacklist="isHiddenContent"
-        />
-      </div>
-    </div>
-  </Page>
+
+    <TipsPagination
+      :tip-sort-by="tipSortBy"
+      :search="query"
+      :blacklist="isHiddenContent"
+    />
+  </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
-import Page from '../components/layout/Page.vue';
 import TipsPagination from '../components/TipsPagination.vue';
-import SearchInput from '../components/layout/SearchInput.vue';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
 import Checkbox from '../components/Checkbox.vue';
 
@@ -72,196 +59,91 @@ export default {
   name: 'TipsList',
   components: {
     TipsPagination,
-    Page,
     SendTip,
-    SearchInput,
     Checkbox,
     ThreeDotsMenu,
   },
-  data() {
-    return {
-      showMobileNavigation: true,
-    };
+  props: {
+    query: { type: String, default: '' },
   },
-  computed: mapState(['tipSortBy', 'loading', 'searchTerm', 'isHiddenContent']),
-  methods: {
-    ...mapMutations(['setTipSortBy', 'setIsHiddenContent']),
-    toggleMobileNav(show) {
-      this.showMobileNavigation = show;
-    },
-  },
+  computed: mapState(['tipSortBy', 'isHiddenContent']),
+  methods: mapMutations(['setTipSortBy', 'setIsHiddenContent']),
 };
 </script>
 
 <style lang="scss" scoped>
-.container.wrapper {
-  padding-top: 0;
-  min-height: 4rem;
-}
-
-.actions__container {
-  padding: 0;
+.tips-list .actions {
+  position: sticky;
   top: 0;
   z-index: 100;
   font-size: 0.75rem;
   background-color: $background_color;
+  color: $light_font_color;
 
-  .form-control {
-    padding-right: 1.25rem;
+  @include mobile {
+    top: $mobile_navigation_height;
   }
 
-  .container {
-    padding: 0;
+  .send-tip {
+    margin: 0.15rem 0;
+
+    @include smallest {
+      display: none;
+    }
   }
 
-  .row {
+  .not-bootstrap-row {
     background-color: $actions_ribbon_background_color;
-    margin: 0;
-  }
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
 
-  .sorting {
-    text-align: left;
-    padding-left: 1rem;
+    @include smallest {
+      background-color: $background_color;
+      border-bottom: 0.075rem solid $search_nav_border_color;
+      margin: 0 -1rem; // Would be better to reorganize layout somehow
+    }
 
-    a {
+    button {
+      background: none;
+      border: none;
+      outline: none;
+      color: inherit;
       font-weight: 600;
-      display: inline-block;
       padding: 0.625rem 0;
-      margin-right: 1rem;
-      color: $light_font_color;
+      margin-left: 1rem;
+      border-bottom: 0.1rem solid transparent;
 
-      &:last-child {
-        margin-right: 0;
+      @include smallest {
+        margin-left: 0;
+        flex-grow: 1;
+        flex-basis: 0;
+        padding-bottom: 0.45rem;
+        border-bottom-width: 0.075rem;
+        margin-bottom: -0.075rem;
+      }
+
+      &:first-child {
+        margin-left: 0;
       }
 
       &:hover {
         color: $primary_color;
-        cursor: pointer;
+      }
+
+      &.active {
+        color: $custom_links_color;
+        border-bottom-color: $custom_links_color;
       }
     }
 
-    a.active {
-      color: $custom_links_color;
-      border-bottom: 0.1rem solid $custom_links_color;
-    }
-  }
-}
+    .separator {
+      flex-grow: 1;
 
-.tips__container {
-  width: 100%;
-  background-color: $background_color;
-  padding-top: 0.1rem;
-
-  &:empty {
-    visibility: hidden;
-  }
-}
-
-.no-results {
-  color: $standard_font_color;
-  font-size: 0.75rem;
-  margin-bottom: 4rem;
-}
-
-.initial-loading {
-  margin-top: 5rem;
-}
-
-.actions-menu {
-  float: right;
-  margin-top: 0.5rem;
-  display: inline-block;
-  color: $light_font_color;
-}
-
-.send__tip__container {
-  margin-bottom: 0.15rem;
-}
-
-@media (max-width: 1024px) {
-  .container .actions__container {
-    top: 3.2rem;
-  }
-}
-
-@media only screen
-  and (max-width: 768px)
-  and (max-width: 600px) {
-  .actions__container {
-    padding-bottom: 0;
-
-    .input-group {
-      margin-bottom: 0;
-      padding-right: 0;
-    }
-  }
-}
-
-//Smallest devices Portrait and Landscape
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-  .actions__container {
-    width: 100%;
-    background-color: $actions_ribbon_background_color;
-    overflow-x: initial;
-    z-index: 100;
-
-    .container,
-    .row {
-      padding: 0;
-    }
-
-    .sorting {
-      width: -webkit-fill-available;
-      width: -moz-available;
-      background-color: #1d1d23;
-      margin: 0 -1rem 0 -1rem;
-      text-align: center;
-      padding-bottom: 0;
-      padding-left: 0.5rem;
-      border-bottom: 0.075rem solid $search_nav_border_color;
-
-      a {
-        cursor: pointer;
-        width: 30%;
-        display: inline-block;
-        padding-bottom: 0.45rem;
-        margin-right: 0;
-
-        &.active {
-          border-bottom: 0.075rem solid $custom_links_color;
-          margin-bottom: -0.075rem;
-        }
+      @include smallest {
+        display: none;
       }
     }
-  }
-
-  .container.wrapper {
-    padding: 0.15rem 0.25rem 0 0.25rem;
-
-    .tips__container {
-      padding: 0;
-    }
-
-    .actions__container {
-      top: 3rem;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-  }
-
-  .send__tip__container {
-    display: none;
-  }
-
-  .actions-menu {
-    float: initial;
-  }
-
-  .search {
-    margin-bottom: 0;
   }
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div>
     <Loading
-      v-if="loadingTips"
-      class="m-2 loading-position-absolute"
+      v-if="tipsReloading"
+      above-content
     />
     <div v-if="tips">
       <TipRecord
@@ -10,12 +10,8 @@
         :key="tip.id"
         :tip="tip"
         :fiat-value="tip.fiatValue"
-        :sender-link="openExplorer(tip.sender)"
       />
-      <Loading
-        v-if="loadingMoreTips"
-        class="m-2"
-      />
+      <Loading v-if="tipsNextPageLoading" />
       <div
         v-if="tips.length === 0"
         class="no-results text-center m-2"
@@ -27,12 +23,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Loading from './Loading.vue';
-import Backend from '../utils/backend';
-import { MIDDLEWARE_URL } from '../config/constants';
 import TipRecord from './tipRecords/TipRecord.vue';
-import Util from '../utils/util';
 import { EventBus } from '../utils/eventBus';
+
+const namesToHandlers = (names, getHandler) => names
+  .reduce((acc, name) => ({ ...acc, [name]: getHandler(name) }), {});
 
 export default {
   name: 'TipsPagination',
@@ -42,93 +39,57 @@ export default {
   },
   props: {
     tipSortBy: { type: String, required: true },
-    address: { type: String, required: false, default: null },
-    search: { type: String, required: false, default: null },
-    blacklist: { type: Boolean, required: false },
+    address: { type: String, default: null },
+    search: { type: String, default: null },
+    blacklist: Boolean,
   },
-  data() {
-    return {
-      loadingMoreTips: false,
-      loadingTips: false,
-      endReached: false,
-      page: 1,
-      tips: null,
-    };
-  },
-  watch: {
-    tipSortBy() {
-      this.startFromTop();
+  computed: {
+    args() {
+      return [this.tipSortBy, this.address, this.search, this.blacklist];
     },
-    search() {
-      this.startFromTop();
-    },
-    blacklist() {
-      this.startFromTop();
-    },
+    ...mapState(
+      'backend',
+      namesToHandlers(
+        ['tips', 'tipsReloading', 'tipsNextPageLoading'],
+        (name) => function getState(state) { return state[name][this.args]; },
+      ),
+    ),
   },
-  async created() {
-    this.loadData();
-  },
-  mounted() {
+  async mounted() {
+    await this.reloadTips();
+
     const scrollHandler = () => {
       const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
       if (scrollHeight - scrollTop <= clientHeight + 100) {
-        this.loadMoreTips();
+        this.loadNextPageOfTips();
       }
     };
     window.addEventListener('scroll', scrollHandler);
-    this.$on('hook:activated', () => window.addEventListener('scroll', scrollHandler));
-    this.$on('hook:deactivated', () => window.removeEventListener('scroll', scrollHandler));
-    this.$once('hook:destroyed', () => window.removeEventListener('scroll', scrollHandler));
 
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
+    const reloadTips = () => this.reloadTips();
+    EventBus.$on('reloadData', reloadTips);
+
+    const interval = setInterval(reloadTips, 120 * 1000);
+
+    this.$once('hook:destroyed', () => {
+      window.removeEventListener('scroll', scrollHandler);
+      EventBus.$off('reloadData', reloadTips);
+      clearInterval(interval);
     });
 
-    const interval = setInterval(() => this.reloadData(), 120 * 1000);
-    this.$once('hook:destroyed', () => clearInterval(interval));
+    this.$watch(
+      ({ args }) => args,
+      async () => {
+        window.scrollTo(0, 0);
+        await this.reloadTips();
+      },
+    );
   },
-  methods: {
-    async startFromTop() {
-      window.scrollTo(0, 0);
-      this.endReached = false;
-      this.page = 1;
-      this.tips = null;
-      this.loadData();
+  methods: namesToHandlers(
+    ['reloadTips', 'loadNextPageOfTips'],
+    (name) => async function callAction() {
+      await this.$store.dispatch(`backend/${name}`, this.args);
     },
-    async loadData() {
-      this.loadingTips = true;
-      this.tips = await Backend.getCacheTips(this.tipSortBy, this.page,
-        this.address, this.search, this.blacklist);
-      if (this.tips) {
-        this.loadingTips = false;
-      }
-    },
-    async loadMoreTips() {
-      if (!this.endReached && !this.loadingMoreTips) {
-        this.loadingMoreTips = true;
-        const tips = await Backend
-          .getCacheTips(this.tipSortBy, this.page + 1, this.address, this.search, this.blacklist);
-        this.tips = this.tips.concat(tips);
-        if (tips.length > 0) {
-          this.page += 1;
-        } else {
-          this.endReached = true;
-        }
-        this.loadingMoreTips = false;
-      }
-    },
-    async reloadData() {
-      this.loadingTips = true;
-
-      this.tips = await Util.range(1, this.page)
-        .asyncMap(async (page) => Backend
-          .getCacheTips(this.tipSortBy, page, this.address, this.search, this.blacklist));
-      this.loadingTips = false;
-    },
-    openExplorer(address) {
-      return `${MIDDLEWARE_URL}account/transactions/${address}`;
-    },
-  },
+  ),
 };
 </script>

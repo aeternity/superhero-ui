@@ -1,21 +1,26 @@
 <template>
-  <div
-    id="app"
-    @mousedown="saveScrollPosition"
-  >
+  <div id="app">
     <div
-      ref="wrapper"
-      class="min-h-screen wrapper"
+      v-if="isSupportedBrowser"
+      class="supportedbrowser--alert"
     >
+      {{ $t('noExtensionSupport') }}
+    </div>
+    <MobileNavigation v-if="!$route.meta.fullScreen" />
+    <div class="not-bootstrap-row">
       <div
-        v-if="isSupportedBrowser"
-        class="supportedbrowser--alert"
+        v-if="!$route.meta.fullScreen"
+        class="sidebar-sticky"
       >
-        {{ $t('noExtensionSupport') }}
+        <LeftSection />
       </div>
-      <keep-alive :max="5">
-        <router-view :key="$route.fullPath" />
-      </keep-alive>
+      <RouterView class="router-view" />
+      <div
+        v-if="!$route.meta.fullScreen"
+        class="sidebar-sticky"
+      >
+        <RightSection />
+      </div>
     </div>
   </div>
 </template>
@@ -27,17 +32,15 @@ import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
+import MobileNavigation from './components/layout/MobileNavigation.vue';
+import LeftSection from './components/layout/LeftSection.vue';
+import RightSection from './components/layout/RightSection.vue';
 
 export default {
   name: 'App',
-  data() {
-    return {
-      urlAddress: this.$route.query.address,
-      savedScrolls: [],
-    };
-  },
+  components: { MobileNavigation, LeftSection, RightSection },
   computed: {
-    ...mapState(['account']),
+    ...mapState(['address']),
     isSupportedBrowser() {
       const browser = detect();
       return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));
@@ -54,59 +57,44 @@ export default {
       }).catch((err) => { console.error(err); });
     });
     await this.initialLoad();
-    this.$router.afterEach((to) => {
-      setTimeout(
-        () => {
-          document.scrollingElement.scrollTop = this.savedScrolls[to.fullPath] || 0;
-        },
-        100,
-      );
-    });
   },
   methods: {
     ...mapMutations([
-      'setLoggedInAccount', 'updateTopics', 'updateStats', 'updateCurrencyRates',
+      'setLoggedInAccount', 'updateTopics', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
       'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet', 'setPinnedItems',
     ]),
-    async reloadAsyncData(stats) {
-      // stats
-      Promise.all([Backend.getStats(), client.height()])
-        .then(([backendStats, height]) => {
-          const newStats = { ...stats, ...backendStats, height };
-          this.updateStats(newStats);
-        }).catch((e) => {
-          this.updateStats(stats);
-          console.error(e);
-        });
-    },
     async reloadData() {
       // await fetch
       const [
-        stats, chainNames, rates, oracleState, topics, verifiedUrls, graylistedUrls,
+        chainNames, oracleState, topics, verifiedUrls, graylistedUrls,
       ] = await Promise.all([
-        Backend.getCacheStats(),
         Backend.getCacheChainNames(),
-        Backend.getPrice(),
         Backend.getOracleCache(),
         Backend.getTopicsCache(),
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
+        this.$store.dispatch('backend/reloadStats'),
+        this.$store.dispatch('backend/reloadPrices'),
       ]);
 
-      if (this.account) {
-        const balance = await client.balance(this.account).catch(() => 0);
+      if (this.address) {
+        const balance = await client.balance(this.address).catch(() => 0);
         this.updateBalance(Util.atomsToAe(balance).toFixed(2));
       }
 
       // async fetch
-      this.reloadAsyncData(stats);
       this.updateTopics(topics);
       this.setChainNames(chainNames);
-      this.updateCurrencyRates(rates);
       this.setOracleState(oracleState);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
+    },
+    async fetchUserData() {
+      await Promise.all([
+        this.$store.dispatch('updatePinnedItems'),
+        this.$store.dispatch('updateUserProfile'),
+      ]);
     },
     async initialLoad() {
       this.addLoading('initial');
@@ -114,9 +102,12 @@ export default {
       await initClient();
       await this.reloadData();
       this.removeLoading('initial');
-      if (this.account) this.removeLoading('wallet');
+      if (this.address) {
+        this.removeLoading('wallet');
+        this.fetchUserData();
+      }
 
-      let address = this.urlAddress;
+      let { address } = this.$route.query;
       if (!address) {
         await scanForWallets();
         address = client.rpcClient.getCurrentAccount();
@@ -124,44 +115,96 @@ export default {
         this.useSdkWallet();
       }
       const balance = await client.balance(address).catch(() => 0);
-      Backend.getProfile(this.address)
-        .then((userProfile) => {
-          if (userProfile) this.$store.commit('setUserProfile', userProfile);
-        })
-        .catch(console.error);
       this.setLoggedInAccount({
-        account: address,
+        address,
         balance: Util.atomsToAe(balance).toFixed(2),
       });
-      Backend.getPinnedItems(this.account)
-        .then((pinnedItems) => {
-          this.$store.commit('setPinnedItems', pinnedItems);
-        })
-        .catch(console.error);
+      this.fetchUserData();
       this.removeLoading('wallet');
-    },
-    saveScrollPosition() {
-      this.savedScrolls[this.$route.fullPath] = document.scrollingElement.scrollTop;
     },
   },
 };
 </script>
 
 <style lang="scss">
-  @import "styles/layout";
+:root {
+  --container-width: 59rem;
+}
 
-  .min-h-screen {
-    min-height: 100vh;
-    min-width: 100%;
-    padding-bottom: 0;
+@include mobile {
+  :root {
+    --container-width: 25rem;
   }
+}
 
-  #app {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
+@media (min-width: 1200px) {
+  html {
+    font-size: 125%;
   }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --container-width: 61rem;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+#app {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  margin: 0 auto;
+  min-height: 100vh;
+  max-width: var(--container-width);
+  display: flex;
+  flex-direction: column;
 
   .supportedbrowser--alert {
     text-align: center;
     line-height: 3rem;
   }
+
+  .not-bootstrap-row {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: nowrap;
+
+    .sidebar-sticky {
+      flex-shrink: 0;
+
+      > div {
+        position: sticky;
+        top: 0;
+      }
+
+      @include mobile {
+        display: none;
+      }
+
+      .left-section,
+      .right-section {
+        padding-top: 1rem;
+      }
+
+      .left-section {
+        width: 9.2rem;
+        margin-right: 15px;
+
+        @media (min-width: 1440px) {
+          margin-right: calc(15px + 1rem); // TODO: Replace with a rem value
+        }
+      }
+
+      .right-section {
+        width: 17.5rem;
+        margin-left: calc(15px + 0.8rem); // TODO: Replace with a rem value
+      }
+    }
+
+    .router-view {
+      flex-grow: 1;
+      min-width: 0; // https://css-tricks.com/flexbox-truncated-text/
+    }
+  }
+}
 </style>

@@ -1,14 +1,8 @@
 <template>
-  <div class="ae-amount-fiat">
-    <AeAmount
-      v-bind="$attrs"
-      :amount="amount"
-    />
-    <FiatValue
-      v-bind="$attrs"
-      :amount="amount"
-    />
-  </div>
+  <span class="ae-amount-fiat">
+    <AeAmount v-bind="$attrs" />
+    &nbsp;<FiatValue v-bind="$attrs" />
+  </span>
 </template>
 
 <script>
@@ -21,21 +15,5 @@ export default {
     FiatValue,
     AeAmount,
   },
-  props: {
-    amount: { type: String, required: true },
-  },
 };
 </script>
-
-<style lang="scss" scoped>
-.ae-amount-fiat {
-  display: flex;
-  align-items: center;
-
-  .currency-value {
-    font-size: 0.7rem;
-    color: $light_font_color;
-    margin-left: 0.1rem;
-  }
-}
-</style>

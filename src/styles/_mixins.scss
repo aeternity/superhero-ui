@@ -1,16 +1,26 @@
 // This file is included multiple times in every scss file and component, do not put any rendered styles
 
-@mixin vertical-align($position: relative) {
-  position: $position;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
 @mixin truncate-overflow-mx($property) {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: $property;
   -webkit-box-orient: vertical;
+}
+
+@mixin smallest {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: 1280px) {
+    @content;
+  }
 }

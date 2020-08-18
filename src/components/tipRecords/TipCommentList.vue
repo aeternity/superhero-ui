@@ -16,14 +16,12 @@
       <SendComment
         :tip-id="comment.tipId"
         :parent-id="comment.id"
-        class="send-comment"
       />
     </div>
     <SendComment
       v-if="!childComments.length"
       :tip-id="comment.tipId"
       :parent-id="comment.id"
-      class="send-comment"
     />
   </div>
 </template>
@@ -64,7 +62,7 @@ export default {
   border-top: 0.05rem solid $article_content_color;
   margin: 0 1rem;
 
-  & > div {
+  & > * {
     margin-right: -1rem;
     margin-left: 2rem;
   }
@@ -74,14 +72,11 @@ export default {
   padding: 0 1rem 1rem 1rem;
 }
 
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+@include smallest {
   .child-comments {
     margin: 0 0.5rem;
 
-    & > div {
+    & > * {
       margin-right: -0.5rem;
       margin-left: 1rem;
     }

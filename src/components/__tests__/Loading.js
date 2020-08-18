@@ -8,6 +8,6 @@ describe('Loading', () => {
         $t: () => 'locale-specific-text',
       },
     });
-    expect(wrapper.find('.spinner__container').exists()).toBeTruthy();
+    expect(wrapper.find('.loading').exists()).toBeTruthy();
   });
 });

@@ -9,7 +9,7 @@ describe('AeButton', () => {
         $t: () => 'locale-specific-text',
       },
     });
-    expect(wrapper.find('.spinner__container').exists()).toBeTruthy();
+    expect(wrapper.find('.loading').exists()).toBeTruthy();
   });
 
   it('is showing img, if `src` props is passed', () => {

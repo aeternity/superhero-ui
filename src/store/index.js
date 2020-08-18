@@ -2,23 +2,20 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import mutations from './mutations';
+import backend from './modules/backend';
 import persistState from './plugins/persistState';
+import Backend from '../utils/backend';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    account: null,
+    address: null,
     balance: 0,
     profile: {},
     pinnedItems: [],
-    currencyRates: {},
-    minTipAmount: 0.01,
-    settings: {
-      currency: 'eur',
-    },
-    topics: {},
-    stats: {},
+    selectedCurrency: 'eur',
+    topics: [],
     tipSortBy: 'hot',
     oracleState: {},
     loading: {
@@ -26,28 +23,34 @@ export default new Vuex.Store({
       initial: false,
     },
     chainNames: [],
-    wizardCurrentStep: 0,
-    wizardIsCollapsed: false,
     verifiedUrls: [],
     graylistedUrls: [],
-    searchTerm: '',
     isHiddenContent: true,
     useSdkWallet: false,
+    useIframeWallet: false,
+    sdk: null,
   },
   mutations,
-  getters: {
-    isLoggedIn: (state) => !!state.account,
+  actions: {
+    async updateUserProfile({ commit, state: { address } }) {
+      commit('setUserProfile', await Backend.getProfile(address));
+    },
+    async updatePinnedItems({ commit, state: { address } }) {
+      commit('setPinnedItems', await Backend.getPinnedItems(address));
+    },
   },
+  getters: {
+    isLoggedIn: (state) => !!state.address,
+  },
+  modules: { backend },
   plugins: [
     persistState(
       (state) => state,
       ({
-        settings, wizardCurrentStep, wizardIsCollapsed, account, balance,
+        selectedCurrency, address, balance,
       }) => ({
-        settings,
-        wizardCurrentStep,
-        wizardIsCollapsed,
-        account,
+        selectedCurrency,
+        address,
         balance,
       }),
     ),

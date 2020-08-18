@@ -53,12 +53,12 @@
       >
         <Loading
           v-if="showLoading"
-          class="loading-position-absolute"
+          above-content
         />
         <div
           v-if="showNoResultsMsg"
           class="no-results"
-          :class="[error ? 'error' : '']"
+          :class="{ error }"
         >
           {{ $t('components.ListOfTipsAndComments.NoActivity') }}
         </div>
@@ -66,41 +66,24 @@
           v-for="(comment, index) in comments"
           :key="index"
           :comment="comment"
-          :sender-link="openExplorer(comment.author)"
         />
       </div>
       <div
         v-if="activeTab === 'tips' && activity === 'channel'"
         class="tips__container"
       >
-        <div v-if="address === account">
-          <div
-            v-if="!pinnedItems.length"
-            class="no-results"
-            :class="[error ? 'error' : '']"
-          >
-            {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
-          </div>
-          <TipRecord
-            v-for="pinnedItem in pinnedItems"
-            :key="pinnedItem.id"
-            :tip="pinnedItem"
-          />
+        <div
+          v-if="!pinnedItems.length"
+          class="no-results"
+          :class="{ error }"
+        >
+          {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
         </div>
-        <div v-else>
-          <div
-            v-if="!userPinnedItems.length"
-            class="no-results"
-            :class="[error ? 'error' : '']"
-          >
-            {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
-          </div>
-          <TipRecord
-            v-for="userPinnedItem in userPinnedItems"
-            :key="userPinnedItem.id"
-            :tip="userPinnedItem"
-          />
-        </div>
+        <TipRecord
+          v-for="pinnedItem in pinnedItems"
+          :key="pinnedItem.id"
+          :tip="pinnedItem"
+        />
       </div>
     </div>
   </div>
@@ -110,7 +93,6 @@
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import { EXPLORER_URL } from '../config/constants';
 import Loading from './Loading.vue';
 import TipsPagination from './TipsPagination.vue';
 import TipComment from './tipRecords/TipComment.vue';
@@ -131,19 +113,25 @@ export default {
   },
   props: { address: { type: String, required: true } },
   data: () => ({
-    explorerUrl: `${EXPLORER_URL}account/transactions/`,
     showLoading: false,
     error: false,
-    comments: [],
     activeTab: 'tips',
     activity: 'activity',
     userPinnedItems: [],
   }),
   computed: {
-    ...mapState(['loading', 'pinnedItems', 'account']),
+    ...mapState(['loading']),
+    ...mapState({ currentAddress: 'address' }),
+    pinnedItems() {
+      return this.address === this.currentAddress
+        ? this.$store.state.pinnedItems : this.userPinnedItems;
+    },
     showNoResultsMsg() {
       return this.activeTab === 'comments'
         && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
+    },
+    comments() {
+      return this.$store.state.backend.userComments[this.address] || [];
     },
   },
   mounted() {
@@ -153,7 +141,7 @@ export default {
       this.reloadData();
     });
 
-    if (this.address !== this.account) {
+    if (this.address !== this.currentAddress) {
       Backend.getPinnedItems(this.address)
         .then((pinnedItems) => {
           this.userPinnedItems = pinnedItems;
@@ -168,23 +156,17 @@ export default {
     setActiveTab(tab) {
       this.activeTab = tab;
     },
-    openExplorer(address) {
-      return this.explorerUrl + address;
-    },
-    reloadData() {
+    async reloadData() {
       this.showLoading = true;
-      Backend.getUserComments(this.address)
-        .then((userComments) => {
-          this.showLoading = false;
-          this.error = false;
-          this.comments = userComments
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        })
-        .catch((e) => {
-          console.error(e);
-          this.error = true;
-          this.showLoading = false;
-        });
+      try {
+        await this.$store.dispatch('backend/reloadUserComments', this.address);
+        this.error = false;
+      } catch (error) {
+        this.error = true;
+        throw error;
+      } finally {
+        this.showLoading = false;
+      }
     },
   },
 };

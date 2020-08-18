@@ -1,92 +1,95 @@
 <template>
-  <Page back>
-    <div class="comment__page">
-      <div
-        v-if="comment"
-        class="tipped__url"
-      >
-        <TipComment :comment="comment" />
-      </div>
-      <div class="comment__section">
-        <p class="latest__comments">
-          {{ $t('views.TipCommentsView.LatestReplies') }}
-        </p>
-        <SendComment
-          :tip-id="tipId"
-          :parent-id="id"
-        />
-      </div>
-      <div
-        v-if="comment"
-        class="comments__section"
-      >
-        <Loading
-          v-if="showLoading"
-          class="loading-position-absolute"
-        />
-        <div
-          v-if="comment.children.length === 0 && !showLoading"
-          class="no-results text-center w-100"
-          :class="[error ? 'error' : '']"
-        >
-          {{ $t('views.SingleCommentView.NoResultsMsg') }}
-        </div>
-
-        <TipComment
-          v-for="nestedComment in comment.children"
-          :key="nestedComment.id"
-          :comment="nestedComment"
-        />
-      </div>
+  <div class="comment__page">
+    <BackButtonRibbon />
+    <div
+      v-if="comment"
+      class="tipped__url"
+    >
+      <TipComment :comment="comment" />
     </div>
-  </Page>
+    <div class="comment__section">
+      <p class="latest__comments">
+        {{ $t('views.TipCommentsView.LatestReplies') }}
+      </p>
+      <SendComment
+        :tip-id="tipId"
+        :parent-id="id"
+      />
+    </div>
+    <div
+      v-if="comment"
+      class="comments__section"
+    >
+      <Loading
+        v-if="showLoading"
+        above-content
+      />
+      <div
+        v-if="comment.children.length === 0 && !showLoading"
+        class="no-results text-center w-100"
+        :class="{ error }"
+      >
+        {{ $t('views.SingleCommentView.NoResultsMsg') }}
+      </div>
+
+      <TipComment
+        v-for="nestedComment in comment.children"
+        :key="nestedComment.id"
+        :comment="nestedComment"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
-// eslint-disable-next-line import/no-cycle
-import Backend from '../utils/backend';
 import TipComment from '../components/tipRecords/TipComment.vue';
-import Page from '../components/layout/Page.vue';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
 import SendComment from '../components/SendComment.vue';
 
 export default {
   components: {
-    Page,
+    BackButtonRibbon,
     Loading,
     TipComment,
     SendComment,
   },
-  data() {
-    return {
-      id: this.$route.params.id,
-      showLoading: true,
-      error: false,
-      comment: null,
-      tipId: this.$route.params.tipId,
-    };
+  props: {
+    id: { type: [String, Number], required: true },
+    tipId: { type: [String, Number], required: true },
   },
-  created() {
-    this.loadComment();
+  data: () => ({
+    showLoading: true,
+    error: false,
+  }),
+  computed: {
+    comment() {
+      return this.$store.state.backend.comment[this.id];
+    },
+  },
+  mounted() {
+    const handler = () => this.reloadComment();
+    this.$watch(({ id }) => id, handler, { immediate: true });
+    EventBus.$on('reloadData', handler);
+    const interval = setInterval(handler, 120 * 1000);
 
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
+    this.$once('hook:destroyed', () => {
+      EventBus.$off('reloadData', handler);
+      clearInterval(interval);
     });
-
-    this.interval = setInterval(() => this.reloadData(), 120 * 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
   },
   methods: {
-    async reloadData() {
-      this.comment = await Backend.getCommentById(this.id);
-    },
-    async loadComment() {
+    async reloadComment() {
       this.showLoading = true;
-      await this.reloadData();
-      this.showLoading = false;
+      try {
+        await this.$store.dispatch('backend/reloadComment', this.id);
+      } catch (error) {
+        this.error = true;
+        throw error;
+      } finally {
+        this.showLoading = false;
+      }
     },
   },
 };

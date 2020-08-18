@@ -134,9 +134,11 @@ import FormatDate from '../../components/tipRecords/FormatDate.vue';
 export default {
   name: 'Tracing',
   components: { FormatDate, AeAmount },
+  props: {
+    tipId: { type: [String, Number], required: true },
+  },
   data() {
     return {
-      tipId: this.$route.params.id,
       backendTrace: null,
       blockchainTrace: null,
       expandedTrace: null,

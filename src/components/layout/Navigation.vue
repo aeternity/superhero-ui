@@ -1,56 +1,43 @@
 <template>
-  <div class="navigation">
-    <div class="logo">
-      <router-link :to="{ name: 'tips' }">
-        <img
-          alt=""
-          src="../../assets/headerLogo.svg"
-        >
-      </router-link>
-    </div>
-    <div
-      class="navigation__item tips"
-      @click="scrollTop"
+  <div
+    class="navigation"
+    :class="{ mobile }"
+  >
+    <RouterLink
+      v-if="!mobile"
+      class="logo"
+      to="/"
     >
-      <router-link :to="{ name: 'tips' }">
-        <IconTips class="navigation__item__image" />
-        <span>{{ $t('tips') }}</span>
-      </router-link>
-    </div>
-    <div
+      <img src="../../assets/headerLogo.svg">
+    </RouterLink>
+
+    <RouterLink :to="{ name: 'tips' }">
+      <IconTips />
+      {{ $t('tips') }}
+    </RouterLink>
+    <RouterLink
       v-if="isLoggedIn"
-      class="navigation__item profile"
-      @click="scrollTop"
+      :to="{ name: 'user-profile', params: { address } }"
     >
-      <router-link :to="{ name: 'user-profile', params: { address: account } }">
-        <IconUser class="navigation__item__image" />
-        <span>{{ $t('components.layout.Navigation.MyProfile') }}</span>
-      </router-link>
-    </div>
-    <div class="navigation__item league">
-      <router-link :to="{ name: 'league' }">
-        <IconDiamond class="navigation__item__image" />
-        <span>{{ $t('components.layout.Navigation.League') }}</span>
-      </router-link>
-    </div>
-    <div class="navigation__item governance">
-      <router-link :to="{ name: 'voting' }">
-        <IconGovernance class="navigation__item__image" />
-        <span>{{ $t('components.layout.Navigation.Governance') }}</span>
-      </router-link>
-    </div>
-    <div class="navigation__item faq">
-      <router-link :to="{ name: 'faq' }">
-        <IconHelp class="navigation__item__image" />
-        <span>{{ $t('FAQ') }}</span>
-      </router-link>
-    </div>
-    <!-- <div class="navigation__item networking">
-      <router-link :to="{ name: 'conference' }">
-        <IconMeet class="navigation__item__image" />
-        <span>{{ $t('Networking.MenuLink') }}</span>
-      </router-link>
-    </div> -->
+      <IconUser />
+      {{ $t('components.layout.Navigation.MyProfile') }}
+    </RouterLink>
+    <RouterLink :to="{ name: 'league' }">
+      <IconDiamond />
+      {{ $t('components.layout.Navigation.League') }}
+    </RouterLink>
+    <RouterLink :to="{ name: 'voting' }">
+      <IconGovernance />
+      {{ $t('components.layout.Navigation.Governance') }}
+    </RouterLink>
+    <!-- <RouterLink :to="{ name: 'conference' }">
+      <IconMeet />
+      {{ $t('Networking.MenuLink') }}
+    </RouterLink> -->
+    <RouterLink :to="{ name: 'faq' }">
+      <IconHelp />
+      {{ $t('FAQ') }}
+    </RouterLink>
   </div>
 </template>
 
@@ -73,81 +60,58 @@ export default {
     IconGovernance,
     // IconMeet,
   },
+  props: {
+    mobile: Boolean,
+  },
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['account']),
-  },
-  methods: {
-    scrollTop() {
-      document.scrollingElement.scrollTop = 0;
-    },
+    ...mapState(['address']),
   },
 };
 </script>
 
-<style lang="scss">
-  .logo {
+<style lang="scss" scoped>
+.navigation {
+  a {
+    display: block;
+  }
+
+  a.logo {
     margin-bottom: 0.75rem;
-
-    img {
-      width: 9.2rem;
-    }
   }
 
-  .navigation {
-    color: $standard_font_color;
-    font-size: 1rem;
+  a:not(.logo) {
+    color: #fff;
+    text-decoration: none;
     font-weight: 500;
-  }
-
-  .navigation__item {
+    display: flex;
+    align-items: center;
     font-size: 0.93rem;
+    height: 1.3rem;
+    line-height: 1.3rem;
+    margin-left: 0.2rem;
     margin-bottom: 0.65rem;
 
-    a {
-      align-items: center;
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      line-height: 1;
-    }
-
-    a:hover,
-    .router-link-exact-active {
+    &:hover,
+    &.router-link-exact-active {
       color: $custom_links_color;
-      text-decoration: none;
-    }
-  }
-
-  .navigation__item__image {
-    display: inline-block;
-    height: 1.3rem;
-    margin-right: 0.5rem;
-    width: 1.3rem;
-
-    .league & path {
-      transform: scale(1.05);
     }
 
-    .league &,
-    .governance & {
-      padding: 0.2rem;
-    }
-  }
-
-  @media (min-width: 1440px) {
-    .navigation__item {
-      color: #fff;
+    @media (min-width: 1440px) {
       font-size: 1rem;
-      height: 1.2rem;
-      line-height: 1.2rem;
-      margin-bottom: 1.55rem;
+      margin-bottom: 1.45rem;
+    }
+
+    svg {
+      height: 1em;
+      width: 1em;
+      margin-right: 0.7rem;
     }
   }
 
-  .iconMeet {
-    width: 27px;
-    height: 18px;
-    padding-left: 5px;
+  &.mobile a:not(.logo) {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
   }
+}
 </style>

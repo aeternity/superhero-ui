@@ -1,9 +1,7 @@
 <template>
   <div
-    v-if="shouldRender"
-    :key="key"
     class="tip__record row"
-    @click="goToTip(tip.id)"
+    @click="goToTip"
   >
     <SuccessModal
       v-if="showSuccessModal"
@@ -40,12 +38,15 @@
               <div @click="sendReport">
                 {{ $t('components.tipRecords.TipRecord.reportPost') }}
               </div>
-              <div @click="claim">
+              <div
+                v-if="useSdkWallet"
+                @click="claim"
+              >
                 {{ $t('components.tipRecords.TipRecord.claim') }}
               </div>
               <div
-                v-if="account"
-                @click="pinOrUnPinTip(!isTipPinned)"
+                v-if="address"
+                @click="pinOrUnPinTip"
               >
                 {{
                   isTipPinned ?
@@ -102,10 +103,7 @@
               class="tip__amount"
               @click.stop
             >
-              <TipInput
-                is-retip
-                :tip="tip"
-              />
+              <TipInput :tip="tip" />
             </div>
           </div>
           <img
@@ -149,15 +147,15 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import Backend from '../../utils/backend';
+import backendAuthMixin from '../../utils/backendAuthMixin';
 import TipInput from '../TipInput.vue';
 import SuccessModal from '../SuccessModal.vue';
 import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import Avatar from '../Avatar.vue';
-import { client } from '../../utils/aeternity';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
@@ -171,22 +169,22 @@ export default {
     ThreeDotsMenu,
     ExternalLink,
   },
+  mixins: [backendAuthMixin(true)],
   props: {
     tip: { type: Object, required: true },
-    foundWallet: { type: Boolean },
-    senderLink: { type: String, default: '' },
   },
   data() {
     return {
-      key: `${this.tip.id}_${new Date().getTime()}`,
       showSuccessModal: false,
     };
   },
   computed: {
-    ...mapState(['account', 'pinnedItems']),
-    shouldRender() {
-      return !this.tip.url.includes('https://superhero.com/tip/' && '/comment/');
-    },
+    ...mapState(['address', 'useSdkWallet']),
+    ...mapState({
+      isTipPinned({ pinnedItems }) {
+        return pinnedItems.some(({ id }) => id === this.tip.id);
+      },
+    }),
     tipPreviewDescription() {
       if (!this.isPreviewToBeVisualized(this.tip)) return '';
 
@@ -200,51 +198,28 @@ export default {
     tipPreviewImage() {
       return this.isPreviewToBeVisualized(this.tip) && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
-    isTipPinned() {
-      if (!this.pinnedItems.length) return false;
-      const isPinned = this.pinnedItems.findIndex((pinnedItem) => pinnedItem.id === this.tip.id);
-      return isPinned !== -1;
+    toTip() {
+      return { name: 'tip', params: { id: this.tip.id } };
     },
   },
   methods: {
-    ...mapMutations(['setPinnedItems']),
     async sendReport() {
-      Backend.sendPostReport(
-        this.tip.id,
-        client.rpcClient.getCurrentAccount(),
-        (data) => client.signMessage(data),
-      ).then(() => {
-        this.showSuccessModal = true;
-      }).catch((error) => {
-        console.log(error);
-      });
+      await this.backendAuth('sendPostReport', { tipId: this.tip.id }, this.toTip);
+      this.showSuccessModal = this.useSdkWallet;
     },
     async claim() {
-      const postData = {
+      await Backend.claimFromUrl({
         url: this.tip.url,
-        address: client.rpcClient.getCurrentAccount(),
-      };
-      await Backend.claimFromUrl(postData);
-    },
-    pinOrUnPinTip(pinTip = true) {
-      if (!this.account) {
-        return;
-      }
-      Backend.pinOrUnPinItem(
-        this.tip.id,
-        'TIP',
-        this.account,
-        (data) => client.signMessage(data),
-        pinTip,
-      ).then(() => {
-        Backend.getPinnedItems(this.account)
-          .then((updatedPinnedItems) => {
-            this.$store.commit('setPinnedItems', updatedPinnedItems);
-          })
-          .catch(console.error);
-      }).catch((error) => {
-        console.log(error);
+        address: this.address,
       });
+    },
+    async pinOrUnPinTip() {
+      await this.backendAuth(
+        this.isTipPinned ? 'unPinItem' : 'pinItem',
+        { entryId: this.tip.id, type: 'TIP' },
+        this.toTip,
+      );
+      await this.$store.dispatch('updatePinnedItems');
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null
@@ -254,13 +229,8 @@ export default {
           || (tip.preview.title !== null && tip.preview.title.length > 0)
         );
     },
-    goToTip(id) {
-      this.$router.push({
-        name: 'tip',
-        params: {
-          id,
-        },
-      });
+    goToTip() {
+      this.$router.push(this.toTip);
     },
   },
 };
@@ -273,22 +243,6 @@ export default {
 
     &:hover {
       cursor: pointer;
-    }
-
-    .ae-amount {
-      color: $standard_font_color;
-      font-size: 0.8rem;
-    }
-
-    .ae-amount-fiat {
-      align-items: center;
-    }
-
-    .currency-value {
-      color: $light_font_color;
-      margin-left: 0.1rem;
-      font-size: 0.7rem;
-      flex-shrink: 0;
     }
   }
 
@@ -331,14 +285,8 @@ export default {
       word-break: break-all;
     }
 
-    img,
-    svg {
-      border-radius: 50%;
-      flex-shrink: 0;
-      height: 2rem;
+    .avatar {
       margin-right: 0.25rem;
-      object-fit: cover;
-      width: 2rem;
     }
 
     a {
@@ -589,10 +537,7 @@ export default {
     }
   }
 
-  //Smallest devices Portrait and Landscape
-  @media only screen
-    and (max-device-width: 480px)
-    and (-webkit-min-device-pixel-ratio: 2) {
+  @include smallest {
     .tip__body {
       padding: 0;
     }

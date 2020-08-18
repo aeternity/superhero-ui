@@ -1,9 +1,12 @@
 <template>
   <label class="checkbox">
-    <span class="text">{{ text }}</span>
+    <span class="text">
+      <slot />
+    </span>
     <input
-      v-model="model"
+      :checked="checked"
       type="checkbox"
+      @change="$emit('change')"
     >
     <span class="checkmark" />
   </label>
@@ -13,19 +16,7 @@
 export default {
   name: 'Checkbox',
   props: {
-    state: { type: Boolean, required: true },
-    text: { type: String, default: '' },
-    updateState: { type: Function, required: true },
-  },
-  computed: {
-    model: {
-      get() {
-        return this.state;
-      },
-      set(newValue) {
-        this.updateState(newValue);
-      },
-    },
+    checked: Boolean,
   },
 };
 </script>

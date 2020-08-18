@@ -1,25 +1,8 @@
 <template>
-  <div class="maintenance container">
-    <div v-if="view === 'recharge'">
-      <div class="recharge">
-        <h1>{{ $t('views.Maintenance.RechargeTitle') }}</h1>
-        <img
-          class="maintenance--image"
-          src="../assets/recharge.gif"
-        >
-        <h2>{{ $t('views.Maintenance.RechargeSubTitle') }}</h2>
-      </div>
-    </div>
-    <div v-if="view === 'cleaning'">
-      <div class="cleaning">
-        <h1>{{ $t('views.Maintenance.CleaningTitle') }}</h1>
-        <img
-          class="maintenance--image"
-          src="../assets/ShieldFill.svg"
-        >
-        <h2>{{ $t('views.Maintenance.CleaningSubTitle') }}</h2>
-      </div>
-    </div>
+  <div class="maintenance">
+    <h1>{{ $t('views.Maintenance.RechargeTitle') }}</h1>
+    <img src="../assets/recharge.gif">
+    <h2>{{ $t('views.Maintenance.RechargeSubTitle') }}</h2>
   </div>
 </template>
 
@@ -28,30 +11,20 @@ import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'Maintenance',
-  data() {
-    return {
-      // cleaning or recharge
-      view: 'recharge',
-    };
-  },
-  created() {
-    EventBus.$on('backendLive', () => {
-      clearInterval(this.interval);
-      this.$router.push({
-        name: 'tips',
-      }).catch((err) => { console.error(err); });
-    });
+  mounted() {
+    const interval = setInterval(() => EventBus.$emit('reloadData'), 10 * 1000);
 
-    this.interval = setInterval(() => EventBus.$emit('reloadData'), 10 * 1000);
+    EventBus.$on('backendLive', () => {
+      clearInterval(interval);
+      this.$router.push('/');
+    });
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .maintenance {
-  padding: 1rem;
   background-color: #14151f;
-  min-width: 100vw;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -63,39 +36,21 @@ export default {
     font-weight: bold;
     text-align: center;
     line-height: 80px;
-    margin: 50px 0;
+    margin: 50px 1rem;
+    color: white;
   }
 
-  h2 {
-    font-size: 35px !important;
-    line-height: 55px;
-    text-align: center;
-    margin: 50px 0;
-  }
-
-  .maintenance--image {
+  img {
     display: block;
     margin: 0 auto;
   }
-}
-
-.recharge {
-  h1 {
-    color: white;
-  }
 
   h2 {
+    font-size: 35px;
+    line-height: 55px;
+    text-align: center;
+    margin: 50px 1rem;
     color: #3290e2;
-  }
-}
-
-.cleaning {
-  h1 {
-    color: #3290e2;
-  }
-
-  h2 {
-    color: white;
   }
 }
 </style>

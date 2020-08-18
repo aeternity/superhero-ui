@@ -48,11 +48,6 @@ a:hover {
 
     &:focus {
       border: 0.05rem solid $secondary_color;
-
-      & + .message-carret {
-        border-bottom: 0.05rem solid $secondary_color;
-        border-left: 0.05rem solid $secondary_color;
-      }
     }
   }
 }
@@ -68,16 +63,6 @@ a:hover {
     font-size: 0.75rem;
     height: 2.2rem;
   }
-}
-
-.message-carret {
-  position: absolute;
-  height: 0.8rem;
-  width: 0.8rem;
-  background: $buttons_background;
-  transform: rotate(45deg);
-  border-bottom-left-radius: 0.2rem;
-  z-index: 10;
 }
 
 img.fail {

@@ -61,22 +61,16 @@
       >
         {{ comment.text }}
       </div>
-      <div
-        class="comment__actions"
-      >
-        <span
-          @click.stop
-        >
-          <TipInput
-            :comment="comment"
-          />
+      <div class="comment__actions">
+        <span @click.stop>
+          <TipInput :comment="comment" />
         </span>
         <span
           :title="$t('components.tipRecords.TipComment.Replies')"
           class="comments"
         >
           <img src="../../assets/iconReply.svg">
-          {{ childComments }}
+          &nbsp;<span>{{ childComments }}</span>
         </span>
       </div>
     </div>
@@ -87,7 +81,6 @@
 import { mapState } from 'vuex';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
-import Backend from '../../utils/backend';
 import TipInput from '../TipInput.vue';
 
 export default {
@@ -116,10 +109,6 @@ export default {
     },
   },
   methods: {
-    getAvatar(address) {
-      const userImage = Backend.getProfileImageUrl(address);
-      return userImage || this.defaultAvatar;
-    },
     goToCommentPage(tipId, id) {
       this.$router.push({
         name: 'comment',
@@ -233,16 +222,17 @@ export default {
 
 .comments {
   margin-left: 3rem;
+
+  > * {
+    vertical-align: middle;
+  }
 }
 
 .three-dots {
   display: inline-block;
 }
 
-@media only screen
-  and (min-device-width: 320px)
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+@include smallest {
   .comment.tip__record {
     padding: 0.5rem;
 

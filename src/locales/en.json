@@ -4,6 +4,7 @@
   "close": "Close",
   "done": "Done",
   "tip": "Tip",
+  "retip": "Retip",
   "tips": "Tips",
   "amount": "Amount",
   "addMessage": "What do you appreciate?",
@@ -12,16 +13,12 @@
   "noExtensionSupport": "You need a Superhero wallet to comment and send tips.",
   "FellowSuperhero": "Fellow superhero",
   "Balance": "Balance:",
+  "aeternityBlockchain": "aeternity blockchain",
   "views": {
     "CreateProfile": {
       "header1": "HOW TO USE SUPERHERO.COM",
       "header2": "Social platform with no hidden agenda.",
       "header3": "No censorship, no tracking, no revenue leeches.",
-      "click": "Click",
-      "add": "Add",
-      "here": "here",
-      "names": "Names",
-      "feedbackForm": "feedback form",
       "sections": [
         {
           "title": "CREATING AN ACCOUNT",
@@ -85,11 +82,10 @@
     "FAQ": {
       "header": "Frequently Asked Questions",
       "subheader": "ABOUT SUPERHERO.com",
-      "info": "For detailed information on specific features, Tutorial Pages are available for each of the features. Scroll down to the Features Section below.",
       "questions": [
         {
           "title": "SUPERHERO.com: Social platform with no hidden agenda.",
-          "text": "SUPERHERO.com is social media done right. No censorship, no tracking, no revenue leeches.  {br} {router}"
+          "text": "SUPERHERO.com is social media done right. No censorship, no tracking, no revenue leeches."
         },
         {
           "title": "NO HIDDEN AGENDA.",
@@ -115,19 +111,11 @@
           "title": "Can I get support? My question isn’t answered here…",
           "text": "Need assistance? Want to report technical issues, give feedback and suggestions? Please use the FEEDBACK or SUPPORT button on the bottom right of Superhero.com."
         }
-      ],
-      "forum": "Forum",
-      "tutorialPage": "Tutorial Page",
-      "tutorial": "tutorial",
-      "feedbackForm": "feedback form",
-      "ourTutorial": "in our tutorial",
-      "aeternityBlockchain": "aeternity blockchain"
+      ]
     },
     "Maintenance": {
       "RechargeTitle": "We're recharging our powers.",
-      "RechargeSubTitle": "We'll be up, up and away in no time.",
-      "CleaningTitle": "Cleaning up the HQ.",
-      "CleaningSubTitle": "We'll be flying again in a few minutes."
+      "RechargeSubTitle": "We'll be up, up and away in no time."
     },
     "Privacy": {
       "title": "PRIVACY POLICY",
@@ -498,66 +486,6 @@
         "SendNewTip": "Send New Tip"
       }
     },
-    "onboarding": {
-      "steps": {
-        "next": "Next",
-        "step1": {
-          "header": "Introducing Superhero:",
-          "socialPlatform": "Social platform with no hidden agenda.",
-          "subheader": "The first Superpower of Superhero is to launch a",
-          "P2Ptool": "P2P tool to receive or send a tip to a URL",
-          "with": "with...",
-          "zeroTxFees": " Near zero transaction fees.",
-          "cutOurIntermediaries": "Cut out intermediaries,",
-          "SendingorReceiving": "profiting off sending or receiving support.",
-          "noWaitTime": "No wait-time.",
-          "Transfers": "Transfers",
-          "instant": "are instant.",
-          "noCensorship": "No censorship.",
-          "No3rdParty": "No 3rd parties controlling the",
-          "keepIP": "approval nor the release of tips. Keep your IP ownership.",
-          "welcome": "Welcome to a web where you can transact as you please!",
-          "button": "Start Your Superhero Journey"
-        },
-        "step2": {
-          "header": "Install Superhero Wallet {br} A Tool for Good Built on {a}",
-          "subheader": "Superhero empowers {peopleSupportingPeople} {br} including the ability to transfer AE cryptocurrency P2P. {br} {sendTips} directly to your fav creators, causes, projects... {br} {receiveTips} directly from your fans. {br} {getOrGiveHelp} to any URL on the web you please. {br}",
-          "peopleSupportingPeople": "people supporting people,",
-          "sendTips": "Send tips",
-          "receiveTips": "Receive tips",
-          "getOrGiveHelp": "Get or give help",
-          "bolder": "To start, you'll need a wallet. It's free. It's easy. {br} {click} {br} to install the Superhero wallet:",
-          "click": "Choose the browser extension or the mobile app",
-          "learnMore": "Learn more:",
-          "tutorial": "Tutorial",
-          "aeternityBlockchain": "aeternity blockchain"
-        },
-        "step3": {
-          "header": "Receive Tips: {br} Making the Internet a Fairer Place",
-          "info": "After your Superhero wallet is installed:{br} {pasteYourWallet} to your URL.{br} {openYourURL} so your wallet can instantly collect tips you receive.",
-          "pasteYourWallet": "1. Paste your wallet address",
-          "openYourURL": "2. Load your URL",
-          "peopleCanDirectlySupport": "People can directly support your content, cause project (or you for simply being you) with no middlemen."
-        },
-        "step4": {
-          "header": "Send Tips: {br} Making the Internet a Better Place",
-          "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {clickSendTips} in your wallet. {br} {enterTipAmount} and optionally a message.",
-          "visitTheURL": "1. Visit the URL",
-          "clickSendTips": "2. Click Send tip",
-          "enterTipAmount": "3. Enter tip amount",
-          "youCanDirectlySupport": "You can directly support any person's content, cause, project at any public URL with no middleman."
-        },
-        "step5": {
-          "header": "Welcome to Superhero!",
-          "info": "You can now get in on the action by setting your {br} personalized profile and preferences for {superherocom}",
-          "installWallet": "Create profile",
-          "setUpProfile": "Set Up Your Profile"
-        }
-      },
-      "wizard": {
-        "title": "Join Superhero"
-      }
-    },
     "tipRecords": {
       "TipComment": {
         "Replies": "Replies"
@@ -573,11 +501,9 @@
     },
     "TipInput": {
       "error": "An error occurred while sending the tip. Please try again later.",
-      "retip": "Retip",
       "tipUser": "Tip User",
       "totalTipsWithYou": "Total tips (you tipped too)",
       "totalTips": "Total tips (click to retip the same URL)",
-      "totalRetips": "Total amount of retips",
       "tipComment": "Tip Comment"
     },
     "TipsPagination": {

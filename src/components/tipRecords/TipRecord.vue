@@ -39,7 +39,7 @@
                 {{ $t('components.tipRecords.TipRecord.reportPost') }}
               </div>
               <div
-                v-if="useSdkWallet"
+                v-if="address"
                 @click="claim"
               >
                 {{ $t('components.tipRecords.TipRecord.claim') }}

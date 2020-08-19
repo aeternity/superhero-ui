@@ -52,7 +52,7 @@ export default {
     Avatar,
   },
   props: {
-    tipId: { type: [Number, String], required: true },
+    tipId: { type: [String, String], required: true },
     parentId: { type: [Number, String], default: undefined },
   },
   data() {

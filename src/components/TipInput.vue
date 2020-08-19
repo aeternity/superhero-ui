@@ -113,7 +113,7 @@ export default {
       },
     }),
     isTokenAndZeroAeTip() {
-      return new BigNumber(this.tipUrlStats.amount_ae || '0').isZero()
+      return new BigNumber(this.tipUrlStats ? this.tipUrlStats.amount_ae : '0').isZero()
         && new BigNumber(this.tip.total_amount_ae).isZero()
         && this.tip.token;
     },

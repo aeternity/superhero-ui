@@ -116,9 +116,5 @@ export default {
       color: $secondary_color;
     }
   }
-
-  .input-amount {
-    max-width: 5rem;
-  }
 }
 </style>

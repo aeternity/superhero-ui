@@ -8,6 +8,7 @@
       @click="useSdkWallet && (showModal = true)"
     >
       <img :src="iconTip">
+<<<<<<< HEAD
       <template v-if="!userAddress">
         <AeAmountFiat
           v-if="!isTokenAndZeroAeTip"
@@ -20,6 +21,20 @@
           :token="tokenTip.token"
         />
       </template>
+=======
+      <AeAmountFiat
+        v-if="!userAddress && !isTokenAndZeroAeTip"
+        :amount="tip ? tipUrlStats.amount_ae || tip.total_amount_ae : '0'"
+        class="amount"
+      />
+      <AeAmountFiat
+        v-for="tokenTip in tipUrlStats.token_total_amount || tip.token_total_amount"
+        :key="tokenTip.token"
+        :amount="tokenTip.amount"
+        :token="tokenTip.token"
+        class="amount"
+      />
+>>>>>>> fix direct tip amount display
     </Component>
     <Modal
       v-if="showModal && tip.url"
@@ -113,9 +128,9 @@ export default {
       },
     }),
     isTokenAndZeroAeTip() {
-      return new BigNumber(this.tipUrlStats ? this.tipUrlStats.amount_ae : '0').isZero()
+      return new BigNumber(this.tipUrlStats.amount_ae || '0').isZero()
         && new BigNumber(this.tip.total_amount_ae).isZero()
-        && this.tip.token;
+        && !!this.tip.token;
     },
     isTokenTipable() {
       return this.tip.id.split('_')[1] === 'v2';

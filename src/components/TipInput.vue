@@ -14,7 +14,7 @@
         class="amount"
       />
       <AeAmountFiat
-        v-for="tokenTip in tip ? tipUrlStats.token_total_amount : []"
+        v-for="tokenTip in tipUrlStats.token_total_amount || tip.token_total_amount"
         :key="tokenTip.token"
         :amount="tokenTip.amount"
         :token="tokenTip.token"
@@ -115,9 +115,9 @@ export default {
       },
     }),
     isTokenAndZeroAeTip() {
-      return new BigNumber(this.tipUrlStats ? this.tipUrlStats.amount_ae : '0').isZero()
+      return new BigNumber(this.tipUrlStats.amount_ae || '0').isZero()
         && new BigNumber(this.tip.total_amount_ae).isZero()
-        && this.tip.token;
+        && !!this.tip.token;
     },
     isTokenTipable() {
       return this.tip.id.split('_')[1] === 'v2';

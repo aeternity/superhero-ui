@@ -1,213 +1,212 @@
 <template>
-  <Page back>
-    <div class="profile__page">
-      <div class="profile__section clearfix">
+  <div class="profile__page">
+    <BackButtonRibbon />
+    <div class="profile__section clearfix">
+      <div
+        class="cover-photo"
+        :style="{ 'background-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
+      />
+      <div
+        class="cover-overlay"
+      />
+      <div
+        class="profile__header"
+        :class="{ 'profile__editable': currentAddress === address }"
+      >
         <div
-          class="cover-photo"
-          :style="{ 'background-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
-        />
-        <div
-          class="cover-overlay"
-        />
-        <div
-          class="profile__header"
-          :class="{ 'profile__editable': account === address }"
+          v-if="currentAddress === address"
+          class="edit__buttons"
         >
-          <div
-            v-if="account === address"
-            class="edit__buttons"
+          <label
+            v-if="!editMode"
+            :title="$t('views.UserProfileView.ChangeCoverPhoto')"
+            class="profile__button edit__button"
           >
-            <label
-              v-if="!editMode"
-              :title="$t('views.UserProfileView.ChangeCoverPhoto')"
-              class="profile__button edit__button"
+            <img src="../assets/coverPhotoEdit.svg">
+            <input
+              type="file"
+              name="cover"
+              accept="image/png, image/jpeg"
+              @change="uploadPhoto($event, true)"
             >
-              <img src="../assets/coverPhotoEdit.svg">
+          </label>
+          <button
+            v-if="!editMode"
+            class="profile__button edit__button"
+            type="button"
+            :title="$t('views.UserProfileView.EditProfile')"
+            @click="editMode = true"
+          >
+            <img src="../assets/buttonEdit.svg">
+          </button>
+          <button
+            v-if="editMode"
+            type="button"
+            class="profile__button cancel__button"
+            :title="$t('cancel')"
+            @click="resetEditedValues"
+          >
+            <img src="../assets/buttonCancel.svg">
+          </button>
+          <button
+            v-if="editMode"
+            type="button"
+            class="profile__button save__button"
+            :title="$t('views.UserProfileView.Save')"
+            @click="saveProfile"
+          >
+            <img src="../assets/buttonSave.svg">
+          </button>
+        </div>
+        <div class="profile__image">
+          <Avatar :address="address" />
+          <TipInput
+            v-if="currentAddress !== address"
+            :user-address="address"
+            class="avatar__button profile__button"
+          />
+          <template v-else-if="!editMode">
+            <label
+              class="profile__button avatar__button"
+              :title="$t('views.UserProfileView.ChangeAvatar')"
+            >
+              <img src="../assets/buttonPhoto.svg">
               <input
                 type="file"
-                name="cover"
+                name="avatar"
                 accept="image/png, image/jpeg"
-                @change="uploadPhoto($event, true)"
+                @change="uploadPhoto($event)"
               >
             </label>
             <button
-              v-if="!editMode"
-              class="profile__button edit__button"
-              type="button"
-              :title="$t('views.UserProfileView.EditProfile')"
-              @click="editMode = true"
-            >
-              <img src="../assets/buttonEdit.svg">
-            </button>
-            <button
-              v-if="editMode"
-              type="button"
-              class="profile__button cancel__button"
-              :title="$t('cancel')"
-              @click="resetEditedValues"
+              class="profile__button delete_avatar__button"
+              :title="$t('views.UserProfileView.DeleteAvatar')"
+              @click="deleteAvatar"
             >
               <img src="../assets/buttonCancel.svg">
             </button>
-            <button
-              v-if="editMode"
-              type="button"
-              class="profile__button save__button"
-              :title="$t('views.UserProfileView.Save')"
-              @click="saveProfile"
-            >
-              <img src="../assets/buttonSave.svg">
-            </button>
-          </div>
-          <div class="profile__image">
-            <Avatar :address="address" />
-            <TipInput
-              v-if="account !== address"
-              :user-address="address"
-              class="avatar__button profile__button"
+          </template>
+        </div>
+        <div
+          class="profile__info"
+        >
+          <a
+            class="profile__username"
+            target="_blank"
+            :href="openExplorer(address)"
+            :title="address"
+          >
+            <div class="chain">
+              {{ userChainName ? userChainName : $t('FellowSuperhero') }}
+            </div>
+            <div class="text-ellipsis">{{ address }}</div>
+          </a>
+          <div
+            v-if="balance"
+            class="balance"
+            :title="balance"
+          >
+            <span>{{ $t('Balance') }}</span>
+            <AeAmountFiat
+              :amount="balance"
             />
-            <template v-else-if="!editMode">
-              <label
-                class="profile__button avatar__button"
-                :title="$t('views.UserProfileView.ChangeAvatar')"
-              >
-                <img src="../assets/buttonPhoto.svg">
-                <input
-                  type="file"
-                  name="avatar"
-                  accept="image/png, image/jpeg"
-                  @change="uploadPhoto($event)"
-                >
-              </label>
-              <button
-                class="profile__button delete_avatar__button"
-                :title="$t('views.UserProfileView.DeleteAvatar')"
-                @click="deleteAvatar"
-              >
-                <img src="../assets/buttonCancel.svg">
-              </button>
-            </template>
           </div>
-          <div
-            class="profile__info"
-          >
-            <a
-              class="profile__username"
-              target="_blank"
-              :href="openExplorer(address)"
-              :title="address"
-            >
-              <div class="chain">
-                {{ userChainName ? userChainName : $t('FellowSuperhero') }}
-              </div>
-              <div class="text-ellipsis">{{ address }}</div>
-            </a>
+          <div class="profile__row">
             <div
-              v-if="balance"
-              class="balance"
-              :title="balance"
+              class="location"
             >
-              <span>{{ $t('Balance') }}</span>
-              <AeAmountFiat
-                :amount="balance"
-              />
-            </div>
-            <div class="profile__row">
-              <div
-                class="location"
+              <img
+                v-if="profile.location.length || currentAddress === address"
+                src="../assets/location.svg"
               >
-                <img
-                  v-if="profile.location.length || account === address"
-                  src="../assets/location.svg"
-                >
-                <input
-                  v-if="editMode"
-                  v-model="profile.location"
-                  class="location-input"
-                  type="text"
-                  :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
-                >
-                <span
-                  v-if="!editMode && (profile.location.length || account === address)"
-                >
-                  {{
-                    profile.location.length
-                      ? profile.location
-                      : $t('views.UserProfileView.Location')
-                  }}
-                </span>
-              </div>
-              <div
-                v-if="userStats && hasCreationDate"
-                class="joined"
+              <input
+                v-if="editMode"
+                v-model="profile.location"
+                class="location-input"
+                type="text"
+                :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
               >
-                <span>{{ $t('views.UserProfileView.Joined') }}</span>
-                <time :datetime="joinedAtISO">{{ joinedAt }}</time>
-              </div>
+              <span
+                v-if="!editMode && (profile.location.length || currentAddress === address)"
+              >
+                {{
+                  profile.location.length
+                    ? profile.location
+                    : $t('views.UserProfileView.Location')
+                }}
+              </span>
             </div>
-          </div>
-        </div>
-        <div
-          v-if="!editMode"
-          class="profile__description"
-        >
-          {{ profile.biography }}
-        </div>
-        <div
-          v-if="editMode"
-          class="profile__description"
-        >
-          <textarea
-            v-model="profile.biography"
-            :maxlength="maxLength"
-            :rows="profile.biography.split('\n').length || 1"
-            :placeholder="$t('views.UserProfileView.EditBiography')"
-          />
-          <div
-            class="text-length"
-            :class="{ 'error': profile.biography.length > maxLength }"
-          >
-            {{ countLength }}
+            <div
+              v-if="userStats && hasCreationDate"
+              class="joined"
+            >
+              <span>{{ $t('views.UserProfileView.Joined') }}</span>
+              <time :datetime="joinedAtISO">{{ joinedAt }}</time>
+            </div>
           </div>
         </div>
       </div>
       <div
-        v-if="userStats"
-        class="profile__stats"
+        v-if="!editMode"
+        class="profile__description"
       >
+        {{ profile.biography }}
+      </div>
+      <div
+        v-if="editMode"
+        class="profile__description"
+      >
+        <textarea
+          v-model="profile.biography"
+          :maxlength="maxLength"
+          :rows="profile.biography.split('\n').length || 1"
+          :placeholder="$t('views.UserProfileView.EditBiography')"
+        />
         <div
-          v-for="(divClass, index) in ['tip_stats', 'stats']"
-          :key="index"
-          :class="divClass"
+          class="text-length"
+          :class="{ 'error': profile.biography.length > maxLength }"
         >
-          <div
-            v-for="(stat, idx) in divClass === 'tip_stats' ? tipStats : showedStats"
-            :key="idx"
-            :class="divClass === 'tip_stats' ? 'tips_stats_block' : 'stat_block'"
-          >
-            <span
-              v-if="stat.value || stat.image"
-              class="stat-value"
-            >
-              {{ stat.value }}
-            </span>
-            <span class="stat-title">
-              <img
-                v-if="stat.image"
-                :src="stat.image"
-              >
-              {{ stat.title }}
-            </span>
-            <AeAmountFiat
-              v-if="stat.amount"
-              :amount="stat.amount"
-              class="stat-value"
-            />
-          </div>
+          {{ countLength }}
         </div>
       </div>
-      <ListOfTipsAndComments :address="address" />
     </div>
-  </Page>
+    <div
+      v-if="userStats"
+      class="profile__stats"
+    >
+      <div
+        v-for="(divClass, index) in ['tip_stats', 'stats']"
+        :key="index"
+        :class="divClass"
+      >
+        <div
+          v-for="(stat, idx) in divClass === 'tip_stats' ? tipStats : showedStats"
+          :key="idx"
+          :class="divClass === 'tip_stats' ? 'tips_stats_block' : 'stat_block'"
+        >
+          <span
+            v-if="stat.value || stat.image"
+            class="stat-value"
+          >
+            {{ stat.value }}
+          </span>
+          <span class="stat-title">
+            <img
+              v-if="stat.image"
+              :src="stat.image"
+            >
+            {{ stat.title }}
+          </span>
+          <AeAmountFiat
+            v-if="stat.amount"
+            :amount="stat.amount"
+            class="stat-value"
+          />
+        </div>
+      </div>
+    </div>
+    <ListOfTipsAndComments :address="address" />
+  </div>
 </template>
 
 <script>
@@ -215,7 +214,7 @@ import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { BACKEND_URL, EXPLORER_URL } from '../config/constants';
 import util from '../utils/util';
-import Page from '../components/layout/Page.vue';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
 import backendAuthMixin from '../utils/backendAuthMixin';
@@ -229,7 +228,7 @@ export default {
   components: {
     ListOfTipsAndComments,
     AeAmountFiat,
-    Page,
+    BackButtonRibbon,
     Avatar,
     TipInput,
   },
@@ -255,7 +254,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'account', 'chainNames']),
+    ...mapState(['useSdkWallet', 'chainNames']),
+    ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];
     },
@@ -315,9 +315,14 @@ export default {
     },
   },
   mounted() {
-    this.reloadData();
-
-    this.getBalance();
+    this.$watch(
+      () => this.address,
+      () => {
+        this.reloadData();
+        this.getBalance();
+      },
+      { immediate: true },
+    );
 
     EventBus.$on('reloadData', () => {
       this.reloadData();
@@ -351,7 +356,7 @@ export default {
       await this.backendAuth('sendProfileData', {
         biography: this.profile.biography,
         location: this.profile.location,
-        author: this.account,
+        author: this.currentAddress,
       });
       await this.resetEditedValues();
     },
@@ -613,6 +618,10 @@ input[type="file"] {
 .tip_stats {
   display: grid;
   grid-template-columns: auto auto auto;
+
+  .ae-amount-fiat {
+    display: block;
+  }
 }
 
 .tips_stats_block {
@@ -653,10 +662,6 @@ input[type="file"] {
   vertical-align: middle;
 }
 
-.stat-value .currency-value {
-  font-size: 80%;
-}
-
 .profile__section {
   background-color: $light_color;
   position: relative;
@@ -669,11 +674,8 @@ input[type="file"] {
   position: relative;
   vertical-align: super;
 
-  img.user-identicon,
-  div.user-identicon svg {
-    border-radius: 100%;
+  .avatar {
     height: 5.5rem;
-    object-fit: cover;
     width: 5.5rem;
   }
 }
@@ -714,10 +716,8 @@ input[type="file"] {
   .profile__header {
     white-space: nowrap;
 
-    img.user-identicon,
-    div.user-identicon svg {
+    .profile__image .avatar {
       height: 5rem;
-      object-fit: cover;
       width: 5rem;
     }
   }
@@ -767,12 +767,9 @@ input[type="file"] {
 }
 
 @include smallest {
-  .profile__header {
-    img.user-identicon,
-    div.user-identicon svg {
-      height: 4.5rem;
-      width: 4.5rem;
-    }
+  .profile__header .profile__image .avatar {
+    height: 4.5rem;
+    width: 4.5rem;
   }
 
   .profile__row {

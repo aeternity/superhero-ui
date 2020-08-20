@@ -15,6 +15,10 @@ export default {
     tip: {},
     comment: {},
     stats: null,
+    prices: {},
+  },
+  getters: {
+    minTipAmount: ({ prices: { usd } }) => 0.01 / usd,
   },
   mutations: {
     setTips({ tips, tipsReloading }, { args, value }) {
@@ -49,6 +53,9 @@ export default {
     },
     setStats(state, stats) {
       state.stats = stats;
+    },
+    setPrices(state, prices) {
+      state.prices = prices;
     },
   },
   actions: {
@@ -99,6 +106,9 @@ export default {
         sdk.height(),
       ]);
       commit('setStats', { ...stats1, ...stats2, height });
+    },
+    async reloadPrices({ commit }) {
+      commit('setPrices', (await Backend.getPrice()).aeternity);
     },
   },
 };

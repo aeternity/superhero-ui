@@ -4,7 +4,10 @@ import { createDeepLinkUrl } from './util';
 import { client } from './aeternity';
 
 export default (ignoreCallInQuery) => ({
-  computed: mapState(['useSdkWallet', 'account']),
+  computed: mapState({
+    useSdkWallet: 'useSdkWallet',
+    currentAddress: 'address',
+  }),
   ...!ignoreCallInQuery && {
     async beforeRouteEnter(to, from, next) {
       const {
@@ -28,10 +31,10 @@ export default (ignoreCallInQuery) => ({
   },
   methods: {
     async backendAuth(method, arg, to) {
-      const { challenge } = await Backend[method](this.account, arg);
+      const { challenge } = await Backend[method](this.address, arg);
       if (this.useSdkWallet) {
         const signature = await client.signMessage(challenge);
-        await Backend[method](this.account, { challenge, signature });
+        await Backend[method](this.address, { challenge, signature });
         return;
       }
 
@@ -40,7 +43,7 @@ export default (ignoreCallInQuery) => ({
       window.location = createDeepLinkUrl({
         type: 'sign-message',
         message: challenge,
-        'x-success': `${url}?method=${method}&address=${this.account}&challenge=${challenge}&signature={signature}`,
+        'x-success': `${url}?method=${method}&address=${this.address}&challenge=${challenge}&signature={signature}`,
       });
     },
   },

@@ -42,7 +42,7 @@ export default {
   name: 'App',
   components: { MobileNavigation, LeftSection, RightSection },
   computed: {
-    ...mapState(['account']),
+    ...mapState(['address']),
     isSupportedBrowser() {
       const browser = detect();
       return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));
@@ -70,32 +70,31 @@ export default {
     async reloadData() {
       // await fetch
       const [
-        chainNames, rates, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
+        chainNames, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
       ] = await Promise.all([
         Backend.getCacheChainNames(),
-        Backend.getPrice(),
         Backend.getOracleCache(),
         Backend.getTopicsCache(),
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
         Backend.getTokenInfo(),
         this.$store.dispatch('backend/reloadStats'),
+        this.$store.dispatch('backend/reloadPrices'),
       ]);
 
-      if (this.account) {
-        const balance = await client.balance(this.account).catch(() => 0);
+      if (this.address) {
+        const balance = await client.balance(this.address).catch(() => 0);
         this.updateBalance(Util.atomsToAe(balance).toFixed(2));
       }
 
       // async fetch
       this.updateTopics(topics);
       this.setChainNames(chainNames);
-      this.updateCurrencyRates(rates);
       this.setOracleState(oracleState);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
       this.setTokenInfo(tokenInfo);
-      if (this.account) this.loadTokenBalances(this.account);
+      if (this.address) this.loadTokenBalances(this.address);
     },
     async fetchUserData() {
       await Promise.all([
@@ -109,7 +108,7 @@ export default {
       await initClient();
       await this.reloadData();
       this.removeLoading('initial');
-      if (this.account) {
+      if (this.address) {
         this.removeLoading('wallet');
         this.fetchUserData();
       }
@@ -123,7 +122,7 @@ export default {
       }
       const balance = await client.balance(address).catch(() => 0);
       this.setLoggedInAccount({
-        account: address,
+        address,
         balance: Util.atomsToAe(balance).toFixed(2),
       });
 

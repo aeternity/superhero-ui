@@ -2,21 +2,13 @@ import Vue from 'vue';
 import { mergeWith } from 'lodash-es';
 
 export default {
-  setLoggedInAccount(state, { account, balance }) {
-    state.account = account;
+  setLoggedInAccount(state, { address, balance }) {
+    state.address = address;
     state.balance = balance;
-  },
-  updateCurrencyRates(state, payload) {
-    if (payload) {
-      state.currencyRates = payload;
-      if (payload.aeternity && payload.aeternity.usd) {
-        state.minTipAmount = +(0.01 * (1 / payload.aeternity.usd)).toFixed(2);
-      }
-    }
   },
   resetState(state) {
     state.useSdkWallet = false;
-    state.account = null;
+    state.address = null;
     state.balance = 0;
     state.profile = {};
   },
@@ -38,14 +30,8 @@ export default {
   setChainNames(state, payload) {
     state.chainNames = payload;
   },
-  setWizardCurrentStep(state, payload) {
-    state.wizardCurrentStep = payload * 1;
-  },
-  setWizardIsCollapsed(state, payload) {
-    state.wizardIsCollapsed = Boolean(payload);
-  },
   updateCurrency(state, payload) {
-    state.settings.currency = payload;
+    state.selectedCurrency = payload;
   },
   updateBalance(state, payload) {
     state.balance = payload;

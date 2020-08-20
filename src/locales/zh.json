@@ -1,507 +1,420 @@
 {
-  "loading": "Loading...",
+  "loading": "加载...",
   "cancel": "取消",
-  "close": "Close",
-  "done": "Done",
+  "close": "关闭",
+  "done": "结束",
   "tip": "Tip",
-  "retip": "Retip",
   "tips": "Tips",
-  "amount": "Amount",
-  "addMessage": "What do you appreciate?",
-  "comments": "Comments",
-  "FAQ": "FAQ",
-  "noExtensionSupport": "You need a Superhero wallet to comment and send tips.",
-  "FellowSuperhero": "Fellow superhero",
-  "Balance": "Balance:",
+  "amount": "金额",
+  "addMessage": "你欣赏什么?",
+  "comments": "评论",
+  "FAQ": "常见问题解答",
+  "noExtensionSupport": "你需要一个超级英雄钱包来评论和打赏小费.",
+  "FellowSuperhero": "超级英雄",
+  "aeternityBlockchain": "AEternity区块链",
   "views": {
     "CreateProfile": {
-      "header1": "HOW TO USE SUPERHERO.COM",
-      "header2": "fully P2P tipping with no boundaries,",
-      "header3": "no censorship - at near-zero fees",
-      "click": "Click",
-      "add": "Add",
-      "here": "here",
-      "names": "Names",
-      "feedbackForm": "feedback form",
+      "header1": "如何使用 SUPERHERO.COM",
+      "header2": "没有隐藏协议的社交平台.",
+      "header3": "无需审查,不被追踪,收入没有水蛭不抽金.",
       "sections": [
         {
-          "title": "HOW TO USE SUPERHERO",
-          "text": "Download and install the Superhero extension for your browser. {br}{br} Superhero is currently available for Firefox and Chrome. The Chrome extension can be used for Brave and Opera. {br}{br} For Firefox: {br} Get the add-on for Firefox {extensionFirefox} {br} Confirm by clicking Add again in the message prompt. {br} The Superhero icon should appear on the upper right corner of your Firefox browser toolbar. {br}{br} For Chrome, Brave, and Opera: {br} Get the extension {extensionChrome} {br} Add the extension to your browser. The Superhero icon should appear on the upper right corner of your browser toolbar."
+          "title": "创建帐户",
+          "text": "通过超级英雄网注册或者下载Chrome或Firefox扩展插件. {br}{br} Chrome扩展可以用于Brave、Opera以及任何基于Chromium内核的浏览器. {br}{br} 如果您已经有的AE钱包,您可以选择”恢复现有帐户”并输入助记词.否则,请选择“生成新钱包”. {br}{br} 您可以阅读入门指南或选择跳过,即可找到你的钱包.这是你的帐户！"
         },
         {
-          "title": "CREATING YOUR WALLET",
-          "text": "Tick the checkbox to agree to the terms and conditions. {br} Click CREATE A NEW WALLET. {br} That’s it—your wallet is created! {br} You can now start receiving tips from anyone through your wallet address. {br}{br} You can find your wallet address on your dashboard, right above your balance. It’s a random string of numbers and letters that starts with ak_. {br} This wallet address is also referred to as a public key— it’s what others see as your public ID by default. You can easily copy this by clicking the copy button right next to your wallet address."
+          "title": "发送 TIPS",
+          "text": "单击发送小费. {br} 请粘贴要发送的URL. {br} 输入您要发送的金额,以及附带的消息（可选）. {br} 单击发送以验证交易."
         },
         {
-          "title": "SECURING YOUR WALLET",
-          "text": "With great freedom comes great responsibility. You’re in charge of keeping the keys to your account. There are no third-party custodians to store nor connect any password with any account. The task of keeping the keys to your wallet is yours and yours alone, Superhero. {br}{br} Here’s how to secure and backup your wallet: {br} Once you’re in your dashboard, you’ll get a series of words called a seed phrase. The seed phrase is somewhat like a password – it’s a unique set of words (in order) which connects you to your wallet. {br}{br} - Click the hamburger menu on the upper right of your wallet. {br} - Go to Settings, chose Security. {br} - On the next screen, click Show seed phrase. {br} - Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place. Simple as that. {br}{br} IMPORTANT: You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)"
+          "title": "接收 TIPS",
+          "text": "开始从URL接收小费, 复制你的超级英雄钱包地址 (你钱包是一串以ak_开头的字母) 并将其粘贴到您的网站或在线个人资料中. {br}{br} 请注意,只有公开的网址可以支付小费.需要登录才能查看的个人资料（如Facebook个人资料,目前无法提示）.{br}{br} 单击收取小费按钮并输入URL.点击确认继续.{br}{br}您的URL将来收到的所有小费以及过去收到的小费都将添加到您的钱包余额中."
         },
         {
-          "title": "SENDING TIPS",
-          "text": "To send someone tips, go to the URL that you want to tip. The Superhero wallet will automatically detect the URL on your active tab. {br} Alternatively, you can copy the URL you want to tip. {br}{br} - Open your Superhero wallet extension. The button {tipButton} should be in the upper right of your browser toolbar. {br} - Click Send Tip {br} - On the next screen, fill in the required fields. You can paste the URL in the field on top. Enter the amount of tips you want to send, and add a message telling the receiver why they’re awesome. {br} - Click the Send Tip button below. (In cases where the website has not been claimed by a fellow Superhero, you may opt to proceed with tipping but it’s highly suggested that you let the website owner know so they can start claiming tips.) {br} - On the next screen, review the details of your tip. {br} - Click Confirm to complete the transaction."
+          "title": "充值",
+          "text": "单击钱包上的“充值”按钮. {br}{br} 您可以通过æternity商店购买少量的AE代币. {br} 你也可以通过JellySwap将加密换成AE代币. {br}{br} 或者, 您可以通过从您选择的加密货币交易所发送AE代币充值到您的超级英雄钱包.我们正在整理一个完整的百科,以获得最具成本效益的方式获得AE,并将很快有这方面的进展."
         },
         {
-          "title": "RECEIVING TIPS",
-          "text": "To receive tips yourself, copy your wallet address. {br}{br} Paste your wallet address onto the web page or profile where you have received or plan to receive tips. It could be a blog, a social media account, or any other online profile. {br} Save this change and refresh the page. You can also add your wallet address in the source code of your web page. {br} Once your wallet address is added to your web page, all you have to do is open your Superhero wallet and hit Claim Tip. This would trigger tip claiming across all websites and profiles where you pasted your wallet address. Any unclaimed tips you’ve received within the past year will then be added to your wallet balance. {br} In some cases, there may be slight delays in collecting tips. Give it a few minutes and try opening your wallet again. {br} If the problem persists, you may ask questions through this {feedbackForm}"
+          "title": "提取",
+          "text": "类似你不会再身上带着大量现金四处走动,强烈建议你不要在你的超级英雄钱包里放大量的AE.用于长期储存大量AE,我们建议使用冷钱包,比如AirGap. {br}{br} 要提取您收集的小费,您可以将您的超级英雄钱包中的小费发送到支持AE代币的钱包地址. {br}{br} - 要退出,请转到更多菜单(三杠标志). {br} - 点击提款. {br} - 从您选择的加密货币交易所输入您的钱包地址.您还可以通过将其他人的钱包地址粘贴到“钱包地址”字段中来将其发送到其他人的钱包. {br} - 输入您要提取的金额. {br} 点击查看以查看您的交易详细信息. {br} - 点击发送以确认提款. {br}{br} 然后,小费可以转换成其他加密货币或法定货币,并转移到您当地的银行. {br}{br} 交换程序因地区、国家而异.在许多情况下,根据节点的容量和进程,会有几分钟或更长的等待时间. 但是,您可以通过单击活动历史记录中交易旁边的按钮来轻松跟踪您的记录."
         },
         {
-          "title": "WITHDRAW",
-          "text": "In the same way you don’t walk around with large amounts of cash in your purse, it is highly recommended that you do not keep large amounts of AE in your Superhero wallet. For long-term storage of large amounts of AE, we recommend using a cold wallet, like AirGap. {br}{br} To withdraw tips you've collected, you can send tips to your AE wallet address in a crypto exchange that supports AE tokens (see list above). {br}{br} - To withdraw, go to the hamburger menu. {br} - Click Withdraw. {br} - Enter your wallet address from the crypto exchange of your choice. You can also send to someone else’s wallet account by pasting their account into the wallet address field. {br} - Enter the amount you want to withdraw. {br} Click Review to check your transaction details. {br} - Hit Send to confirm the withdrawal. {br}{br} Tips can then be converted into other cryptocurrencies or fiat and transferred to your local bank. {br}{br} Processes for exchanges vary per country. In many cases, there will be a few minutes’ wait time or longer depending on the exchange’s capacity and processes. But you can track your transactions easily by clicking the eye button next to the transaction in your Activity History."
+          "title": "获取 .chain 域名",
+          "text": "您可以通过超级英雄钱包注册.chain域名. 如A.chain 域名可替代您的钱包地址, 使其他用户更容易向您发送小费. 您还可以将.chain域名用作超级英雄上的个人资料名称. {br}{br} 通过您的超级英雄钱包注册域名: {br}{br} - 打开右上方的汉堡菜单. {br} - 点击域名. {br} - 在“CLAIM”选项卡上, 输入您的首选名称. 注意后缀 .chain 自动添加到名称后面. 这在域名系统中是强制性的. {br} - 点击 + 按钮继续. {br} - 点击确认. {br}{br} .chain名称中仅允许使用数字和字母. 目前,通过超级英雄钱包只能注册13个及以上字符的域名.以后将对此进行改进. {br}{br} 您可以根据需要在超级英雄上注册多个域名.确保您的钱包中有足够的AE以支付所选域名的初始价格. 理想情况下,您的余额中至少应有3AE,这样才能更好地申领域名."
         },
         {
-          "title": "GETTING A .CHAIN NAME",
-          "text": "You can claim a .chain name through the Superhero wallet extension. A .chain name serves as an alternative to your wallet address, making it much easier for other users to send you a tip. You can also use your .chain name as your profile name on Superhero. {br}{br} To claim a name through your Superhero wallet: {br}{br} - Open the hamburger menu on the upper right. {br} - Click Names. {br} - On the Add New screen, type in your preferred name. Note that the suffix .chain is automatically appended to your name. This is mandatory in the naming system. {br} - Click the + button to proceed. {br} - Click confirm. {br}{br} Only numbers and letters are allowed in .chain names. Currently, only names 13 characters and above can be claimed through the Superhero wallet. This will be improved later. {br}{br} You can claim as many names on Superhero as you want. Make sure you have enough AE in your wallet to cover the initial price for the selected name. Ideally, you should have at least 3AE in your balance for better success at claiming Names."
+          "title": "设置您的超级英雄个人资料",
+          "text": "设置您拥有的.chain域名作为您的超级英雄名称: {br}{br} - 点击汉堡菜单,然后转到您的名字. {br} - 在您首选的超级英雄.chain名称下,单击设置域名指向. {br} - 将您的超级英雄钱包地址粘贴到字段中,然后单击“设置域名指向”以确认操作,等待几秒钟确认. {br} - 然后可以单击“设为默认域名”以使域名作为超级英雄网SUPERHERO.COM的默认设置."
         },
         {
-          "title": "SETTING YOUR SUPERHERO PROFILE NAME",
-          "text": "To set a .chain name that you own as your Superhero profile name: {br}{br} - Click the hamburger menu and go to Your Names. {br} - Under your preferred Superhero .chain name, click Set Active."
+          "title": "保护您的钱包",
+          "text": "“伟大的自由伴随着巨大的责任。你负责保管你账户的私钥。没有第三方保管人存储或连接任何密码与任何帐户。{br}{br} 保管钱包私钥的任务是你和你自己的超级英雄。{br}{br}以下是如何保护和备份您的钱包：{br}一旦进入仪表板，您将得到一系列称为种子的短语单词(助记词)。种子短语有点像密码——它是一组独特的、对顺序敏感的单词，它把你和钱包连在一起。{br}{br} - 点击钱包右上角的汉堡菜单。{br} - 转到“设置”，选择“安全性”。{br} - 在下一个屏幕上，单击显示种子短语(助记词)。{br} -把显示的12个单词在一张纸上写下来，放在一个安全、秘密的地方,就这么简单。{br}{br}重要提示：您将需要此种子短语来检索您的钱包，以防您因任何原因而无法访问（迁移到新设备、重新安装浏览器等）."
         }
       ]
     },
     "Mission": {
-      "header": "SUPERHERO: AN ORIGIN STORY WITH A MISSION",
+      "header": "超级英雄:有故事起源的使命",
       "sections": [
         {
-          "text": "In comics, Superheroes believe it’s their duty to help good triumph. Meanwhile - very real, modern times continually test humanity."
+          "text": "在漫画中，超级英雄认为帮助自己取得胜利是他们的职责。 同时-非常真实的现状不断考验人类."
         },
         {
-          "text": "From artists to scientists, educators, medical groups, non-profit projects, social impact initiatives, community causes, animal welfare, environmental advocacy to the one inspiring you… We can (and do) make a difference every day to each other. People supporting people are contemporary Superheroes."
+          "text": "从艺术到科学、教育、医疗、公益、社会影响、社区事业、动物福利、环境宣传到激励你的人……我们每天都能（而且确实）为彼此带来改变。支持人民的人是当代的超级英雄."
         },
         {
-          "text": "Superhero.com was conceived as a tangible way to celebrate the difference that can come from empowering people to support people, P2P, without intermediaries."
+          "text": "Superhero.com 被认为是一种实现区别的切实方法，这种区别可以源于在没有中介机构的情况下增强人们支持P2P的能力."
         },
         {
-          "text": "Superhero.com was built as an open source platform which shifts the control of people supporting people away from private entities back into public hands."
+          "text": "Superhero.com 构建于开放源代码平台，将支持人员的控制权从私人实体转移到公共手中."
         },
         {
-          "text": "Those at {aeternityBlockchain} that brought Superhero.com to life are united in helping deliver on the promise of a better internet for all."
+          "text": "Superhero.com 运行于 {aeternityBlockchain} 使栩栩如生的人们团结一致，致力于为所有人提供更好的互联网."
         },
         {
-          "text": "Welcome to a better virtual world – an internet with quantifiably more freedom to transact. We only have just begun to see where our superpowers of being humans that support each other can take us."
+          "text": "欢迎来到一个更好的虚拟世界 – 可以自由交易的互联网。 我们才刚刚开始看到我们相互支持的人类超级力量可以带给我们什么."
         }
       ],
-      "footer": "ARE YOU MAKING A DIFFERENCE?",
-      "footerContent": "Superhero.com a tool for good built on æternity blockchain"
+      "footer": "您与众不同吗?",
+      "footerContent": "Superhero.com 是建立在æternity区块链上的优质工具"
     },
     "FAQ": {
-      "header": "Frequently Asked Questions",
-      "subheader": "If you can't find the answer of you question below visit our {tutorialPage} to receive more information about using Superhero platform and wallet.",
+      "header": "常见问题解答",
+      "subheader": "关于 SUPERHERO.com",
       "questions": [
         {
-          "title": "What is Superhero?",
-          "text": "Superhero is a P2P (Peer-to-Peer) platform for social sharing. The mission of Superhero is to empower people to support people, without intermediaries. {br} {router}"
+          "title": "SUPERHERO.com: 没有隐藏协议的社交平台.",
+          "text": "SUPERHERO.com 社交媒体.没有审查，没有跟踪，没有佣金."
         },
         {
-          "title": "Who is Superhero?",
-          "text": "Superhero is an open-source project. It is a tool for good built on {aeternityCom}. Anyone, anywhere may use the platform—other websites may use the platform for their own purposes. All have uncensored, equal ability to be Superhero.{br} Being P2P, the only ones not part of Superhero are intermediaries.{br} {br} Superhero is you and you and you and you ... Without any “them” in-between."
+          "title": "没有隐藏协议.",
+          "text": "超级英雄免费供所有人使用，永远不会收取通过平台发送或接收小费的佣金. {br} 矿工费（通常不超过0.01美元）直接流向矿工生态系统，他们将自己的处理能力奉献给了交易安全。{br}{br}{br}超级英雄永远不会跟踪、收集或出售任何人的数据。{br}其他社交媒体平台依赖广告收入，为此他们收集、使用、分享并最终销售用户数据。超级英雄是一个非营利性平台，旨在终结这种弊端。{br}{br}{br} 那么这对我们有什么好处呢？{br} 超级英雄是由社区成员创建的，目的是向主流公众展示æternity区块链技术的优点,加强æternity生态系统，并使任何普通网民“张三”和“李四”可以使用区块链的强大功能."
         },
         {
-          "title": "How does Superhero work?",
-          "text": "Superhero is built on aeternity blockchain. Because it is built on blockchain, actions are transparent and are published forever. Blockchain has promised a more free and decentralized future for society. Superhero used blockchain as its foundation to make that promise a reality. {br} {br} Superhero is an online community making a tangible difference in the real world."
+          "title": "超级英雄适合任何人,每个人.",
+          "text": "超级英雄是开源的，免费供所有人使用。任何人都可以使用平台、工具，并将小部件添加到他们的网站. {br}{br} 与此同时,任何人都可以调整代码以适应他们的需求，或者只是为了使超级英雄成为更出色的平台而做出的贡献."
         },
         {
-          "title": "How does tipping on Superhero work?",
-          "text": "The first Superpower launched on Superhero is a Wallet to tip URLs. You can get tips through URLs or online profiles you own, and you can send tips to other URLs. URLs can be tipped - regardless of whether the URL owner has installed the wallet or not. {br}All you need to give, collect, or claim tips in AE is a Superhero Wallet of your own."
+          "title": "无审查.",
+          "text": "尽管将对超级英雄前端进行过滤以确保对普通观众安全,但所有发送和接收的小费以及与之一起发送的消息均在æternity区块链上记录并被永久保存. 这些记录是公开的，所有人都可以访问. {br}{br} 可以创建自有平台以迎合成人内容或任何其他内容. {br}{br} 任何人都可以免费使用该平台创建自己的网页-无论是用于非营利性还是用于商业目的."
         },
         {
-          "title": "How do I get started on Superhero?",
-          "text": "We’ll walk you through it step by step {ourTutorial}."
+          "title": "你或你的追随者,没有第三方托管人",
+          "text": "我们是否喜欢都没关系。只要您的网站是公开的并且可以使用，就可以对其进行打赏。只要您有钱包，小费全由您自己收取."
         },
         {
-          "title": "What does it cost? (How’s it free!?!)",
-          "text": "Superhero does not take any fees from its users to join. {br} Superhero does not take any commissions from tips. {br} Superhero is a non-profit, social impact project."
+          "title": "社交媒体与区块链的相遇.",
+          "text": "超级英雄是一个以区块链为动力的社交媒体平台，其创建的目的是支持社交分享，并肩负使命."
         },
         {
-          "title": "Where can I get tips with Superhero?",
-          "text": "Use Superhero alone to give / accept a tip of AE. Use Superhero alongside other existing fiat-based tools to additionally give / accept tips in AE. {br} {br}On Superhero’s platform, join a community posting, commenting, and tipping each other directly. {br}Off Superhero’s platform, add a Superhero button or link to your site so anyone can tip you directly."
-        },
-        {
-          "title": "Where can I send tips with Superhero? (Even URLs off Superhero?)",
-          "text": "Any public URL can be tipped with Superhero."
-        },
-        {
-          "title": "Where does a tip go if there are more than one wallet addresses on a URL?",
-          "text": "The first wallet address among the addresses on the page to claim the tip, gets the tip."
-        },
-        {
-          "title": "When do I have to claim my tips?",
-          "text": "Tips must be claimed within one (1) year."
-        },
-        {
-          "title": "What happens if a tip isn’t claimed?",
-          "text": "After one (1) year, unclaimed tips can be retrieved by tip senders. If a tip remains unclaimed after two (2) years by the sender or receiver, it is transferred to the aeternity crypto foundation."
-        },
-        {
-          "title": "How do I withdraw my tips?",
-          "text": "Check out Withdraw in our {tutorial}."
-        },
-        {
-          "title": "How do I document my tips?",
-          "text": "All transactions made through Superhero are timestamped and recorded on the blockchain. These records are accessible to the public trough https://www.aeknow.org https://mainnet.aeternal.io and https://explorer.aeternity.io. Just type in your wallet address to view all transactions involving your wallet."
-        },
-        {
-          "title": "Can I use my Base æpp wallet for my Superhero wallet?",
-          "text": "Yes. Just choose \"Retrieve Existing Account\" and input your Base æpp wallet’s seed phrase."
-        },
-        {
-          "title": "What about other wallets?",
-          "text": "So long as you have the private keys/seed phrase for the AE address, you can use it on Superhero through the Retrieve Account option at start-up. For some wallets, the seed phrase is not in the user’s custody. In this case, the AE address cannot be used for Superhero. {br} {br}You can simply Generate a New Wallet on Superhero and top it up by sending AE form your other wallets to your Superhero wallet address."
-        },
-        {
-          "title": "Can I use an AE address from a centralized exchange for my Superhero wallet?",
-          "text": "No. For centralized exchanges, the exchange holds custody of users' private keys. This means that the user cannot use the AE address on Superhero because he/she does not have the private keys/seed phrase to retrieve the account. {br} {br}You can simply Generate a New Wallet on Superhero and top it up by sending AE form your other wallets to your Superhero wallet address."
-        },
-        {
-          "title": "Can I edit my profile?",
-          "text": "Currently, users can only add short descriptions for their profile and set their avatar photo. We're continuously working on making profiles even better."
-        },
-        {
-          "title": "Do I have to add my wallet address to every Tweet?",
-          "text": "No. The Superhero wallet can detect the wallet address on a user's Twitter profile. No need to add it in the tweets."
-        },
-        {
-          "title": "If the owner of the URL I tipped doesn’t have an AE address on their site, will they still receive their tips?",
-          "text": "Yes. As soon as the webpage owner creates a Superhero wallet and adds their wallet address to their URL, tips they’ve received in the past will be added into their wallet."
-        },
-        {
-          "title": "Can I get support? My question isn’t answered here…",
-          "text": "Need assistance? Report technical issue? Post feedback? Suggestion? Find people supporting people with answers in Superhero's {forum}."
+          "title": "我能得到支持吗？我的问题没有找到答案…",
+          "text": "需要帮助吗？想报告技术问题，给出反馈和建议吗？请使用右下角的“反馈”或“支持”按钮 Superhero.com."
         }
-      ],
-      "forum": "Forum",
-      "tutorialPage": "Tutorial Page",
-      "tutorial": "tutorial",
-      "feedbackForm": "feedback form",
-      "ourTutorial": "in our tutorial",
-      "aeternityBlockchain": "aeternity blockchain"
+      ]
     },
     "Maintenance": {
-      "RechargeTitle": "We're recharging our powers.",
-      "RechargeSubTitle": "We'll be up, up and away in no time."
+      "RechargeTitle": "我们正在维护.",
+      "RechargeSubTitle": "维护很快就会完成.",
+      "CleaningTitle": "清除HQ.",
+      "CleaningSubTitle": "几分钟后我们将再次起飞."
     },
     "Privacy": {
-      "title": "PRIVACY POLICY",
-      "subtitle": "The present Legal Imprint was created on 13th February 2020.",
+      "title": "隐私政策",
+      "subtitle": "目前的法律标记创建于2020年2月13日.",
       "sections": [
         {
-          "title": "I. Introduction"
+          "title": "I. 简介"
         },
         {
-          "text": "Superhero.com LVC, Dr. Grass Str 12, 9490 Vaduz, Liechtenstein (“Superhero.com”, “we”, “us” or “our”) is a company which takes your privacy and the security of your information as a User very seriously."
+          "text": "Superhero.com LVC,列支敦士登瓦杜兹Grass街12号 邮编:9490（“Superhero.com”，“我”，“我们”或“我们的”）是一家非常认真的以用户身份保护您隐私和信息安全的公司."
         },
         {
-          "text": "This Privacy Policy (“Policy”) is applicable for the Superhero.com created and operated Website https://superhero.com/ (the “Website”), reflecting users’ donations and comments to content gives the possibility for other users to actively donate and comment on the news available on the newsfeed of the Website."
+          "text": "本隐私政策（以下简称“政策”）适用于 Superhero.com 创建并运营的网站 https://superhero.com/ （以下简称“网站”）反映了用户对内容的捐赠和评论，他用户可以主动捐赠和评论网站新闻源中的新闻."
         },
         {
-          "text": "If you have any questions regarding this Policy, please contact us at superherowallet@protonmail.com. If you do not agree to the terms of this Policy, please do not use the Website. Each time you use the Website, the current version of this Policy will apply. The new version of the Privacy Policy becomes effective from the day it is announced publicly on the Website unless stated otherwise. Accordingly, when You use the Website, You should check the date of this Policy (which appears at the top). If You continue to use the Website after the changes have been enforced, We shall consider this a given consent and acceptance to the modified content. If You do not agree to the new modifications, please contact Us for further assistance via the above-mentioned in the previous paragraph email address."
+          "text": "如果您对此政策有任何疑问，请通过 superherowallet@protonmail.com 与我们联系.如果您不同意本政策的条款，请不要使用网站.每次您使用本网站时，本政策的当前版本将适用. 除非另有说明，否则新版本的隐私政策自其在网站上公开宣布之日起生效。 因此，当您使用网站时，应检查本政策的日期（显示在顶部）。 如果您在更改生效后继续使用本网站，我们将视为已同意并接受修改后的内容。 如果您不同意新的修改，请通过上一段中的上述电子邮件地址与我们联系以获得进一步的帮助."
         },
         {
-          "title": "II. Definitions"
+          "title": "II. 术语"
         },
         {
-          "text": "For the purposes of this Privacy Policy, the terms have the following meaning:"
+          "text": "就本隐私政策而言，这些术语具有以下含义:"
         },
         {
-          "text": "„Data Controller“ means the person or body which, alone or jointly with others, determines the purposes and means of the processing of personal data;"
+          "text": "„数据中心“ 指单独或与他人共同确定处理个人数据的目的和方式的个人或机构;"
         },
         {
-          "text": "„Personal Data“ means any information relating to an identified or identifiable natural person (‘USER’);"
+          "text": "„个人资料“ 指与已识别或可识别自然人（‘用户’）有关的任何信息;"
         },
         {
-          "text": "„Processing“ means any operation or set of operations which is performed on personal data;"
+          "text": "„处理“ 指对个人数据执行的任何操作或一组操作;"
         },
         {
-          "text": "„Recipient“ means a natural or legal person, public authority, agency or another body, to which the personal data are disclosed, whether a third party or not;"
+          "text": "„接受(收)者“ 指向其披露个人数据的自然人或法人，公共当局，机构或其他机构，无论是否为第三方;"
         },
         {
-          "text": "„Personal data breach“ means a breach of security leading to the accidental or unlawful destruction, loss, alteration, unauthorized disclosure of, or access to, personal data transmitted, stored or otherwise processed."
+          "text": "„个人数据泄露“ 表示违反安全规定而导致意外或非法销毁，丢失，更改，未经授权披露或访问所传输，存储或以其他方式处理的个人数据."
         },
         {
-          "title": "III. Personal data collection"
+          "title": "III. 个人资料收集"
         },
         {
-          "text": "The personal data Superhero.com collects is minimized completely, selecting only those types of information, which are adequate, relevant and limited to what is necessary for the use of the Website."
+          "text": "Superhero.com 收集的个人数据被完全最小化，仅选择那些适当、相关且限于使用本网站所必需的信息类型."
         },
         {
-          "text": "Superhero.com collects two main groups of personal data according to their purpose:"
+          "text": "Superhero.com 根据目的收集两个主要的个人数据组:"
         },
         {
-          "text": "Personal data in relation to indirect identifiers The donations and comments are conducted via the Extension Superherowallet. The Superhero wallet is a blockchain based application on which an account address is generated for user identification. Once the donation and comment are processed, they appear on the Website with a hyperlink forwarding to the website the User has tipped. Furthermore, other Users on the Website can additionally donate and comment on news added to the Website. Therefore, the account address will appear on the Website. The account addresses can be treated as indirect identifiers. An indirect identifier is a value which cannot be used alone to identify a data subject, however, could be identifying if combined with other indirect identifiers. The processing is necessary for the purpose of provision of the Service- namely the Website. The retention period for the personal data is until termination of the Service provision."
+          "text": "与个人数据捐赠和评论有关的是通过超级英雄钱包(Superhero Wallet)延迟进行的. 超级英雄钱包是一个基于区块链的应用程序，在该应用程序上生成一个用于用户识别的帐户地址.捐赠和评论处理完成后，它们就会显示在网站上，并带有超链接转发到用户所捐赠的网站。 此外，网站上的其他用户还可以捐赠和评论添加网站上的新闻。 因此，该帐户地址将显示在网站上。 帐户地址可以视为间接的个人标识符。 间接标识符是不能单独用于标识数据主体的值，但是，如果与其他间接标识符结合使用，则可以进行标识。 为了提供服务（即网站），必须进行处理。个人数据的保留期到服务条款终止为止。"
         },
         {
-          "text": "Personal data in relation to User support and communication During the use of our Website, users may decide to contact the team in relation to website support, troubleshoot problems, questions, etc. The collection of the personal data is initiated by Users and they decide what type of personal data to include in the communication. Therefore, the legal basis for processing is that the User has given consent to the processing of their personal data for one or more specific purposes. The retention period is until the questions have been answered, assistance from the team has been provided, the problems have been solved or in any other case, until withdrawal of consent. Superhero.com may retent personal information for additional period of time, if it is required by law or for crime/breach/ infringement prevention and safety."
+          "text": "在使用我们的网站期间与用户支持和交流有关的个人数据, 用户可以决定在网站”支持”中联系团队，解决问题。个人数据的收集由用户发起，他们决定在通信中包括哪种类型的个人数据。 因此，处理的法律依据是用户已同意出于一种或多种特定目的处理其个人数据。保留期限是直到问题被回答，团队提供帮助，问题已解决或在其他任何情况下，直到撤回同意为止。如法律要求或出于犯罪/违反/侵权预防与安全的考虑，Superhero.com可能会保留个人信息更长时间。"
         },
         {
-          "title": "IV. Your rights:"
+          "title": "IV. 您的权利:"
         },
         {
-          "text": "YOU have the right to:"
+          "text": "您有权:"
         },
         {
-          "text": "Request from Superhero.com access to the personal data that we hold about You in a portable format."
+          "text": "要求以方便格式访问我们持有的，来自Superhero.com的有关您的个人数据."
         },
         {
-          "text": "Request from Superhero.com correction of any collected personal data. he information may include only your personal data collection."
+          "text": "要求Superhero.com更正任何收集到的个人数据信息,可能仅包括您的个人数据收集."
         },
         {
-          "text": "Receive a copy of your personal data in electronic format."
+          "text": "接收您的电子格式个人数据的副本."
         },
         {
-          "text": "“The right to be forgotten” - You have the right to request the deletion of your personal data at any time where the retention of such data infringes relevant legislation."
+          "text": "“被遗忘的权利” - 任何时间您有权要求在数据违反相关法律时删除您的个人数据."
         },
         {
-          "text": "Receive information from Us about Our activities in connection to your personal data, including the purposes of collection and storage, the period of time for storage, the methods of collecting, the presence of automated processing."
+          "text": "从我们这里接收有关我们与您的个人数据有关的活动的信息，包括收集和存储的目的、存储的时间段、收集的方法、是否存在自动处理。"
         },
         {
-          "text": "Receive your data and transfer them to another controller."
+          "text": "接收数据并将其传输（发送、传递）到其它平台."
         },
         {
-          "text": "You have the right to lodge a complaint with a supervisory authority, in particular in the Member State of your habitual residence, place of work or place of the alleged infringement if You consider that there is personal data breach."
+          "text": "如果您认为存在个人数据泄露，您有权向监管机构提出投诉，尤其是在您常居住地、工作地点或涉嫌侵权的所在地的成员国。"
         },
         {
-          "title": "V. Sharing of Personal Information with Third Parties- Recipients"
+          "title": "V. 与第三方共享个人信息-接收者"
         },
         {
-          "text": "We may disclose USERS’ identifiable personal information to third parties under special circumstances:"
+          "text": "在特殊情况下，我们可能会向第三方披露用户的可识别个人信息:"
         },
         {
-          "text": "(i) to comply with a legal requirement, judicial proceeding, court order, or legal process served on Superhero.com or its affiliates, (ii) to investigate a possible crime, such as fraud or identity theft; (iii) to Public Authorities in accordance with their legal obligation for the exercise of their official mission, such as tax and customs authorities, financial investigation units, independent administrative authorities, or financial marker authorities responsible for supervision of securities markets; (iv) in connection with the sale, purchase, business transition under any form, merger, dissolution, reorganization, liquidation of Superhero.com; We may have to disclose the information You have given us to the successor, who is part of the transition, (v) when We believe it is necessary to protect the rights, property, or safety of Superhero.com or other persons, or (vi) as otherwise required or permitted by law, including any contractual obligations of Superhero.com."
+          "text": "(i) 遵守法律要求、司法程序、法院命令或送达的法律程序、Superhero.com或其附属公司, (ii) 调查可能的犯罪，如欺诈或身份盗窃; (iii) 根据其法定义务履行公务, 比如税务和海关, 负责证券市场监管的金融调查单位、独立行政机关或者金融市场交易主管部门; (iv) 与任何形式的出售、收购、业务转移、合并、解散、重组、清算有关 Superhero.com; 我们可能不得不把你给我们的信息透露给继任者，他是过渡的一部分, (v)当我们认为有必要保护 Superhero.com 或其他人，或 (vi) 法律另有规定或允许的, 包括任何 Superhero.com 合同义务."
         },
         {
-          "title": "VI. Children and Privacy"
+          "title": "VI. 儿童与隐私"
         },
         {
-          "text": "Superhero.com does not process information of persons under the age of obtaining full legal capacity (in most countries 18 years old) due to the character of the Website and the Wallet."
+          "text": "由于网站和钱包的特点,Superhero.com不处理未满法定行为能力人的信息 (大多数国家是18周岁)."
         },
         {
-          "text": "Superhero.com will immediately delete any personal data referring to persons under the age of full legal capacity."
+          "text": "Superhero.com 会删除任何涉及未满法定行为能力人士的个人资料."
         },
         {
-          "text": "We are not liable in any way if YOU provide false information about your age or use the Website before YOU have turned the above-mentioned age."
+          "text": "如果您在上述年龄之前提供虚假的年龄信息或使用本网站，我们不承担任何责任."
         },
         {
-          "title": "VII. Breach measures"
+          "title": "VII. 违规措施"
         },
         {
-          "text": "In case of breach, We will undertake every possible action according to the applicable legislation in an appropriate and timely manner, to avoid any material or non-material damage to Users and to protect the personal data of Users."
+          "text": "如有违规,我们将根据适用的法规，采取适当及时的措施，采取一切可能的行动,避免对用户造成任何实质性或非实质性损害，并保护用户的个人数据."
         },
         {
-          "title": "VIII. How Do I contact Superhero.com ?"
+          "title": "VIII. 我如何联系 Superhero.com ?"
         },
         {
-          "text": "To contact us with your questions or comments regarding this Policy or the information collection and dissemination practices of Superhero.com relevant to your use of the Website, please email us at superherowallet@protonmail.com."
+          "text": "如果您对本政策或与使用本网站(Superhero.com)有关的信息收集和传播做法有任何疑问或意见，请与我们联系，请给我们发送电子邮件： superherowallet@protonmail.com."
         }
       ]
     },
     "Terms": {
-      "title": "LEGAL IMPRINT",
-      "subtitle": "The present Legal Imprint was created on 13th February 2020.",
+      "title": "法律建议",
+      "subtitle": "目前的法律印记创建于2020年2月13日。",
       "sections": [
         {
-          "title": "I. Company information"
+          "title": "I. 公司信息"
         },
         {
-          "text": "The service on https://superhero.com/ is provided by Superhero.com LVC, e-mail for correspondence: superherowallet@protonmail.com."
+          "text": "https://superhero.com/ 上的服务由Superhero.com LVC提供，用于通信的电子邮件: superherowallet@protonmail.com."
         },
         {
-          "title": "II. Subject of activity"
+          "title": "II. 活动主题"
         },
         {
-          "text": "Superhero.com developed a website which reflects as a newsfeed users’ donations and comments to news about anything they like on the internet and gives the possibility for other users to actively donate and comment on the news available on the newsfeed. This information hub enables users to incentivize informative and accurate updates about anything all over the world- whether created by news organizations or regular people. Therefore, due to the active role of users, the website is a platform on which real-time global updates about best content shared."
+          "text": "Superhero.com 开发了一个网站，该网站反映了新闻订阅源用户对他们在互联网上喜欢的任何事物的新闻捐赠和评论，并为其他用户提供了主动捐赠和评论新闻订阅源中可用新闻的可能性。无论是由新闻机构还是普通人创建的，这将使用户能够激励有关世界各地任何事物的信息性和准确的更新。因此，由于用户的积极作用，该网站是一个平台，可以共享有关最佳内容的实时全局更新。"
         },
         {
-          "title": "III. Copyright notice regarding third party links"
+          "title": "III. 有关第三方链接的版权声明"
         },
         {
-          "text": "Please bear in mind that the Website’s main function is objectively and without interference to reflect donations and comments of users to third parties- organizations or regular people, sharing online news regarding best content. Therefore, Superhero.com is not the owner or author of the shared on the newsfeed news and does not in any way claim any rights over the materials in whole or partially. The materials published on the newsfeed are objects of intellectual property of the people or organizations claimed in the third-party links. In regard to third-party links, please bear in mind that by clicking on the available hyperlinks, users are forwarded to third-party websites. These third-party websites are not connected to Superhero.com and they have independent and separate policies regarding their use. Users should inform themselves about the rules applicable for each website and comply their online behaviour accordingly. Please note that the appearance of the links on the newsfeed is not under the control of Superhero.com but of users. Superhero.com accepts no responsibility or liability whatsoever with regard to the information provided by third parties and their hyperlink relation on the Website. The hyperlinks may forward to news regarding highly sensitive or inappropriate for some people content. Users click on the hyperlinks and visit the third-party websites on their own risk."
+          "text": "请记住，该网站的主要功能是客观的，不会干扰用户对第三方组织或普通人的捐赠和评论，并共享有关最佳内容的在线新闻。因此，Superhero.com 不是新闻源的新闻共享所有者或作者，也不以任何方式主张对全部或部分材料的任何权利。新闻摘要上发布的材料是第三方链接中声明的人员或组织的知识产权对象。关于第三方链接，请记住，通过单击可用的超链接，用户将被转发到第三方网站。这些第三方网站未连接到Superhero.com，并且它们具有独立的使用政策。用户应告知自己适用于每个网站的规则，并相应地遵守其在线行为。请注意，新闻源上链接的外观不是在 Superhero.com 的控制之下，而是在用户的控制之下。对于第三方提供的信息及其在网站上的超链接关系，Superhero.com不承担任何责任。超链接可能转发有关某些内容高度敏感或不合适的新闻。用户单击超链接，并自行承担访问第三方网站的风险。"
         },
         {
-          "title": "IV. Copyright notice regarding the Website"
+          "title": "IV. 关于网站的版权声明"
         },
         {
-          "text": "The legal imprint is applicable for the following internet address: https://superhero.com/ (hereinafter the “Website”). The Website belongs and is operated by Superhero.com . The concept for the Website, the layout of the Website and the integrated components and structures for its creation, including but not limited to logos, trademarks, domain names, codes, which appear in any way on the website or are accessible in any way through the website: https://superhero.com/ are protected by the current laws with subject intellectual property. Therefore, they belong strictly and solely to Superhero.com and the use of any of the above-mentioned is a subject to prior authorisation. None of the above-mentioned can be reproduced, copied, edited, transmitted, downloaded or distributed in any way whatsoever partially or in whole, on any medium whatsoever, without the prior written consent of Superhero.com . Apart from this, the use for press requirements is allowed solely in compliance with intellectual property rights that are mentioned. The act of copying is authorised only for private, non-commercial, personal use on the personal technical devices of the user (including telephone, laptop, computer, tablet). The authorised use must not be denatured, modified, altered or changed in any way whatsoever."
+          "text": "法律印记适用于下列互联网地址: https://superhero.com/ (以下简称“网站”).该网站属于Superhero.com并由其运营.网站的概念、网站的布局及其创建的集成组件和结构，包括但不限于徽标、商标、域名、代码，以任何方式出现在网站上或通过网站以任何方式访问：https://superhero.com/ 受现行法律保护，具有知识产权。因此，它们完全属于 Superhero.com 上述任何一项的使用均须经事先授权。未经事先书面同意，不得以任何方式在任何媒介上复制、编辑、传输、下载或分发 Superhero.com 任何内容. 除此之外，仅允许在符合上述知识产权的情况下使用媒体要求。复制行为仅限于在用户的个人设备（包括电话、笔记本电脑、电脑、平板电脑）上的私人、非商业、个人用途。授权使用不得以任何方式替换、修改或更改。"
         }
       ],
-      "copyrights": "“COPYRIGHT – 2020 – Superhero.com ALL RIGHTS RESERVED”. Superhero.com reserves its right to take every necessary legal action against any breach or infringement of its intellectual property rights. The rules mentioned above apply to databases on the website, which are protected under the Directive 96/9/EC of the European Parliament and the Council of 11 March 1996 on the legal protection of databases. For any additional questions, please contact Superhero.com team at: superherowallet@protonmail.com"
+      "copyrights": "“COPYRIGHT – 2020 – Superhero.com 版权所有”. Superhero.com 保留对任何侵犯或侵犯其知识产权的行为采取一切必要法律行动的权利。上述规则适用于网站上的数据库，这些数据库受1996年3月11日欧洲议会和理事会关于数据库法律保护的第96/9/EC号指令的保护。如有任何其他问题，请联系 Superhero.com 团队，E-mail: superherowallet@protonmail.com"
     },
     "TipCommentsView": {
-      "NoResultsMsg": "There are no comments at the moment.",
-      "Reply": "Reply",
-      "AddReply": "Add reply",
-      "LatestReplies": "Latest Replies"
+      "NoResultsMsg": "目前没有评论.",
+      "Reply": "评论",
+      "AddReply": "添加评论",
+      "LatestReplies": "最新评论"
     },
     "SingleCommentView": {
-      "NoResultsMsg": "There are no comments to display"
+      "NoResultsMsg": "没有要显示的评论"
     },
     "TipList": {
-      "SearchPlaceholder": "Search Superhero",
-      "SortingLatest": "最新的",
-      "SortingHighestRated": "获取♥币最高的 记录排序",
-      "SortingMostPopular": "最受欢迎",
-      "Clear": "Clear",
-      "CloseSearch": "Close Search",
-      "SafeContentOnly": "Safe content only"
+      "SearchPlaceholder": "搜索超级英雄",
+      "SortingLatest": "最新",
+      "SortingHighestRated": "高评",
+      "SortingMostPopular": "热点",
+      "Clear": "清除",
+      "CloseSearch": "关闭搜索",
+      "SafeContentOnly": "仅安全内容"
     },
     "UserProfileView": {
-      "EditProfile": "Edit Profile",
-      "ChangeAvatar": "Change Avatar",
-      "DeleteAvatar": "Delete Avatar",
-      "Save": "Save",
-      "TipsSent": "Tips Sent",
-      "TipsReceived": "Tips Received",
-      "RetipsSent": "Retips",
-      "TotalSentAmount": "Total Amount Sent",
-      "ClaimedUrls": "URLs",
-      "ClaimedAmount": "Tips Claimed",
-      "UnclaimedAmount": "Tips Unclaimed",
-      "NoActivity": "There is no activity to display.",
-      "Joined": "Joined",
-      "Comments": "Comments",
-      "EditBiography": "Edit Biography",
-      "ChangeCoverPhoto": "Change Cover Photo",
-      "LocationPlaceholder": "Edit Location",
-      "Location": "Location"
+      "EditProfile": "配置编辑",
+      "ChangeAvatar": "修改头像",
+      "DeleteAvatar": "删除头像",
+      "Save": "保存",
+      "TipsSent": "发送小费",
+      "TipsReceived": "收到的小费",
+      "RetipsSent": "提示",
+      "TotalSentAmount": "发送的总金额",
+      "ClaimedUrls": "网址",
+      "ClaimedAmount": "申报的小费",
+      "UnclaimedAmount": "无人认领",
+      "NoActivity": "没有可显示的.",
+      "Joined": "已加入",
+      "Comments": "评论",
+      "EditBiography": "编辑传记"
+    },
+    "Widget": {
+      "header": "[[ 小部件页头部文本占位符 ]]",
+      "sections": [
+        {
+          "text": "第1占位符。"
+        },
+        {
+          "text": "第2占位符。"
+        }
+      ]
+    },
+    "Voting": {
+      "header": "[[ 投票页头部文本占位符 ]]",
+      "sections": [
+        {
+          "text": "第1占位符。"
+        },
+        {
+          "text": "第2占位符。"
+        }
+      ]
+    },
+    "Wallet": {
+      "header": "[[ 钱包页面头部文本占位符 ]]",
+      "sections": [
+        {
+          "text": "第1占位符。"
+        },
+        {
+          "text": "第2占位符."
+        }
+      ]
+    },
+    "Meet": {
+      "header": "[[ 会议页头部文本占位符 ]]",
+      "sections": [
+        {
+          "text": "第1占位符."
+        },
+        {
+          "text": "第2占位符."
+        }
+      ]
     }
   },
   "components": {
     "layout": {
       "FooterSection": {
-        "Feedback": "Feedback",
-        "Support": "Support",
-        "FooterInfo": "Superhero is Open Source",
-        "ContributeOnGithub": "Contribute on Github",
-        "Terms": "Terms",
-        "Privacy": "Privacy",
-        "HowItWorks": "How it works",
-        "LoginWithWallet": "Login with Web Wallet"
+        "Feedback": "反馈",
+        "Support": "支持",
+        "FooterInfo": "超级英雄是开源的",
+        "ContributeOnGithub": "在 Github 贡献",
+        "Terms": "条款",
+        "Privacy": "隐私",
+        "HowItWorks": "工作原理",
+        "LoginWithWallet": "登录网页钱包"
       },
       "Navigation": {
-        "MyProfile": "My Profile",
-        "League": "League",
-        "Governance": "Governance"
+        "MyProfile": "个人资料",
+        "League": "社团",
+        "Governance": "治理"
       },
       "Overview": {
-        "TipsAggregated": "Tips Aggregated",
-        "UniqueTipSenders": "Unique Tip Senders",
-        "TotalTipsValue": "Total Tips Value",
-        "TotalTipsClaimed": "Total Tips Claimed",
-        "LatestBlock": "Latest Block",
-        "PoweredBy": "Powered by"
+        "TipsAggregated": "小费汇总",
+        "UniqueTipSenders": "特别的小费发送者",
+        "TotalTipsValue": "小费总额",
+        "TotalTipsClaimed": "认领的小费总数",
+        "LatestBlock": "最新块",
+        "PoweredBy": "技术支持"
       },
       "RightSection": {
-        "Wallet": "Wallet",
-        "LoginWithWallet": "Login with Web Wallet",
-        "InstallWallet": "Install Wallet",
-        "Trending": "Trending"
+        "Wallet": "钱包",
+        "LoginWithWallet": "登录网页钱包",
+        "InstallWallet": "安装钱包",
+        "Trending": "趋势"
       },
       "SendTip": {
-        "NewTip": "New Tip",
-        "EnterURL": "Enter URL",
-        "SuccessHeader": "You're a Superhero",
-        "SuccessText": "Tip sent!",
-        "ErrorHeader": "Something went wrong",
-        "ErrorText": "Tip not sent, please try again",
-        "SendNewTip": "Send New Tip"
-      }
-    },
-    "onboarding": {
-      "steps": {
-        "next": "Next",
-        "step1": {
-          "header": "Introducing Superhero:",
-          "socialPlatform": "A Social Platform With A Mission",
-          "subheader": "The first Superpower of Superhero is to launch a",
-          "P2Ptool": "P2P tool to receive or send a tip to a URL",
-          "with": "with...",
-          "zeroTxFees": " Near zero transaction fees.",
-          "cutOurIntermediaries": "Cut out intermediaries,",
-          "SendingorReceiving": "profiting off sending or receiving support.",
-          "noWaitTime": "No wait-time.",
-          "Transfers": "Transfers",
-          "instant": "are instant.",
-          "noCensorship": "No censorship.",
-          "No3rdParty": "No 3rd parties controlling the",
-          "keepIP": "approval nor the release of tips. Keep your IP ownership.",
-          "welcome": "Welcome to a web where you can transact as you please!",
-          "button": "Start Your Superhero Journey"
-        },
-        "step2": {
-          "header": "Install Superhero Wallet {br} A Tool for Good Built on {a}",
-          "subheader": "Superhero empowers {peopleSupportingPeople} {br} including the ability to transfer AE cryptocurrency P2P. {br} {sendTips} directly to your fav creators, causes, projects... {br} {receiveTips} directly from your fans. {br} {getOrGiveHelp} to any URL on the web you please. {br}",
-          "peopleSupportingPeople": "people supporting people,",
-          "sendTips": "Send tips",
-          "receiveTips": "Receive tips",
-          "getOrGiveHelp": "Get or give help",
-          "bolder": "To start, you'll need a wallet. It's free. It's easy. {br} {click} {br} to install the Superhero wallet:",
-          "click": "Choose the browser extension or the mobile app",
-          "learnMore": "Learn more:",
-          "tutorial": "Tutorial",
-          "aeternityBlockchain": "aeternity blockchain"
-        },
-        "step3": {
-          "header": "Receive Tips: {br} Making the Internet a Fairer Place",
-          "info": "After your Superhero wallet is installed:{br} {pasteYourWallet} to your URL.{br} {openYourURL} so your wallet can instantly collect tips you receive.",
-          "pasteYourWallet": "1. Paste your wallet address",
-          "openYourURL": "2. Load your URL",
-          "peopleCanDirectlySupport": "People can directly support your content, cause project (or you for simply being you) with no middlemen."
-        },
-        "step4": {
-          "header": "Send Tips: {br} Making the Internet a Better Place",
-          "info": "After your Superhero wallet is installed {br} {visitTheURL} you want to support. {br} {clickSendTips} in your wallet. {br} {enterTipAmount} and optionally a message.",
-          "visitTheURL": "1. Visit the URL",
-          "clickSendTips": "2. Click Send tip",
-          "enterTipAmount": "3. Enter tip amount",
-          "youCanDirectlySupport": "You can directly support any person's content, cause, project at any public URL with no middleman."
-        },
-        "step5": {
-          "header": "Welcome to Superhero!",
-          "info": "You can now get in on the action by setting your {br} personalized profile and preferences for {superherocom}",
-          "installWallet": "Create profile",
-          "setUpProfile": "Set Up Your Profile"
-        }
-      },
-      "wizard": {
-        "title": "Join Superhero"
+        "NewTip": "新小费",
+        "EnterURL": "输入网址",
+        "SuccessHeader": "你是超级英雄",
+        "SuccessText": "收到小费!",
+        "ErrorHeader": "出了点问题",
+        "ErrorText": "未发送，请重试",
+        "SendNewTip": "发送新小费"
       }
     },
     "tipRecords": {
       "TipComment": {
-        "Replies": "Replies"
+        "Replies": "回复"
       },
       "TipRecord": {
-        "reportPost": "Report Post",
-        "reportPostTitle": "Thanks for letting us know",
-        "reportPostBody": "Our support team will investigate",
-        "claim": "Claim",
-        "Pin": "Pin to Channel",
-        "UnPin": "Unpin from Channel"
+        "reportPost": "反馈",
+        "reportPostTitle": "谢谢你让我们知道",
+        "reportPostBody": "我们的团队会调查",
+        "claim": "认领"
       }
     },
     "TipInput": {
-      "error": "An error occurred while sending the tip. Please try again later.",
-      "tipUser": "Tip User",
-      "totalTipsWithYou": "Total tips (you tipped too)",
-      "totalTips": "Total tips (click to retip the same URL)",
-      "tipComment": "Tip Comment"
+      "error": "发送小费时出错。请稍后再试.",
+      "retip": "评论",
+      "tipUser": "打赏用户",
+      "totalTipsWithYou": "总小费金额（包括您给的小费）",
+      "totalTips": "总小费数（单击可重设相同的URL）",
+      "totalRetips": "小费总额",
+      "tipComment": "小费评论"
     },
     "TipsPagination": {
-      "NoResultsMsg": "There are no results found"
+      "NoResultsMsg": "找不到结果"
     },
     "UrlStatus": {
       "verifiedTitle": "",
       "notverifiedTitle": "",
       "blacklisted": ""
-    },
-    "ListOfTipsAndComments": {
-      "Channel": "Channel",
-      "Activity": "Activity",
-      "NoPinnedItems": "There are no pinned items to display.",
-      "NoActivity": "There is no activity to display."
     }
   },
   "Networking": {
-    "MenuLink": "Meet",
-    "Placeholder": "Room name",
-    "Start": "Start"
+    "MenuLink": "菜单",
+    "Placeholder": "名称",
+    "Start": "开始"
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <span class="ae-amount">
-    <span>{{ roundedAmount }}</span>
+    <template>{{ roundedAmount }}</template>
     <span class="ae">{{ tokenSymbol || 'AE' }}</span>
   </span>
 </template>
@@ -28,10 +28,6 @@ export default {
       return this.amountTokenInfo ? this.amountTokenInfo.symbol : null;
     },
     roundedAmount() {
-      if (!this.amount) {
-        return 0;
-      }
-
       const aeOrAettos = this.aettos ? util.atomsToAe(this.amount) : this.amount;
       const aeTokenAmount = this.amountTokenInfo
         ? util.shiftDecimalPlaces(this.amount, -this.amountTokenInfo.decimals)
@@ -44,13 +40,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ae {
-  color: $secondary_color;
-  padding-left: 2px;
-}
-
 .ae-amount {
   color: $standard_font_color;
-  line-height: 1;
+
+  .ae {
+    color: $secondary_color;
+    padding-left: 2px;
+  }
 }
 </style>

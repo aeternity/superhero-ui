@@ -26,7 +26,7 @@ export const wrapTry = async (promise) => {
         return null;
       }),
       new Promise(((resolve, reject) => {
-        setTimeout(reject, 10000, 'TIMEOUT');
+        setTimeout(reject, 10000, new Error('Request is cancelled by timeout'));
       })),
     ]);
   } catch (err) {
@@ -89,15 +89,10 @@ export const urlStatus = (tipUrl, verifiedUrls, blacklistedUrls) => {
   if (!tipUrl) return 'default';
   const twitterProfile = getTwitterAccountUrl(tipUrl);
   const url = twitterProfile || tipUrl;
-  let status;
-  if (blacklistedUrls.some((u) => url.includes(u))) {
-    status = 'blacklisted';
-  } else if (verifiedUrls.includes(url)) {
-    status = 'verified';
-  } else {
-    status = 'not-verified';
-  }
-  return status;
+
+  if (blacklistedUrls.some((u) => url.includes(u))) return 'blacklisted';
+  if (verifiedUrls.includes(url)) return 'verified';
+  return 'not-verified';
 };
 
 export const isTitle = (index, page) => !!get(i18n.t(`views.${page}.sections[${index}]`), 'title');

@@ -39,13 +39,13 @@
                 {{ $t('components.tipRecords.TipRecord.reportPost') }}
               </div>
               <div
-                v-if="useSdkWallet"
+                v-if="address"
                 @click="claim"
               >
                 {{ $t('components.tipRecords.TipRecord.claim') }}
               </div>
               <div
-                v-if="account"
+                v-if="address"
                 @click="pinOrUnPinTip"
               >
                 {{
@@ -195,7 +195,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['account', 'useSdkWallet']),
+    ...mapState(['address', 'useSdkWallet']),
     ...mapState({
       isTipPinned({ pinnedItems }) {
         return pinnedItems.some(({ id }) => id === this.tip.id);
@@ -226,7 +226,7 @@ export default {
     async claim() {
       await Backend.claimFromUrl({
         url: this.tip.url,
-        address: this.account,
+        address: this.address,
       });
     },
     async pinOrUnPinTip() {
@@ -259,22 +259,6 @@ export default {
 
     &:hover {
       cursor: pointer;
-    }
-
-    .ae-amount {
-      color: $standard_font_color;
-      font-size: 0.8rem;
-    }
-
-    .ae-amount-fiat {
-      align-items: center;
-    }
-
-    .currency-value {
-      color: $light_font_color;
-      margin-left: 0.1rem;
-      font-size: 0.7rem;
-      flex-shrink: 0;
     }
   }
 
@@ -317,15 +301,8 @@ export default {
       word-break: break-all;
     }
 
-    img.user-identicon,
-    img.preview__image,
-    svg {
-      border-radius: 50%;
-      flex-shrink: 0;
-      height: 2rem;
+    .avatar {
       margin-right: 0.25rem;
-      object-fit: cover;
-      width: 2rem;
     }
 
     a {

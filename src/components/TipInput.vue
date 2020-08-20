@@ -8,16 +8,18 @@
       @click="useSdkWallet && (showModal = true)"
     >
       <img :src="iconTip">
-      <AeAmountFiat
-        v-if="!userAddress && !isTokenAndZeroAeTip"
-        :amount="tip ? tipUrlStats.amount_ae || tip.total_amount_ae : '0'"
-      />
-      <AeAmountFiat
-        v-for="tokenTip in tipUrlStats.token_total_amount || tip.token_total_amount"
-        :key="tokenTip.token"
-        :amount="tokenTip.amount"
-        :token="tokenTip.token"
-      />
+      <template v-if="!userAddress">
+        <AeAmountFiat
+          v-if="!isTokenAndZeroAeTip"
+          :amount="tip ? tipUrlStats.amount_ae || tip.total_amount_ae : '0'"
+        />
+        <AeAmountFiat
+          v-for="tokenTip in tipUrlStats.token_total_amount || tip.token_total_amount"
+          :key="tokenTip.token"
+          :amount="tokenTip.amount"
+          :token="tokenTip.token"
+        />
+      </template>
     </Component>
     <Modal
       v-if="showModal && tip.url"
@@ -60,7 +62,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { retip, tip } from '@/utils/aeternity';
 import { EventBus } from '@/utils/eventBus';
 import BigNumber from 'bignumber.js';
@@ -98,13 +100,14 @@ export default {
     message: '',
   }),
   computed: {
-    ...mapState(['useSdkWallet', 'account', 'minTipAmount', 'tokenInfo']),
+    ...mapGetters('backend', ['minTipAmount']),
+    ...mapState(['useSdkWallet', 'address', 'tokenInfo']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
         const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);
         if (!urlStats) return {};
         return {
-          isTipped: urlStats.senders.includes(this.account),
+          isTipped: urlStats.senders.includes(this.address),
           amount_ae: urlStats.total_amount_ae,
           token_total_amount: urlStats.token_total_amount,
         };
@@ -199,9 +202,19 @@ export default {
     }
 
     .ae-amount-fiat {
-      display: inline-flex;
       vertical-align: middle;
-      margin-left: 0.2rem;
+      padding-left: 0.2rem;
+
+      ::v-deep {
+        .ae-amount {
+          font-size: 0.8rem;
+        }
+
+        .fiat-value {
+          font-size: 0.7rem;
+          vertical-align: 0.05rem;
+        }
+      }
     }
   }
 

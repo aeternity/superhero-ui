@@ -17,13 +17,13 @@
       :src="walletUrl"
     />
     <template v-else-if="isLoggedIn">
-      <div class="account">
-        {{ account }}
+      <div class="address">
+        {{ address }}
       </div>
       <div class="not-bootstrap-row">
         <AeAmount :amount="balance" />
         <Dropdown
-          v-if="currencyDropdownOptions"
+          v-if="currencyDropdownOptions.length"
           :options="currencyDropdownOptions"
           :method="updateCurrency"
           :selected="selectedCurrency"
@@ -57,14 +57,12 @@ export default {
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['balance', 'account', 'useIframeWallet', 'tokenBalances']),
+    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency', 'tokenBalances']),
     ...mapState({
-      selectedCurrency: ({ settings }) => settings.currency,
-      currencyDropdownOptions({ currencyRates: { aeternity } = {}, balance }) {
-        if (!aeternity || !balance) return null;
-        return Object.keys(aeternity).map((currency) => ({
+      currencyDropdownOptions({ backend: { prices }, balance }) {
+        return Object.entries(prices).map(([currency, price]) => ({
           text: [
-            new BigNumber(balance).multipliedBy(aeternity[currency]).toFixed(2),
+            new BigNumber(balance).multipliedBy(price).toFixed(2),
             currency.toUpperCase(),
           ].join(' '),
           value: currency,
@@ -101,7 +99,7 @@ export default {
     }
   }
 
-  .account {
+  .address {
     color: $light_font_color;
     font-size: 0.52rem;
     position: relative;
@@ -115,11 +113,6 @@ export default {
     .ae-amount {
       flex-grow: 1;
       font-size: 1.3rem;
-      color: $standard_font_color;
-
-      .ae {
-        color: $secondary_color;
-      }
     }
   }
 }

@@ -1,42 +1,41 @@
 <template>
-  <Page back>
-    <div class="url__page">
-      <div
-        v-if="tip"
-        class="tipped__url"
-      >
-        <TipRecord :tip="tip" />
-      </div>
-      <div
-        v-if="tip"
-        class="comment__section"
-      >
-        <p class="latest__comments">
-          {{ $t('views.TipCommentsView.LatestReplies') }}
-        </p>
-        <SendComment :tip-id="tip.id" />
-      </div>
-      <div class="comments__section">
-        <Loading
-          v-if="showLoading"
-          :above-content="!!(tip && tip.comments.length)"
-        />
-        <template v-if="tip">
-          <div
-            v-if="tip.comments.length === 0 && !showLoading"
-            class="no-results text-center w-100"
-            :class="[error ? 'error' : '']"
-          >
-            {{ $t('views.TipCommentsView.NoResultsMsg') }}
-          </div>
+  <div class="url__page">
+    <BackButtonRibbon />
+    <div
+      v-if="tip"
+      class="tipped__url"
+    >
+      <TipRecord :tip="tip" />
+    </div>
+    <div
+      v-if="tip"
+      class="comment__section"
+    >
+      <p class="latest__comments">
+        {{ $t('views.TipCommentsView.LatestReplies') }}
+      </p>
+      <SendComment :tip-id="tip.id" />
+    </div>
+    <div class="comments__section">
+      <Loading
+        v-if="showLoading"
+        :above-content="!!(tip && tip.comments.length)"
+      />
+      <template v-if="tip">
+        <div
+          v-if="tip.comments.length === 0 && !showLoading"
+          class="no-results text-center w-100"
+          :class="[error ? 'error' : '']"
+        >
+          {{ $t('views.TipCommentsView.NoResultsMsg') }}
+        </div>
 
-          <TipCommentList
-            v-for="(comment, index) in tip.comments"
-            :key="index"
-            :comment="comment"
-          />
-        </template>
-      </div>
+        <TipCommentList
+          v-for="(comment, index) in tip.comments"
+          :key="index"
+          :comment="comment"
+        />
+      </template>
     </div>
     <SuccessModal
       v-if="showSuccessModal"
@@ -44,13 +43,13 @@
       :body="$t('components.tipRecords.TipRecord.reportPostBody')"
       @close="showSuccessModal = false"
     />
-  </Page>
+  </div>
 </template>
 
 <script>
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipCommentList from '../components/tipRecords/TipCommentList.vue';
-import Page from '../components/layout/Page.vue';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import Loading from '../components/Loading.vue';
 import { EventBus } from '../utils/eventBus';
 import backendAuthMixin from '../utils/backendAuthMixin';
@@ -62,7 +61,7 @@ export default {
     Loading,
     TipRecord,
     TipCommentList,
-    Page,
+    BackButtonRibbon,
     SendComment,
     SuccessModal,
   },
@@ -124,13 +123,6 @@ export default {
 .comment__page {
   color: $light_font_color;
   font-size: 0.75rem;
-
-  .avatar,
-  .user-identicon svg {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-  }
 
   .tipped__url .tip__record {
     margin-bottom: 0;

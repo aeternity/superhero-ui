@@ -1,22 +1,10 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <img
-    v-if="!error && profileImageUrl"
-    class="author_img user-identicon"
-    :src="profileImageUrl"
+    class="avatar"
+    :src="error ? profileIdenticonUrl : profileImageUrl"
     loading="lazy"
     @error="error = true"
   >
-  <img
-    v-else-if="avatar.type === 'avatar'"
-    class="author_img user-identicon"
-    :src="avatar.src"
-  >
-  <div
-    v-else-if="avatar.type === 'identicon'"
-    class="author_img user-identicon"
-    v-html="avatar.src"
-  />
 </template>
 
 <script>
@@ -27,41 +15,27 @@ import sprites from '@dicebear/avatars-avataaars-sprites';
 import Backend from '../utils/backend';
 import { IDENTICON_CONFIG, AVATAR_CONFIG } from '../utils/util';
 
+jdenticon.config = IDENTICON_CONFIG;
+
 export default {
   props: {
-    address: {
-      type: [String, Object],
-      default: null,
-    },
+    address: { type: String, required: true },
   },
   data: () => ({
     error: false,
   }),
-  computed: {
-    ...mapState(['chainNames']),
-    avatar() {
-      if (this.chainNames[this.address]) {
-        const avatars = new Avatars(sprites, AVATAR_CONFIG);
-        return {
-          type: 'avatar',
-          src: avatars.create(this.chainNames[this.address]),
-        };
-      }
-
-      jdenticon.config = IDENTICON_CONFIG;
-      return {
-        type: 'identicon',
-        src: jdenticon.toSvg(this.address, 32),
-      };
+  computed: mapState({
+    profileIdenticonUrl({ chainNames }) {
+      const name = chainNames[this.address];
+      return name
+        ? new Avatars(sprites, AVATAR_CONFIG).create(name)
+        : `data:image/svg+xml;base64,${btoa(jdenticon.toSvg(this.address, 32))}`;
     },
-    profileImageUrl() {
-      const imageSignature = this.$store.state.account === this.address && this.$store.state.profile
-        ? this.$store.state.profile.signature
-        : '';
-      const key = imageSignature && imageSignature.slice(0, 5);
-      return `${Backend.getProfileImageUrl(this.address)}?${key}`;
+    profileImageUrl({ address, profile }) {
+      const key = address === this.address && profile?.signature?.slice(0, 5);
+      return `${Backend.getProfileImageUrl(this.address)}?${key || ''}`;
     },
-  },
+  }),
   watch: {
     profileImageUrl() {
       this.error = false;
@@ -70,8 +44,14 @@ export default {
 };
 </script>
 
-<style>
-.user-identicon {
+<style lang="scss" scoped>
+.avatar {
   display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  overflow: hidden;
+  object-fit: cover;
 }
 </style>

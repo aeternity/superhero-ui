@@ -59,7 +59,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import { tip, tipToken } from '@/utils/aeternity';
+import { tip } from '@/utils/aeternity';
 import { EventBus } from '@/utils/eventBus';
 import AeInputAmount from '../../AeInputAmount.vue';
 import util, { createDeepLinkUrl } from '../../../utils/util';
@@ -109,14 +109,10 @@ export default {
   methods: {
     async sendTip() {
       this.sendingTip = true;
-      // TODO differentiate between AE or token tip
-      const isTokenTip = this.inputToken !== 'native';
-      const amount = util.shiftDecimalPlaces(this.sendTipForm.amount,
-        isTokenTip ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
+      const amount = util.shiftDecimalPlaces(this.inputValue,
+        this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
-      (isTokenTip
-        ? tipToken(this.sendTipForm.url, this.sendTipForm.title, amount, this.inputToken)
-        : tip(this.sendTipForm.url, this.sendTipForm.title, amount))
+      tip(this.sendTipForm.url, this.sendTipForm.title, amount, this.inputToken)
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();

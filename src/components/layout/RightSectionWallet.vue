@@ -27,18 +27,17 @@
           :options="currencyDropdownOptions"
           :method="updateCurrency"
           :selected="selectedCurrency"
-          :rounded="true"
+          rounded
         />
       </div>
-      <div
+
+      <AeAmount
         v-for="tokenBalance in tokenBalances"
         :key="tokenBalance.token"
-      >
-        <AeAmount
-          :amount="tokenBalance.balance"
-          :token="tokenBalance.token"
-        />
-      </div>
+        class="not-bootstrap-row"
+        :amount="tokenBalance.balance"
+        :token="tokenBalance.token"
+      />
     </template>
   </div>
 </template>

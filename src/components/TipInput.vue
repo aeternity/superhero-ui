@@ -8,7 +8,6 @@
       @click="useSdkWallet && (showModal = true)"
     >
       <img :src="iconTip">
-<<<<<<< HEAD
       <template v-if="!userAddress">
         <AeAmountFiat
           v-if="!isTokenAndZeroAeTip"
@@ -21,20 +20,6 @@
           :token="tokenTip.token"
         />
       </template>
-=======
-      <AeAmountFiat
-        v-if="!userAddress && !isTokenAndZeroAeTip"
-        :amount="tip ? tipUrlStats.amount_ae || tip.total_amount_ae : '0'"
-        class="amount"
-      />
-      <AeAmountFiat
-        v-for="tokenTip in tipUrlStats.token_total_amount || tip.token_total_amount"
-        :key="tokenTip.token"
-        :amount="tokenTip.amount"
-        :token="tokenTip.token"
-        class="amount"
-      />
->>>>>>> fix direct tip amount display
     </Component>
     <Modal
       v-if="showModal && tip.url"
@@ -76,9 +61,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import {
-  retip, tip, tipToken, retipToken,
-} from '@/utils/aeternity';
+import { retip, tip } from '@/utils/aeternity';
 import { EventBus } from '@/utils/eventBus';
 import BigNumber from 'bignumber.js';
 import iconTip from '../assets/iconTip.svg';
@@ -168,17 +151,13 @@ export default {
       if (!this.isValid) return;
       this.showLoading = true;
       try {
-        const isTokenTip = this.inputToken !== 'native';
         const amount = util.shiftDecimalPlaces(this.inputValue,
-          isTokenTip ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
+          this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
         if (this.tipUrl !== this.tip.url) {
-          if (isTokenTip) await tipToken(this.tipUrl, this.message, amount, this.inputToken);
-          else await tip(this.tipUrl, this.message, amount);
+          await tip(this.tipUrl, this.message, amount, this.inputToken);
         } else {
-          // eslint-disable-next-line no-lonely-if
-          if (isTokenTip) await retipToken(this.tip.id, amount, this.inputToken);
-          else await retip(this.tip.contractId, this.tip.id, amount);
+          await retip(this.tip.contractId, this.tip.id, amount, this.inputToken);
         }
 
         if (!this.userAddress) {

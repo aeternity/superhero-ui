@@ -2,7 +2,7 @@
   <div class="dropdown">
     <div
       class="display"
-      :class="rounded ? 'rounded' : ''"
+      :class="{ rounded }"
     >
       <div
         class="text-ellipsis"
@@ -33,7 +33,7 @@ export default {
     options: { type: Array, default: null },
     selected: { type: String, default: '' },
     method: { type: Function, required: true },
-    rounded: { type: Boolean },
+    rounded: Boolean,
   },
   data() {
     return {

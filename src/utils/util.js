@@ -3,10 +3,11 @@ import BigNumber from 'bignumber.js';
 import { EventBus } from './eventBus';
 import i18n from './i18nHelper';
 
-const shiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(decimals);
-const unshiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(-decimals);
+export const topicsRegex = /(#[a-zA-Z]+\b)(?!;)/g;
 
-const atomsToAe = (atoms) => unshiftDecimalPlaces(atoms, 18);
+const shiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(decimals);
+
+const atomsToAe = (atoms) => shiftDecimalPlaces(atoms, -18);
 const aeToAtoms = (ae) => shiftDecimalPlaces(ae, 18);
 
 export const wrapTry = async (promise) => {
@@ -105,26 +106,10 @@ export const getI18nPath = (index, page) => (isTitle(index, page)
   ? `views.${page}.sections[${index}].title`
   : `views.${page}.sections[${index}].text`);
 
-// eslint-disable-next-line no-extend-native, func-names
-Array.prototype.asyncMap = async function (asyncF) {
-  return this.reduce(async (promiseAcc, cur) => {
-    const acc = await promiseAcc;
-    const res = await asyncF(cur).catch((e) => {
-      console.error('asyncMap asyncF', e.message);
-      return null;
-    });
-    if (Array.isArray(res)) {
-      return acc.concat(res);
-    }
-    if (res) acc.push(res);
-    return acc;
-  }, Promise.resolve([]));
-};
-
 export default {
+  topicsRegex,
   atomsToAe,
   shiftDecimalPlaces,
-  unshiftDecimalPlaces,
   aeToAtoms,
   wrapTry,
   currencySigns,

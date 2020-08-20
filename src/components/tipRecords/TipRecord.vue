@@ -110,7 +110,7 @@
             :src="tipPreviewImage"
             :onerror="`this.className+=' fail'`"
             :loading="`lazy`"
-            class="author_img preview__image"
+            class="preview__image"
           >
         </div>
       </div>
@@ -132,23 +132,13 @@
           :title="tip.receiver"
           @click.stop
         >
-          <TipInput
-            is-retip
-            :tip="tip"
-          />
-          <router-link :to="'/user-profile/' + tip.receiver">
+          <TipInput :tip="tip" />
+          <router-link :to="{ name: 'user-profile', params: { address: tip.receiver } }">
             <Avatar :address="tip.receiver" />
             <div class="tip__author_name">
-              <span
-                v-if="tip.chainName"
-                class="chain__name"
-              >
+              <span class="chain__name">
                 {{ tip.chainName }}
               </span>
-              <span
-                v-else
-                class="chain__name"
-              />
               <span class="address">{{ tip.receiver }}</span>
             </div>
           </router-link>
@@ -327,7 +317,8 @@ export default {
       word-break: break-all;
     }
 
-    img.author_img,
+    img.user-identicon,
+    img.preview__image,
     svg {
       border-radius: 50%;
       flex-shrink: 0;

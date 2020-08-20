@@ -64,7 +64,7 @@ export default {
     ...mapMutations([
       'setLoggedInAccount', 'updateTopics', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalances',
+      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
       'setPinnedItems',
     ]),
     async reloadData() {
@@ -130,20 +130,13 @@ export default {
       // trigger run async in background
       this.loadTokenBalances(address);
 
-      // trigger run async in background
-      Backend.getPinnedItems(this.account).then((pinnedItems) => {
-        this.$store.commit('setPinnedItems', pinnedItems);
-      }).catch(console.error);
-
       this.fetchUserData();
       this.removeLoading('wallet');
     },
-    loadTokenBalances(address) {
-      Backend.getTokenBalances(address).then(async (tokens) => {
-        await Object.entries(tokens)
-          .asyncMap(async ([token]) => this
-            .addTokenBalances({ token, balance: await tokenBalance(token, address) }));
-      }).catch(console.error);
+    async loadTokenBalances(address) {
+      const tokens = await Backend.getTokenBalances(address);
+      await Promise.all(Object.entries(tokens).map(async ([token]) => this
+        .addTokenBalance({ token, balance: await tokenBalance(token, address) })));
     },
   },
 };

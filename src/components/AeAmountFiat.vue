@@ -22,7 +22,7 @@ export default {
     AeAmount,
   },
   props: {
-    token: { type: String, required: false, default: null },
+    token: { type: String, default: null },
   },
 };
 </script>

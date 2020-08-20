@@ -15,8 +15,8 @@
       @input="$emit('input', $event.target.value)"
     >
     <div
-      class="input-group-append"
       v-if="!notTokenTipable"
+      class="input-group-append"
     >
       <Dropdown
         :options="selectTokenOptions"
@@ -62,12 +62,12 @@ export default {
   data: () => ({
     selectedToken: 'native',
   }),
-  computed: {
-    ...mapState(['tokenBalances', 'tokenInfo']),
-    selectTokenOptions() {
-      return [{ text: 'AE', value: 'native' }].concat(this.tokenBalances.map((tokenBalance) => ({ text: this.tokenInfo[tokenBalance.token].symbol, value: tokenBalance.token })));
-    },
-  },
+  computed: mapState({
+    selectTokenOptions: ({ tokenBalances, tokenInfo }) => [
+      { text: 'AE', value: 'native' },
+      ...tokenBalances.map(({ token }) => ({ text: tokenInfo[token].symbol, value: token })),
+    ],
+  }),
   methods: {
     selectToken(selected) {
       this.selectedToken = selected;

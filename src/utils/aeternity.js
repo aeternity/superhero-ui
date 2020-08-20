@@ -104,8 +104,8 @@ export const tokenBalance = async (token, address) => {
   const tokenContract = await client
     .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token });
 
-  return tokenContract.methods.balance(address)
-    .then((r) => new BigNumber(r.decodedResult ? r.decodedResult : 0).toFixed());
+  const { decodedResult } = await tokenContract.methods.balance(address);
+  return new BigNumber(decodedResult || 0).toFixed();
 };
 
 const createOrChangeAllowance = async (tokenAddress, amount) => {
@@ -128,20 +128,25 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
 };
 
 // will always tip to the latest contract
-export const tip = async (url, title, amount) => {
+export const tip = async (url, title, amount, tokenAddress = null) => {
   await initTippingContractIfNeeded();
+
+  if (tokenAddress && tokenAddress !== 'native') {
+    await createOrChangeAllowance(tokenAddress, amount);
+    return contractV2.methods.tip_token(url, title, tokenAddress, amount);
+  }
+
   return contractV2.methods.tip(url, title, { amount });
 };
 
-export const tipToken = async (url, title, amount, tokenAddress) => {
+export const retip = async (contractAddress, id, amount, tokenAddress = null) => {
   await initTippingContractIfNeeded();
-  await createOrChangeAllowance(tokenAddress, amount);
 
-  return contractV2.methods.tip_token(url, title, tokenAddress, amount);
-};
+  if (tokenAddress && tokenAddress !== 'native') {
+    await createOrChangeAllowance(tokenAddress, amount);
+    return contractV2.methods.retip_token(Number(id.split('_')[0]), tokenAddress, amount);
+  }
 
-export const retip = async (contractAddress, id, amount) => {
-  await initTippingContractIfNeeded();
   if (contractAddress === contractV1Address) {
     return contractV1.methods.retip(Number(id.split('_')[0]), { amount });
   }
@@ -151,11 +156,4 @@ export const retip = async (contractAddress, id, amount) => {
   }
 
   return null;
-};
-
-export const retipToken = async (id, amount, tokenAddress) => {
-  await initTippingContractIfNeeded();
-  await createOrChangeAllowance(tokenAddress, amount);
-
-  return contractV2.methods.retip_token(Number(id.split('_')[0]), tokenAddress, amount);
 };

@@ -109,7 +109,7 @@ export default {
   methods: {
     async sendTip() {
       this.sendingTip = true;
-      const amount = util.shiftDecimalPlaces(this.inputValue,
+      const amount = util.shiftDecimalPlaces(this.sendTipForm.amount,
         this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
       tip(this.sendTipForm.url, this.sendTipForm.title, amount, this.inputToken)

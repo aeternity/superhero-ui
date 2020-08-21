@@ -180,6 +180,7 @@ export default {
       this.message = '';
       this.inputValue = 0;
       this.error = false;
+      this.inputToken = 'native';
     },
   },
 };

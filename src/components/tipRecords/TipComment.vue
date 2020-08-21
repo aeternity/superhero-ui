@@ -4,9 +4,7 @@
     @click="goToCommentPage(comment.tipId, comment.id)"
   >
     <div class="tip__body">
-      <div
-        class="clearfix"
-      >
+      <div class="clearfix">
         <div
           class="tip__author"
           :title="comment.author"
@@ -45,14 +43,10 @@
               </span>
             </router-link>
           </span>
-          <span
+          <FormatDate
             class="tip__date"
-            @click.stop
-          >
-            <FormatDate
-              :date-timestamp="formatDate"
-            />
-          </span>
+            :date-timestamp="new Date(comment.createdAt)"
+          />
         </div>
       </div>
       <div
@@ -98,9 +92,6 @@ export default {
     userChainName() {
       return this.chainNames[this.comment.author];
     },
-    formatDate() {
-      return new Date(this.comment.createdAt);
-    },
     childComments() {
       if (this.comment && this.comment.children) {
         return this.comment.children.length;
@@ -124,6 +115,7 @@ export default {
 
 <style lang="scss" scoped>
 .comment.tip__record {
+  margin: 0 0 0.15rem 0;
   padding-bottom: 0;
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
@@ -151,7 +143,6 @@ export default {
   justify-content: space-between;
 
   .tip__date {
-    display: flex;
     font-size: 0.6rem;
     text-align: right;
   }
@@ -198,14 +189,6 @@ export default {
   .chain__name {
     color: #fff;
   }
-
-  .tip__author_name {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    width: 100%;
-  }
 }
 
 .comment__actions {
@@ -226,10 +209,6 @@ export default {
   > * {
     vertical-align: middle;
   }
-}
-
-.three-dots {
-  display: inline-block;
 }
 
 @include smallest {

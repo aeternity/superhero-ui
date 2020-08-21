@@ -121,7 +121,7 @@ export default {
       this.sendingTip = true;
       this.resetStatuses();
 
-      const amount = util.shiftDecimalPlaces(this.inputValue,
+      const amount = util.shiftDecimalPlaces(this.sendTipForm.amount,
         this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
       tip(this.sendTipForm.url, this.sendTipForm.title, amount, this.inputToken)

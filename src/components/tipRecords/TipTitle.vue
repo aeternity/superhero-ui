@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .title {
     display: inline;
 
@@ -54,5 +54,4 @@ export default {
       color: $custom_links_color;
     }
   }
-
 </style>

@@ -166,7 +166,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .tip__post {
     background-color: $actions_ribbon_background_color;
     max-height: 400px;

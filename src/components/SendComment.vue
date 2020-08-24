@@ -24,7 +24,7 @@ import Backend from '../utils/backend';
 export default {
   components: { MessageInput },
   props: {
-    tipId: { type: [String, String], required: true },
+    tipId: { type: String, required: true },
     parentId: { type: [Number, String], default: undefined },
   },
   data: () => ({

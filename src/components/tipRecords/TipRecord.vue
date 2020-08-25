@@ -115,7 +115,7 @@
         </div>
       </div>
       <div v-else>
-        <div v-if="tip.url">
+        <template v-if="tip.url">
           <a
             :href="tip.url"
             :title="tip.url"
@@ -125,7 +125,7 @@
           >
             {{ tip.url }}
           </a>
-        </div>
+        </template>
         <div
           v-if="tip.receiver"
           class="tip__author"

@@ -112,19 +112,20 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
   const tokenContract = await client
     .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
 
-  await tokenContract.methods.allowance({
+  const { decodedResult } = await tokenContract.methods.allowance({
     from_account: await client.address(),
     for_account: contractV2Address.replace('ct_', 'ak_'),
-  }).then((r) => {
-    if (r.decodedResult !== undefined) {
-      const allowanceAmount = new BigNumber(r.decodedResult)
-        .multipliedBy(-1).plus(amount).toNumber();
-
-      return tokenContract.methods.change_allowance(contractV2Address.replace('ct_', 'ak_'), allowanceAmount);
-    }
-
-    return tokenContract.methods.create_allowance(contractV2Address.replace('ct_', 'ak_'), amount);
   });
+
+  const allowanceAmount = decodedResult !== undefined
+    ? new BigNumber(decodedResult).multipliedBy(-1).plus(amount).toNumber()
+    : amount;
+
+  return tokenContract
+    .methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
+      contractV2Address.replace('ct_', 'ak_'),
+      allowanceAmount,
+    );
 };
 
 // will always tip to the latest contract

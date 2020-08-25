@@ -83,13 +83,10 @@
           >
         </div>
       </div>
-      <div
-        v-else
-        class="tip__article"
-      >
-        <div class="tip__article__content">
-          <div
-            class="site__url"
+      <div v-else>
+        <template v-if="tip.url">
+          <a
+            :href="tip.url"
             :title="tip.url"
           >
             <a
@@ -108,6 +105,15 @@
             :title="tip.receiver"
             @click.stop
           >
+            {{ tip.url }}
+          </a>
+        </template>
+        <div
+          v-if="tip.receiver"
+          class="tip__author"
+          :title="tip.receiver"
+          @click.stop
+        >
           <TipInput :tip="tip" />
           <router-link :to="{ name: 'user-profile', params: { address: tip.receiver } }">
             <Avatar :address="tip.receiver" />

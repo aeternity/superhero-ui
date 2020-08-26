@@ -95,14 +95,15 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .comment__page .tipped__url {
-  .tip__record.row {
-    background-color: $light_color;
+  .tip-comment.row {
+    background-color: $thumbnail_background_color;
     border-radius: 0;
+    margin-bottom: 0;
   }
 
-  .comment .tip__body .tip__note {
+  .tip-comment .body .note {
     overflow: visible;
     display: block;
   }

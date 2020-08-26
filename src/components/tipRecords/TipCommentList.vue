@@ -53,7 +53,7 @@ export default {
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
 
-  .tip__record.comment {
+  .tip-comment {
     margin-bottom: 0;
   }
 }

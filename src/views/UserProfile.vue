@@ -400,7 +400,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 input[type="file"] {
   display: none;
 }
@@ -551,7 +551,7 @@ input[type="file"] {
     font-size: 0.7rem;
     display: flex;
 
-    .ae-amount {
+    ::v-deep .ae-amount {
       margin-left: 0.2rem;
     }
 

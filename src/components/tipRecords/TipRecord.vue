@@ -216,7 +216,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .tip__record {
     background-color: $light_color;
     margin: 0 0 0.15rem 0;
@@ -245,7 +245,7 @@ export default {
     margin-bottom: 0.8rem;
     padding-left: 1rem;
 
-    .title .topic {
+    ::v-deep .title .topic {
       color: $standard_font_color;
 
       &:hover {

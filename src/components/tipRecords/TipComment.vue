@@ -1,21 +1,21 @@
 <template>
   <div
-    class="tip__record row position-relative comment"
+    class="row position-relative tip-comment"
     @click="goToCommentPage(comment.tipId, comment.id)"
   >
-    <div class="tip__body">
+    <div class="body">
       <AuthorAndDate
         :date-timestamp="new Date(comment.createdAt)"
         :address="comment.author"
         :name="userChainName || comment.chainName"
       />
       <div
-        class="tip__note"
+        class="note"
         :title="comment.text"
       >
         {{ comment.text }}
       </div>
-      <div class="comment__actions">
+      <div class="actions">
         <span @click.stop>
           <TipInput :comment="comment" />
         </span>
@@ -72,68 +72,77 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.comment.tip__record {
-  margin: 0 0 0.15rem 0;
+.tip-comment {
+  margin: 0 0 0.5rem 0;
   padding-bottom: 0;
-  margin-bottom: 0.5rem;
   border-radius: 0.5rem;
   background-color: $light_color;
 
-  .tip__body .tip__note {
-    padding: 0.35rem 1rem 0.25rem 1rem;
-    color: $comment_text_color;
-    height: initial;
-    font-size: 0.7rem;
-    font-weight: 400;
-    margin: 0;
+  &:hover {
+    cursor: pointer;
   }
 
-  .author-and-date {
-    padding-bottom: 0;
+  .body {
+    padding-top: 1rem;
+    width: 100%;
 
-    ::v-deep .address {
-      font-size: 0.6rem;
+    .author-and-date {
+      padding-bottom: 0;
+
+      ::v-deep .address {
+        font-size: 0.6rem;
+      }
     }
-  }
-}
 
-.comment__actions {
-  padding: 0.25rem 1rem 1rem 1rem;
-  color: $standard_font_color;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
+    .note {
+      padding: 0.35rem 1rem 0.25rem 1rem;
+      line-height: 1.1rem;
+      color: $comment_text_color;
+      height: initial;
+      font-size: 0.7rem;
+      font-weight: 400;
+      margin: 0;
+    }
 
-  img {
-    height: 0.7rem;
-  }
-}
+    .actions {
+      padding: 0.25rem 1rem 1rem 1rem;
+      color: $standard_font_color;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
 
-.comments {
-  margin-left: 3rem;
+      img {
+        height: 0.7rem;
+      }
+    }
 
-  > * {
-    vertical-align: middle;
+    .comments {
+      margin-left: 3rem;
+
+      > * {
+        vertical-align: middle;
+      }
+    }
   }
 }
 
 @include smallest {
-  .comment.tip__record {
+  .tip-comment {
     padding: 0.5rem;
 
-    .tip__body {
+    .body {
       padding-left: 0;
 
-      .tip__note {
+      .note {
         margin-top: 0.25rem;
         margin-bottom: 0;
         padding: 0;
       }
-    }
 
-    .comment__actions {
-      padding-left: 0;
-      padding-top: 0.5rem;
+      .actions {
+        padding-left: 0;
+        padding-top: 0.5rem;
+      }
     }
   }
 }

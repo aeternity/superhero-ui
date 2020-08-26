@@ -1,39 +1,46 @@
 <template>
-  <div class="url__page">
+  <div class="tips-and-comments">
     <BackButtonRibbon />
     <div
-      v-if="tip"
+      v-if="record"
       class="tipped__url"
     >
-      <TipRecord :tip="tip" />
+      <Component
+        :is="id ? 'TipComment' : 'TipRecord'"
+        v-bind="{ [id ? 'comment' : 'tip']: record }"
+      />
     </div>
     <div
-      v-if="tip"
+      v-if="record"
       class="comment__section"
     >
       <p class="latest__comments">
         {{ $t('views.TipCommentsView.LatestReplies') }}
       </p>
-      <SendComment :tip-id="tip.id" />
+      <SendComment
+        :tip-id="tipId"
+        :parent-id="id"
+      />
     </div>
     <div class="comments__section">
       <Loading
         v-if="showLoading"
-        :above-content="!!(tip && tip.comments.length)"
+        :above-content="!!(record && nestedComments.length)"
       />
-      <template v-if="tip">
+      <template v-if="record">
         <div
-          v-if="tip.comments.length === 0 && !showLoading"
+          v-if="nestedComments.length === 0 && !showLoading"
           class="no-results text-center w-100"
           :class="[error ? 'error' : '']"
         >
           {{ $t('views.TipCommentsView.NoResultsMsg') }}
         </div>
 
-        <TipCommentList
-          v-for="(comment, index) in tip.comments"
+        <Component
+          :is="id ? 'TipComment' : 'TipCommentList'"
+          v-for="(nestedComment, index) in nestedComments"
           :key="index"
-          :comment="comment"
+          :comment="nestedComment"
         />
       </template>
     </div>
@@ -47,6 +54,7 @@
 </template>
 
 <script>
+import TipComment from '../components/tipRecords/TipComment.vue';
 import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipCommentList from '../components/tipRecords/TipCommentList.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
@@ -64,10 +72,12 @@ export default {
     BackButtonRibbon,
     SendComment,
     SuccessModal,
+    TipComment,
   },
   mixins: [backendAuthMixin()],
   props: {
-    id: { type: [String, Number], required: true },
+    id: { type: [String, Number], default: '' },
+    tipId: { type: [String, Number], required: true },
   },
   data: () => ({
     showLoading: false,
@@ -75,12 +85,17 @@ export default {
     showSuccessModal: false,
   }),
   computed: {
-    tip() {
-      return this.$store.state.backend.tip[this.id];
+    record() {
+      return this.id
+        ? this.$store.state.backend.comment[this.id]
+        : this.$store.state.backend.tip[this.tipId];
+    },
+    nestedComments() {
+      return this.id ? this.record.children : this.record.comments;
     },
   },
   async mounted() {
-    const handler = () => this.reloadTip();
+    const handler = () => this.reloadData();
     this.$watch(({ id }) => id, handler, { immediate: true });
     EventBus.$on('reloadData', handler);
     const interval = setInterval(handler, 120 * 1000);
@@ -103,10 +118,11 @@ export default {
         default:
       }
     },
-    async reloadTip() {
+    async reloadData() {
       this.showLoading = true;
       try {
-        await this.$store.dispatch('backend/reloadTip', this.id);
+        await this.$store.dispatch(this.id
+          ? 'backend/reloadComment' : 'backend/reloadTip', this.id || this.tipId);
       } catch (error) {
         this.error = true;
         throw error;
@@ -118,21 +134,32 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.url__page,
-.comment__page {
+<style lang="scss" scoped>
+.tips-and-comments {
   color: $light_font_color;
   font-size: 0.75rem;
 
-  .tipped__url .tip__record {
-    margin-bottom: 0;
+  .tipped__url {
+    .tip__record {
+      margin-bottom: 0;
 
-    &.row {
+      &.row {
+        background-color: $thumbnail_background_color;
+      }
+    }
+
+    .tip-comment.row {
       background-color: $thumbnail_background_color;
+      border-radius: 0;
+      margin-bottom: 0;
+
+      ::v-deep .body .note {
+        overflow: visible;
+      }
     }
   }
 
-  .tip__article {
+  .tipped__url .tip__record.row ::v-deep .tip__body .tip__article {
     background-color: $thumbnail_background_color_alt;
 
     .preview__image {

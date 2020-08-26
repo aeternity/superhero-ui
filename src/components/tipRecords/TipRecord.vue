@@ -179,7 +179,7 @@ export default {
       return this.isPreviewToBeVisualized(this.tip) && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
     toTip() {
-      return { name: 'tip', params: { id: this.tip.id } };
+      return { name: 'tip', params: { tipId: this.tip.id } };
     },
   },
   methods: {

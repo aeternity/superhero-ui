@@ -4,51 +4,11 @@
     @click="goToCommentPage(comment.tipId, comment.id)"
   >
     <div class="tip__body">
-      <div class="clearfix">
-        <div
-          class="tip__author"
-          :title="comment.author"
-        >
-          <span
-            class="user-display"
-            @click.stop
-          >
-            <router-link
-              :to="{
-                name: 'user-profile',
-                params: {
-                  address: comment.author,
-                },
-              }"
-            >
-              <Avatar :address="comment.author" />
-              <span
-                v-if="userChainName"
-                class="chain__name"
-              >
-                {{ userChainName }}
-              </span>
-              <span
-                v-else-if="comment.chainName"
-                class="chain__name"
-              >
-                {{ comment.chainName }}
-              </span>
-              <span
-                v-else
-                :address="comment.author"
-                class="address"
-              >
-                {{ comment.author }}
-              </span>
-            </router-link>
-          </span>
-          <FormatDate
-            class="tip__date"
-            :date-timestamp="new Date(comment.createdAt)"
-          />
-        </div>
-      </div>
+      <AuthorAndDate
+        :date-timestamp="new Date(comment.createdAt)"
+        :address="comment.author"
+        :name="userChainName || comment.chainName"
+      />
       <div
         class="tip__note"
         :title="comment.text"
@@ -73,16 +33,14 @@
 
 <script>
 import { mapState } from 'vuex';
-import FormatDate from './FormatDate.vue';
-import Avatar from '../Avatar.vue';
 import TipInput from '../TipInput.vue';
+import AuthorAndDate from './AuthorAndDate.vue';
 
 export default {
   name: 'TipComment',
   components: {
-    FormatDate,
-    Avatar,
     TipInput,
+    AuthorAndDate,
   },
   props: {
     comment: { type: Object, required: true },
@@ -130,64 +88,12 @@ export default {
     margin: 0;
   }
 
-  .tip__author {
+  .author-and-date {
     padding-bottom: 0;
-  }
-}
 
-.tip__author {
-  align-items: center;
-  color: $light_font_color;
-  display: flex;
-  font-size: 0.8rem;
-  justify-content: space-between;
-
-  .tip__date {
-    font-size: 0.6rem;
-    text-align: right;
-  }
-
-  .user-display {
-    max-width: 85%;
-  }
-
-  .address {
-    font-size: 0.6rem;
-  }
-
-  .address,
-  .chain__name {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-    word-break: break-all;
-  }
-
-  img {
-    border-radius: 50%;
-    flex-shrink: 0;
-    height: 2rem;
-    margin-right: 0.25rem;
-    object-fit: cover;
-    width: 2rem;
-  }
-
-  a {
-    align-items: center;
-    color: $light_font_color;
-    display: flex;
-    margin-right: 1rem;
-    overflow: hidden;
-
-    &:hover {
-      filter: brightness(1.3);
+    ::v-deep .address {
+      font-size: 0.6rem;
     }
-  }
-
-  .chain__name {
-    color: #fff;
   }
 }
 

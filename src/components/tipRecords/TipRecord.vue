@@ -11,52 +11,34 @@
     />
     <div class="tip__body">
       <div class="tip__description">
-        <div
-          class="tip__author"
-          :title="tip.sender"
-          @click.stop
+        <AuthorAndDate
+          :date-timestamp="new Date(tip.timestamp)"
+          :address="tip.sender"
+          :name="tip.chainName"
+          tip-record
         >
-          <router-link :to="'/user-profile/' + tip.sender">
-            <Avatar :address="tip.sender" />
-            <div class="tip__author_name">
-              <span
-                v-if="tip.chainName"
-                class="chain__name"
-              >
-                {{ tip.chainName }}
-              </span>
-              <span
-                v-else
-                class="chain__name"
-              />
-              <span class="address">{{ tip.sender }}</span>
+          <ThreeDotsMenu>
+            <div @click="sendReport">
+              {{ $t('components.tipRecords.TipRecord.reportPost') }}
             </div>
-          </router-link>
-          <span class="tip__date">
-            <FormatDate :date-timestamp="new Date(tip.timestamp)" />
-            <ThreeDotsMenu>
-              <div @click="sendReport">
-                {{ $t('components.tipRecords.TipRecord.reportPost') }}
-              </div>
-              <div
-                v-if="address"
-                @click="claim"
-              >
-                {{ $t('components.tipRecords.TipRecord.claim') }}
-              </div>
-              <div
-                v-if="address"
-                @click="pinOrUnPinTip"
-              >
-                {{
-                  isTipPinned ?
-                    $t('components.tipRecords.TipRecord.UnPin')
-                    : $t('components.tipRecords.TipRecord.Pin')
-                }}
-              </div>
-            </ThreeDotsMenu>
-          </span>
-        </div>
+            <div
+              v-if="address"
+              @click="claim"
+            >
+              {{ $t('components.tipRecords.TipRecord.claim') }}
+            </div>
+            <div
+              v-if="address"
+              @click="pinOrUnPinTip"
+            >
+              {{
+                isTipPinned ?
+                  $t('components.tipRecords.TipRecord.UnPin')
+                  : $t('components.tipRecords.TipRecord.Pin')
+              }}
+            </div>
+          </ThreeDotsMenu>
+        </AuthorAndDate>
       </div>
       <div
         class="tip__note pr-2"
@@ -152,22 +134,20 @@ import Backend from '../../utils/backend';
 import backendAuthMixin from '../../utils/backendAuthMixin';
 import TipInput from '../TipInput.vue';
 import SuccessModal from '../SuccessModal.vue';
-import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
-import Avatar from '../Avatar.vue';
+import AuthorAndDate from './AuthorAndDate.vue';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
   name: 'TipRecord',
   components: {
     TipTitle,
-    FormatDate,
-    Avatar,
     TipInput,
     SuccessModal,
     ThreeDotsMenu,
     ExternalLink,
+    AuthorAndDate,
   },
   mixins: [backendAuthMixin(true)],
   props: {
@@ -249,67 +229,10 @@ export default {
   .tip__body {
     padding-top: 1rem;
     width: 100%;
-  }
 
-  .tip__author {
-    align-items: center;
-    color: $light_font_color;
-    display: flex;
-    font-size: 0.8rem;
-    justify-content: space-between;
-    padding: 0 1rem 0.9rem 1rem;
-
-    .tip__date {
-      font-size: 0.6rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .three-dots {
-        font-size: 0.75rem;
-        margin-left: 0.3rem;
-      }
-    }
-
-    .address {
-      font-size: 0.65rem;
-    }
-
-    .address,
-    .chain__name {
-      display: inline-block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
-      word-break: break-all;
-    }
-
-    .avatar {
-      margin-right: 0.25rem;
-    }
-
-    a {
-      color: $light_font_color;
-      display: flex;
-      margin-right: 1rem;
-      overflow: hidden;
-
-      &:hover {
-        filter: brightness(1.3);
-      }
-    }
-
-    .chain__name {
-      color: #fff;
-    }
-
-    .tip__author_name {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      overflow: hidden;
-      width: 100%;
+    .tip__description .author-and-date .date .three-dots {
+      font-size: 0.75rem;
+      margin-left: 0.3rem;
     }
   }
 
@@ -546,6 +469,21 @@ export default {
       margin-bottom: 0.5rem;
       padding: 0.5rem 0.5rem 0.5rem 0.5rem;
       position: relative;
+
+      .tip__body .tip__description .author-and-date ::v-deep {
+        font-size: 0.6rem;
+        padding-left: 0;
+        padding-right: 0;
+
+        img {
+          height: 1.5rem;
+          width: 1.5rem;
+        }
+
+        .address {
+          font-size: 0.55rem;
+        }
+      }
     }
 
     .tip__article {
@@ -563,21 +501,6 @@ export default {
 
       .site__url {
         text-decoration: underline;
-      }
-    }
-
-    .tip__author {
-      font-size: 0.6rem;
-      padding-left: 0;
-      padding-right: 0;
-
-      img {
-        height: 1.5rem;
-        width: 1.5rem;
-      }
-
-      .address {
-        font-size: 0.55rem;
       }
     }
 

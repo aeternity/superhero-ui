@@ -5,7 +5,7 @@
   >
     <div class="body">
       <AuthorAndDate
-        :date-timestamp="new Date(comment.createdAt)"
+        :date="new Date(comment.createdAt)"
         :address="comment.author"
         :name="userChainName || comment.chainName"
       />

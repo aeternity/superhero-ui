@@ -12,7 +12,7 @@
     <div class="tip__body">
       <div class="tip__description">
         <AuthorAndDate
-          :date-timestamp="new Date(tip.timestamp)"
+          :date="new Date(tip.timestamp)"
           :address="tip.sender"
           :name="tip.chainName"
           tip-record

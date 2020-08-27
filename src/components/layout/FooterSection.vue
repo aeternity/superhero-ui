@@ -2,15 +2,13 @@
   <div class="footer">
     <div class="footer-btns">
       <OutlinedButton
-        target="_blank"
-        :href="'https://form.jotform.com/201075183408046'"
+        :to="'https://form.jotform.com/201075183408046'"
         class="green feedback"
       >
         {{ $t('components.layout.FooterSection.Feedback') }}
       </OutlinedButton>
       <OutlinedButton
-        target="_blank"
-        :href="'https://thesuperherowallet.typeform.com/to/vh8Ffu'"
+        :to="'https://thesuperherowallet.typeform.com/to/vh8Ffu'"
         class="blue"
       >
         {{ $t('components.layout.FooterSection.Support') }}
@@ -61,7 +59,7 @@
       class="login-footer"
     >
       <OutlinedButton
-        :href="addressDeepLink"
+        :to="addressDeepLink"
         :title="$t('components.layout.FooterSection.LoginWithWallet')"
       >
         {{ $t('components.layout.FooterSection.LoginWithWallet') }}

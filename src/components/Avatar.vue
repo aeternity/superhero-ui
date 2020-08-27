@@ -19,7 +19,7 @@ jdenticon.config = IDENTICON_CONFIG;
 
 export default {
   props: {
-    address: { type: String, required: true },
+    address: { type: String, default: '' },
   },
   data: () => ({
     error: false,

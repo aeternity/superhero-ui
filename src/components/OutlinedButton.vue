@@ -1,21 +1,18 @@
 <template>
-  <a
+  <ButtonPlain
     class="outlined-button"
-    v-bind="{ disabled, href, target, title }"
+    v-bind="$attrs"
     @click="$emit('click', $event)"
   >
     <slot />
-  </a>
+  </ButtonPlain>
 </template>
 
 <script>
+import ButtonPlain from './ButtonPlain.vue';
+
 export default {
-  props: {
-    disabled: Boolean,
-    href: { type: String, default: '' },
-    target: { type: String, default: '_self' },
-    title: { type: String, default: '' },
-  },
+  components: { ButtonPlain },
 };
 </script>
 
@@ -24,17 +21,14 @@ export default {
   border: 0.05rem solid $standard_font_color;
   border-radius: 0.25rem;
   color: $standard_font_color;
-  display: inline-block;
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.6rem;
-  text-align: center;
   min-width: 8rem;
 
   &:hover {
     border-color: $custom_links_color;
     color: $custom_links_color;
-    text-decoration: none;
   }
 
   &.blue {

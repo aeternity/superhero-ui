@@ -112,7 +112,7 @@ const routes = [
   },
   {
     path: '/tutorial/widget',
-    name: 'widget',
+    name: 'tutorial-widget',
     component: TutorialWidget,
     meta: {
       title: 'Tutorial Widget Page',
@@ -120,7 +120,7 @@ const routes = [
   },
   {
     path: '/tutorial/voting',
-    name: 'voting',
+    name: 'tutorial-voting',
     component: TutorialVoting,
     meta: {
       title: 'Tutorial Voting Page',
@@ -128,7 +128,7 @@ const routes = [
   },
   {
     path: '/tutorial/wallet',
-    name: 'wallet',
+    name: 'tutorial-wallet',
     component: TutorialWallet,
     meta: {
       title: 'Tutorial Wallet Page',
@@ -136,7 +136,7 @@ const routes = [
   },
   {
     path: '/tutorial/meet',
-    name: 'meet',
+    name: 'tutorial-meet',
     component: TutorialMeet,
     meta: {
       title: 'Tutorial Meet Page',

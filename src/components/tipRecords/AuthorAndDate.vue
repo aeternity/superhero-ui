@@ -3,7 +3,7 @@
     class="author-and-date"
     @click.stop
   >
-    <router-link
+    <RouterLink
       :to="{
         name: 'user-profile',
         params: {
@@ -26,7 +26,7 @@
           {{ address }}
         </span>
       </div>
-    </router-link>
+    </RouterLink>
     <span class="right">
       <FormatDate v-bind="$attrs" />
       <slot />

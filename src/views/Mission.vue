@@ -3,7 +3,7 @@
     <h1>{{ $t('views.Mission.header') }}</h1>
     <hr width="30%">
 
-    <i18n
+    <I18n
       v-for="(item, index) in $t('views.Mission.sections').length"
       :key="index"
       :path="`views.Mission.sections[${index}].text`"
@@ -17,7 +17,7 @@
           {{ $t('aeternityBlockchain') }}
         </a>
       </template>
-    </i18n>
+    </I18n>
     <h1>{{ $t('views.Mission.footer') }}</h1>
     <p>{{ $t('views.Mission.footerContent') }}</p>
   </div>

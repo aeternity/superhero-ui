@@ -34,18 +34,18 @@
       / {{ version }}
     </span>
     <div class="terms-links">
-      <router-link
+      <RouterLink
         class="footer-links"
         to="/terms"
       >
         {{ $t('components.layout.FooterSection.Terms') }}
-      </router-link>
-      <router-link
+      </RouterLink>
+      <RouterLink
         class="footer-links"
         to="/privacy"
       >
         {{ $t('components.layout.FooterSection.Privacy') }}
-      </router-link>
+      </RouterLink>
       <a
         class="venture"
         target="_blank"

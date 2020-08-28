@@ -2,30 +2,30 @@
   <div class="faq-page">
     <h1>{{ $t('views.FAQ.header') }}</h1>
     <hr width="30%">
-    <i18n
+    <I18n
       path="views.FAQ.subheader"
       tag="p"
     >
       <template v-slot:tutorialPage>
-        <router-link to="/tutorial">
+        <RouterLink to="/tutorial">
           {{ $t('views.FAQ.tutorialPage') }}
-        </router-link>
+        </RouterLink>
       </template>
-    </i18n>
+    </I18n>
 
     <ExpandableBlock
       v-for="({ title }, index) in $t('views.FAQ.questions')"
       :key="title"
       :title="title"
     >
-      <i18n
+      <I18n
         :path="`views.FAQ.questions[${index}].text`"
         tag="p"
       >
         <template v-slot:br>
           <br>
         </template>
-      </i18n>
+      </I18n>
     </ExpandableBlock>
   </div>
 </template>

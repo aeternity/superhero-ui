@@ -2,7 +2,7 @@
   <RouterLink
     v-if="isLinkOnSameHost"
     class="link"
-    :to="to"
+    :to="routerLinkTo"
   >
     <slot />
   </RouterLink>
@@ -10,7 +10,7 @@
     v-else
     class="link"
     :href="to"
-    target="_self"
+    target="_blank"
     @click="$emit('click', $event)"
   >
     <slot />
@@ -20,12 +20,15 @@
 <script>
 export default {
   props: {
-    to: { type: [String, Object], required: true },
+    to: { type: [String, Object, URL], required: true },
   },
   computed: {
     isLinkOnSameHost() {
-      return typeof this.to === 'object'
+      return (typeof this.to === 'object' && !(this.to instanceof URL))
         || (new URL(this.to, window.location)).host === window.location.host;
+    },
+    routerLinkTo() {
+      return this.to instanceof URL ? this.to.toString() : this.to;
     },
   },
 };

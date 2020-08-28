@@ -7,11 +7,13 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 import i18n from './utils/i18nHelper';
+import registerModals from './views/modals';
 
 Vue.use(VueRouter);
 
 Vue.config.productionTip = false;
 
+registerModals();
 sync(store, router);
 
 export default new Vue({

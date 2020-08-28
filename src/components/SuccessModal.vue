@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal-mask"
-    @click.stop="$emit('close')"
+    @click.stop="resolve"
   >
     <div class="modal-wrapper">
       <div class="success-modal">
@@ -10,7 +10,7 @@
         <p>{{ body }}</p>
         <button
           class="button"
-          @click="$emit('close')"
+          @click="resolve"
         >
           {{ primaryButtonText }}
         </button>
@@ -26,6 +26,7 @@ export default {
   props: {
     title: { type: String, required: true },
     body: { type: String, required: true },
+    resolve: { type: Function, required: true },
     primaryButtonText: {
       type: String,
       default() { return this.$t('done'); },

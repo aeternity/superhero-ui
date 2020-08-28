@@ -16,7 +16,7 @@ import Link from './Link.vue';
 export default {
   components: { Link },
   props: {
-    to: { type: [String, Object], default: null },
+    to: { type: [String, Object, URL], default: null },
     disabled: Boolean,
   },
 };

@@ -1,67 +1,21 @@
 <template>
   <div
-    class="tip__record row position-relative comment"
+    class="row position-relative tip-comment"
     @click="goToCommentPage(comment.tipId, comment.id)"
   >
-    <div class="tip__body">
+    <div class="body">
+      <AuthorAndDate
+        :date="new Date(comment.createdAt)"
+        :address="comment.author"
+        :name="userChainName || comment.chainName"
+      />
       <div
-        class="clearfix"
-      >
-        <div
-          class="tip__author"
-          :title="comment.author"
-        >
-          <span
-            class="user-display"
-            @click.stop
-          >
-            <router-link
-              :to="{
-                name: 'user-profile',
-                params: {
-                  address: comment.author,
-                },
-              }"
-            >
-              <Avatar :address="comment.author" />
-              <span
-                v-if="userChainName"
-                class="chain__name"
-              >
-                {{ userChainName }}
-              </span>
-              <span
-                v-else-if="comment.chainName"
-                class="chain__name"
-              >
-                {{ comment.chainName }}
-              </span>
-              <span
-                v-else
-                :address="comment.author"
-                class="address"
-              >
-                {{ comment.author }}
-              </span>
-            </router-link>
-          </span>
-          <span
-            class="tip__date"
-            @click.stop
-          >
-            <FormatDate
-              :date-timestamp="formatDate"
-            />
-          </span>
-        </div>
-      </div>
-      <div
-        class="tip__note"
+        class="note"
         :title="comment.text"
       >
         {{ comment.text }}
       </div>
-      <div class="comment__actions">
+      <div class="actions">
         <span @click.stop>
           <TipInput :comment="comment" />
         </span>
@@ -79,16 +33,14 @@
 
 <script>
 import { mapState } from 'vuex';
-import FormatDate from './FormatDate.vue';
-import Avatar from '../Avatar.vue';
 import TipInput from '../TipInput.vue';
+import AuthorAndDate from './AuthorAndDate.vue';
 
 export default {
   name: 'TipComment',
   components: {
-    FormatDate,
-    Avatar,
     TipInput,
+    AuthorAndDate,
   },
   props: {
     comment: { type: Object, required: true },
@@ -97,9 +49,6 @@ export default {
     ...mapState(['chainNames']),
     userChainName() {
       return this.chainNames[this.comment.author];
-    },
-    formatDate() {
-      return new Date(this.comment.createdAt);
     },
     childComments() {
       if (this.comment && this.comment.children) {
@@ -123,132 +72,77 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.comment.tip__record {
+.tip-comment {
+  margin: 0 0 0.5rem 0;
   padding-bottom: 0;
-  margin-bottom: 0.5rem;
   border-radius: 0.5rem;
   background-color: $light_color;
 
-  .tip__body .tip__note {
-    padding: 0.35rem 1rem 0.25rem 1rem;
-    color: $comment_text_color;
-    height: initial;
-    font-size: 0.7rem;
-    font-weight: 400;
-    margin: 0;
+  &:hover {
+    cursor: pointer;
   }
 
-  .tip__author {
-    padding-bottom: 0;
-  }
-}
-
-.tip__author {
-  align-items: center;
-  color: $light_font_color;
-  display: flex;
-  font-size: 0.8rem;
-  justify-content: space-between;
-
-  .tip__date {
-    display: flex;
-    font-size: 0.6rem;
-    text-align: right;
-  }
-
-  .user-display {
-    max-width: 85%;
-  }
-
-  .address {
-    font-size: 0.6rem;
-  }
-
-  .address,
-  .chain__name {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .body {
+    padding-top: 1rem;
     width: 100%;
-    word-break: break-all;
-  }
 
-  img {
-    border-radius: 50%;
-    flex-shrink: 0;
-    height: 2rem;
-    margin-right: 0.25rem;
-    object-fit: cover;
-    width: 2rem;
-  }
+    .author-and-date {
+      padding-bottom: 0;
 
-  a {
-    align-items: center;
-    color: $light_font_color;
-    display: flex;
-    margin-right: 1rem;
-    overflow: hidden;
+      ::v-deep .address {
+        font-size: 0.6rem;
+      }
+    }
 
-    &:hover {
-      filter: brightness(1.3);
+    .note {
+      padding: 0.35rem 1rem 0.25rem 1rem;
+      line-height: 1.1rem;
+      color: $comment_text_color;
+      height: initial;
+      font-size: 0.7rem;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .actions {
+      padding: 0.25rem 1rem 1rem 1rem;
+      color: $standard_font_color;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+
+      img {
+        height: 0.7rem;
+      }
+    }
+
+    .comments {
+      margin-left: 3rem;
+
+      > * {
+        vertical-align: middle;
+      }
     }
   }
-
-  .chain__name {
-    color: #fff;
-  }
-
-  .tip__author_name {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    width: 100%;
-  }
-}
-
-.comment__actions {
-  padding: 0.25rem 1rem 1rem 1rem;
-  color: $standard_font_color;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
-
-  img {
-    height: 0.7rem;
-  }
-}
-
-.comments {
-  margin-left: 3rem;
-
-  > * {
-    vertical-align: middle;
-  }
-}
-
-.three-dots {
-  display: inline-block;
 }
 
 @include smallest {
-  .comment.tip__record {
+  .tip-comment {
     padding: 0.5rem;
 
-    .tip__body {
+    .body {
       padding-left: 0;
 
-      .tip__note {
+      .note {
         margin-top: 0.25rem;
         margin-bottom: 0;
         padding: 0;
       }
-    }
 
-    .comment__actions {
-      padding-left: 0;
-      padding-top: 0.5rem;
+      .actions {
+        padding-left: 0;
+        padding-top: 0.5rem;
+      }
     }
   }
 }

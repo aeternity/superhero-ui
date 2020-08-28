@@ -90,7 +90,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .footer {
     font-size: 0.55rem;
     text-align: center;
@@ -165,5 +165,4 @@ export default {
       }
     }
   }
-
 </style>

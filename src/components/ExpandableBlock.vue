@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .expand-block {
   margin-bottom: 1rem;
 
@@ -61,6 +61,7 @@ export default {
   }
 
   .title {
+    display: inline;
     color: $custom_links_color;
     font-size: 0.9rem;
     font-weight: 400;

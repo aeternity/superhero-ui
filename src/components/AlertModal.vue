@@ -5,7 +5,7 @@
   >
     <div class="modal-wrapper">
       <div class="success-modal">
-        <img :src="SuccessIcon">
+        <img :src="failure ? FailureIcon : SuccessIcon">
         <h1>{{ title }}</h1>
         <p>{{ body }}</p>
         <button
@@ -21,12 +21,14 @@
 
 <script>
 import SuccessIcon from '../assets/verifiedUrl.svg';
+import FailureIcon from '../assets/iconError.svg';
 
 export default {
   props: {
     title: { type: String, required: true },
     body: { type: String, required: true },
     resolve: { type: Function, required: true },
+    failure: { type: Boolean },
     primaryButtonText: {
       type: String,
       default() { return this.$t('done'); },
@@ -35,6 +37,7 @@ export default {
   data() {
     return {
       SuccessIcon,
+      FailureIcon,
     };
   },
 };

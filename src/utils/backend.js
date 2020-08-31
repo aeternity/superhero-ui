@@ -15,7 +15,9 @@ export default class Backend {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    const responseChallenge = await sendComment({ tipId, text, author, parentId });
+    const responseChallenge = await sendComment({
+      tipId, text, author, parentId,
+    });
     const signedChallenge = await signCb(responseChallenge.challenge);
     const respondChallenge = {
       challenge: responseChallenge.challenge,

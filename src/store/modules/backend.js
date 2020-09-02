@@ -64,7 +64,7 @@ export default {
       commit('tipsReloading', args);
       const value = (await Promise.all(
         times(tipsPageCount[args], (p) => Backend.getCacheTips(p + 1, ...args)),
-      )).flat();
+      )).flat().filter((p) => p);
       commit('setTips', { args, value });
     },
     async loadNextPageOfTips({ commit, state }, args) {
@@ -108,7 +108,7 @@ export default {
       commit('setStats', { ...stats1, ...stats2, height });
     },
     async reloadPrices({ commit }) {
-      commit('setPrices', (await Backend.getPrice()).aeternity);
+      commit('setPrices', (await Backend.getPrice())?.aeternity);
     },
   },
 };

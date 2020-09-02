@@ -25,11 +25,14 @@ export default {
 <style lang="scss" scoped>
 .maintenance {
   background-color: #14151f;
-  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+
+  @media (min-width: 400px) {
+    position: fixed;
+  }
 
   h1 {
     font-size: 55px;

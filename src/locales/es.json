@@ -1,0 +1,591 @@
+{
+  "loading": "Cargando..",
+  "cancel": "Cancelar",
+  "close": "Cerrar",
+  "done": "Hecho",
+  "tip": "Propina",
+  "tips": "Propinas",
+  "amount": "Cantidad",
+  "addMessage": "¿Qué es lo que te gusta?",
+  "comments": "Comentarios",
+  "FAQ": "Preguntas frecuentes",
+  "noExtensionSupport": "Necesitas un monedero Superhero para comentar y enviar propinas.",
+  "FellowSuperhero": "Querido Superhero",
+  "views": {
+    "CreateProfile": {
+      "header1": "CÓMO USAR SUPERHERO.COM",
+      "header2": "Plataforma social sin una agenda oculta.",
+      "header3": "Sin censura, sin rastreo, sin ingresos indebidos.",
+      "click": "Click",
+      "add": "Añadir",
+      "here": "aquí",
+      "names": "Nombres",
+      "feedbackForm": "Formulario de sugerencias",
+      "sections": [
+        {
+          "title": "CREAR UNA CUENTA",
+          "text": "Regístrate a través de Superhero.com o descargando la extensión de Chrome o Firefox. {br}{br}La extensión de Chrome se puede usar para Brave, Opera y cualquier navegador basado en Chromium. {br}{br} Si ya tienes una billetera AE, puedes elegir Recuperar cuenta existente e ingresar tus 12 palabras. De lo contrario, elige Generar nueva billetera. {br}{br} Puedes leer la guía de inicio u omitirla por completo. Ésto te lleva a tu billetera. Eso es todo, ¡ tu cuenta está creada!"
+        },
+        {
+          "title": "ENVIAR PROPINAS",
+          "text": "Click enviar propina. {br} Incluye la URL a la que quieres enviar una propina. {br} Ingresa la cantidad que deseas enviar, junto con un mensaje que acompañe la propina (esto es opcional). {br} Click Enviar Propina para verificar la transacción."
+        },
+        {
+          "title": "RECIBIR PROPINAS",
+          "text": "Para empezar a recibir propinas de una URL, copia la dirección de tu billetera Superhero (la hilera de letras en la parte superior de su billetera que comienza con ak_) y pégala en tu sitio web o perfil en línea. {br} {br} Ten en cuenta que solo se pueden enviar propinas a las URL públicas. Perfiles que requieren un inicio de sesión (como los perfiles de Facebook)de momento no pueden recibir propinas . {br} {br} Haz click en el botón Reclamar propina e ingresa tu URL. Presiona Confirmar para continuar. {br} {br} Todas las propinas que recibirá tu URL en el futuro, así como las propinas recibidas en el pasado se agregarán al saldo de tu billetera "
+        },
+        {
+          "title": "RECARGANDO",
+          "text": "Haz clic en el botón Recargar de tu billetera. {br} {br} Puedes COMPRAR TOKENS AE en pequeñas cantidades a través de la tienda æternity. {br} También puedes INTERCAMBIAR instantáneamente CRYPTO POR TOKENS AE a través de JellySwap. {br} {br} Alternativamente, puedes recargar tu billetera SUPERHERO enviando tokens AE desde una casa de cambio de criptomonedas de tu elección. Estamos recopilando una wiki completa para conocer las formas más económicas de obtener AE y la publicaremos pronto."
+        },
+        {
+          "title": "RETIRAR",
+          "text": "De la misma manera que no llevas grandes cantidades de efectivo en tu cartera, es muy recomendable que no guardes grandes cantidades de AE en tu billetera Superhero. Para el almacenamiento a largo plazo de grandes cantidades de AE, recomendamos usar una billetera fría, como AirGap. {br} {br} Para retirar las propinas que has recopilado, puedes enviar propinas desde tu billetera SUPERHERO a la dirección de tu billetera AE en una casa de cambio de criptomonedas que admita tokens AE. {br} {br} - Para retirar, ve al menú superior derecho. {br} - Haz clic en Retirar. {br} - Ingresa la dirección de tu billetera de la casa de cambio de criptomonedas de tu elección. También puedes enviar a la billetera de otra persona pegando su dirección de billetera en el campo de dirección de billetera. {br} - Ingresa la cantidad que deseas retirar. {br} Haz clic en Revisar para verificar los detalles de su transacción. {br} - Presiona Enviar para confirmar el retiro. Las{br} {br} propinas pueden intercambiarse por otras criptomonedas o por monedas FIAT y transferirse a su banco local. {br} {br} Los procesos para intercambios varían según el país. En muchos casos, habrá unos minutos de espera o más, dependiendo de la capacidad y los procesos a seguir de la casa de cambio de criptomonedas. Pero puede realizar un seguimiento de sus transacciones fácilmente haciendo clic en el botón del ojo al lado de la transacción en su Historial de actividades "
+        },
+        {
+          "title": "CONSEGUIR UN NOMBRE .CHAIN ",
+          "text": "Puedes conseguir un nombre .chain a través de la extensión Superhero. Un nombre .chain sirve como alternativa a la dirección de tu billetera, lo que facilita que otros usuarios te envíen una propina. También puedes usar tu nombre .CHAIN como tu nombre de perfil en Superhero. {br} {br} Para reclamar un nombre a través de su billetera Superhero: {br} {br} - Abre el menú en la esquina superior derecha. {br} - Haz clic en Nombres. {br} - En la pestaña RECLAMAR, ingresa tu nombre preferido. Ten en cuenta que el sufijo .chain se agrega automáticamente al nombre. Es obligado en el sistema de nombres. {br} - Haz clic en el botón + para continuar. {br} - Haz clic en confirmar. {br} {br} Solo se permiten números y letras en los nombres de .chain. Actualmente, sólo se pueden reclamar nombres de 13 caracteres o más a través de la billetera Superhero. Esto se mejorará más adelante. {br} {br} Puedes reclamar tantos nombres en Superhero como quieras. Asegúrate de tener suficiente AE en tu billetera para cubrir el precio inicial del nombre seleccionado. Normalmente, debes tener al menos 3AE en tu saldo para tener éxito al reclamar un  Nombre."
+        },
+        {
+          "title": "ESTABLECER TU NOMBRE DE PERFIL EN SUPERHERO",
+          "text": "Para establecer un nombre .chain que poseas como tu nombre de perfil de Superhero: {br} {br} - Haz clic en el menú superior derecho y ve a tus nombres. {br} - Debajo de tu nombre .chain preferido, haz clic en ESTABLECER PUNTERO DE NOMBRE. {br} - Pega la dirección de tu billetera SUPERHERO en el campo y haz click en ESTABLECER PUNTERO DE NOMBRE para confirmar la acción. Espera unos segundos para la confirmación. {br} - Luego puedes hacer clic en ESTABLECER COMO NOMBRE POR DEFECTO para usar un nombre como tu perfil predeterminado en SUPERHERO.COM "
+        },
+        {
+          "title": "ASEGURANDO TU BILLETERA",
+          "text": "Una gran libertad conlleva una gran responsabilidad. Estás a cargo de mantener las claves de tu cuenta. No hay custodios externos para almacenar ni conectar ninguna contraseña con ninguna cuenta. {br} {br} La tarea de guardar las llaves de tu billetera es tuya y solo tuya, Superhero. {br} {br} A continuación, te mostramos cómo proteger y respaldar su billetera: {br} Una vez que estés en tu extensión, obtendrás una serie de palabras llamadas frase semilla. Las claves privadas son algo así como una contraseña: es un conjunto único de palabras sensibles al orden que te conecta con tu billetera. {br} {br} - Haz clic en el menú de la esquina superior derecha de tu billetera. {br} - Ve a Configuración, elige Seguridad. {br} - En la siguiente pantalla, haz clic en Mostrar clave privada. {br} - Escribe las 12 palabras que se muestran en una hoja de papel y guárdalas en un lugar seguro y secreto. Tan simple como eso. {br} {br} IMPORTANTE: necesitarás estas 12 palabras para recuperar tu billetera en caso de que pierdas  acceso a la extensión por cualquier motivo (migrar a un nuevo dispositivo, reinstalar el navegador, etc.) "
+        }
+      ]
+    },
+    "Mission": {
+      "header": "SUPERHERO: UNA HISTORIA CON UNA MISIÓN",
+      "sections": [
+        {
+          "text": "En los cómics, los superhéroes creen que es su deber ayudar a la humanidad. Mientras tanto, de manera muy real, los tiempos actuales ponen a prueba continuamente a la humanidad "
+        },
+        {
+          "text": "Desde artistas hasta científicos, educadores, grupos médicos, proyectos sin fines de lucro, iniciativas de impacto social, causas comunitarias, protectoras de animales, defensa del medio ambiente hasta lo que más te inspire ... Podemos (y queremos) hacer acciones que creen una diferencia entre nosotros todos los días. Las personas que apoyan a las personas son superhéroes contemporáneos "
+        },
+        {
+          "text": "Superhero.com fue concebido como una forma tangible de celebrar la diferencia que puede surgir de empoderar a las personas para que se apoyen entre ellas, de par a par, sin intermediarios.."
+        },
+        {
+          "text": "Superhero.com se creó como una plataforma de código abierto que hace pasar el control de las personas que se apoyan entre ellas, de las entidades privadas a las manos públicas "
+        },
+        {
+          "text": "Aquellos en {aeternityBlockchain} que dieron vida a Superhero.com están unidos para ayudar a cumplir la promesa de un Internet mejor para todos"
+         },
+        {
+          "text": "Bienvenido a un mundo virtual mejor: un Internet con una libertad mucho mayor para realizar transacciones. Estamos empezando a ver hacia dónde nos llevan nuestros superpoderes de seres humanos que se apoyan mutuamente "
+        }
+      ],
+      "footer": "¿ESTAS HACIENDO LA DIFERENCIA?",
+      "footerContent": "Superhero.com una herramienta para el bien común creada en la æternity blockchain"
+    },
+    "FAQ": {
+      "header": "Preguntas Frecuentes",
+      "subheader": "SOBRE SUPERHERO.com",
+      "info": "Para obtener información detallada sobre características específicas, hay tutoriales disponibles para cada una de las características. Desplázate hacia abajo en la sección de Características a continuación. ",
+      "questions": [
+        {
+          "title": "SUPERHERO.com: Una red social sin agenda oculta",
+          "text": "SUPERHERO.com es una red social bien hecha. Sin censura, sin rastreo, sin terceros que se queden con tus ingresos.  {br} {router}"
+        },
+        {
+          "title": "NINGUNA AGENDA OCULTA.",
+          "text": "Superhero es GRATUITO para TODOS y no recibe comisiones de las propinas enviadas o recibidas a través de la plataforma ni nunca lo hará. {br} Los honorarios por transferencias (generalmente no van más allá de $ 0.01) van directamente a un ecosistema de mineros que dedican su poder de procesamiento para asegurar las transacciones. {br} {br} {br} Superhero no rastrea, recopila o vende los datos de nadie ni nunca lo hará. {br} Otras plataformas de redes sociales dependen de los ingresos por publicidad, para lo cual recopilan, usan, comparten y finalmente venden datos de usuarios. Superhero es una plataforma sin fines de lucro y fue construida para poner fin a esta mala práctica. {br} {br} {br} Entonces, ¿qué hay de nuevo para nosotros? {br} Superhero fue creado por miembros de la comunidad para ofrecer los beneficios de la tecnología de Aeternity al público en general. Por lo tanto, fortalecer el ecosistema de æternity y hacer que las potentes funciones de blockchain sean accesibles para cualquier persona."
+        },
+        {
+          "title": "SUPERHERO ES PARA TODOS, HECHO POR TODOS.",
+          "text": "Superhero es de código abierto y gratuito para todos. Cualquiera puede usar la plataforma, las herramientas y agregar el widget a su páguina web. {br} {br} De la misma manera, cualquiera puede modificar el código para adaptarlo a sus necesidades o mejorar las herramientas simplemente contribuyendo para hacer de Superhero una plataforma aún más increíble."
+        },
+        {
+          "title": "SIN CENSURA.",
+          "text": "Si bien el front-end de Superhero se filtrará para asegurar la seguridad de la audiencia general, todos las propinas enviadas y recibidas, junto con los mensajes enviados con ellas, se registran e inmortalizan en la cadena de bloques de æternity. Estos registros son públicos y accesibles para todos. {br} {br} Se pueden crear bifurcaciones de la plataforma para contenido de adultos o cualquier otro contenido que pueda considerarse NSFW. {br} {br} Cualquier persona es libre de bifurcar la plataforma para crear la suya propia, ya sea sin fines de lucro o con fines comerciales "
+        },
+        {
+          "title": "NO HAY TERCEROS QUE PUEDAN DECIRTE A TI O A TUS SEGUIDORES 'NO' ",
+          "text": "No importa si  gustas o no. Siempre que tu sitio web sea pública y esté funcionando, se pueden recibir propinas. Y siempre que tengas acceso a tu billetera, tus propinas serán todas tuyas "
+        },
+        {
+          "title": "LAS REDES SOCIALES SE UNEN AL PODER DE LA BLOCKCHAIN",
+          "text": "Superhero es una plataforma social impulsada con blockchain, creada para apoyar el intercambio social con una clara misión."
+        },
+        {
+          "title": "¿Puedo obtener ayuda? Mi pregunta no encuentra respuesta aquí…",
+          "text": "¿Necesita ayuda? ¿Desea informar problemas técnicos, hacer comentarios y sugerencias? Utilice el botón FEEDBACK o SUPPORT en la parte inferior derecha de Superhero.com."
+        }
+      ],
+      "forum": "Fórum",
+      "tutorialPage": "Página Tutorial",
+      "tutorial": "tutorial",
+      "feedbackForm": "formulario de comentarios",
+      "ourTutorial": "Nuestro tutorial",
+      "aeternityBlockchain": "aeternity blockchain"
+    },
+    "Maintenance": {
+      "RechargeTitle": "Estamos recargando nuestros poderes.",
+      "RechargeSubTitle": "Volaremos alto y lejos en poco tiempo.",
+      "CleaningTitle": "Limpiando el Cuartel General.",
+      "CleaningSubTitle": "Estaremos volando de nuevo en pocos minutos."
+    },
+    "Privacy": {
+      "title": "POLÍTICA DE PRIVACIDAD",
+      "subtitle": "La política de privacidad se creó el 13 de febrero de 2020.",
+      "sections": [
+        {
+          "title": "I. Introducción"
+        },
+        {
+          "text": "Superhero.com LVC, Dr. Grass Str 12, 9490 Vaduz, Liechtenstein ('Superhero.com', 'nosotros', 'nos' o 'nuestro') es una empresa que toma su privacidad y la seguridad de su información como usuario muy seriamente."
+        },
+        {
+          "text": "Esta Política de privacidad ('Política') se aplica al sitio web creado y operado por Superhero.com https://superhero.com/ (el 'Sitio web'), que refleja las donaciones y los comentarios de los usuarios al contenido y brinda la posibilidad a otros usuarios de participar activamente, donar y comentar las noticias disponibles en la fuente de noticias del sitio web "
+        },
+        {
+          "text": "Si tiene alguna pregunta con respecto a esta Política, contáctenos en superherowallet@protonmail.com. Si no está de acuerdo con los términos de esta Política, no utilice el sitio web. Cada vez que use el sitio web, se aplicará la versión actual de esta Política. La nueva versión de la Política de privacidad entrará en vigencia a partir del día en que se anuncie públicamente en el sitio web, a menos que se indique lo contrario. En consecuencia, cuando utiliza el sitio web, debe verificar la fecha de esta Política (que aparece en la parte superior). Si continúa utilizando el sitio web después de que se hayan aplicado los cambios, consideraremos que se trata de un consentimiento y una aceptación del contenido modificado. Si no está de acuerdo con las nuevas modificaciones, contáctenos para obtener más ayuda a través de la dirección de correo electrónico mencionada anteriormente."
+        },
+        {
+          "title": "II. Definiciones"
+        },
+        {
+          "text": "A los fines de esta Política de privacidad, los términos tienen el siguiente significado:"
+        },
+        {
+          "text": "„Controlador de datos significa la persona u organismo que, solo o juntamente con otros, determina los propósitos y medios del procesamiento de datos personales;"
+        },
+        {
+          "text": "'Datos personales' significa cualquier información relacionada con una persona física identificada o identificable ('USUARIO');"
+        },
+        {
+          "text": "„Procesamiento 'significa cualquier operación o conjunto de operaciones que se realiza con datos personales"
+        },
+        {
+          "text": "„Destinatario 'significa una persona física o jurídica, autoridad pública, agencia u otro organismo al que se divulgan los datos personales, ya sea un tercero o no;"
+        },
+        {
+          "text": "„Violación de datos personales 'significa una violación de la seguridad que conduce a la destrucción accidental o ilegal, pérdida, alteración, divulgación no autorizada o acceso a datos personales transmitidos, almacenados o procesados de otra manera"
+        },
+        {
+          "title": "III. Recogida de datos personales"
+        },
+        {
+          "text": "Los datos personales que Superhero.com recopila se minimizan por completo, seleccionando solo los tipos de información que son adecuados, relevantes y limitados a lo que es necesario para el uso del sitio web."
+        },
+        {
+          "text": "Superhero.com recopila dos grupos principales de datos personales de acuerdo con su propósito:"
+        },
+        {
+          "text": "Datos personales en relación con identificadores indirectos Las donaciones y comentarios se realizan a través de Extension Superherowallet. La billetera Superhero es una aplicación basada en blockchain en la que se genera una dirección de cuenta para la identificación del usuario. Una vez que se procesan la donación y el comentario, aparecen en el sitio web con un hipervínculo que reenvía al sitio web que el usuario ha dado propina. Además, otros usuarios en el sitio web también pueden donar y comentar las noticias agregadas al sitio web. Por lo tanto, la dirección de la cuenta aparecerá en el sitio web. Las direcciones de las cuentas pueden tratarse como identificadores indirectos. Un identificador indirecto es un valor que no puede usarse solo para identificar a un sujeto de datos, sin embargo, podría identificarse si se combina con otros identificadores indirectos. El procesamiento es necesario para la provisión del Servicio, es decir, el Sitio web. El período de retención de los datos personales es hasta la finalización de la prestación del Servicio "
+        },
+        {
+          "text": "Datos personales en relación con el soporte/ayuda y la comunicación del usuario. Durante el uso de nuestro sitio web, los usuarios pueden decidir ponerse en contacto con el equipo en relación con el soporte del sitio web, solucionar problemas, preguntas, etc. Los usuarios inician la recopilación de datos personales y deciden qué tipo de datos personales para incluir en la comunicación. Por lo tanto, la base legal para el procesamiento es que el Usuario ha dado su consentimiento para el procesamiento de sus datos personales para uno o más propósitos específicos. El período de retención es hasta que se hayan respondido las preguntas, se haya proporcionado asistencia del equipo, se hayan resuelto los problemas o, en cualquier otro caso, hasta que se retire el consentimiento. Superhero.com puede retener información personal por un período de tiempo adicional, si así lo exige la ley o para la prevención y seguridad de delitos / violaciones / infracciones."
+        },
+        {
+          "title": "IV. Tus derechos:"
+        },
+        {
+          "text": "TIENES derecho a:"
+        },
+        {
+          "text": "Solicitar a Superhero.com acceso a los datos personales que tenemos sobre ti en un formato portátil."
+        },
+        {
+          "text": "Solicitud de corrección de Superhero.com de cualquiera de los datos personales recopilados. La información puede incluir solo su recopilación de datos personales "
+        },
+        {
+          "text": "Recibir una copia de tus datos personales en formato electrónico.."
+        },
+        {
+          "text": "'El derecho al olvido ': tiene derecho a solicitar la eliminación de sus datos personales en cualquier momento en que la retención de dichos datos infrinja la legislación pertinente"
+        },
+        {
+          "text": "Recibir información de nosotros sobre nuestras actividades en relación con sus datos personales, incluidos los fines de recopilación y almacenamiento, el período de tiempo de almacenamiento, los métodos de recopilación, la presencia de procesamiento automatizado "
+        },
+        {
+          "text": "Recibir tus datos y transferirlos a otro controlador "
+        },
+        {
+          "text": "Tiene derecho a presentar una queja ante una autoridad supervisora, en particular en el Estado miembro de su residencia habitual, lugar de trabajo o lugar de la presunta infracción si considera que existe una violación de datos personales."
+        },
+        {
+          "title": "V. Compartir información personal con terceros: destinatarios "
+        },
+        {
+          "text": "Podemos divulgar información personal identificable de los USUARIOS a terceros en circunstancias especiales: "
+        },
+        {
+          "text": "(i) para cumplir con un requisito legal, procedimiento judicial, orden judicial o proceso legal presentado en Superhero.com o sus afiliados, (ii) para investigar un posible delito, como fraude o robo de identidad; (iii) a las Autoridades Públicas de acuerdo con su obligación legal para el ejercicio de su cometido oficial, como las autoridades fiscales y aduaneras, las unidades de investigación financiera, las autoridades administrativas independientes o las autoridades financieras responsables de la supervisión de los mercados de valores; (iv) en relación con la venta, compra, transición comercial bajo cualquier forma, fusión, disolución, reorganización, liquidación de Superhero.com; Es posible que tengamos que divulgar la información que nos ha proporcionado al sucesor, que forma parte de la transición, (v) cuando creemos que es necesario proteger los derechos, la propiedad o la seguridad de Superhero.com u otras personas, o ( vi) según lo exija o permita la ley, incluidas las obligaciones contractuales de Superhero.com "
+        },
+        {
+          "title": "VI. Niños y privacidad "
+        },
+        {
+          "text": "Superhero.com no procesa información de personas menores de edad (en la mayoría de los países mayores de 18 años) debido al carácter del sitio web y la billetera "
+        },
+        {
+          "text": "Superhero.com eliminará de inmediato cualquier dato personal que se refiera a personas menores de edad "
+        },
+        {
+          "text": "No somos responsables de ninguna manera si USTED proporciona información falsa sobre su edad o usa el Sitio web antes de que USTED haya cumplido la edad mencionada anteriormente "
+        },
+        {
+          "title": "VII. Medidas de incumplimiento"
+        },
+        {
+          "text": "En caso de incumplimiento, tomaremos todas las medidas posibles de acuerdo con la legislación aplicable de manera apropiada y oportuna, para evitar cualquier daño material o inmaterial a los usuarios y para proteger los datos personales de los usuarios "
+        },
+        {
+          "title": "VIII. Cómo puedo contactar Superhero.com ?"
+        },
+        {
+          "text": "Para contactarnos con sus preguntas o comentarios con respecto a esta Política o las prácticas de recopilación y difusión de información de Superhero.com relevantes para su uso del sitio web, envíenos un correo electrónico a superherowallet@protonmail.com "
+        }
+      ]
+    },
+    "Terms": {
+      "title": "IMPRESIÓN LEGAL",
+      "subtitle": "La presente política de privacidad se creó el 13 de febrero de 2020.",
+      "sections": [
+        {
+          "title": "I. Información de la compañía"
+        },
+        {
+          "text": "El servicio en https://superhero.com/ es proporcionado por Superhero.com LVC, correo electrónico para correspondencia: superherowallet@protonmail.com "
+        },
+        {
+          "title": "II. Sujeto de actividad"
+        },
+        {
+          "text": "Superhero.com desarrolló un sitio web que refleja como un suministro de noticias las donaciones de los usuarios y comentarios a las noticias sobre cualquier cosa que les guste en Internet y ofrece la posibilidad de que otros usuarios donen activamente y comenten las noticias disponibles en el suministro de noticias. Este centro de información permite a los usuarios incentivar actualizaciones informativas y precisas sobre cualquier cosa en todo el mundo, ya sea creada por organizaciones de noticias o personas normales. Por lo tanto, debido al papel activo de los usuarios, el sitio web es una plataforma en la que se comparten actualizaciones globales en tiempo real sobre el mejor contenido "
+        },
+        {
+          "title": "III. Aviso de derechos de autor sobre enlaces de terceros "
+        },
+        {
+          "text": "Tenga en cuenta que la función principal de la página web es objetivamente y sin interferencia reflejar las donaciones y comentarios de los usuarios a terceros, organizaciones o personas comunes, que comparten noticias en línea sobre el mejor contenido. Por lo tanto, Superhero.com no es el propietario o autor de las noticias compartidas en el suministro de noticias y no reclama de ninguna manera ningún derecho sobre los materiales en su totalidad o en parte. Los materiales publicados en el suministro de noticias son objetos de propiedad intelectual de las personas u organizaciones reclamadas en los enlaces de terceros. Con respecto a los enlaces de terceros, tenga en cuenta que al hacer clic en los hipervínculos disponibles, los usuarios se reenvían a sitios web de terceros. Estos sitios web de terceros no están conectados a Superhero.com y tienen políticas independientes y separadas con respecto a su uso. Los usuarios deben informarse sobre las reglas aplicables para cada sitio web y cumplir con su comportamiento en línea en consecuencia. Tenga en cuenta que la aparición de los enlaces en el suministro de noticias no está bajo el control de Superhero.com sino de los usuarios. Superhero.com no acepta responsabilidad alguna con respecto a la información proporcionada por terceros y su relación de hipervínculo en el sitio web. Los hipervínculos pueden reenviar noticias relacionadas con contenido altamente sensible o inapropiado para algunas personas. Los usuarios hacen clic en los hipervínculos y visitan los sitios web de terceros bajo su propio riesgo "
+        },
+        {
+          "title": "IV. Aviso de copyright sobre la página web"
+        },
+        {
+          "text": "La políica de privacidad se aplica a la siguiente dirección de Internet: https://superhero.com/ (en adelante, el' Sitio web '). El sitio web pertenece y es operado por Superhero.com. El concepto del sitio web, el diseño del sitio web y los componentes y estructuras integradas para su creación, incluidos, entre otros, logotipos, marcas comerciales, nombres de dominio, códigos, que aparecen de alguna manera en el sitio web o son accesibles de cualquier manera a través del sitio web: https://superhero.com/ están protegidos por las leyes actuales con propiedad intelectual sujeta. Por lo tanto, pertenecen estrictamente y exclusivamente a Superhero.com y el uso de cualquiera de los mencionados anteriormente está sujeto a autorización previa. Ninguno de los mencionados anteriormente puede ser reproducido, copiado, editado, transmitido, descargado o distribuido de manera parcial o total, en cualquier medio, sin el consentimiento previo por escrito de Superhero.com. Además de esto, el uso para requisitos de prensa está permitido únicamente en cumplimiento de Intel derechos de propiedad actuales que se mencionan. El acto de copia está autorizado solo para uso privado, no comercial, personal en los dispositivos técnológicos personales del usuario (incluyendo teléfono, computadora portátil, computadora, tableta). El uso autorizado no debe ser desnaturalizado, modificado, alterado o cambiado de ninguna manera "
+        }
+      ],
+      "copyrights": "“COPYRIGHT - 2020 - Superhero.com TODOS LOS DERECHOS RESERVADOS ”. Superhero.com se reserva el derecho de tomar todas las acciones legales necesarias contra cualquier violación o infracción de sus derechos de propiedad intelectual. Las normas mencionadas anteriormente se aplican a las bases de datos en el sitio web, que están protegidas por la Directiva 96/9 / CE del Parlamento Europeo y del Consejo, de 11 de marzo de 1996, sobre la protección jurídica de las bases de datos. Para cualquier pregunta adicional, comuníquese con el equipo de Superhero.com en: superherowallet@protonmail.com"
+    },
+    "TipCommentsView": {
+      "NoResultsMsg": "No hay comentarios por el momento.",
+      "Reply": "Respuesta",
+      "AddReply": "Añadir respuesta",
+      "LatestReplies": "Últimas respuestas"
+    },
+    "SingleCommentView": {
+      "NoResultsMsg": "No hay comentarios para mostrar"
+    },
+    "TipList": {
+      "SearchPlaceholder": "Buscar Superhero",
+      "SortingLatest": "Último",
+      "SortingHighestRated": "El mejor valorado",
+      "SortingMostPopular": "El más Popular",
+      "Clear": "Despejar",
+      "CloseSearch": "Cerrar búsqueda",
+      "SafeContentOnly": "Solo contenido seguro "
+    },
+    "UserProfileView": {
+      "EditProfile": "Editar Perfil",
+      "ChangeAvatar": "Cambiar Avatar",
+      "DeleteAvatar": "Borrar Avatar",
+      "Save": "Guardar",
+      "TipsSent": "Propinas enviadas",
+      "TipsReceived": "Propinas recibidas",
+      "RetipsSent": "Propinas reenviadas",
+      "TotalSentAmount": "Cantidad total enviada",
+      "ClaimedUrls": "URLs reclamadas",
+      "ClaimedAmount": "Cantidad reclamada",
+      "UnclaimedAmount": "Cantidad sin reclamar",
+      "NoActivity": "No hay actividad para mostrar.",
+      "Joined": "Unido",
+      "Comments": "Comentarios",
+      "EditBiography": "Editar Biografía"
+    },
+     "Wallet": {
+      "header": "WALLET: Totalmente P2P, propinas instantáneas sin comisiones de terceros.",
+      "sections": [
+        {
+          "text": "Monetización de contenido sin censura ni custodios externos. ¿Quieres empezar? "
+        },
+        {
+          "text": "CREANDO UNA CUENTA {br} {br} Regístrate a través de Superhero.com o descargando la extensión de Chrome o Firefox. {br} La extensión de Chrome se puede usar para Brave, Opera y cualquier navegador basado en Chromium. {br} Si tienes una billetera AE existente, puedes elegir Recuperar cuenta existente e ingresar tu clave privada. De lo contrario, elige Generar nueva billetera. {br} 2. Puedes leer la guía de inicio u omitirla por completo. Esto te lleva a tu billetera. Eso es todo, ¡tu cuenta está creada! "
+        },
+        {
+          "text": "ENVIAR PROPINAS {br} {br} Haga clic en Enviar propina. {br} Pega la URL a la que deseas enviar la propina. {br} Ingresa la cantidad que deseas enviar, junto con un mensaje que acompaña esa propina (esto es opcional). {br} Haz clic en Enviar propina para verificar la transacción "
+        },
+        {
+          "text": "RECIBIR PROPINAS {br} {br} Para comenzar a recibir propinas de una URL, copia la dirección de tu billetera Superhero (la cadena de letras en la parte superior de su billetera que comienza con ak_) y pégala en tu sitio web o perfil. También puedes agregarlo al código HTML de tu sitio web. {br} Ten en cuenta que solo se pueden usar las URL públicas. Los perfiles que requieren un inicio de sesión (como los perfiles de Facebook) no se pueden usar de momento. {br} Haga clic en el botón Sugerencia de Propina e ingresa tu URL. Presiona Confirmar para continuar. {br} Todas las propinas que reciba tu URL en el futuro, así como los propinas recibidas en el pasado se agregarán al saldo de tu billetera"
+        },
+        {
+          "text": "RECARGANDO {br} {br}Haz clic en el botón Recargar de tu billetera. {br} {br} Puedes COMPRAR TOKENS AE en pequeñas cantidades a través de la tienda æternity. {br} También puedes INTERCAMBIAR instantáneamente CRIPTO POR TOKENS AE a través de JellySwap. {br} {br} Alternativamente, puedes recargar tu billetera SUPERHERO enviando tokens AE desde una casa de cambio de criptomonedas que elijas. Estamos recopilando una wiki completa para conocer las formas más económicas de obtener AE y la publicaremos pronto."
+        }, 
+        {
+          "text": "RETIRAR {br} {br} De la misma manera que no andas con grandes cantidades de dinero en efectivo en tu cartera, es muy recomendable que no guardes grandes cantidades de AE en tu billetera Superhero. Para el almacenamiento a largo plazo de grandes cantidades de AE, recomendamos usar una billetera fría, como AirGap. {br} {br} Para retirar las propinas que has recopilado, puedes enviar propinas desde tu billetera SUPERHERO a la dirección de su billetera AE en una casa de cambio de criptomonedas que admita tokens AE. {br} {br} - Para retirar, ve al menú de hamburguesas. {br} - Haz clic en Retirar. {br} - Ingresa la dirección de su billetera desde la casa de cambio de criptomonedas de su elección. También puedes enviar a la billetera de otra persona pegando su dirección de billetera en el campo de dirección de billetera. {br} - Ingresa la cantidad que deseas retirar. {br} Haz clic en Revisar para verificar los detalles de su transacción. {br} - Presiona Enviar para confirmar el retiro. Las{br} {br} propinas pueden intercambiarse por otras criptomonedas o monedas fiduciarias y transferirse a su banco local. {br} {br} Los procesos para intercambios varían según el país. En muchos casos, habrá unos minutos de espera o más, dependiendo de la capacidad y los procesos a seguir de la casa de cambio de criptomonedas. Pero puede realizar un seguimiento de sus transacciones fácilmente haciendo clic en el botón del ojo al lado de la transacción en su Historial de actividades"
+        },
+        {
+          "text": "ASEGURANDO TU BILLETERA {br} {br} Una gran libertad conlleva una gran responsabilidad. ESTÁS a cargo de mantener las llaves privadas de tu cuenta. No hay custodios externos para almacenar ni conectar ninguna contraseña con ninguna cuenta. La tarea de guardar las llaves de tu billetera es tuya y solo tuya, Superhero. {br} A continuación, te mostramos cómo proteger y respaldar tu billetera: {br} Una vez que estés en tu extensión, obtendrás una serie de palabras llamadafrase semilla. Lafrase semilla es algo así como una contraseña: es un conjunto único de palabras (en orden) que te conecta a tu billetera. {br} - Haz clic en el menú de la esquina superior derecha de tu billetera. {br} - Ve a Configuración, elige Seguridad. {br} - En la siguiente pantalla, haz clic en Mostrar clave privada. {br} - Escribe las 12 palabras que se muestran en una hoja de papel y guárdalas en un lugar seguro y secreto. Simple como eso. {br} IMPORTANTE: necesitarás esta frase inicial para recuperar tu billetera en caso de que pierdas el acceso a la extensión por cualquier motivo (migrar a un nuevo dispositivo, reinstalar el navegador, etc.) "
+        },
+        {
+          "text": "Preguntas frecuentes"
+        },
+        {
+          "text": "Usa Superhero sólo para dar / aceptar propinas en AE. Usa Superhero junto con otras herramientas basadas en monedas fiduciarias existentes para dar / aceptar propinas adicionales en AE. {br} {br} Únete a la comunidad publicando, comentando y dando propinas directamente a otros superhéroes. {br} Fuera de la plataforma de Superhero, agrega un botón o enlace de Superhero a tu sitio para que cualquiera pueda darte una propina directamente "
+        },
+        {
+          "text": "¿Puedo enviar propinas a cualquier sitio web? {br} SÍ. Cualquier URL pública se puede usar con Superhero "
+        },
+        {
+          "text": "¿A dónde va una propina si hay más de una dirección de billetera en una URL? {br} La primera dirección de billetera entre las direcciones en la página para reclamar la propina, recibe la propina." 
+        },
+        {
+          "text": "¿Hay una fecha límite para reclamar propinas? {br} SÍ. Las propinas deben ser reclamadas dentro de un (1) año. Si transcurre ese tiempo, los remitentes pueden recuperar las propinas no reclamadas. Si el emisor o el receptor no reclama una propina después de dos (2) años, se transfiere a la Fundación Aeternity crypto."
+        },
+        {
+          "text": "¿Puedo usar mi billetera Base æpp para mi billetera Superhero? {br} SÍ. Simplemente elija Recuperar cuenta existente e ingrese la clave privada de su billetera Base æpp."
+        },
+        {
+          "text": "¿Puedo usar una dirección AE de una casa de cambio centralizada para mi billetera Superhero? {br} NO. Necesita una dirección de billetera AE de la que tiene la clave privada. En las casa de cambio centralizadas, la casa de cambio tiene la custodia de las claves privadas de los usuarios. Esto significa que el usuario no puede usar la dirección AE en Superhero porque no tiene las claves privadas / frase inicial para recuperar la cuenta. {br} {br} Simplemente puede generar una nueva billetera en Superhero y recargarla enviando AE desde sus otras billeteras a la dirección de su billetera de Superhero."
+        },
+        {
+          "text": "¿Tengo que agregar la dirección de mi billetera a cada Tweet? {br} NO. La billetera Superhero puede detectar la dirección de la billetera en el perfil de Twitter de un usuario. No es necesario agregarlo en los tweets "
+        },
+        {
+          "text": "Si el propietario de la URL que le envié una propina no tiene una dirección AE en su página web, ¿recibirán sus propinas? {br} SÍ. Tan pronto como el propietario de la página web cree una billetera de superhéroe y agregue su dirección de billetera a su URL, las propinas que haya recibido en el pasado se agregarán al saldo de su billetera."
+        }
+      ]
+    },
+    "Widget": {
+      "header": "WIDGET: Obtenga propinas instantáneas de los visitantes de su página web!",
+      "sections": [
+        {
+          "text": "¡Agregue el widget Superhero a su páginas web y los visitantes podrán enviarle propinas con solo un clic! "
+        },
+        {
+          "text": "Quieres agregar el Web Widget a su sitio web?"
+        }
+      ]
+    },
+    "Voting": {
+      "header": "VOTING: La æpp de gobernanza también está en SUPERHERO.com!",
+      "sections": [
+        {
+          "text": "Votación en la cadena de bloques: transparente y públicamente verificable."
+        },
+        {
+          "text": "Crear mecanismos de gobernanza para organizaciones autónomas.."
+        },
+        {
+          "text": "PARA LANZAR UNA ENCUESTA {br} {br} Vaya a la sección Votación en SUPERHERO.com. {br} Haga clic en el icono + en la parte inferior derecha de la pantalla de votación. {br} Complete el título de la encuesta, la descripción y agregue un enlace a una discusión o documento de referencia. {br} Las encuestas pueden hacerse públicas o no privadas. {br} Añadir opciones de encuesta. {br} Establezca la fecha y hora de cierre de la encuesta. Si desea que una encuesta se ejecute para siempre, establezca el campo CERRAR EN ALTURA en cero. {br} Haga clic en Crear encuesta. {br} Una ventana emergente le pedirá confirmación para la encuesta. Haga clic en CONFIRMAR."
+        },
+        {
+          "text": "PARA VOTAR EN UNA ENCUESTA {br} {br} Elija una encuesta abierta en la sección Votación de SUPERHERO.com. {br} Marque la casilla junto a su voto. Aparecerá una ventana emergente. Haga clic en CONFIRMAR "
+        },
+        {
+          "text": "IMPORTANTE: Tenga en cuenta que su poder de voto depende del saldo de su billetera AE EN EL MOMENTO QUE TERMINE LA ENCUESTA, no en el momento de emitir su voto. Para maximizar su poder de voto para una encuesta en particular o una decisión de gobernanza, asegúrese de tener muchos tokens AE en su billetera en el momento en que se programa una encuesta para concluir."
+        }
+      ]
+    },
+    "Meet": {
+      "header": "Superhero MEET: crea tus propias conferencias en línea.",
+      "sections": [
+        {
+          "text": "¡Lanza tu propia edición de SuperheroLeague y encuentros en línea! "
+        },
+        {
+          "text": "Listo para empezar?"
+        }
+      ]
+    },
+    "Profile_Channels": {
+      "header": "PERFIL Y CANALES: * próximamente. * ",
+      "sections": [
+        {
+          "text": "Construye tu perfil y seguidores. Muestra tus creaciones en tu propio canal!"
+        },
+        {
+          "text": "Deja que otros superhéroes sepan de qué se trata su proyecto. Permite que tus seguidores vean actualizaciones y contenido nuevo, y que te den propina al instante por tu increíble trabajo."
+        }
+      ]
+    },
+    "Graffiti": {
+      "header": "GRAFFITI æpp: * próximamente!*",
+      "sections": [
+        {
+          "text": "Colaboración artística descentralizada y propiedad compartida a través del graffiti æpp."
+        },
+        {
+          "text": "Compra porciones de obras de arte, ya sean digitales o físicas, e intercambia fácilmente su propiedad con todo el mundo"
+        }
+      ]
+    },
+    "Time-back": {
+      "header": "MÁQUINA DEL TIEMPO: * ¡próximamente!*",
+      "sections": [
+        {
+          "text": "Este superpoder permite a los usuarios retroceder al estado pasado de un página web en función de los registros de blockchain con fecha y hora de cuando se hizo la propina."
+        }
+      ]
+    },
+    "TipWall": {
+      "header": "TIPWALL: * próximamente *",
+      "sections": [
+        {
+          "text": "Monetiza tu contenido permitiendo que tus seguidores te apoyen con propinas para ver la totalidad de tu trabajo "
+        }
+      ]
+    },
+    "Tokens & Communities": {
+      "header": "TOKENS y COMUNIDADES: inicie ventas de tokens para su proyecto o comunidad. *¡próximamente!*",
+      "sections": [
+        {
+          "text": "Interacción social y colaboración a través de comunidades. ¡Lanza misiones con otros superhéroes! "
+        },
+        {
+          "text": "¡Suscríbete para recibir actualizaciones tempranas sobre tokens y otras futuras funciones de Superhero.com!"
+        }
+      ] 
+    }
+  },
+  "components": {
+    "layout": {
+      "FooterSection": {
+        "Feedback": "Comentario",
+        "Support": "Soporte",
+        "FooterInfo": "Superhero es Open Source",
+        "ContributeOnGithub": "Contribuye en Github",
+        "Terms": "Terminos",
+        "Privacy": "Privacidad",
+        "HowItWorks": "Cómo funciona",
+        "LoginWithWallet": "Inicie sesión con Web Wallet"
+      },
+      "Navigation": {
+        "MyProfile": "Mi Perfil",
+        "League": "League",
+        "Governance": "Votar"
+      },
+      "Overview": {
+        "TipsAggregated": "Propinas agregadas",
+        "UniqueTipSenders": "Remitentes únicos de propinas",
+        "TotalTipsValue": "Valor total de las propinas",
+        "TotalTipsClaimed": "Propinas reclamadas en total",
+        "LatestBlock": "Último bloque",
+        "PoweredBy": "Respaldado por"
+      },
+      "RightSection": {
+        "Wallet": "Billetera",
+        "LoginWithWallet": "Inicie sesión con Web Wallet",
+        "InstallWallet": "Instalar Billetera",
+        "Trending": "Tendencias"
+      },
+      "SendTip": {
+        "NewTip": "Nueva propina",
+        "EnterURL": "Introducir URL",
+        "SuccessHeader": "Eres un Superhero",
+        "SuccessText": "Propina!",
+        "ErrorHeader": "Algo ha ido mal",
+        "ErrorText": "Propina no enviada, prueba de nuevo",
+        "SendNewTip": "Enviar nueva propina"
+      }
+    },
+    "onboarding": {
+      "steps": {
+        "next": "Siguiente",
+        "step1": {
+          "header": "Presentando Superhero:",
+          "socialPlatform": "Una plataforma social sin una agenda oculta.",
+          "subheader": "El primer Superpoder de Superhero es lanzar una",
+          "P2Ptool": "Una herramienta P2P para recibir o enviar propinas a una URL",
+          "with": "con...",
+          "zeroTxFees": " Tarifas de transacción casi zero.",
+          "cutOurIntermediaries": "Quitar intermediarios,",
+          "SendingorReceiving": "aprovechando el envío o recepción de apoyo.",
+          "noWaitTime": "Sin tiempo de espera.",
+          "Transfers": "Transacciones",
+          "instant": "son instantáneas.",
+          "noCensorship": "Sin censura.",
+          "No3rdParty": "No hay terceros que controlen la",
+          "keepIP": "aprobación o publicación de propinas. Mantenga la propiedad de su IP.",
+          "welcome": "Bienvenido a una web donde puedes realizar transacciones a tu antojo.!",
+          "button": "Comienza tu aventura Superhero"
+        },
+        "step2": {
+          "header": "Instalar Superhero Wallet {br} Una herramienta para el bien común creada en {a}",
+          "subheader": "Superhero empodera a {personasApoyándoapersonas} {br}, incluida la capacidad de transferir criptomonedas AE P2P. {br} {sendTips} directamente a tus creadores favoritos, causas, proyectos... {br} {receiveTips} directamente de. {br} {consigueoDaAyuda} a cualquier URL en la web que te apetezca. {br}",
+          "peopleSupportingPeople": "genteapoyandoagente,",
+          "sendTips": "Enviar propinas",
+          "receiveTips": "Recibir propinas",
+          "getOrGiveHelp": "Consigue o da ayuda",
+          "bolder": "Para empezar, necesitarás una billetera. Es gratis. Es fácil. {br} {click} {br} de instalar la billetera Superhero:",
+          "click": "Elige la extensión del navegador o la aplicación móvil",
+          "learnMore": "Aprende:",
+          "tutorial": "Tutorial",
+          "aeternityBlockchain": "aeternity blockchain"
+        },
+        "step3": {
+          "header": "Recibir propinas: {br} Haciendo de Internet un lugar mas justo",
+          "info": "Una vez que tu billetera Superhero esté instalada:{br} {pasteYourWallet} a tu URL.{br} {openYourURL} tu billetera puede recoger instantáneamente las propinas que recibas.",
+          "pasteYourWallet": "1. Pega la dirección de tu billetera",
+          "openYourURL": "2. Carga tu URL",
+          "peopleCanDirectlySupport": "Las personas pueden apoyar directamente su contenido, causa, proyecto (o a ti simplemente por ser tu mismo) sin intermediarios."
+        },
+        "step4": {
+          "header": "Enviar: {br} Haciendo de Internet un lugar mejor",
+          "info": "Una vez que tu billetera Superhero esté instalada{br} {visitaLAURL} a la que quieres apoyar. {br} {clickEnviarpropina} en tu billetera. {br} {ingresa cuanto quieres dar de propina} y opcionalmente un mensaje.",
+          "visitTheURL": "1. Visita la URL",
+          "clickSendTips": "2. Click Enviar propina",
+          "enterTipAmount": "3. ingresa de cuanto quieres dar de propina",
+          "youCanDirectlySupport": "Puedes apoyar directamente el contenido, la causa y el proyecto de cualquier persona en cualquier URL pública sin intermediario."
+        },
+        "step5": {
+          "header": "Bienvenido a Superhero!",
+          "info": "Puedes entrar en acción creando tu {br} perfil personalizado y tus preferencias para {superherocom}",
+          "installWallet": "Crear perfil",
+          "setUpProfile": "Crear tu propio perfil"
+        }
+      },
+      "wizard": {
+        "title": "Únete Superhero"
+      }
+    },
+    "tipRecords": {
+      "TipComment": {
+        "Replies": "Respuestas"
+      },
+      "TipRecord": {
+        "reportPost": "Responder Post",
+        "reportPostTitle": "Gracias por hacérnoslo saber",
+        "reportPostBody": "Nuestro equipo de soporte lo investigará",
+        "claim": "Reclamación"
+      }
+    },
+    "TipInput": {
+      "error": "Ocurrió un error mientras se enviaba la propina. Por favor pruébalo de nuevo más tarde.",
+      "retip": "Volver a dar propina",
+      "tipUser": "Usuario de propina",
+      "totalTipsWithYou": "Total de propinas (tambíen tu)",
+      "totalTips": "Total de propinas (click para volver a dar propina a la misma URL)",
+      "totalRetips": "Total monto de re-propinas",
+      "tipComment": "Da propina por contenido"
+    },
+    "TipsPagination": {
+      "NoResultsMsg": "No se han encontrado resultados"
+    },
+    "UrlStatus": {
+      "verifiedTitle": "",
+      "notverifiedTitle": "",
+      "blacklisted": ""
+    }
+  },
+  "Networking": {
+    "MenuLink": "Encontrar",
+    "Placeholder": "Nombre de la habitación",
+    "Start": "Empieza"
+  }
+}

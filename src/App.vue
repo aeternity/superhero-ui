@@ -51,11 +51,9 @@ export default {
       this.reloadData();
     });
     setInterval(() => this.reloadData(), 120 * 1000);
-    EventBus.$on('backendError', () => {
-      this.$router.push({
-        name: 'maintenance',
-      }).catch((err) => { console.error(err); });
-    });
+    EventBus.$on('backendError', () => this.$route.name !== 'maintenance' && this.$router.push({
+      name: 'maintenance',
+    }).catch((err) => { console.error(err); }));
     await this.initialLoad();
   },
   methods: {

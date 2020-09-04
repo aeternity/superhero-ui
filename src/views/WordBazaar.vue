@@ -1,11 +1,14 @@
 <template>
   <div>
+    <!-- eslint-disable vue-i18n/no-raw-text -->
     <h1>Word Bazaar Prototype</h1>
-    <input v-model="newWord"/>
+    <!-- eslint-disable vue/html-self-closing -->
+    <input v-model="newWord" />
     <button @click="createWordSale">
+      <!-- eslint-disable vue-i18n/no-raw-text -->
       Create
     </button>
-    <hr/>
+    <hr />
     <a
       v-for="[word, sale] in wordRegistryState && wordRegistryState.tokens"
       :key="word"
@@ -16,18 +19,26 @@
     <div v-if="selectedWord">
       <h2>{{ selectedWord }}</h2>
       <div>
+        <!-- eslint-disable vue/html-self-closing -->
         <input
           v-model="buyAmount"
           type="number"
         />
-        <button @click="buy">Buy</button>
+        <button @click="buy">
+          <!-- eslint-disable vue-i18n/no-raw-text -->
+          Buy
+        </button>
       </div>
       <div>
+        <!-- eslint-disable vue/html-self-closing -->
         <input
           v-model="sellAmount"
           type="number"
         />
-        <button @click="sell">Sell</button>
+        <button @click="sell">
+          <!-- eslint-disable vue-i18n/no-raw-text -->
+          Sell
+        </button>
       </div>
     </div>
   </div>
@@ -76,12 +87,12 @@ export default {
     },
     async selectWord(word, sale) {
       this.selectedWordContract = await client
-        .getContractInstance(TOKEN_SALE_CONTRACT, {contractAddress: sale});
+        .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: sale });
       this.selectedWord = word;
     },
     async buy() {
       await this.selectedWordContract.methods
-        .buy({amount: util.shiftDecimalPlaces(this.buyAmount, 18).toFixed()});
+        .buy({ amount: util.shiftDecimalPlaces(this.buyAmount, 18).toFixed() });
       const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
       await backend.invalidateTokenCache(token);
       EventBus.$emit('reloadData');
@@ -100,7 +111,7 @@ export default {
 
 <style lang="scss" scoped>
 a {
-  margin-right: .5rem;
+  margin-right: 0.5rem;
   text-decoration: underline !important;
 }
 </style>

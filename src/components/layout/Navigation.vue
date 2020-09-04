@@ -30,6 +30,10 @@
       <IconUser />
       {{ $t('components.layout.Navigation.MyProfile') }}
     </RouterLink>
+    <RouterLink :to="{ name: 'wordbazaar' }">
+      <IconDiamond />
+      {{ $t('components.layout.Navigation.WordBazaar') }}
+    </RouterLink>
     <RouterLink :to="{ name: 'league' }">
       <IconDiamond />
       {{ $t('components.layout.Navigation.League') }}

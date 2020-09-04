@@ -85,7 +85,11 @@ import TokenAvatarAndSymbol from '../fungibleTokens/TokenAvatarAndSymbol.vue';
 
 export default {
   components: {
-    RightSectionTitle, AeAmount, Dropdown, OutlinedButton, TokenAvatarAndSymbol,
+    RightSectionTitle,
+    AeAmount,
+    Dropdown,
+    OutlinedButton,
+    TokenAvatarAndSymbol,
   },
   props: { closed: Boolean },
   data: () => ({

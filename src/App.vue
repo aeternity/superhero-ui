@@ -58,7 +58,7 @@ export default {
       'setAddress', 'updateTopics', 'updateCurrencyRates',
       'setOracleState', 'setChainNames', 'updateBalance',
       'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
-      'setPinnedItems',
+      'addTokenPrice', 'setPinnedItems',
     ]),
     async reloadData() {
       const [
@@ -93,8 +93,17 @@ export default {
         })(),
         (async () => {
           const tokens = await Backend.getTokenBalances(this.address);
-          await Promise.all(Object.entries(tokens).map(async ([token]) => this
-            .addTokenBalance({ token, balance: await tokenBalance(token, this.address) })));
+          await Promise.all(Object.entries(tokens).map(async ([token]) => {
+            this.addTokenBalance({
+              token,
+              balance: await tokenBalance(token, this.address),
+            });
+            this.addTokenPrice({
+              token,
+              price: await Backend.getWordSaleDetailsByToken(token)
+                .then((s) => s.buyPrice).catch(() => null),
+            });
+          }));
         })(),
       ]);
     },

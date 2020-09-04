@@ -1,42 +1,18 @@
 <template>
   <div>
-    <div class="profile__actions">
-      <div
-        class="activity-ribbon"
-      >
-        <FilterButton
-          :class="{ active: activity === 'channel' }"
-          @click="activity = 'channel'; activeTab = 'tips'"
-        >
-          <IconChannel />
-          <span class="vertical-align-mid">
-            {{ $t('components.ListOfTipsAndComments.Channel') }}
-          </span>
-        </FilterButton>
-        <FilterButton
-          :class="{ active: activity === 'activity' }"
-          @click="activity = 'activity'"
-        >
-          <IconActivity />
-          <span class="vertical-align-mid">
-            {{ $t('components.ListOfTipsAndComments.Activity') }}
-          </span>
-        </FilterButton>
-      </div>
-      <a
-        :class="{ active: activeTab === 'tips' }"
-        @click="setActiveTab('tips')"
-      >
-        {{ $t('tips') }}
-      </a>
-      <a
-        v-if="activity === 'activity'"
-        :class="{ active: activeTab === 'comments' }"
-        @click="setActiveTab('comments')"
-      >
-        {{ $t('comments') }}
-      </a>
-    </div>
+    <ActivityRibbon
+      :tabs="ribbonTabs"
+      :activity="activity"
+      :set="(setActivity) => activity = setActivity"
+    />
+
+    <TabBar
+      v-if="activity === 'activity'"
+      :tabs="tabs"
+      :active-tab="activeTab"
+      :set="(setTab) => activeTab = setTab"
+    />
+
     <div class="position-relative">
       <div
         v-if="activeTab === 'tips' && activity === 'activity'"
@@ -99,17 +75,17 @@ import TipComment from './tipRecords/TipComment.vue';
 import TipRecord from './tipRecords/TipRecord.vue';
 import IconChannel from '../assets/iconChannel.svg?icon-component';
 import IconActivity from '../assets/iconActivity.svg?icon-component';
-import FilterButton from './FilterButton.vue';
+import ActivityRibbon from './ActivityRibbon.vue';
+import TabBar from './TabBar.vue';
 
 export default {
   components: {
+    TabBar,
     TipsPagination,
     Loading,
     TipComment,
     TipRecord,
-    IconChannel,
-    IconActivity,
-    FilterButton,
+    ActivityRibbon,
   },
   props: { address: { type: String, required: true } },
   data: () => ({
@@ -131,6 +107,12 @@ export default {
     },
     comments() {
       return this.$store.state.backend.userComments[this.address] || [];
+    },
+    ribbonTabs() {
+      return [{ icon: IconChannel, text: this.$t('components.ListOfTipsAndComments.Channel'), activity: 'channel' }, { icon: IconActivity, text: this.$t('components.ListOfTipsAndComments.Activity'), activity: 'activity' }];
+    },
+    tabs() {
+      return [{ text: this.$t('tips'), tab: 'tips' }, { text: this.$t('comments'), tab: 'comments' }];
     },
   },
   mounted() {

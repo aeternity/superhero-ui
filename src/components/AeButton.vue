@@ -51,5 +51,9 @@ export default {
   span {
     vertical-align: inherit;
   }
+
+  &.green {
+    background-color: $custom_links_color;
+  }
 }
 </style>

@@ -119,6 +119,8 @@ export default class Backend {
 
   static getTokenBalances = async (address) => backendFetch(`tokenCache/balances?address=${address}`);
 
+  static getWordSaleDetailsByToken = async (address) => backendFetch(`tokenCache/wordSaleByToken?address=${address}`);
+
   static cacheInvalidateTips = async () => backendFetch('cache/invalidate/tips');
 
   static getCommentCountForAddress = async (address) => backendFetch(`comment/count/author/${address}`);

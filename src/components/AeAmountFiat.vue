@@ -2,10 +2,9 @@
   <span class="ae-amount-fiat">
     <AeAmount
       v-bind="$attrs"
-      :token="token"
     />
     &nbsp;<FiatValue
-      v-bind="!token ? $attrs : { amount: 0 }"
+      v-bind="$attrs"
     />
   </span>
 </template>
@@ -18,9 +17,6 @@ export default {
   components: {
     FiatValue,
     AeAmount,
-  },
-  props: {
-    token: { type: String, default: null },
   },
 };
 </script>

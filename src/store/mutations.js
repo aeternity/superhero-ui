@@ -56,6 +56,11 @@ export default {
       .filter((bal, idx, arr) => !arr.slice(0, idx).some((b) => b.token === bal.token))
       .sort((a, b) => a.token.localeCompare(b.token));
   },
+  addTokenPrice(state, payload) {
+    const { tokenPrices } = state;
+    tokenPrices[payload.token] = payload.price;
+    state.tokenPrices = tokenPrices;
+  },
   setPinnedItems(state, pinnedItems) {
     state.pinnedItems = pinnedItems;
   },

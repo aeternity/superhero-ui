@@ -19,10 +19,7 @@
         >
           {{ name }}
         </span>
-        <span
-          v-if="!name || (tipRecord && name)"
-          class="address"
-        >
+        <span class="address">
           {{ address }}
         </span>
       </div>
@@ -47,7 +44,6 @@ export default {
   props: {
     address: { type: String, required: true },
     name: { type: String, default: '' },
-    tipRecord: { type: Boolean },
   },
 };
 </script>

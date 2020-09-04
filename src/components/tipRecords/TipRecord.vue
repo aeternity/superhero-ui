@@ -9,7 +9,6 @@
           :date="new Date(tip.timestamp)"
           :address="tip.sender"
           :name="tip.chainName"
-          tip-record
         >
           <ThreeDotsMenu>
             <div @click="sendReport">

@@ -94,13 +94,21 @@ export const scanForWallets = async () => {
   });
 };
 
-const createOrChangeAllowance = async (tokenAddress, amount) => {
+export const tokenBalance = async (token, address) => {
+  const tokenContract = await sdk
+    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token });
+
+  const { decodedResult } = await tokenContract.methods.balance(address);
+  return new BigNumber(decodedResult || 0).toFixed();
+};
+
+export const createOrChangeAllowance = async (tokenAddress, amount, forAccount = null) => {
   const tokenContract = await sdk
     .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
 
   const { decodedResult } = await tokenContract.methods.allowance({
     from_account: await sdk.address(),
-    for_account: process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+    for_account: forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
   });
 
   const allowanceAmount = decodedResult !== undefined
@@ -109,7 +117,7 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
 
   return tokenContract
     .methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
-      process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+      forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
       allowanceAmount,
     );
 };

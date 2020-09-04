@@ -17,6 +17,7 @@ import TutorialVoting from './views/tutorial/Voting.vue';
 import TutorialWallet from './views/tutorial/Wallet.vue';
 import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
+import WordBazaar from './views/WordBazaar.vue';
 
 const routes = [
   {
@@ -45,6 +46,15 @@ const routes = [
     path: '/tip/:tipId',
     name: 'tip',
     component: TipsAndComments,
+    props: true,
+  },
+  {
+    path: '/wordbazaar',
+    name: 'wordbazaar',
+    component: WordBazaar,
+    meta: {
+      title: 'Word Bazaar',
+    },
     props: true,
   },
   {

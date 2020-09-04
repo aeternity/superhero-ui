@@ -22,11 +22,17 @@
         <RightSection />
       </div>
     </div>
+    <Component
+      :is="component"
+      v-for="{ component, key, props } in opened"
+      :key="key"
+      v-bind="props"
+    />
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations, mapState, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
 import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
@@ -40,6 +46,7 @@ export default {
   name: 'App',
   components: { MobileNavigation, LeftSection, RightSection },
   computed: {
+    ...mapGetters('modals', ['opened']),
     ...mapState(['address']),
     isSupportedBrowser() {
       const browser = detect();

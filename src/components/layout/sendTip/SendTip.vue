@@ -1,6 +1,6 @@
 <template>
   <div class="send-tip tip__post">
-    <div v-if="open && !error && !success">
+    <div v-if="open">
       <div class="tip__post__label clearfix">
         <img
           :title="$t('close')"
@@ -46,14 +46,10 @@
       </form>
     </div>
     <MessageInput
-      v-else-if="!open && !error && !success"
+      v-else
       class="closed-view"
       :placeholder="$t('components.layout.SendTip.SendNewTip')"
       @focus="canTip ? toggleSendTip(true) : openTipDeeplink()"
-    />
-    <SendTipStatusMsg
-      v-else
-      :status="success"
     />
   </div>
 </template>
@@ -69,7 +65,6 @@ import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg?icon-component';
 import MessageInput from '../../MessageInput.vue';
 import UrlStatus from './UrlStatus.vue';
-import SendTipStatusMsg from './SendTipStatusMsg.vue';
 
 export default {
   name: 'SendTip',
@@ -78,7 +73,6 @@ export default {
     AeButton,
     MessageInput,
     UrlStatus,
-    SendTipStatusMsg,
     IconDiamond,
   },
   data() {
@@ -90,8 +84,6 @@ export default {
       },
       sendingTip: false,
       isBlacklistedUrl: false,
-      success: false,
-      error: false,
       open: false,
     };
   },
@@ -115,41 +107,29 @@ export default {
   methods: {
     async sendTip() {
       this.sendingTip = true;
-      this.resetStatuses();
       const amount = util.aeToAtoms(this.sendTipForm.amount);
       tip(this.sendTipForm.url, this.sendTipForm.title, amount)
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();
           EventBus.$emit('reloadData');
-          this.showSuccessMsg();
+          this.$store.dispatch('modals/open', {
+            name: 'success',
+            title: this.$t('components.layout.SendTip.SuccessHeader'),
+            body: this.$t('components.layout.SendTip.SuccessText'),
+          });
         }).catch((e) => {
           this.sendingTip = false;
           if (e.code && e.code === 4) {
             return;
           }
           console.error(e);
-          this.showErrorMsg();
+          this.$store.dispatch('modals/open', {
+            name: 'failure',
+            title: this.$t('components.layout.SendTip.ErrorHeader'),
+            body: this.$t('components.layout.SendTip.ErrorText'),
+          });
         });
-    },
-    showStatusMsg() {
-      setTimeout(() => {
-        this.resetStatuses();
-      }, 3000);
-    },
-    showErrorMsg() {
-      this.error = true;
-      this.success = false;
-      this.showStatusMsg();
-    },
-    showSuccessMsg() {
-      this.success = true;
-      this.error = false;
-      this.showStatusMsg();
-    },
-    resetStatuses() {
-      this.error = false;
-      this.success = false;
     },
     clearTipForm() {
       this.sendTipForm = { amount: 0, url: '', title: '' };

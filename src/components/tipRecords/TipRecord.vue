@@ -3,12 +3,6 @@
     class="tip__record row"
     @click="goToTip"
   >
-    <SuccessModal
-      v-if="showSuccessModal"
-      :title="$t('components.tipRecords.TipRecord.reportPostTitle')"
-      :body="$t('components.tipRecords.TipRecord.reportPostBody')"
-      @close="showSuccessModal = false"
-    />
     <div class="tip__body">
       <div class="tip__description">
         <AuthorAndDate
@@ -133,7 +127,6 @@ import { mapState } from 'vuex';
 import Backend from '../../utils/backend';
 import backendAuthMixin from '../../utils/backendAuthMixin';
 import TipInput from '../TipInput.vue';
-import SuccessModal from '../SuccessModal.vue';
 import TipTitle from './TipTitle.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import AuthorAndDate from './AuthorAndDate.vue';
@@ -144,7 +137,6 @@ export default {
   components: {
     TipTitle,
     TipInput,
-    SuccessModal,
     ThreeDotsMenu,
     ExternalLink,
     AuthorAndDate,
@@ -152,11 +144,6 @@ export default {
   mixins: [backendAuthMixin(true)],
   props: {
     tip: { type: Object, required: true },
-  },
-  data() {
-    return {
-      showSuccessModal: false,
-    };
   },
   computed: {
     ...mapState(['address', 'useSdkWallet']),
@@ -185,7 +172,13 @@ export default {
   methods: {
     async sendReport() {
       await this.backendAuth('sendPostReport', { tipId: this.tip.id }, this.toTip);
-      this.showSuccessModal = this.useSdkWallet;
+      if (this.useSdkWallet) {
+        await this.$store.dispatch('modals/open', {
+          name: 'success',
+          title: this.$t('components.tipRecords.TipRecord.reportPostTitle'),
+          body: this.$t('components.tipRecords.TipRecord.reportPostBody'),
+        });
+      }
     },
     async claim() {
       await Backend.claimFromUrl({

@@ -21,7 +21,6 @@ import MessageInput from './MessageInput.vue';
 import Backend from '../utils/backend';
 
 export default {
-  name: 'SendComment',
   components: { MessageInput },
   props: {
     tipId: { type: [Number, String], required: true },

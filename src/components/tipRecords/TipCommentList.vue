@@ -31,7 +31,6 @@ import TipComment from './TipComment.vue';
 import SendComment from '../SendComment.vue';
 
 export default {
-  name: 'TipCommentList',
   components: {
     TipComment,
     SendComment,

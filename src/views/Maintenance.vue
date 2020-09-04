@@ -10,7 +10,6 @@
 import { EventBus } from '../utils/eventBus';
 
 export default {
-  name: 'Maintenance',
   mounted() {
     const interval = setInterval(() => EventBus.$emit('reloadData'), 10 * 1000);
 

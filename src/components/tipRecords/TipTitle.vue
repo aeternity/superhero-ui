@@ -25,7 +25,6 @@ import TippingContractUtil from '../../utils/tippingContractUtil';
 import Topic from './Topic.vue';
 
 export default {
-  name: 'TipTitle',
   components: { Topic },
   props: {
     tip: { type: Object, required: true },

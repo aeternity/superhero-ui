@@ -11,7 +11,6 @@ import BigNumber from 'bignumber.js';
 import util from '../utils/util';
 
 export default {
-  name: 'AeAmount',
   props: {
     amount: { type: [String, Number], default: 0 },
     round: { type: Number, default: 2 },

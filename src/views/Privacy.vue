@@ -19,7 +19,6 @@
 import { isTitle, getI18nPath } from '../utils/util';
 
 export default {
-  name: 'Privacy',
   methods: {
     getI18nPath,
     isTitle,

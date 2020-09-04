@@ -132,7 +132,6 @@ import AuthorAndDate from './AuthorAndDate.vue';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
-  name: 'TipRecord',
   components: {
     TipTitle,
     TipInput,

@@ -36,7 +36,6 @@
 
 <script>
 export default {
-  name: 'SearchInput',
   props: {
     sided: { type: Boolean },
   },

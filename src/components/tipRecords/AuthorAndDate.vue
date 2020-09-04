@@ -36,7 +36,6 @@ import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 
 export default {
-  name: 'AuthorAndDate',
   components: {
     FormatDate,
     Avatar,

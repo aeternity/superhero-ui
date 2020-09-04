@@ -51,7 +51,6 @@ import IconGovernance from '../../assets/iconGovernance.svg?icon-component';
 // import IconMeet from '../../assets/iconMeet.svg?icon-component';
 
 export default {
-  name: 'Navigation',
   components: {
     IconTips,
     IconUser,

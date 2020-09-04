@@ -26,7 +26,6 @@
 
 <script>
 export default {
-  name: 'VueDropdown',
   props: {
     options: { type: Array, default: null },
     selected: { type: String, default: '' },

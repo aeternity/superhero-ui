@@ -63,7 +63,6 @@ import AeAmountFiat from './AeAmountFiat.vue';
 import Modal from './Modal.vue';
 
 export default {
-  name: 'TipInput',
   components: {
     Loading,
     AeInputAmount,

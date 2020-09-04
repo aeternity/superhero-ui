@@ -34,7 +34,6 @@
 import ExpandableBlock from '../components/ExpandableBlock.vue';
 
 export default {
-  name: 'FAQ',
   components: {
     ExpandableBlock,
   },

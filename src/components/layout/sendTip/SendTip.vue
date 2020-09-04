@@ -67,7 +67,6 @@ import MessageInput from '../../MessageInput.vue';
 import UrlStatus from './UrlStatus.vue';
 
 export default {
-  name: 'SendTip',
   components: {
     AeInputAmount,
     AeButton,

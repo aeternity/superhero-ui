@@ -62,7 +62,6 @@ import IconMobileMenu from '../../assets/iconMobileMenu.svg?icon-component';
 import ButtonPlain from '../ButtonPlain.vue';
 
 export default {
-  name: 'MobileNavigation',
   components: {
     Navigation,
     FooterSection,

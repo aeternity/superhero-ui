@@ -51,7 +51,6 @@ import Checkbox from '../components/Checkbox.vue';
 import ButtonPlain from '../components/ButtonPlain.vue';
 
 export default {
-  name: 'TipsList',
   components: {
     TipsPagination,
     SendTip,

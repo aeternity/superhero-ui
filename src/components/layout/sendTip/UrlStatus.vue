@@ -14,7 +14,6 @@ import blacklistedUrl from '../../../assets/blacklistedUrl.svg';
 import defaultUrl from '../../../assets/defaultUrl.svg';
 
 export default {
-  name: 'UrlStatus',
   props: {
     url: { type: String, default: '' },
   },

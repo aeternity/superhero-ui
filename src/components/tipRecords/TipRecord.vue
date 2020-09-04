@@ -181,10 +181,23 @@ export default {
       }
     },
     async claim() {
-      await Backend.claimFromUrl({
-        url: this.tip.url,
-        address: this.address,
-      });
+      try {
+        await Backend.claimFromUrl({
+          url: this.tip.url,
+          address: this.address,
+        });
+        this.$store.dispatch('modals/open', {
+          name: 'success',
+          title: this.$t('components.tipRecords.TipRecord.claimTitle'),
+          body: this.$t('components.tipRecords.TipRecord.claimBodySuccess'),
+        });
+      } catch (e) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: this.$t('components.tipRecords.TipRecord.claimTitle'),
+          body: this.$t('components.tipRecords.TipRecord.claimBodyFailure'),
+        });
+      }
     },
     async pinOrUnPinTip() {
       await this.backendAuth(

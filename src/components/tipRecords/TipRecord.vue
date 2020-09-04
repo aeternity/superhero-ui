@@ -10,20 +10,14 @@
           :address="tip.sender"
           :name="tip.chainName"
         >
-          <ThreeDotsMenu>
+          <ThreeDotsMenu v-if="address">
             <div @click="sendReport">
               {{ $t('components.tipRecords.TipRecord.reportPost') }}
             </div>
-            <div
-              v-if="address"
-              @click="claim"
-            >
+            <div @click="claim">
               {{ $t('components.tipRecords.TipRecord.claim') }}
             </div>
-            <div
-              v-if="address"
-              @click="pinOrUnPinTip"
-            >
+            <div @click="pinOrUnPinTip">
               {{
                 isTipPinned ?
                   $t('components.tipRecords.TipRecord.UnPin')

@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     goToCommentPage(tipId, id) {
+      if (this.$route.params.id === this.comment.id) return;
       this.$router.push({
         name: 'comment',
         params: {

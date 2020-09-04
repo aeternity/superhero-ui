@@ -270,8 +270,7 @@ export default {
     @media (min-width: 768px) {
       .send-url,
       .send-amount {
-        padding-right: 0.25rem;
-        padding-left: 0.25rem;
+        padding: 0 0.25rem;
       }
 
       .col-md-2 {

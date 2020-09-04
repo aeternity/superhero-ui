@@ -452,7 +452,7 @@ export default {
 
     .tip__record {
       margin-bottom: 0.5rem;
-      padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+      padding: 0.5rem;
       position: relative;
 
       .tip__body .tip__description .author-and-date ::v-deep {

@@ -6,9 +6,7 @@
         class="cover-photo"
         :style="{ 'background-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
       />
-      <div
-        class="cover-overlay"
-      />
+      <div class="cover-overlay" />
       <div
         class="profile__header"
         :class="{ 'profile__editable': currentAddress === address }"
@@ -126,9 +124,7 @@
                 type="text"
                 :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
               >
-              <span
-                v-if="!editMode && (profile.location.length || currentAddress === address)"
-              >
+              <span v-if="!editMode && (profile.location.length || currentAddress === address)">
                 {{
                   profile.location.length
                     ? profile.location

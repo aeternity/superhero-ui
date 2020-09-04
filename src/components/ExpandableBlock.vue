@@ -28,7 +28,6 @@
 import iconDrawer from '../assets/iconDrawer.svg';
 
 export default {
-  name: 'ExpandableBlock',
   props: {
     title: { type: String, required: false, default: '' },
   },

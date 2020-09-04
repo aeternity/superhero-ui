@@ -9,7 +9,6 @@
 
 <script>
 export default {
-  name: 'BackButtonRibbon',
   methods: {
     back() {
       if (!this.$store.state.route.from.name) {

@@ -20,7 +20,6 @@ import Navigation from './Navigation.vue';
 import Overview from './Overview.vue';
 
 export default {
-  name: 'LeftSection',
   components: {
     Overview,
     Navigation,

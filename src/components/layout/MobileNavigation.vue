@@ -4,13 +4,13 @@
     v-if="showOverlay"
     class="mobile-navigation-overlay"
   >
-    <button
+    <ButtonPlain
       class="close-button"
       @click="showOverlay = false"
     >
       <!--eslint-disable-line vue-i18n/no-raw-text-->
       &#x2715;
-    </button>
+    </ButtonPlain>
     <Navigation mobile />
     <FooterSection />
   </div>
@@ -38,15 +38,15 @@
     >
       <IconDiamond />
     </a>
-    <button
+    <ButtonPlain
       v-if="isTipsRoute"
       @click="showSearchInput = true"
     >
       <IconSearch />
-    </button>
-    <button @click="showOverlay = true">
+    </ButtonPlain>
+    <ButtonPlain @click="showOverlay = true">
       <IconMobileMenu />
-    </button>
+    </ButtonPlain>
   </div>
 </template>
 
@@ -59,9 +59,9 @@ import { createDeepLinkUrl } from '../../utils/util';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
 import IconSearch from '../../assets/iconSearch.svg?icon-component';
 import IconMobileMenu from '../../assets/iconMobileMenu.svg?icon-component';
+import ButtonPlain from '../ButtonPlain.vue';
 
 export default {
-  name: 'MobileNavigation',
   components: {
     Navigation,
     FooterSection,
@@ -69,6 +69,7 @@ export default {
     IconDiamond,
     IconSearch,
     IconMobileMenu,
+    ButtonPlain,
   },
   data: () => ({
     showOverlay: false,
@@ -93,13 +94,6 @@ export default {
 .mobile-navigation-overlay,
 .mobile-navigation {
   background-color: $background_color;
-
-  button {
-    background: none;
-    border: none;
-    outline: none;
-    padding: 0;
-  }
 }
 
 .mobile-navigation-overlay {
@@ -141,7 +135,7 @@ export default {
   }
 
   a:not(.logo),
-  button {
+  .button-plain {
     svg {
       color: $standard_font_color;
       height: 1.1rem;

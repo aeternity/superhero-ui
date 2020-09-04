@@ -9,22 +9,15 @@
           :date="new Date(tip.timestamp)"
           :address="tip.sender"
           :name="tip.chainName"
-          tip-record
         >
-          <ThreeDotsMenu>
+          <ThreeDotsMenu v-if="address">
             <div @click="sendReport">
               {{ $t('components.tipRecords.TipRecord.reportPost') }}
             </div>
-            <div
-              v-if="address"
-              @click="claim"
-            >
+            <div @click="claim">
               {{ $t('components.tipRecords.TipRecord.claim') }}
             </div>
-            <div
-              v-if="address"
-              @click="pinOrUnPinTip"
-            >
+            <div @click="pinOrUnPinTip">
               {{
                 isTipPinned ?
                   $t('components.tipRecords.TipRecord.UnPin')
@@ -133,7 +126,6 @@ import AuthorAndDate from './AuthorAndDate.vue';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
-  name: 'TipRecord',
   components: {
     TipTitle,
     TipInput,
@@ -216,6 +208,7 @@ export default {
         );
     },
     goToTip() {
+      if (this.$route.params.tipId === this.tip.id) return;
       this.$router.push(this.toTip);
     },
   },
@@ -473,7 +466,7 @@ export default {
 
     .tip__record {
       margin-bottom: 0.5rem;
-      padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+      padding: 0.5rem;
       position: relative;
 
       .tip__body .tip__description .author-and-date ::v-deep {

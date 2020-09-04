@@ -25,6 +25,7 @@ export default {
 <style lang="scss" scoped>
 .button-plain {
   display: inline-block;
+  outline: none;
   border: none;
   background: transparent;
   padding: 0;

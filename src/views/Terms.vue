@@ -22,7 +22,6 @@
 import { isTitle, getI18nPath } from '../utils/util';
 
 export default {
-  name: 'Terms',
   methods: {
     getI18nPath,
     isTitle,

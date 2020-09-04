@@ -74,7 +74,6 @@ import { createDeepLinkUrl } from '../../utils/util';
 import OutlinedButton from '../OutlinedButton.vue';
 
 export default {
-  name: 'FooterSection',
   components: {
     OutlinedButton,
   },

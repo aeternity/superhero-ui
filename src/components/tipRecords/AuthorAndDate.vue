@@ -19,10 +19,7 @@
         >
           {{ name }}
         </span>
-        <span
-          v-if="!name || (tipRecord && name)"
-          class="address"
-        >
+        <span class="address">
           {{ address }}
         </span>
       </div>
@@ -39,7 +36,6 @@ import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 
 export default {
-  name: 'AuthorAndDate',
   components: {
     FormatDate,
     Avatar,
@@ -47,7 +43,6 @@ export default {
   props: {
     address: { type: String, required: true },
     name: { type: String, default: '' },
-    tipRecord: { type: Boolean },
   },
 };
 </script>

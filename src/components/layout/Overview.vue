@@ -54,7 +54,6 @@ import { mapState } from 'vuex';
 import AeAmountFiat from '../AeAmountFiat.vue';
 
 export default {
-  name: 'Overview',
   components: { AeAmountFiat },
   computed: mapState('backend', ['stats']),
 };

@@ -14,7 +14,6 @@
 
 <script>
 export default {
-  name: 'Checkbox',
   props: {
     checked: Boolean,
   },

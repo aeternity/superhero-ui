@@ -132,7 +132,6 @@ import AeAmount from '../../components/AeAmount.vue';
 import FormatDate from '../../components/tipRecords/FormatDate.vue';
 
 export default {
-  name: 'Tracing',
   components: { FormatDate, AeAmount },
   props: {
     tipId: { type: [String, Number], required: true },

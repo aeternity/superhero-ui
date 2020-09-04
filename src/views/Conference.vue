@@ -15,7 +15,6 @@ import { IS_MOBILE_DEVICE } from '../utils/util';
 import Loading from '../components/Loading.vue';
 
 export default {
-  name: 'Conference',
   components: { Loading },
   props: {
     room: { type: String, default: '' },

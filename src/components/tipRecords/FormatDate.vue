@@ -9,7 +9,6 @@
 
 <script>
 export default {
-  name: 'FormatDate',
   props: {
     date: { type: Date, required: true },
   },

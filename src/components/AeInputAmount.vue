@@ -34,7 +34,6 @@
 import FiatValue from './FiatValue.vue';
 
 export default {
-  name: 'AeInputAmount',
   components: {
     FiatValue,
   },

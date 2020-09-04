@@ -33,7 +33,6 @@ import RightSectionWallet from './RightSectionWallet.vue';
 import RightSectionTopics from './RightSectionTopics.vue';
 
 export default {
-  name: 'RightSection',
   components: {
     SearchInput,
     RightSectionWallet,

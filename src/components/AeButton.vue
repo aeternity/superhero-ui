@@ -34,14 +34,14 @@ export default {
 <style lang="scss" scoped>
 .ae-button {
   height: 2.3rem;
-  min-width: 3.5rem;
+  min-width: 4.5rem;
   color: $standard_font_color;
   background-color: $secondary_color;
   border: none;
 
   .loading {
     transform: scale(0.6);
-    margin-top: -0.3rem;
+    margin-top: -0.7rem;
   }
 
   &[disabled] {

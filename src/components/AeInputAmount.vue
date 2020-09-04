@@ -57,6 +57,15 @@
     </div>
 
     <div
+      v-if="selectedToken === 'native' && !symbol"
+      class="input-group-append"
+    >
+      <span class="input-group-text append__ae text-ellipsis">
+        <span class="ae">{{ symbol }}</span>
+      </span>
+    </div>
+
+    <div
       v-if="symbol"
       class="input-group-append"
     >
@@ -129,6 +138,10 @@ export default {
 
   .input-group-text {
     display: block;
+  }
+
+  &.disabled {
+    opacity: 0.44;
   }
 
   &.disabled {

@@ -73,6 +73,12 @@ export const initSdk = async () => {
   store.commit('setBackendStatus', true);
 };
 
+export const getClient = async () => {
+  if (sdk) return sdk;
+  await new Promise((r) => setTimeout(r, 500));
+  return getClient();
+};
+
 export const scanForWallets = async () => {
   const scannerConnection = await BrowserWindowMessageConnection({
     connectionInfo: { id: 'spy' },
@@ -94,13 +100,21 @@ export const scanForWallets = async () => {
   });
 };
 
-const createOrChangeAllowance = async (tokenAddress, amount) => {
+export const tokenBalance = async (token, address) => {
+  const tokenContract = await sdk
+    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token });
+
+  const { decodedResult } = await tokenContract.methods.balance(address);
+  return new BigNumber(decodedResult || 0).toFixed();
+};
+
+export const createOrChangeAllowance = async (tokenAddress, amount, forAccount = null) => {
   const tokenContract = await sdk
     .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
 
   const { decodedResult } = await tokenContract.methods.allowance({
     from_account: await sdk.address(),
-    for_account: process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+    for_account: forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
   });
 
   const allowanceAmount = decodedResult !== undefined
@@ -109,7 +123,7 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
 
   return tokenContract
     .methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
-      process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+      forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
       allowanceAmount,
     );
 };
@@ -118,7 +132,7 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
 export const tip = async (url, title, amount, tokenAddress = null) => {
   await initTippingContractIfNeeded();
 
-  if (tokenAddress && tokenAddress !== 'native') {
+  if (tokenAddress !== null) {
     await createOrChangeAllowance(tokenAddress, amount);
     return contractV2.methods.tip_token(url, title, tokenAddress, amount);
   }
@@ -131,7 +145,7 @@ export const tip = async (url, title, amount, tokenAddress = null) => {
 export const retip = async (contractAddress, id, amount, tokenAddress = null) => {
   await initTippingContractIfNeeded();
 
-  if (tokenAddress && tokenAddress !== 'native') {
+  if (tokenAddress !== null) {
     await createOrChangeAllowance(tokenAddress, amount);
     return contractV2.methods.retip_token(Number(id.split('_')[0]), tokenAddress, amount);
   }

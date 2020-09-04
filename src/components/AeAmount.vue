@@ -2,7 +2,10 @@
   <span class="ae-amount">
     <template>{{ roundedAmount }}</template>
     <!--eslint-disable-next-line vue-i18n/no-raw-text-->
-    <span class="ae">{{ tokenSymbol || 'AE' }}</span>
+    <span
+      v-if="!noSymbol"
+      class="ae"
+    >{{ tokenSymbol || 'AE' }}</span>
   </span>
 </template>
 
@@ -15,6 +18,7 @@ export default {
     round: { type: Number, default: 2 },
     aettos: { type: Boolean, required: false },
     token: { type: String, default: null },
+    noSymbol: { type: Boolean },
   },
   computed: {
     ...mapGetters(['roundedTokenAmount']),

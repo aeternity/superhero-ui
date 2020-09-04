@@ -24,6 +24,7 @@
         :key="option.token"
         :amount="option.amount"
         :token="option.token"
+        :aettos="!!option.token"
       />
     </Dropdown>
     <Modal
@@ -102,7 +103,7 @@ export default {
   },
   data: () => ({
     inputValue: 0,
-    inputToken: 'native',
+    inputToken: null,
     showModal: false,
     showLoading: false,
     error: false,
@@ -141,7 +142,7 @@ export default {
         };
     },
     v1TipWarning() {
-      return this.tip && this.tip.id.split('_')[1] === 'v1' && this.inputToken !== 'native';
+      return this.tip && this.tip.id.split('_')[1] === 'v1' && this.inputToken !== null;
     },
     tipUrl() {
       if (this.comment) {
@@ -159,7 +160,7 @@ export default {
     },
     isValid() {
       return (this.tip || this.message.trim().length > 0)
-        && (this.inputToken !== 'native' || this.inputValue > this.minTipAmount);
+        && (this.inputToken !== null || this.inputValue > this.minTipAmount);
     },
     iconTip() {
       if (this.userAddress) return iconTipUser;
@@ -179,7 +180,7 @@ export default {
       this.showLoading = true;
       try {
         const amount = shiftDecimalPlaces(this.inputValue,
-          this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
+          this.inputToken !== null ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
         if (!this.tip) await tip(this.tipUrl, this.message, amount, this.inputToken);
         else await retip(this.tip.contractId, this.tip.id, amount, this.inputToken);
@@ -201,7 +202,7 @@ export default {
       this.message = '';
       this.inputValue = 0;
       this.error = false;
-      this.inputToken = 'native';
+      this.inputToken = null;
     },
   },
 };

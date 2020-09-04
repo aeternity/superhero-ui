@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 import { sync } from 'vuex-router-sync';
 import { defer } from 'lodash-es';
 import VueMeta from 'vue-meta';
+import VueTimeago from 'vue-timeago';
 import App from './App.vue';
 import store from './store';
 import router from './router';
@@ -13,6 +14,17 @@ import registerModals from './views/modals';
 
 Vue.use(VueRouter);
 Vue.use(VueMeta);
+
+Vue.use(VueTimeago, {
+  name: 'Timeago', // Component name, `Timeago` by default
+  locale: 'en', // Default locale
+  // https://github.com/egoist/vue-timeago/issues/94#issuecomment-475636750
+  converter(date, locale, { includeSeconds = false, addSuffix = false }) {
+    // eslint-disable-next-line import/no-extraneous-dependencies,global-require
+    const distanceInWordsStrict = require('date-fns/distance_in_words_strict');
+    return distanceInWordsStrict(Date.now(), date, { locale, addSuffix, includeSeconds });
+  },
+});
 
 Vue.config.productionTip = false;
 

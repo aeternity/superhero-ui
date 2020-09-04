@@ -4,7 +4,10 @@
       class="back-button"
       @click="back"
     >
-      <img src="../assets/backArrow.svg">
+      <img
+        v-if="!hideBack"
+        src="../assets/backArrow.svg"
+      >
     </ButtonPlain>
 
     <div class="title">
@@ -25,6 +28,7 @@ export default {
     ButtonPlain,
   },
   props: {
+    hideBack: { type: Boolean },
     title: { type: String, default: '' },
   },
   methods: {

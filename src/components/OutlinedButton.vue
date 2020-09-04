@@ -39,27 +39,48 @@ export default {
   &.blue {
     color: $secondary_color;
     border-color: $secondary_color;
+
+    &:hover {
+      background-color: $secondary_color;
+    }
   }
 
   &.green {
     color: $custom_links_color;
     border-color: $custom_links_color;
+
+    &:hover {
+      background-color: $custom_links_color;
+    }
   }
 
   &.red {
     color: $red_color;
     border-color: $red_color;
+
+    &:hover {
+      background-color: $red_color;
+    }
   }
 
   &.blue:hover,
   &.red:hover,
   &.green:hover {
     color: $standard_font_color;
-    border-color: $standard_font_color;
   }
 
   &.fullwidth {
     width: 100%;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    color: $tip_note_color;
+    border-color: $tip_note_color;
+
+    &:hover {
+      background-color: unset;
+    }
   }
 }
 </style>

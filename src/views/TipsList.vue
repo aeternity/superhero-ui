@@ -96,7 +96,6 @@ export default {
     @include smallest {
       background-color: $background_color;
       border-bottom: 0.075rem solid $search_nav_border_color;
-      margin: 0 -1rem; // Would be better to reorganize layout somehow
     }
 
     .button-plain {

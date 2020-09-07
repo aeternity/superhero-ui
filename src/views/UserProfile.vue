@@ -85,9 +85,7 @@
             </button>
           </template>
         </div>
-        <div
-          class="profile__info"
-        >
+        <div class="profile__info">
           <a
             class="profile__username"
             target="_blank"
@@ -105,14 +103,10 @@
             :title="balance"
           >
             <span>{{ $t('Balance') }}</span>
-            <AeAmountFiat
-              :amount="balance"
-            />
+            <AeAmountFiat :amount="balance" />
           </div>
           <div class="profile__row">
-            <div
-              class="location"
-            >
+            <div class="location">
               <img
                 v-if="profile.location.length || currentAddress === address"
                 src="../assets/location.svg"
@@ -232,7 +226,6 @@ export default {
   data() {
     return {
       maxLength: 250,
-      error: false,
       userStats: null,
       editMode: false,
       userCommentCount: 0,

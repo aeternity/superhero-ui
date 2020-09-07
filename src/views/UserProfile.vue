@@ -180,10 +180,7 @@
           :key="idx"
           :class="divClass === 'tip_stats' ? 'tips_stats_block' : 'stat_block'"
         >
-          <span
-            v-if="stat.value || stat.image"
-            class="stat-value"
-          >
+          <span class="stat-value">
             {{ stat.value }}
           </span>
           <span class="stat-title">

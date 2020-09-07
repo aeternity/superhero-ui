@@ -451,7 +451,7 @@ input[type="file"] {
       width: 100%;
     }
 
-    &.tip-input img {
+    &.tip-input ::v-deep .button img {
       height: 100%;
     }
 

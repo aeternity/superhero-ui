@@ -19,7 +19,7 @@
       </p>
       <SendComment
         :tip-id="tipId"
-        :parent-id="id"
+        v-bind="id && { parentId: id }"
       />
     </div>
     <div class="comments__section">

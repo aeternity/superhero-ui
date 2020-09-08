@@ -8,6 +8,7 @@
       :placeholder="$t('views.TipCommentsView.AddReply')"
       :show-submit-button="allowSubmit"
       :submit-button-title="$t('views.TipCommentsView.Reply')"
+      :set-loading="setLoading"
       @keydown.enter.exact.prevent="sendTipComment"
     />
   </form>
@@ -28,6 +29,7 @@ export default {
   },
   data: () => ({
     comment: '',
+    setLoading: false,
   }),
   computed: {
     allowSubmit() {
@@ -43,6 +45,7 @@ export default {
         });
         return;
       }
+      this.setLoading = true;
       await Backend.sendTipComment(
         this.tipId,
         this.comment,
@@ -52,6 +55,7 @@ export default {
       );
       EventBus.$emit('reloadData');
       this.comment = '';
+      this.setLoading = false;
     },
   },
 };

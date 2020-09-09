@@ -2,6 +2,8 @@ export const BACKEND_URL = window.Cypress
   ? 'https://testnet.superhero.aeternity.art'
   : 'https://raendom-backend.z52da5wt.xyz';
 
+export const PROTOCOL_DEFAULT = 'https:';
+
 export const EXPLORER_URL = 'https://mainnet.aeternal.io/';
 export const COMPILER_URL = 'https://latest.compiler.aepps.com';
 export const NODE_URL = 'https://mainnet.aeternity.io';

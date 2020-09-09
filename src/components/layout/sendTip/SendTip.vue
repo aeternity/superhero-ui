@@ -65,6 +65,7 @@ import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg?icon-component';
 import MessageInput from '../../MessageInput.vue';
 import UrlStatus from './UrlStatus.vue';
+import { PROTOCOL_DEFAULT } from '../../../config/constants';
 
 export default {
   components: {
@@ -107,7 +108,11 @@ export default {
     async sendTip() {
       this.sendingTip = true;
       const amount = util.aeToAtoms(this.sendTipForm.amount);
-      tip(this.sendTipForm.url, this.sendTipForm.title, amount)
+      const url = /^\w+:\D+/.test(this.sendTipForm.url)
+        ? this.sendTipForm.url
+        : `${PROTOCOL_DEFAULT}//${this.sendTipForm.url}`;
+
+      tip(url, this.sendTipForm.title, amount)
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();

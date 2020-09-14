@@ -208,8 +208,9 @@ export default {
         );
     },
     goToTip() {
-      if (this.$route.params.tipId === this.tip.id) return;
-      this.$router.push(this.toTip);
+      return this.$route.params.tipId === this.tip.id
+        ? window.open(this.tip.url)
+        : this.$router.push(this.toTip);
     },
   },
 };

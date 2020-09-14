@@ -85,17 +85,30 @@
       </div>
       <div
         v-else
-        class="tip__url"
+        class="tip__article"
       >
-        <a
-          :href="tip.url"
-          :title="tip.url"
-          class="text-ellipsis"
-          target="_blank"
-          @click.stop
-        >
-          {{ tip.url }}
-        </a>
+        <div class="tip__article__content">
+          <div
+            class="site__url"
+            :title="tip.url"
+          >
+            <a
+              class="text-ellipsis"
+              target="_blank"
+              :href="tip.url"
+              @click.stop
+            >
+              <ExternalLink />
+              <span class="text-ellipsis">{{ tip.url }}</span>
+            </a>
+          </div>
+          <div
+            class="tip__amount"
+            @click.stop
+          >
+            <TipInput :tip="tip" />
+          </div>
+        </div>
       </div>
       <div class="tip__footer">
         <div class="tip__footer_wrapper">

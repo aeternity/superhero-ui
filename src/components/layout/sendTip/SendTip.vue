@@ -111,12 +111,12 @@ export default {
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();
-          EventBus.$emit('reloadData');
           this.$store.dispatch('modals/open', {
             name: 'success',
             title: this.$t('components.layout.SendTip.SuccessHeader'),
             body: this.$t('components.layout.SendTip.SuccessText'),
           });
+          setTimeout(() => EventBus.$emit('reloadData'), 5000);
         }).catch((e) => {
           this.sendingTip = false;
           if (e.code && e.code === 4) {

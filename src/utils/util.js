@@ -21,7 +21,7 @@ export const wrapTry = async (promise) => {
         return null;
       }),
       new Promise(((resolve, reject) => {
-        setTimeout(reject, 10000, new Error('Request is cancelled by timeout'));
+        setTimeout(reject, 12000, new Error('Request is cancelled by timeout'));
       })),
     ]);
   } catch (err) {

@@ -7,17 +7,22 @@
         ref="input"
         v-bind="$attrs"
         rows="1"
+        :disabled="setLoading"
+        :class="{ 'dim-opacity': setLoading }"
         v-on="{
           ...$listeners,
           input: event => $emit('input', event.target.value),
         }"
       />
       <button
-        v-if="showSubmitButton"
+        v-if="showSubmitButton && !setLoading"
         :title="submitButtonTitle"
       >
         <img src="../assets/backArrow.svg">
       </button>
+      <div v-if="setLoading">
+        <div class="spinner-border spinner-border-sm text-primary loading" />
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +37,7 @@ export default {
   props: {
     showSubmitButton: Boolean,
     submitButtonTitle: { type: String, default: '' },
+    setLoading: Boolean,
   },
   computed: mapState(['address']),
   mounted() {
@@ -43,6 +49,7 @@ export default {
 <style lang="scss" scoped>
 .message-input {
   display: flex;
+  position: relative;
 
   &:focus-within .arrow {
     border: 0.05rem solid $secondary_color;
@@ -68,6 +75,10 @@ export default {
     display: flex;
     border: 0.05rem solid transparent;
     border-radius: 0.25rem;
+
+    .dim-opacity {
+      opacity: 0.3;
+    }
 
     &:focus-within {
       border-color: $secondary_color;
@@ -105,5 +116,11 @@ export default {
       }
     }
   }
+}
+
+.loading {
+  margin-top: 0.6rem;
+  margin-left: 0.6rem;
+  margin-right: 0.4rem;
 }
 </style>

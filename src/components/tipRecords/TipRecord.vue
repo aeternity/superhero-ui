@@ -27,9 +27,20 @@
           </ThreeDotsMenu>
         </AuthorAndDate>
       </div>
-      <TipTitle :tip-title="tip.title" />
       <div
-        v-if="isPreviewToBeVisualized(tip)"
+        class="tip__note pr-2"
+        @click.stop
+      >
+        <TipTitle :tip-title="tip.title" />
+      </div>
+      <TipRichPreview
+        v-if="isRichPreview(tip)"
+        :tip="tip"
+        :tip-preview-title="tipPreviewTitle"
+        :tip-preview-description="tipPreviewDescription"
+      />
+      <div
+        v-else-if="isPreviewToBeVisualized(tip)"
         class="tip__article"
       >
         <div class="tip__article--hasresults">
@@ -129,6 +140,7 @@ import Backend from '../../utils/backend';
 import backendAuthMixin from '../../utils/backendAuthMixin';
 import TipInput from '../TipInput.vue';
 import TipTitle from './TipTitle.vue';
+import TipRichPreview from './TipRichPreview.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import AuthorAndDate from './AuthorAndDate.vue';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
@@ -136,6 +148,7 @@ import ExternalLink from '../../assets/externalLink.svg?icon-component';
 export default {
   components: {
     TipTitle,
+    TipRichPreview,
     TipInput,
     ThreeDotsMenu,
     ExternalLink,
@@ -206,6 +219,10 @@ export default {
         this.toTip,
       );
       await this.$store.dispatch('updatePinnedItems');
+    },
+    isRichPreview(tip) {
+      const youTubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/watch.+$/;
+      return youTubeRegex.test(tip.url);
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null

@@ -6,7 +6,7 @@
     <input v-model="newWord" />
     <button @click="createWordSale">
       <!-- eslint-disable vue-i18n/no-raw-text -->
-      Create
+      Create Word
     </button>
     <hr />
     <a
@@ -27,7 +27,7 @@
         <button @click="buy">
           <!-- eslint-disable vue-i18n/no-raw-text -->
           Buy
-        </button>
+        </button> (1 {{ selectedWord }} per AE bought)
       </div>
       <div>
         <!-- eslint-disable vue/html-self-closing -->
@@ -38,7 +38,10 @@
         <button @click="sell">
           <!-- eslint-disable vue-i18n/no-raw-text -->
           Sell
-        </button>
+        </button> (0.5 AE per {{ selectedWord }} returned)
+      </div>
+      <div>
+        <h2>Votes ({{ spread }} AE spread)</h2>
       </div>
     </div>
   </div>
@@ -63,6 +66,7 @@ export default {
     selectedWordContract: null,
     buyAmount: 0,
     sellAmount: 0,
+    spread: 0,
   }),
   mounted() {
     setTimeout(this.updateWords, 5000);
@@ -73,6 +77,7 @@ export default {
         .getContractInstance(WORD_REGISTRY_CONTRACT,
           { contractAddress: 'ct_jM5Rpj2AzwJKoDHrjMnGNqAjm9gW77qV52soooAGzi7fMmubY' });
       this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
+      this.selectWord(this.wordRegistryState.tokens[0][0], this.wordRegistryState.tokens[0][1]);
     },
     async createWordSale() {
       const tokenSale = await client.getContractInstance(TOKEN_SALE_CONTRACT);
@@ -88,6 +93,9 @@ export default {
     async selectWord(word, sale) {
       this.selectedWordContract = await client
         .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: sale });
+      this.spread = util.shiftDecimalPlaces(
+        (await this.selectedWordContract.methods.spread()).decodedResult, -18,
+      ).toFixed();
       this.selectedWord = word;
     },
     async buy() {
@@ -113,5 +121,9 @@ export default {
 a {
   margin-right: 0.5rem;
   text-decoration: underline !important;
+}
+
+h2 {
+  margin-top: 1rem;
 }
 </style>

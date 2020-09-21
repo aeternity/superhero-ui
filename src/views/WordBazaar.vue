@@ -42,6 +42,34 @@
       </div>
       <div>
         <h2>Votes ({{ spread }} AE spread)</h2>
+        (start voting to payout to inserted address)
+        <input
+          v-model="newVotePayout"
+          placeholder="ak_..."
+        />
+        <button @click="createVote">
+          <!-- eslint-disable vue-i18n/no-raw-text -->
+          Create Vote
+        </button>
+        <div
+          v-for="vote in votes && votes"
+          :key="vote.id"
+        >
+          to: {{ vote.subject.VotePayout[0].slice(0, 12) }}... {{ vote.votePercent }}% positive
+          <button
+            v-if="!vote.isClosed"
+            @click="voteOption(vote.instance, true)"
+          >
+            <!-- eslint-disable vue-i18n/no-raw-text -->For
+          </button>
+          <button
+            v-if="!vote.isClosed"
+            @click="voteOption(vote.instance, false)"
+          >
+            <!-- eslint-disable vue-i18n/no-raw-text -->Against
+          </button>
+          <span v-if="vote.isClosed">(vote closed)</span>
+        </div>
       </div>
     </div>
   </div>
@@ -51,10 +79,12 @@
 import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.aes';
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
+import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
 import { client, createOrChangeAllowance } from '@/utils/aeternity';
 import backend from '@/utils/backend';
 import util from '@/utils/util';
 import { EventBus } from '@/utils/eventBus';
+import { mapState } from 'vuex';
 
 export default {
   name: 'WordBazaar',
@@ -67,7 +97,12 @@ export default {
     buyAmount: 0,
     sellAmount: 0,
     spread: 0,
+    votes: null,
+    newVotePayout: '',
   }),
+  computed: {
+    ...mapState(['address']),
+  },
   mounted() {
     setTimeout(this.updateWords, 5000);
   },
@@ -96,7 +131,55 @@ export default {
       this.spread = util.shiftDecimalPlaces(
         (await this.selectedWordContract.methods.spread()).decodedResult, -18,
       ).toFixed();
+      this.votes = await Promise.all((await this.selectedWordContract.methods.votes()).decodedResult
+        .map(([id, vote]) => this.getVoteInfo(id, vote)));
       this.selectedWord = word;
+    },
+    async getVoteInfo(id, vote) {
+      const tokenVoting = await client.getContractInstance(TOKEN_VOTING_CONTRACT,
+        { contractAddress: vote });
+      const state = (await tokenVoting.methods.get_state()).decodedResult;
+      console.log('getVoteInfo', state);
+
+      const votedFor = state.vote_state.find(([s]) => s)[1];
+      const votedAgainst = state.vote_state.find(([s]) => !s)[1];
+      const ifAgainstZero = votedFor === 0 ? 0 : 100;
+
+      return {
+        id,
+        instance: tokenVoting,
+        subject: state.metadata.subject,
+        closeHeight: state.close_height,
+        isClosed: (await client.height()) >= state.close_height,
+        votePercent: votedAgainst !== 0 ? votedFor / votedAgainst : ifAgainstZero,
+      };
+    },
+    async voteOption(instance, option) {
+      const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
+      const tokenContract = await client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT,
+        { contractAddress: token });
+
+      const amount = (await tokenContract.methods.balance(this.address)).decodedResult;
+      await createOrChangeAllowance(token, amount,
+        instance.deployInfo.address.replace('ct_', 'ak_'));
+
+      await instance.methods.vote(option, amount);
+      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
+    },
+    async createVote() {
+      const tokenVoting = await client.getContractInstance(TOKEN_VOTING_CONTRACT);
+
+      const metadata = {
+        subject: { VotePayout: [this.newVotePayout] },
+        description: `Payout spread of ${this.selectedWord} to ${this.newVotePayout}`,
+        link: 'https://aeternity.com/',
+      };
+      const closeHeight = (await client.height()) + 20;
+      const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
+      await tokenVoting.methods.init(metadata, closeHeight, token);
+
+      await await this.selectedWordContract.methods.add_vote(tokenVoting.deployInfo.address);
+      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
     },
     async buy() {
       await this.selectedWordContract.methods

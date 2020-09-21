@@ -7,16 +7,23 @@
 </template>
 
 <script>
-import { EventBus } from '../utils/eventBus';
+import { mapState } from 'vuex';
 
 export default {
+  computed: {
+    ...mapState(['backendLive']),
+  },
   mounted() {
-    const interval = setInterval(() => EventBus.$emit('reloadData'), 10 * 1000);
+    const interval = setInterval(() => this.$store.commit('reloading', true), 10 * 1000);
 
-    EventBus.$on('backendLive', () => {
-      clearInterval(interval);
-      this.$router.push('/');
-    });
+    this.$watch(() => this.backendLive, (backendLive) => {
+      if (backendLive) {
+        clearInterval(interval);
+        this.$router.push('/');
+
+        this.$store.commit('backendLive', false);
+      }
+    })
   },
 };
 </script>

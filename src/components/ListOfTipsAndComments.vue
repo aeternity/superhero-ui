@@ -92,7 +92,6 @@
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
-import { EventBus } from '../utils/eventBus';
 import Loading from './Loading.vue';
 import TipsPagination from './TipsPagination.vue';
 import TipComment from './tipRecords/TipComment.vue';
@@ -120,7 +119,7 @@ export default {
     userPinnedItems: [],
   }),
   computed: {
-    ...mapState(['loading']),
+    ...mapState(['loading', 'reloading']),
     ...mapState({ currentAddress: 'address' }),
     pinnedItems() {
       return this.address === this.currentAddress
@@ -137,8 +136,11 @@ export default {
   mounted() {
     this.reloadData();
 
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
+    this.$watch(() => this.reloading, (reload) => {
+      if (reload) {
+        this.reloadData();
+        this.$store.commit('reloading', false);
+      }
     });
 
     if (this.address !== this.currentAddress) {

@@ -30,6 +30,9 @@ export default new Vuex.Store({
     useSdkWallet: false,
     useIframeWallet: false,
     sdk: null,
+    reloading: false,
+    backendError: false,
+    backendLive: false,
   },
   mutations,
   actions: {

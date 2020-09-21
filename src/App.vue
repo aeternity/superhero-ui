@@ -36,7 +36,6 @@ import { mapMutations, mapState, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
 import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
-import { EventBus } from './utils/eventBus';
 import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
 import MobileNavigation from './components/layout/MobileNavigation.vue';
 import LeftSection from './components/layout/LeftSection.vue';
@@ -46,20 +45,33 @@ export default {
   components: { MobileNavigation, LeftSection, RightSection },
   computed: {
     ...mapGetters('modals', ['opened']),
-    ...mapState(['address']),
+    ...mapState(['address', 'reloading', 'backendError']),
     isSupportedBrowser() {
       const browser = detect();
       return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));
     },
   },
   async created() {
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
+    this.$watch(() => this.reloading, (reload) => {
+      if (reload) {
+        this.reloadData();
+        this.$store.commit('reloading', false);
+      }
     });
     setInterval(() => this.reloadData(), 120 * 1000);
-    EventBus.$on('backendError', () => this.$route.name !== 'maintenance' && this.$router.push({
-      name: 'maintenance',
-    }).catch((err) => { console.error(err); }));
+
+    this.$watch(() => this.backendError, (backendError) => {
+      if (backendError) {
+        this.$router.name !== 'maintenance' && this.$router.push({
+          name: 'maintenance',
+        }).catch((err) => {
+          console.log(err);
+        });
+
+        this.$store.commit('backendError', false);
+      }
+    })
+
     await this.initialLoad();
   },
   methods: {

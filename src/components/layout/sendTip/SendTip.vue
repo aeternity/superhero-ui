@@ -59,7 +59,6 @@ import { mapState, mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
 import util, { createDeepLinkUrl } from '../../../utils/util';
 import { tip } from '../../../utils/aeternity';
-import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg?icon-component';
@@ -116,7 +115,7 @@ export default {
             title: this.$t('components.layout.SendTip.SuccessHeader'),
             body: this.$t('components.layout.SendTip.SuccessText'),
           });
-          setTimeout(() => EventBus.$emit('reloadData'), 5000);
+          setTimeout(() => this.$store.commit('reloading', true), 5000);
         }).catch((e) => {
           this.sendingTip = false;
           if (e.code && e.code === 4) {

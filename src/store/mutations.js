@@ -57,6 +57,15 @@ export default {
   setPinnedItems(state, pinnedItems) {
     state.pinnedItems = pinnedItems;
   },
+  reloading(state, reloading) {
+    state.reloading = reloading
+  },
+  backendError(state, backendError) {
+    state.backendError = backendError;
+  },
+  backendLive(state, backendLive) {
+    state.backendLive = backendLive;
+  },
   syncState(state, remoteState) {
     const customizer = (objValue, srcValue) => {
       if (!Array.isArray(srcValue)) return undefined;

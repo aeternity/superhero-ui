@@ -26,7 +26,6 @@
 import { mapState } from 'vuex';
 import Loading from './Loading.vue';
 import TipRecord from './tipRecords/TipRecord.vue';
-import { EventBus } from '../utils/eventBus';
 
 const namesToHandlers = (names, getHandler) => names
   .reduce((acc, name) => ({ ...acc, [name]: getHandler(name) }), {});
@@ -46,6 +45,7 @@ export default {
     args() {
       return [this.tipSortBy, this.address, this.search, this.blacklist];
     },
+    ...mapState(['reloading']),
     ...mapState(
       'backend',
       namesToHandlers(
@@ -66,13 +66,18 @@ export default {
     window.addEventListener('scroll', scrollHandler);
 
     const reloadTips = () => this.reloadTips();
-    EventBus.$on('reloadData', reloadTips);
+    const unwatch = this.$watch(() => this.reloading, (reload) => {
+      if (reload) {
+        this.reloadData();
+        this.$store.commit('reloading', false);
+      }
+    });
 
     const interval = setInterval(reloadTips, 120 * 1000);
 
     this.$once('hook:destroyed', () => {
       window.removeEventListener('scroll', scrollHandler);
-      EventBus.$off('reloadData', reloadTips);
+      unwatch();
       clearInterval(interval);
     });
 

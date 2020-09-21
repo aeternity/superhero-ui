@@ -7,7 +7,6 @@ import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wal
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import { CONTRACT_ADDRESS, COMPILER_URL, NODE_URL } from '@/config/constants';
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
-import { EventBus } from './eventBus';
 import store from '../store';
 
 let contract;
@@ -58,10 +57,10 @@ export const initClient = async () => {
     }
     store.commit('setSdk', client);
   } catch (err) {
-    EventBus.$emit('backendError');
+    this.$store.commit('backendError', true);
     return;
   }
-  EventBus.$emit('backendLive');
+  this.$store.commit('backendLive', true);
 };
 
 export const scanForWallets = async () => {

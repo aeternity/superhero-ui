@@ -207,7 +207,6 @@ import AeAmountFiat from '../components/AeAmountFiat.vue';
 import backendAuthMixin from '../utils/backendAuthMixin';
 import ListOfTipsAndComments from '../components/ListOfTipsAndComments.vue';
 import Avatar from '../components/Avatar.vue';
-import { EventBus } from '../utils/eventBus';
 import TipInput from '../components/TipInput.vue';
 import SuccessIcon from '../assets/verifiedUrl.svg';
 
@@ -240,7 +239,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'chainNames']),
+    ...mapState(['useSdkWallet', 'chainNames', 'reloading']),
     ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];
@@ -310,8 +309,11 @@ export default {
       { immediate: true },
     );
 
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
+    this.$watch(() => this.reloading, (reload) => {
+      if (reload) {
+        this.reloadData();
+        this.$store.commit('reloading', false);
+      }
     });
 
     const interval = setInterval(() => this.reloadData(), 120 * 1000);

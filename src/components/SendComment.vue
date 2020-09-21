@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl } from '../utils/util';
 import { client } from '../utils/aeternity';
 import MessageInput from './MessageInput.vue';
@@ -53,7 +52,7 @@ export default {
         (data) => client.signMessage(data),
         this.parentId,
       );
-      EventBus.$emit('reloadData');
+      this.$store.commit('reloading', true);
       this.comment = '';
       this.setLoading = false;
     },

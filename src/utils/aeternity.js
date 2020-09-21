@@ -5,7 +5,9 @@ import {
 } from '@aeternity/aepp-sdk/es';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
-import { CONTRACT_ADDRESS, COMPILER_URL, NODE_URL } from '@/config/constants';
+import {
+  CONTRACT_V1_ADDRESS, CONTRACT_V2_ADDRESS, COMPILER_URL, NODE_URL,
+} from '@/config/constants';
 import TIPPING_V1_INTERFACE from 'tipping-contract/Tipping_v1_Interface.aes';
 import TIPPING_V2_INTERFACE from 'tipping-contract/Tipping_v2_Interface.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
@@ -13,15 +15,6 @@ import { BigNumber } from 'bignumber.js';
 import { EventBus } from './eventBus';
 import store from '../store';
 
-const nodeUrl = 'https://testnet.aeternity.io';
-const nodeUrlTestNet = 'https://testnet.aeternity.io';
-const compilerUrl = 'https://latest.compiler.aepps.com';
-const contractV1Address = window.Cypress
-  ? 'ct_2GRP3xp7KWrKtZSnYfdcLnreRWrntWf5aTsxtLqpBHp71EFc3i'
-  : 'ct_2Cvbf3NYZ5DLoaNYAU71t67DdXLHeSXhodkSNifhgd7Xsw28Xd';
-const contractV2Address = window.Cypress
-  ? 'ct_2GRP3xp7KWrKtZSnYfdcLnreRWrntWf5aTsxtLqpBHp71EFc3i'
-  : 'ct_2ZEoCKcqXkbz2uahRrsWeaPooZs9SdCv6pmC4kc55rD4MhqYSu';
 let contractV1;
 let contractV2;
 
@@ -31,11 +24,11 @@ const initTippingContractIfNeeded = async () => {
   if (!client) throw new Error('Init sdk first');
   if (!contractV1) {
     contractV1 = await client
-      .getContractInstance(TIPPING_V1_INTERFACE, { contractAddress: contractV1Address });
+      .getContractInstance(TIPPING_V1_INTERFACE, { contractAddress: CONTRACT_V1_ADDRESS });
   }
   if (!contractV2) {
     contractV2 = await client
-      .getContractInstance(TIPPING_V2_INTERFACE, { contractAddress: contractV2Address });
+      .getContractInstance(TIPPING_V2_INTERFACE, { contractAddress: CONTRACT_V2_ADDRESS });
   }
 };
 
@@ -87,7 +80,6 @@ export const scanForWallets = async () => {
   });
   const detector = await Detector({ connection: scannerConnection });
   // const webWalletTimeout = setTimeout(() => store.commit('useIframeWallet'), 2000);
-
   return new Promise((resolve) => {
     detector.scan(async ({ newWallet }) => {
       if (!newWallet) return;
@@ -114,7 +106,7 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
 
   const { decodedResult } = await tokenContract.methods.allowance({
     from_account: await client.address(),
-    for_account: contractV2Address.replace('ct_', 'ak_'),
+    for_account: CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
   });
 
   const allowanceAmount = decodedResult !== undefined
@@ -123,7 +115,7 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
 
   return tokenContract
     .methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
-      contractV2Address.replace('ct_', 'ak_'),
+      CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
       allowanceAmount,
     );
 };
@@ -148,11 +140,11 @@ export const retip = async (contractAddress, id, amount, tokenAddress = null) =>
     return contractV2.methods.retip_token(Number(id.split('_')[0]), tokenAddress, amount);
   }
 
-  if (contractAddress === contractV1Address) {
+  if (contractAddress === CONTRACT_V1_ADDRESS) {
     return contractV1.methods.retip(Number(id.split('_')[0]), { amount });
   }
 
-  if (contractAddress === contractV2Address) {
+  if (contractAddress === CONTRACT_V2_ADDRESS) {
     return contractV2.methods.retip(Number(id.split('_')[0]), { amount });
   }
 

@@ -88,21 +88,8 @@
           <a
             :href="tip.url"
             :title="tip.url"
-          >
-            <a
-              class="text-ellipsis"
-              target="_blank"
-              :href="tip.url"
-              @click.stop
-            >
-              <ExternalLink />
-              <span class="text-ellipsis">{{ tip.url }}</span>
-            </a>
-          </div>
-          <div
-            v-if="tip.receiver"
-            class="tip__author"
-            :title="tip.receiver"
+            class="text-ellipsis"
+            target="_blank"
             @click.stop
           >
             {{ tip.url }}
@@ -115,7 +102,7 @@
           @click.stop
         >
           <TipInput :tip="tip" />
-          <router-link :to="{ name: 'user-profile', params: { address: tip.receiver } }">
+          <RouterLink :to="{ name: 'user-profile', params: { address: tip.receiver } }">
             <Avatar :address="tip.receiver" />
             <div class="tip__author_name">
               <span class="chain__name">
@@ -123,8 +110,7 @@
               </span>
               <span class="address">{{ tip.receiver }}</span>
             </div>
-          </router-link>
-        </div>
+          </RouterLink>
         </div>
       </div>
       <div class="tip__footer">

@@ -98,7 +98,7 @@ export default {
   }),
   computed: {
     ...mapState(['useSdkWallet', 'address', 'tokenInfo']),
-    ...mapGetters(['minTipAmount']),
+    ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
         const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);

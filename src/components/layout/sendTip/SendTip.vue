@@ -15,8 +15,8 @@
           maxlength="280"
           :placeholder="$t('addMessage')"
         />
-        <div class="form-row">
-          <div class="form-group col-md-5 col-lg-6 col-sm-12 send-url">
+        <div class="mt-2 d-flex flex-row">
+          <div class="send-url">
             <UrlStatus
               :url="sendTipForm.url"
               @is-blacklisted-url="isBlacklistedUrl = $event"
@@ -91,7 +91,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('backend', ['minTipAmount', 'isLoggedIn']),
+    ...mapGetters(['isLoggedIn']),
+    ...mapGetters('backend', ['minTipAmount']),
     ...mapState(['loading', 'tokenInfo']),
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;

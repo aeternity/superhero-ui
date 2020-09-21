@@ -28,10 +28,6 @@ export default {
       return this.amountTokenInfo ? this.amountTokenInfo.symbol : null;
     },
     roundedAmount() {
-      if (!this.amount) {
-        return 0;
-      }
-
       const aeOrAettos = this.aettos ? util.atomsToAe(this.amount) : this.amount;
       const aeTokenAmount = this.amountTokenInfo
         ? util.shiftDecimalPlaces(this.amount, -this.amountTokenInfo.decimals)

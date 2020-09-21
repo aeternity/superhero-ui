@@ -98,7 +98,7 @@ export default {
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
       this.setTokenInfo(tokenInfo);
-      if (this.account) this.loadTokenBalances(this.account);
+      if (this.address) this.loadTokenBalances(this.address);
     },
     async fetchUserData() {
       await Promise.all([

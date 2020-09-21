@@ -1,7 +1,13 @@
 <template>
   <span class="ae-amount-fiat">
-    <AeAmount v-bind="$attrs" :token="token" />
-    &nbsp;<FiatValue v-if="!token" v-bind="$attrs" />
+    <AeAmount
+      v-bind="$attrs"
+      :token="token"
+    />
+    &nbsp;<FiatValue
+      v-if="!token"
+      v-bind="$attrs"
+    />
   </span>
 </template>
 

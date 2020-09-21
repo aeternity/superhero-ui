@@ -38,6 +38,8 @@
         :tip="tip"
         :tip-preview-title="tipPreviewTitle"
         :tip-preview-description="tipPreviewDescription"
+        :tip-preview-image="tipPreviewImage"
+        :go-to-tip="goToTip"
       />
       <div
         v-else-if="isPreviewToBeVisualized(tip)"
@@ -222,7 +224,8 @@ export default {
     },
     isRichPreview(tip) {
       const youTubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/watch.+$/;
-      return youTubeRegex.test(tip.url);
+      const twitterRegex = /^https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
+      return [youTubeRegex, twitterRegex].filter((r) => r.test(tip.url)).length > 0;
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null

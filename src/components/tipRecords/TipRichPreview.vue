@@ -7,9 +7,20 @@
       <div class="tip__rich-preview__content">
         <div class="tip__embed">
           <YouTubeEmbed
+            v-if="sourceUrl === 'youtube.com'"
             :tip="tip"
             :tip-preview-title="tipPreviewTitle"
             :tip-preview-description="tipPreviewDescription"
+            :source-url="sourceUrl"
+          />
+          <TwitterEmbed
+            v-else-if="sourceUrl === 'twitter.com'"
+            :tip="tip"
+            :tip-preview-title="tipPreviewTitle"
+            :tip-preview-description="tipPreviewDescription"
+            :tip-preview-image="tipPreviewImage"
+            :source-url="sourceUrl"
+            :go-to-tip="goToTip"
           />
         </div>
         <div class="tip__links">
@@ -42,6 +53,8 @@
 <script>
 import TipInput from '../TipInput.vue';
 import YouTubeEmbed from './YouTubeEmbed.vue';
+import TwitterEmbed from './TwitterEmbed.vue';
+import SoundCloudEmbed from './SoundCloudEmbed.vue';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
@@ -49,11 +62,21 @@ export default {
     TipInput,
     ExternalLink,
     YouTubeEmbed,
+    TwitterEmbed,
+    SoundCloudEmbed,
   },
   props: {
     tip: { type: Object, required: true },
-    tipPreviewTitle: { type: String, required: true },
-    tipPreviewDescription: { type: String, required: true },
+    tipPreviewTitle: { type: String, default: '' },
+    tipPreviewDescription: { type: String, default: '' },
+    tipPreviewImage: { type: String, default: '' },
+    goToTip: { type: Function, default: () => {} },
+  },
+  computed: {
+    sourceUrl() {
+      const matches = this.tip.url.match(/^https?:\/\/(www.)?([^/?#]+)(?:[/?#]|$)/i);
+      return matches && matches[2];
+    },
   },
 };
 </script>

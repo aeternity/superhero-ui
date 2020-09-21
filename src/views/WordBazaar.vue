@@ -71,7 +71,7 @@ export default {
     async updateWords() {
       this.wordRegistry = await client
         .getContractInstance(WORD_REGISTRY_CONTRACT,
-          { contractAddress: 'ct_Ysp7MopPi1WjrdAKW3x7cfNugiaGXKXCCHouscQ4xy6WEd8ok' });
+          { contractAddress: 'ct_jM5Rpj2AzwJKoDHrjMnGNqAjm9gW77qV52soooAGzi7fMmubY' });
       this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
     },
     async createWordSale() {

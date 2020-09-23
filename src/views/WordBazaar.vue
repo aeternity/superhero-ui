@@ -55,7 +55,7 @@
           v-for="vote in votes && votes"
           :key="vote.id"
         >
-          to: {{ vote.subject.VotePayout[0].slice(0, 12) }}... {{ vote.votePercent }}% positive
+          to: {{ vote.subject.VotePayout[0].slice(0, 9) }}... {{ vote.votePercent }}% positive
           <button
             v-if="!vote.isClosed && !vote.accountHasVoted"
             @click="voteOption(vote.instance, true)"
@@ -78,10 +78,16 @@
           <span v-if="vote.alreadyApplied">(result applied)</span>
           <span v-if="!vote.alreadyApplied && vote.timeouted">(timeouted)</span>
           <button
-            v-if="vote.isClosed && !vote.alreadyApplied && !vote.timeouted"
+            v-if="vote.isClosed && !vote.alreadyApplied && !vote.timeouted && hasSpread"
             @click="applyPayout(vote.id)"
           >
             <!-- eslint-disable vue-i18n/no-raw-text -->Apply Payout
+          </button>
+          <button
+            v-if="vote.isClosed && vote.hasWithdrawAmount"
+            @click="withdraw(vote.instance)"
+          >
+            <!-- eslint-disable vue-i18n/no-raw-text -->Withdraw
           </button>
         </div>
       </div>
@@ -162,6 +168,7 @@ export default {
       const ifAgainstZero = votedFor === 0 ? 0 : 100;
       const votedPositive = new BigNumber(votedFor)
         .dividedBy(new BigNumber(votedFor).plus(votedAgainst)).times(100).toFixed(0);
+      const voterAccount = state.vote_accounts.find(([acc]) => acc === this.address);
 
       return {
         id,
@@ -170,13 +177,21 @@ export default {
         subject: state.metadata.subject,
         timeouted: (state.close_height + voteTimeout) < height,
         closeHeight: state.close_height,
-        accountHasVoted: state.vote_accounts.find(([acc]) => acc === this.address),
+        accountHasVoted: !!voterAccount,
+        hasSpread: new BigNumber(this.spread).isGreaterThan(0),
+        hasWithdrawAmount: voterAccount
+          && new BigNumber(voterAccount[1][0]).isGreaterThan(0) && !voterAccount[1][2],
         isClosed: height >= state.close_height,
         votePercent: votedAgainst !== 0 ? votedPositive : ifAgainstZero,
       };
     },
     async applyPayout(id) {
       await this.selectedWordContract.methods.apply_vote_subject(id);
+      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
+      EventBus.$emit('reloadData');
+    },
+    async withdraw(instance) {
+      await instance.methods.withdraw();
       await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
       EventBus.$emit('reloadData');
     },

@@ -133,7 +133,7 @@ export default {
         .getContractInstance(WORD_REGISTRY_CONTRACT,
           { contractAddress: 'ct_2t35yjUT4Bh3sLkTqaXNnZeH1gqnn55JB8UX2dM5XLi6ea6UyE' });
       this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
-      this.selectWord(this.wordRegistryState.tokens[0][0], this.wordRegistryState.tokens[0][1]);
+      // this.selectWord(this.wordRegistryState.tokens[0][0], this.wordRegistryState.tokens[0][1]);
     },
     async createWordSale() {
       const tokenSale = await client.getContractInstance(TOKEN_SALE_CONTRACT);

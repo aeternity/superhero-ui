@@ -5,7 +5,7 @@
       {{ $t('views.Terms.subtitle') }}
     </p>
 
-    <I18n
+    <i18n
       v-for="(item, index) in $t('views.Terms.sections').length"
       :key="index"
       :path="getI18nPath(index, 'Terms')"

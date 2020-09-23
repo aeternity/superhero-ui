@@ -12,14 +12,14 @@
       :key="title"
       :title="title"
     >
-      <I18n
+      <i18n
         :path="`views.CreateProfile.sections[${index}].text`"
         tag="p"
       >
         <template v-slot:br>
           <br>
         </template>
-      </I18n>
+      </i18n>
     </ExpandableBlock>
   </div>
 </template>

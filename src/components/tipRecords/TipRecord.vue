@@ -224,8 +224,9 @@ export default {
     },
     isRichPreview(tip) {
       const youTubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/watch.+$/;
-      const twitterRegex = /^https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
-      return [youTubeRegex, twitterRegex].filter((r) => r.test(tip.url)).length > 0;
+      const twitterRegex = /^(https?:\/\/)?(www\.)?twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
+      const soundCloudRegex = /^(https?:\/\/)?(www\.)?soundcloud\.com\//;
+      return [youTubeRegex, twitterRegex, soundCloudRegex].filter((r) => r.test(tip.url)).length > 0;
     },
     isPreviewToBeVisualized(tip) {
       return typeof tip !== 'undefined' && tip !== null

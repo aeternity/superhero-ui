@@ -22,6 +22,14 @@
             :source-url="sourceUrl"
             :go-to-tip="goToTip"
           />
+          <SoundCloudEmbed
+            v-else-if="sourceUrl === 'soundcloud.com'"
+            :tip="tip"
+            :tip-preview-title="tipPreviewTitle"
+            :tip-preview-description="tipPreviewDescription"
+            :tip-preview-image="tipPreviewImage"
+            :source-url="sourceUrl"
+          />
         </div>
         <div class="tip__links">
           <div

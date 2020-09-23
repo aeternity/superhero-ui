@@ -74,9 +74,11 @@
           >
             <!-- eslint-disable vue-i18n/no-raw-text -->Revoke
           </button>
-          <span v-if="vote.isClosed">(vote closed)</span>
+          <span v-if="vote.isClosed && !vote.alreadyApplied">(vote closed)</span>
+          <span v-if="vote.alreadyApplied">(result applied)</span>
+          <span v-if="!vote.alreadyApplied && vote.timeouted">(timeouted)</span>
           <button
-            v-if="vote.isClosed"
+            v-if="vote.isClosed && !vote.alreadyApplied && !vote.timeouted"
             @click="applyPayout(vote.id)"
           >
             <!-- eslint-disable vue-i18n/no-raw-text -->Apply Payout
@@ -151,6 +153,8 @@ export default {
       const tokenVoting = await client.getContractInstance(TOKEN_VOTING_CONTRACT,
         { contractAddress: vote });
       const state = (await tokenVoting.methods.get_state()).decodedResult;
+      const voteTimeout = (await this.selectedWordContract.methods.vote_timeout()).decodedResult;
+      const height = await client.height();
 
       const votedFor = state.vote_state.find(([s]) => s)[1];
       const votedAgainst = state.vote_state.find(([s]) => !s)[1];
@@ -160,9 +164,10 @@ export default {
         alreadyApplied,
         instance: tokenVoting,
         subject: state.metadata.subject,
+        timeouted: (state.close_height + voteTimeout) < height,
         closeHeight: state.close_height,
         accountHasVoted: state.vote_accounts.find(([acc]) => acc === this.address),
-        isClosed: (await client.height()) >= state.close_height,
+        isClosed:  height >= state.close_height,
         votePercent: votedAgainst !== 0 ? votedFor / votedAgainst : ifAgainstZero,
       };
     },

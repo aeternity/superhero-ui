@@ -57,18 +57,30 @@
         >
           to: {{ vote.subject.VotePayout[0].slice(0, 12) }}... {{ vote.votePercent }}% positive
           <button
-            v-if="!vote.isClosed"
+            v-if="!vote.isClosed && !vote.accountHasVoted"
             @click="voteOption(vote.instance, true)"
           >
             <!-- eslint-disable vue-i18n/no-raw-text -->For
           </button>
           <button
-            v-if="!vote.isClosed"
+            v-if="!vote.isClosed && !vote.accountHasVoted"
             @click="voteOption(vote.instance, false)"
           >
             <!-- eslint-disable vue-i18n/no-raw-text -->Against
           </button>
+          <button
+            v-if="!vote.isClosed && vote.accountHasVoted"
+            @click="revokeVote(vote.instance)"
+          >
+            <!-- eslint-disable vue-i18n/no-raw-text -->Revoke
+          </button>
           <span v-if="vote.isClosed">(vote closed)</span>
+          <button
+            v-if="vote.isClosed"
+            @click="applyPayout(vote.id)"
+          >
+            <!-- eslint-disable vue-i18n/no-raw-text -->Apply Payout
+          </button>
         </div>
       </div>
     </div>
@@ -110,13 +122,13 @@ export default {
     async updateWords() {
       this.wordRegistry = await client
         .getContractInstance(WORD_REGISTRY_CONTRACT,
-          { contractAddress: 'ct_jM5Rpj2AzwJKoDHrjMnGNqAjm9gW77qV52soooAGzi7fMmubY' });
+          { contractAddress: 'ct_2t35yjUT4Bh3sLkTqaXNnZeH1gqnn55JB8UX2dM5XLi6ea6UyE' });
       this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
       this.selectWord(this.wordRegistryState.tokens[0][0], this.wordRegistryState.tokens[0][1]);
     },
     async createWordSale() {
       const tokenSale = await client.getContractInstance(TOKEN_SALE_CONTRACT);
-      await tokenSale.methods.init();
+      await tokenSale.methods.init(20);
       const token = await client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
       await token.methods.init(`${this.newWord} Token`, 18, this.newWord,
         tokenSale.deployInfo.address.replace('ct_', 'ak_'));
@@ -132,27 +144,32 @@ export default {
         (await this.selectedWordContract.methods.spread()).decodedResult, -18,
       ).toFixed();
       this.votes = await Promise.all((await this.selectedWordContract.methods.votes()).decodedResult
-        .map(([id, vote]) => this.getVoteInfo(id, vote)));
+        .map(([id, vote]) => this.getVoteInfo(id, vote[1], vote[0])));
       this.selectedWord = word;
     },
-    async getVoteInfo(id, vote) {
+    async getVoteInfo(id, vote, alreadyApplied) {
       const tokenVoting = await client.getContractInstance(TOKEN_VOTING_CONTRACT,
         { contractAddress: vote });
       const state = (await tokenVoting.methods.get_state()).decodedResult;
-      console.log('getVoteInfo', state);
 
       const votedFor = state.vote_state.find(([s]) => s)[1];
       const votedAgainst = state.vote_state.find(([s]) => !s)[1];
       const ifAgainstZero = votedFor === 0 ? 0 : 100;
-
       return {
         id,
+        alreadyApplied,
         instance: tokenVoting,
         subject: state.metadata.subject,
         closeHeight: state.close_height,
+        accountHasVoted: state.vote_accounts.find(([acc]) => acc === this.address),
         isClosed: (await client.height()) >= state.close_height,
         votePercent: votedAgainst !== 0 ? votedFor / votedAgainst : ifAgainstZero,
       };
+    },
+    async applyPayout(id) {
+      await this.selectedWordContract.methods.apply_vote_subject(id);
+      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
+      EventBus.$emit('reloadData');
     },
     async voteOption(instance, option) {
       const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
@@ -165,6 +182,12 @@ export default {
 
       await instance.methods.vote(option, amount);
       await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
+      EventBus.$emit('reloadData');
+    },
+    async revokeVote(instance) {
+      await instance.methods.revoke_vote();
+      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
+      EventBus.$emit('reloadData');
     },
     async createVote() {
       const tokenVoting = await client.getContractInstance(TOKEN_VOTING_CONTRACT);
@@ -178,7 +201,7 @@ export default {
       const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
       await tokenVoting.methods.init(metadata, closeHeight, token);
 
-      await await this.selectedWordContract.methods.add_vote(tokenVoting.deployInfo.address);
+      await this.selectedWordContract.methods.add_vote(tokenVoting.deployInfo.address);
       await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
     },
     async buy() {
@@ -195,6 +218,7 @@ export default {
         this.selectedWordContract.deployInfo.address.replace('ct_', 'ak_'));
       await this.selectedWordContract.methods.sell(amount);
       EventBus.$emit('reloadData');
+      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
     },
   },
 };

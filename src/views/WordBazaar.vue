@@ -105,7 +105,7 @@ import backend from '@/utils/backend';
 import util from '@/utils/util';
 import { EventBus } from '@/utils/eventBus';
 import { mapState } from 'vuex';
-import BigNumber from "bignumber.js";
+import BigNumber from 'bignumber.js';
 
 export default {
   name: 'WordBazaar',

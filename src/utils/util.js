@@ -1,6 +1,8 @@
 import { get } from 'lodash-es';
 import BigNumber from 'bignumber.js';
 import i18n from './i18nHelper';
+/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
+import store from '../store';
 
 const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000000000000000000));
 const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
@@ -9,10 +11,10 @@ export const wrapTry = async (promise) => {
     return Promise.race([
       promise.then((res) => {
         if (!res) {
-          this.$store.commit('backendError', true);
+          store.commit('backendError', true);
           return null;
         }
-        this.$store.commit('backendLive', true);
+        store.commit('backendLive', true);
         if (!res.ok) throw new Error(`Request failed with ${res.status}`);
         return res.json();
       }).catch((error) => {
@@ -24,7 +26,7 @@ export const wrapTry = async (promise) => {
       })),
     ]);
   } catch (err) {
-    this.$store.commit('backendError', true);
+    store.commit('backendError', true);
     return null;
   }
 };

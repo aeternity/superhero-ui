@@ -57,10 +57,10 @@ export const initClient = async () => {
     }
     store.commit('setSdk', client);
   } catch (err) {
-    this.$store.commit('backendError', true);
+    store.commit('backendError', true);
     return;
   }
-  this.$store.commit('backendLive', true);
+  store.commit('backendLive', true);
 };
 
 export const scanForWallets = async () => {

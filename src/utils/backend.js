@@ -1,4 +1,5 @@
 import { BACKEND_URL } from '../config/constants';
+/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import { wrapTry } from './util';
 
 const backendFetch = (path, ...args) => wrapTry(

@@ -5,6 +5,7 @@ import mutations from './mutations';
 import backend from './modules/backend';
 import persistState from './plugins/persistState';
 import modals from './plugins/modals';
+/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import Backend from '../utils/backend';
 
 Vue.use(Vuex);

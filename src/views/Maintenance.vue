@@ -23,7 +23,7 @@ export default {
 
         this.$store.commit('backendLive', false);
       }
-    })
+    });
   },
 };
 </script>

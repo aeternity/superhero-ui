@@ -1,6 +1,7 @@
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 import Vue from 'vue';
 import { times } from 'lodash-es';
+/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import Backend from '../../utils/backend';
 
 export default {

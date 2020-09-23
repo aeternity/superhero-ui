@@ -58,7 +58,7 @@ export default {
     state.pinnedItems = pinnedItems;
   },
   reloading(state, reloading) {
-    state.reloading = reloading
+    state.reloading = reloading;
   },
   backendError(state, backendError) {
     state.backendError = backendError;

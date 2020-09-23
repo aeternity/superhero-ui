@@ -61,16 +61,16 @@ export default {
     setInterval(() => this.reloadData(), 120 * 1000);
 
     this.$watch(() => this.backendError, (backendError) => {
-      if (backendError) {
-        this.$router.name !== 'maintenance' && this.$router.push({
+      if (backendError && this.$route.name !== 'maintenance') {
+        this.$router.push({
           name: 'maintenance',
         }).catch((err) => {
           console.log(err);
         });
-
-        this.$store.commit('backendError', false);
       }
-    })
+
+      this.$store.commit('backendError', false);
+    });
 
     await this.initialLoad();
   },

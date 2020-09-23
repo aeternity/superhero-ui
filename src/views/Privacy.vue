@@ -6,7 +6,7 @@
       {{ $t('views.Privacy.subtitle') }}
     </p>
 
-    <I18n
+    <i18n
       v-for="(item, index) in $t('views.Privacy.sections').length"
       :key="index"
       :path="getI18nPath(index, 'Privacy')"

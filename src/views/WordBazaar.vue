@@ -99,6 +99,7 @@ import backend from '@/utils/backend';
 import util from '@/utils/util';
 import { EventBus } from '@/utils/eventBus';
 import { mapState } from 'vuex';
+import BigNumber from "bignumber.js";
 
 export default {
   name: 'WordBazaar',
@@ -159,6 +160,9 @@ export default {
       const votedFor = state.vote_state.find(([s]) => s)[1];
       const votedAgainst = state.vote_state.find(([s]) => !s)[1];
       const ifAgainstZero = votedFor === 0 ? 0 : 100;
+      const votedPositive = new BigNumber(votedFor)
+        .dividedBy(new BigNumber(votedFor).plus(votedAgainst)).times(100).toFixed(0);
+
       return {
         id,
         alreadyApplied,
@@ -167,8 +171,8 @@ export default {
         timeouted: (state.close_height + voteTimeout) < height,
         closeHeight: state.close_height,
         accountHasVoted: state.vote_accounts.find(([acc]) => acc === this.address),
-        isClosed:  height >= state.close_height,
-        votePercent: votedAgainst !== 0 ? votedFor / votedAgainst : ifAgainstZero,
+        isClosed: height >= state.close_height,
+        votePercent: votedAgainst !== 0 ? votedPositive : ifAgainstZero,
       };
     },
     async applyPayout(id) {

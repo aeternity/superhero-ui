@@ -4,6 +4,7 @@ language: node_js
 node_js: '12'
 
 script:
+  - rm -rf node_modules && npm i
   - npm run test
   - npm run build -- --report
 

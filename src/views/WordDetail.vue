@@ -8,7 +8,7 @@
       <input
         v-model="newVotePayout"
         placeholder="ak_..."
-      />
+      >
       <button @click="createVote">
         <!-- eslint-disable vue-i18n/no-raw-text -->
         Create Vote
@@ -62,7 +62,6 @@ import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.ae
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
 import { client, createOrChangeAllowance } from '@/utils/aeternity';
-import backend from '@/utils/backend';
 import util from '@/utils/util';
 import { EventBus } from '@/utils/eventBus';
 import { mapState } from 'vuex';
@@ -71,16 +70,13 @@ import BigNumber from 'bignumber.js';
 export default {
   name: 'WordBazaar',
   data: () => ({
-    newWord: '',
-    words: [],
     wordRegistryState: null,
     selectedWord: null,
     selectedWordContract: null,
-    buyAmount: 0,
-    sellAmount: 0,
     spread: 0,
     votes: null,
     newVotePayout: '',
+    tokenVoting: {},
   }),
   computed: {
     ...mapState(['address']),
@@ -90,7 +86,7 @@ export default {
   },
   methods: {
     async updateWords() {
-      this.wordRegistry = await client
+      this.wordRegistry = this.wordRegistry ? this.wordRegistry : await client
         .getContractInstance(WORD_REGISTRY_CONTRACT,
           { contractAddress: 'ct_UXU3jSUHS2Zy1YkqUBjm1Aw31uBmc6bHKMmwPMRt8N9sN7HmW' });
       this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
@@ -99,8 +95,8 @@ export default {
       this.selectWord(token[0], token[1]);
     },
     async selectWord(word, sale) {
-      this.selectedWordContract = await client
-        .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: sale });
+      this.selectedWordContract = this.selectedWordContract ? this.selectedWordContract
+        : await client.getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: sale });
       this.spread = util.shiftDecimalPlaces(
         (await this.selectedWordContract.methods.spread()).decodedResult, -18,
       ).toFixed();
@@ -109,9 +105,9 @@ export default {
       this.selectedWord = word;
     },
     async getVoteInfo(id, vote, alreadyApplied) {
-      const tokenVoting = await client.getContractInstance(TOKEN_VOTING_CONTRACT,
-        { contractAddress: vote });
-      const state = (await tokenVoting.methods.get_state()).decodedResult;
+      this.tokenVoting[vote] = this.tokenVoting[vote] ? this.tokenVoting[vote]
+        : await client.getContractInstance(TOKEN_VOTING_CONTRACT, { contractAddress: vote });
+      const state = (await this.tokenVoting[vote].methods.get_state()).decodedResult;
       const voteTimeout = (await this.selectedWordContract.methods.vote_timeout()).decodedResult;
       const height = await client.height();
 
@@ -125,7 +121,7 @@ export default {
       return {
         id,
         alreadyApplied,
-        instance: tokenVoting,
+        instance: this.tokenVoting[vote],
         subject: state.metadata.subject,
         timeouted: (state.close_height + voteTimeout) < height,
         closeHeight: state.close_height,

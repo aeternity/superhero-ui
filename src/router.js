@@ -18,6 +18,7 @@ import TutorialWallet from './views/tutorial/Wallet.vue';
 import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
 import WordBazaar from './views/WordBazaar.vue';
+import WordDetail from './views/WordDetail.vue';
 
 const routes = [
   {
@@ -54,6 +55,15 @@ const routes = [
     component: WordBazaar,
     meta: {
       title: 'Word Bazaar',
+    },
+    props: true,
+  },
+  {
+    path: '/word/:word',
+    name: 'word-detail',
+    component: WordDetail,
+    meta: {
+      title: 'Word Detail',
     },
     props: true,
   },

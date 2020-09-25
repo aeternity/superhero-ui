@@ -10,8 +10,8 @@
     </button>
     <div class="row">
       <div class="col-md-3">Asset</div>
-      <div class="col-md-4">Price</div>
-      <div class="col-md-2">Supply</div>
+      <div class="col-md-3">Price</div>
+      <div class="col-md-3">Supply</div>
       <div class="col-md-3">Market</div>
     </div>
     <div

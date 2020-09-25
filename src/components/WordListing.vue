@@ -22,7 +22,8 @@
       <AeAmount
         v-if="totalSupply !== null && tokenAddress"
         :amount="totalSupply"
-        :token="tokenAddress" />
+        :token="tokenAddress"
+      />
       <Loading
         v-else
         :small="true"
@@ -51,12 +52,16 @@
       v-if="showBuyModal"
       @close="showBuyModal = false"
     >
-      <div class="label">Account Balance</div>
+      <div class="label">
+        Account Balance
+      </div>
       <AeAmount
         :amount="tokenBalance"
         :token="tokenAddress"
       />
-      <div class="mt-3 label">Amount buying</div>
+      <div class="mt-3 label">
+        Amount buying
+      </div>
       <div class="input-group mb-2">
         <input
           v-model="buyAmount"
@@ -65,8 +70,10 @@
           class="form-control"
         >
       </div>
-      <div class="mt-3 label">Total you pay</div>
-      <AeAmountFiat :amount="buyAmount * buyPrice"/>
+      <div class="mt-3 label">
+        Total you pay
+      </div>
+      <AeAmountFiat :amount="buyAmount * buyPrice" />
       <div class="mt-3 text-center">
         <OutlinedButton
           class="green"
@@ -82,12 +89,16 @@
       v-if="showSellModal"
       @close="showSellModal = false"
     >
-      <div class="label">Account Balance</div>
+      <div class="label">
+        Account Balance
+      </div>
       <AeAmount
         :amount="tokenBalance"
         :token="tokenAddress"
       />
-      <div class="mt-3 label">Amount selling</div>
+      <div class="mt-3 label">
+        Amount selling
+      </div>
       <div class="input-group mb-2">
         <input
           v-model="sellAmount"
@@ -96,8 +107,10 @@
           class="form-control"
         >
       </div>
-      <div class="mt-3 label">Total you get</div>
-      <AeAmountFiat :amount="sellAmount * sellPrice"/>
+      <div class="mt-3 label">
+        Total you get
+      </div>
+      <AeAmountFiat :amount="sellAmount * sellPrice" />
       <div class="mt-3 text-center">
         <OutlinedButton
           class="red"
@@ -147,6 +160,7 @@ export default {
     spread: 0,
     totalSupply: null,
     tokenAddress: null,
+    tokenContract: null,
     showBuyModal: false,
     showSellModal: false,
   }),
@@ -171,10 +185,10 @@ export default {
       ).toFixed();
 
       this.tokenAddress = (await this.contract.methods.get_token()).decodedResult;
-      const tokenContract = await client
+      this.tokenContract = this.tokenContract ? this.tokenContract : await client
         .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: this.tokenAddress });
 
-      this.totalSupply = (await tokenContract.methods.total_supply()).decodedResult;
+      this.totalSupply = (await this.tokenContract.methods.total_supply()).decodedResult;
 
       const [buy, sell] = (await this.contract.methods.prices()).decodedResult;
       this.buyPrice = 1 / buy;

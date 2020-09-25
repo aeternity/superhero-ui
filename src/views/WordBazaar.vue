@@ -9,10 +9,18 @@
       Create Word
     </button>
     <div class="row">
-      <div class="col-md-3">Asset</div>
-      <div class="col-md-3">Price</div>
-      <div class="col-md-3">Supply</div>
-      <div class="col-md-3">Market</div>
+      <div class="col-md-3">
+        Asset
+      </div>
+      <div class="col-md-3">
+        Price
+      </div>
+      <div class="col-md-3">
+        Supply
+      </div>
+      <div class="col-md-3">
+        Market
+      </div>
     </div>
     <div
       v-for="[word, sale] in wordRegistryState && wordRegistryState.tokens"

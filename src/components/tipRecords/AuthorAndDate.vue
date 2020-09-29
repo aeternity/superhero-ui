@@ -1,45 +1,86 @@
 <template>
-  <div
-    class="author-and-date"
-    @click.stop
-  >
-    <RouterLink
-      :to="{
-        name: 'user-profile',
-        params: {
-          address,
-        },
-      }"
-    >
-      <Avatar :address="address" />
-      <div class="author-name">
-        <span class="chain-name">
-          {{ name ? name : $t('FellowSuperhero') }}
-        </span>
-        <span class="address">
-          {{ address }}
-        </span>
+  <div class="wrapper">
+    <Transition name="fade">
+      <div
+        v-if="hover"
+        class="modal-container"
+        @click.stop
+        @mouseover="mousestay"
+        @mouseleave="mouseleave"
+      >
+        <UserInfo :address="address" />
       </div>
-    </RouterLink>
-    <span class="right">
-      <slot />
-      <FormatDate v-bind="$attrs" />
-    </span>
+    </Transition>
+    <div
+      class="author-and-date"
+      @click.stop
+    >
+      <RouterLink
+        :to="{
+          name: 'user-profile',
+          params: {
+            address,
+          },
+        }"
+      >
+        <Avatar
+          :address="address"
+          @mouseover.native="mouseover"
+          @mouseleave.native="mouseleave"
+        />
+        <div class="author-name">
+          <span
+            v-if="name"
+            class="chain-name"
+          >
+            {{ name }}
+          </span>
+          <span class="address">
+            {{ address }}
+          </span>
+        </div>
+      </RouterLink>
+      <span class="right">
+        <FormatDate v-bind="$attrs" />
+        <slot />
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
+import UserInfo from '../UserInfo.vue';
+
+let timeout;
 
 export default {
   components: {
     FormatDate,
     Avatar,
+    UserInfo,
   },
   props: {
     address: { type: String, required: true },
     name: { type: String, default: '' },
+  },
+  data() {
+    return {
+      hover: false,
+    };
+  },
+  methods: {
+    mouseover() {
+      this.hover = true;
+    },
+    mouseleave() {
+      timeout = setTimeout(() => { this.hover = false; }, 500);
+    },
+    mousestay() {
+      this.hover = true;
+      clearTimeout(timeout);
+    },
   },
 };
 </script>
@@ -100,5 +141,29 @@ export default {
     justify-content: center;
     overflow: hidden;
   }
+}
+
+.wrapper {
+  position: relative;
+}
+
+.modal-container {
+  top: 60px;
+  border: 1px solid $light_font_color;
+  border-radius: 0.5rem;
+  position: absolute;
+  z-index: 99;
+  overflow: hidden;
+  cursor: default;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

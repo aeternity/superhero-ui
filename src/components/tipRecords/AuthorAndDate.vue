@@ -155,6 +155,7 @@ export default {
   z-index: 99;
   overflow: hidden;
   cursor: default;
+  max-width: 100%;
 }
 
 .fade-enter-active,

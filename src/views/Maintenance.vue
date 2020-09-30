@@ -24,13 +24,13 @@ export default {
 <style lang="scss" scoped>
 .maintenance {
   background-color: #14151f;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
 
   @media (min-width: 400px) {
     position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 
   h1 {

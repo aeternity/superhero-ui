@@ -47,7 +47,7 @@
             <a
               class="text-ellipsis"
               target="_blank"
-              :href="tip.url"
+              :href="tipUrl"
               @click.stop
             >
               <ExternalLink />
@@ -102,7 +102,7 @@
             <a
               class="text-ellipsis"
               target="_blank"
-              :href="tip.url"
+              :href="tipUrl"
               @click.stop
             >
               <ExternalLink />
@@ -188,6 +188,7 @@ export default {
   props: {
     tip: { type: Object, required: true },
     goToTip: { type: Function, default: () => {} },
+    tipUrl: { type: String, default: '' },
   },
   data() {
     return {

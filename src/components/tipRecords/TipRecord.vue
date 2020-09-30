@@ -36,6 +36,7 @@
       <TipPreview
         :tip="tip"
         :go-to-tip="goToTip"
+        :tip-url="tipUrl"
       />
       <div class="tip__footer">
         <div class="tip__footer_wrapper">
@@ -85,6 +86,9 @@ export default {
     toTip() {
       return { name: 'tip', params: { tipId: this.tip.id } };
     },
+    tipUrl() {
+      return this.tip.url.startsWith('http://') || this.tip.url.startsWith('https://') ? this.tip.url : `http://${this.tip.url}`;
+    },
   },
   methods: {
     async sendReport() {
@@ -126,7 +130,7 @@ export default {
     },
     goToTip() {
       return this.$route.params.tipId === this.tip.id
-        ? window.open(this.tip.url)
+        ? window.open(this.tipUrl)
         : this.$router.push(this.toTip);
     },
   },

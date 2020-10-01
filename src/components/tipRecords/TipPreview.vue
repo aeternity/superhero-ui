@@ -9,14 +9,14 @@
       <div class="tip__article__content">
         <div class="tip__embed">
           <YouTubeEmbed
-            v-if="sourceUrl === 'youtube.com'"
+            v-if="sourceUrl === 'youtube.com' || sourceUrl === 'youtu.be'"
             :tip="tip"
             :tip-preview-title="tipPreviewTitle"
             :tip-preview-description="tipPreviewDescription"
             :source-url="sourceUrl"
           />
           <TwitterEmbed
-            v-if="sourceUrl === 'twitter.com'"
+            v-else-if="sourceUrl === 'twitter.com'"
             :tip="tip"
             :tip-preview-title="tipPreviewTitle"
             :tip-preview-description="tipPreviewDescription"
@@ -216,7 +216,7 @@ export default {
   },
   methods: {
     isRichPreview(tip) {
-      const youTubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/watch.+$/;
+      const youTubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/(watch|([a-zA-Z0-9_-]{11})).*$/;
       const twitterRegex = /^(https?:\/\/)?(www\.)?twitter\.com\//;
       const soundCloudRegex = /^(https?:\/\/)?(www\.)?soundcloud\.com\/[a-zA-Z0-9-_/]*$/;
       return [

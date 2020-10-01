@@ -8,24 +8,11 @@ const backendFetch = (path, ...args) => wrapTry(
 export default class Backend {
   static getTipComments = async (tipId) => backendFetch(`comment/api/tip/${encodeURIComponent(tipId)}`);
 
-  static async sendTipComment(tipId, text, author, signCb, parentId) {
-    const sendComment = async (postParam) => backendFetch('comment/api/', {
-      method: 'post',
-      body: JSON.stringify(postParam),
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    const responseChallenge = await sendComment({
-      tipId, text, author, parentId,
-    });
-    const signedChallenge = await signCb(responseChallenge.challenge);
-    const respondChallenge = {
-      challenge: responseChallenge.challenge,
-      signature: signedChallenge,
-    };
-
-    return sendComment(respondChallenge);
-  }
+  static sendTipComment = async (_, postParam) => backendFetch('comment/api/', {
+    method: 'post',
+    body: JSON.stringify(postParam),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   static getUserComments = async (address) => backendFetch(`comment/api/author/${address}`);
 

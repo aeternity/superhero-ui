@@ -19,10 +19,11 @@ import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl } from '../utils/util';
 import { client } from '../utils/aeternity';
 import MessageInput from './MessageInput.vue';
-import Backend from '../utils/backend';
+import backendAuthMixin from '../utils/backendAuthMixin';
 
 export default {
   components: { MessageInput },
+  mixins: [backendAuthMixin(true)],
   props: {
     tipId: { type: [Number, String], required: true },
     parentId: { type: [Number, String], default: undefined },
@@ -46,13 +47,12 @@ export default {
         return;
       }
       this.setLoading = true;
-      await Backend.sendTipComment(
-        this.tipId,
-        this.comment,
-        client.rpcClient.getCurrentAccount(),
-        (data) => client.signMessage(data),
-        this.parentId,
-      );
+      await this.backendAuth('sendTipComment', {
+        tipId: this.tipId,
+        text: this.comment,
+        author: client.rpcClient.getCurrentAccount(),
+        parentId: this.parentId,
+      });
       EventBus.$emit('reloadData');
       this.comment = '';
       this.setLoading = false;

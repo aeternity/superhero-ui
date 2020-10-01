@@ -10,7 +10,6 @@ import TIPPING_V2_INTERFACE from 'tipping-contract/Tipping_v2_Interface.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
 import { BigNumber } from 'bignumber.js';
 import { COMPILER_URL, NODE_URL } from '../config/constants';
-import { EventBus } from './eventBus';
 import store from '../store';
 import { IS_MOBILE_DEVICE } from './index';
 
@@ -69,10 +68,10 @@ export const initClient = async () => {
     }
     store.commit('setSdk', client);
   } catch (err) {
-    EventBus.$emit('backendError');
+    store.commit('setBackendStatus', false);
     return;
   }
-  EventBus.$emit('backendLive');
+  store.commit('setBackendStatus', true);
 };
 
 export const scanForWallets = async () => {

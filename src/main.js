@@ -16,6 +16,15 @@ Vue.config.productionTip = false;
 registerModals();
 sync(store, router);
 
+store.watch(
+  ({ isBackendLive }) => isBackendLive,
+  async (isBackendLive) => {
+    const targetRouteName = isBackendLive ? 'tips' : 'maintenance';
+    if (router.currentRoute.name === targetRouteName) return;
+    await router.push({ name: targetRouteName });
+  },
+);
+
 export default new Vue({
   el: '#app',
   store,

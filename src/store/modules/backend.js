@@ -1,6 +1,7 @@
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 import Vue from 'vue';
 import { times } from 'lodash-es';
+// eslint-disable-next-line import/no-cycle
 import Backend from '../../utils/backend';
 
 export default {

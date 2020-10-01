@@ -12,11 +12,7 @@ import { EventBus } from '../utils/eventBus';
 export default {
   mounted() {
     const interval = setInterval(() => EventBus.$emit('reloadData'), 10 * 1000);
-
-    EventBus.$on('backendLive', () => {
-      clearInterval(interval);
-      this.$router.push('/');
-    });
+    this.$once('hook:destroyed', () => clearInterval(interval));
   },
 };
 </script>

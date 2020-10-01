@@ -53,7 +53,6 @@ import TipRecord from '../components/tipRecords/TipRecord.vue';
 import TipCommentList from '../components/tipRecords/TipCommentList.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import Loading from '../components/Loading.vue';
-import { EventBus } from '../utils/eventBus';
 import backendAuthMixin from '../utils/backendAuthMixin';
 import SendComment from '../components/SendComment.vue';
 
@@ -88,11 +87,9 @@ export default {
   async mounted() {
     const handler = () => this.reloadData();
     this.$watch(({ id }) => id, handler, { immediate: true });
-    EventBus.$on('reloadData', handler);
     const interval = setInterval(handler, 120 * 1000);
 
     this.$once('hook:destroyed', () => {
-      EventBus.$off('reloadData', handler);
       clearInterval(interval);
     });
   },

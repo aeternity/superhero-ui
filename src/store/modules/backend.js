@@ -3,6 +3,7 @@ import Vue from 'vue';
 import { times } from 'lodash-es';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../../utils/backend';
+import { createDeepLinkUrl } from '../../utils';
 
 export default {
   namespaced: true,
@@ -110,6 +111,44 @@ export default {
     },
     async reloadPrices({ commit }) {
       commit('setPrices', (await Backend.getPrice())?.aeternity);
+    },
+    async callWithAuth({ rootState: { useSdkWallet, sdk, address } }, { method, arg, to }) {
+      const { challenge } = await Backend[method](address, arg);
+      if (useSdkWallet) {
+        const signature = await sdk.signMessage(challenge);
+        await Backend[method](address, { challenge, signature });
+        return;
+      }
+
+      const url = new URL(to || window.location, window.location);
+      url.search = '';
+      window.location = createDeepLinkUrl({
+        type: 'sign-message',
+        message: challenge,
+        'x-success': `${url}?method=${method}&address=${address}&challenge=${challenge}&signature={signature}`,
+      });
+    },
+    async sendComment(
+      { dispatch, rootState: { address, useSdkWallet } },
+      { tipId, text, parentId },
+    ) {
+      if (!useSdkWallet) {
+        window.location = createDeepLinkUrl({
+          type: 'comment', id: tipId, text, parentId,
+        });
+        return;
+      }
+      await dispatch('callWithAuth', {
+        method: 'sendTipComment',
+        arg: {
+          tipId, text, author: address, parentId,
+        },
+      });
+      await Promise.all([
+        dispatch('reloadTip', tipId),
+        ...parentId ? [dispatch('reloadComment', parentId)] : [],
+        dispatch('reloadStats'),
+      ]);
     },
   },
 };

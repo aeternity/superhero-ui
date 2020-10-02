@@ -110,5 +110,13 @@ export default {
     async reloadPrices({ commit }) {
       commit('setPrices', (await Backend.getPrice())?.aeternity);
     },
+    async cacheInvalidateTips({ dispatch }, { tipId }) {
+      await Backend.cacheInvalidateTips();
+
+      await Promise.all([
+        dispatch('reloadTip', tipId),
+        dispatch('reloadStats'),
+      ]);
+    },
   },
 };

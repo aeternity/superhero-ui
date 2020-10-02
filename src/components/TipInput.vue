@@ -53,8 +53,6 @@ import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
 import { tip, retip } from '../utils/aeternity';
-import Backend from '../utils/backend';
-import { EventBus } from '../utils/eventBus';
 import util, { createDeepLinkUrl } from '../utils/util';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
@@ -132,8 +130,7 @@ export default {
         if (this.tip) await retip(this.tip.id, amount);
         else await tip(this.tipUrl, this.message, amount);
         if (!this.userAddress) {
-          await Backend.cacheInvalidateTips();
-          EventBus.$emit('reloadData');
+          await this.$store.dispatch('cacheInvalidateTips', { tipId: this.tipId });
         }
         this.hideModal();
       } catch (error) {

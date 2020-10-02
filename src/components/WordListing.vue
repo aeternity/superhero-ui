@@ -80,7 +80,12 @@
           @click="buy"
         >
           <!-- eslint-disable vue-i18n/no-raw-text -->
-          Buy
+          <Loading
+            v-if="loading"
+            small
+            class="p-0"
+          />
+          <span v-else>Buy</span>
         </OutlinedButton>
       </div>
     </Modal>
@@ -117,7 +122,12 @@
           @click="sell"
         >
           <!-- eslint-disable vue-i18n/no-raw-text -->
-          Sell
+          <Loading
+            v-if="loading"
+            small
+            class="p-0"
+          />
+          <span v-else>Sell</span>
         </OutlinedButton>
       </div>
     </Modal>
@@ -125,7 +135,7 @@
 </template>
 
 <script>
-import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.aes';
+import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import { client, createOrChangeAllowance } from '@/utils/aeternity';
 import backend from '@/utils/backend';
@@ -163,6 +173,7 @@ export default {
     tokenContract: null,
     showBuyModal: false,
     showSellModal: false,
+    loading: true,
   }),
   computed: {
     ...mapState(['address', 'balance', 'tokenBalances']),
@@ -178,6 +189,9 @@ export default {
   },
   methods: {
     async loadWordData() {
+      this.totalSupply = null;
+      this.buyPrice = null;
+
       this.contract = this.contract ? this.contract : await client
         .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.sale });
       this.spread = util.shiftDecimalPlaces(
@@ -193,8 +207,15 @@ export default {
       const [buy, sell] = (await this.contract.methods.prices()).decodedResult;
       this.buyPrice = 1 / buy;
       this.sellPrice = 1 / sell;
+
+      this.loading = false;
+      this.buyAmount = 0;
+      this.sellAmount = 0;
+      this.showSellModal = false;
+      this.showBuyModal = false;
     },
     async buy() {
+      this.loading = true;
       await this.contract.methods
         .buy({ amount: util.shiftDecimalPlaces(this.buyAmount, 18).toFixed() });
       const token = (await this.contract.methods.get_token()).decodedResult;
@@ -203,6 +224,7 @@ export default {
       this.loadWordData();
     },
     async sell() {
+      this.loading = true;
       const amount = util.shiftDecimalPlaces(this.sellAmount, 18).toFixed();
       const token = (await this.contract.methods.get_token()).decodedResult;
       await createOrChangeAllowance(token, amount,

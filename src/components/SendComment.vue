@@ -16,7 +16,7 @@
 
 <script>
 import { EventBus } from '../utils/eventBus';
-import { createDeepLinkUrl } from '../utils/util';
+import { createDeepLinkUrl, handleUnknownError } from '../utils/util';
 import { client } from '../utils/aeternity';
 import MessageInput from './MessageInput.vue';
 import backendAuthMixin from '../utils/backendAuthMixin';
@@ -47,15 +47,20 @@ export default {
         return;
       }
       this.setLoading = true;
-      await this.backendAuth('sendTipComment', {
-        tipId: this.tipId,
-        text: this.comment,
-        author: client.rpcClient.getCurrentAccount(),
-        parentId: this.parentId,
-      });
-      EventBus.$emit('reloadData');
-      this.comment = '';
-      this.setLoading = false;
+      try {
+        await this.backendAuth('sendTipComment', {
+          tipId: this.tipId,
+          text: this.comment,
+          author: client.rpcClient.getCurrentAccount(),
+          parentId: this.parentId,
+        });
+        EventBus.$emit('reloadData');
+      } catch (e) {
+        if (e.message !== 'Operation rejected by user') handleUnknownError(e);
+      } finally {
+        this.comment = '';
+        this.setLoading = false;
+      }
     },
   },
 };

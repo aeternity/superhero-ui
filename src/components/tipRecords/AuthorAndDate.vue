@@ -1,14 +1,20 @@
 <template>
   <div class="wrapper">
-    <Transition name="fade">
+    <Transition
+      v-if="hover"
+      name="fade"
+    >
       <div
-        v-if="hover"
+        v-show="show"
         class="modal-container"
         @click.stop
         @mouseover="mousestay"
         @mouseleave="mouseleave"
       >
-        <UserInfo :address="address" />
+        <UserInfo
+
+          :address="address"
+        />
       </div>
     </Transition>
     <div
@@ -68,17 +74,21 @@ export default {
   data() {
     return {
       hover: false,
+      show: false,
     };
   },
   methods: {
     mouseover() {
       this.hover = true;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => { this.show = true; }, 1500);
     },
     mouseleave() {
-      timeout = setTimeout(() => { this.hover = false; }, 500);
+      timeout = setTimeout(() => { this.hover = false; this.show = false; }, 500);
     },
     mousestay() {
       this.hover = true;
+      this.show = true;
       clearTimeout(timeout);
     },
   },

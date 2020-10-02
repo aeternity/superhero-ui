@@ -14,7 +14,12 @@
         @click="createWordSale"
       >
         <!-- eslint-disable vue-i18n/no-raw-text -->
-        +
+        <Loading
+          v-if="loadingState && wordRegistryState !== null"
+          small
+          class="p-0"
+        />
+        <span v-else>+</span>
       </OutlinedButton>
     </div>
 
@@ -34,11 +39,11 @@
     </div>
 
     <Loading
-      v-if="loadingState"
+      v-if="loadingState && wordRegistryState === null"
       above-content
     />
 
-    <div v-if="!loadingState">
+    <div v-else>
       <div
         v-for="[word, sale] in wordRegistryState && wordRegistryState.tokens"
         :key="word"
@@ -99,6 +104,7 @@ export default {
           { contractAddress: 'ct_UXU3jSUHS2Zy1YkqUBjm1Aw31uBmc6bHKMmwPMRt8N9sN7HmW' });
       this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
       this.loadingState = false;
+      this.newWord = '';
     },
     async createWordSale() {
       this.loadingState = true;

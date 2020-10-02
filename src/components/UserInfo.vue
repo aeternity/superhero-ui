@@ -160,7 +160,6 @@
       </div>
     </div>
     <div
-      v-if="userStats"
       class="profile__stats"
     >
       <div
@@ -220,7 +219,15 @@ export default {
   data() {
     return {
       maxLength: 250,
-      userStats: null,
+      userStats: {
+        tipsLength: '-',
+        retipsLength: '-',
+        totalTipAmount: '0',
+        claimedUrlsLength: '-',
+        unclaimedAmount: '0',
+        claimedAmount: '0',
+        userComments: '-',
+      },
       editMode: false,
       userCommentCount: 0,
       profile: {

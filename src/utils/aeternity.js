@@ -9,6 +9,7 @@ import { CONTRACT_ADDRESS, COMPILER_URL, NODE_URL } from '@/config/constants';
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import { EventBus } from './eventBus';
 import store from '../store';
+import { IS_MOBILE_DEVICE } from './util';
 
 let contract;
 
@@ -69,7 +70,7 @@ export const scanForWallets = async () => {
     connectionInfo: { id: 'spy' },
   });
   const detector = await Detector({ connection: scannerConnection });
-  const webWalletTimeout = setTimeout(() => store.commit('useIframeWallet'), 2000);
+  const webWalletTimeout = setTimeout(() => !IS_MOBILE_DEVICE && store.commit('useIframeWallet'), 2000);
 
   return new Promise((resolve) => {
     detector.scan(async ({ newWallet }) => {

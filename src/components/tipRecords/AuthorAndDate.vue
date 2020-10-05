@@ -81,10 +81,10 @@ export default {
     mouseover() {
       this.hover = true;
       clearTimeout(timeout);
-      timeout = setTimeout(() => { this.show = true; }, 1500);
+      timeout = setTimeout(() => { this.show = true; }, 1000);
     },
     mouseleave() {
-      timeout = setTimeout(() => { this.hover = false; this.show = false; }, 500);
+      timeout = setTimeout(() => { this.hover = false; this.show = false; }, 750);
     },
     mousestay() {
       this.hover = true;
@@ -165,7 +165,8 @@ export default {
   z-index: 99;
   overflow: hidden;
   cursor: default;
-  max-width: 100%;
+  width: 75%;
+  box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.7);
 }
 
 .fade-enter-active,
@@ -176,5 +177,38 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+::v-deep .profile__stats {
+  display: grid;
+  grid-template-columns: 8rem auto;
+  .tip_stats {
+    grid-template-columns: auto;
+    order: 2;
+  }
+
+  .tips_stats_block {
+    border: 0;
+    border-bottom: 1px solid $light_color;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .stats {
+    border: 0;
+    border-right: 1px solid $light_color;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .stat_block {
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .modal-container {
+    width: 100%;
+  }
 }
 </style>

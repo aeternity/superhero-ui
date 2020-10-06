@@ -94,7 +94,7 @@
             <div class="chain">
               {{ userChainName ? userChainName : $t('FellowSuperhero') }}
             </div>
-            <div class="text-ellipsis">{{ address }}</div>
+            <div>{{ address }}</div>
           </a>
           <div
             v-if="balance"

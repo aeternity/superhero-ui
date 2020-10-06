@@ -5,7 +5,7 @@
       name="fade"
     >
       <div
-        v-show="show"
+        v-show="show && isActive"
         class="modal-container"
         @click.stop
         @mouseover="mousestay"
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 import UserInfo from '../UserInfo.vue';
@@ -70,6 +71,7 @@ export default {
   props: {
     address: { type: String, required: true },
     name: { type: String, default: '' },
+    parrent: { type: String, default: '' },
   },
   data() {
     return {
@@ -77,14 +79,25 @@ export default {
       show: false,
     };
   },
+  computed: {
+    ...mapState(['showUserInfo']),
+    currentUserInfo() {
+      return this.address + this.parrent;
+    },
+    isActive() {
+      return this.currentUserInfo === this.showUserInfo;
+    },
+  },
   methods: {
+    ...mapMutations(['setShowUserInfo']),
     mouseover() {
+      this.setShowUserInfo(this.currentUserInfo);
       this.hover = true;
       clearTimeout(timeout);
-      timeout = setTimeout(() => { this.show = true; }, 1000);
+      timeout = setTimeout(() => { this.show = true; }, 500);
     },
     mouseleave() {
-      timeout = setTimeout(() => { this.hover = false; this.show = false; }, 750);
+      timeout = setTimeout(() => { this.hover = false; this.show = false; }, 500);
     },
     mousestay() {
       this.hover = true;
@@ -159,14 +172,14 @@ export default {
 
 .modal-container {
   top: 60px;
+  width: 75%;
   border: 1px solid $light_font_color;
   border-radius: 0.5rem;
   position: absolute;
   z-index: 99;
   overflow: hidden;
   cursor: default;
-  width: 75%;
-  box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.7);
+  box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.5);
 }
 
 .fade-enter-active,
@@ -182,6 +195,7 @@ export default {
 ::v-deep .profile__stats {
   display: grid;
   grid-template-columns: 8rem auto;
+
   .tip_stats {
     grid-template-columns: auto;
     order: 2;

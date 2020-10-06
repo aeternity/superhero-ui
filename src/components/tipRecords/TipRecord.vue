@@ -9,6 +9,7 @@
           :date="new Date(tip.timestamp)"
           :address="tip.sender"
           :name="tip.chainName"
+          :parrent="`tip${tip.id}`"
         >
           <ThreeDotsMenu v-if="address">
             <div @click="sendReport">

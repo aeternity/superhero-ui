@@ -8,6 +8,7 @@
         :date="new Date(comment.createdAt)"
         :address="comment.author"
         :name="userChainName || comment.chainName"
+        :parrent="`comment${comment.id}`"
       />
       <div
         class="note"

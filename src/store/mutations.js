@@ -79,4 +79,7 @@ export default {
   setSdk(state, sdk) {
     state.sdk = sdk;
   },
+  setShowUserInfo(state, showUserInfo) {
+    state.showUserInfo = showUserInfo;
+  },
 };

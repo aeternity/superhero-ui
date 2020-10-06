@@ -19,10 +19,10 @@
       <IconGovernance />
       {{ $t('components.layout.Navigation.Governance') }}
     </RouterLink>
-    <RouterLink :to="{ name: 'conference' }">
+    <!-- <RouterLink :to="{ name: 'conference' }">
       <IconMeet />
       {{ $t('Networking.MenuLink') }}
-    </RouterLink>
+    </RouterLink> -->
     <RouterLink
       v-if="isLoggedIn"
       :to="{ name: 'user-profile', params: { address } }"
@@ -48,7 +48,7 @@ import IconUser from '../../assets/iconUser.svg?icon-component';
 import IconHelp from '../../assets/iconHelp.svg?icon-component';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
 import IconGovernance from '../../assets/iconGovernance.svg?icon-component';
-import IconMeet from '../../assets/iconMeet.svg?icon-component';
+// import IconMeet from '../../assets/iconMeet.svg?icon-component';
 
 export default {
   components: {
@@ -57,7 +57,7 @@ export default {
     IconHelp,
     IconDiamond,
     IconGovernance,
-    IconMeet,
+    // IconMeet,
   },
   props: {
     mobile: Boolean,

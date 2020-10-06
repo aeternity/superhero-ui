@@ -7,23 +7,18 @@ const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000
 const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
 export const wrapTry = async (promise) => {
   try {
-    return Promise.race([
-      promise.then((res) => {
-        if (!res) {
-          EventBus.$emit('backendError');
-          return null;
-        }
-        EventBus.$emit('backendLive');
-        if (!res.ok) throw new Error(`Request failed with ${res.status}`);
-        return res.json();
-      }).catch((error) => {
-        console.error(error);
+    return promise.then((res) => {
+      if (!res) {
+        EventBus.$emit('backendError');
         return null;
-      }),
-      new Promise(((resolve, reject) => {
-        setTimeout(reject, 12000, new Error('Request is cancelled by timeout'));
-      })),
-    ]);
+      }
+      EventBus.$emit('backendLive');
+      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
+      return res.json();
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
   } catch (err) {
     EventBus.$emit('backendError');
     return null;

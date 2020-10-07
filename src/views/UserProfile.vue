@@ -271,7 +271,7 @@ export default {
       return `${this.profile.biography.length}/${this.maxLength}`;
     },
     tipStats() {
-      return [
+      const tipStats = [
         {
           value: this.userStats.tipsLength + this.userStats.retipsLength,
           title: this.$t('views.UserProfileView.TipsSent'),
@@ -281,11 +281,15 @@ export default {
           title: this.$t('views.UserProfileView.ClaimedAmount'),
           amount: this.userStats.claimedAmount,
         },
-        {
+
+      ];
+      if (this.currentAddress === this.address) {
+        tipStats.push({
           title: this.$t('views.UserProfileView.UnclaimedAmount'),
           amount: this.userStats.unclaimedAmount,
-        },
-      ];
+        });
+      }
+      return tipStats;
     },
     showedStats() {
       return [
@@ -603,7 +607,7 @@ input[type="file"] {
 
 .tip_stats {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-auto-flow: column;
 
   .ae-amount-fiat {
     display: block;
@@ -735,7 +739,7 @@ input[type="file"] {
   }
 
   .tip_stats {
-    grid-template-columns: auto;
+    grid-auto-flow: row;
     order: 2;
   }
 

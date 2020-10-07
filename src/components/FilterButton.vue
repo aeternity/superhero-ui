@@ -14,7 +14,7 @@
   font-weight: 600;
   color: $light_font_color;
   display: inline-block;
-  padding: 0.45rem 0.9rem;
+  padding: 0.35rem 0.7rem;
   border: none;
   background-color: transparent;
 

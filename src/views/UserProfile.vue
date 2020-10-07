@@ -6,9 +6,7 @@
         class="cover-photo"
         :style="{ 'background-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
       />
-      <div
-        class="cover-overlay"
-      />
+      <div class="cover-overlay" />
       <div
         class="profile__header"
         :class="{ 'profile__editable': currentAddress === address }"
@@ -87,9 +85,7 @@
             </button>
           </template>
         </div>
-        <div
-          class="profile__info"
-        >
+        <div class="profile__info">
           <a
             class="profile__username"
             target="_blank"
@@ -107,14 +103,10 @@
             :title="balance"
           >
             <span>{{ $t('Balance') }}</span>
-            <AeAmountFiat
-              :amount="balance"
-            />
+            <AeAmountFiat :amount="balance" />
           </div>
           <div class="profile__row">
-            <div
-              class="location"
-            >
+            <div class="location">
               <img
                 v-if="profile.location.length || currentAddress === address"
                 src="../assets/location.svg"
@@ -126,9 +118,7 @@
                 type="text"
                 :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
               >
-              <span
-                v-if="!editMode && (profile.location.length || currentAddress === address)"
-              >
+              <span v-if="!editMode && (profile.location.length || currentAddress === address)">
                 {{
                   profile.location.length
                     ? profile.location
@@ -184,10 +174,7 @@
           :key="idx"
           :class="divClass === 'tip_stats' ? 'tips_stats_block' : 'stat_block'"
         >
-          <span
-            v-if="stat.value || stat.image"
-            class="stat-value"
-          >
+          <span class="stat-value">
             {{ stat.value }}
           </span>
           <span class="stat-title">
@@ -239,7 +226,6 @@ export default {
   data() {
     return {
       maxLength: 250,
-      error: false,
       userStats: null,
       editMode: false,
       userCommentCount: 0,
@@ -400,7 +386,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 input[type="file"] {
   display: none;
 }
@@ -455,7 +441,7 @@ input[type="file"] {
       width: 100%;
     }
 
-    &.tip-input img {
+    &.tip-input ::v-deep .button img {
       height: 100%;
     }
 
@@ -551,7 +537,7 @@ input[type="file"] {
     font-size: 0.7rem;
     display: flex;
 
-    .ae-amount {
+    ::v-deep .ae-amount {
       margin-left: 0.2rem;
     }
 

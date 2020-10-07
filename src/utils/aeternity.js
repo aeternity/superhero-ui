@@ -5,16 +5,12 @@ import {
 } from '@aeternity/aepp-sdk/es';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
+import { CONTRACT_ADDRESS, COMPILER_URL, NODE_URL } from '@/config/constants';
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import { EventBus } from './eventBus';
 import store from '../store';
+import { IS_MOBILE_DEVICE } from './util';
 
-const nodeUrl = 'https://mainnet.aeternity.io';
-const nodeUrlTestNet = 'https://testnet.aeternity.io';
-const compilerUrl = 'https://latest.compiler.aepps.com';
-const contractAddress = window.Cypress
-  ? 'ct_2GRP3xp7KWrKtZSnYfdcLnreRWrntWf5aTsxtLqpBHp71EFc3i'
-  : 'ct_2AfnEfCSZCTEkxL5Yoi4Yfq6fF7YapHRaFKDJK3THMXMBspp5z';
 let contract;
 
 export let client; // eslint-disable-line import/no-mutable-exports
@@ -22,7 +18,8 @@ export let client; // eslint-disable-line import/no-mutable-exports
 const initTippingContractIfNeeded = async () => {
   if (!client) throw new Error('Init sdk first');
   if (contract) return;
-  contract = await client.getContractInstance(TIPPING_INTERFACE, { contractAddress });
+  contract = await client
+    .getContractInstance(TIPPING_INTERFACE, { contractAddress: CONTRACT_ADDRESS });
 };
 
 /**
@@ -33,10 +30,10 @@ export const initClient = async () => {
   try {
     if (window.Cypress) {
       client = await Universal({
-        compilerUrl,
+        compilerUrl: COMPILER_URL,
         nodes: [{
           name: 'testnet',
-          instance: await Node({ url: nodeUrlTestNet, internalUrl: nodeUrlTestNet }),
+          instance: await Node({ url: 'https://testnet.aeternity.io' }),
         }],
         accounts: [
           MemoryAccount({
@@ -53,8 +50,8 @@ export const initClient = async () => {
     } else {
       client = await RpcAepp({
         name: 'Superhero',
-        nodes: [{ name: 'mainnet', instance: await Node({ url: nodeUrl, internalUrl: nodeUrl }) }],
-        compilerUrl,
+        nodes: [{ name: 'node', instance: await Node({ url: NODE_URL }) }],
+        compilerUrl: COMPILER_URL,
         onDisconnect() {
           store.commit('resetState');
         },
@@ -73,7 +70,7 @@ export const scanForWallets = async () => {
     connectionInfo: { id: 'spy' },
   });
   const detector = await Detector({ connection: scannerConnection });
-  const webWalletTimeout = setTimeout(() => store.commit('useIframeWallet'), 2000);
+  const webWalletTimeout = setTimeout(() => !IS_MOBILE_DEVICE && store.commit('useIframeWallet'), 2000);
 
   return new Promise((resolve) => {
     detector.scan(async ({ newWallet }) => {

@@ -12,7 +12,6 @@
 import { mapState } from 'vuex';
 
 export default {
-  name: 'FiatValue',
   props: {
     amount: { type: [String, Number], default: 0 },
   },

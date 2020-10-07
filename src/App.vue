@@ -22,11 +22,17 @@
         <RightSection />
       </div>
     </div>
+    <Component
+      :is="component"
+      v-for="{ component, key, props } in opened"
+      :key="key"
+      v-bind="props"
+    />
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations, mapState, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
 import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
@@ -37,9 +43,9 @@ import LeftSection from './components/layout/LeftSection.vue';
 import RightSection from './components/layout/RightSection.vue';
 
 export default {
-  name: 'App',
   components: { MobileNavigation, LeftSection, RightSection },
   computed: {
+    ...mapGetters('modals', ['opened']),
     ...mapState(['address']),
     isSupportedBrowser() {
       const browser = detect();
@@ -51,11 +57,9 @@ export default {
       this.reloadData();
     });
     setInterval(() => this.reloadData(), 120 * 1000);
-    EventBus.$on('backendError', () => {
-      this.$router.push({
-        name: 'maintenance',
-      }).catch((err) => { console.error(err); });
-    });
+    EventBus.$on('backendError', () => this.$route.name !== 'maintenance' && this.$router.push({
+      name: 'maintenance',
+    }).catch((err) => { console.error(err); }));
     await this.initialLoad();
   },
   methods: {

@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .mission-page {
   background-image: url('../assets/Mission.jpg');
 }

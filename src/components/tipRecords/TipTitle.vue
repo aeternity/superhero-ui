@@ -25,7 +25,6 @@ import TippingContractUtil from '../../utils/tippingContractUtil';
 import Topic from './Topic.vue';
 
 export default {
-  name: 'TipTitle',
   components: { Topic },
   props: {
     tip: { type: Object, required: true },
@@ -46,7 +45,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .title {
     display: inline;
 
@@ -54,5 +53,4 @@ export default {
       color: $custom_links_color;
     }
   }
-
 </style>

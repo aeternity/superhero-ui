@@ -2,15 +2,13 @@
   <div class="footer">
     <div class="footer-btns">
       <OutlinedButton
-        target="_blank"
-        :href="'https://form.jotform.com/201075183408046'"
+        :to="'https://form.jotform.com/201075183408046'"
         class="green feedback"
       >
         {{ $t('components.layout.FooterSection.Feedback') }}
       </OutlinedButton>
       <OutlinedButton
-        target="_blank"
-        :href="'https://thesuperherowallet.typeform.com/to/vh8Ffu'"
+        :to="'https://thesuperherowallet.typeform.com/to/vh8Ffu'"
         class="blue"
       >
         {{ $t('components.layout.FooterSection.Support') }}
@@ -36,18 +34,18 @@
       / {{ version }}
     </span>
     <div class="terms-links">
-      <router-link
+      <RouterLink
         class="footer-links"
         to="/terms"
       >
         {{ $t('components.layout.FooterSection.Terms') }}
-      </router-link>
-      <router-link
+      </RouterLink>
+      <RouterLink
         class="footer-links"
         to="/privacy"
       >
         {{ $t('components.layout.FooterSection.Privacy') }}
-      </router-link>
+      </RouterLink>
       <a
         class="venture"
         target="_blank"
@@ -61,7 +59,7 @@
       class="login-footer"
     >
       <OutlinedButton
-        :href="addressDeepLink"
+        :to="addressDeepLink"
         :title="$t('components.layout.FooterSection.LoginWithWallet')"
       >
         {{ $t('components.layout.FooterSection.LoginWithWallet') }}
@@ -76,7 +74,6 @@ import { createDeepLinkUrl } from '../../utils/util';
 import OutlinedButton from '../OutlinedButton.vue';
 
 export default {
-  name: 'FooterSection',
   components: {
     OutlinedButton,
   },
@@ -92,7 +89,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .footer {
     font-size: 0.55rem;
     text-align: center;
@@ -167,5 +164,4 @@ export default {
       }
     }
   }
-
 </style>

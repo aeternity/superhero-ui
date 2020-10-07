@@ -28,7 +28,6 @@
 import iconDrawer from '../assets/iconDrawer.svg';
 
 export default {
-  name: 'ExpandableBlock',
   props: {
     title: { type: String, required: false, default: '' },
   },
@@ -46,7 +45,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .expand-block {
   margin-bottom: 1rem;
 
@@ -61,6 +60,7 @@ export default {
   }
 
   .title {
+    display: inline;
     color: $custom_links_color;
     font-size: 0.9rem;
     font-weight: 400;

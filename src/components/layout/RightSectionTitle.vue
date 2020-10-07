@@ -2,20 +2,21 @@
   <div class="right-section-title">
     <span><slot /></span>
 
-    <button
+    <ButtonPlain
       v-if="toggleHandler"
       @click="toggleHandler"
     >
       <IconExpanded :class="{ closed }" />
-    </button>
+    </ButtonPlain>
   </div>
 </template>
 
 <script>
 import IconExpanded from '../../assets/iconExpanded.svg?icon-component';
+import ButtonPlain from '../ButtonPlain.vue';
 
 export default {
-  components: { IconExpanded },
+  components: { IconExpanded, ButtonPlain },
   props: {
     closed: Boolean,
     toggleHandler: { type: Function, default: null },
@@ -36,12 +37,8 @@ export default {
     margin-right: 0.2rem;
   }
 
-  button {
+  .button-plain {
     color: $light_font_color;
-    background: none;
-    border: none;
-    outline: none;
-    padding: 0;
 
     &:hover {
       color: $lighter_font_color;

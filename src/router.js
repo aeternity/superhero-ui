@@ -8,15 +8,14 @@ import League from './views/League.vue';
 import Maintenance from './views/Maintenance.vue';
 import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
-import SingleComment from './views/SingleComment.vue';
 import Terms from './views/Terms.vue';
-import TipComments from './views/TipComments.vue';
 import TipsList from './views/TipsList.vue';
 import TutorialMeet from './views/tutorial/Meet.vue';
 import TutorialVoting from './views/tutorial/Voting.vue';
 import TutorialWallet from './views/tutorial/Wallet.vue';
 import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
+import TipsAndComments from './views/TipsAndComments.vue';
 
 const routes = [
   {
@@ -38,16 +37,16 @@ const routes = [
   {
     path: '/tip/:tipId/comment/:id',
     name: 'comment',
-    component: SingleComment,
+    component: TipsAndComments,
     meta: {
       title: 'Comment View',
     },
     props: true,
   },
   {
-    path: '/tip/:id',
+    path: '/tip/:tipId',
     name: 'tip',
-    component: TipComments,
+    component: TipsAndComments,
     meta: {
       title: 'Comments for a Tip',
     },
@@ -112,7 +111,7 @@ const routes = [
   },
   {
     path: '/tutorial/widget',
-    name: 'widget',
+    name: 'tutorial-widget',
     component: TutorialWidget,
     meta: {
       title: 'Tutorial Widget Page',
@@ -120,7 +119,7 @@ const routes = [
   },
   {
     path: '/tutorial/voting',
-    name: 'voting',
+    name: 'tutorial-voting',
     component: TutorialVoting,
     meta: {
       title: 'Tutorial Voting Page',
@@ -128,7 +127,7 @@ const routes = [
   },
   {
     path: '/tutorial/wallet',
-    name: 'wallet',
+    name: 'tutorial-wallet',
     component: TutorialWallet,
     meta: {
       title: 'Tutorial Wallet Page',
@@ -136,7 +135,7 @@ const routes = [
   },
   {
     path: '/tutorial/meet',
-    name: 'meet',
+    name: 'tutorial-meet',
     component: TutorialMeet,
     meta: {
       title: 'Tutorial Meet Page',

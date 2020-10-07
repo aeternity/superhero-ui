@@ -3,60 +3,29 @@
     class="tip__record row"
     @click="goToTip"
   >
-    <SuccessModal
-      v-if="showSuccessModal"
-      :title="$t('components.tipRecords.TipRecord.reportPostTitle')"
-      :body="$t('components.tipRecords.TipRecord.reportPostBody')"
-      @close="showSuccessModal = false"
-    />
     <div class="tip__body">
       <div class="tip__description">
-        <div
-          class="tip__author"
-          :title="tip.sender"
-          @click.stop
+        <AuthorAndDate
+          :date="new Date(tip.timestamp)"
+          :address="tip.sender"
+          :name="tip.chainName"
         >
-          <router-link :to="'/user-profile/' + tip.sender">
-            <Avatar :address="tip.sender" />
-            <div class="tip__author_name">
-              <span
-                v-if="tip.chainName"
-                class="chain__name"
-              >
-                {{ tip.chainName }}
-              </span>
-              <span
-                v-else
-                class="chain__name"
-              />
-              <span class="address">{{ tip.sender }}</span>
+          <ThreeDotsMenu v-if="address">
+            <div @click="sendReport">
+              {{ $t('components.tipRecords.TipRecord.reportPost') }}
             </div>
-          </router-link>
-          <span class="tip__date">
-            <FormatDate :date-timestamp="new Date(tip.timestamp)" />
-            <ThreeDotsMenu>
-              <div @click="sendReport">
-                {{ $t('components.tipRecords.TipRecord.reportPost') }}
-              </div>
-              <div
-                v-if="useSdkWallet"
-                @click="claim"
-              >
-                {{ $t('components.tipRecords.TipRecord.claim') }}
-              </div>
-              <div
-                v-if="address"
-                @click="pinOrUnPinTip"
-              >
-                {{
-                  isTipPinned ?
-                    $t('components.tipRecords.TipRecord.UnPin')
-                    : $t('components.tipRecords.TipRecord.Pin')
-                }}
-              </div>
-            </ThreeDotsMenu>
-          </span>
-        </div>
+            <div @click="claim">
+              {{ $t('components.tipRecords.TipRecord.claim') }}
+            </div>
+            <div @click="pinOrUnPinTip">
+              {{
+                isTipPinned ?
+                  $t('components.tipRecords.TipRecord.UnPin')
+                  : $t('components.tipRecords.TipRecord.Pin')
+              }}
+            </div>
+          </ThreeDotsMenu>
+        </AuthorAndDate>
       </div>
       <div
         class="tip__note pr-2"
@@ -116,17 +85,30 @@
       </div>
       <div
         v-else
-        class="tip__url"
+        class="tip__article"
       >
-        <a
-          :href="tip.url"
-          :title="tip.url"
-          class="text-ellipsis"
-          target="_blank"
-          @click.stop
-        >
-          {{ tip.url }}
-        </a>
+        <div class="tip__article__content">
+          <div
+            class="site__url"
+            :title="tip.url"
+          >
+            <a
+              class="text-ellipsis"
+              target="_blank"
+              :href="tip.url"
+              @click.stop
+            >
+              <ExternalLink />
+              <span class="text-ellipsis">{{ tip.url }}</span>
+            </a>
+          </div>
+          <div
+            class="tip__amount"
+            @click.stop
+          >
+            <TipInput :tip="tip" />
+          </div>
+        </div>
       </div>
       <div class="tip__footer">
         <div class="tip__footer_wrapper">
@@ -151,32 +133,22 @@ import { mapState } from 'vuex';
 import Backend from '../../utils/backend';
 import backendAuthMixin from '../../utils/backendAuthMixin';
 import TipInput from '../TipInput.vue';
-import SuccessModal from '../SuccessModal.vue';
-import FormatDate from './FormatDate.vue';
 import TipTitle from './TipTitle.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
-import Avatar from '../Avatar.vue';
+import AuthorAndDate from './AuthorAndDate.vue';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
 
 export default {
-  name: 'TipRecord',
   components: {
     TipTitle,
-    FormatDate,
-    Avatar,
     TipInput,
-    SuccessModal,
     ThreeDotsMenu,
     ExternalLink,
+    AuthorAndDate,
   },
   mixins: [backendAuthMixin(true)],
   props: {
     tip: { type: Object, required: true },
-  },
-  data() {
-    return {
-      showSuccessModal: false,
-    };
   },
   computed: {
     ...mapState(['address', 'useSdkWallet']),
@@ -199,19 +171,38 @@ export default {
       return this.isPreviewToBeVisualized(this.tip) && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
     toTip() {
-      return { name: 'tip', params: { id: this.tip.id } };
+      return { name: 'tip', params: { tipId: this.tip.id } };
     },
   },
   methods: {
     async sendReport() {
       await this.backendAuth('sendPostReport', { tipId: this.tip.id }, this.toTip);
-      this.showSuccessModal = this.useSdkWallet;
+      if (this.useSdkWallet) {
+        await this.$store.dispatch('modals/open', {
+          name: 'success',
+          title: this.$t('components.tipRecords.TipRecord.reportPostTitle'),
+          body: this.$t('components.tipRecords.TipRecord.reportPostBody'),
+        });
+      }
     },
     async claim() {
-      await Backend.claimFromUrl({
-        url: this.tip.url,
-        address: this.address,
-      });
+      try {
+        await Backend.claimFromUrl({
+          url: this.tip.url,
+          address: this.address,
+        });
+        this.$store.dispatch('modals/open', {
+          name: 'success',
+          title: this.$t('components.tipRecords.TipRecord.claimTitle'),
+          body: this.$t('components.tipRecords.TipRecord.claimBodySuccess'),
+        });
+      } catch (e) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: this.$t('components.tipRecords.TipRecord.claimTitle'),
+          body: this.$t('components.tipRecords.TipRecord.claimBodyFailure'),
+        });
+      }
     },
     async pinOrUnPinTip() {
       await this.backendAuth(
@@ -230,13 +221,15 @@ export default {
         );
     },
     goToTip() {
-      this.$router.push(this.toTip);
+      return this.$route.params.tipId === this.tip.id
+        ? window.open(this.tip.url)
+        : this.$router.push(this.toTip);
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .tip__record {
     background-color: $light_color;
     margin: 0 0 0.15rem 0;
@@ -249,67 +242,10 @@ export default {
   .tip__body {
     padding-top: 1rem;
     width: 100%;
-  }
 
-  .tip__author {
-    align-items: center;
-    color: $light_font_color;
-    display: flex;
-    font-size: 0.8rem;
-    justify-content: space-between;
-    padding: 0 1rem 0.9rem 1rem;
-
-    .tip__date {
-      font-size: 0.6rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .three-dots {
-        font-size: 0.75rem;
-        margin-left: 0.3rem;
-      }
-    }
-
-    .address {
-      font-size: 0.65rem;
-    }
-
-    .address,
-    .chain__name {
-      display: inline-block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
-      word-break: break-all;
-    }
-
-    .avatar {
-      margin-right: 0.25rem;
-    }
-
-    a {
-      color: $light_font_color;
-      display: flex;
-      margin-right: 1rem;
-      overflow: hidden;
-
-      &:hover {
-        filter: brightness(1.3);
-      }
-    }
-
-    .chain__name {
-      color: #fff;
-    }
-
-    .tip__author_name {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      overflow: hidden;
-      width: 100%;
+    .tip__description .author-and-date .date .three-dots {
+      font-size: 0.75rem;
+      margin-left: 0.3rem;
     }
   }
 
@@ -322,7 +258,7 @@ export default {
     margin-bottom: 0.8rem;
     padding-left: 1rem;
 
-    .title .topic {
+    ::v-deep .title .topic {
       color: $standard_font_color;
 
       &:hover {
@@ -544,8 +480,23 @@ export default {
 
     .tip__record {
       margin-bottom: 0.5rem;
-      padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+      padding: 0.5rem;
       position: relative;
+
+      .tip__body .tip__description .author-and-date ::v-deep {
+        font-size: 0.6rem;
+        padding-left: 0;
+        padding-right: 0;
+
+        img {
+          height: 1.5rem;
+          width: 1.5rem;
+        }
+
+        .address {
+          font-size: 0.55rem;
+        }
+      }
     }
 
     .tip__article {
@@ -563,21 +514,6 @@ export default {
 
       .site__url {
         text-decoration: underline;
-      }
-    }
-
-    .tip__author {
-      font-size: 0.6rem;
-      padding-left: 0;
-      padding-right: 0;
-
-      img {
-        height: 1.5rem;
-        width: 1.5rem;
-      }
-
-      .address {
-        font-size: 0.55rem;
       }
     }
 

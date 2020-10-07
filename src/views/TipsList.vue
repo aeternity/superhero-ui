@@ -3,25 +3,25 @@
     <div class="actions">
       <SendTip />
       <div class="not-bootstrap-row">
-        <button
+        <ButtonPlain
           :class="{ active: tipSortBy === 'hot' }"
           @click="setTipSortBy('hot')"
         >
           {{ $t('views.TipList.SortingMostPopular') }}
-        </button>
-        <button
+        </ButtonPlain>
+        <ButtonPlain
           id="sort-latest"
           :class="{ active: tipSortBy === 'latest' }"
           @click="setTipSortBy('latest')"
         >
           {{ $t('views.TipList.SortingLatest') }}
-        </button>
-        <button
+        </ButtonPlain>
+        <ButtonPlain
           :class="{ active: tipSortBy === 'highest' }"
           @click="setTipSortBy('highest')"
         >
           {{ $t('views.TipList.SortingHighestRated') }}
-        </button>
+        </ButtonPlain>
         <div class="separator" />
         <ThreeDotsMenu>
           <Checkbox
@@ -48,14 +48,15 @@ import SendTip from '../components/layout/sendTip/SendTip.vue';
 import TipsPagination from '../components/TipsPagination.vue';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
 import Checkbox from '../components/Checkbox.vue';
+import ButtonPlain from '../components/ButtonPlain.vue';
 
 export default {
-  name: 'TipsList',
   components: {
     TipsPagination,
     SendTip,
     Checkbox,
     ThreeDotsMenu,
+    ButtonPlain,
   },
   props: {
     query: { type: String, default: '' },
@@ -95,13 +96,9 @@ export default {
     @include smallest {
       background-color: $background_color;
       border-bottom: 0.075rem solid $search_nav_border_color;
-      margin: 0 -1rem; // Would be better to reorganize layout somehow
     }
 
-    button {
-      background: none;
-      border: none;
-      outline: none;
+    .button-plain {
       color: inherit;
       font-weight: 600;
       padding: 0.625rem 0;

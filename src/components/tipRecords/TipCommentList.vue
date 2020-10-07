@@ -31,7 +31,6 @@ import TipComment from './TipComment.vue';
 import SendComment from '../SendComment.vue';
 
 export default {
-  name: 'TipCommentList',
   components: {
     TipComment,
     SendComment,
@@ -53,7 +52,7 @@ export default {
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
 
-  .tip__record.comment {
+  .tip-comment {
     margin-bottom: 0;
   }
 }

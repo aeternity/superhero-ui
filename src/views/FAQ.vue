@@ -7,9 +7,9 @@
       tag="p"
     >
       <template v-slot:tutorialPage>
-        <router-link to="/tutorial">
+        <RouterLink to="/tutorial">
           {{ $t('views.FAQ.tutorialPage') }}
-        </router-link>
+        </RouterLink>
       </template>
     </i18n>
 
@@ -34,14 +34,13 @@
 import ExpandableBlock from '../components/ExpandableBlock.vue';
 
 export default {
-  name: 'FAQ',
   components: {
     ExpandableBlock,
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .faq-page,
 .mission-page,
 .tutorial-page {

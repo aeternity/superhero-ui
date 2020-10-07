@@ -9,7 +9,7 @@
 
       <div class="row">
         <FormatDate
-          :date-timestamp="new Date(blockchainTrace.tip.timestamp)"
+          :date="new Date(blockchainTrace.tip.timestamp)"
           class="mr-1"
         />
         <span class="font-weight-bold">{{ blockchainTrace.tip.url }}</span>
@@ -76,7 +76,7 @@
         :key="i"
         class="row"
       >
-        <FormatDate :date-timestamp="new Date(event.time)" />
+        <FormatDate :date="new Date(event.time)" />
         <span class="mx-1 font-weight-bold">{{ event.event }}</span>
         ({{ event.address }}
         <span v-if="event.event === 'CheckPersistClaim'">, {{ event.amount }}%</span>
@@ -100,7 +100,7 @@
         class="flex-column"
       >
         <h4 @click="expandedTrace = expandedTrace === i ? null : i">
-          <FormatDate :date-timestamp="new Date(trace[0].date)" />
+          <FormatDate :date="new Date(trace[0].date)" />
           Claim {{ i }} - {{ traceState(trace) }}
         </h4>
         <div
@@ -110,7 +110,7 @@
           class="mb-2"
         >
           <span class="font-weight-bold">
-            <FormatDate :date-timestamp="new Date(event.date)" />
+            <FormatDate :date="new Date(event.date)" />
             {{ event.state }}
           </span>
           <br>
@@ -132,7 +132,6 @@ import AeAmount from '../../components/AeAmount.vue';
 import FormatDate from '../../components/tipRecords/FormatDate.vue';
 
 export default {
-  name: 'Tracing',
   components: { FormatDate, AeAmount },
   props: {
     tipId: { type: [String, Number], required: true },

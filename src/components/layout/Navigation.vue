@@ -15,6 +15,14 @@
       <IconTips />
       {{ $t('tips') }}
     </RouterLink>
+    <RouterLink :to="{ name: 'voting' }">
+      <IconGovernance />
+      {{ $t('components.layout.Navigation.Governance') }}
+    </RouterLink>
+    <!-- <RouterLink :to="{ name: 'conference' }">
+      <IconMeet />
+      {{ $t('Networking.MenuLink') }}
+    </RouterLink> -->
     <RouterLink
       v-if="isLoggedIn"
       :to="{ name: 'user-profile', params: { address } }"
@@ -26,14 +34,6 @@
       <IconDiamond />
       {{ $t('components.layout.Navigation.League') }}
     </RouterLink>
-    <RouterLink :to="{ name: 'voting' }">
-      <IconGovernance />
-      {{ $t('components.layout.Navigation.Governance') }}
-    </RouterLink>
-    <!-- <RouterLink :to="{ name: 'conference' }">
-      <IconMeet />
-      {{ $t('Networking.MenuLink') }}
-    </RouterLink> -->
     <RouterLink :to="{ name: 'faq' }">
       <IconHelp />
       {{ $t('FAQ') }}
@@ -51,7 +51,6 @@ import IconGovernance from '../../assets/iconGovernance.svg?icon-component';
 // import IconMeet from '../../assets/iconMeet.svg?icon-component';
 
 export default {
-  name: 'Navigation',
   components: {
     IconTips,
     IconUser,

@@ -10,7 +10,6 @@ import AeAmount from './AeAmount.vue';
 import FiatValue from './FiatValue.vue';
 
 export default {
-  name: 'AeAmountFiat',
   components: {
     FiatValue,
     AeAmount,

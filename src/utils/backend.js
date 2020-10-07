@@ -1,29 +1,18 @@
 import { BACKEND_URL } from '../config/constants';
 import { wrapTry } from './util';
 
-const backendFetch = (path, ...args) => wrapTry(fetch(`${BACKEND_URL}/${path}`, ...args)
-  .catch((err) => console.error(err)));
+const backendFetch = (path, ...args) => wrapTry(
+  fetch(`${BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err)),
+);
 
 export default class Backend {
   static getTipComments = async (tipId) => backendFetch(`comment/api/tip/${encodeURIComponent(tipId)}`);
 
-  static async sendTipComment(tipId, text, author, signCb, parentId) {
-    const sendComment = async (postParam) => backendFetch('comment/api/', {
-      method: 'post',
-      body: JSON.stringify(postParam),
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    const responseChallenge = await sendComment({ tipId, text, author });
-    const signedChallenge = await signCb(responseChallenge.challenge);
-    const respondChallenge = {
-      challenge: responseChallenge.challenge,
-      signature: signedChallenge,
-      parentId,
-    };
-
-    return sendComment(respondChallenge);
-  }
+  static sendTipComment = async (_, postParam) => backendFetch('comment/api/', {
+    method: 'post',
+    body: JSON.stringify(postParam),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   static getUserComments = async (address) => backendFetch(`comment/api/author/${address}`);
 
@@ -45,8 +34,12 @@ export default class Backend {
 
   static sendProfileData = async (address, postParam) => backendFetch(`profile/${address}`, {
     method: 'post',
-    body: JSON.stringify(postParam),
-    headers: { 'Content-Type': 'application/json' },
+    ...postParam instanceof FormData
+      ? { body: postParam }
+      : {
+        body: JSON.stringify(postParam),
+        headers: { 'Content-Type': 'application/json' },
+      },
   });
 
   static setImage = async (address, data) => {
@@ -77,7 +70,13 @@ export default class Backend {
 
   static getCacheUserStats = async (address) => backendFetch(`cache/userStats?address=${address}`);
 
-  static getCacheTips = async (page, ordering, address = null, search = null, blacklist = true) => {
+  static getCacheTips = async (
+    page,
+    ordering,
+    address = null,
+    search = null,
+    blacklist = true,
+  ) => {
     let query = `?ordering=${ordering}&page=${page}`;
     if (address) query += `&address=${address}`;
     if (search) query += `&search=${encodeURIComponent(search)}`;
@@ -108,7 +107,7 @@ export default class Backend {
 
   static getGrayListedUrls = async () => backendFetch('static/wallet/graylist');
 
-  static getTipTraceBackend = (id) => backendFetch(`tracing/backend?id=${id}`)
+  static getTipTraceBackend = (id) => backendFetch(`tracing/backend?id=${id}`);
 
-  static getTipTraceBlockchain = (id) => backendFetch(`tracing/blockchain?id=${id}`)
+  static getTipTraceBlockchain = (id) => backendFetch(`tracing/blockchain?id=${id}`);
 }

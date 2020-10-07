@@ -28,7 +28,6 @@
 import ExpandableBlock from '../components/ExpandableBlock.vue';
 
 export default {
-  name: 'CreateProfile',
   components: {
     ExpandableBlock,
   },

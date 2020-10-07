@@ -32,7 +32,6 @@ const namesToHandlers = (names, getHandler) => names
   .reduce((acc, name) => ({ ...acc, [name]: getHandler(name) }), {});
 
 export default {
-  name: 'TipsPagination',
   components: {
     TipRecord,
     Loading,

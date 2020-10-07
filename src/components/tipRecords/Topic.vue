@@ -9,7 +9,6 @@
 
 <script>
 export default {
-  name: 'Topic',
   props: {
     topic: { type: String, required: true },
   },

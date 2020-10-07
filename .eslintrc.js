@@ -26,7 +26,10 @@ module.exports = {
       exports: 'always-multiline',
       functions: 'always-multiline',
     }],
-    'vue/component-name-in-template-casing': 'error',
+    'vue/component-name-in-template-casing': ['error', 'PascalCase', {
+      registeredComponentsOnly: false,
+      ignores: ['i18n'],
+    }],
     'vue/eqeqeq': 'error',
     'vue/key-spacing': 'error',
     'vue/match-component-file-name': 'error',

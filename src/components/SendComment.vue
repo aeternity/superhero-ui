@@ -8,6 +8,7 @@
       :placeholder="$t('views.TipCommentsView.AddReply')"
       :show-submit-button="allowSubmit"
       :submit-button-title="$t('views.TipCommentsView.Reply')"
+      :set-loading="setLoading"
       @keydown.enter.exact.prevent="sendTipComment"
     />
   </form>
@@ -18,17 +19,18 @@ import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl } from '../utils/util';
 import { client } from '../utils/aeternity';
 import MessageInput from './MessageInput.vue';
-import Backend from '../utils/backend';
+import backendAuthMixin from '../utils/backendAuthMixin';
 
 export default {
-  name: 'SendComment',
   components: { MessageInput },
+  mixins: [backendAuthMixin(true)],
   props: {
     tipId: { type: [Number, String], required: true },
     parentId: { type: [Number, String], default: undefined },
   },
   data: () => ({
     comment: '',
+    setLoading: false,
   }),
   computed: {
     allowSubmit() {
@@ -44,15 +46,16 @@ export default {
         });
         return;
       }
-      await Backend.sendTipComment(
-        this.tipId,
-        this.comment,
-        client.rpcClient.getCurrentAccount(),
-        (data) => client.signMessage(data),
-        this.parentId,
-      );
+      this.setLoading = true;
+      await this.backendAuth('sendTipComment', {
+        tipId: this.tipId,
+        text: this.comment,
+        author: client.rpcClient.getCurrentAccount(),
+        parentId: this.parentId,
+      });
       EventBus.$emit('reloadData');
       this.comment = '';
+      this.setLoading = false;
     },
   },
 };

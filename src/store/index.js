@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import mutations from './mutations';
 import backend from './modules/backend';
 import persistState from './plugins/persistState';
+import modals from './plugins/modals';
 import Backend from '../utils/backend';
 
 Vue.use(Vuex);
@@ -54,5 +55,6 @@ export default new Vuex.Store({
         balance,
       }),
     ),
+    modals,
   ],
 });

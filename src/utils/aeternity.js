@@ -26,7 +26,7 @@ const initTippingContractIfNeeded = async () => {
     contractV1 = await client
       .getContractInstance(TIPPING_V1_INTERFACE, { contractAddress: CONTRACT_V1_ADDRESS });
   }
-  if (!contractV2) {
+  if (!contractV2 && CONTRACT_V2_ADDRESS) {
     contractV2 = await client
       .getContractInstance(TIPPING_V2_INTERFACE, { contractAddress: CONTRACT_V2_ADDRESS });
   }

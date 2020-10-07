@@ -13,5 +13,3 @@ export const CONTRACT_V1_ADDRESS = window.Cypress
 export const CONTRACT_V2_ADDRESS = window.Cypress
   ? null
   : null;
-
-export const TOKEN_TIPPING_ENABLED = false;

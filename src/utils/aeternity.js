@@ -14,11 +14,14 @@ import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullI
 import { BigNumber } from 'bignumber.js';
 import { EventBus } from './eventBus';
 import store from '../store';
+import { IS_MOBILE_DEVICE } from './util';
 
 let contractV1;
 let contractV2;
 
 export let client; // eslint-disable-line import/no-mutable-exports
+
+export const hasV2ContractAddress = () => CONTRACT_V2_ADDRESS !== null;
 
 const initTippingContractIfNeeded = async () => {
   if (!client) throw new Error('Init sdk first');
@@ -26,7 +29,7 @@ const initTippingContractIfNeeded = async () => {
     contractV1 = await client
       .getContractInstance(TIPPING_V1_INTERFACE, { contractAddress: CONTRACT_V1_ADDRESS });
   }
-  if (!contractV2 && CONTRACT_V2_ADDRESS) {
+  if (!contractV2 && hasV2ContractAddress()) {
     contractV2 = await client
       .getContractInstance(TIPPING_V2_INTERFACE, { contractAddress: CONTRACT_V2_ADDRESS });
   }
@@ -79,11 +82,12 @@ export const scanForWallets = async () => {
     connectionInfo: { id: 'spy' },
   });
   const detector = await Detector({ connection: scannerConnection });
-  // const webWalletTimeout = setTimeout(() => store.commit('useIframeWallet'), 2000);
+  const webWalletTimeout = setTimeout(() => !IS_MOBILE_DEVICE && store.commit('useIframeWallet'), 2000);
+
   return new Promise((resolve) => {
     detector.scan(async ({ newWallet }) => {
       if (!newWallet) return;
-      // clearInterval(webWalletTimeout);
+      clearInterval(webWalletTimeout);
       detector.stopScan();
       await client.connectToWallet(await newWallet.getConnection());
       await client.subscribeAddress('subscribe', 'current');
@@ -129,7 +133,9 @@ export const tip = async (url, title, amount, tokenAddress = null) => {
     return contractV2.methods.tip_token(url, title, tokenAddress, amount);
   }
 
-  return contractV2.methods.tip(url, title, { amount });
+  return hasV2ContractAddress()
+    ? contractV2.methods.tip(url, title, { amount })
+    : contractV1.methods.tip(url, title, { amount });
 };
 
 export const retip = async (contractAddress, id, amount, tokenAddress = null) => {

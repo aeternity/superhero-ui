@@ -31,13 +31,15 @@
         />
       </div>
 
-      <AeAmount
-        v-for="tokenBalance in tokenBalances"
-        :key="tokenBalance.token"
-        class="not-bootstrap-row"
-        :amount="tokenBalance.balance"
-        :token="tokenBalance.token"
-      />
+      <div v-if="hasV2ContractAddress()">
+        <AeAmount
+          v-for="tokenBalance in tokenBalances"
+          :key="tokenBalance.token"
+          class="not-bootstrap-row"
+          :amount="tokenBalance.balance"
+          :token="tokenBalance.token"
+        />
+      </div>
     </template>
   </div>
 </template>
@@ -45,6 +47,7 @@
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
+import { hasV2ContractAddress } from '@/utils/aeternity';
 import AeAmount from '../AeAmount.vue';
 import Dropdown from '../Dropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
@@ -70,7 +73,10 @@ export default {
       },
     }),
   },
-  methods: mapMutations(['updateCurrency']),
+  methods: {
+    ...mapMutations(['updateCurrency']),
+    hasV2ContractAddress() { return hasV2ContractAddress(); },
+  },
 };
 </script>
 

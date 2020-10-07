@@ -633,6 +633,7 @@ input[type="file"] {
 
   img {
     height: 0.75rem;
+    margin-bottom: 0.15rem;
   }
 }
 
@@ -670,6 +671,8 @@ input[type="file"] {
   display: flex;
   flex-direction: column;
   width: calc(100% - 8.5rem);
+  justify-content: space-between;
+  height: 5.5rem;
 
   .profile__username {
     color: $tip_note_color;
@@ -711,6 +714,7 @@ input[type="file"] {
   .profile__info {
     vertical-align: middle;
     width: calc(100% - 4.5rem);
+    height: 5rem;
 
     .profile__username {
       font-size: 0.55rem;
@@ -756,6 +760,10 @@ input[type="file"] {
   .profile__header .profile__image .avatar {
     height: 4.5rem;
     width: 4.5rem;
+  }
+
+  .profile__info {
+    height: 4.5rem;
   }
 
   .profile__row {

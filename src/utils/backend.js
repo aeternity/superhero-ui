@@ -136,7 +136,7 @@ export default class Backend {
 
   static cacheInvalidateTips = async () => backendFetch('cache/invalidate/tips');
 
-  static invalidateTokenCache = async (token) => backendFetch(`tokenCache/invalidate/${token}`);
+  static invalidateTokenCache = async (token) => backendFetch(`cache/invalidate/token/${token}`);
 
   static getCommentCountForAddress = async (address) => backendFetch(`comment/count/author/${address}`);
 

@@ -55,10 +55,10 @@ export default {
           parentId: this.parentId,
         });
         EventBus.$emit('reloadData');
+        this.comment = '';
       } catch (e) {
         if (e.message !== 'Operation rejected by user') handleUnknownError(e);
       } finally {
-        this.comment = '';
         this.setLoading = false;
       }
     },

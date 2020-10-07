@@ -66,6 +66,7 @@ import util from '@/utils/util';
 import { EventBus } from '@/utils/eventBus';
 import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
+import { WORD_REGISTRY_ADDRESS } from '@/config/constants';
 
 export default {
   name: 'WordBazaar',
@@ -87,8 +88,7 @@ export default {
   methods: {
     async updateWords() {
       this.wordRegistry = this.wordRegistry ? this.wordRegistry : await client
-        .getContractInstance(WORD_REGISTRY_CONTRACT,
-          { contractAddress: 'ct_UXU3jSUHS2Zy1YkqUBjm1Aw31uBmc6bHKMmwPMRt8N9sN7HmW' });
+        .getContractInstance(WORD_REGISTRY_CONTRACT, { contractAddress: WORD_REGISTRY_ADDRESS });
       this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
       const token = this.wordRegistryState.tokens
         .find(([word]) => word === this.$route.params.word);

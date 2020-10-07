@@ -101,7 +101,7 @@ export default {
       this.loadingState = true;
       this.wordRegistry = await client
         .getContractInstance(WORD_REGISTRY_CONTRACT,
-          { contractAddress: 'ct_UXU3jSUHS2Zy1YkqUBjm1Aw31uBmc6bHKMmwPMRt8N9sN7HmW' });
+          { contractAddress: 'ct_2kWHvyfDzsJyAxwcoia3wea1rvnbYHFLbdurPYD9QMPwnzsBLp' });
       this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
       this.loadingState = false;
       this.newWord = '';

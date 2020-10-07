@@ -91,6 +91,8 @@ export const getI18nPath = (index, page) => (isTitle(index, page)
   ? `views.${page}.sections[${index}].title`
   : `views.${page}.sections[${index}].text`);
 
+export const handleUnknownError = (error) => console.warn('Unknown rejection', error);
+
 export default {
   atomsToAe,
   aeToAtoms,
@@ -100,4 +102,5 @@ export default {
   urlStatus,
   isTitle,
   getI18nPath,
+  handleUnknownError,
 };

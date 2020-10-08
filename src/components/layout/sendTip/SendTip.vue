@@ -57,8 +57,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
-import { createDeepLinkUrl } from '../../../utils';
-import { tipToken } from '../../../utils/aeternity';
+import { createDeepLinkUrl, shiftDecimalPlaces } from '../../../utils';
+import { tip } from '../../../utils/aeternity';
 import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
@@ -89,7 +89,7 @@ export default {
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapGetters('backend', ['minTipAmount']),
-    ...mapState(['loading']),
+    ...mapState(['loading', 'tokenInfo']),
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
@@ -106,7 +106,13 @@ export default {
   methods: {
     async sendTip() {
       this.sendingTip = true;
-      tipToken(this.sendTipForm.url, this.sendTipForm.title, this.sendTipForm.amount, 'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf')
+      // TODO differentiate between AE or token tip
+      const amount = shiftDecimalPlaces(this.sendTipForm.amount,
+        this.tokenInfo.ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf.decimals).toFixed();
+
+      // TODO differentiate between AE or token tip
+      tip(this.sendTipForm.url, this.sendTipForm.title, amount,
+        'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf')
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();

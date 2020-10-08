@@ -25,7 +25,7 @@ export default {
   components: { MessageInput },
   mixins: [backendAuthMixin(true)],
   props: {
-    tipId: { type: [Number, String], required: true },
+    tipId: { type: String, required: true },
     parentId: { type: [Number, String], default: undefined },
   },
   data: () => ({

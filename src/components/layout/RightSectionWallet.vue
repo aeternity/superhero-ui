@@ -29,6 +29,14 @@
           :selected="selectedCurrency"
         />
       </div>
+
+      <AeAmount
+        v-for="tokenBalance in tokenBalances"
+        :key="tokenBalance.token"
+        class="not-bootstrap-row"
+        :amount="tokenBalance.balance"
+        :token="tokenBalance.token"
+      />
     </template>
   </div>
 </template>
@@ -48,7 +56,7 @@ export default {
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency']),
+    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency', 'tokenBalances']),
     ...mapState({
       currencyDropdownOptions({ backend: { prices }, balance }) {
         return Object.entries(prices).map(([currency, price]) => ({

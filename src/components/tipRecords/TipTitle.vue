@@ -20,7 +20,7 @@
 </template>
 
 <script>
-
+import { topicsRegex } from '@/utils/util';
 import Topic from './Topic.vue';
 
 export default {
@@ -29,15 +29,10 @@ export default {
     tip: { type: Object, required: true },
     goToTip: { type: Function, required: true },
   },
-  data() {
-    return {
-      topicsRegex: /(#[a-zA-Z]+\b)(?!;)/g,
-    };
-  },
   computed: {
     splitByTopics() {
-      return this.tip.title.split(this.topicsRegex).map((part) => {
-        const matches = this.topicsRegex.test(part);
+      return this.tip.title.split(topicsRegex).map((part) => {
+        const matches = topicsRegex.test(part);
 
         return {
           text: part,

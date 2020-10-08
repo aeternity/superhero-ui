@@ -3,6 +3,8 @@ import BigNumber from 'bignumber.js';
 import { EventBus } from './eventBus';
 import i18n from './i18nHelper';
 
+export const topicsRegex = /(#[a-zA-Z]+\b)(?!;)/g;
+
 const shiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(decimals);
 
 const atomsToAe = (atoms) => shiftDecimalPlaces(atoms, -18);
@@ -97,6 +99,7 @@ export const getI18nPath = (index, page) => (isTitle(index, page)
 export const handleUnknownError = (error) => console.warn('Unknown rejection', error);
 
 export default {
+  topicsRegex,
   atomsToAe,
   shiftDecimalPlaces,
   aeToAtoms,

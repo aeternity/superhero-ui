@@ -57,8 +57,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
-import { aeToAtoms, createDeepLinkUrl } from '../../../utils';
-import { tip } from '../../../utils/aeternity';
+import { createDeepLinkUrl } from '../../../utils';
+import { tipToken } from '../../../utils/aeternity';
 import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
@@ -106,8 +106,7 @@ export default {
   methods: {
     async sendTip() {
       this.sendingTip = true;
-      const amount = aeToAtoms(this.sendTipForm.amount);
-      tip(this.sendTipForm.url, this.sendTipForm.title, amount)
+      tipToken(this.sendTipForm.url, this.sendTipForm.title, this.sendTipForm.amount, 'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf')
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();

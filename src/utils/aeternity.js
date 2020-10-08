@@ -5,8 +5,9 @@ import {
 } from '@aeternity/aepp-sdk/es';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
+import TIPPING_INTERFACE from 'tipping-contract/TippingInterface.aes';
+import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
 import { COMPILER_URL, NODE_URL } from '../config/constants';
-import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import { EventBus } from './eventBus';
 import store from '../store';
 import { IS_MOBILE_DEVICE } from './index';
@@ -88,6 +89,18 @@ export const scanForWallets = async () => {
 export const tip = async (url, title, amount) => {
   await initTippingContractIfNeeded();
   return contract.methods.tip(url, title, { amount });
+};
+
+export const tipToken = async (url, title, amount, tokenAddress) => {
+  await initTippingContractIfNeeded();
+  const tokenContract = await client
+    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
+  await tokenContract.methods.change_allowance(process.env.VUE_APP_CONTRACT_ADDRESS.replace('ct_', 'ak_'), amount)
+    .catch((e) => {
+      console.log(e);
+      tokenContract.methods.create_allowance(process.env.VUE_APP_CONTRACT_ADDRESS.replace('ct_', 'ak_'), amount);
+    });
+  return contract.methods.tip_token(url, title, tokenAddress, amount);
 };
 
 export const retip = async (id, amount) => {

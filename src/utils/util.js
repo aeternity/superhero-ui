@@ -3,8 +3,11 @@ import BigNumber from 'bignumber.js';
 import { EventBus } from './eventBus';
 import i18n from './i18nHelper';
 
-const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000000000000000000));
-const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
+const shiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(decimals);
+
+const atomsToAe = (atoms) => shiftDecimalPlaces(atoms, -18);
+const aeToAtoms = (ae) => shiftDecimalPlaces(ae, 18);
+
 export const wrapTry = async (promise) => {
   try {
     return promise.then((res) => {
@@ -95,6 +98,7 @@ export const handleUnknownError = (error) => console.warn('Unknown rejection', e
 
 export default {
   atomsToAe,
+  shiftDecimalPlaces,
   aeToAtoms,
   wrapTry,
   currencySigns,

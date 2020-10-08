@@ -21,7 +21,6 @@
 
 <script>
 
-import TippingContractUtil from '../../utils/tippingContractUtil';
 import Topic from './Topic.vue';
 
 export default {
@@ -30,10 +29,15 @@ export default {
     tip: { type: Object, required: true },
     goToTip: { type: Function, required: true },
   },
+  data() {
+    return {
+      topicsRegex: /(#[a-zA-Z]+\b)(?!;)/g,
+    };
+  },
   computed: {
     splitByTopics() {
-      return this.tip.title.split(TippingContractUtil.topicsRegex).map((part) => {
-        const matches = TippingContractUtil.topicsRegex.test(part);
+      return this.tip.title.split(this.topicsRegex).map((part) => {
+        const matches = this.topicsRegex.test(part);
 
         return {
           text: part,

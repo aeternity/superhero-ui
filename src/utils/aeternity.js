@@ -21,13 +21,15 @@ let contractV2;
 
 export let client; // eslint-disable-line import/no-mutable-exports
 
+export const hasV2ContractAddress = () => CONTRACT_V2_ADDRESS !== null;
+
 const initTippingContractIfNeeded = async () => {
   if (!client) throw new Error('Init sdk first');
   if (!contractV1) {
     contractV1 = await client
       .getContractInstance(TIPPING_V1_INTERFACE, { contractAddress: CONTRACT_V1_ADDRESS });
   }
-  if (!contractV2) {
+  if (!contractV2 && hasV2ContractAddress()) {
     contractV2 = await client
       .getContractInstance(TIPPING_V2_INTERFACE, { contractAddress: CONTRACT_V2_ADDRESS });
   }
@@ -131,7 +133,9 @@ export const tip = async (url, title, amount, tokenAddress = null) => {
     return contractV2.methods.tip_token(url, title, tokenAddress, amount);
   }
 
-  return contractV2.methods.tip(url, title, { amount });
+  return hasV2ContractAddress()
+    ? contractV2.methods.tip(url, title, { amount })
+    : contractV1.methods.tip(url, title, { amount });
 };
 
 export const retip = async (contractAddress, id, amount, tokenAddress = null) => {

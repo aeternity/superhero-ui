@@ -8,13 +8,26 @@
       :min="min"
       :step="step"
       :placeholder="$t('amount')"
-      class="form-control"
+      class="form-control input-amount"
       aria-label="Default"
       aria-describedby="inputGroup-sizing-mn"
       :disabled="disabled"
       @input="$emit('input', $event.target.value)"
     >
-    <div class="input-group-append">
+    <div
+      v-if="!notTokenTipable"
+      class="input-group-append"
+    >
+      <Dropdown
+        :options="selectTokenOptions"
+        :selected="selectedToken"
+        :method="selectToken"
+      />
+    </div>
+    <div
+      v-if="selectedToken === 'native'"
+      class="input-group-append"
+    >
       <span
         class="input-group-text append__ae text-ellipsis"
         :title="value"
@@ -31,17 +44,36 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import FiatValue from './FiatValue.vue';
+import Dropdown from './Dropdown.vue';
 
 export default {
   components: {
-    FiatValue,
+    Dropdown, FiatValue,
   },
   props: {
     min: { type: Number, default: 0 },
     step: { type: Number, default: 0.01 },
     value: { type: [Number, String], required: true },
+    selectTokenF: { type: Function, required: true },
     disabled: { type: Boolean },
+    notTokenTipable: { type: Boolean },
+  },
+  data: () => ({
+    selectedToken: 'native',
+  }),
+  computed: mapState({
+    selectTokenOptions: ({ tokenBalances, tokenInfo }) => [
+      { text: 'AE', value: 'native' },
+      ...tokenBalances.map(({ token }) => ({ text: tokenInfo[token].symbol, value: token })),
+    ],
+  }),
+  methods: {
+    selectToken(selected) {
+      this.selectedToken = selected;
+      this.selectTokenF(this.selectedToken);
+    },
   },
 };
 </script>

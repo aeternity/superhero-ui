@@ -5,7 +5,7 @@ import {
 } from '@aeternity/aepp-sdk/es';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
-import { CONTRACT_ADDRESS, COMPILER_URL, NODE_URL } from '../config/constants';
+import { COMPILER_URL, NODE_URL } from '../config/constants';
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import { EventBus } from './eventBus';
 import store from '../store';
@@ -18,8 +18,9 @@ export let client; // eslint-disable-line import/no-mutable-exports
 const initTippingContractIfNeeded = async () => {
   if (!client) throw new Error('Init sdk first');
   if (contract) return;
-  contract = await client
-    .getContractInstance(TIPPING_INTERFACE, { contractAddress: CONTRACT_ADDRESS });
+  contract = await client.getContractInstance(TIPPING_INTERFACE, {
+    contractAddress: process.env.VUE_APP_CONTRACT_ADDRESS,
+  });
 };
 
 /**

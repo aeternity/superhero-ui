@@ -27,6 +27,7 @@ export default new Vuex.Store({
     verifiedUrls: [],
     graylistedUrls: [],
     tokenInfo: {},
+    tokenBalances: [],
     isHiddenContent: true,
     useSdkWallet: false,
     useIframeWallet: false,
@@ -49,11 +50,13 @@ export default new Vuex.Store({
     persistState(
       (state) => state,
       ({
-        selectedCurrency, address, balance,
+        selectedCurrency, address, balance, tokenInfo, tokenBalances,
       }) => ({
         selectedCurrency,
         address,
         balance,
+        tokenInfo,
+        tokenBalances,
       }),
     ),
     modals,

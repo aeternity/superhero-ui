@@ -1,5 +1,5 @@
 <template>
-  <div class="profile__page">
+  <div class="user-info">
     <div class="profile__section clearfix">
       <div
         class="cover-photo"
@@ -200,7 +200,6 @@ import { EXPLORER_URL } from '../config/constants';
 import { atomsToAe } from '../utils';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from './AeAmountFiat.vue';
-import backendAuthMixin from '../utils/backendAuthMixin';
 import Avatar from './Avatar.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from './TipInput.vue';
@@ -212,7 +211,6 @@ export default {
     Avatar,
     TipInput,
   },
-  mixins: [backendAuthMixin()],
   props: {
     address: { type: String, required: true },
   },
@@ -407,7 +405,7 @@ input[type="file"] {
   }
 }
 
-.profile__page {
+.user-info {
   color: $tip_note_color;
   font-size: 0.75rem;
 
@@ -690,7 +688,7 @@ input[type="file"] {
 }
 
 @media screen and (max-width: 1024px) {
-  .profile__page {
+  .user-info {
     .tips__container {
       padding: 0.15rem 0.5rem;
     }
@@ -719,11 +717,11 @@ input[type="file"] {
     }
   }
 
-  .profile__page .avatar__button {
+  .user-info .avatar__button {
     bottom: -0.5rem;
   }
 
-  .profile__page .delete_avatar__button {
+  .user-info .delete_avatar__button {
     top: -0.5rem;
   }
 

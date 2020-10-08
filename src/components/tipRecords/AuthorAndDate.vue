@@ -1,16 +1,13 @@
 <template>
-  <div class="wrapper">
-    <UserHoverCard
+  <div class="author-and-date">
+    <UserCard
+      v-if="hover && isActive"
       :address="address"
-      :hover="hover"
-      :show="show"
-      :is-active="isActive"
-      :mouseover="mouseover"
-      :mouseleave="mouseleave"
-      :mousestay="mousestay"
+      @mouseover="mouseover"
+      @mouseleave="mouseleave"
     />
     <div
-      class="author-and-date"
+      class="author-and-date-info"
       @click.stop
     >
       <RouterLink
@@ -50,15 +47,13 @@
 import { mapMutations, mapState } from 'vuex';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
-import UserHoverCard from '../UserHoverCard.vue';
-
-let timeout;
+import UserCard from '../UserCard.vue';
 
 export default {
   components: {
     FormatDate,
     Avatar,
-    UserHoverCard,
+    UserCard,
   },
   props: {
     address: { type: String, required: true },
@@ -68,40 +63,34 @@ export default {
   data() {
     return {
       hover: false,
-      show: false,
+      timeout: null,
     };
   },
   computed: {
-    ...mapState(['showUserInfo']),
+    ...mapState(['showUserCardTag']),
     currentUserInfo() {
       return this.address + this.parrent;
     },
     isActive() {
-      return this.currentUserInfo === this.showUserInfo;
+      return this.currentUserInfo === this.showUserCardTag;
     },
   },
   methods: {
-    ...mapMutations(['setShowUserInfo']),
+    ...mapMutations(['setShowUserCardTag']),
     mouseover() {
-      this.setShowUserInfo(this.currentUserInfo);
+      this.setShowUserCardTag(this.currentUserInfo);
       this.hover = true;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => { this.show = true; }, 500);
+      clearTimeout(this.timeout);
     },
     mouseleave() {
-      timeout = setTimeout(() => { this.hover = false; this.show = false; }, 500);
-    },
-    mousestay() {
-      this.hover = true;
-      this.show = true;
-      clearTimeout(timeout);
+      this.timeout = setTimeout(() => { this.hover = false; }, 500);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.author-and-date {
+.author-and-date-info {
   align-items: center;
   color: $light_font_color;
   display: flex;
@@ -158,7 +147,7 @@ export default {
   }
 }
 
-.wrapper {
+.author-and-date {
   position: relative;
 }
 </style>

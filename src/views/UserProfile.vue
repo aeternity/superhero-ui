@@ -1,5 +1,5 @@
 <template>
-  <div class="profile__page">
+  <div class="user-profile">
     <BackButtonRibbon />
     <UserInfo :address="address" />
     <ListOfTipsAndComments :address="address" />
@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import backendAuthMixin from '../utils/backendAuthMixin';
 import ListOfTipsAndComments from '../components/ListOfTipsAndComments.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import UserInfo from '../components/UserInfo.vue';
@@ -17,6 +18,7 @@ export default {
     BackButtonRibbon,
     UserInfo,
   },
+  mixins: [backendAuthMixin()],
   props: {
     address: { type: String, required: true },
   },

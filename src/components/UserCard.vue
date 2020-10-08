@@ -1,18 +1,12 @@
 <template>
-  <Transition
-    v-if="hover"
-    name="fade"
+  <div
+    class="user-card"
+    @click.stop
+    @mouseover="$emit('mouseover', $event)"
+    @mouseleave="$emit('mouseleave', $event)"
   >
-    <div
-      v-show="show && isActive"
-      class="modal-container"
-      @click.stop
-      @mouseover="mousestay"
-      @mouseleave="mouseleave"
-    >
-      <UserInfo :address="address" />
-    </div>
-  </Transition>
+    <UserInfo :address="address" />
+  </div>
 </template>
 
 <script>
@@ -24,18 +18,12 @@ export default {
   },
   props: {
     address: { type: String, required: true },
-    hover: Boolean,
-    show: Boolean,
-    isActive: Boolean,
-    mouseover: { type: Function, required: true },
-    mouseleave: { type: Function, required: true },
-    mousestay: { type: Function, required: true },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.modal-container {
+.user-card {
   top: 60px;
   width: 75%;
   border: 1px solid $card_border_color;
@@ -46,16 +34,13 @@ export default {
   cursor: default;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
   background-color: $thumbnail_background_color;
-}
+  animation: fadeIn 1s ease;
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+  }
 }
 
 ::v-deep .profile__stats {
@@ -94,7 +79,7 @@ export default {
 }
 
 @media screen and (max-width: 1024px) {
-  .modal-container {
+  .user-card {
     width: 100%;
   }
 }

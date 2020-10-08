@@ -9,14 +9,14 @@
           @click="toggleSendTip(false)"
         >
       </div>
-      <form @submit.prevent>
+      <form @submit.prevent="sendTip">
         <MessageInput
           v-model="sendTipForm.title"
           maxlength="280"
           :placeholder="$t('addMessage')"
         />
-        <div class="form-row">
-          <div class="form-group col-md-5 col-lg-6 col-sm-12 send-url">
+        <div class="mt-2 d-flex flex-row">
+          <div class="send-url">
             <UrlStatus
               :url="sendTipForm.url"
               @is-blacklisted-url="isBlacklistedUrl = $event"
@@ -28,19 +28,22 @@
               :placeholder="$t('components.layout.SendTip.EnterURL')"
             >
           </div>
-          <div class="col-lg-4 col-md-5 col-sm-12 send-amount">
-            <AeInputAmount v-model="sendTipForm.amount" />
+          <div class="send-amount">
+            <AeInputAmount
+              v-model="sendTipForm.amount"
+              :select-token-f="(token) => inputToken = token"
+            />
           </div>
-          <div class="col-lg-2 col-md-2 col-sm-12">
-            <div class="text-right">
-              <AeButton
-                :disabled="!canTip || !isSendTipDataValid"
-                :loading="sendingTip"
-                @click="sendTip"
-              >
+          <div class="text-right">
+            <AeButton
+              :disabled="!canTip || !isSendTipDataValid"
+              :loading="sendingTip"
+              @click="sendTip"
+            >
+              <span class="text-nowrap">
                 <IconDiamond /> {{ $t('tip') }}
-              </AeButton>
-            </div>
+              </span>
+            </AeButton>
           </div>
         </div>
       </form>
@@ -76,6 +79,7 @@ export default {
   },
   data() {
     return {
+      inputToken: 'native',
       sendTipForm: {
         amount: 0,
         url: '',
@@ -106,13 +110,10 @@ export default {
   methods: {
     async sendTip() {
       this.sendingTip = true;
-      // TODO differentiate between AE or token tip
       const amount = shiftDecimalPlaces(this.sendTipForm.amount,
-        this.tokenInfo.ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf.decimals).toFixed();
+        this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
-      // TODO differentiate between AE or token tip
-      tip(this.sendTipForm.url, this.sendTipForm.title, amount,
-        'ct_2DQ1vdJdiaNVgh2vUbTTpkPRiT9e2GSx1NxyU7JM9avWqj6dVf')
+      tip(this.sendTipForm.url, this.sendTipForm.title, amount, this.inputToken)
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();
@@ -182,6 +183,30 @@ export default {
       }
     }
 
+    .send-url {
+      position: relative;
+      background-color: $buttons_background;
+      color: $standard_font_color;
+      border: 0.05rem solid $buttons_background;
+      border-radius: 0.25rem;
+      padding: 0;
+
+      input,
+      input:focus {
+        border: 0;
+      }
+
+      &:focus-within {
+        border-color: $secondary_color;
+      }
+
+      input {
+        background-color: $buttons_background;
+        color: $standard_font_color;
+        font-size: 0.75rem;
+      }
+    }
+
     .form-group {
       margin-bottom: 0;
 
@@ -229,6 +254,10 @@ export default {
 
     .url-input {
       padding-left: 2.1rem;
+
+      &:focus {
+        box-shadow: none;
+      }
     }
 
     .closed-view.message-input {

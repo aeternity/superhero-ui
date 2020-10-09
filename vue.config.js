@@ -44,16 +44,6 @@ module.exports = {
         },
       }])
       .end()
-      .plugin('copy')
-      .tap((args) => {
-        args[0].push({
-          from: './node_modules/@aeternity/superhero-button/dist',
-          to: './buttons',
-          toType: 'dir',
-        });
-        return args;
-      })
-      .end()
       .plugin('define')
       .tap((options) => {
         const definitions = { ...options[0] };

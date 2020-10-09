@@ -20,8 +20,7 @@
 </template>
 
 <script>
-
-import TippingContractUtil from '../../utils/tippingContractUtil';
+import { topicsRegex } from '../../utils/util';
 import Topic from './Topic.vue';
 
 export default {
@@ -32,8 +31,8 @@ export default {
   },
   computed: {
     splitByTopics() {
-      return this.tip.title.split(TippingContractUtil.topicsRegex).map((part) => {
-        const matches = TippingContractUtil.topicsRegex.test(part);
+      return this.tip.title.split(topicsRegex).map((part) => {
+        const matches = topicsRegex.test(part);
 
         return {
           text: part,

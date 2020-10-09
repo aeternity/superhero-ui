@@ -3,6 +3,8 @@ import BigNumber from 'bignumber.js';
 import { EventBus } from './eventBus';
 import i18n from './i18nHelper';
 
+export const topicsRegex = /(#[a-zA-Z]+\b)(?!;)/g;
+
 const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000000000000000000));
 const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
 export const wrapTry = async (promise) => {

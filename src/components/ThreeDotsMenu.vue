@@ -33,7 +33,7 @@ export default {
 <style lang="scss" scoped>
 .three-dots {
   position: relative;
-  padding: 0 0.25rem;
+  padding: 0;
   border-radius: 0.25rem;
 
   &.active {

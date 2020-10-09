@@ -271,7 +271,7 @@ export default {
       return `${this.profile.biography.length}/${this.maxLength}`;
     },
     tipStats() {
-      return [
+      const tipStats = [
         {
           value: this.userStats.tipsLength + this.userStats.retipsLength,
           title: this.$t('views.UserProfileView.TipsSent'),
@@ -281,11 +281,15 @@ export default {
           title: this.$t('views.UserProfileView.ClaimedAmount'),
           amount: this.userStats.claimedAmount,
         },
-        {
+
+      ];
+      if (this.currentAddress === this.address) {
+        tipStats.push({
           title: this.$t('views.UserProfileView.UnclaimedAmount'),
           amount: this.userStats.unclaimedAmount,
-        },
-      ];
+        });
+      }
+      return tipStats;
     },
     showedStats() {
       return [
@@ -603,7 +607,7 @@ input[type="file"] {
 
 .tip_stats {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-auto-flow: column;
 
   .ae-amount-fiat {
     display: block;
@@ -633,6 +637,7 @@ input[type="file"] {
 
   img {
     height: 0.75rem;
+    margin-bottom: 0.15rem;
   }
 }
 
@@ -670,6 +675,8 @@ input[type="file"] {
   display: flex;
   flex-direction: column;
   width: calc(100% - 8.5rem);
+  justify-content: space-between;
+  height: 5.5rem;
 
   .profile__username {
     color: $tip_note_color;
@@ -711,6 +718,7 @@ input[type="file"] {
   .profile__info {
     vertical-align: middle;
     width: calc(100% - 4.5rem);
+    height: 5rem;
 
     .profile__username {
       font-size: 0.55rem;
@@ -731,7 +739,7 @@ input[type="file"] {
   }
 
   .tip_stats {
-    grid-template-columns: auto;
+    grid-auto-flow: row;
     order: 2;
   }
 
@@ -756,6 +764,10 @@ input[type="file"] {
   .profile__header .profile__image .avatar {
     height: 4.5rem;
     width: 4.5rem;
+  }
+
+  .profile__info {
+    height: 4.5rem;
   }
 
   .profile__row {

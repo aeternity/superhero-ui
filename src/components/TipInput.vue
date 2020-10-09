@@ -55,7 +55,7 @@ import iconTipped from '../assets/iconTipped.svg';
 import { tip, retip } from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import util, { createDeepLinkUrl } from '../utils/util';
+import { aeToAtoms, createDeepLinkUrl } from '../utils';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
@@ -128,7 +128,7 @@ export default {
       if (!this.isValid) return;
       this.showLoading = true;
       try {
-        const amount = util.aeToAtoms(this.value);
+        const amount = aeToAtoms(this.value);
         if (this.tip) await retip(this.tip.id, amount);
         else await tip(this.tipUrl, this.message, amount);
         if (!this.userAddress) {

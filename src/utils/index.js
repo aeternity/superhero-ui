@@ -5,8 +5,10 @@ import i18n from './i18nHelper';
 
 export const topicsRegex = /(#[a-zA-Z]+\b)(?!;)/g;
 
-const atomsToAe = (atoms) => (new BigNumber(atoms)).dividedBy(new BigNumber(1000000000000000000));
-const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
+export const atomsToAe = (atoms) => (new BigNumber(atoms))
+  .dividedBy(new BigNumber(1000000000000000000));
+export const aeToAtoms = (ae) => (new BigNumber(ae)).times(new BigNumber(1000000000000000000));
+
 export const wrapTry = async (promise) => {
   try {
     return promise.then((res) => {
@@ -94,15 +96,3 @@ export const getI18nPath = (index, page) => (isTitle(index, page)
   : `views.${page}.sections[${index}].text`);
 
 export const handleUnknownError = (error) => console.warn('Unknown rejection', error);
-
-export default {
-  atomsToAe,
-  aeToAtoms,
-  wrapTry,
-  currencySigns,
-  createDeepLinkUrl,
-  urlStatus,
-  isTitle,
-  getI18nPath,
-  handleUnknownError,
-};

@@ -9,7 +9,7 @@ import { CONTRACT_ADDRESS, COMPILER_URL, NODE_URL } from '@/config/constants';
 import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
 import { EventBus } from './eventBus';
 import store from '../store';
-import { IS_MOBILE_DEVICE } from './util';
+import { IS_MOBILE_DEVICE } from './index';
 
 let contract;
 

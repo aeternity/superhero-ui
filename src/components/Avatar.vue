@@ -13,7 +13,7 @@ import jdenticon from 'jdenticon';
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-avataaars-sprites';
 import Backend from '../utils/backend';
-import { IDENTICON_CONFIG, AVATAR_CONFIG } from '../utils/util';
+import { IDENTICON_CONFIG, AVATAR_CONFIG } from '../utils';
 
 jdenticon.config = IDENTICON_CONFIG;
 

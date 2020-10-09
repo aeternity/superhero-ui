@@ -70,7 +70,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { createDeepLinkUrl } from '../../utils/util';
+import { createDeepLinkUrl } from '../../utils';
 import OutlinedButton from '../OutlinedButton.vue';
 
 export default {

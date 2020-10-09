@@ -200,7 +200,7 @@
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import { BACKEND_URL, EXPLORER_URL } from '../config/constants';
-import util from '../utils/util';
+import { atomsToAe } from '../utils';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
@@ -321,7 +321,7 @@ export default {
     getBalance() {
       if (client) {
         client.balance(this.address).then((balance) => {
-          this.balance = util.atomsToAe(balance).toFixed(2);
+          this.balance = atomsToAe(balance).toFixed(2);
         }).catch(() => 0);
       } else {
         const that = this;

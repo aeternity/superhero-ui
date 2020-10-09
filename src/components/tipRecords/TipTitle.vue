@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { topicsRegex } from '../../utils/util';
+import { topicsRegex } from '../../utils';
 import Topic from './Topic.vue';
 
 export default {

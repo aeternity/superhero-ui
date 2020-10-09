@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { isTitle, getI18nPath } from '../utils/util';
+import { isTitle, getI18nPath } from '../utils';
 
 export default {
   methods: {

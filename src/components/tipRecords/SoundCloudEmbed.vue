@@ -2,19 +2,7 @@
   <div
     class="sound-cloud-player"
   >
-    <iframe
-      v-if="isPlaying"
-      width="100%"
-      height="auto"
-      scrolling="no"
-      frameborder="no"
-      allow="autoplay"
-      :src="playUrl"
-    />
-    <div
-      v-else
-      class="tip__two-columns-preview"
-    >
+    <div class="tip__two-columns-preview">
       <div class="tip__two-columns-img">
         <img :src="tipPreviewImage">
       </div>
@@ -45,13 +33,22 @@
             src="../../assets/buttonPlay.svg"
           >
         </div>
+        <SoundCloudPlayer
+          v-else-if="isPlaying"
+          :tip="tip"
+          :sc-api-url="scApiUrl"
+          @click.stop
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import SoundCloudPlayer from './SoundCloudPlayer.vue';
+
 export default {
+  components: { SoundCloudPlayer },
   props: {
     tip: { type: Object, required: true },
     tipPreviewTitle: { type: String, required: true },
@@ -80,9 +77,23 @@ export default {
       return `${this.scApiUrl}?url=${this.tip.url}${this.playParams}`;
     },
   },
+  mounted() {
+    this.loadScript(`${this.scApiUrl}api.js`);
+  },
   methods: {
     play() {
       this.isPlaying = true;
+    },
+    loadScript(url) {
+      const scripts = [].slice.call(document.getElementsByTagName('script')).filter((script) => script.src === url);
+      if (scripts.length) {
+        return;
+      }
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = url;
+      document.getElementsByTagName('body')[0].appendChild(script);
+      console.log('SoundCLoud Script LOADED');
     },
   },
 };

@@ -7,7 +7,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { urlStatus } from '../../../utils/util';
+import { urlStatus } from '../../../utils';
 import verifiedUrl from '../../../assets/verifiedUrl.svg';
 import notVerifiedUrl from '../../../assets/notVerifiedUrl.svg';
 import blacklistedUrl from '../../../assets/blacklistedUrl.svg';

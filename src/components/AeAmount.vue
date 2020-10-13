@@ -8,7 +8,7 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-import util from '../utils/util';
+import { atomsToAe } from '../utils';
 
 export default {
   props: {
@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     roundedAmount() {
-      return new BigNumber(this.aettos ? util.atomsToAe(this.amount) : this.amount)
+      return new BigNumber(this.aettos ? atomsToAe(this.amount) : this.amount)
         .toFixed(this.round);
     },
   },

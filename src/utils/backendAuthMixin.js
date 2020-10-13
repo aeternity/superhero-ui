@@ -1,6 +1,6 @@
 import { mapState } from 'vuex';
 import Backend from './backend';
-import { createDeepLinkUrl } from './util';
+import { createDeepLinkUrl } from './index';
 import { client } from './aeternity';
 
 export default (ignoreCallInQuery) => ({

@@ -1,5 +1,5 @@
 import { BACKEND_URL } from '../config/constants';
-import { wrapTry } from './util';
+import { wrapTry } from './index';
 
 const backendFetch = (path, ...args) => wrapTry(
   fetch(`${BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err)),

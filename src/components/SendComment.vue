@@ -16,7 +16,7 @@
 
 <script>
 import { EventBus } from '../utils/eventBus';
-import { createDeepLinkUrl, handleUnknownError } from '../utils/util';
+import { createDeepLinkUrl, handleUnknownError } from '../utils';
 import { client } from '../utils/aeternity';
 import MessageInput from './MessageInput.vue';
 import backendAuthMixin from '../utils/backendAuthMixin';

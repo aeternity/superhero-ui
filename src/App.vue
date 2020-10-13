@@ -37,7 +37,7 @@ import { detect } from 'detect-browser';
 import { client, initClient, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
-import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
+import { IS_MOBILE_DEVICE, supportedBrowsers, atomsToAe } from './utils';
 import MobileNavigation from './components/layout/MobileNavigation.vue';
 import LeftSection from './components/layout/LeftSection.vue';
 import RightSection from './components/layout/RightSection.vue';
@@ -84,7 +84,7 @@ export default {
 
       if (this.address) {
         const balance = await client.balance(this.address).catch(() => 0);
-        this.updateBalance(Util.atomsToAe(balance).toFixed(2));
+        this.updateBalance(atomsToAe(balance).toFixed(2));
       }
 
       // async fetch
@@ -121,7 +121,7 @@ export default {
       const balance = await client.balance(address).catch(() => 0);
       this.setLoggedInAccount({
         address,
-        balance: Util.atomsToAe(balance).toFixed(2),
+        balance: atomsToAe(balance).toFixed(2),
       });
       this.fetchUserData();
       this.removeLoading('wallet');

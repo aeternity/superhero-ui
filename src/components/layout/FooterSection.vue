@@ -58,10 +58,7 @@
       v-if="!isLoggedIn"
       class="login-footer"
     >
-      <OutlinedButton
-        :to="addressDeepLink"
-        :title="$t('components.layout.FooterSection.LoginWithWallet')"
-      >
+      <OutlinedButton :to="addressDeepLink">
         {{ $t('components.layout.FooterSection.LoginWithWallet') }}
       </OutlinedButton>
     </div>

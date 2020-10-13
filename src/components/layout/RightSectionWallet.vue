@@ -30,6 +30,12 @@
         />
       </div>
     </template>
+    <OutlinedButton
+      v-else
+      @click="enableIframeWallet"
+    >
+      {{ $t('components.layout.FooterSection.LoginWithWallet') }}
+    </OutlinedButton>
   </div>
 </template>
 
@@ -39,9 +45,12 @@ import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
 import Dropdown from '../Dropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
+import OutlinedButton from '../OutlinedButton.vue';
 
 export default {
-  components: { RightSectionTitle, AeAmount, Dropdown },
+  components: {
+    RightSectionTitle, AeAmount, Dropdown, OutlinedButton,
+  },
   props: { closed: Boolean },
   data: () => ({
     walletUrl: process.env.VUE_APP_WALLET_URL,
@@ -61,7 +70,7 @@ export default {
       },
     }),
   },
-  methods: mapMutations(['updateCurrency']),
+  methods: mapMutations(['updateCurrency', 'enableIframeWallet']),
 };
 </script>
 

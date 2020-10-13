@@ -112,8 +112,7 @@ export default {
     async initWallet() {
       let { address } = this.$route.query;
       if (!address) {
-        await scanForWallets();
-        address = this.sdk.rpcClient.getCurrentAccount();
+        address = await scanForWallets();
         console.log('found wallet');
         this.useSdkWallet();
       }

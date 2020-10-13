@@ -82,10 +82,12 @@ export const scanForWallets = async () => {
     detector.scan(async ({ newWallet }) => {
       if (!newWallet) return;
       clearInterval(webWalletTimeout);
-      detector.stopScan();
       await sdk.connectToWallet(await newWallet.getConnection());
       await sdk.subscribeAddress('subscribe', 'current');
-      resolve();
+      const address = sdk.rpcClient.getCurrentAccount();
+      if (!address) return;
+      detector.stopScan();
+      resolve(address);
     });
   });
 };

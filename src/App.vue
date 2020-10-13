@@ -64,7 +64,7 @@ export default {
   methods: {
     ...mapMutations([
       'setLoggedInAccount', 'updateTopics', 'updateCurrencyRates',
-      'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
+      'setOracleState', 'setChainNames', 'updateBalance',
       'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
       'setPinnedItems',
     ]),
@@ -104,13 +104,9 @@ export default {
       ]);
     },
     async initialLoad() {
-      this.addLoading('initial');
-      this.addLoading('wallet');
       await initClient();
       await this.reloadData();
-      this.removeLoading('initial');
       if (this.address) {
-        this.removeLoading('wallet');
         this.fetchUserData();
       }
 
@@ -131,7 +127,6 @@ export default {
       this.loadTokenBalances(address);
 
       this.fetchUserData();
-      this.removeLoading('wallet');
     },
     async loadTokenBalances(address) {
       const tokens = await Backend.getTokenBalances(address);

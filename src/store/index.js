@@ -21,10 +21,6 @@ export default new Vuex.Store({
     topics: [],
     tipSortBy: 'hot',
     oracleState: {},
-    loading: {
-      wallet: false,
-      initial: false,
-    },
     chainNames: [],
     verifiedUrls: [],
     graylistedUrls: [],

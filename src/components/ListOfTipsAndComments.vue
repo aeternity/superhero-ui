@@ -120,7 +120,6 @@ export default {
     userPinnedItems: [],
   }),
   computed: {
-    ...mapState(['loading']),
     ...mapState({ currentAddress: 'address' }),
     pinnedItems() {
       return this.address === this.currentAddress
@@ -128,7 +127,7 @@ export default {
     },
     showNoResultsMsg() {
       return this.activeTab === 'comments'
-        && this.comments.length === 0 && !this.showLoading && !this.loading.tips;
+        && this.comments.length === 0 && !this.showLoading;
     },
     comments() {
       return this.$store.state.backend.userComments[this.address] || [];

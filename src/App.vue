@@ -34,9 +34,7 @@
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
-import {
-  client, initClient, scanForWallets, tokenBalance,
-} from './utils/aeternity';
+import { initClient, scanForWallets, tokenBalance } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import { IS_MOBILE_DEVICE, supportedBrowsers, atomsToAe } from './utils';
@@ -48,7 +46,7 @@ export default {
   components: { MobileNavigation, LeftSection, RightSection },
   computed: {
     ...mapGetters('modals', ['opened']),
-    ...mapState(['address']),
+    ...mapState(['address', 'sdk']),
     isSupportedBrowser() {
       const browser = detect();
       return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));
@@ -101,7 +99,7 @@ export default {
         this.$store.dispatch('updatePinnedItems'),
         this.$store.dispatch('updateUserProfile'),
         (async () => {
-          const balance = await client.balance(this.address).catch(() => 0);
+          const balance = await this.sdk.balance(this.address).catch(() => 0);
           this.updateBalance(atomsToAe(balance).toFixed(2));
         })(),
         (async () => {
@@ -115,7 +113,7 @@ export default {
       let { address } = this.$route.query;
       if (!address) {
         await scanForWallets();
-        address = client.rpcClient.getCurrentAccount();
+        address = this.sdk.rpcClient.getCurrentAccount();
         console.log('found wallet');
         this.useSdkWallet();
       }

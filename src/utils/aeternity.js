@@ -12,10 +12,9 @@ import { BigNumber } from 'bignumber.js';
 import store from '../store';
 import { IS_MOBILE_DEVICE } from './index';
 
+let client;
 let contractV1;
 let contractV2;
-
-export let client; // eslint-disable-line import/no-mutable-exports
 
 const initTippingContractIfNeeded = async () => {
   if (!client) throw new Error('Init sdk first');

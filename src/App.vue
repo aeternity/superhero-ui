@@ -34,7 +34,7 @@
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
-import { initClient, scanForWallets, tokenBalance } from './utils/aeternity';
+import { initSdk, scanForWallets, tokenBalance } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import { IS_MOBILE_DEVICE, supportedBrowsers, atomsToAe } from './utils';
@@ -58,7 +58,7 @@ export default {
     });
     setInterval(() => this.reloadData(), 120 * 1000);
 
-    await initClient();
+    await initSdk();
     await Promise.all([
       this.initWallet(),
       this.reloadData(),

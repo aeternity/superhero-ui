@@ -15,7 +15,7 @@
       @input="$emit('input', $event.target.value)"
     >
     <div
-      v-if="!notTokenTipable"
+      v-if="tokenTipable"
       class="input-group-append"
     >
       <Dropdown
@@ -32,8 +32,13 @@
         class="input-group-text append__ae text-ellipsis"
         :title="value"
       >
-        <!--eslint-disable-next-line vue-i18n/no-raw-text-->
-        <span class="ae">AE</span>&nbsp;
+        <!-- eslint-disable vue-i18n/no-raw-text -->
+        <span
+          v-if="!tokenTipable"
+          class="ae"
+        >
+          AE
+        </span>&nbsp;
         <FiatValue
           display-symbol
           :amount="value.toString()"
@@ -45,6 +50,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { hasV2ContractAddress } from '@/utils/aeternity';
 import FiatValue from './FiatValue.vue';
 import Dropdown from './Dropdown.vue';
 
@@ -63,12 +69,17 @@ export default {
   data: () => ({
     selectedToken: 'native',
   }),
-  computed: mapState({
-    selectTokenOptions: ({ tokenBalances, tokenInfo }) => [
-      { text: 'AE', value: 'native' },
-      ...tokenBalances.map(({ token }) => ({ text: tokenInfo[token].symbol, value: token })),
-    ],
-  }),
+  computed: {
+    ...mapState({
+      selectTokenOptions: ({ tokenBalances, tokenInfo }) => [
+        { text: 'AE', value: 'native' },
+        ...tokenBalances.map(({ token }) => ({ text: tokenInfo[token].symbol, value: token })),
+      ],
+    }),
+    tokenTipable() {
+      return !this.notTokenTipable && hasV2ContractAddress();
+    },
+  },
   methods: {
     selectToken(selected) {
       this.selectedToken = selected;

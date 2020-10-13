@@ -26,7 +26,7 @@ const initTippingContractIfNeeded = async () => {
       contractAddress: process.env.VUE_APP_CONTRACT_V1_ADDRESS,
     });
   }
-  if (!contractV2) {
+  if (!contractV2 && process.env.VUE_APP_CONTRACT_V2_ADDRESS) {
     contractV2 = await client.getContractInstance(TIPPING_V2_INTERFACE, {
       contractAddress: process.env.VUE_APP_CONTRACT_V2_ADDRESS,
     });
@@ -131,7 +131,9 @@ export const tip = async (url, title, amount, tokenAddress = null) => {
     return contractV2.methods.tip_token(url, title, tokenAddress, amount);
   }
 
-  return contractV2.methods.tip(url, title, { amount });
+  return contractV2
+    ? contractV2.methods.tip(url, title, { amount })
+    : contractV1.methods.tip(url, title, { amount });
 };
 
 export const retip = async (contractAddress, id, amount, tokenAddress = null) => {

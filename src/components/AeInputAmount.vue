@@ -15,7 +15,7 @@
       @input="$emit('input', $event.target.value)"
     >
     <div
-      v-if="!notTokenTipable"
+      v-if="tokenTipable"
       class="input-group-append"
     >
       <Dropdown
@@ -32,8 +32,14 @@
         class="input-group-text append__ae text-ellipsis"
         :title="value"
       >
-        <!--eslint-disable-next-line vue-i18n/no-raw-text-->
-        <span class="ae">AE</span>&nbsp;
+        <!-- eslint-disable vue-i18n/no-raw-text -->
+        <span
+          v-if="!tokenTipable"
+          class="ae"
+        >
+          AE
+        </span>&nbsp;
+        <!-- eslint-enable vue-i18n/no-raw-text -->
         <FiatValue
           display-symbol
           :amount="value.toString()"
@@ -63,12 +69,17 @@ export default {
   data: () => ({
     selectedToken: 'native',
   }),
-  computed: mapState({
-    selectTokenOptions: ({ tokenBalances, tokenInfo }) => [
-      { text: 'AE', value: 'native' },
-      ...tokenBalances.map(({ token }) => ({ text: tokenInfo[token].symbol, value: token })),
-    ],
-  }),
+  computed: {
+    ...mapState({
+      selectTokenOptions: ({ tokenBalances, tokenInfo }) => [
+        { text: 'AE', value: 'native' },
+        ...tokenBalances.map(({ token }) => ({ text: tokenInfo[token].symbol, value: token })),
+      ],
+    }),
+    tokenTipable() {
+      return !this.notTokenTipable && !!process.env.VUE_APP_CONTRACT_V2_ADDRESS;
+    },
+  },
   methods: {
     selectToken(selected) {
       this.selectedToken = selected;

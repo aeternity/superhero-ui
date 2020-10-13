@@ -59,17 +59,21 @@ export default {
       this.reloadData();
     });
     setInterval(() => this.reloadData(), 120 * 1000);
-    await this.initialLoad();
+
+    await initClient();
+    await Promise.all([
+      this.initWallet(),
+      this.reloadData(),
+    ]);
   },
   methods: {
     ...mapMutations([
-      'setLoggedInAccount', 'updateTopics', 'updateCurrencyRates',
+      'setAddress', 'updateTopics', 'updateCurrencyRates',
       'setOracleState', 'setChainNames', 'updateBalance',
       'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
       'setPinnedItems',
     ]),
     async reloadData() {
-      // await fetch
       const [
         chainNames, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
       ] = await Promise.all([
@@ -81,35 +85,33 @@ export default {
         Backend.getTokenInfo(),
         this.$store.dispatch('backend/reloadStats'),
         this.$store.dispatch('backend/reloadPrices'),
+        this.reloadUserData(),
       ]);
 
-      if (this.address) {
-        const balance = await client.balance(this.address).catch(() => 0);
-        this.updateBalance(atomsToAe(balance).toFixed(2));
-      }
-
-      // async fetch
       this.updateTopics(topics);
       this.setChainNames(chainNames);
       this.setOracleState(oracleState);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
       this.setTokenInfo(tokenInfo);
-      if (this.address) this.loadTokenBalances(this.address);
     },
-    async fetchUserData() {
+    async reloadUserData() {
+      if (!this.address) return;
       await Promise.all([
         this.$store.dispatch('updatePinnedItems'),
         this.$store.dispatch('updateUserProfile'),
+        (async () => {
+          const balance = await client.balance(this.address).catch(() => 0);
+          this.updateBalance(atomsToAe(balance).toFixed(2));
+        })(),
+        (async () => {
+          const tokens = await Backend.getTokenBalances(this.address);
+          await Promise.all(Object.entries(tokens).map(async ([token]) => this
+            .addTokenBalance({ token, balance: await tokenBalance(token, this.address) })));
+        })(),
       ]);
     },
-    async initialLoad() {
-      await initClient();
-      await this.reloadData();
-      if (this.address) {
-        this.fetchUserData();
-      }
-
+    async initWallet() {
       let { address } = this.$route.query;
       if (!address) {
         await scanForWallets();
@@ -117,21 +119,8 @@ export default {
         console.log('found wallet');
         this.useSdkWallet();
       }
-      const balance = await client.balance(address).catch(() => 0);
-      this.setLoggedInAccount({
-        address,
-        balance: atomsToAe(balance).toFixed(2),
-      });
-
-      // trigger run async in background
-      this.loadTokenBalances(address);
-
-      this.fetchUserData();
-    },
-    async loadTokenBalances(address) {
-      const tokens = await Backend.getTokenBalances(address);
-      await Promise.all(Object.entries(tokens).map(async ([token]) => this
-        .addTokenBalance({ token, balance: await tokenBalance(token, address) })));
+      this.setAddress(address);
+      await this.reloadUserData();
     },
   },
 };

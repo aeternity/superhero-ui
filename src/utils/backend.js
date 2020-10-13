@@ -1,8 +1,7 @@
-import { BACKEND_URL } from '../config/constants';
 import { wrapTry } from './index';
 
 const backendFetch = (path, ...args) => wrapTry(
-  fetch(`${BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err)),
+  fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err)),
 );
 
 export default class Backend {
@@ -62,7 +61,7 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  static getProfileImageUrl = (address) => `${BACKEND_URL}/profile/image/${address}`;
+  static getProfileImageUrl = (address) => `${process.env.VUE_APP_BACKEND_URL}/profile/image/${address}`;
 
   static getStats = async () => backendFetch('static/stats/');
 
@@ -99,7 +98,7 @@ export default class Backend {
 
   static getCommentCountForAddress = async (address) => backendFetch(`comment/count/author/${address}`);
 
-  static getTipPreviewUrl = (previewLink) => `${BACKEND_URL}${previewLink}`;
+  static getTipPreviewUrl = (previewLink) => `${process.env.VUE_APP_BACKEND_URL}${previewLink}`;
 
   static getCommentById = async (id) => backendFetch(`comment/api/${id}`);
 

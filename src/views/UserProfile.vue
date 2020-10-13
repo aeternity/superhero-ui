@@ -199,7 +199,7 @@
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
-import { BACKEND_URL, EXPLORER_URL } from '../config/constants';
+import { EXPLORER_URL } from '../config/constants';
 import { atomsToAe } from '../utils';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import { client } from '../utils/aeternity';
@@ -236,7 +236,7 @@ export default {
         coverImage: '',
       },
       balance: '',
-      BACKEND_URL,
+      BACKEND_URL: process.env.VUE_APP_BACKEND_URL,
     };
   },
   computed: {

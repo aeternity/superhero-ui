@@ -3,6 +3,7 @@ import './styles/base.scss';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { sync } from 'vuex-router-sync';
+import { defer } from 'lodash-es';
 import App from './App.vue';
 import store from './store';
 import router from './router';
@@ -12,6 +13,20 @@ import registerModals from './views/modals';
 Vue.use(VueRouter);
 
 Vue.config.productionTip = false;
+
+Vue.prototype.$watchUntilTruly = function watchUntilTruly(getter) {
+  return new Promise((resolve) => {
+    const unwatch = this.$watch(
+      getter,
+      (value) => {
+        if (!value) return;
+        resolve();
+        defer(() => unwatch());
+      },
+      { immediate: true },
+    );
+  });
+};
 
 registerModals();
 sync(store, router);

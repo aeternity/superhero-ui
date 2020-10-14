@@ -60,22 +60,7 @@ export default {
     return {
       isPlaying: false,
       scApiUrl: 'https://w.soundcloud.com/player/',
-      color: 'color=%231d1e27',
-      autoplay: 'auto_play=true',
-      related: 'hide_related=true',
-      comments: 'show_comments=false',
-      showUser: 'show_user=false',
-      reposts: 'show_reposts=false',
-      teaser: 'show_teaser=false',
     };
-  },
-  computed: {
-    playParams() {
-      return `&${this.color}&${this.autoplay}&${this.related}&${this.comments}&${this.showUser}&${this.reposts}&${this.teaser}`;
-    },
-    playUrl() {
-      return `${this.scApiUrl}?url=${this.tip.url}${this.playParams}`;
-    },
   },
   mounted() {
     this.loadScript(`${this.scApiUrl}api.js`);
@@ -93,7 +78,6 @@ export default {
       script.type = 'text/javascript';
       script.src = url;
       document.getElementsByTagName('body')[0].appendChild(script);
-      console.log('SoundCLoud Script LOADED');
     },
   },
 };

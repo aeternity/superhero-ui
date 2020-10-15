@@ -61,12 +61,11 @@ import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.aes';
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
-import { client, createOrChangeAllowance } from '@/utils/aeternity';
-import util from '@/utils/util';
-import { EventBus } from '@/utils/eventBus';
 import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
-import { WORD_REGISTRY_ADDRESS } from '@/config/constants';
+import { client, createOrChangeAllowance } from '../utils/aeternity';
+import { shiftDecimalPlaces } from '../utils';
+import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'WordBazaar',
@@ -88,7 +87,8 @@ export default {
   methods: {
     async updateWords() {
       this.wordRegistry = this.wordRegistry ? this.wordRegistry : await client
-        .getContractInstance(WORD_REGISTRY_CONTRACT, { contractAddress: WORD_REGISTRY_ADDRESS });
+        .getContractInstance(WORD_REGISTRY_CONTRACT,
+          { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS });
       this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
       const token = this.wordRegistryState.tokens
         .find(([word]) => word === this.$route.params.word);
@@ -97,7 +97,7 @@ export default {
     async selectWord(word, sale) {
       this.selectedWordContract = this.selectedWordContract ? this.selectedWordContract
         : await client.getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: sale });
-      this.spread = util.shiftDecimalPlaces(
+      this.spread = shiftDecimalPlaces(
         (await this.selectedWordContract.methods.spread()).decodedResult, -18,
       ).toFixed();
       this.votes = await Promise.all((await this.selectedWordContract.methods.votes()).decodedResult

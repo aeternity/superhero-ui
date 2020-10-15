@@ -1,21 +1,16 @@
 <template>
-  <div>
-    <div
-      v-for="(part, id) in splitByTopics"
-      :key="id"
-      class="title"
-    >
+  <div class="tip-title">
+    <template v-for="(part, id) in splitByTopics">
       <Topic
         v-if="part.matches"
+        :key="id"
         :topic="part.text"
+        @click.native.stop
       />
-      <span
-        v-else
-        @click="goToTip(tip.id)"
-      >
+      <template v-else>
         {{ part.text }}
-      </span>
-    </div>
+      </template>
+    </template>
   </div>
 </template>
 
@@ -26,30 +21,15 @@ import Topic from './Topic.vue';
 export default {
   components: { Topic },
   props: {
-    tip: { type: Object, required: true },
-    goToTip: { type: Function, required: true },
+    tipTitle: { type: String, required: true },
   },
   computed: {
     splitByTopics() {
-      return this.tip.title.split(topicsRegex).map((part) => {
-        const matches = topicsRegex.test(part);
-
-        return {
-          text: part,
-          matches,
-        };
-      });
+      return this.tipTitle.split(topicsRegex).map((text) => ({
+        text,
+        matches: topicsRegex.test(text),
+      }));
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .title {
-    display: inline;
-
-    .topiclink {
-      color: $custom_links_color;
-    }
-  }
-</style>

@@ -27,15 +27,7 @@
           </ThreeDotsMenu>
         </AuthorAndDate>
       </div>
-      <div
-        class="tip__note pr-2"
-        @click.stop
-      >
-        <TipTitle
-          :tip="tip"
-          :go-to-tip="goToTip"
-        />
-      </div>
+      <TipTitle :tip-title="tip.title" />
       <div
         v-if="isPreviewToBeVisualized(tip)"
         class="tip__article"
@@ -313,7 +305,7 @@ export default {
     }
   }
 
-  .tip__note {
+  .tip-title {
     @include truncate-overflow-mx(4);
 
     color: $tip_note_color;
@@ -321,14 +313,7 @@ export default {
     line-height: 1.1rem;
     margin-bottom: 0.8rem;
     padding-left: 1rem;
-
-    ::v-deep .title .topic {
-      color: $standard_font_color;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
+    padding-right: 0.5rem;
   }
 
   .retip__icon {
@@ -517,14 +502,14 @@ export default {
       right: -50%;
     }
 
-    .tip__note,
+    .tip-title,
     .tip__article .tip__article__content {
       font-size: 0.75rem;
     }
   }
 
   @media only screen and (max-width: 600px) {
-    .tip__note {
+    .tip-title {
       font-size: 0.75rem;
     }
 
@@ -581,7 +566,7 @@ export default {
       }
     }
 
-    .tip__note {
+    .tip-title {
       padding: 0;
     }
 

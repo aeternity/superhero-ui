@@ -3,7 +3,7 @@
     class="topic"
     :to="{ name: 'tips-search', params: { query: topic } }"
   >
-    {{ topic }}
+    <template>{{ topic }}</template>
   </RouterLink>
 </template>
 
@@ -16,11 +16,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .topic {
-    color: $custom_links_color;
+.topic {
+  color: $standard_font_color;
 
-    &:hover {
-      cursor: pointer;
-    }
+  &:hover {
+    text-decoration: underline;
   }
+}
 </style>

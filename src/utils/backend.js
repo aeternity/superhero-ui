@@ -25,7 +25,7 @@ const backendFetch = (path, ...args) => wrapTry(
   fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err)),
 );
 
-const backendFetchNoTimeout = (path, ...args) => fetch(`${BACKEND_URL}/${path}`, ...args)
+const backendFetchNoTimeout = (path, ...args) => fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args)
   .catch((err) => console.error(err));
 
 export default class Backend {

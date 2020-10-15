@@ -79,7 +79,4 @@ export default {
   setSdk(state, sdk) {
     state.sdk = sdk;
   },
-  setShowUserCardTag(state, showUserCardTag) {
-    state.showUserCardTag = showUserCardTag;
-  },
 };

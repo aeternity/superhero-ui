@@ -1,15 +1,17 @@
 <template>
-  <div class="author-and-date">
-    <UserCard
-      v-if="hover && isActive"
-      :address="address"
-      @mouseover="mouseover"
-      @mouseleave="mouseleave"
-    />
-    <div
-      class="author-and-date-info"
-      @click.stop
-    >
+  <div
+    class="author-and-date"
+    @click.stop
+  >
+    <Transition name="fade">
+      <UserCard
+        v-if="hover"
+        :address="address"
+        @mouseover.native="hover = true"
+        @mouseleave.native="hover = false"
+      />
+    </Transition>
+    <div class="info">
       <RouterLink
         :to="{
           name: 'user-profile',
@@ -20,15 +22,12 @@
       >
         <Avatar
           :address="address"
-          @mouseover.native="mouseover"
-          @mouseleave.native="mouseleave"
+          @mouseover.native="hover = true"
+          @mouseleave.native="hover = false"
         />
         <div class="author-name">
-          <span
-            v-if="name"
-            class="chain-name"
-          >
-            {{ name }}
+          <span class="chain-name">
+            {{ name ? name : $t('FellowSuperhero') }}
           </span>
           <span class="address">
             {{ address }}
@@ -44,7 +43,6 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 import UserCard from '../UserCard.vue';
@@ -58,96 +56,85 @@ export default {
   props: {
     address: { type: String, required: true },
     name: { type: String, default: '' },
-    parrent: { type: String, default: '' },
   },
-  data() {
-    return {
-      hover: false,
-      timeout: null,
-    };
-  },
-  computed: {
-    ...mapState(['showUserCardTag']),
-    currentUserInfo() {
-      return this.address + this.parrent;
-    },
-    isActive() {
-      return this.currentUserInfo === this.showUserCardTag;
-    },
-  },
-  methods: {
-    ...mapMutations(['setShowUserCardTag']),
-    mouseover() {
-      this.setShowUserCardTag(this.currentUserInfo);
-      this.hover = true;
-      clearTimeout(this.timeout);
-    },
-    mouseleave() {
-      this.timeout = setTimeout(() => { this.hover = false; }, 500);
-    },
-  },
+  data: () => ({ hover: false }),
 };
 </script>
 
 <style lang="scss" scoped>
-.author-and-date-info {
-  align-items: center;
-  color: $light_font_color;
-  display: flex;
-  font-size: 0.8rem;
-  justify-content: space-between;
-  padding: 0 1rem 0.9rem 1rem;
+.author-and-date {
+  position: relative;
 
-  .right {
-    font-size: 0.65rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-  }
-
-  .address {
-    font-size: 0.65rem;
-  }
-
-  .address,
-  .chain-name {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-    word-break: break-all;
-  }
-
-  .avatar {
-    margin-right: 0.25rem;
-  }
-
-  a {
+  .info {
+    align-items: center;
     color: $light_font_color;
     display: flex;
-    margin-right: 1rem;
-    overflow: hidden;
+    font-size: 0.8rem;
+    justify-content: space-between;
+    padding: 0 1rem 0.9rem 1rem;
 
-    &:hover {
-      filter: brightness(1.3);
+    .right {
+      font-size: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .address {
+      font-size: 0.65rem;
+    }
+
+    .address,
+    .chain-name {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+      word-break: break-all;
+    }
+
+    .avatar {
+      margin-right: 0.25rem;
+    }
+
+    a {
+      color: $light_font_color;
+      display: flex;
+      margin-right: 1rem;
+      overflow: hidden;
+
+      &:hover {
+        filter: brightness(1.3);
+      }
+    }
+
+    .chain-name {
+      color: #fff;
+    }
+
+    .author-name {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
     }
   }
 
-  .chain-name {
-    color: #fff;
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s;
   }
 
-  .author-name {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
+  .fade-enter-to,
+  .fade-leave-to {
+    transition-delay: 0.5s;
   }
-}
 
-.author-and-date {
-  position: relative;
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
 }
 </style>

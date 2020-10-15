@@ -32,7 +32,6 @@ export default new Vuex.Store({
     useSdkWallet: false,
     useIframeWallet: false,
     sdk: null,
-    showUserCardTag: null,
   },
   mutations,
   actions: {

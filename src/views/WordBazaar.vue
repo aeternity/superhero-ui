@@ -62,14 +62,13 @@
 import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.aes';
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
-import { client } from '@/utils/aeternity';
-import backend from '@/utils/backend';
 import { mapState } from 'vuex';
-import WordListing from '@/components/WordListing.vue';
-import Loading from '@/components/Loading.vue';
-import OutlinedButton from '@/components/OutlinedButton.vue';
-import { EventBus } from '@/utils/eventBus';
-import { WORD_REGISTRY_ADDRESS } from '@/config/constants';
+import { client } from '../utils/aeternity';
+import backend from '../utils/backend';
+import WordListing from '../components/WordListing.vue';
+import Loading from '../components/Loading.vue';
+import OutlinedButton from '../components/OutlinedButton.vue';
+import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'WordBazaar',
@@ -101,7 +100,8 @@ export default {
     async updateWords() {
       this.loadingState = true;
       this.wordRegistry = await client
-        .getContractInstance(WORD_REGISTRY_CONTRACT, { contractAddress: WORD_REGISTRY_ADDRESS });
+        .getContractInstance(WORD_REGISTRY_CONTRACT,
+          { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS });
       this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
       this.loadingState = false;
       this.newWord = '';

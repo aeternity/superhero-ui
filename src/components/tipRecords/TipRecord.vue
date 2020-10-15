@@ -27,15 +27,7 @@
           </ThreeDotsMenu>
         </AuthorAndDate>
       </div>
-      <div
-        class="tip__note pr-2"
-        @click.stop
-      >
-        <TipTitle
-          :tip="tip"
-          :go-to-tip="goToTip"
-        />
-      </div>
+      <TipTitle :tip-title="tip.title" />
       <div
         v-if="isPreviewToBeVisualized(tip)"
         class="tip__article"
@@ -83,31 +75,34 @@
           >
         </div>
       </div>
-      <div
-        v-else
-        class="tip__article"
-      >
-        <div class="tip__article__content">
-          <div
-            class="site__url"
+      <div v-else>
+        <template v-if="tip.url">
+          <a
+            :href="tip.url"
             :title="tip.url"
-          >
-            <a
-              class="text-ellipsis"
-              target="_blank"
-              :href="tip.url"
-              @click.stop
-            >
-              <ExternalLink />
-              <span class="text-ellipsis">{{ tip.url }}</span>
-            </a>
-          </div>
-          <div
-            class="tip__amount"
+            class="text-ellipsis"
+            target="_blank"
             @click.stop
           >
-            <TipInput :tip="tip" />
-          </div>
+            {{ tip.url }}
+          </a>
+        </template>
+        <div
+          v-if="tip.receiver"
+          class="tip__author"
+          :title="tip.receiver"
+          @click.stop
+        >
+          <TipInput :tip="tip" />
+          <RouterLink :to="{ name: 'user-profile', params: { address: tip.receiver } }">
+            <Avatar :address="tip.receiver" />
+            <div class="tip__author_name">
+              <span class="chain__name">
+                {{ tip.chainName }}
+              </span>
+              <span class="address">{{ tip.receiver }}</span>
+            </div>
+          </RouterLink>
         </div>
       </div>
       <div class="tip__footer">
@@ -242,6 +237,67 @@ export default {
   .tip__body {
     padding-top: 1rem;
     width: 100%;
+  }
+
+  .tip__author {
+    align-items: center;
+    color: $light_font_color;
+    display: flex;
+    font-size: 0.8rem;
+    justify-content: space-between;
+    padding: 0 1rem 0.9rem 1rem;
+
+    .tip__date {
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .three-dots {
+        font-size: 0.75rem;
+        margin-left: 0.3rem;
+      }
+    }
+
+    .address {
+      font-size: 0.65rem;
+    }
+
+    .address,
+    .chain__name {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+      word-break: break-all;
+    }
+
+    img.user-identicon,
+    img.preview__image,
+    svg {
+      border-radius: 50%;
+      flex-shrink: 0;
+      height: 2rem;
+      margin-right: 0.25rem;
+      object-fit: cover;
+      width: 2rem;
+    }
+
+    a {
+      color: $light_font_color;
+      display: flex;
+      margin-right: 1rem;
+      overflow: hidden;
+
+      &:hover {
+        filter: brightness(1.3);
+      }
+    }
+
+    .chain__name {
+      color: #fff;
+    }
 
     .tip__description .author-and-date .date .three-dots {
       font-size: 0.75rem;
@@ -249,7 +305,7 @@ export default {
     }
   }
 
-  .tip__note {
+  .tip-title {
     @include truncate-overflow-mx(4);
 
     color: $tip_note_color;
@@ -257,14 +313,7 @@ export default {
     line-height: 1.1rem;
     margin-bottom: 0.8rem;
     padding-left: 1rem;
-
-    ::v-deep .title .topic {
-      color: $standard_font_color;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
+    padding-right: 0.5rem;
   }
 
   .retip__icon {
@@ -453,14 +502,14 @@ export default {
       right: -50%;
     }
 
-    .tip__note,
+    .tip-title,
     .tip__article .tip__article__content {
       font-size: 0.75rem;
     }
   }
 
   @media only screen and (max-width: 600px) {
-    .tip__note {
+    .tip-title {
       font-size: 0.75rem;
     }
 
@@ -517,7 +566,7 @@ export default {
       }
     }
 
-    .tip__note {
+    .tip-title {
       padding: 0;
     }
 

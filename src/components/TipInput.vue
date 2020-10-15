@@ -9,11 +9,20 @@
     >
       <img :src="iconTip">
       <template v-if="!userAddress">
-        &nbsp;<AeAmountFiat :amount="tipUrlStats.amount" />
+        <AeAmountFiat
+          v-if="!isTokenAndZeroAeTip"
+          :amount="tip ? tipUrlStats.amount_ae || tip.total_amount_ae : '0'"
+        />
+        <AeAmountFiat
+          v-for="tokenTip in tipUrlStats.token_total_amount || tip.token_total_amount"
+          :key="tokenTip.token"
+          :amount="tokenTip.amount"
+          :token="tokenTip.token"
+        />
       </template>
     </Component>
     <Modal
-      v-if="showModal"
+      v-if="showModal && tip.url"
       @close="hideModal"
     >
       <Loading v-if="showLoading" />
@@ -36,7 +45,10 @@
             >
           </div>
           <div class="not-bootstrap-row">
-            <AeInputAmount v-model="value" />
+            <AeInputAmount
+              v-model="inputValue"
+              :select-token-f="(token) => inputToken = token"
+            />
             <AeButton :disabled="!isValid">
               {{ tip ? $t('retip') : $t('tip') }}
             </AeButton>
@@ -49,13 +61,14 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import BigNumber from 'bignumber.js';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
 import { tip, retip } from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import util, { createDeepLinkUrl } from '../utils/util';
+import { createDeepLinkUrl, shiftDecimalPlaces } from '../utils';
 import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
@@ -76,14 +89,15 @@ export default {
     comment: { type: Object, default: null },
   },
   data: () => ({
-    value: 0,
+    inputValue: 0,
+    inputToken: 'native',
     showModal: false,
     showLoading: false,
     error: false,
     message: '',
   }),
   computed: {
-    ...mapState(['useSdkWallet', 'address']),
+    ...mapState(['useSdkWallet', 'address', 'tokenInfo']),
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
@@ -91,10 +105,19 @@ export default {
         if (!urlStats) return {};
         return {
           isTipped: urlStats.senders.includes(this.address),
-          amount: urlStats.total_amount,
+          amount_ae: urlStats.total_amount_ae,
+          token_total_amount: urlStats.token_total_amount,
         };
       },
     }),
+    isTokenAndZeroAeTip() {
+      return new BigNumber(this.tipUrlStats.amount_ae || '0').isZero()
+        && new BigNumber(this.tip.total_amount_ae).isZero()
+        && !!this.tip.token;
+    },
+    isTokenTipable() {
+      return this.tip.id.split('_')[1] === 'v2';
+    },
     tipUrl() {
       if (this.comment) {
         return `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
@@ -109,7 +132,7 @@ export default {
         ? { type: 'retip', id: this.tip.id } : { type: 'tip', url: this.tipUrl });
     },
     isValid() {
-      return (this.tip || this.message.trim().length > 0) && this.value > this.minTipAmount;
+      return (this.tip || this.message.trim().length > 0) && this.inputValue > this.minTipAmount;
     },
     iconTip() {
       if (this.userAddress) return iconTipUser;
@@ -128,9 +151,15 @@ export default {
       if (!this.isValid) return;
       this.showLoading = true;
       try {
-        const amount = util.aeToAtoms(this.value);
-        if (this.tip) await retip(this.tip.id, amount);
-        else await tip(this.tipUrl, this.message, amount);
+        const amount = shiftDecimalPlaces(this.inputValue,
+          this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
+
+        if (this.tipUrl !== this.tip.url) {
+          await tip(this.tipUrl, this.message, amount, this.inputToken);
+        } else {
+          await retip(this.tip.contractId, this.tip.id, amount, this.inputToken);
+        }
+
         if (!this.userAddress) {
           await Backend.cacheInvalidateTips();
           EventBus.$emit('reloadData');
@@ -146,8 +175,9 @@ export default {
     hideModal() {
       this.showModal = false;
       this.message = '';
-      this.value = 0;
+      this.inputValue = 0;
       this.error = false;
+      this.inputToken = 'native';
     },
   },
 };

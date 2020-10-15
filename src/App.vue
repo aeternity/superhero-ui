@@ -34,10 +34,12 @@
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
-import { client, initClient, scanForWallets } from './utils/aeternity';
+import {
+  client, initClient, scanForWallets, tokenBalance,
+} from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
-import Util, { IS_MOBILE_DEVICE, supportedBrowsers } from './utils/util';
+import { IS_MOBILE_DEVICE, supportedBrowsers, atomsToAe } from './utils';
 import MobileNavigation from './components/layout/MobileNavigation.vue';
 import LeftSection from './components/layout/LeftSection.vue';
 import RightSection from './components/layout/RightSection.vue';
@@ -66,25 +68,27 @@ export default {
     ...mapMutations([
       'setLoggedInAccount', 'updateTopics', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet', 'setPinnedItems',
+      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
+      'setPinnedItems',
     ]),
     async reloadData() {
       // await fetch
       const [
-        chainNames, oracleState, topics, verifiedUrls, graylistedUrls,
+        chainNames, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
       ] = await Promise.all([
         Backend.getCacheChainNames(),
         Backend.getOracleCache(),
         Backend.getTopicsCache(),
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
+        Backend.getTokenInfo(),
         this.$store.dispatch('backend/reloadStats'),
         this.$store.dispatch('backend/reloadPrices'),
       ]);
 
       if (this.address) {
         const balance = await client.balance(this.address).catch(() => 0);
-        this.updateBalance(Util.atomsToAe(balance).toFixed(2));
+        this.updateBalance(atomsToAe(balance).toFixed(2));
       }
 
       // async fetch
@@ -93,6 +97,8 @@ export default {
       this.setOracleState(oracleState);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
+      this.setTokenInfo(tokenInfo);
+      if (this.address) this.loadTokenBalances(this.address);
     },
     async fetchUserData() {
       await Promise.all([
@@ -121,10 +127,19 @@ export default {
       const balance = await client.balance(address).catch(() => 0);
       this.setLoggedInAccount({
         address,
-        balance: Util.atomsToAe(balance).toFixed(2),
+        balance: atomsToAe(balance).toFixed(2),
       });
+
+      // trigger run async in background
+      this.loadTokenBalances(address);
+
       this.fetchUserData();
       this.removeLoading('wallet');
+    },
+    async loadTokenBalances(address) {
+      const tokens = await Backend.getTokenBalances(address);
+      await Promise.all(Object.entries(tokens).map(async ([token]) => this
+        .addTokenBalance({ token, balance: await tokenBalance(token, address) })));
     },
   },
 };

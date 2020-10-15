@@ -33,11 +33,11 @@ export const resetState = () => {
 
 export default (reducerLoad, reducerSave) => (store) => {
   let resetting = false;
-  let lastEmitedState = reducerLoad(getState(), store);
-  store.commit('syncState', lastEmitedState);
+  let lastEmittedState = reducerLoad(getState(), store);
+  store.commit('syncState', lastEmittedState);
 
   store.subscribe(({ type, payload }, state) => {
-    if (resetting || (type === 'syncState' && payload === lastEmitedState)) return;
+    if (resetting || (type === 'syncState' && payload === lastEmittedState)) return;
     setState(reducerSave(state));
   });
 
@@ -51,7 +51,7 @@ export default (reducerLoad, reducerSave) => (store) => {
   });
 
   window.addEventListener('storage', () => {
-    lastEmitedState = reducerLoad(getState());
-    store.commit('syncState', lastEmitedState);
+    lastEmittedState = reducerLoad(getState());
+    store.commit('syncState', lastEmittedState);
   });
 };

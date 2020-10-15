@@ -27,9 +27,26 @@
           :options="currencyDropdownOptions"
           :method="updateCurrency"
           :selected="selectedCurrency"
+          rounded
         />
       </div>
+
+      <template v-if="hasContractV2Address">
+        <AeAmount
+          v-for="tokenBalance in tokenBalances"
+          :key="tokenBalance.token"
+          class="not-bootstrap-row"
+          :amount="tokenBalance.balance"
+          :token="tokenBalance.token"
+        />
+      </template>
     </template>
+    <OutlinedButton
+      v-else
+      @click="enableIframeWallet"
+    >
+      {{ $t('components.layout.FooterSection.LoginWithWallet') }}
+    </OutlinedButton>
   </div>
 </template>
 
@@ -39,16 +56,20 @@ import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
 import Dropdown from '../Dropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
+import OutlinedButton from '../OutlinedButton.vue';
 
 export default {
-  components: { RightSectionTitle, AeAmount, Dropdown },
+  components: {
+    RightSectionTitle, AeAmount, Dropdown, OutlinedButton,
+  },
   props: { closed: Boolean },
   data: () => ({
     walletUrl: process.env.VUE_APP_WALLET_URL,
+    hasContractV2Address: !!process.env.VUE_APP_CONTRACT_V2_ADDRESS,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency']),
+    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency', 'tokenBalances']),
     ...mapState({
       currencyDropdownOptions({ backend: { prices }, balance }) {
         return Object.entries(prices).map(([currency, price]) => ({
@@ -61,7 +82,7 @@ export default {
       },
     }),
   },
-  methods: mapMutations(['updateCurrency']),
+  methods: mapMutations(['updateCurrency', 'enableIframeWallet']),
 };
 </script>
 

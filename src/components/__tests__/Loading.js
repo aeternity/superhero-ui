@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import Loading from '@/components/Loading.vue';
+import Loading from '../Loading.vue';
 
 describe('Loading', () => {
   it('is visible', () => {

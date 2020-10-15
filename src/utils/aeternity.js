@@ -5,21 +5,32 @@ import {
 } from '@aeternity/aepp-sdk/es';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
-import { CONTRACT_ADDRESS, COMPILER_URL, NODE_URL } from '@/config/constants';
-import TIPPING_INTERFACE from '../contracts/TippingInterface.aes';
+import TIPPING_V1_INTERFACE from 'tipping-contract/Tipping_v1_Interface.aes';
+import TIPPING_V2_INTERFACE from 'tipping-contract/Tipping_v2_Interface.aes';
+import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
+import { BigNumber } from 'bignumber.js';
+import { COMPILER_URL, NODE_URL } from '../config/constants';
 import { EventBus } from './eventBus';
 import store from '../store';
-import { IS_MOBILE_DEVICE } from './util';
+import { IS_MOBILE_DEVICE } from './index';
 
-let contract;
+let contractV1;
+let contractV2;
 
 export let client; // eslint-disable-line import/no-mutable-exports
 
 const initTippingContractIfNeeded = async () => {
   if (!client) throw new Error('Init sdk first');
-  if (contract) return;
-  contract = await client
-    .getContractInstance(TIPPING_INTERFACE, { contractAddress: CONTRACT_ADDRESS });
+  if (!contractV1) {
+    contractV1 = await client.getContractInstance(TIPPING_V1_INTERFACE, {
+      contractAddress: process.env.VUE_APP_CONTRACT_V1_ADDRESS,
+    });
+  }
+  if (!contractV2 && process.env.VUE_APP_CONTRACT_V2_ADDRESS) {
+    contractV2 = await client.getContractInstance(TIPPING_V2_INTERFACE, {
+      contractAddress: process.env.VUE_APP_CONTRACT_V2_ADDRESS,
+    });
+  }
 };
 
 /**
@@ -46,7 +57,6 @@ export const initClient = async () => {
         getCurrentAccount: async () => Cypress.env('publicKey'),
       };
       await initTippingContractIfNeeded();
-      contract.methods.migrate_balance(Cypress.env('publicKey'));
     } else {
       client = await RpcAepp({
         name: 'Superhero',
@@ -70,7 +80,7 @@ export const scanForWallets = async () => {
     connectionInfo: { id: 'spy' },
   });
   const detector = await Detector({ connection: scannerConnection });
-  const webWalletTimeout = setTimeout(() => !IS_MOBILE_DEVICE && store.commit('useIframeWallet'), 2000);
+  const webWalletTimeout = setTimeout(() => !IS_MOBILE_DEVICE && store.commit('enableIframeWallet'), 10000);
 
   return new Promise((resolve) => {
     detector.scan(async ({ newWallet }) => {
@@ -84,12 +94,63 @@ export const scanForWallets = async () => {
   });
 };
 
-export const tip = async (url, title, amount) => {
-  await initTippingContractIfNeeded();
-  return contract.methods.tip(url, title, { amount });
+export const tokenBalance = async (token, address) => {
+  const tokenContract = await client
+    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token });
+
+  const { decodedResult } = await tokenContract.methods.balance(address);
+  return new BigNumber(decodedResult || 0).toFixed();
 };
 
-export const retip = async (id, amount) => {
+const createOrChangeAllowance = async (tokenAddress, amount) => {
+  const tokenContract = await client
+    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
+
+  const { decodedResult } = await tokenContract.methods.allowance({
+    from_account: await client.address(),
+    for_account: process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+  });
+
+  const allowanceAmount = decodedResult !== undefined
+    ? new BigNumber(decodedResult).multipliedBy(-1).plus(amount).toNumber()
+    : amount;
+
+  return tokenContract
+    .methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
+      process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+      allowanceAmount,
+    );
+};
+
+// will always tip to the latest contract
+export const tip = async (url, title, amount, tokenAddress = null) => {
   await initTippingContractIfNeeded();
-  return contract.methods.retip(id, { amount });
+
+  if (tokenAddress && tokenAddress !== 'native') {
+    await createOrChangeAllowance(tokenAddress, amount);
+    return contractV2.methods.tip_token(url, title, tokenAddress, amount);
+  }
+
+  return contractV2
+    ? contractV2.methods.tip(url, title, { amount })
+    : contractV1.methods.tip(url, title, { amount });
+};
+
+export const retip = async (contractAddress, id, amount, tokenAddress = null) => {
+  await initTippingContractIfNeeded();
+
+  if (tokenAddress && tokenAddress !== 'native') {
+    await createOrChangeAllowance(tokenAddress, amount);
+    return contractV2.methods.retip_token(Number(id.split('_')[0]), tokenAddress, amount);
+  }
+
+  if (contractAddress === process.env.VUE_APP_CONTRACT_V1_ADDRESS) {
+    return contractV1.methods.retip(Number(id.split('_')[0]), { amount });
+  }
+
+  if (contractAddress === process.env.VUE_APP_CONTRACT_V2_ADDRESS) {
+    return contractV2.methods.retip(Number(id.split('_')[0]), { amount });
+  }
+
+  return null;
 };

@@ -183,6 +183,7 @@ export default {
   a {
     color: $light_font_color;
     display: inline-block;
+    font-size: 0.8rem;
     font-weight: 600;
     margin-right: 0.5rem;
     padding: 0.5rem;

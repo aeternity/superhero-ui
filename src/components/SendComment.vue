@@ -16,7 +16,7 @@
 
 <script>
 import { EventBus } from '../utils/eventBus';
-import { createDeepLinkUrl, handleUnknownError } from '../utils/util';
+import { createDeepLinkUrl, handleUnknownError } from '../utils';
 import { client } from '../utils/aeternity';
 import MessageInput from './MessageInput.vue';
 import backendAuthMixin from '../utils/backendAuthMixin';
@@ -25,7 +25,7 @@ export default {
   components: { MessageInput },
   mixins: [backendAuthMixin(true)],
   props: {
-    tipId: { type: [Number, String], required: true },
+    tipId: { type: String, required: true },
     parentId: { type: [Number, String], default: undefined },
   },
   data: () => ({
@@ -55,10 +55,10 @@ export default {
           parentId: this.parentId,
         });
         EventBus.$emit('reloadData');
+        this.comment = '';
       } catch (e) {
         if (e.message !== 'Operation rejected by user') handleUnknownError(e);
       } finally {
-        this.comment = '';
         this.setLoading = false;
       }
     },

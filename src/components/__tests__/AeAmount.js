@@ -32,6 +32,9 @@ describe('AeAmount', () => {
   },
   ].forEach((test) => it(test.name, () => {
     const wrapper = shallowMount(AeAmount, {
+      computed: {
+        amountTokenInfo: () => null,
+      },
       propsData: {
         amount: test.amount,
         round: test.round,

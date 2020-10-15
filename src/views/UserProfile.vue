@@ -199,8 +199,8 @@
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
-import { BACKEND_URL, EXPLORER_URL } from '../config/constants';
-import util from '../utils/util';
+import { EXPLORER_URL } from '../config/constants';
+import { atomsToAe } from '../utils';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from '../components/AeAmountFiat.vue';
@@ -236,7 +236,7 @@ export default {
         coverImage: '',
       },
       balance: '',
-      BACKEND_URL,
+      BACKEND_URL: process.env.VUE_APP_BACKEND_URL,
     };
   },
   computed: {
@@ -275,16 +275,16 @@ export default {
         {
           value: this.userStats.tipsLength + this.userStats.retipsLength,
           title: this.$t('views.UserProfileView.TipsSent'),
-          amount: this.userStats.totalTipAmount,
+          amount: this.userStats.totalTipAmountAe,
         },
         {
           title: this.$t('views.UserProfileView.ClaimedAmount'),
-          amount: this.userStats.claimedAmount,
+          amount: this.userStats.claimedAmountAe,
         },
-        {
+        ...this.currentAddress === this.address ? [{
           title: this.$t('views.UserProfileView.UnclaimedAmount'),
-          amount: this.userStats.unclaimedAmount,
-        },
+          amount: this.userStats.unclaimedAmountAe,
+        }] : [],
       ];
     },
     showedStats() {
@@ -321,7 +321,7 @@ export default {
     getBalance() {
       if (client) {
         client.balance(this.address).then((balance) => {
-          this.balance = util.atomsToAe(balance).toFixed(2);
+          this.balance = atomsToAe(balance).toFixed(2);
         }).catch(() => 0);
       } else {
         const that = this;
@@ -603,7 +603,7 @@ input[type="file"] {
 
 .tip_stats {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-auto-flow: column;
 
   .ae-amount-fiat {
     display: block;
@@ -633,6 +633,7 @@ input[type="file"] {
 
   img {
     height: 0.75rem;
+    margin-bottom: 0.15rem;
   }
 }
 
@@ -670,6 +671,8 @@ input[type="file"] {
   display: flex;
   flex-direction: column;
   width: calc(100% - 8.5rem);
+  justify-content: space-between;
+  height: 5.5rem;
 
   .profile__username {
     color: $tip_note_color;
@@ -711,6 +714,7 @@ input[type="file"] {
   .profile__info {
     vertical-align: middle;
     width: calc(100% - 4.5rem);
+    height: 5rem;
 
     .profile__username {
       font-size: 0.55rem;
@@ -731,7 +735,7 @@ input[type="file"] {
   }
 
   .tip_stats {
-    grid-template-columns: auto;
+    grid-auto-flow: row;
     order: 2;
   }
 
@@ -756,6 +760,10 @@ input[type="file"] {
   .profile__header .profile__image .avatar {
     height: 4.5rem;
     width: 4.5rem;
+  }
+
+  .profile__info {
+    height: 4.5rem;
   }
 
   .profile__row {

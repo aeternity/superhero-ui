@@ -13,11 +13,8 @@
     >
       <Avatar :address="address" />
       <div class="author-name">
-        <span
-          v-if="name"
-          class="chain-name"
-        >
-          {{ name }}
+        <span class="chain-name">
+          {{ name ? name : $t('FellowSuperhero') }}
         </span>
         <span class="address">
           {{ address }}
@@ -25,8 +22,8 @@
       </div>
     </RouterLink>
     <span class="right">
-      <FormatDate v-bind="$attrs" />
       <slot />
+      <FormatDate v-bind="$attrs" />
     </span>
   </div>
 </template>
@@ -57,9 +54,10 @@ export default {
   padding: 0 1rem 0.9rem 1rem;
 
   .right {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-end;
     justify-content: center;
   }
 

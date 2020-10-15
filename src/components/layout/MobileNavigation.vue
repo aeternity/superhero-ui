@@ -55,7 +55,7 @@ import { mapState } from 'vuex';
 import Navigation from './Navigation.vue';
 import FooterSection from './FooterSection.vue';
 import SearchInput from './SearchInput.vue';
-import { createDeepLinkUrl } from '../../utils/util';
+import { createDeepLinkUrl } from '../../utils';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
 import IconSearch from '../../assets/iconSearch.svg?icon-component';
 import IconMobileMenu from '../../assets/iconMobileMenu.svg?icon-component';

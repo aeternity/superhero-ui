@@ -14,8 +14,8 @@ module.exports = {
       sass: {
         // Global includes - will be prepended in every scss file (including components)
         prependData: `
-          @import "@/styles/_variables";
-          @import "@/styles/_mixins";
+          @import "${path.resolve(__dirname, 'src/styles/_variables.scss')}";
+          @import "${path.resolve(__dirname, 'src/styles/_mixins.scss')}";
         `,
       },
     },
@@ -66,6 +66,7 @@ module.exports = {
         return [definitions];
       })
       .end()
+      .resolve.alias.delete('@').parent.parent
       .module
       .rule('aes')
       .test(/\.aes$/)

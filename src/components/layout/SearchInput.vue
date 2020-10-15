@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { debounce } from 'lodash-es';
+
 export default {
   props: {
     sided: { type: Boolean },
@@ -45,11 +47,11 @@ export default {
       get() {
         return this.$route.params.query || '';
       },
-      set(query) {
+      set: debounce(function set(query) {
         this.$router[this.$route.name.startsWith('tips') ? 'replace' : 'push']({
           name: query ? 'tips-search' : 'tips', params: { query },
         });
-      },
+      }, 300),
     },
   },
 };

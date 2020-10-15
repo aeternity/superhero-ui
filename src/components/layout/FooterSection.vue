@@ -58,10 +58,7 @@
       v-if="!isLoggedIn"
       class="login-footer"
     >
-      <OutlinedButton
-        :to="addressDeepLink"
-        :title="$t('components.layout.FooterSection.LoginWithWallet')"
-      >
+      <OutlinedButton :to="addressDeepLink">
         {{ $t('components.layout.FooterSection.LoginWithWallet') }}
       </OutlinedButton>
     </div>
@@ -70,7 +67,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { createDeepLinkUrl } from '../../utils/util';
+import { createDeepLinkUrl } from '../../utils';
 import OutlinedButton from '../OutlinedButton.vue';
 
 export default {

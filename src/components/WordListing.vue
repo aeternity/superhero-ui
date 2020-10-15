@@ -137,16 +137,16 @@
 <script>
 import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
-import { client, createOrChangeAllowance } from '@/utils/aeternity';
-import backend from '@/utils/backend';
-import util from '@/utils/util';
-import { EventBus } from '@/utils/eventBus';
 import { mapState } from 'vuex';
-import AeAmount from '@/components/AeAmount.vue';
-import Loading from '@/components/Loading.vue';
-import OutlinedButton from '@/components/OutlinedButton.vue';
-import Modal from '@/components/Modal.vue';
-import AeAmountFiat from '@/components/AeAmountFiat.vue';
+import { client, createOrChangeAllowance } from '../utils/aeternity';
+import backend from '../utils/backend';
+import { EventBus } from '../utils/eventBus';
+import AeAmount from './AeAmount.vue';
+import Loading from './Loading.vue';
+import OutlinedButton from './OutlinedButton.vue';
+import Modal from './Modal.vue';
+import AeAmountFiat from './AeAmountFiat.vue';
+import { shiftDecimalPlaces } from '../utils';
 
 export default {
   name: 'WordListing',
@@ -194,7 +194,7 @@ export default {
 
       this.contract = this.contract ? this.contract : await client
         .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.sale });
-      this.spread = util.shiftDecimalPlaces(
+      this.spread = shiftDecimalPlaces(
         (await this.contract.methods.spread()).decodedResult, -18,
       ).toFixed();
 
@@ -217,7 +217,7 @@ export default {
     async buy() {
       this.loading = true;
       await this.contract.methods
-        .buy({ amount: util.shiftDecimalPlaces(this.buyAmount, 18).toFixed() });
+        .buy({ amount: shiftDecimalPlaces(this.buyAmount, 18).toFixed() });
       const token = (await this.contract.methods.get_token()).decodedResult;
       await backend.invalidateTokenCache(token);
       EventBus.$emit('reloadData');
@@ -225,7 +225,7 @@ export default {
     },
     async sell() {
       this.loading = true;
-      const amount = util.shiftDecimalPlaces(this.sellAmount, 18).toFixed();
+      const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
       const token = (await this.contract.methods.get_token()).decodedResult;
       await createOrChangeAllowance(token, amount,
         this.contract.deployInfo.address.replace('ct_', 'ak_'));

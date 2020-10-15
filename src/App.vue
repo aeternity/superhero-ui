@@ -34,7 +34,9 @@
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
 import { detect } from 'detect-browser';
-import { client, initClient, scanForWallets } from './utils/aeternity';
+import {
+  client, initClient, scanForWallets, tokenBalance,
+} from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import { IS_MOBILE_DEVICE, supportedBrowsers, atomsToAe } from './utils';
@@ -66,18 +68,20 @@ export default {
     ...mapMutations([
       'setLoggedInAccount', 'updateTopics', 'updateCurrencyRates',
       'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setVerifiedUrls', 'useSdkWallet', 'setPinnedItems',
+      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
+      'setPinnedItems',
     ]),
     async reloadData() {
       // await fetch
       const [
-        chainNames, oracleState, topics, verifiedUrls, graylistedUrls,
+        chainNames, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
       ] = await Promise.all([
         Backend.getCacheChainNames(),
         Backend.getOracleCache(),
         Backend.getTopicsCache(),
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
+        Backend.getTokenInfo(),
         this.$store.dispatch('backend/reloadStats'),
         this.$store.dispatch('backend/reloadPrices'),
       ]);
@@ -93,6 +97,8 @@ export default {
       this.setOracleState(oracleState);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
+      this.setTokenInfo(tokenInfo);
+      if (this.address) this.loadTokenBalances(this.address);
     },
     async fetchUserData() {
       await Promise.all([
@@ -123,8 +129,17 @@ export default {
         address,
         balance: atomsToAe(balance).toFixed(2),
       });
+
+      // trigger run async in background
+      this.loadTokenBalances(address);
+
       this.fetchUserData();
       this.removeLoading('wallet');
+    },
+    async loadTokenBalances(address) {
+      const tokens = await Backend.getTokenBalances(address);
+      await Promise.all(Object.entries(tokens).map(async ([token]) => this
+        .addTokenBalance({ token, balance: await tokenBalance(token, address) })));
     },
   },
 };

@@ -19,12 +19,12 @@
         Total Claimed:
         <AeAmount
           class="mx-2"
-          :amount="blockchainTrace.tip.total_claimed_amount"
+          :amount="blockchainTrace.tip.total_claimed_amount_ae"
         />
         Total Unclaimed:
         <AeAmount
           class="mx-2"
-          :amount="blockchainTrace.tip.total_unclaimed_amount"
+          :amount="blockchainTrace.tip.total_unclaimed_amount_ae"
         />
         Retips:
         <span class="mx-2">
@@ -37,12 +37,12 @@
         Total Claimed:
         <AeAmount
           class="mx-2"
-          :amount="blockchainTrace.url_stats.total_claimed_amount"
+          :amount="blockchainTrace.url_stats.total_claimed_amount_ae"
         />
         Total Unclaimed:
         <AeAmount
           class="mx-2"
-          :amount="blockchainTrace.url_stats.total_unclaimed_amount"
+          :amount="blockchainTrace.url_stats.total_unclaimed_amount_ae"
         />
         Total Tips:
         <span class="mx-2">

@@ -271,25 +271,21 @@ export default {
       return `${this.profile.biography.length}/${this.maxLength}`;
     },
     tipStats() {
-      const tipStats = [
+      return [
         {
           value: this.userStats.tipsLength + this.userStats.retipsLength,
           title: this.$t('views.UserProfileView.TipsSent'),
-          amount: this.userStats.totalTipAmount,
+          amount: this.userStats.totalTipAmountAe,
         },
         {
           title: this.$t('views.UserProfileView.ClaimedAmount'),
-          amount: this.userStats.claimedAmount,
+          amount: this.userStats.claimedAmountAe,
         },
-
-      ];
-      if (this.currentAddress === this.address) {
-        tipStats.push({
+        ...this.currentAddress === this.address ? [{
           title: this.$t('views.UserProfileView.UnclaimedAmount'),
-          amount: this.userStats.unclaimedAmount,
-        });
-      }
-      return tipStats;
+          amount: this.userStats.unclaimedAmountAe,
+        }] : [],
+      ];
     },
     showedStats() {
       return [

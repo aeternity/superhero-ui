@@ -27,8 +27,19 @@
           :options="currencyDropdownOptions"
           :method="updateCurrency"
           :selected="selectedCurrency"
+          rounded
         />
       </div>
+
+      <template v-if="hasContractV2Address">
+        <AeAmount
+          v-for="tokenBalance in tokenBalances"
+          :key="tokenBalance.token"
+          class="not-bootstrap-row"
+          :amount="tokenBalance.balance"
+          :token="tokenBalance.token"
+        />
+      </template>
     </template>
     <OutlinedButton
       v-else
@@ -54,10 +65,11 @@ export default {
   props: { closed: Boolean },
   data: () => ({
     walletUrl: process.env.VUE_APP_WALLET_URL,
+    hasContractV2Address: !!process.env.VUE_APP_CONTRACT_V2_ADDRESS,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency']),
+    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency', 'tokenBalances']),
     ...mapState({
       currencyDropdownOptions({ backend: { prices }, balance }) {
         return Object.entries(prices).map(([currency, price]) => ({

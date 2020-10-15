@@ -39,6 +39,9 @@ export default {
   setGraylistedUrls(state, payload) {
     state.graylistedUrls = payload;
   },
+  setTokenInfo(state, payload) {
+    state.tokenInfo = payload;
+  },
   setVerifiedUrls(state, payload) {
     state.verifiedUrls = payload;
   },
@@ -53,6 +56,11 @@ export default {
   },
   setUserProfile(state, profile) {
     state.profile = profile;
+  },
+  addTokenBalance(state, payload) {
+    state.tokenBalances = [payload, ...state.tokenBalances]
+      .filter((bal, idx, arr) => !arr.slice(0, idx).some((b) => b.token === bal.token))
+      .sort((a, b) => a.token.localeCompare(b.token));
   },
   setPinnedItems(state, pinnedItems) {
     state.pinnedItems = pinnedItems;

@@ -54,9 +54,9 @@ export default {
       scApiUrl: 'https://w.soundcloud.com/player/',
     };
   },
-  mounted() {
-    this.loadScript(`${this.scApiUrl}api.js`);
-  },
+  // mounted() {
+  //   this.loadScript(`${this.scApiUrl}api.js`);
+  // },
   methods: {
     play() {
       this.isPlaying = true;

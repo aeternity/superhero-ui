@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import SoundcloudWidget from 'soundcloud-widget';
+
 export default {
   filters: {
     formatTime: (timestamp) => {
@@ -97,20 +99,21 @@ export default {
     },
   },
   mounted() {
-    this.player = window.SC.Widget(this.$refs.iframe);
-    const soundcloudEvents = window.SC.Widget.Events;
-    this.player.bind(soundcloudEvents.READY, () => {
+    this.player = new SoundcloudWidget(this.$refs.iframe);
+    const soundcloudEvents = SoundcloudWidget.events;
+
+    this.player.on(soundcloudEvents.READY, () => {
       this.loading = false;
       this.player.play();
-      this.player.getDuration((d) => { this.duration = d || 0; });
+      this.player.getDuration().then((d) => { this.duration = d || 0; });
     });
-    this.player.bind(soundcloudEvents.PLAY, () => {
+    this.player.on(soundcloudEvents.PLAY, () => {
       this.isPlaying = true;
     });
-    this.player.bind(soundcloudEvents.PAUSE, () => {
+    this.player.on(soundcloudEvents.PAUSE, () => {
       this.isPlaying = false;
     });
-    this.player.bind(soundcloudEvents.PLAY_PROGRESS, (p) => {
+    this.player.on(soundcloudEvents.PLAY_PROGRESS, (p) => {
       this.progress = p.currentPosition;
       this.position = p.relativePosition * 100;
       if (this.progress >= this.duration * 0.999) {

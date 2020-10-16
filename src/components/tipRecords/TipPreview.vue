@@ -189,7 +189,7 @@ export default {
       }
     },
     tipPreviewDescription() {
-      return this.tip?.preview.title || '';
+      return this.tip?.preview.description || '';
     },
     tipPreviewTitle() {
       return this.tip?.preview.title || '';

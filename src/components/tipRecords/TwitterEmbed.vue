@@ -1,7 +1,7 @@
 <template>
   <div
     class="tip__two-columns-preview"
-    @click="goToTip"
+    @click.stop="goToTip"
   >
     <div class="tip__two-columns-img">
       <img :src="tipPreviewImage">
@@ -41,17 +41,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  img {
-    left: -17.5%;
-  }
+.description {
+  @include truncate-overflow-mx(6);
+}
 
+@media only screen and (max-width: 1024px) {
   .description {
-    @include truncate-overflow-mx(6);
+    @include truncate-overflow-mx(2);
   }
-
-  @media only screen and (max-width: 1024px) {
-    .description {
-      @include truncate-overflow-mx(2);
-    }
-  }
+}
 </style>

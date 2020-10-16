@@ -4,7 +4,7 @@
     @click.stop
   >
     <iframe
-      :id="`sc-player-${tip.id}`"
+      ref="iframe"
       class="soundcloud-iframe"
       :src="playUrl"
     />
@@ -31,7 +31,7 @@
     <div
       ref="soundWave"
       class="sound-wave"
-      @click="mousePosition"
+      @click="seekToPosition"
     >
       <div class="wave-wrapper">
         <img
@@ -40,7 +40,7 @@
         >
         <div
           class="wave-green"
-          :style="{ 'width': `${position}%`, 'background-size': `${1 / position * 10000}% 100%` }"
+          :style="waveProgress"
         />
       </div>
       <div class="wave-wrapper flipped">
@@ -50,21 +50,30 @@
         >
         <div
           class="wave-green"
-          :style="{ 'width': `${position}%`, 'background-size': `${1 / position * 10000}% 100%` }"
+          :style="waveProgress"
         />
       </div>
       <div class="display-time">
-        <span>{{ displayProgress }}</span>
-        <span class="right">{{ displayDuration }}</span>
+        <span>{{ progress | formatTime }}</span>
+        <span class="right">{{ duration | formatTime }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import moment from 'moment';
-
 export default {
+  filters: {
+    formatTime: (timestamp) => {
+      const seconds = Math.floor(timestamp / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const hours = Math.floor(minutes / 60);
+      return [
+        ...hours ? [hours] : [],
+        ...[minutes % 60, seconds % 60].map((t) => t.toString().padStart(2, '0')),
+      ].join(':');
+    },
+  },
   props: {
     tip: { type: Object, required: true },
     scApiUrl: { type: String, required: true },
@@ -83,15 +92,12 @@ export default {
     playUrl() {
       return `${this.scApiUrl}?url=${this.tip.url}`;
     },
-    displayProgress() {
-      return moment.utc(this.progress).format(this.progress < 3600000 ? 'mm:ss' : 'h:mm:ss');
-    },
-    displayDuration() {
-      return moment.utc(this.duration).format(this.duration < 3600000 ? 'mm:ss' : 'h:mm:ss');
+    waveProgress() {
+      return { width: `${this.position}%`, 'background-size': `${(1 / this.position) * 10000}% 100%` };
     },
   },
   mounted() {
-    this.player = window.SC.Widget(document.getElementById(`sc-player-${this.tip.id}`));
+    this.player = window.SC.Widget(this.$refs.iframe);
     const soundcloudEvents = window.SC.Widget.Events;
     this.player.bind(soundcloudEvents.READY, () => {
       this.loading = false;
@@ -116,7 +122,7 @@ export default {
     togglePlay() {
       this.player.toggle();
     },
-    mousePosition(e) {
+    seekToPosition(e) {
       const x = e.pageX;
       const leftOffset = this.$refs.soundWave.getBoundingClientRect().left;
       const width = this.$refs.soundWave.clientWidth;
@@ -129,96 +135,96 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .soundcloud-player {
+.soundcloud-player {
+  display: flex;
+  align-items: center;
+
+  .soundcloud-iframe {
+    display: none;
+  }
+
+  .play {
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    background-color: $article_content_color;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    .play-button {
+      width: 100%;
+      padding: 0.8rem;
+      margin-left: 0.15rem;
+    }
+
+    .pause-button {
+      width: 100%;
+      padding: 0.8rem;
+    }
+
+    .loading {
+      margin: 0.8rem;
+    }
+  }
+
+  .sound-wave {
+    flex-grow: 1;
+    height: 2.5rem;
+    margin-left: 0.5rem;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: left;
+    position: relative;
 
-    .soundcloud-iframe {
-      display: none;
-    }
-
-    .play {
-      height: 2.5rem;
-      width: 2.5rem;
-      margin-left: 0.5rem;
-      margin-top: 0.5rem;
-      cursor: pointer;
-      background-color: $article_content_color;
-      border-radius: 50%;
-      flex-shrink: 0;
-
-      .play-button {
-        width: 100%;
-        padding: 0.8rem;
-        margin-left: 0.15rem;
-      }
-
-      .pause-button {
-        width: 100%;
-        padding: 0.8rem;
-      }
-
-      .loading {
-        margin: 0.8rem;
-      }
-    }
-
-    .sound-wave {
-      flex-grow: 1;
-      height: 2.5rem;
-      margin-left: 0.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: left;
+    .wave-wrapper {
       position: relative;
+      display: inline-block;
 
-      .wave-wrapper {
-        position: relative;
-        display: inline-block;
-
-        .wave-grey {
-          filter: grayscale(100%);
-          width: 100%;
-          height: 100%;
-        }
-
-        .wave-green {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          background-image: url("../../assets/soundWave.svg");
-          background-position: top left;
-          transition: background-image 1s linear;
-        }
-
-        &.flipped {
-          transform: scaleY(-1);
-          opacity: 0.5;
-          height: 50%;
-        }
+      .wave-grey {
+        filter: grayscale(100%);
+        width: 100%;
+        height: 100%;
       }
 
-      .display-time {
+      .wave-green {
         position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background-image: url("../../assets/soundWave.svg");
+        background-position: top left;
+        transition: background-image 1s linear;
+      }
+
+      &.flipped {
+        transform: scaleY(-1);
+        opacity: 0.5;
+        height: 50%;
+      }
+    }
+
+    .display-time {
+      position: absolute;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      bottom: 33%;
+
+      span {
+        font-size: 0.5rem;
+        background-color: $article_content_color;
+        padding: 0 0.1rem;
+        border-radius: 2px;
+      }
+
+      .right {
         display: flex;
-        justify-content: space-between;
-        width: 100%;
-        bottom: 33%;
-
-        span {
-          font-size: 0.5rem;
-          background-color: $article_content_color;
-          padding: 0 0.1rem;
-          border-radius: 2px;
-        }
-
-        .right {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-        }
+        flex-direction: column;
+        align-items: flex-end;
       }
     }
   }
+}
 </style>

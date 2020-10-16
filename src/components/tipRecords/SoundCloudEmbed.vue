@@ -1,45 +1,37 @@
 <template>
   <div
-    class="sound-cloud-player"
+    class="sound-cloud-player tip__two-columns-preview"
   >
-    <div class="tip__two-columns-preview">
-      <div class="tip__two-columns-img">
-        <img :src="tipPreviewImage">
-      </div>
+    <div class="tip__two-columns-img">
+      <img :src="tipPreviewImage">
+    </div>
 
-      <div class="tip__two-columns-info">
-        <div class="source">
-          {{ sourceUrl.toUpperCase() }}
-        </div>
-        <h2
-          class="title text-ellipsis"
-          :title="tipPreviewTitle"
-        >
-          {{ tipPreviewTitle }}
-        </h2>
-        <div
-          class="description"
-          :title="tipPreviewDescription"
-        >
-          {{ tipPreviewDescription }}
-        </div>
-        <div
-          v-if="!isPlaying"
-          class="play"
-          @click.stop="play"
-        >
-          <img
-            class="play-button"
-            src="../../assets/buttonPlay.svg"
-          >
-        </div>
-        <SoundCloudPlayer
-          v-else-if="isPlaying"
-          :tip="tip"
-          :sc-api-url="scApiUrl"
-          @click.stop
-        />
+    <div class="tip__two-columns-info">
+      <div class="source">
+        {{ sourceUrl.toUpperCase() }}
       </div>
+      <h2 class="title text-ellipsis">
+        {{ tipPreviewTitle }}
+      </h2>
+      <div
+        class="description"
+        :title="tipPreviewDescription"
+      >
+        {{ tipPreviewDescription }}
+      </div>
+      <div
+        v-if="!isPlaying"
+        class="play"
+        @click.stop="play"
+      >
+        <img src="../../assets/buttonPlay.svg">
+      </div>
+      <SoundCloudPlayer
+        v-else-if="isPlaying"
+        :tip="tip"
+        :sc-api-url="scApiUrl"
+        @click.stop
+      />
     </div>
   </div>
 </template>
@@ -83,10 +75,9 @@ export default {
 };
 </script>
 
-<style lang="scss">
-  .sound-cloud-player {
-    height: 100%;
-  }
+<style lang="scss" scoped>
+.sound-cloud-player {
+  height: 100%;
 
   .play {
     height: 2.5rem;
@@ -97,14 +88,15 @@ export default {
     background-color: $article_content_color;
     border-radius: 50%;
 
-    .play-button {
+    img {
       width: 100%;
       padding: 0.8rem;
       margin-left: 0.15rem;
     }
   }
+}
 
-  .description {
-    @include truncate-overflow-mx(3);
-  }
+.description {
+  @include truncate-overflow-mx(3);
+}
 </style>

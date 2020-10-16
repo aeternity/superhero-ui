@@ -3,34 +3,19 @@
     class="tip__article"
   >
     <div
-      v-if="isRichPreview(tip)"
+      v-if="richPreviewComponent"
       class="tip__article--hasresults"
     >
       <div class="tip__article__content">
         <div class="tip__embed">
-          <YouTubeEmbed
-            v-if="sourceUrl === 'youtube.com' || sourceUrl === 'youtu.be'"
-            :tip="tip"
-            :tip-preview-title="tipPreviewTitle"
-            :tip-preview-description="tipPreviewDescription"
-            :source-url="sourceUrl"
-          />
-          <TwitterEmbed
-            v-else-if="sourceUrl === 'twitter.com'"
+          <Component
+            :is="richPreviewComponent"
             :tip="tip"
             :tip-preview-title="tipPreviewTitle"
             :tip-preview-description="tipPreviewDescription"
             :tip-preview-image="tipPreviewImage"
             :source-url="sourceUrl"
             :go-to-tip="goToTip"
-          />
-          <SoundCloudEmbed
-            v-else-if="sourceUrl === 'soundcloud.com'"
-            :tip="tip"
-            :tip-preview-title="tipPreviewTitle"
-            :tip-preview-description="tipPreviewDescription"
-            :tip-preview-image="tipPreviewImage"
-            :source-url="sourceUrl"
           />
         </div>
         <div class="tip__links">
@@ -58,7 +43,7 @@
       </div>
     </div>
     <div
-      v-else-if="isPreviewToBeVisualized(tip)"
+      v-else-if="isPreviewToBeVisualized"
       class="tip__article--hasresults"
     >
       <div class="tip__article__content">
@@ -187,7 +172,7 @@ export default {
   },
   props: {
     tip: { type: Object, required: true },
-    goToTip: { type: Function, default: () => {} },
+    goToTip: { type: Function, required: true },
     tipUrl: { type: String, default: '' },
   },
   data() {
@@ -197,258 +182,324 @@ export default {
   },
   computed: {
     sourceUrl() {
-      const matches = this.tip.url.match(/^(https?:\/\/)?(www.)?([^/?#]+)(?:[/?#]|$)/i);
-      return matches ? matches[3] : '';
+      try {
+        return new URL(this.tip.url).hostname;
+      } catch {
+        return '';
+      }
     },
     tipPreviewDescription() {
-      if (!this.isPreviewToBeVisualized(this.tip)) return '';
-
-      return this.tip.preview.description ? this.tip.preview.description : '';
+      return this.tip?.preview.title || '';
     },
     tipPreviewTitle() {
-      if (!this.isPreviewToBeVisualized(this.tip)) return '';
-
-      return this.tip.preview.title ? this.tip.preview.title : '';
+      return this.tip?.preview.title || '';
     },
     tipPreviewImage() {
-      return this.isPreviewToBeVisualized(this.tip) && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
+      return this.isPreviewToBeVisualized && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
     },
-  },
-  methods: {
-    isRichPreview(tip) {
-      const youTubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/(watch|([a-zA-Z0-9_-]{11})).*$/;
-      const twitterRegex = /^(https?:\/\/)?(www\.)?twitter\.com\//;
-      const soundCloudRegex = /^(https?:\/\/)?(www\.)?soundcloud\.com\/[a-zA-Z0-9-_/]*$/;
-      return [
-        youTubeRegex,
-        twitterRegex,
-        soundCloudRegex]
-        .filter((r) => r.test(tip.url)).length > 0;
+    isPreviewToBeVisualized() {
+      return this.tip.preview && (this.tip.preview.description || this.tip.preview.title);
     },
-    isPreviewToBeVisualized(tip) {
-      return typeof tip !== 'undefined' && tip !== null
-        && typeof tip.preview !== 'undefined'
-        && (
-          (tip.preview.description !== null && tip.preview.description.length > 0)
-          || (tip.preview.title !== null && tip.preview.title.length > 0)
-        );
+    richPreviewComponent() {
+      return [{
+        regex: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/(watch|([a-zA-Z0-9_-]{11})).*$/,
+        component: YouTubeEmbed,
+      }, {
+        regex: /^(https?:\/\/)?(www\.)?twitter\.com\//,
+        component: TwitterEmbed,
+      }, {
+        regex: /^(https?:\/\/)?(www\.)?soundcloud\.com\/[a-zA-Z0-9-_/]*$/,
+        component: SoundCloudEmbed,
+      }].find(({ regex }) => regex.test(this.tip.url))?.component;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  .tip__amount {
-    align-items: center;
+.tip__amount {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  height: 1rem;
+  cursor: pointer;
+  position: relative;
+  width: max-content;
+}
+
+.tip__url {
+  margin-left: 1rem;
+  margin-right: 1rem;
+
+  a {
+    font-size: 0.75rem;
+    display: block;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.tip__article {
+  background-color: $buttons_background;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  height: auto;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  padding: 0;
+  position: relative;
+
+  .tip__article__content {
+    color: #babac0;
+    font-size: 0.75rem;
+    height: auto;
+    line-height: 1.1rem;
     display: flex;
-    flex: 0 0 auto;
-    height: 1rem;
-    cursor: pointer;
-    position: relative;
-    width: max-content;
+    flex-direction: column;
+
+    .tip__embed {
+      flex-grow: 1;
+    }
+
+    .tip__links {
+      display: flex;
+      margin-top: 0.5rem;
+
+      .tip__amount {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+
+      .site__url {
+        flex-grow: 1;
+        overflow: hidden;
+      }
+    }
   }
 
-  .tip__url {
-    margin-left: 1rem;
-    margin-right: 1rem;
+  .tip__article--hasresults {
+    display: flex;
+
+    .tip__article__content {
+      flex: 0 0 100%;
+      max-width: 100%;
+      min-width: 100%;
+      width: 100%;
+    }
+  }
+
+  .site__url {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    font-weight: 500;
+    margin-bottom: 0.45rem;
+
+    svg {
+      flex-grow: 0;
+      flex-shrink: 0;
+      margin-right: 0.335rem;
+    }
 
     a {
-      font-size: 0.75rem;
-      display: block;
+      color: $light_font_color;
+      display: inline-flex;
+      height: 1rem;
+      max-width: 100%;
+      align-items: center;
 
       &:hover {
         text-decoration: underline;
+
+        img {
+          filter: brightness(1.3);
+        }
       }
     }
   }
 
-  .tip__article {
-    background-color: $buttons_background;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-    height: auto;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    padding: 0;
-    position: relative;
+  &:hover {
+    background-color: $thumbnail_background_color_alt;
+    cursor: pointer;
 
-    .tip__article__content {
-      color: #babac0;
-      font-size: 0.75rem;
-      height: auto;
-      line-height: 1.1rem;
-      display: flex;
-      flex-direction: column;
-
-      .tip__embed {
-        flex-grow: 1;
-      }
-
-      .tip__links {
-        display: flex;
-        margin-top: 0.5rem;
-
-        .tip__amount {
-          padding-left: 0.5rem;
-          padding-right: 0.5rem;
-        }
-
-        .site__url {
-          flex-grow: 1;
-          overflow: hidden;
-        }
-      }
+    .preview__image {
+      background-color: $thumbnail_background_color_alt;
     }
 
-    .tip__article--hasresults {
-      display: flex;
+    .tip__article__content {
+      color: #c6c6cc;
+    }
+  }
+}
 
-      .tip__article__content {
-        flex: 0 0 100%;
-        max-width: 100%;
-        min-width: 100%;
-        width: 100%;
+@media only screen and (max-width: 1024px) {
+  .tip__article {
+    min-height: 2rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .tip__amount:nth-child(2) .retip__container {
+    left: -50%;
+    right: -50%;
+  }
+
+  .tip__article .tip__article__content {
+    font-size: 0.75rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .tip__article .tip__article__content {
+    font-size: 0.65rem;
+  }
+}
+
+@include smallest {
+  .tip__article {
+    margin-left: 0;
+    max-width: calc(100% + 1rem);
+    width: 100%;
+
+    .tip__article__content {
+      line-height: 1.1rem;
+
+      .description {
+        @include truncate-overflow-mx(5);
       }
     }
 
     .site__url {
-      align-items: center;
-      display: flex;
-      flex-grow: 1;
-      font-weight: 500;
-      margin-bottom: 0.45rem;
-
-      svg {
-        flex-grow: 0;
-        flex-shrink: 0;
-        margin-right: 0.335rem;
-      }
-
-      a {
-        color: $light_font_color;
-        display: inline-flex;
-        height: 1rem;
-        max-width: 100%;
-        align-items: center;
-
-        &:hover {
-          text-decoration: underline;
-
-          img {
-            filter: brightness(1.3);
-          }
-        }
-      }
-    }
-
-    &:hover {
-      background-color: $thumbnail_background_color_alt;
-      cursor: pointer;
-
-      .preview__image {
-        background-color: $thumbnail_background_color_alt;
-      }
-
-      .tip__article__content {
-        color: #c6c6cc;
-      }
+      text-decoration: underline;
     }
   }
 
-  @media only screen and (max-width: 1024px) {
-    .tip__article {
-      min-height: 2rem;
-    }
+  .tip__url {
+    margin: 0 0 0.4rem 0;
   }
+}
 
-  @media only screen and (max-width: 768px) {
-    .tip__amount:nth-child(2) .retip__container {
-      left: -50%;
-      right: -50%;
-    }
+::v-deep .source {
+  font-size: 0.5rem;
+  color: $light_font_color;
+  margin-bottom: 0.15rem;
+  text-transform: uppercase;
+}
 
-    .tip__article .tip__article__content {
-      font-size: 0.75rem;
-    }
-  }
+::v-deep .tip__cover-preview {
+  position: relative;
+  padding-top: 55%;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  background: #000;
+  border-radius: 0.5rem 0.5rem 0 0;
 
-  @media only screen and (max-width: 600px) {
-    .tip__article .tip__article__content {
-      font-size: 0.65rem;
-    }
-  }
-
-  @include smallest {
-    .tip__article {
-      margin-left: 0;
-      max-width: calc(100% + 1rem);
-      width: 100%;
-
-      .tip__article__content {
-        line-height: 1.1rem;
-
-        .description {
-          @include truncate-overflow-mx(5);
-        }
-      }
-
-      .site__url {
-        text-decoration: underline;
-      }
-    }
-
-    .tip__url {
-      margin: 0 0 0.4rem 0;
-    }
-  }
-
-  ::v-deep .source {
-    font-size: 0.5rem;
-    color: $light_font_color;
-    margin-bottom: 0.15rem;
-    text-transform: uppercase;
-  }
-
-  ::v-deep .tip__cover-preview {
-    position: relative;
-    padding-top: 55%;
-    overflow: hidden;
-    width: 100%;
+  img {
+    bottom: 0;
+    display: block;
+    left: 0;
+    margin: auto;
     max-width: 100%;
-    background: #000;
-    border-radius: 0.5rem 0.5rem 0 0;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: none;
+    height: auto;
+    cursor: pointer;
+    transition: 0.4s all;
+    overflow: hidden;
+  }
+
+  img:hover {
+    opacity: 0.75;
+  }
+}
+
+::v-deep .tip__info {
+  width: 100%;
+  max-width: 100%;
+  position: absolute;
+  bottom: 0;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.7);
+
+  .title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.15rem;
+    color: $tip_note_color;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .description {
+    @include truncate-overflow-mx(1);
+
+    font-size: 0.7rem;
+    color: $tip_note_color;
+  }
+}
+
+.tip__no-preview {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+  background: $thumbnail_background_color_alt;
+}
+
+::v-deep .tip__two-columns-preview {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  -webkit-transition: 0.4s all;
+  -moz-transition: 0.4s all;
+  transition: 0.4s all;
+
+  .tip__two-columns-img {
+    flex: 0 0 35%;
+    max-width: 35%;
+    min-width: 35%;
+    width: 35%;
+    border-top-left-radius: 0.5rem;
+    position: relative;
+    padding-top: 35%;
+    overflow: hidden;
 
     img {
       bottom: 0;
       display: block;
       left: 0;
       margin: auto;
-      max-width: 100%;
-      width: 100%;
+      width: auto;
       position: absolute;
-      right: 0;
       top: 0;
       border: none;
-      height: auto;
+      height: 100%;
+      max-height: 100%;
       cursor: pointer;
-      -webkit-transition: 0.4s all;
-      -moz-transition: 0.4s all;
-      transition: 0.4s all;
       overflow: hidden;
-    }
-
-    img:hover {
-      opacity: 0.75;
     }
   }
 
-  ::v-deep .tip__info {
-    width: 100%;
-    max-width: 100%;
-    position: absolute;
-    bottom: 0;
+  .tip__two-columns-info {
+    flex: 0 0 65%;
+    max-width: 65%;
+    min-width: 65%;
+    width: 65%;
+    height: 100%;
     padding: 0.5rem;
-    background: rgba(0, 0, 0, 0.7);
+
+    .source {
+      font-size: 0.5rem;
+      color: $light_font_color;
+      margin-bottom: 0.15rem;
+    }
 
     .title {
       font-size: 0.8rem;
@@ -461,8 +512,6 @@ export default {
     }
 
     .description {
-      @include truncate-overflow-mx(1);
-
       font-size: 0.7rem;
       color: $tip_note_color;
     }
@@ -582,32 +631,10 @@ export default {
       min-width: 65%;
       width: 65%;
       height: 100%;
-      padding: 0.5rem;
-
-      .source {
-        font-size: 0.5rem;
-        color: $light_font_color;
-        margin-bottom: 0.15rem;
-      }
-
-      .title {
-        font-size: 0.8rem;
-        font-weight: 500;
-        margin-bottom: 0.15rem;
-        color: $tip_note_color;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-
-      .description {
-        font-size: 0.7rem;
-        color: $tip_note_color;
-        height: 100%;
-        overflow: hidden;
-        white-space: pre-wrap;
-        text-overflow: ellipsis;
-      }
+      overflow: hidden;
+      white-space: pre-wrap;
+      text-overflow: ellipsis;
     }
   }
+}
 </style>

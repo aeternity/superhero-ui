@@ -4,7 +4,7 @@
   >
     <iframe
       v-if="isPlaying"
-      :src="`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=${autoplay}&rel=${related}`"
+      :src="`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`"
       frameborder="0"
       allow="accelerometer;
       autoplay;
@@ -14,40 +14,35 @@
       picture-in-picture"
       allowfullscreen
     />
-    <img
-      v-if="!isPlaying"
-      :src="`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`"
-    >
-    <div
-      v-if="!isPlaying"
-      class="play"
-      @click.stop="play"
-    >
-      <img
-        class="play-button"
-        src="../../assets/buttonPlay.svg"
-      >
-    </div>
-    <div
-      v-if="!isPlaying"
-      class="tip__info"
-    >
-      <div class="source">
-        {{ sourceUrl }}
-      </div>
-      <h2
-        class="title text-ellipsis"
-        :title="tipPreviewTitle"
-      >
-        {{ tipPreviewTitle }}
-      </h2>
+    <template v-if="!isPlaying">
+      <img :src="`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`">
       <div
-        class="description"
-        :title="tipPreviewDescription"
+        class="play"
+        @click.stop="isPlaying = true"
       >
-        {{ tipPreviewDescription }}
+        <img
+          class="play-button"
+          src="../../assets/buttonPlay.svg"
+        >
       </div>
-    </div>
+      <div class="tip__info">
+        <div class="source">
+          {{ sourceUrl }}
+        </div>
+        <h2
+          class="title text-ellipsis"
+          :title="tipPreviewTitle"
+        >
+          {{ tipPreviewTitle }}
+        </h2>
+        <div
+          class="description"
+          :title="tipPreviewDescription"
+        >
+          {{ tipPreviewDescription }}
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -62,22 +57,12 @@ export default {
   data() {
     return {
       isPlaying: false,
-      autoplay: 1,
-      related: 0,
     };
   },
   computed: {
     videoId() {
       const getIdRegex = /(.*?)(^|\/|v=)([a-z0-9_-]{11})(.*)?/im;
-      if (this.tip.url.match(getIdRegex) !== null) {
-        return this.tip.url.match(getIdRegex)[3];
-      }
-      return '';
-    },
-  },
-  methods: {
-    play() {
-      this.isPlaying = true;
+      return this.tip.url.match(getIdRegex)?.[3] || '';
     },
   },
 };
@@ -85,35 +70,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .play {
-    z-index: 5;
-    height: 3rem;
-    width: 3rem;
-    left: 50%;
-    top: 50%;
-    margin-left: -1.5rem;
-    margin-top: -1.5rem;
-    position: absolute;
-    cursor: pointer;
-    background-color: $secondary_color;
-    border-radius: 50%;
-    opacity: 0.8;
+.play {
+  z-index: 5;
+  height: 3rem;
+  width: 3rem;
+  left: 50%;
+  top: 50%;
+  margin-left: -1.5rem;
+  margin-top: -1.5rem;
+  position: absolute;
+  cursor: pointer;
+  background-color: $secondary_color;
+  border-radius: 50%;
+  opacity: 0.8;
 
-    .play-button {
-      padding: 0.8rem;
-      margin-left: 0.15rem;
-    }
+  .play-button {
+    padding: 0.8rem;
+    margin-left: 0.15rem;
   }
+}
 
-  iframe,
-  object,
-  embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-    background: transparent;
-  }
+iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  background: transparent;
+}
 </style>

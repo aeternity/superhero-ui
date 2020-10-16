@@ -138,129 +138,141 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .tip__record {
-    background-color: $light_color;
-    margin: 0 0 0.15rem 0;
+.tip__record {
+  background-color: $light_color;
+  margin: 0 0 0.15rem 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.tip__body {
+  padding-top: 1rem;
+  width: 100%;
+
+  .tip__description .author-and-date .date .three-dots {
+    font-size: 0.75rem;
+    margin-left: 0.3rem;
+  }
+}
+
+.tip__note {
+  @include truncate-overflow-mx(4);
+
+  color: $tip_note_color;
+  font-size: 0.85rem;
+  line-height: 1.1rem;
+  margin-bottom: 0.8rem;
+  padding-left: 1rem;
+
+  ::v-deep .title .topic {
+    color: $standard_font_color;
 
     &:hover {
-      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}
+
+.retip__icon {
+  height: 1rem;
+  margin-right: 0.2rem;
+  vertical-align: top;
+  padding: 0.1rem 0;
+  width: 1rem;
+}
+
+.comment__icon {
+  margin-right: 0.2rem;
+  vertical-align: top;
+}
+
+.tip__footer {
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  color: $light_font_color;
+  font-size: 0.8rem;
+  padding: 1.4rem 1rem 0.75rem;
+}
+
+.tip__footer_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tip__comments {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  height: 1rem;
+  cursor: pointer;
+  position: relative;
+  width: max-content;
+
+  &.tip__comments--hascomments {
+    color: #fff;
+  }
+}
+
+.tip__comments:hover img {
+  filter: brightness(1.3);
+}
+
+@media only screen and (max-width: 1024px) {
+  .tip__record {
+    position: relative;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .tip__note {
+    font-size: 0.75rem;
+  }
+
+  .tip__footer .tip__amount img {
+    width: 0.7rem;
+  }
+}
+
+@include smallest {
+  .tip__body {
+    padding: 0;
+  }
+
+  .tip__record {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    position: relative;
+
+    .tip__body .tip__description .author-and-date ::v-deep {
+      font-size: 0.6rem;
+      padding-left: 0;
+      padding-right: 0;
+
+      img {
+        height: 1.5rem;
+        width: 1.5rem;
+      }
+
+      .address {
+        font-size: 0.55rem;
+      }
     }
   }
 
-  .tip__body {
-    padding-top: 1rem;
-    width: 100%;
-  }
-
-  .tip-title {
-    @include truncate-overflow-mx(4);
-
-    color: $tip_note_color;
-    font-size: 0.85rem;
-    line-height: 1.1rem;
-    margin-bottom: 0.8rem;
-    padding-left: 1rem;
-    padding-right: 0.5rem;
-  }
-
-  .retip__icon {
-    height: 1rem;
-    margin-right: 0.2rem;
-    vertical-align: top;
-    padding: 0.1rem 0;
-    width: 1rem;
-  }
-
-  .comment__icon {
-    margin-right: 0.2rem;
-    vertical-align: top;
+  .tip__note {
+    padding: 0;
   }
 
   .tip__footer {
-    border-bottom-left-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-    color: $light_font_color;
-    font-size: 0.8rem;
-    padding: 1.4rem 1rem 0.75rem;
-  }
+    font-size: 0.65rem;
+    padding: 0.85rem 0 0 0;
 
-  .tip__footer_wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .tip__comments {
-    align-items: center;
-    display: flex;
-    flex: 0 0 auto;
-    height: 1rem;
-    cursor: pointer;
-    position: relative;
-    width: max-content;
-
-    &.tip__comments--hascomments {
-      color: #fff;
+    .tip__amount img {
+      width: 1rem;
     }
   }
-
-  .tip__comments:hover img {
-    filter: brightness(1.3);
-  }
-
-  @media only screen and (max-width: 1024px) {
-    .tip__record {
-      position: relative;
-    }
-  }
-
-  @media only screen and (max-width: 600px) {
-    .tip-title {
-      font-size: 0.75rem;
-    }
-
-    .tip__footer .tip__amount img {
-      width: 0.7rem;
-    }
-  }
-
-  @include smallest {
-    .tip__body {
-      padding: 0;
-    }
-
-    .tip__record {
-      margin-bottom: 0.5rem;
-      padding: 0.5rem;
-      position: relative;
-
-      .tip__body .tip__description .author-and-date ::v-deep {
-        font-size: 0.6rem;
-        padding-left: 0;
-        padding-right: 0;
-
-        img {
-          height: 1.5rem;
-          width: 1.5rem;
-        }
-
-        .address {
-          font-size: 0.55rem;
-        }
-      }
-    }
-
-    .tip__note {
-      padding: 0;
-    }
-
-    .tip__footer {
-      font-size: 0.65rem;
-      padding: 0.85rem 0 0 0;
-
-      .tip__amount img {
-        width: 1rem;
-      }
-    }
-  }
+}
 </style>

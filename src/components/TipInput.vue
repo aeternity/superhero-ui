@@ -22,7 +22,7 @@
       </template>
     </Component>
     <Modal
-      v-if="showModal && tip.url"
+      v-if="showModal"
       @close="hideModal"
     >
       <Loading v-if="showLoading" />

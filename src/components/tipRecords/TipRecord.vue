@@ -27,10 +27,7 @@
           </ThreeDotsMenu>
         </AuthorAndDate>
       </div>
-      <div
-        class="tip__note pr-2"
-        @click.stop
-      >
+      <div class="tip__note pr-2">
         <TipTitle :tip-title="tip.title" />
       </div>
       <TipPreview

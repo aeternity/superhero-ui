@@ -124,8 +124,9 @@
             </div>
           </RouterLink>
         </div>
+        <!-- eslint-disable-next-line vue-i18n/no-raw-text -->
         <div v-else>
-          {{ noPreview }}
+          No preview available for this URL
         </div>
       </div>
       <div class="tip__links">
@@ -176,11 +177,6 @@ export default {
     tip: { type: Object, required: true },
     goToTip: { type: Function, required: true },
     tipUrl: { type: String, default: '' },
-  },
-  data() {
-    return {
-      noPreview: 'No preview available for this URL',
-    };
   },
   computed: {
     sourceUrl() {

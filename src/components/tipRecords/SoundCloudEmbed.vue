@@ -19,17 +19,14 @@
       >
         {{ tipPreviewDescription }}
       </div>
-      <div
+      <PlayButton
         v-if="!isPlaying"
-        class="play"
-        @click.stop="play"
-      >
-        <img src="../../assets/buttonPlay.svg">
-      </div>
+        :is-playing="isPlaying"
+        @click.stop="isPlaying = true"
+      />
       <SoundCloudPlayer
         v-else-if="isPlaying"
         :tip="tip"
-        :sc-api-url="scApiUrl"
         @click.stop
       />
     </div>
@@ -38,9 +35,10 @@
 
 <script>
 import SoundCloudPlayer from './SoundCloudPlayer.vue';
+import PlayButton from '../PlayButton.vue';
 
 export default {
-  components: { SoundCloudPlayer },
+  components: { SoundCloudPlayer, PlayButton },
   props: {
     tip: { type: Object, required: true },
     tipPreviewTitle: { type: String, required: true },
@@ -51,26 +49,7 @@ export default {
   data() {
     return {
       isPlaying: false,
-      scApiUrl: 'https://w.soundcloud.com/player/',
     };
-  },
-  // mounted() {
-  //   this.loadScript(`${this.scApiUrl}api.js`);
-  // },
-  methods: {
-    play() {
-      this.isPlaying = true;
-    },
-    loadScript(url) {
-      const scripts = [].slice.call(document.getElementsByTagName('script')).filter((script) => script.src === url);
-      if (scripts.length) {
-        return;
-      }
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = url;
-      document.getElementsByTagName('body')[0].appendChild(script);
-    },
   },
 };
 </script>
@@ -78,22 +57,6 @@ export default {
 <style lang="scss" scoped>
 .sound-cloud-player {
   height: 100%;
-
-  .play {
-    height: 2.5rem;
-    width: 2.5rem;
-    margin-left: 0.5rem;
-    margin-top: 0.5rem;
-    cursor: pointer;
-    background-color: $article_content_color;
-    border-radius: 50%;
-
-    img {
-      width: 100%;
-      padding: 0.8rem;
-      margin-left: 0.15rem;
-    }
-  }
 }
 
 .description {

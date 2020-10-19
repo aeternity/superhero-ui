@@ -8,26 +8,11 @@
       class="soundcloud-iframe"
       :src="playUrl"
     />
-    <div
-      class="play"
-    >
-      <div
-        v-if="loading"
-        class="spinner-border spinner-border-sm text-primary loading"
-      />
-      <img
-        v-else-if="isPlaying"
-        class="pause-button"
-        src="../../assets/buttonPause.svg"
-        @click="togglePlay"
-      >
-      <img
-        v-else-if="!isPlaying"
-        class="play-button"
-        src="../../assets/buttonPlay.svg"
-        @click="togglePlay"
-      >
-    </div>
+    <PlayButton class="play-button"
+      :is-playing="isPlaying"
+      :loading="loading"
+      @click.stop="togglePlay"
+    />
     <div
       ref="soundWave"
       class="sound-wave"
@@ -63,8 +48,10 @@
 
 <script>
 import SoundcloudWidget from 'soundcloud-widget';
+import PlayButton from '../PlayButton.vue';
 
 export default {
+  components: { PlayButton },
   filters: {
     formatTime: (timestamp) => {
       const seconds = Math.floor(timestamp / 1000);
@@ -78,7 +65,6 @@ export default {
   },
   props: {
     tip: { type: Object, required: true },
-    scApiUrl: { type: String, required: true },
   },
   data() {
     return {
@@ -92,7 +78,7 @@ export default {
   },
   computed: {
     playUrl() {
-      return `${this.scApiUrl}?url=${this.tip.url}`;
+      return `https://w.soundcloud.com/player/?url=${this.tip.url}`;
     },
     waveProgress() {
       return { width: `${this.position}%`, 'background-size': `${(1 / this.position) * 10000}% 100%` };
@@ -146,30 +132,8 @@ export default {
     display: none;
   }
 
-  .play {
-    height: 2.5rem;
-    width: 2.5rem;
-    margin-left: 0.5rem;
-    margin-top: 0.5rem;
-    cursor: pointer;
-    background-color: $article_content_color;
-    border-radius: 50%;
+  .play-button {
     flex-shrink: 0;
-
-    .play-button {
-      width: 100%;
-      padding: 0.8rem;
-      margin-left: 0.15rem;
-    }
-
-    .pause-button {
-      width: 100%;
-      padding: 0.8rem;
-    }
-
-    .loading {
-      margin: 0.8rem;
-    }
   }
 
   .sound-wave {

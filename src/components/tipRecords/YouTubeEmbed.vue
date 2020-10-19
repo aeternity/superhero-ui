@@ -16,15 +16,10 @@
     />
     <template v-if="!isPlaying">
       <img :src="`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`">
-      <div
-        class="play"
+      <PlayButton
+        class="play-button"
         @click.stop="isPlaying = true"
-      >
-        <img
-          class="play-button"
-          src="../../assets/buttonPlay.svg"
-        >
-      </div>
+      />
       <div class="tip__info">
         <div class="source">
           {{ sourceUrl }}
@@ -47,7 +42,10 @@
 </template>
 
 <script>
+import PlayButton from '../PlayButton.vue';
+
 export default {
+  components: { PlayButton },
   props: {
     tip: { type: Object, required: true },
     tipPreviewTitle: { type: String, default: '' },
@@ -70,24 +68,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.play {
+.play-button {
   z-index: 5;
-  height: 3rem;
-  width: 3rem;
   left: 50%;
   top: 50%;
+  position: absolute;
+  background-color: $secondary_color;
+  opacity: 0.8;
+  height: 3rem;
+  width: 3rem;
   margin-left: -1.5rem;
   margin-top: -1.5rem;
-  position: absolute;
-  cursor: pointer;
-  background-color: $secondary_color;
-  border-radius: 50%;
-  opacity: 0.8;
-
-  .play-button {
-    padding: 0.8rem;
-    margin-left: 0.15rem;
-  }
 }
 
 iframe {

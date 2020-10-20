@@ -10,11 +10,11 @@
       <img :src="iconTip">
       <template v-if="!userAddress">
         <AeAmountFiat
-          v-if="!isTokenAndZeroAeTip"
-          :amount="tip ? tipUrlStats.amount_ae || tip.total_amount_ae : '0'"
+          v-if="!tipUrlStats.tokenTotalAmount.length || +tipUrlStats.totalAmountAe !== 0"
+          :amount="tipUrlStats.totalAmountAe"
         />
         <AeAmountFiat
-          v-for="tokenTip in tipUrlStats.token_total_amount || tip.token_total_amount"
+          v-for="tokenTip in tipUrlStats.tokenTotalAmount"
           :key="tokenTip.token"
           :amount="tokenTip.amount"
           :token="tokenTip.token"
@@ -61,7 +61,6 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import BigNumber from 'bignumber.js';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
@@ -102,19 +101,13 @@ export default {
     ...mapState('backend', {
       tipUrlStats({ stats }) {
         const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);
-        if (!urlStats) return {};
         return {
-          isTipped: urlStats.senders.includes(this.address),
-          amount_ae: urlStats.total_amount_ae,
-          token_total_amount: urlStats.token_total_amount,
+          isTipped: urlStats ? urlStats.senders.includes(this.address) : false,
+          totalAmountAe: urlStats ? urlStats.total_amount_ae : '0',
+          tokenTotalAmount: urlStats ? urlStats.token_total_amount : [],
         };
       },
     }),
-    isTokenAndZeroAeTip() {
-      return new BigNumber(this.tipUrlStats.amount_ae || '0').isZero()
-        && new BigNumber(this.tip.total_amount_ae).isZero()
-        && !!this.tip.token;
-    },
     isTokenTipable() {
       return this.tip.id.split('_')[1] === 'v2';
     },
@@ -154,11 +147,8 @@ export default {
         const amount = shiftDecimalPlaces(this.inputValue,
           this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
-        if (this.tipUrl !== this.tip.url) {
-          await tip(this.tipUrl, this.message, amount, this.inputToken);
-        } else {
-          await retip(this.tip.contractId, this.tip.id, amount, this.inputToken);
-        }
+        if (!this.tip) await tip(this.tipUrl, this.message, amount, this.inputToken);
+        else await retip(this.tip.contractId, this.tip.id, amount, this.inputToken);
 
         if (!this.userAddress) {
           await Backend.cacheInvalidateTips();

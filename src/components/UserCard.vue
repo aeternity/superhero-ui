@@ -23,12 +23,8 @@ export default {
 
 <style lang="scss" scoped>
 .user-card {
-  top: 15px;
-  width: 75%;
   border: 1px solid $card_border_color;
   border-radius: 0.5rem;
-  position: absolute;
-  z-index: 1;
   overflow: hidden;
   cursor: default;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
@@ -39,7 +35,7 @@ export default {
     grid-template-columns: 8rem auto;
 
     .tip_stats {
-      grid-template-columns: auto;
+      grid-auto-flow: row;
       order: 2;
     }
 

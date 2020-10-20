@@ -1,7 +1,10 @@
 <template>
   <div class="user-profile">
     <BackButtonRibbon />
-    <UserInfo :address="address" />
+    <UserInfo
+      :address="address"
+      :backend-auth="backendAuth"
+    />
     <ListOfTipsAndComments :address="address" />
   </div>
 </template>

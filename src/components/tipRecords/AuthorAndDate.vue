@@ -3,42 +3,43 @@
     class="author-and-date"
     @click.stop
   >
-    <Transition name="fade">
-      <UserCard
-        v-if="hover"
-        :address="address"
-        @mouseover.native="hover = true"
-        @mouseleave.native="hover = false"
-      />
-    </Transition>
-    <div class="info">
-      <RouterLink
-        :to="{
-          name: 'user-profile',
-          params: {
-            address,
-          },
-        }"
+    <RouterLink
+      :to="{
+        name: 'user-profile',
+        params: {
+          address,
+        },
+      }"
+      class="router-link"
+    >
+      <div
+        class="avatar-wrapper"
+        @mouseover="hover = true"
+        @mouseleave="hover = false"
       >
         <Avatar
           :address="address"
-          @mouseover.native="hover = true"
-          @mouseleave.native="hover = false"
         />
-        <div class="author-name">
-          <span class="chain-name">
-            {{ name ? name : $t('FellowSuperhero') }}
-          </span>
-          <span class="address">
-            {{ address }}
-          </span>
-        </div>
-      </RouterLink>
-      <span class="right">
-        <FormatDate v-bind="$attrs" />
-        <slot />
-      </span>
-    </div>
+        <Transition name="fade">
+          <UserCard
+            v-if="hover"
+            :address="address"
+          />
+        </Transition>
+      </div>
+      <div class="author-name">
+        <span class="chain-name">
+          {{ name ? name : $t('FellowSuperhero') }}
+        </span>
+        <span class="address">
+          {{ address }}
+        </span>
+      </div>
+    </RouterLink>
+    <span class="right">
+      <FormatDate v-bind="$attrs" />
+      <slot />
+    </span>
   </div>
 </template>
 
@@ -63,78 +64,94 @@ export default {
 
 <style lang="scss" scoped>
 .author-and-date {
-  position: relative;
+  align-items: center;
+  color: $light_font_color;
+  display: flex;
+  font-size: 0.8rem;
+  justify-content: space-between;
+  padding: 0 1rem 0.9rem 1rem;
 
-  .info {
-    align-items: center;
-    color: $light_font_color;
+  .router-link {
+    max-width: 80%;
+  }
+
+  .right {
+    font-size: 0.65rem;
     display: flex;
-    font-size: 0.8rem;
-    justify-content: space-between;
-    padding: 0 1rem 0.9rem 1rem;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+  }
 
-    .right {
-      font-size: 0.65rem;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      justify-content: center;
-    }
+  .address {
+    font-size: 0.65rem;
+  }
 
-    .address {
-      font-size: 0.65rem;
-    }
+  .address,
+  .chain-name {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    word-break: break-all;
+  }
 
-    .address,
-    .chain-name {
-      display: inline-block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
-      word-break: break-all;
-    }
+  .avatar-wrapper {
+    position: relative;
 
     .avatar {
       margin-right: 0.25rem;
     }
 
-    a {
-      color: $light_font_color;
-      display: flex;
-      margin-right: 1rem;
-      overflow: hidden;
+    .user-card {
+      position: absolute;
+      width: 450px;
+      z-index: 10;
 
-      &:hover {
+      @include mobile {
+        width: 350px;
+      }
+
+      &.fade-enter-active,
+      &.fade-leave-active {
+        transition: opacity 0.3s;
+      }
+
+      &.fade-enter-to,
+      &.fade-leave-to {
+        transition-delay: 0.5s;
+      }
+
+      &.fade-enter,
+      &.fade-leave-to {
+        opacity: 0;
+      }
+    }
+  }
+
+  a {
+    color: $light_font_color;
+    display: flex;
+    margin-right: 1rem;
+
+    &:hover {
+      .avatar,
+      .author-name {
         filter: brightness(1.3);
       }
     }
-
-    .chain-name {
-      color: #fff;
-    }
-
-    .author-name {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      overflow: hidden;
-    }
   }
 
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.3s;
+  .chain-name {
+    color: #fff;
   }
 
-  .fade-enter-to,
-  .fade-leave-to {
-    transition-delay: 0.5s;
-  }
-
-  .fade-enter,
-  .fade-leave-to {
-    opacity: 0;
+  .author-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
   }
 }
 </style>

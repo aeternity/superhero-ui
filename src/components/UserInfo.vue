@@ -8,10 +8,10 @@
       <div class="cover-overlay" />
       <div
         class="profile__header"
-        :class="{ 'profile__editable': currentAddress === address }"
+        :class="{ 'profile__editable': backendAuth && currentAddress === address }"
       >
         <div
-          v-if="currentAddress === address"
+          v-if="backendAuth && currentAddress === address"
           class="edit__buttons"
         >
           <label
@@ -62,7 +62,7 @@
             :user-address="address"
             class="profile__button avatar__button"
           />
-          <template v-else-if="!editMode">
+          <template v-else-if="!editMode && backendAuth">
             <label
               class="profile__button avatar__button"
               :title="$t('views.UserProfileView.ChangeAvatar')"
@@ -94,7 +94,7 @@
             <div class="chain">
               {{ userChainName ? userChainName : $t('FellowSuperhero') }}
             </div>
-            <div>{{ address }}</div>
+            <div class="text-ellipsis">{{ address }}</div>
           </a>
           <div
             v-if="balance"
@@ -213,6 +213,7 @@ export default {
   },
   props: {
     address: { type: String, required: true },
+    backendAuth: { type: Function, default: null },
   },
   data() {
     return {
@@ -519,6 +520,8 @@ input[type="file"] {
 
     img {
       vertical-align: top;
+      height: 0.75rem !important;
+      width: auto !important;
     }
 
     input[type="text"] {
@@ -598,7 +601,7 @@ input[type="file"] {
 
 .tip_stats {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-auto-flow: column;
 
   .ae-amount-fiat {
     display: block;
@@ -627,7 +630,9 @@ input[type="file"] {
   margin-right: 2rem;
 
   img {
-    height: 0.75rem;
+    height: 0.75rem !important;
+    width: auto !important;
+    margin-bottom: 0.2rem;
   }
 }
 
@@ -731,7 +736,7 @@ input[type="file"] {
   }
 
   .tip_stats {
-    grid-template-columns: auto;
+    grid-auto-flow: row;
     order: 2;
   }
 
@@ -754,8 +759,8 @@ input[type="file"] {
 
 @include smallest {
   .profile__header .profile__image .avatar {
-    height: 4.5rem;
-    width: 4.5rem;
+    height: 4.5rem !important;
+    width: 4.5rem !important;
   }
 
   .profile__row {

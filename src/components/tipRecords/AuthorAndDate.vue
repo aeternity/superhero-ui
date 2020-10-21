@@ -10,8 +10,23 @@
           address,
         },
       }"
+      class="router-link"
     >
-      <Avatar :address="address" />
+      <div
+        class="avatar-wrapper"
+        @mouseover="hover = true"
+        @mouseleave="hover = false"
+      >
+        <Avatar
+          :address="address"
+        />
+        <Transition name="fade">
+          <UserCard
+            v-if="hover"
+            :address="address"
+          />
+        </Transition>
+      </div>
       <div class="author-name">
         <span class="chain-name">
           {{ name ? name : $t('FellowSuperhero') }}
@@ -22,8 +37,8 @@
       </div>
     </RouterLink>
     <span class="right">
-      <slot />
       <FormatDate v-bind="$attrs" />
+      <slot />
     </span>
   </div>
 </template>
@@ -31,16 +46,19 @@
 <script>
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
+import UserCard from '../UserCard.vue';
 
 export default {
   components: {
     FormatDate,
     Avatar,
+    UserCard,
   },
   props: {
     address: { type: String, required: true },
     name: { type: String, default: '' },
   },
+  data: () => ({ hover: false }),
 };
 </script>
 
@@ -52,6 +70,10 @@ export default {
   font-size: 0.8rem;
   justify-content: space-between;
   padding: 0 1rem 0.9rem 1rem;
+
+  .router-link {
+    max-width: 80%;
+  }
 
   .right {
     font-size: 0.65rem;
@@ -75,18 +97,49 @@ export default {
     word-break: break-all;
   }
 
-  .avatar {
-    margin-right: 0.25rem;
+  .avatar-wrapper {
+    position: relative;
+
+    .avatar {
+      margin-right: 0.25rem;
+    }
+
+    .user-card {
+      position: absolute;
+      width: 450px;
+      z-index: 10;
+
+      @include mobile {
+        width: 350px;
+      }
+
+      &.fade-enter-active,
+      &.fade-leave-active {
+        transition: opacity 0.3s;
+      }
+
+      &.fade-enter-to,
+      &.fade-leave-to {
+        transition-delay: 0.5s;
+      }
+
+      &.fade-enter,
+      &.fade-leave-to {
+        opacity: 0;
+      }
+    }
   }
 
   a {
     color: $light_font_color;
     display: flex;
     margin-right: 1rem;
-    overflow: hidden;
 
     &:hover {
-      filter: brightness(1.3);
+      .avatar,
+      .author-name {
+        filter: brightness(1.3);
+      }
     }
   }
 

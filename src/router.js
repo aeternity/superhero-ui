@@ -1,4 +1,5 @@
 import Router from 'vue-router';
+import { IS_MOBILE_DEVICE } from './utils/util';
 import Tracing from './views/admin/Tracing.vue';
 import Conference from './views/Conference.vue';
 import CreateProfile from './views/CreateProfile.vue';
@@ -175,6 +176,10 @@ const routes = [
     props: true,
     meta: {
       title: 'Conference',
+    },
+    beforeEnter(to, from, next) {
+      if (IS_MOBILE_DEVICE) window.location = `https://${process.env.VUE_APP_JITSI_URL}/${to.params.room || ''}`;
+      else next();
     },
   },
   {

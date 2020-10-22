@@ -1,5 +1,5 @@
 import Router from 'vue-router';
-import { IS_MOBILE_DEVICE } from './utils/util';
+import { IS_MOBILE_DEVICE } from './utils';
 import Tracing from './views/admin/Tracing.vue';
 import Conference from './views/Conference.vue';
 import CreateProfile from './views/CreateProfile.vue';
@@ -10,13 +10,13 @@ import Maintenance from './views/Maintenance.vue';
 import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
+import TipsAndComments from './views/TipsAndComments.vue';
 import TipsList from './views/TipsList.vue';
 import TutorialMeet from './views/tutorial/Meet.vue';
 import TutorialVoting from './views/tutorial/Voting.vue';
 import TutorialWallet from './views/tutorial/Wallet.vue';
 import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
-import TipsAndComments from './views/TipsAndComments.vue';
 
 const routes = [
   {

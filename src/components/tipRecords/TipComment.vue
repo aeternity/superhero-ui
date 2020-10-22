@@ -9,7 +9,7 @@
   >
     <div class="body">
       <AuthorAndDate
-        :date="new Date(comment.createdAt)"
+        :date="comment.createdAt"
         :address="comment.author"
       />
       <div class="note">

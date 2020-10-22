@@ -6,7 +6,7 @@
     <div class="tip__body">
       <div class="tip__description">
         <AuthorAndDate
-          :date="new Date(tip.timestamp)"
+          :date="tip.timestamp"
           :address="tip.sender"
         >
           <ThreeDotsMenu v-if="address">

@@ -3,7 +3,7 @@
     v-if="!comment.parentId"
     class="comment-list"
   >
-    <TipComment :comment="comment" />
+    <TipComment v-bind="comment" />
     <div
       v-if="childComments.length"
       class="child-comments"
@@ -11,7 +11,7 @@
       <TipComment
         v-for="childComment in childComments"
         :key="childComment.id"
-        :comment="childComment"
+        v-bind="childComment"
       />
       <SendComment
         :tip-id="comment.tipId"

@@ -7,7 +7,7 @@
     >
       <Component
         :is="id ? 'TipComment' : 'TipRecord'"
-        v-bind="{ [id ? 'comment' : 'tip']: record }"
+        v-bind="id ? record : { tip: record }"
       />
     </div>
     <div
@@ -40,7 +40,7 @@
           :is="id ? 'TipComment' : 'TipCommentList'"
           v-for="(nestedComment, index) in nestedComments"
           :key="index"
-          :comment="nestedComment"
+          v-bind="id ? nestedComment : { comment: nestedComment }"
         />
       </template>
     </div>

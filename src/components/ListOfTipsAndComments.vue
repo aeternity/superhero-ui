@@ -65,7 +65,7 @@
         <TipComment
           v-for="(comment, index) in comments"
           :key="index"
-          :comment="comment"
+          v-bind="comment"
         />
       </div>
       <div

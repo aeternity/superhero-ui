@@ -4,27 +4,27 @@
     :class="{ clickable }"
     @click="clickable && $router.push({
       name: 'comment',
-      params: { tipId: comment.tipId, id: comment.id },
+      params: { tipId, id },
     })"
   >
     <div class="body">
       <AuthorAndDate
-        :date="comment.createdAt"
-        :address="comment.author"
+        :date="createdAt"
+        :address="author"
       />
       <div class="note">
-        {{ comment.text }}
+        {{ text }}
       </div>
       <div class="actions">
         <span @click.stop>
-          <TipInput :comment="comment" />
+          <TipInput :comment="{ tipId, id }" />
         </span>
         <span
           :title="$t('components.tipRecords.TipComment.Replies')"
           class="comments"
         >
           <img src="../../assets/iconReply.svg">
-          &nbsp;<span>{{ childComments }}</span>
+          &nbsp;<span>{{ children.length }}</span>
         </span>
       </div>
     </div>
@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import TipInput from '../TipInput.vue';
 import AuthorAndDate from './AuthorAndDate.vue';
 
@@ -41,22 +40,18 @@ export default {
     TipInput,
     AuthorAndDate,
   },
+  inheritAttrs: false,
   props: {
-    comment: { type: Object, required: true },
+    tipId: { type: String, required: true },
+    id: { type: Number, required: true },
+    author: { type: String, required: true },
+    text: { type: String, required: true },
+    children: { type: Array, default: () => [] },
+    createdAt: { type: String, required: true },
   },
   computed: {
-    ...mapState(['chainNames']),
-    userChainName() {
-      return this.chainNames[this.comment.author];
-    },
-    childComments() {
-      if (this.comment && this.comment.children) {
-        return this.comment.children.length;
-      }
-      return 0;
-    },
     clickable() {
-      return this.$route.name !== 'comment' || +this.$route.params.id !== +this.comment.id;
+      return this.$route.name !== 'comment' || +this.$route.params.id !== +this.id;
     },
   },
 };

@@ -85,7 +85,7 @@ export default {
   display: flex;
   font-size: 0.8rem;
   justify-content: space-between;
-  padding: 0 1rem 0.9rem 1rem;
+  padding-bottom: 0.9rem;
 
   .router-link {
     max-width: 80%;

@@ -147,9 +147,14 @@ export default {
   padding-top: 1rem;
   width: 100%;
 
-  .tip__description .author-and-date .date .three-dots {
-    font-size: 0.75rem;
-    margin-left: 0.3rem;
+  .tip__description .author-and-date {
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    .date .three-dots {
+      font-size: 0.75rem;
+      margin-left: 0.3rem;
+    }
   }
 }
 

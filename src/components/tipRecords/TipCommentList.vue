@@ -6,22 +6,12 @@
       class="tree"
     >
       <TipComment v-bind="comment" />
-      <div
-        v-if="comment.children && comment.children.length"
-        class="child-comments"
-      >
-        <TipComment
-          v-for="childComment in comment.children"
-          :key="childComment.id"
-          v-bind="childComment"
-        />
-        <SendComment
-          :tip-id="comment.tipId"
-          :parent-id="comment.id"
-        />
-      </div>
+      <TipComment
+        v-for="childComment in comment.children || []"
+        :key="childComment.id"
+        v-bind="childComment"
+      />
       <SendComment
-        v-else
         :tip-id="comment.tipId"
         :parent-id="comment.id"
       />
@@ -49,35 +39,33 @@ export default {
   background-color: $light_color;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
+  padding: 1rem;
+
+  @include smallest {
+    padding: 0.5rem;
+  }
 
   .tip-comment {
     margin-bottom: 0;
-  }
+    padding-left: 0;
+    padding-right: 0;
 
-  .child-comments {
-    border-top: 0.05rem solid $article_content_color;
-    margin: 0 1rem;
-
-    @include smallest {
-      margin: 0 0.5rem;
+    &:first-child {
+      padding-top: 0;
     }
 
-    & > * {
-      margin-right: -1rem;
-      margin-left: 2rem;
+    &:nth-child(2) {
+      border-top: 0.05rem solid $article_content_color;
+      border-radius: 0;
+    }
+
+    + .tip-comment,
+    + .tip-comment + .send-comment {
+      padding-left: 3rem;
 
       @include smallest {
-        margin-right: -0.5rem;
-        margin-left: 1rem;
+        padding-left: 1.5rem;
       }
-    }
-  }
-
-  .send-comment {
-    padding: 0 1rem 1rem 1rem;
-
-    @include smallest {
-      padding: 0 0.5rem 1rem 0.5rem;
     }
   }
 }

@@ -11,7 +11,6 @@
       <AuthorAndDate
         :date="new Date(comment.createdAt)"
         :address="comment.author"
-        :name="userChainName || comment.chainName"
       />
       <div
         class="note"

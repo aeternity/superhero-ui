@@ -12,10 +12,7 @@
         :date="new Date(comment.createdAt)"
         :address="comment.author"
       />
-      <div
-        class="note"
-        :title="comment.text"
-      >
+      <div class="note">
         {{ comment.text }}
       </div>
       <div class="actions">

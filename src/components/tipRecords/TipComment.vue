@@ -1,7 +1,11 @@
 <template>
   <div
     class="row position-relative tip-comment"
-    @click="goToCommentPage(comment.tipId, comment.id)"
+    :class="{ clickable }"
+    @click="clickable && $router.push({
+      name: 'comment',
+      params: { tipId: comment.tipId, id: comment.id },
+    })"
   >
     <div class="body">
       <AuthorAndDate
@@ -55,17 +59,8 @@ export default {
       }
       return 0;
     },
-  },
-  methods: {
-    goToCommentPage(tipId, id) {
-      if (this.$route.params.id === this.comment.id) return;
-      this.$router.push({
-        name: 'comment',
-        params: {
-          tipId,
-          id,
-        },
-      });
+    clickable() {
+      return this.$route.name !== 'comment' || +this.$route.params.id !== +this.comment.id;
     },
   },
 };
@@ -78,7 +73,7 @@ export default {
   border-radius: 0.5rem;
   background-color: $light_color;
 
-  &:hover {
+  &.clickable:hover {
     cursor: pointer;
   }
 

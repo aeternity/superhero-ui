@@ -1,28 +1,31 @@
 <template>
-  <div
-    v-if="!comment.parentId"
-    class="comment-list"
-  >
-    <TipComment v-bind="comment" />
+  <div class="tip-comment-list">
     <div
-      v-if="childComments.length"
-      class="child-comments"
+      v-for="comment in comments"
+      :key="comment.id"
+      class="tree"
     >
-      <TipComment
-        v-for="childComment in childComments"
-        :key="childComment.id"
-        v-bind="childComment"
-      />
+      <TipComment v-bind="comment" />
+      <div
+        v-if="comment.children && comment.children.length"
+        class="child-comments"
+      >
+        <TipComment
+          v-for="childComment in comment.children"
+          :key="childComment.id"
+          v-bind="childComment"
+        />
+        <SendComment
+          :tip-id="comment.tipId"
+          :parent-id="comment.id"
+        />
+      </div>
       <SendComment
+        v-else
         :tip-id="comment.tipId"
         :parent-id="comment.id"
       />
     </div>
-    <SendComment
-      v-if="!childComments.length"
-      :tip-id="comment.tipId"
-      :parent-id="comment.id"
-    />
   </div>
 </template>
 
@@ -36,18 +39,13 @@ export default {
     SendComment,
   },
   props: {
-    comment: { type: Object, required: true },
-  },
-  computed: {
-    childComments() {
-      return this.comment.children || 0;
-    },
+    comments: { type: Array, required: true },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.comment-list {
+.tip-comment-list .tree {
   background-color: $light_color;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
@@ -55,34 +53,32 @@ export default {
   .tip-comment {
     margin-bottom: 0;
   }
-}
 
-.child-comments {
-  border-top: 0.05rem solid $article_content_color;
-  margin: 0 1rem;
-
-  & > * {
-    margin-right: -1rem;
-    margin-left: 2rem;
-  }
-}
-
-.send-comment {
-  padding: 0 1rem 1rem 1rem;
-}
-
-@include smallest {
   .child-comments {
-    margin: 0 0.5rem;
+    border-top: 0.05rem solid $article_content_color;
+    margin: 0 1rem;
+
+    @include smallest {
+      margin: 0 0.5rem;
+    }
 
     & > * {
-      margin-right: -0.5rem;
-      margin-left: 1rem;
+      margin-right: -1rem;
+      margin-left: 2rem;
+
+      @include smallest {
+        margin-right: -0.5rem;
+        margin-left: 1rem;
+      }
     }
   }
 
   .send-comment {
-    padding: 0 0.5rem 1rem 0.5rem;
+    padding: 0 1rem 1rem 1rem;
+
+    @include smallest {
+      padding: 0 0.5rem 1rem 0.5rem;
+    }
   }
 }
 </style>

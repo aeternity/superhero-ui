@@ -35,12 +35,7 @@
           {{ $t('views.TipCommentsView.NoResultsMsg') }}
         </div>
 
-        <Component
-          :is="id ? 'TipComment' : 'TipCommentList'"
-          v-for="(nestedComment, index) in nestedComments"
-          :key="index"
-          v-bind="id ? nestedComment : { comment: nestedComment }"
-        />
+        <TipCommentList :comments="nestedComments" />
       </template>
     </div>
   </div>

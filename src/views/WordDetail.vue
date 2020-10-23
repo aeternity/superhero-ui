@@ -15,9 +15,12 @@
       </button>
       <div
         v-for="vote in votes && votes"
+        id="vote"
         :key="vote.id"
       >
-        to: {{ vote.subject.VotePayout[0].slice(0, 9) }}... {{ vote.votePercent }}% positive
+        to: {{ vote.subject.VotePayout[0].slice(0, 9) }}...
+        {{ vote.votePercent }}% positive {{ vote.stakePercent }}% stake positive
+        <br>
         <button
           v-if="!vote.isClosed && !vote.accountHasVoted"
           @click="voteOption(vote.instance, true)"
@@ -36,9 +39,9 @@
         >
           <!-- eslint-disable vue-i18n/no-raw-text -->Revoke
         </button>
-        <span v-if="vote.isClosed && !vote.alreadyApplied">(vote closed)</span>
-        <span v-if="vote.alreadyApplied">(result applied)</span>
-        <span v-if="!vote.alreadyApplied && vote.timeouted">(timeouted)</span>
+        <span v-if="vote.isClosed && !vote.alreadyApplied">vote closed</span>
+        <span v-if="vote.alreadyApplied">, result applied</span>
+        <span v-if="!vote.alreadyApplied && vote.timeouted">, timeouted</span>
         <button
           v-if="vote.isClosed && !vote.alreadyApplied && !vote.timeouted && hasSpread"
           @click="applyPayout(vote.id)"
@@ -117,6 +120,10 @@ export default {
       const votedPositive = new BigNumber(votedFor)
         .dividedBy(new BigNumber(votedFor).plus(votedAgainst)).times(100).toFixed(0);
       const voterAccount = state.vote_accounts.find(([acc]) => acc === this.address);
+      const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
+      const tokenContract = await client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT,
+        { contractAddress: token });
+      const totalSupply = (await tokenContract.methods.total_supply()).decodedResult;
 
       return {
         id,
@@ -131,6 +138,7 @@ export default {
           && new BigNumber(voterAccount[1][0]).isGreaterThan(0) && !voterAccount[1][2],
         isClosed: height >= state.close_height,
         votePercent: votedAgainst !== 0 ? votedPositive : ifAgainstZero,
+        stakePercent: new BigNumber(votedFor).dividedBy(totalSupply).times(100).toFixed(0),
       };
     },
     async applyPayout(id) {
@@ -181,12 +189,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-a {
-  margin-right: 0.5rem;
-  text-decoration: underline !important;
-}
-
 h2 {
   margin-top: 1rem;
+}
+
+#vote {
+  margin-bottom: 0.5rem;
 }
 </style>

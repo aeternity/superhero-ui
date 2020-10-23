@@ -21,6 +21,12 @@
         />
         <span v-else>+</span>
       </OutlinedButton>
+      <Modal
+        v-if="createProgressText"
+        @close="createProgressText = null"
+      >
+        {{ createProgressText }}
+      </Modal>
     </div>
 
     <div class="row">
@@ -70,6 +76,7 @@ import WordListing from '../components/WordListing.vue';
 import Loading from '../components/Loading.vue';
 import OutlinedButton from '../components/OutlinedButton.vue';
 import { EventBus } from '../utils/eventBus';
+import Modal from '../components/Modal.vue';
 
 export default {
   name: 'WordBazaar',
@@ -77,6 +84,7 @@ export default {
     WordListing,
     Loading,
     OutlinedButton,
+    Modal,
   },
   data: () => ({
     newWord: '',
@@ -90,6 +98,7 @@ export default {
     votes: null,
     newVotePayout: '',
     loadingState: true,
+    createProgressText: null,
   }),
   computed: {
     ...mapState(['address']),
@@ -110,16 +119,22 @@ export default {
     async createWordSale() {
       this.loadingState = true;
       const bondingCurveMock = await client.getContractInstance(BONDING_CURVE_MOCK);
+      this.createProgressText = `Please confirm popup 1 of 5\n\n Creating Bonding Curve Contract for sale of ${this.newWord} Tokens`;
       await bondingCurveMock.deploy();
       const tokenSale = await client.getContractInstance(TOKEN_SALE_CONTRACT);
+      this.createProgressText = `Please confirm popup 2 of 5\n\n Creating Token Sale Contract for ${this.newWord} Tokens`;
       await tokenSale.methods.init(20, bondingCurveMock.deployInfo.address);
       const token = await client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
+      this.createProgressText = `Please confirm popup 3 of 5\n\n Creating ${this.newWord} Token Contract`;
       await token.methods.init(`${this.newWord} Token`, 18, this.newWord,
         tokenSale.deployInfo.address.replace('ct_', 'ak_'));
       this.addToken(token.deployInfo.address);
+      this.createProgressText = `Please confirm popup 4 of 5\n\n Registering ${this.newWord} Token for sale`;
       await tokenSale.methods.set_token(token.deployInfo.address);
+      this.createProgressText = `Please confirm popup 5 of 5\n\n Adding Token Sale for ${this.newWord} to Word Bazaar`;
       await this.wordRegistry.methods.add_token(tokenSale.deployInfo.address);
       await this.updateWords();
+      this.createProgressText = null;
     },
     async addToken(address) {
       await backend.addToken(address);
@@ -137,5 +152,14 @@ a {
 
 h2 {
   margin-top: 1rem;
+}
+
+.not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
+  background-color: $article_content_color;
+  border-radius: 0.5rem;
+  margin: 0rem -33rem;
+  white-space: pre-line;
+  padding: 1rem;
+  width: 34rem;
 }
 </style>

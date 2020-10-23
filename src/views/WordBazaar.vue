@@ -62,6 +62,7 @@
 import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.aes';
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
+import BONDING_CURVE_MOCK from 'wordbazaar-contracts/BondingCurveMock.aes';
 import { mapState } from 'vuex';
 import { client } from '../utils/aeternity';
 import backend from '../utils/backend';
@@ -108,8 +109,10 @@ export default {
     },
     async createWordSale() {
       this.loadingState = true;
+      const bondingCurveMock = await client.getContractInstance(BONDING_CURVE_MOCK);
+      await bondingCurveMock.deploy();
       const tokenSale = await client.getContractInstance(TOKEN_SALE_CONTRACT);
-      await tokenSale.methods.init(20);
+      await tokenSale.methods.init(20, bondingCurveMock.deployInfo.address);
       const token = await client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
       await token.methods.init(`${this.newWord} Token`, 18, this.newWord,
         tokenSale.deployInfo.address.replace('ct_', 'ak_'));

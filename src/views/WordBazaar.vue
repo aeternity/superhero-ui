@@ -157,7 +157,7 @@ h2 {
 .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
   background-color: $article_content_color;
   border-radius: 0.5rem;
-  margin: 0rem -33rem;
+  margin: 0 -33rem;
   white-space: pre-line;
   padding: 1rem;
   width: 34rem;

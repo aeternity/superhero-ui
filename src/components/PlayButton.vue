@@ -10,7 +10,7 @@
     />
     <img
       v-else-if="!loading"
-      :src="require(`../assets/button${isPlaying ? 'Pause' : 'Play'}.svg`)"
+      :src="isPlaying ? buttonPause : buttonPlay"
       :class="{ 'margin-fix': !isPlaying }"
     >
   </ButtonPlain>
@@ -18,6 +18,8 @@
 
 <script>
 import ButtonPlain from './ButtonPlain.vue';
+import buttonPause from '../assets/buttonPause.svg';
+import buttonPlay from '../assets/buttonPlay.svg';
 
 export default {
   components: { ButtonPlain },
@@ -25,6 +27,7 @@ export default {
     isPlaying: Boolean,
     loading: Boolean,
   },
+  data: () => ({ buttonPause, buttonPlay }),
 };
 </script>
 

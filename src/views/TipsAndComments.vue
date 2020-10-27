@@ -75,7 +75,9 @@ export default {
         : this.$store.state.backend.tip[this.tipId];
     },
     nestedComments() {
-      return this.id ? this.record.children : this.record.comments;
+      return this.id
+        ? this.record.children
+        : this.record.comments.filter(({ parentId }) => !parentId);
     },
   },
   async mounted() {

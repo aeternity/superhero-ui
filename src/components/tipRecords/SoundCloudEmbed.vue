@@ -2,10 +2,14 @@
   <div
     class="sound-cloud-player tip__two-columns-preview"
   >
+    <CookiesDialog
+      v-if="showCookiesDialog && !isAllowed"
+      :address="address"
+      :scope="'SoundCloud'"
+    />
     <div class="tip__two-columns-img">
       <img :src="tipPreviewImage">
     </div>
-
     <div class="tip__two-columns-info">
       <div class="source">
         {{ sourceUrl.toUpperCase() }}
@@ -22,10 +26,10 @@
       <PlayButton
         v-if="!isPlaying"
         :is-playing="isPlaying"
-        @click.stop="isPlaying = true"
+        @click.stop="play('SoundCloud')"
       />
       <SoundCloudPlayer
-        v-else-if="isPlaying"
+        v-else-if="isPlaying && isAllowed"
         :tip="tip"
         @click.stop
       />
@@ -36,9 +40,12 @@
 <script>
 import SoundCloudPlayer from './SoundCloudPlayer.vue';
 import PlayButton from '../PlayButton.vue';
+import CookiesDialog from '../CookiesDialog.vue';
+import embededPlayerMixin from '../../utils/embededPlayerMixin';
 
 export default {
-  components: { SoundCloudPlayer, PlayButton },
+  components: { SoundCloudPlayer, PlayButton, CookiesDialog },
+  mixins: [embededPlayerMixin()],
   props: {
     tip: { type: Object, required: true },
     tipPreviewTitle: { type: String, required: true },
@@ -46,10 +53,10 @@ export default {
     tipPreviewImage: { type: String, default: '' },
     sourceUrl: { type: String, default: '' },
   },
-  data() {
-    return {
-      isPlaying: false,
-    };
+  computed: {
+    isAllowed() {
+      return this.checkForAllowed('SoundCloud');
+    },
   },
 };
 </script>
@@ -57,6 +64,7 @@ export default {
 <style lang="scss" scoped>
 .sound-cloud-player {
   height: 100%;
+  position: relative;
 }
 
 .description {

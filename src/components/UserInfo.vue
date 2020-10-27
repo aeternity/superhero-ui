@@ -1,3 +1,4 @@
+<!-- eslint-disable vue-i18n/no-raw-text -->
 <template>
   <div class="user-info">
     <div class="profile__section clearfix">
@@ -158,6 +159,31 @@
       </div>
     </div>
     <div
+      v-if="editMode"
+      class="cookies-settings"
+    >
+      <div class="cookies-header">
+        <img src="../assets/iconCookie.svg">
+        Cookies policy
+      </div>
+      <div class="cookies-list">
+        <div>
+          Allow third-party tracking cookies
+        </div>
+        <div>
+          <button
+            v-for="({ scope,status }, index) in cookiesList"
+            :key="index"
+            class="cookies-button"
+            :class="{ active: status === 'ALLOWED' }"
+            @click="toggleCookies(scope, status === 'ALLOWED' ? 'REJECTED' : 'ALLOWED')"
+          >
+            {{ scope }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
       class="profile__stats"
     >
       <div
@@ -213,6 +239,7 @@ export default {
   },
   data() {
     return {
+      glist: [],
       maxLength: 250,
       userStats: {
         tipsLength: '-',
@@ -236,7 +263,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'chainNames', 'sdk']),
+    ...mapState(['useSdkWallet', 'chainNames', 'sdk', 'cookiesList']),
     ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];
@@ -309,6 +336,16 @@ export default {
       { immediate: true },
     );
 
+    this.$watch(
+      () => this.editMode,
+      () => {
+        if (!this.$store.state.cookiesList) {
+          this.getCookiesList();
+        }
+      },
+
+    );
+
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
@@ -368,6 +405,18 @@ export default {
           this.$store.commit('setUserProfile', profile);
         })
         .catch(console.error);
+    },
+    async getCookiesList() {
+      await this.backendAuth('getCookiesList').then((list) => {
+        this.$store.commit('setCookiesList', list.length ? list : ['SoundCloud', 'YouTube'].map((scope) => ({ scope, status: 'REJECTED' })));
+      });
+    },
+    async toggleCookies(scope, status) {
+      await this.backendAuth(`setCookies${scope}`, {
+        scope,
+        status,
+      });
+      await this.getCookiesList();
     },
   },
 };
@@ -756,6 +805,44 @@ input[type="file"] {
     input {
       margin-bottom: 0.3rem;
     }
+  }
+}
+
+.cookies-settings {
+  font-weight: 500;
+
+  .cookies-header {
+    background-color: $light_color;
+    color: $standard_font_color;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+  }
+
+  .cookies-list {
+    color: $light_font_color;
+    background-color: $buttons_background;
+    padding: 0.5rem 1rem;
+  }
+}
+
+.cookies-button {
+  border-radius: 1rem;
+  font-weight: 500;
+  color: $light_font_color;
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  border: none;
+  background-color: $thumbnail_background_color;
+  margin: 0.5rem 0.5rem 0.5rem 0;
+
+  &.active {
+    color: $secondary_color;
+    background-color: #2a9cff50;
+  }
+
+  &:focus {
+    outline: none;
   }
 }
 </style>

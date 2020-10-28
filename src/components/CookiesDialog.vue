@@ -36,12 +36,15 @@ export default {
   props: { address: { type: String, default: '' }, scope: { type: String, required: true } },
   methods: {
     async allow() {
-      await this.backendAuth(`setCookies${this.scope}`, {
+      if (this.address) {
+        await this.backendAuth(`setCookies${this.scope}`, {
+          scope: this.scope,
+          status: 'ALLOWED',
+        });
+      }
+      this.$store.commit('setCookiesListEntry', {
         scope: this.scope,
         status: 'ALLOWED',
-      });
-      await this.backendAuth('getCookiesList').then((list) => {
-        this.$store.commit('setCookiesList', list);
       });
     },
   },

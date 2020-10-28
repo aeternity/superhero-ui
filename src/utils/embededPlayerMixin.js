@@ -24,11 +24,6 @@ export default () => ({
       return entry.status === 'ALLOWED';
     },
     async play(scope) {
-      if (!this.$store.state.cookiesList) {
-        await this.backendAuth('getCookiesList').then((list) => {
-          this.$store.commit('setCookiesList', list);
-        });
-      }
       if (this.checkForAllowed(scope)) {
         this.isPlaying = true;
       } else {

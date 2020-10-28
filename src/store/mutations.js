@@ -10,6 +10,7 @@ export default {
     state.address = null;
     state.balance = 0;
     state.profile = {};
+    state.cookiesList = null;
   },
   updateTopics(state, payload) {
     state.topics = payload;

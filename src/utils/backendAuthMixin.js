@@ -28,7 +28,6 @@ export default (ignoreCallInQuery) => ({
     },
   },
   methods: {
-    // eslint-disable-next-line consistent-return
     async backendAuth(method, arg, to) {
       await this.$store.dispatch(
         'backend/callWithAuth', { method, arg, to: to && this.$router.resolve(to).href },

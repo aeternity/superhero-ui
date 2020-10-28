@@ -49,13 +49,14 @@ export default new Vuex.Store({
     persistState(
       (state) => state,
       ({
-        selectedCurrency, address, balance, tokenInfo, tokenBalances,
+        selectedCurrency, address, balance, tokenInfo, tokenBalances, cookiesList,
       }) => ({
         selectedCurrency,
         address,
         balance,
         tokenInfo,
         tokenBalances,
+        cookiesList,
       }),
     ),
     modals,

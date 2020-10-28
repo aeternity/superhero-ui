@@ -336,16 +336,6 @@ export default {
       { immediate: true },
     );
 
-    this.$watch(
-      () => this.editMode,
-      () => {
-        if (!this.$store.state.cookiesList) {
-          this.getCookiesList();
-        }
-      },
-
-    );
-
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
@@ -406,17 +396,15 @@ export default {
         })
         .catch(console.error);
     },
-    async getCookiesList() {
-      await this.backendAuth('getCookiesList').then((list) => {
-        this.$store.commit('setCookiesList', list.length ? list : ['SoundCloud', 'YouTube'].map((scope) => ({ scope, status: 'REJECTED' })));
-      });
-    },
     async toggleCookies(scope, status) {
       await this.backendAuth(`setCookies${scope}`, {
         scope,
         status,
       });
-      await this.getCookiesList();
+      this.$store.commit('setCookiesListEntry', {
+        scope,
+        status,
+      });
     },
   },
 };

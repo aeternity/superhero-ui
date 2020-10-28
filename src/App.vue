@@ -58,7 +58,7 @@ export default {
       'setAddress', 'updateTopics', 'updateCurrencyRates',
       'setOracleState', 'setChainNames', 'updateBalance',
       'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
-      'setPinnedItems',
+      'setPinnedItems', 'setCookiesListEntry',
     ]),
     async reloadData() {
       const [
@@ -104,9 +104,31 @@ export default {
         address = await scanForWallets();
         console.log('found wallet');
         this.useSdkWallet();
+        this.getCookiesList(address);
       }
       this.setAddress(address);
       await this.reloadUserData();
+    },
+    async getCookiesList(address) {
+      await this.backendAuth('getCookiesList', address)
+        .then((list) => list.forEach((entry) => this.setCookiesListEntry(entry)));
+    },
+    // eslint-disable-next-line consistent-return
+    async backendAuth(method, address) {
+      const { challenge } = await Backend[method](address);
+      if (this.useSdkWallet) {
+        const signature = await client.signMessage(challenge);
+        const response = await Backend[method](address, { challenge, signature });
+        return response;
+      }
+
+      const url = new URL(window.location, window.location);
+      url.search = '';
+      window.location = createDeepLinkUrl({
+        type: 'sign-message',
+        message: challenge,
+        'x-success': `${url}?method=${method}&address=${address}&challenge=${challenge}&signature={signature}`,
+      });
     },
   },
 };

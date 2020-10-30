@@ -1,16 +1,12 @@
-import { mapState } from 'vuex';
 import backendAuthMixin from './backendAuthMixin';
 
-export default () => ({
+export default {
   mixins: [backendAuthMixin()],
   data() {
     return {
       isPlaying: false,
       showCookiesDialog: false,
     };
-  },
-  computed: {
-    ...mapState(['address']),
   },
   methods: {
     checkForAllowed(scope) {
@@ -31,4 +27,4 @@ export default () => ({
       }
     },
   },
-});
+};

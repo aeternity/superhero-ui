@@ -163,23 +163,21 @@
       class="cookies-settings"
     >
       <div class="cookies-header">
-        <img src="../assets/iconCookie.svg">
+        <IconCookies />
         Cookies policy
       </div>
       <div class="cookies-list">
+        Allow third-party tracking cookies
         <div>
-          Allow third-party tracking cookies
-        </div>
-        <div>
-          <button
-            v-for="({ scope,status }, index) in cookiesList"
-            :key="index"
+          <ButtonPlain
+            v-for="{ scope,status } in cookiesList"
+            :key="scope"
             class="cookies-button"
             :class="{ active: status === 'ALLOWED' }"
-            @click="toggleCookies(scope, status === 'ALLOWED' ? 'REJECTED' : 'ALLOWED')"
+            @click="setCookies(scope, status === 'ALLOWED' ? 'REJECTED' : 'ALLOWED')"
           >
             {{ scope }}
-          </button>
+          </ButtonPlain>
         </div>
       </div>
     </div>
@@ -225,13 +223,17 @@ import AeAmountFiat from './AeAmountFiat.vue';
 import Avatar from './Avatar.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from './TipInput.vue';
+import ButtonPlain from './ButtonPlain.vue';
 import SuccessIcon from '../assets/verifiedUrl.svg';
+import IconCookies from '../assets/iconCookies.svg?icon-component';
 
 export default {
   components: {
     AeAmountFiat,
     Avatar,
     TipInput,
+    IconCookies,
+    ButtonPlain,
   },
   props: {
     address: { type: String, required: true },
@@ -239,7 +241,6 @@ export default {
   },
   data() {
     return {
-      glist: [],
       maxLength: 250,
       userStats: {
         tipsLength: '-',
@@ -396,7 +397,7 @@ export default {
         })
         .catch(console.error);
     },
-    async toggleCookies(scope, status) {
+    async setCookies(scope, status) {
       await this.backendAuth(`setCookies${scope}`, {
         scope,
         status,
@@ -805,32 +806,31 @@ input[type="file"] {
     font-size: 0.9rem;
     font-weight: 500;
     padding: 0.5rem 1rem;
+
+    svg {
+      height: 0.9rem;
+      margin-bottom: 0.2rem;
+      margin-right: 0.2rem;
+    }
   }
 
   .cookies-list {
     color: $light_font_color;
     background-color: $buttons_background;
     padding: 0.5rem 1rem;
-  }
-}
 
-.cookies-button {
-  border-radius: 1rem;
-  font-weight: 500;
-  color: $light_font_color;
-  display: inline-block;
-  padding: 0.35rem 0.7rem;
-  border: none;
-  background-color: $thumbnail_background_color;
-  margin: 0.5rem 0.5rem 0.5rem 0;
+    .cookies-button {
+      border-radius: 1rem;
+      font-weight: 500;
+      padding: 0.35rem 0.7rem;
+      background-color: $thumbnail_background_color;
+      margin: 0.5rem 0.5rem 0.5rem 0;
 
-  &.active {
-    color: $secondary_color;
-    background-color: #2a9cff50;
-  }
-
-  &:focus {
-    outline: none;
+      &.active {
+        color: $secondary_color;
+        background-color: #2a9cff50;
+      }
+    }
   }
 }
 </style>

@@ -10,7 +10,7 @@ export default {
     state.address = null;
     state.balance = 0;
     state.profile = {};
-    state.cookiesList = null;
+    state.cookiesList = [{ scope: 'SoundCloud', status: 'REJECTED' }, { scope: 'YouTube', status: 'REJECTED' }];
   },
   updateTopics(state, payload) {
     state.topics = payload;

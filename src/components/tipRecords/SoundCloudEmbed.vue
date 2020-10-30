@@ -4,8 +4,8 @@
   >
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
-      :address="address"
-      :scope="'SoundCloud'"
+      scope="SoundCloud"
+      @click="showCookiesDialog = false"
     />
     <div class="tip__two-columns-img">
       <img :src="tipPreviewImage">
@@ -45,7 +45,7 @@ import embededPlayerMixin from '../../utils/embededPlayerMixin';
 
 export default {
   components: { SoundCloudPlayer, PlayButton, CookiesDialog },
-  mixins: [embededPlayerMixin()],
+  mixins: [embededPlayerMixin],
   props: {
     tip: { type: Object, required: true },
     tipPreviewTitle: { type: String, required: true },

@@ -4,36 +4,48 @@
     class="cookies-dialog"
     @click.stop
   >
-    <img src="../assets/cookieImg.svg">
+    <ButtonPlain
+      class="button-cancel"
+      @click="$emit('click', $event)"
+    >
+      <ButtonCancel />
+    </ButtonPlain>
+    <CookieImg class="cookie-img" />
     <div class="info">
       Superhero.com respects your privacy. Third-party tracking cookies are blocked by default.
       In order to play content such as video or audio
       you have to allow third-party cookies by content provider.
     </div>
     <div>
-      <button
+      <ButtonPlain
         class="cookies-button"
         @click="allow"
       >
         Allow {{ scope }}
-      </button>
-      <RouterLink
+      </ButtonPlain>
+      <ButtonPlain
         v-if="address"
         class="cookies-button"
-        :to="`/user-profile/${address}`"
+        :to="{ name: 'user-profile', params: { address } }"
       >
         Customize policy
-      </RouterLink>
+      </ButtonPlain>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import backendAuthMixin from '../utils/backendAuthMixin';
+import ButtonPlain from './ButtonPlain.vue';
+import CookieImg from '../assets/cookieImg.svg?icon-component';
+import ButtonCancel from '../assets/buttonCancel.svg?icon-component';
 
 export default {
+  components: { ButtonPlain, CookieImg, ButtonCancel },
   mixins: [backendAuthMixin()],
-  props: { address: { type: String, default: '' }, scope: { type: String, required: true } },
+  props: { scope: { type: String, required: true } },
+  computed: mapState(['address']),
   methods: {
     async allow() {
       if (this.address) {
@@ -68,9 +80,18 @@ export default {
   align-items: center;
   justify-content: center;
 
-  img {
+  .button-cancel {
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    svg path {
+      fill: $tip_note_color;
+    }
+  }
+
+  .cookie-img {
     height: 2.5rem;
-    width: auto;
   }
 
   .info {
@@ -78,24 +99,20 @@ export default {
     padding-bottom: 1rem;
     text-align: center;
   }
-}
 
-.cookies-button {
-  border: 1px solid $secondary_color;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  color: $secondary_color;
-  display: inline-block;
-  padding: 0.35rem 0.7rem;
-  background-color: $buttons_background;
-  margin: 0.5rem 0.5rem 0.5rem 0;
+  .cookies-button {
+    border: 1px solid $secondary_color;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    color: $secondary_color;
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    background-color: $buttons_background;
+    margin: 0.5rem 0.5rem 0.5rem 0;
 
-  &:hover {
-    background-color: #2a9cff50;
-  }
-
-  &:focus {
-    outline: none;
+    &:hover {
+      background-color: #2a9cff50;
+    }
   }
 }
 </style>

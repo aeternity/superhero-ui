@@ -1,11 +1,9 @@
 <template>
-  <div
-    class="youtube-embed"
-  >
+  <div class="you-tube-embed">
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
-      :address="address"
-      :scope="'YouTube'"
+      scope="YouTube"
+      @click="showCookiesDialog = false"
     />
     <div class="tip__cover-preview">
       <iframe
@@ -55,7 +53,7 @@ import embededPlayerMixin from '../../utils/embededPlayerMixin';
 
 export default {
   components: { PlayButton, CookiesDialog },
-  mixins: [embededPlayerMixin()],
+  mixins: [embededPlayerMixin],
   props: {
     tip: { type: Object, required: true },
     tipPreviewTitle: { type: String, default: '' },
@@ -76,7 +74,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.youtube-embed {
+.you-tube-embed {
   position: relative;
 }
 

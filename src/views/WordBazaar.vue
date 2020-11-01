@@ -71,7 +71,7 @@ import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import BONDING_CURVE_MOCK from 'wordbazaar-contracts/BondingCurveMock.aes';
 import { mapState } from 'vuex';
 import { client } from '../utils/aeternity';
-import backend from '../utils/backend';
+import Backend from '../utils/backend';
 import WordListing from '../components/WordListing.vue';
 import Loading from '../components/Loading.vue';
 import OutlinedButton from '../components/OutlinedButton.vue';
@@ -104,15 +104,12 @@ export default {
     ...mapState(['address']),
   },
   mounted() {
-    setTimeout(this.updateWords, 5000);
+    this.updateWords();
   },
   methods: {
     async updateWords() {
       this.loadingState = true;
-      this.wordRegistry = await client
-        .getContractInstance(WORD_REGISTRY_CONTRACT,
-          { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS });
-      this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
+      this.wordRegistryState = await Backend.getWordRegistry();
       this.loadingState = false;
       this.newWord = '';
     },
@@ -132,12 +129,18 @@ export default {
       this.createProgressText = `Please confirm popup 4 of 5\n\n Registering ${this.newWord} Token for sale`;
       await tokenSale.methods.set_token(token.deployInfo.address);
       this.createProgressText = `Please confirm popup 5 of 5\n\n Adding Token Sale for ${this.newWord} to Word Bazaar`;
-      await this.wordRegistry.methods.add_token(tokenSale.deployInfo.address);
+
+      const wordRegistry = await client
+        .getContractInstance(WORD_REGISTRY_CONTRACT,
+          { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS });
+      await wordRegistry.methods.add_token(tokenSale.deployInfo.address);
+      await Backend.invalidateWordRegistryCache();
+
       await this.updateWords();
       this.createProgressText = null;
     },
     async addToken(address) {
-      await backend.addToken(address);
+      await Backend.addToken(address);
       EventBus.$emit('reloadData');
     },
   },

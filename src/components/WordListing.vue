@@ -135,11 +135,10 @@
 </template>
 
 <script>
-import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import { mapState } from 'vuex';
 import { client, createOrChangeAllowance } from '../utils/aeternity';
-import backend from '../utils/backend';
+import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import AeAmount from './AeAmount.vue';
 import Loading from './Loading.vue';
@@ -167,7 +166,6 @@ export default {
     sellPrice: null,
     buyAmount: 0,
     sellAmount: 0,
-    spread: 0,
     totalSupply: null,
     tokenAddress: null,
     tokenContract: null,
@@ -192,21 +190,11 @@ export default {
       this.totalSupply = null;
       this.buyPrice = null;
 
-      this.contract = this.contract ? this.contract : await client
-        .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.sale });
-      this.spread = shiftDecimalPlaces(
-        (await this.contract.methods.spread()).decodedResult, -18,
-      ).toFixed();
-
-      this.tokenAddress = (await this.contract.methods.get_token()).decodedResult;
-      this.tokenContract = this.tokenContract ? this.tokenContract : await client
-        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: this.tokenAddress });
-
-      this.totalSupply = (await this.tokenContract.methods.total_supply()).decodedResult;
-
-      const [buy, sell] = (await this.contract.methods.prices()).decodedResult;
-      this.buyPrice = 1 / buy;
-      this.sellPrice = 1 / sell;
+      const data = await Backend.getWordSale(this.sale);
+      this.tokenAddress = data.tokenAddress;
+      this.totalSupply = data.totalSupply;
+      this.buyPrice = data.buyPrice;
+      this.sellPrice = data.sellPrice;
 
       this.loading = false;
       this.buyAmount = 0;
@@ -216,22 +204,32 @@ export default {
     },
     async buy() {
       this.loading = true;
+
+      await this.initContract();
       await this.contract.methods
         .buy({ amount: shiftDecimalPlaces(this.buyAmount, 18).toFixed() });
-      const token = (await this.contract.methods.get_token()).decodedResult;
-      await backend.invalidateTokenCache(token);
+
+      await Backend.invalidateTokenCache(this.tokenAddress);
+      await Backend.invalidateWordSaleCache(this.sale);
       EventBus.$emit('reloadData');
       this.loadWordData();
     },
     async sell() {
       this.loading = true;
+
+      await this.initContract();
       const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
-      const token = (await this.contract.methods.get_token()).decodedResult;
-      await createOrChangeAllowance(token, amount,
+      await createOrChangeAllowance(this.tokenAddress, amount,
         this.contract.deployInfo.address.replace('ct_', 'ak_'));
       await this.contract.methods.sell(amount);
+
+      await Backend.invalidateWordSaleCache(this.sale);
       EventBus.$emit('reloadData');
       this.loadWordData();
+    },
+    async initContract() {
+      this.contract = this.contract ? this.contract : await client
+        .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.sale });
     },
   },
 };

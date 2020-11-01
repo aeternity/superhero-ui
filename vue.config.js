@@ -1,5 +1,7 @@
 const path = require('path');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
+const RendererJSDOM = require('@prerenderer/renderer-jsdom');
 
 // eslint-disable-next-line camelcase
 const { npm_package_version } = process.env;
@@ -55,6 +57,13 @@ module.exports = {
         definitions['process.env.COMMIT_HASH'] = JSON.stringify(commitHash);
         return [definitions];
       })
+      .end()
+      .plugin('ssr')
+      .use(PrerenderSPAPlugin, [{
+        staticDir: path.join(__dirname, 'dist'),
+        routes: ['/'],
+        renderer: new RendererJSDOM(),
+      }])
       .end()
       .resolve.alias.delete('@').parent.parent
       .module

@@ -8,7 +8,8 @@
       class="soundcloud-iframe"
       :src="playUrl"
     />
-    <PlayButton class="play-button"
+    <PlayButton
+      class="play-button"
       :is-playing="isPlaying"
       :loading="loading"
       @click.stop="togglePlay"

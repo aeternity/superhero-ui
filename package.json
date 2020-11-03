@@ -4,17 +4,19 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:stats": "vue-cli-service build --report-json",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e --mode e2e",
+    "lint": "npm run lint:vue && npm run lint:css",
+    "build:stats": "vue-cli-service build --report-json",
+    "lint:css": "stylelint src/**/*.{css,scss,vue}",
     "lint:vue": "vue-cli-service lint --no-fix",
     "lint:vue:fix": "vue-cli-service lint --fix",
-    "lint:css": "stylelint src/**/*.{css,scss,vue}",
-    "lint": "npm run lint:vue && npm run lint:css",
+    "ssr:build": "vue-cli-service ssr:build",
+    "ssr:serve": "vue-cli-service ssr:serve",
+    "ssr:start": "cross-env NODE_ENV=production vue-cli-service ssr:serve --mode production",
     "test": "npm run lint && npm run test:unit",
     "test:withe2e": "npm run lint && npm run test:unit && npm run test:e2e -- --headless"
   },
-  "license": "ISC",
   "dependencies": {
     "@aeternity/aepp-sdk": "^7.7.0",
     "@dicebear/avatars": "^4.2.5",
@@ -38,13 +40,16 @@
     "vue": "^2.6.12",
     "vue-i18n": "^8.21.1",
     "vue-router": "^3.4.5",
+    "vue-server-renderer": "^2.6.0",
     "vuex": "^3.5.1",
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "@akryum/vue-cli-plugin-ssr": "~0.6.0",
     "@vue/cli-plugin-babel": "~4.2.0",
     "@vue/cli-plugin-e2e-cypress": "~4.2.0",
     "@vue/cli-plugin-eslint": "~4.2.0",
+    "@vue/cli-plugin-router": "^4.5.8",
     "@vue/cli-plugin-unit-jest": "~4.2.0",
     "@vue/cli-service": "~4.2.0",
     "@vue/eslint-config-airbnb": "^5.1.0",
@@ -66,5 +71,6 @@
     "svgo-loader": "^2.2.1",
     "vue-svg-loader": "^0.16.0",
     "vue-template-compiler": "^2.6.12"
-  }
+  },
+  "license": "ISC"
 }

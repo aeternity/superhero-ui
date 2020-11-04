@@ -1,13 +1,13 @@
 <template>
   <div class="tip-comment-list">
     <div
-      v-for="comment in comments"
+      v-for="comment in sort(comments, false)"
       :key="comment.id"
       class="tree"
     >
       <TipComment v-bind="comment" />
       <TipComment
-        v-for="childComment in comment.children || []"
+        v-for="childComment in sort(comment.children || [], true)"
         :key="childComment.id"
         v-bind="childComment"
       />
@@ -30,6 +30,13 @@ export default {
   },
   props: {
     comments: { type: Array, required: true },
+  },
+  methods: {
+    sort: (array, isAsc) => array.slice().sort((a, b) => {
+      const values = [a, b].map((e) => Date.parse(e.createdAt));
+      if (isAsc) values.reverse();
+      return values[1] - values[0];
+    }),
   },
 };
 </script>

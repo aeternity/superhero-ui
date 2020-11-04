@@ -14,15 +14,15 @@
     >
       <div
         class="avatar-wrapper"
-        @mouseover="hover = true"
-        @mouseleave="hover = false"
+        @mouseover="hoverDebounced = true"
+        @mouseleave="hoverDebounced = false"
       >
         <Avatar
           :address="address"
         />
         <Transition name="fade">
           <UserCard
-            v-if="hover"
+            v-if="hoverDebounced"
             :address="address"
           />
         </Transition>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { debounce } from 'lodash-es';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 import UserCard from '../UserCard.vue';
@@ -59,6 +60,16 @@ export default {
     name: { type: String, default: '' },
   },
   data: () => ({ hover: false }),
+  computed: {
+    hoverDebounced: {
+      get() {
+        return this.hover;
+      },
+      set: debounce(function set(hover) {
+        this.hover = hover;
+      }, 500),
+    },
+  },
 };
 </script>
 
@@ -116,11 +127,6 @@ export default {
       &.fade-enter-active,
       &.fade-leave-active {
         transition: opacity 0.3s;
-      }
-
-      &.fade-enter-to,
-      &.fade-leave-to {
-        transition-delay: 0.5s;
       }
 
       &.fade-enter,

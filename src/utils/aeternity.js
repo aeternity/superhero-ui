@@ -1,5 +1,4 @@
 /* globals Cypress */
-
 import {
   MemoryAccount, Node, Universal, RpcAepp,
 } from '@aeternity/aepp-sdk/es';
@@ -9,7 +8,9 @@ import TIPPING_V1_INTERFACE from 'tipping-contract/Tipping_v1_Interface.aes';
 import TIPPING_V2_INTERFACE from 'tipping-contract/Tipping_v2_Interface.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
 import { BigNumber } from 'bignumber.js';
+// eslint-disable-next-line import/no-cycle
 import store from '../store';
+// eslint-disable-next-line import/no-cycle
 import { IS_MOBILE_DEVICE } from './index';
 
 let sdk;

@@ -3,7 +3,7 @@
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
       scope="YouTube"
-      @click="showCookiesDialog = false"
+      @close="showCookiesDialog = false"
     />
     <div class="tip__cover-preview">
       <iframe
@@ -22,7 +22,7 @@
         <img :src="`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`">
         <PlayButton
           class="play-button"
-          @click.stop="play('YouTube')"
+          @click.stop="isAllowed ? isPlaying = true : showCookiesDialog = true"
         />
         <div class="tip__info">
           <div class="source">
@@ -47,27 +47,32 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import PlayButton from '../PlayButton.vue';
 import CookiesDialog from '../CookiesDialog.vue';
-import embededPlayerMixin from '../../utils/embededPlayerMixin';
 
 export default {
   components: { PlayButton, CookiesDialog },
-  mixins: [embededPlayerMixin],
   props: {
     tip: { type: Object, required: true },
     tipPreviewTitle: { type: String, default: '' },
     tipPreviewDescription: { type: String, default: '' },
     sourceUrl: { type: String, default: '' },
   },
+  data() {
+    return {
+      isPlaying: false,
+      showCookiesDialog: false,
+    };
+  },
   computed: {
     videoId() {
       const getIdRegex = /(.*?)(^|\/|v=)([a-z0-9_-]{11})(.*)?/im;
       return this.tip.url.match(getIdRegex)?.[3] || '';
     },
-    isAllowed() {
-      return this.checkForAllowed('YouTube');
-    },
+    ...mapState({
+      isAllowed: (state) => state.cookiesConsent.YouTube,
+    }),
   },
 };
 

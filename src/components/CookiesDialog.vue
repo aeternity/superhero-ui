@@ -6,9 +6,9 @@
   >
     <ButtonPlain
       class="button-cancel"
-      @click="$emit('click', $event)"
+      @click="$emit('close', $event)"
     >
-      <ButtonCancel />
+      <IconCancel />
     </ButtonPlain>
     <CookieImg class="cookie-img" />
     <div class="info">
@@ -39,10 +39,10 @@ import { mapState } from 'vuex';
 import backendAuthMixin from '../utils/backendAuthMixin';
 import ButtonPlain from './ButtonPlain.vue';
 import CookieImg from '../assets/cookieImg.svg?icon-component';
-import ButtonCancel from '../assets/buttonCancel.svg?icon-component';
+import IconCancel from '../assets/iconCancel.svg?icon-component';
 
 export default {
-  components: { ButtonPlain, CookieImg, ButtonCancel },
+  components: { ButtonPlain, CookieImg, IconCancel },
   mixins: [backendAuthMixin()],
   props: { scope: { type: String, required: true } },
   computed: mapState(['address']),
@@ -51,12 +51,12 @@ export default {
       if (this.address) {
         await this.backendAuth(`setCookies${this.scope}`, {
           scope: this.scope,
-          status: 'ALLOWED',
+          status: true,
         });
       }
-      this.$store.commit('setCookiesListEntry', {
+      this.$store.commit('setCookiesConsent', {
         scope: this.scope,
-        status: 'ALLOWED',
+        status: true,
       });
     },
   },
@@ -84,9 +84,10 @@ export default {
     position: absolute;
     right: 0;
     top: 0;
+    color: $tip_note_color;
 
-    svg path {
-      fill: $tip_note_color;
+    svg {
+      height: 1.9rem;
     }
   }
 
@@ -105,7 +106,6 @@ export default {
     border-radius: 0.5rem;
     font-weight: 500;
     color: $secondary_color;
-    display: inline-block;
     padding: 0.35rem 0.7rem;
     background-color: $buttons_background;
     margin: 0.5rem 0.5rem 0.5rem 0;

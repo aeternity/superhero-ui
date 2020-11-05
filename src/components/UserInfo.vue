@@ -44,7 +44,7 @@
             :title="$t('cancel')"
             @click="resetEditedValues"
           >
-            <img src="../assets/buttonCancel.svg">
+            <IconCancel />
           </button>
           <button
             v-if="editMode"
@@ -81,7 +81,7 @@
               :title="$t('views.UserProfileView.DeleteAvatar')"
               @click="deleteAvatar"
             >
-              <img src="../assets/buttonCancel.svg">
+              <IconCancel />
             </button>
           </template>
         </div>
@@ -170,11 +170,11 @@
         Allow third-party tracking cookies
         <div>
           <ButtonPlain
-            v-for="{ scope,status } in cookiesList"
+            v-for="scope in ['SoundCloud', 'YouTube']"
             :key="scope"
             class="cookies-button"
-            :class="{ active: status === 'ALLOWED' }"
-            @click="setCookies(scope, status === 'ALLOWED' ? 'REJECTED' : 'ALLOWED')"
+            :class="{ active: cookiesConsent[scope] }"
+            @click="setCookies(scope, !cookiesConsent[scope] )"
           >
             {{ scope }}
           </ButtonPlain>
@@ -226,6 +226,7 @@ import TipInput from './TipInput.vue';
 import ButtonPlain from './ButtonPlain.vue';
 import SuccessIcon from '../assets/verifiedUrl.svg';
 import IconCookies from '../assets/iconCookies.svg?icon-component';
+import IconCancel from '../assets/iconCancel.svg?icon-component';
 
 export default {
   components: {
@@ -233,6 +234,7 @@ export default {
     Avatar,
     TipInput,
     IconCookies,
+    IconCancel,
     ButtonPlain,
   },
   props: {
@@ -264,7 +266,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'chainNames', 'sdk', 'cookiesList']),
+    ...mapState(['useSdkWallet', 'chainNames', 'sdk', 'cookiesConsent']),
     ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];
@@ -402,7 +404,7 @@ export default {
         scope,
         status,
       });
-      this.$store.commit('setCookiesListEntry', {
+      this.$store.commit('setCookiesConsent', {
         scope,
         status,
       });
@@ -488,6 +490,7 @@ input[type="file"] {
     position: absolute;
     right: -0.25rem;
     top: -0.25rem;
+    color: #fff;
 
     &:hover {
       background: #ff495242;
@@ -501,6 +504,7 @@ input[type="file"] {
   .edit__button,
   .cancel__button {
     background: #babac01e;
+    color: #fff;
 
     &:hover {
       background: #babac042;

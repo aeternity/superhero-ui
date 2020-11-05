@@ -5,7 +5,7 @@
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
       scope="SoundCloud"
-      @click="showCookiesDialog = false"
+      @close="showCookiesDialog = false"
     />
     <div class="tip__two-columns-img">
       <img :src="tipPreviewImage">
@@ -26,7 +26,7 @@
       <PlayButton
         v-if="!isPlaying"
         :is-playing="isPlaying"
-        @click.stop="play('SoundCloud')"
+        @click.stop="isAllowed ? isPlaying = true : showCookiesDialog = true"
       />
       <SoundCloudPlayer
         v-else-if="isPlaying && isAllowed"
@@ -38,14 +38,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import SoundCloudPlayer from './SoundCloudPlayer.vue';
 import PlayButton from '../PlayButton.vue';
 import CookiesDialog from '../CookiesDialog.vue';
-import embededPlayerMixin from '../../utils/embededPlayerMixin';
 
 export default {
   components: { SoundCloudPlayer, PlayButton, CookiesDialog },
-  mixins: [embededPlayerMixin],
   props: {
     tip: { type: Object, required: true },
     tipPreviewTitle: { type: String, required: true },
@@ -53,11 +52,15 @@ export default {
     tipPreviewImage: { type: String, default: '' },
     sourceUrl: { type: String, default: '' },
   },
-  computed: {
-    isAllowed() {
-      return this.checkForAllowed('SoundCloud');
-    },
+  data() {
+    return {
+      isPlaying: false,
+      showCookiesDialog: false,
+    };
   },
+  computed: mapState({
+    isAllowed: (state) => state.cookiesConsent.SoundCloud,
+  }),
 };
 </script>
 

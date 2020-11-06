@@ -88,8 +88,7 @@
           <a
             class="profile__username"
             target="_blank"
-            :href="openExplorer(address)"
-            :title="address"
+            :href="explorerTransactionsUrl"
           >
             <div class="chain">
               {{ userChainName ? userChainName : $t('FellowSuperhero') }}
@@ -99,7 +98,6 @@
           <div
             v-if="balance"
             class="balance"
-            :title="balance"
           >
             <span>{{ $t('Balance') }}</span>
             <AeAmountFiat :amount="balance" />
@@ -196,7 +194,6 @@
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
-import { EXPLORER_URL } from '../config/constants';
 import { atomsToAe } from '../utils';
 import { client } from '../utils/aeternity';
 import AeAmountFiat from './AeAmountFiat.vue';
@@ -299,6 +296,9 @@ export default {
         },
       ];
     },
+    explorerTransactionsUrl() {
+      return `${process.env.VUE_APP_EXPLORER_URL}/account/transactions/${this.address}`;
+    },
   },
   mounted() {
     this.$watch(
@@ -330,9 +330,6 @@ export default {
           that.getBalance();
         }, 200);
       }
-    },
-    openExplorer(address) {
-      return `${EXPLORER_URL}account/transactions/${address}`;
     },
     async resetEditedValues() {
       this.editMode = false;

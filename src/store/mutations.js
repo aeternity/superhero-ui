@@ -79,4 +79,7 @@ export default {
   setSdk(state, sdk) {
     state.sdk = sdk;
   },
+  setBackendStatus(state, isBackendLive) {
+    state.isBackendLive = isBackendLive;
+  },
 };

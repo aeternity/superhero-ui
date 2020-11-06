@@ -1,7 +1,5 @@
 import { mapState } from 'vuex';
 import Backend from './backend';
-import { createDeepLinkUrl } from './index';
-import { client } from './aeternity';
 
 export default (ignoreCallInQuery) => ({
   computed: mapState({
@@ -31,20 +29,9 @@ export default (ignoreCallInQuery) => ({
   },
   methods: {
     async backendAuth(method, arg, to) {
-      const { challenge } = await Backend[method](this.address, arg);
-      if (this.useSdkWallet) {
-        const signature = await client.signMessage(challenge);
-        await Backend[method](this.address, { challenge, signature });
-        return;
-      }
-
-      const url = new URL(to ? this.$router.resolve(to).href : window.location, window.location);
-      url.search = '';
-      window.location = createDeepLinkUrl({
-        type: 'sign-message',
-        message: challenge,
-        'x-success': `${url}?method=${method}&address=${this.address}&challenge=${challenge}&signature={signature}`,
-      });
+      await this.$store.dispatch(
+        'backend/callWithAuth', { method, arg, to: to && this.$router.resolve(to).href },
+      );
     },
   },
 });

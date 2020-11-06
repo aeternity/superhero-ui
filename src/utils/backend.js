@@ -1,4 +1,25 @@
-import { wrapTry } from './index';
+// eslint-disable-next-line import/no-cycle
+import store from '../store';
+
+const wrapTry = async (promise) => {
+  try {
+    return promise.then((res) => {
+      if (!res) {
+        store.commit('setBackendStatus', false);
+        return null;
+      }
+      store.commit('setBackendStatus', true);
+      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
+      return res.json();
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+  } catch (err) {
+    store.commit('setBackendStatus', false);
+    return null;
+  }
+};
 
 const backendFetch = (path, ...args) => wrapTry(
   fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err)),

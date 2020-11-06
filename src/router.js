@@ -178,7 +178,7 @@ const routes = [
       title: 'Conference',
     },
     beforeEnter(to, from, next) {
-      if (IS_MOBILE_DEVICE) window.location = `https://${process.env.VUE_APP_JITSI_URL}/${to.params.room || ''}`;
+      if (IS_MOBILE_DEVICE) window.location = `https://${process.env.VUE_APP_JITSI_HOST}/${to.params.room || ''}`;
       else next();
     },
   },

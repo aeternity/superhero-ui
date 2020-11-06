@@ -1,7 +1,6 @@
 import './styles/base.scss';
 
 import Vue from 'vue';
-import VueRouter from 'vue-router';
 import { sync } from 'vuex-router-sync';
 import App from './App.vue';
 import { createStore } from './store';
@@ -16,18 +15,18 @@ Vue.config.productionTip = false;
 registerModals();
 sync(store, router);
 
-export default export async function createApp ({
+export default async function createApp ({
           beforeApp = () => {},
           afterApp = () => {}
         } = {}) {
           const router = createRouter()
-          
-          
+
+
 
           await beforeApp({
             router,
-            
-            
+
+
           })
 
           const app = new Vue({
@@ -41,8 +40,8 @@ export default export async function createApp ({
           const result = {
             app,
             router,
-            
-            
+
+
           }
 
           await afterApp(result)

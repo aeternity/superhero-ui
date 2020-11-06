@@ -1,6 +1,6 @@
 import { loadAsyncComponents } from '@akryum/vue-cli-plugin-ssr/client'
 
-import { createApp } from './main'
+import createApp from './main'
 
 createApp({
   async beforeApp ({

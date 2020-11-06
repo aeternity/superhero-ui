@@ -59,12 +59,10 @@ module.exports = {
       })
       .end()
       .plugin('ssr')
-      .use(PrerenderSPAPlugin, [{
-        staticDir: path.join(__dirname, 'dist'),
-        routes: ['/'],
-        renderer: new RendererJSDOM(),
-      }])
-      .end()
+      .tap((options) => ({
+        entry: (target) => `./src/entry-${target}`,
+        ...options[0],
+      }))
       .resolve.alias.delete('@').parent.parent
       .module
       .rule('aes')

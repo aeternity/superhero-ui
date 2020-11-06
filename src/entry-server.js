@@ -1,4 +1,4 @@
-import { createApp } from './main'
+import createApp from './main'
 
 const prepareUrlForRouting = url => {
   const { BASE_URL } = process.env

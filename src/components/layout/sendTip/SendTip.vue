@@ -38,7 +38,6 @@
             <AeButton
               :disabled="!canTip || !isSendTipDataValid"
               :loading="sendingTip"
-              @click="sendTip"
             >
               <span class="text-nowrap">
                 <IconDiamond /> {{ $t('tip') }}

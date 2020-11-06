@@ -9,7 +9,6 @@ import TIPPING_V1_INTERFACE from 'tipping-contract/Tipping_v1_Interface.aes';
 import TIPPING_V2_INTERFACE from 'tipping-contract/Tipping_v2_Interface.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
 import { BigNumber } from 'bignumber.js';
-import { COMPILER_URL, NODE_URL } from '../config/constants';
 import store from '../store';
 import { IS_MOBILE_DEVICE } from './index';
 
@@ -38,13 +37,13 @@ const initTippingContractIfNeeded = async () => {
  */
 export const initClient = async () => {
   try {
+    const common = {
+      nodes: [{ name: 'node', instance: await Node({ url: process.env.VUE_APP_NODE_URL }) }],
+      compilerUrl: process.env.VUE_APP_COMPILER_URL,
+    };
     if (window.Cypress) {
       client = await Universal({
-        compilerUrl: COMPILER_URL,
-        nodes: [{
-          name: 'testnet',
-          instance: await Node({ url: 'https://testnet.aeternity.io' }),
-        }],
+        ...common,
         accounts: [
           MemoryAccount({
             keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey') },
@@ -58,9 +57,8 @@ export const initClient = async () => {
       await initTippingContractIfNeeded();
     } else {
       client = await RpcAepp({
+        ...common,
         name: 'Superhero',
-        nodes: [{ name: 'node', instance: await Node({ url: NODE_URL }) }],
-        compilerUrl: COMPILER_URL,
         onDisconnect() {
           store.commit('resetState');
         },

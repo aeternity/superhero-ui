@@ -1,36 +1,106 @@
 <template>
-  <div class="row">
-    <div class="col-md-3">
-      <RouterLink
-        class="link"
-        :to="{ name: 'word-detail', params: { word } }"
+  <div>
+    <div>
+      <OutlinedButton
+        class="green unpadded mr-1"
+        @click="showBuyModal = true"
       >
-        {{ word }}
-      </RouterLink>
-    </div>
-    <div class="col-md-3">
-      <AeAmount
-        v-if="buyPrice"
-        :amount="buyPrice"
-      />
-      <Loading
-        v-else
-        :small="true"
-      />
-    </div>
-    <div class="col-md-3">
-      <AeAmount
-        v-if="totalSupply !== null && tokenAddress"
-        :amount="totalSupply"
-        :token="tokenAddress"
-      />
-      <Loading
-        v-else
-        :small="true"
-      />
+        <!-- eslint-disable vue-i18n/no-raw-text -->
+        Buy
+      </OutlinedButton>
+
+      <OutlinedButton
+        class="red unpadded"
+        @click="showSellModal = true"
+      >
+        <!-- eslint-disable vue-i18n/no-raw-text -->
+        Sell
+      </OutlinedButton>
     </div>
 
-    <WordBuySellButtons :sale="sale" />
+    <Modal
+      v-if="showBuyModal"
+      @close="showBuyModal = false"
+    >
+      <div class="label">
+        Account Balance
+      </div>
+      <AeAmount
+        :amount="tokenBalance"
+        :token="tokenAddress"
+      />
+      <div class="mt-3 label">
+        Amount buying
+      </div>
+      <div class="input-group mb-2">
+        <input
+          v-model="buyAmount"
+          type="number"
+          maxlength="90"
+          class="form-control"
+        >
+      </div>
+      <div class="mt-3 label">
+        Total you pay
+      </div>
+      <AeAmountFiat :amount="buyAmount * buyPrice" />
+      <div class="mt-3 text-center">
+        <OutlinedButton
+          class="green"
+          @click="buy"
+        >
+          <!-- eslint-disable vue-i18n/no-raw-text -->
+          <Loading
+            v-if="loading"
+            small
+            class="p-0"
+          />
+          <span v-else>Buy</span>
+        </OutlinedButton>
+      </div>
+    </Modal>
+
+    <Modal
+      v-if="showSellModal"
+      @close="showSellModal = false"
+    >
+      <div class="label">
+        Account Balance
+      </div>
+      <AeAmount
+        :amount="tokenBalance"
+        :token="tokenAddress"
+      />
+      <div class="mt-3 label">
+        Amount selling
+      </div>
+      <div class="input-group mb-2">
+        <input
+          v-model="sellAmount"
+          type="number"
+          maxlength="90"
+          class="form-control"
+        >
+      </div>
+      <div class="mt-3 label">
+        Total you get
+      </div>
+      <AeAmountFiat :amount="sellAmount * sellPrice" />
+      <div class="mt-3 text-center">
+        <OutlinedButton
+          class="red"
+          @click="sell"
+        >
+          <!-- eslint-disable vue-i18n/no-raw-text -->
+          <Loading
+            v-if="loading"
+            small
+            class="p-0"
+          />
+          <span v-else>Sell</span>
+        </OutlinedButton>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -42,18 +112,21 @@ import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import AeAmount from './AeAmount.vue';
 import Loading from './Loading.vue';
+import OutlinedButton from './OutlinedButton.vue';
+import Modal from './Modal.vue';
+import AeAmountFiat from './AeAmountFiat.vue';
 import { shiftDecimalPlaces } from '../utils';
-import WordBuySellButtons from './WordBuySellButtons.vue';
 
 export default {
-  name: 'WordListing',
+  name: 'WordBuySellButtons',
   components: {
-    WordBuySellButtons,
+    AeAmountFiat,
     AeAmount,
     Loading,
+    OutlinedButton,
+    Modal,
   },
   props: {
-    word: { type: String, required: true },
     sale: { type: String, required: true },
   },
   data: () => ({
@@ -88,7 +161,6 @@ export default {
 
       const data = await Backend.getWordSale(this.sale);
       this.tokenAddress = data.tokenAddress;
-      this.totalSupply = data.totalSupply;
       this.buyPrice = data.buyPrice;
       this.sellPrice = data.sellPrice;
 
@@ -132,23 +204,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.link {
-  color: $secondary_color;
-  text-decoration: none;
-}
+.not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
+  background-color: $article_content_color;
+  border-radius: 0.5rem;
+  margin: 1.9rem -13.6rem;
+  padding: 1rem;
 
-h2 {
-  margin-top: 1rem;
-}
-
-.label {
-  color: $light_font_color;
-  font-size: 0.7rem;
-  margin-bottom: 0.5rem;
-
-  @include desktop {
-    margin-bottom: 0.4rem;
-    line-height: 0.9rem;
+  @include smallest {
+    min-width: 16rem;
+    padding: 0.5rem;
   }
 }
 </style>

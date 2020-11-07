@@ -8,7 +8,12 @@ import TIPPING_INTERFACE_V1 from 'tipping-contract/Tipping_v1_Interface.aes';
 import TIPPING_INTERFACE_V2 from 'tipping-contract/Tipping_v2_Interface.aes';
 import TIPPING_INTERFACE_V3 from 'tipping-contract/Tipping_v3_Interface.aes';
 import tippingContractUtil from 'tipping-contract/util/tippingContractUtil';
+
 import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
+import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
+import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
+import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
+
 import { BigNumber } from 'bignumber.js';
 import { IS_MOBILE_DEVICE } from '../../utils';
 
@@ -21,6 +26,10 @@ export default {
     contractV1: null,
     contractV2: null,
     contractV3: null,
+    wordRegistryContract: null,
+    fungibleTokenContracts: {},
+    tokenVotingContracts: {},
+    tokenSaleContracts: {},
     isTippingContractsInitialised: false,
   },
   mutations: {
@@ -39,6 +48,18 @@ export default {
     },
     enableIframeWallet(state) {
       state.useIframeWallet = true;
+    },
+    setFungibleTokenContract(state, contractAddress, instance) {
+      state.fungibleTokenContracts[contractAddress] = instance;
+    },
+    setTokenVotingContract(state, contractAddress, instance) {
+      state.tokenVotingContracts[contractAddress] = instance;
+    },
+    setTokenSaleContract(state, contractAddress, instance) {
+      state.tokenSaleContracts[contractAddress] = instance;
+    },
+    setWordRegistryContract(state, instance) {
+      state.wordRegistryContract = instance;
     },
   },
   actions: {
@@ -118,29 +139,137 @@ export default {
         });
       });
     },
-    async tokenBalance({ state: { sdk } }, token, address) {
-      const tokenContract = await sdk
-        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token });
+    async getHeight({ state: { sdk } }) {
+      return sdk.height();
+    },
+    async initFungibleTokenContractIfNeeded(
+      { commit, state: { sdk, fungibleTokenContracts } },
+      contractAddress,
+    ) {
+      if (!fungibleTokenContracts[contractAddress]) {
+        commit('setFungibleTokenContract', contractAddress, await sdk
+          .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress }));
+      }
+    },
+    async initWordRegistryContractIfNeeded({ commit, state: { sdk, wordRegistryContract } }) {
+      if (!wordRegistryContract) {
+        commit('setWordRegistryContract', await sdk
+          .getContractInstance(WORD_REGISTRY_CONTRACT,
+            { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS }));
+      }
+    },
+    async initTokenVotingContractIfNeeded(
+      { commit, state: { sdk, tokenVotingContracts } },
+      contractAddress,
+    ) {
+      if (!tokenVotingContracts[contractAddress]) {
+        commit('setTokenVotingContract', contractAddress, await sdk
+          .getContractInstance(TOKEN_VOTING_CONTRACT, { contractAddress }));
+      }
+    },
+    async initTokenSaleContractIfNeeded(
+      { commit, state: { sdk, tokenSaleContracts } },
+      contractAddress,
+    ) {
+      if (!tokenSaleContracts[contractAddress]) {
+        commit('setTokenSaleContract', contractAddress, await sdk
+          .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress }));
+      }
+    },
+    async deployTokenSaleContract(
+      { commit, state: { sdk } },
+      timeout,
+      bondingCurveAddress,
+    ) {
+      const contract = await sdk.getContractInstance(TOKEN_SALE_CONTRACT);
+      await contract.init(timeout, bondingCurveAddress);
+      commit('setTokenSaleContract', contract.deployInfo.address, contract);
+      return contract.deployInfo.address;
+    },
+    async deployFungibleTokenContract(
+      { commit, state: { sdk } },
+      name,
+      decimals,
+      symbol,
+      tokenSaleAddress,
+    ) {
+      const contract = await sdk.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
+      await contract.init(name, decimals, symbol, tokenSaleAddress);
+      commit('setFungibleTokenContract', contract.deployInfo.address, contract);
+      return contract.deployInfo.address;
+    },
+    async deployTokenVotingContract(
+      { commit, state: { sdk } },
+      metadata,
+      closeHeight,
+      token,
+    ) {
+      const contract = await sdk.getContractInstance(TOKEN_VOTING_CONTRACT);
+      await contract.init(metadata, closeHeight, token);
+      commit('setTokenVotingContract', contract.deployInfo.address, contract);
+      return contract.deployInfo.address;
+    },
+    async wordRegistryAddToken(
+      { dispatch, state: { wordRegistryContract } },
+      addTokenAddress,
+    ) {
+      await dispatch('initWordRegistryContractIfNeeded');
 
-      const { decodedResult } = await tokenContract.methods.balance(address);
+      const { decodedResult } = await wordRegistryContract.add_token(addTokenAddress);
+      return decodedResult;
+    },
+    async tokenSaleMethod(
+      { dispatch, state: { tokenSaleContracts } },
+      contractAddress,
+      method,
+      args,
+      options,
+    ) {
+      await dispatch('initTokenSaleContractIfNeeded', contractAddress);
+
+      const { decodedResult } = await tokenSaleContracts[contractAddress]
+        .methods[method](...args, options);
+      return decodedResult;
+    },
+    async tokenBalance(
+      { dispatch, state: { fungibleTokenContracts } },
+      contractAddress,
+      address,
+    ) {
+      await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
+
+      const { decodedResult } = await fungibleTokenContracts[contractAddress]
+        .methods.balance(address);
       return new BigNumber(decodedResult || 0).toFixed();
     },
-    async createOrChangeAllowance({ state: { sdk } }, tokenAddress, amount) {
-      const tokenContract = await sdk
-        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
+    async tokenTotalSupply({ dispatch, state: { fungibleTokenContracts } }, contractAddress) {
+      await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
 
-      const { decodedResult } = await tokenContract.methods.allowance({
-        from_account: await sdk.address(),
-        for_account: process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
-      });
+      const { decodedResult } = await fungibleTokenContracts[contractAddress]
+        .methods.total_supply();
+      return new BigNumber(decodedResult || 0).toFixed();
+    },
+    async createOrChangeAllowance(
+      { dispatch, state: { fungibleTokenContracts, sdk } },
+      contractAddress,
+      amount,
+      forAccount = null,
+    ) {
+      await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
+
+      const { decodedResult } = await fungibleTokenContracts[contractAddress]
+        .methods.allowance({
+          from_account: await sdk.address(),
+          for_account: forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+        });
 
       const allowanceAmount = decodedResult !== undefined
         ? new BigNumber(decodedResult).multipliedBy(-1).plus(amount).toNumber()
         : amount;
 
-      return tokenContract
+      return fungibleTokenContracts[contractAddress]
         .methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
-          process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+          forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
           allowanceAmount,
         );
     },

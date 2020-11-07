@@ -35,14 +35,10 @@
 </template>
 
 <script>
-import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import { mapState } from 'vuex';
-import { client, createOrChangeAllowance } from '../utils/aeternity';
 import Backend from '../utils/backend';
-import { EventBus } from '../utils/eventBus';
 import AeAmount from './AeAmount.vue';
 import Loading from './Loading.vue';
-import { shiftDecimalPlaces } from '../utils';
 import WordBuySellButtons from './WordBuySellButtons.vue';
 
 export default {
@@ -60,13 +56,9 @@ export default {
     contract: null,
     buyPrice: null,
     sellPrice: null,
-    buyAmount: 0,
-    sellAmount: 0,
     totalSupply: null,
     tokenAddress: null,
     tokenContract: null,
-    showBuyModal: false,
-    showSellModal: false,
     loading: true,
   }),
   computed: {
@@ -95,37 +87,6 @@ export default {
       this.loading = false;
       this.buyAmount = 0;
       this.sellAmount = 0;
-      this.showSellModal = false;
-      this.showBuyModal = false;
-    },
-    async buy() {
-      this.loading = true;
-
-      await this.initContract();
-      await this.contract.methods
-        .buy({ amount: shiftDecimalPlaces(this.buyAmount, 18).toFixed() });
-
-      await Backend.invalidateTokenCache(this.tokenAddress);
-      await Backend.invalidateWordSaleCache(this.sale);
-      EventBus.$emit('reloadData');
-      this.loadWordData();
-    },
-    async sell() {
-      this.loading = true;
-
-      await this.initContract();
-      const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
-      await createOrChangeAllowance(this.tokenAddress, amount,
-        this.contract.deployInfo.address.replace('ct_', 'ak_'));
-      await this.contract.methods.sell(amount);
-
-      await Backend.invalidateWordSaleCache(this.sale);
-      EventBus.$emit('reloadData');
-      this.loadWordData();
-    },
-    async initContract() {
-      this.contract = this.contract ? this.contract : await client
-        .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.sale });
     },
   },
 };

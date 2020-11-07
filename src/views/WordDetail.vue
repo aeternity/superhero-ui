@@ -1,9 +1,12 @@
 <template>
   <div>
-    <div v-if="selectedWord">
+    <BackButtonRibbon :title="selectedWord">
+      <WordBuySellButtons :sale="saleContractAddress" />
+    </BackButtonRibbon>
+
+    <div class="asset_details__section" v-if="selectedWord">
       <!-- eslint-disable vue-i18n/no-raw-text -->
-      <h2>Word: {{ selectedWord }}</h2>
-      <h2>Votes ({{ spread }} AE spread)</h2>
+      <span>Votes ({{ spread }} AE spread)</span>
       (start voting to payout to inserted address)
       <input
         v-model="newVotePayout"
@@ -69,9 +72,15 @@ import { client, createOrChangeAllowance } from '../utils/aeternity';
 import { shiftDecimalPlaces } from '../utils';
 import { EventBus } from '../utils/eventBus';
 import Backend from '../utils/backend';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
+import WordBuySellButtons from '../components/WordBuySellButtons.vue';
 
 export default {
   name: 'WordBazaar',
+  components: {
+    WordBuySellButtons,
+    BackButtonRibbon,
+  },
   data: () => ({
     wordRegistryState: null,
     selectedWord: null,
@@ -86,15 +95,16 @@ export default {
     ...mapState(['address']),
   },
   mounted() {
-    setTimeout(this.updateWords, 5000);
+    this.selectedWord = this.$route.params.word;
+    this.updateWords();
   },
   methods: {
     async updateWords() {
       this.wordRegistryState = await Backend.getWordRegistry();
-      const [selectedWord, saleContractAddress] = this.wordRegistryState.tokens
-        .find(([word]) => word === this.$route.params.word);
+      // eslint-disable-next-line no-unused-vars
+      const [_, saleContractAddress] = this.wordRegistryState.tokens
+        .find(([word]) => word === this.selectedWord);
 
-      this.selectedWord = selectedWord;
       this.saleContractAddress = saleContractAddress;
 
       this.loadSpread();
@@ -201,4 +211,9 @@ h2 {
 #vote {
   margin-bottom: 0.5rem;
 }
+
+.asset_details__section {
+  background-color: $light_color;
+}
+
 </style>

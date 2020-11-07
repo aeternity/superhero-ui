@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.aes';
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
@@ -69,6 +68,7 @@ import BigNumber from 'bignumber.js';
 import { client, createOrChangeAllowance } from '../utils/aeternity';
 import { shiftDecimalPlaces } from '../utils';
 import { EventBus } from '../utils/eventBus';
+import Backend from '../utils/backend';
 
 export default {
   name: 'WordBazaar',
@@ -76,6 +76,7 @@ export default {
     wordRegistryState: null,
     selectedWord: null,
     selectedWordContract: null,
+    saleContractAddress: null,
     spread: 0,
     votes: null,
     newVotePayout: '',
@@ -89,23 +90,27 @@ export default {
   },
   methods: {
     async updateWords() {
-      this.wordRegistry = this.wordRegistry ? this.wordRegistry : await client
-        .getContractInstance(WORD_REGISTRY_CONTRACT,
-          { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS });
-      this.wordRegistryState = (await this.wordRegistry.methods.get_state()).decodedResult;
-      const token = this.wordRegistryState.tokens
+      this.wordRegistryState = await Backend.getWordRegistry();
+      const [selectedWord, saleContractAddress] = this.wordRegistryState.tokens
         .find(([word]) => word === this.$route.params.word);
-      this.selectWord(token[0], token[1]);
+
+      this.selectedWord = selectedWord;
+      this.saleContractAddress = saleContractAddress;
+
+      this.loadSpread();
+      this.loadVotes();
     },
-    async selectWord(word, sale) {
+    async loadSpread() {
+      const data = await Backend.getWordSale(this.saleContractAddress);
+      this.spread = shiftDecimalPlaces(data.spread, -18).toFixed();
+    },
+    async loadVotes() {
       this.selectedWordContract = this.selectedWordContract ? this.selectedWordContract
-        : await client.getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: sale });
-      this.spread = shiftDecimalPlaces(
-        (await this.selectedWordContract.methods.spread()).decodedResult, -18,
-      ).toFixed();
+        : await client
+          .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.saleContractAddress });
+
       this.votes = await Promise.all((await this.selectedWordContract.methods.votes()).decodedResult
         .map(([id, vote]) => this.getVoteInfo(id, vote[1], vote[0])));
-      this.selectedWord = word;
     },
     async getVoteInfo(id, vote, alreadyApplied) {
       this.tokenVoting[vote] = this.tokenVoting[vote] ? this.tokenVoting[vote]

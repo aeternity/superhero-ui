@@ -6,7 +6,7 @@
   >
     <div
       v-if="loading"
-      class="spinner-border spinner-border-sm text-primary loading"
+      class="spinner-border spinner-border-sm text-primary"
     />
     <img
       v-else-if="!loading"

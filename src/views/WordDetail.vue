@@ -8,6 +8,29 @@
     </BackButtonRibbon>
 
     <div
+      class="activity-ribbon"
+    >
+      <FilterButton
+        :class="{ active: activity === 'info' }"
+        @click="activity = 'info'"
+      >
+        <IconChannel />
+        <span class="vertical-align-mid">
+         Token Info
+        </span>
+      </FilterButton>
+      <FilterButton
+        :class="{ active: activity === 'voting' }"
+        @click="activity = 'voting'"
+      >
+        <IconActivity />
+        <span class="vertical-align-mid">
+          Voting
+        </span>
+      </FilterButton>
+    </div>
+
+    <div
       v-if="selectedWord"
       class="asset_details__section"
     >
@@ -76,12 +99,18 @@ import { EventBus } from '../utils/eventBus';
 import Backend from '../utils/backend';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import WordBuySellButtons from '../components/WordBuySellButtons.vue';
+import FilterButton from '../components/FilterButton.vue';
+import IconChannel from '../assets/iconChannel.svg?icon-component';
+import IconActivity from '../assets/iconActivity.svg?icon-component';
 
 export default {
   name: 'WordBazaar',
   components: {
     WordBuySellButtons,
     BackButtonRibbon,
+    FilterButton,
+    IconChannel,
+    IconActivity,
   },
   data: () => ({
     wordRegistryState: null,
@@ -91,6 +120,7 @@ export default {
     votes: null,
     newVotePayout: '',
     tokenVoting: {},
+    activity: 'info',
   }),
   computed: {
     ...mapState(['address']),
@@ -121,7 +151,7 @@ export default {
       );
     },
     async getVoteInfo(id, vote, alreadyApplied) {
-      const state = (await this.tokenVoting[vote].methods.get_state()).decodedResult;
+      const state = await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'get_state');
       const voteTimeout = await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'vote_timeout');
       const height = await this.$store.dispatch('getHeight');
       const votedFor = state.vote_state.find(([s]) => s)[1];
@@ -208,6 +238,11 @@ h2 {
 
 .asset_details__section {
   background-color: $light_color;
+}
+
+.activity-ribbon {
+  background-color: $light_color;
+  padding: 0.5rem 0 0.5rem 0.75rem;
 }
 
 </style>

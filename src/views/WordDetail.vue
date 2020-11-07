@@ -1,7 +1,7 @@
 <template>
   <div>
     <BackButtonRibbon :title="selectedWord">
-      <WordBuySellButtons :sale="saleContractAddress" />
+      <WordBuySellButtons v-if="saleContractAddress" :sale="saleContractAddress" />
     </BackButtonRibbon>
 
     <div class="asset_details__section" v-if="selectedWord">
@@ -68,18 +68,20 @@ import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
 import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
-import { client, createOrChangeAllowance } from '../utils/aeternity';
+import { getClient, createOrChangeAllowance } from '../utils/aeternity';
 import { shiftDecimalPlaces } from '../utils';
 import { EventBus } from '../utils/eventBus';
 import Backend from '../utils/backend';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import WordBuySellButtons from '../components/WordBuySellButtons.vue';
+import FilterButton from '../components/FilterButton.vue';
 
 export default {
   name: 'WordBazaar',
   components: {
     WordBuySellButtons,
     BackButtonRibbon,
+    FilterButton,
   },
   data: () => ({
     wordRegistryState: null,
@@ -101,11 +103,10 @@ export default {
   methods: {
     async updateWords() {
       this.wordRegistryState = await Backend.getWordRegistry();
-      // eslint-disable-next-line no-unused-vars
-      const [_, saleContractAddress] = this.wordRegistryState.tokens
-        .find(([word]) => word === this.selectedWord);
 
-      this.saleContractAddress = saleContractAddress;
+      // eslint-disable-next-line prefer-destructuring
+      this.saleContractAddress = this.wordRegistryState.tokens
+        .find(([word]) => word === this.selectedWord)[1];
 
       this.loadSpread();
       this.loadVotes();
@@ -116,18 +117,18 @@ export default {
     },
     async loadVotes() {
       this.selectedWordContract = this.selectedWordContract ? this.selectedWordContract
-        : await client
-          .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.saleContractAddress });
+        : await getClient().then((client) => client
+          .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.saleContractAddress }));
 
       this.votes = await Promise.all((await this.selectedWordContract.methods.votes()).decodedResult
         .map(([id, vote]) => this.getVoteInfo(id, vote[1], vote[0])));
     },
     async getVoteInfo(id, vote, alreadyApplied) {
       this.tokenVoting[vote] = this.tokenVoting[vote] ? this.tokenVoting[vote]
-        : await client.getContractInstance(TOKEN_VOTING_CONTRACT, { contractAddress: vote });
+        : await getClient().then((client) => client.getContractInstance(TOKEN_VOTING_CONTRACT, { contractAddress: vote }));
       const state = (await this.tokenVoting[vote].methods.get_state()).decodedResult;
       const voteTimeout = (await this.selectedWordContract.methods.vote_timeout()).decodedResult;
-      const height = await client.height();
+      const height = await getClient().then((client) => client.height());
 
       const votedFor = state.vote_state.find(([s]) => s)[1];
       const votedAgainst = state.vote_state.find(([s]) => !s)[1];
@@ -136,8 +137,8 @@ export default {
         .dividedBy(new BigNumber(votedFor).plus(votedAgainst)).times(100).toFixed(0);
       const voterAccount = state.vote_accounts.find(([acc]) => acc === this.address);
       const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
-      const tokenContract = await client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT,
-        { contractAddress: token });
+      const tokenContract = await getClient().then((client) => client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT,
+        { contractAddress: token }));
       const totalSupply = (await tokenContract.methods.total_supply()).decodedResult;
 
       return {
@@ -168,8 +169,8 @@ export default {
     },
     async voteOption(instance, option) {
       const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
-      const tokenContract = await client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT,
-        { contractAddress: token });
+      const tokenContract = await getClient().then((client) =>
+        client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token }));
 
       const amount = (await tokenContract.methods.balance(this.address)).decodedResult;
       await createOrChangeAllowance(token, amount,
@@ -185,14 +186,15 @@ export default {
       EventBus.$emit('reloadData');
     },
     async createVote() {
-      const tokenVoting = await client.getContractInstance(TOKEN_VOTING_CONTRACT);
+      const tokenVoting = await getClient()
+        .then((client) => client.getContractInstance(TOKEN_VOTING_CONTRACT));
 
       const metadata = {
         subject: { VotePayout: [this.newVotePayout] },
         description: `Payout spread of ${this.selectedWord} to ${this.newVotePayout}`,
         link: 'https://aeternity.com/',
       };
-      const closeHeight = (await client.height()) + 20;
+      const closeHeight = (await getClient().then((client) => client.height())) + 20;
       const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
       await tokenVoting.methods.init(metadata, closeHeight, token);
 

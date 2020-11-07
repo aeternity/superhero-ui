@@ -73,6 +73,12 @@ export const initSdk = async () => {
   store.commit('setBackendStatus', true);
 };
 
+export const getClient = async () => {
+  if (client) return client;
+  await new Promise((r) => setTimeout(r, 500));
+  return getClient();
+};
+
 export const scanForWallets = async () => {
   const scannerConnection = await BrowserWindowMessageConnection({
     connectionInfo: { id: 'spy' },

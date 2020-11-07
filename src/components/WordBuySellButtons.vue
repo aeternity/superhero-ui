@@ -105,9 +105,7 @@
 </template>
 
 <script>
-import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import { mapState } from 'vuex';
-import { client, createOrChangeAllowance } from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import AeAmount from './AeAmount.vue';
@@ -130,7 +128,6 @@ export default {
     sale: { type: String, required: true },
   },
   data: () => ({
-    contract: null,
     buyPrice: null,
     sellPrice: null,
     buyAmount: 0,
@@ -173,9 +170,8 @@ export default {
     async buy() {
       this.loading = true;
 
-      await this.initContract();
-      await this.contract.methods
-        .buy({ amount: shiftDecimalPlaces(this.buyAmount, 18).toFixed() });
+      await this.$store.dispatch('tokenSaleMethod', this.sale,
+        'buy', [], { amount: shiftDecimalPlaces(this.buyAmount, 18).toFixed() });
 
       await Backend.invalidateTokenCache(this.tokenAddress);
       await Backend.invalidateWordSaleCache(this.sale);
@@ -185,19 +181,16 @@ export default {
     async sell() {
       this.loading = true;
 
-      await this.initContract();
       const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
-      await createOrChangeAllowance(this.tokenAddress, amount,
-        this.contract.deployInfo.address.replace('ct_', 'ak_'));
-      await this.contract.methods.sell(amount);
+
+      await this.$store.dispatch('createOrChangeAllowance',
+        this.tokenAddress, amount, this.sale.replace('ct_', 'ak_'));
+      await this.$store.dispatch('tokenSaleMethod', this.sale,
+        'sell', [amount]);
 
       await Backend.invalidateWordSaleCache(this.sale);
       EventBus.$emit('reloadData');
       this.loadWordData();
-    },
-    async initContract() {
-      this.contract = this.contract ? this.contract : await client
-        .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.sale });
     },
   },
 };
@@ -207,7 +200,7 @@ export default {
 .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
   background-color: $article_content_color;
   border-radius: 0.5rem;
-  margin: 1.9rem -13.6rem;
+  margin: 0rem -6.3rem;
   padding: 1rem;
 
   @include smallest {

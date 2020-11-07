@@ -1,10 +1,39 @@
 <template>
   <div>
     <BackButtonRibbon :title="selectedWord">
-      <WordBuySellButtons v-if="saleContractAddress" :sale="saleContractAddress" />
+      <WordBuySellButtons
+        v-if="saleContractAddress"
+        :sale="saleContractAddress"
+      />
     </BackButtonRibbon>
 
-    <div class="asset_details__section" v-if="selectedWord">
+    <div
+      class="activity-ribbon"
+    >
+      <FilterButton
+        :class="{ active: activity === 'info' }"
+        @click="activity = 'info'"
+      >
+        <IconChannel />
+        <span class="vertical-align-mid">
+         Token Info
+        </span>
+      </FilterButton>
+      <FilterButton
+        :class="{ active: activity === 'voting' }"
+        @click="activity = 'voting'"
+      >
+        <IconActivity />
+        <span class="vertical-align-mid">
+          Voting
+        </span>
+      </FilterButton>
+    </div>
+
+    <div
+      v-if="selectedWord"
+      class="asset_details__section"
+    >
       <!-- eslint-disable vue-i18n/no-raw-text -->
       <span>Votes ({{ spread }} AE spread)</span>
       (start voting to payout to inserted address)
@@ -75,6 +104,8 @@ import Backend from '../utils/backend';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import WordBuySellButtons from '../components/WordBuySellButtons.vue';
 import FilterButton from '../components/FilterButton.vue';
+import IconChannel from '../assets/iconChannel.svg?icon-component';
+import IconActivity from '../assets/iconActivity.svg?icon-component';
 
 export default {
   name: 'WordBazaar',
@@ -82,6 +113,8 @@ export default {
     WordBuySellButtons,
     BackButtonRibbon,
     FilterButton,
+    IconChannel,
+    IconActivity,
   },
   data: () => ({
     wordRegistryState: null,
@@ -92,6 +125,7 @@ export default {
     votes: null,
     newVotePayout: '',
     tokenVoting: {},
+    activity: 'info',
   }),
   computed: {
     ...mapState(['address']),
@@ -125,7 +159,8 @@ export default {
     },
     async getVoteInfo(id, vote, alreadyApplied) {
       this.tokenVoting[vote] = this.tokenVoting[vote] ? this.tokenVoting[vote]
-        : await getClient().then((client) => client.getContractInstance(TOKEN_VOTING_CONTRACT, { contractAddress: vote }));
+        : await getClient().then((client) => client
+          .getContractInstance(TOKEN_VOTING_CONTRACT, {contractAddress: vote}));
       const state = (await this.tokenVoting[vote].methods.get_state()).decodedResult;
       const voteTimeout = (await this.selectedWordContract.methods.vote_timeout()).decodedResult;
       const height = await getClient().then((client) => client.height());
@@ -137,8 +172,8 @@ export default {
         .dividedBy(new BigNumber(votedFor).plus(votedAgainst)).times(100).toFixed(0);
       const voterAccount = state.vote_accounts.find(([acc]) => acc === this.address);
       const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
-      const tokenContract = await getClient().then((client) => client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT,
-        { contractAddress: token }));
+      const tokenContract = await getClient().then((client) => client
+        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token }));
       const totalSupply = (await tokenContract.methods.total_supply()).decodedResult;
 
       return {
@@ -169,8 +204,8 @@ export default {
     },
     async voteOption(instance, option) {
       const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
-      const tokenContract = await getClient().then((client) =>
-        client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token }));
+      const tokenContract = await getClient().then((client) => client
+        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token }));
 
       const amount = (await tokenContract.methods.balance(this.address)).decodedResult;
       await createOrChangeAllowance(token, amount,
@@ -216,6 +251,11 @@ h2 {
 
 .asset_details__section {
   background-color: $light_color;
+}
+
+.activity-ribbon {
+  background-color: $light_color;
+  padding: 0.5rem 0 0.5rem 0.75rem;
 }
 
 </style>

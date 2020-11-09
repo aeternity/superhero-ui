@@ -34,7 +34,7 @@ export default {
     this.initJitsi();
 
     const connection = await BrowserWindowMessageConnection({
-      origin: `https://${process.env.VUE_APP_JITSI_URL}`,
+      origin: `https://${process.env.VUE_APP_JITSI_HOST}`,
     });
 
     connection.connect(({ room }) => {
@@ -49,7 +49,7 @@ export default {
   methods: {
     initJitsi() {
       // eslint-disable-next-line no-new
-      this.jitsi = new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_URL, {
+      this.jitsi = new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_HOST, {
         parentNode: this.$refs.jitsi,
         width: '100%',
         height: '100%',

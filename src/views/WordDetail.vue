@@ -8,7 +8,7 @@
     </BackButtonRibbon>
 
     <ActivityRibbon
-      :tabs="tabs"
+      :tabs="ribbonTabs"
       :activity="activity"
       :set="(setActivity) => activity = setActivity"
     />
@@ -60,61 +60,67 @@
 
     <div
       v-if="selectedWord && activity === 'voting'"
-      class="asset_details__section"
     >
 
-      <!-- eslint-disable vue-i18n/no-raw-text -->
-      <span>Votes ({{ spread }} AE spread)</span>
-      (start voting to payout to inserted address)
-      <input
-        v-model="newVotePayout"
-        placeholder="ak_..."
-      >
-      <button @click="createVote">
+      <TabBar
+        :tabs="tabs"
+        :active-tab="activeTab"
+        :set="(setTab) => activeTab = setTab"
+      />
+      <div class="asset_details__section">
         <!-- eslint-disable vue-i18n/no-raw-text -->
-        Create Vote
-      </button>
-      <div
-        v-for="vote in votes && votes"
-        id="vote"
-        :key="vote.id"
-      >
-        to: {{ vote.subject.VotePayout[0].slice(0, 9) }}...
-        {{ vote.votePercent }}% positive {{ vote.stakePercent }}% stake positive
-        <br>
-        <button
-          v-if="!vote.isClosed && !vote.accountHasVoted"
-          @click="voteOption(vote.instance, true)"
+        <span>Votes ({{ spread }} AE spread)</span>
+        (start voting to payout to inserted address)
+        <input
+          v-model="newVotePayout"
+          placeholder="ak_..."
         >
-          <!-- eslint-disable vue-i18n/no-raw-text -->For
+        <button @click="createVote">
+          <!-- eslint-disable vue-i18n/no-raw-text -->
+          Create Vote
         </button>
-        <button
-          v-if="!vote.isClosed && !vote.accountHasVoted"
-          @click="voteOption(vote.instance, false)"
+        <div
+          v-for="vote in votes && votes"
+          id="vote"
+          :key="vote.id"
         >
-          <!-- eslint-disable vue-i18n/no-raw-text -->Against
-        </button>
-        <button
-          v-if="!vote.isClosed && vote.accountHasVoted"
-          @click="revokeVote(vote.instance)"
-        >
-          <!-- eslint-disable vue-i18n/no-raw-text -->Revoke
-        </button>
-        <span v-if="vote.isClosed && !vote.alreadyApplied">vote closed</span>
-        <span v-if="vote.alreadyApplied">, result applied</span>
-        <span v-if="!vote.alreadyApplied && vote.timeouted">, timeouted</span>
-        <button
-          v-if="vote.isClosed && !vote.alreadyApplied && !vote.timeouted && hasSpread"
-          @click="applyPayout(vote.id)"
-        >
-          <!-- eslint-disable vue-i18n/no-raw-text -->Apply Payout
-        </button>
-        <button
-          v-if="vote.isClosed && vote.hasWithdrawAmount"
-          @click="withdraw(vote.instance)"
-        >
-          <!-- eslint-disable vue-i18n/no-raw-text -->Withdraw
-        </button>
+          to: {{ vote.subject.VotePayout[0].slice(0, 9) }}...
+          {{ vote.votePercent }}% positive {{ vote.stakePercent }}% stake positive
+          <br>
+          <button
+            v-if="!vote.isClosed && !vote.accountHasVoted"
+            @click="voteOption(vote.instance, true)"
+          >
+            <!-- eslint-disable vue-i18n/no-raw-text -->For
+          </button>
+          <button
+            v-if="!vote.isClosed && !vote.accountHasVoted"
+            @click="voteOption(vote.instance, false)"
+          >
+            <!-- eslint-disable vue-i18n/no-raw-text -->Against
+          </button>
+          <button
+            v-if="!vote.isClosed && vote.accountHasVoted"
+            @click="revokeVote(vote.instance)"
+          >
+            <!-- eslint-disable vue-i18n/no-raw-text -->Revoke
+          </button>
+          <span v-if="vote.isClosed && !vote.alreadyApplied">vote closed</span>
+          <span v-if="vote.alreadyApplied">, result applied</span>
+          <span v-if="!vote.alreadyApplied && vote.timeouted">, timeouted</span>
+          <button
+            v-if="vote.isClosed && !vote.alreadyApplied && !vote.timeouted && hasSpread"
+            @click="applyPayout(vote.id)"
+          >
+            <!-- eslint-disable vue-i18n/no-raw-text -->Apply Payout
+          </button>
+          <button
+            v-if="vote.isClosed && vote.hasWithdrawAmount"
+            @click="withdraw(vote.instance)"
+          >
+            <!-- eslint-disable vue-i18n/no-raw-text -->Withdraw
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -136,10 +142,12 @@ import IconPie from '../assets/iconPie.svg?icon-component';
 import IconInfo from '../assets/iconInfo.svg?icon-component';
 import AeAmount from '../components/AeAmount.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
+import TabBar from '../components/TabBar.vue';
 
 export default {
   name: 'WordBazaar',
   components: {
+    TabBar,
     ActivityRibbon,
     AeAmount,
     WordBuySellButtons,
@@ -156,7 +164,9 @@ export default {
     newVotePayout: '',
     tokenVoting: {},
     activity: 'voting',
-    tabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Voting', activity: 'voting' }],
+    activeTab: 'ongoing',
+    ribbonTabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Voting', activity: 'voting' }],
+    tabs: [{ text: 'Ongoing Votes', tab: 'ongoing' }, { text: 'Past Votes', tab: 'past' }, { text: 'My Votes', tab: 'my' }],
   }),
   computed: {
     ...mapState(['address']),
@@ -319,5 +329,6 @@ h3 {
     flex-direction: column;
   }
 }
+
 
 </style>

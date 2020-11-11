@@ -7,28 +7,11 @@
       />
     </BackButtonRibbon>
 
-    <div
-      class="activity-ribbon"
-    >
-      <FilterButton
-        :class="{ active: activity === 'info' }"
-        @click="activity = 'info'"
-      >
-        <IconInfo />
-        <span class="vertical-align-mid">
-         Token Info
-        </span>
-      </FilterButton>
-      <FilterButton
-        :class="{ active: activity === 'voting' }"
-        @click="activity = 'voting'"
-      >
-        <IconPie />
-        <span class="vertical-align-mid">
-          Voting
-        </span>
-      </FilterButton>
-    </div>
+    <ActivityRibbon
+      :tabs="tabs"
+      :activity="activity"
+      :set="(setActivity) => activity = setActivity"
+    />
 
     <div v-if="activity === 'info'">
       <div class="asset_details__section">
@@ -79,6 +62,7 @@
       v-if="selectedWord && activity === 'voting'"
       class="asset_details__section"
     >
+
       <!-- eslint-disable vue-i18n/no-raw-text -->
       <span>Votes ({{ spread }} AE spread)</span>
       (start voting to payout to inserted address)
@@ -148,20 +132,18 @@ import { EventBus } from '../utils/eventBus';
 import Backend from '../utils/backend';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import WordBuySellButtons from '../components/WordBuySellButtons.vue';
-import FilterButton from '../components/FilterButton.vue';
 import IconPie from '../assets/iconPie.svg?icon-component';
 import IconInfo from '../assets/iconInfo.svg?icon-component';
 import AeAmount from '../components/AeAmount.vue';
+import ActivityRibbon from '../components/ActivityRibbon.vue';
 
 export default {
   name: 'WordBazaar',
   components: {
+    ActivityRibbon,
     AeAmount,
     WordBuySellButtons,
     BackButtonRibbon,
-    FilterButton,
-    IconPie,
-    IconInfo,
   },
   data: () => ({
     wordRegistryState: null,
@@ -173,7 +155,8 @@ export default {
     data: null,
     newVotePayout: '',
     tokenVoting: {},
-    activity: 'info',
+    activity: 'voting',
+    tabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Voting', activity: 'voting' }],
   }),
   computed: {
     ...mapState(['address']),
@@ -335,12 +318,6 @@ h3 {
     display: flex;
     flex-direction: column;
   }
-}
-
-.activity-ribbon {
-  background-color: $light_color;
-  padding: 0.5rem 0 0.5rem 0.75rem;
-  margin-bottom: 0.15rem;
 }
 
 </style>

@@ -14,7 +14,7 @@
         :class="{ active: activity === 'info' }"
         @click="activity = 'info'"
       >
-        <IconChannel />
+        <IconInfo />
         <span class="vertical-align-mid">
          Token Info
         </span>
@@ -23,15 +23,60 @@
         :class="{ active: activity === 'voting' }"
         @click="activity = 'voting'"
       >
-        <IconActivity />
+        <IconPie />
         <span class="vertical-align-mid">
           Voting
         </span>
       </FilterButton>
     </div>
 
+    <div v-if="activity === 'info'">
+      <div class="asset_details__section">
+        <h3>Asset</h3>
+        <div class="asset-details__asset">{{ selectedWord }}</div>
+        <h3>Description</h3>
+        <div class="asset-details__description">
+          The Matrix is everywhere. It is all around us. Even now, in this very room. You can see it when you look out
+          your window or when you turn on your television. You can feel it when you go to work... when you go to
+          church...
+          when you pay your taxes. It is the world that has been pulled over your eyes to blind you from the truth.
+          What truth?
+          That you are a slave, Neo. Like everyone else you were born into bondage. Into a prison that you cannot taste
+          or
+          see or touch. A prison for your mind.
+        </div>
+      </div>
+
+      <div class="asset_details__info" v-if="data">
+        <div class="info-item">
+          <h3>Ticker</h3>
+          <div>{{ selectedWord }}</div>
+        </div>
+        <div class="info-item">
+          <h3>Current price</h3>
+          <div>
+            <AeAmount
+              :amount="data.buyPrice"
+            />
+          </div>
+        </div>
+        <div class="info-item">
+          <h3>Initial price</h3>
+          <div>
+            <AeAmount
+              :amount="data.buyPrice"
+            />
+          </div>
+        </div>
+        <div class="info-item">
+          <h3>Circulating supply</h3>
+          <div>{{ data.totalSupply }}</div>
+        </div>
+      </div>
+    </div>
+
     <div
-      v-if="selectedWord"
+      v-if="selectedWord && activity === 'voting'"
       class="asset_details__section"
     >
       <!-- eslint-disable vue-i18n/no-raw-text -->
@@ -104,17 +149,19 @@ import Backend from '../utils/backend';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import WordBuySellButtons from '../components/WordBuySellButtons.vue';
 import FilterButton from '../components/FilterButton.vue';
-import IconChannel from '../assets/iconChannel.svg?icon-component';
-import IconActivity from '../assets/iconActivity.svg?icon-component';
+import IconPie from '../assets/iconPie.svg?icon-component';
+import IconInfo from '../assets/iconInfo.svg?icon-component';
+import AeAmount from '../components/AeAmount.vue';
 
 export default {
   name: 'WordBazaar',
   components: {
+    AeAmount,
     WordBuySellButtons,
     BackButtonRibbon,
     FilterButton,
-    IconChannel,
-    IconActivity,
+    IconPie,
+    IconInfo,
   },
   data: () => ({
     wordRegistryState: null,
@@ -123,6 +170,7 @@ export default {
     saleContractAddress: null,
     spread: 0,
     votes: null,
+    data: null,
     newVotePayout: '',
     tokenVoting: {},
     activity: 'info',
@@ -146,8 +194,9 @@ export default {
       this.loadVotes();
     },
     async loadSpread() {
-      const data = await Backend.getWordSale(this.saleContractAddress);
-      this.spread = shiftDecimalPlaces(data.spread, -18).toFixed();
+      this.data = await Backend.getWordSale(this.saleContractAddress);
+      this.data.spread = shiftDecimalPlaces(this.data.spread, -18).toFixed();
+      this.data.totalSupply = shiftDecimalPlaces(this.data.totalSupply, -18).toFixed();
     },
     async loadVotes() {
       this.selectedWordContract = this.selectedWordContract ? this.selectedWordContract
@@ -249,13 +298,49 @@ h2 {
   margin-bottom: 0.5rem;
 }
 
+h3 {
+  color: $small_heading_color;
+  font-weight: 500;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+}
+
 .asset_details__section {
   background-color: $light_color;
+  padding: 1.6rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+
+  .asset-details__asset {
+    color: $pure_white;
+    padding-bottom: 1rem;
+  }
+
+  .asset-details__description {
+    color: $lighter_grey_color;
+    padding-bottom: 1rem;
+  }
+}
+
+.asset_details__info {
+  padding: 1.6rem;
+  background-color: $thumbnail_background_color;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .info-item{
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .activity-ribbon {
   background-color: $light_color;
   padding: 0.5rem 0 0.5rem 0.75rem;
+  margin-bottom: 0.15rem;
 }
 
 </style>

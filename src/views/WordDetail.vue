@@ -118,19 +118,19 @@
               <br>
               <button
                 v-if="!vote.isClosed && !vote.accountHasVoted"
-                @click="voteOption(vote.instance, true)"
+                @click="voteOption(vote.voteAddress, true)"
               >
                 <!-- eslint-disable vue-i18n/no-raw-text -->For
               </button>
               <button
                 v-if="!vote.isClosed && !vote.accountHasVoted"
-                @click="voteOption(vote.instance, false)"
+                @click="voteOption(vote.voteAddress, false)"
               >
                 <!-- eslint-disable vue-i18n/no-raw-text -->Against
               </button>
               <button
                 v-if="!vote.isClosed && vote.accountHasVoted"
-                @click="revokeVote(vote.instance)"
+                @click="revokeVote(vote.voteAddress)"
               >
                 <!-- eslint-disable vue-i18n/no-raw-text -->Revoke
               </button>
@@ -145,7 +145,7 @@
               </button>
               <button
                 v-if="vote.isClosed && vote.hasWithdrawAmount"
-                @click="withdraw(vote.instance)"
+                @click="withdraw(vote.voteAddress)"
               >
                 <!-- eslint-disable vue-i18n/no-raw-text -->Withdraw
               </button>
@@ -234,85 +234,59 @@ export default {
       this.data = await Backend.getWordSale(this.saleContractAddress);
     },
     async loadVotes() {
-      this.selectedWordContract = this.selectedWordContract ? this.selectedWordContract
-        : await getClient().then((client) => client
-          .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.saleContractAddress }));
+      let votes = await Backend.getWordSaleVotesDetails(this.saleContractAddress);
+      votes = votes.map((vote) => {
+        const voterAccount = vote.voteAccounts.find(([acc]) => acc === this.address);
 
-      const votes = await Promise.all(
-        (await this.selectedWordContract.methods.votes()).decodedResult
-          .map(([id, vote]) => this.getVoteInfo(id, vote[1], vote[0])),
-      );
+        vote.accountHasVoted = !!voterAccount;
+        vote.hasWithdrawAmount = voterAccount
+          && new BigNumber(voterAccount[1][0]).isGreaterThan(0) && !voterAccount[1][2];
 
-      console.log(votes);
+        return vote;
+      });
 
       this.ongoingVotes = votes.filter((v) => !v.isClosed);
       this.pastVotes = votes.filter((v) => v.isClosed);
-      this.myVotes = []; // TODO
-    },
-    async getVoteInfo(id, vote, alreadyApplied) {
-      this.tokenVoting[vote] = this.tokenVoting[vote] ? this.tokenVoting[vote]
-        : await getClient().then((client) => client
-          .getContractInstance(TOKEN_VOTING_CONTRACT, {contractAddress: vote}));
-      const state = (await this.tokenVoting[vote].methods.get_state()).decodedResult;
-      const voteTimeout = (await this.selectedWordContract.methods.vote_timeout()).decodedResult;
-      const height = await getClient().then((client) => client.height());
-
-      const votedFor = state.vote_state.find(([s]) => s)[1];
-      const votedAgainst = state.vote_state.find(([s]) => !s)[1];
-      const ifAgainstZero = votedFor === 0 ? 0 : 100;
-      const votedPositive = new BigNumber(votedFor)
-        .dividedBy(new BigNumber(votedFor).plus(votedAgainst)).times(100).toFixed(0);
-      const voterAccount = state.vote_accounts.find(([acc]) => acc === this.address);
-      const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
-      const tokenContract = await getClient().then((client) => client
-        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token }));
-      const totalSupply = (await tokenContract.methods.total_supply()).decodedResult;
-
-      return {
-        id,
-        alreadyApplied,
-        instance: this.tokenVoting[vote],
-        subject: state.metadata.subject,
-        timeouted: (state.close_height + voteTimeout) < height,
-        closeHeight: state.close_height,
-        accountHasVoted: !!voterAccount,
-        hasSpread: new BigNumber(this.spread).isGreaterThan(0),
-        hasWithdrawAmount: voterAccount
-          && new BigNumber(voterAccount[1][0]).isGreaterThan(0) && !voterAccount[1][2],
-        isClosed: height >= state.close_height,
-        votePercent: votedAgainst !== 0 ? votedPositive : ifAgainstZero,
-        stakePercent: new BigNumber(votedFor).dividedBy(totalSupply).times(100).toFixed(0),
-      };
+      this.myVotes = [];
     },
     async applyPayout(id) {
+      await this.initSaleContractIfUnknown();
       await this.selectedWordContract.methods.apply_vote_subject(id);
-      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
       EventBus.$emit('reloadData');
     },
-    async withdraw(instance) {
-      await instance.methods.withdraw();
-      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
+    async withdraw(address) {
+      await this.initTokenVotingContractIfUnknown(address);
+      await this.tokenVoting[address].methods.withdraw();
+      await Backend.invalidateWordSaleVoteStateCache(address);
+      this.updateWords();
       EventBus.$emit('reloadData');
     },
-    async voteOption(instance, option) {
+    async voteOption(address, option) {
+      await this.initSaleContractIfUnknown();
+      await this.initTokenVotingContractIfUnknown(address);
+
       const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
       const tokenContract = await getClient().then((client) => client
         .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token }));
 
       const amount = (await tokenContract.methods.balance(this.address)).decodedResult;
-      await createOrChangeAllowance(token, amount,
-        instance.deployInfo.address.replace('ct_', 'ak_'));
+      await createOrChangeAllowance(token, amount, address.replace('ct_', 'ak_'));
 
-      await instance.methods.vote(option, amount);
-      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
+      await this.tokenVoting[address].methods.vote(option, amount);
+      await Backend.invalidateWordSaleVoteStateCache(address);
+      this.updateWords();
       EventBus.$emit('reloadData');
     },
-    async revokeVote(instance) {
-      await instance.methods.revoke_vote();
-      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
+    async revokeVote(address) {
+      await this.initTokenVotingContractIfUnknown(address);
+      await this.tokenVoting[address].methods.revoke_vote();
+      await Backend.invalidateWordSaleVoteStateCache(address);
+      this.updateWords();
       EventBus.$emit('reloadData');
     },
     async createVote() {
+      await this.initSaleContractIfUnknown();
+
       const tokenVoting = await getClient()
         .then((client) => client.getContractInstance(TOKEN_VOTING_CONTRACT));
 
@@ -322,11 +296,23 @@ export default {
         link: 'https://aeternity.com/',
       };
       const closeHeight = (await getClient().then((client) => client.height())) + 20;
-      const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
-      await tokenVoting.methods.init(metadata, closeHeight, token);
+      await tokenVoting.methods.init(metadata, closeHeight, this.data.tokenAddress);
 
       await this.selectedWordContract.methods.add_vote(tokenVoting.deployInfo.address);
-      await this.selectWord(this.selectedWord, this.selectedWordContract.deployInfo.address);
+      await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
+      EventBus.$emit('reloadData');
+    },
+    async initTokenVotingContractIfUnknown(vote) {
+      this.tokenVoting[vote] = this.tokenVoting[vote] ? this.tokenVoting[vote]
+        : await getClient().then((client) => client
+          .getContractInstance(TOKEN_VOTING_CONTRACT, { contractAddress: vote }));
+    },
+    async initSaleContractIfUnknown() {
+      if (!this.selectedWordContract) {
+        this.selectedWordContract = await getClient().then((client) => client
+          .getContractInstance(TOKEN_SALE_CONTRACT,
+            { contractAddress: this.saleContractAddress }));
+      }
     },
   },
 };

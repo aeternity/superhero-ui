@@ -125,19 +125,19 @@
               <br>
               <button
                 v-if="!vote.isClosed && !vote.accountHasVoted"
-                @click="voteOption(vote.instance, true)"
+                @click="voteOption(vote.voteAddress, true)"
               >
                 <!-- eslint-disable vue-i18n/no-raw-text -->For
               </button>
               <button
                 v-if="!vote.isClosed && !vote.accountHasVoted"
-                @click="voteOption(vote.instance, false)"
+                @click="voteOption(vote.voteAddress, false)"
               >
                 <!-- eslint-disable vue-i18n/no-raw-text -->Against
               </button>
               <button
                 v-if="!vote.isClosed && vote.accountHasVoted"
-                @click="revokeVote(vote.instance)"
+                @click="revokeVote(vote.voteAddress)"
               >
                 <!-- eslint-disable vue-i18n/no-raw-text -->Revoke
               </button>
@@ -152,7 +152,7 @@
               </button>
               <button
                 v-if="vote.isClosed && vote.hasWithdrawAmount"
-                @click="withdraw(vote.instance)"
+                @click="withdraw(vote.voteAddress)"
               >
                 <!-- eslint-disable vue-i18n/no-raw-text -->Withdraw
               </button>
@@ -236,70 +236,45 @@ export default {
       this.data = await Backend.getWordSale(this.saleContractAddress);
     },
     async loadVotes() {
-      const votes = await Promise.all(
-        (await this.$store.dispatch('tokenSaleVotes', this.saleContractAddress))
-          .map(([id, vote]) => this.getVoteInfo(id, vote[1], vote[0])),
-      );
+      let votes = await Backend.getWordSaleVotesDetails(this.saleContractAddress);
+      votes = votes.map((vote) => {
+        const voterAccount = vote.voteAccounts.find(([acc]) => acc === this.address);
+
+        vote.accountHasVoted = !!voterAccount;
+        vote.hasWithdrawAmount = voterAccount
+          && new BigNumber(voterAccount[1][0]).isGreaterThan(0) && !voterAccount[1][2];
+
+        return vote;
+      });
 
       this.ongoingVotes = votes.filter((v) => !v.isClosed);
       this.pastVotes = votes.filter((v) => v.isClosed);
       this.myVotes = [];
     },
-    async getVoteInfo(id, vote, alreadyApplied) {
-      const state = await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'get_state');
-      const voteTimeout = await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'vote_timeout');
-      const height = await this.$store.dispatch('getHeight');
-      const votedFor = state.vote_state.find(([s]) => s)[1];
-      const votedAgainst = state.vote_state.find(([s]) => !s)[1];
-      const ifAgainstZero = votedFor === 0 ? 0 : 100;
-      const votedPositive = new BigNumber(votedFor)
-        .dividedBy(new BigNumber(votedFor).plus(votedAgainst)).times(100).toFixed(0);
-      const voterAccount = state.vote_accounts.find(([acc]) => acc === this.address);
-      const token = await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'get_token');
-      const totalSupply = await this.$store.dispatch('tokenTotalSupply', token);
-
-      return {
-        id,
-        alreadyApplied,
-        instance: this.tokenVoting[vote],
-        subject: state.metadata.subject,
-        timeouted: (state.close_height + voteTimeout) < height,
-        closeHeight: state.close_height,
-        accountHasVoted: !!voterAccount,
-        hasSpread: new BigNumber(this.spread).isGreaterThan(0),
-        hasWithdrawAmount: voterAccount
-          && new BigNumber(voterAccount[1][0]).isGreaterThan(0) && !voterAccount[1][2],
-        isClosed: height >= state.close_height,
-        votePercent: votedAgainst !== 0 ? votedPositive : ifAgainstZero,
-        stakePercent: new BigNumber(votedFor).dividedBy(totalSupply).times(100).toFixed(0),
-      };
-    },
     async applyPayout(id) {
       await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress,
         'apply_vote_subject', [id]);
 
-      await this.selectWord(this.selectedWord, this.saleContractAddress);
+      this.updateWords();
       EventBus.$emit('reloadData');
     },
-    async withdraw(instance) {
-      await instance.methods.withdraw();
-      await this.selectWord(this.selectedWord, this.saleContractAddress);
+    async withdraw(address) {
+      await this.$store.dispatch('tokenVotingMethod', address, 'withdraw');
+      this.updateWords();
       EventBus.$emit('reloadData');
     },
-    async voteOption(instance, option) {
+    async voteOption(address, option) {
       const token = await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'get_token');
-
       const amount = await this.$store.dispatch('getTokenBalance', token);
-      await this.$store.dispatch('createOrChangeAllowance',
-        token, amount, instance.deployInfo.address.replace('ct_', 'ak_'));
-
-      await instance.methods.vote(option, amount);
-      await this.selectWord(this.selectedWord, this.saleContractAddress);
+      await this.$store.dispatch('createOrChangeAllowance', token, amount, address.replace('ct_', 'ak_'));
+      await this.$store.dispatch('tokenVotingMethod', address, 'vote', [option, amount]);
+      this.updateWords();
       EventBus.$emit('reloadData');
     },
-    async revokeVote(instance) {
-      await instance.methods.revoke_vote();
-      await this.selectWord(this.selectedWord, this.saleContractAddress);
+    async revokeVote(address) {
+      await this.$store.dispatch('tokenVotingMethod', address, 'revoke_vote');
+      await Backend.invalidateWordSaleVoteStateCache(address);
+      this.updateWords();
       EventBus.$emit('reloadData');
     },
     async createVote() {
@@ -316,7 +291,8 @@ export default {
 
       await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress,
         'add_vote', [address]);
-      await this.selectWord(this.selectedWord, address);
+      await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
+      EventBus.$emit('reloadData');
     },
   },
 };

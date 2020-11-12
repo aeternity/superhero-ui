@@ -132,6 +132,8 @@ export default class Backend {
 
   static getWordRegistry = async () => backendFetch('tokenCache/wordRegistry');
 
+  static getWordSaleVotesDetails = async (address) => backendFetch(`tokenCache/wordSaleVotesDetails?address=${address}`);
+
   static getWordSale = async (address) => backendFetch(`tokenCache/wordSale?address=${address}`);
 
   static getTokenBalances = async (address) => backendFetch(`tokenCache/balances?address=${address}`);
@@ -145,6 +147,10 @@ export default class Backend {
   static invalidateWordSaleCache = async (wordSale) => backendFetch(`cache/invalidate/wordSale/${wordSale}`);
 
   static invalidateWordRegistryCache = async () => backendFetch('cache/invalidate/wordRegistry');
+
+  static invalidateWordSaleVotesCache = async (wordSale) => backendFetch(`cache/invalidate/wordSaleVotes/${wordSale}`);
+
+  static invalidateWordSaleVoteStateCache = async (vote) => backendFetch(`cache/invalidate/wordSaleVoteState/${vote}`);
 
   static getCommentCountForAddress = async (address) => backendFetch(`comment/count/author/${address}`);
 

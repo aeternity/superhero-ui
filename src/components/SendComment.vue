@@ -8,7 +8,7 @@
       :placeholder="$t('views.TipCommentsView.AddReply')"
       :show-submit-button="allowSubmit"
       :submit-button-title="$t('views.TipCommentsView.Reply')"
-      :set-loading="setLoading"
+      :loading="loading"
       @keydown.enter.exact.prevent="sendTipComment"
     />
   </form>
@@ -26,7 +26,7 @@ export default {
   },
   data: () => ({
     comment: '',
-    setLoading: false,
+    loading: false,
   }),
   computed: {
     allowSubmit() {
@@ -36,7 +36,7 @@ export default {
   methods: {
     async sendTipComment() {
       if (!this.allowSubmit) return;
-      this.setLoading = true;
+      this.loading = true;
       try {
         await this.$store.dispatch(
           'backend/sendComment',
@@ -46,7 +46,7 @@ export default {
       } catch (e) {
         if (e.message !== 'Operation rejected by user') handleUnknownError(e);
       } finally {
-        this.setLoading = false;
+        this.loading = false;
       }
     },
   },

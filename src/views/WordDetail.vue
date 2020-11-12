@@ -18,7 +18,9 @@
       <div class="asset_details__section">
         <div class="asset_details__section-content">
           <h3>Asset</h3>
-          <div class="asset-details__asset">{{ selectedWord }}</div>
+          <div class="asset-details__asset">
+            {{ selectedWord }}
+          </div>
           <h3>Description</h3>
           <div class="asset-details__description">
             The Matrix is everywhere. It is all around us. Even now, in this very room.
@@ -32,7 +34,10 @@
           </div>
         </div>
 
-        <div class="asset_details__info" v-if="data">
+        <div
+          v-if="data"
+          class="asset_details__info"
+        >
           <div class="info-item">
             <h3>Ticker</h3>
             <div>{{ selectedWord }}</div>
@@ -64,17 +69,22 @@
 
     <div v-if="selectedWord && activity === 'voting'">
       <div class="asset_voting__section">
-
         <TabBar
           :tabs="tabs"
           :active-tab="activeTab"
           :set="(setTab) => activeTab = setTab"
         />
 
-        <div class="asset_details__info" v-if="data">
+        <div
+          v-if="data"
+          class="asset_details__info"
+        >
           <div class="info-item">
             <h3>Accumulated Spread</h3>
-            <AeAmount :amount="spread"/>
+            <AeAmount
+              :amount="data.spread"
+              aettos
+            />
           </div>
           <div class="info-item">
             <h3>Circulating Supply</h3>
@@ -97,43 +107,67 @@
 
         <div class="asset_details__section">
           <div class="asset_details__section-content">
-            <!-- eslint-disable vue-i18n/no-raw-text -->
-            <span>Votes ({{ spread }} AE spread)</span>
-            (start voting to payout to inserted address)
-            <input
-              v-model="newVotePayout"
-              placeholder="ak_..."
-            >
-            <button @click="createVote">
-              <!-- eslint-disable vue-i18n/no-raw-text -->
-              Create Vote
-            </button>
+
+            <div>
+              <input
+                v-model="newVotePayout"
+                placeholder="ak_..."
+              >
+              <button @click="createVote">
+                <!-- eslint-disable vue-i18n/no-raw-text -->
+                Create Vote
+              </button>
+            </div>
+
+
             <div
               v-for="vote in votes"
-              id="vote"
               :key="vote.id"
+              class="vote"
             >
-              to: {{ vote.subject.VotePayout[0].slice(0, 9) }}...
-              {{ vote.votePercent }}% positive {{ vote.stakePercent }}% stake positive
+              <AeAmount
+                :amount="data.spread"
+                aettos
+              /> spread released for transfer to
+              <div>{{ vote.subject.VotePayout[0] }}</div>
+
+              <div class="input-bar">
+                <AeInputAmount
+                  v-model="stakeAmount"
+                  :not-token-tipable="true"
+                  :symbol="selectedWord"
+                />
+
+                <AeButton
+                  :v-if="!vote.isClosed && vote.accountHasVoted"
+                  @click="revokeVote(vote.voteAddress)"
+                >
+                  Revoke
+                </AeButton>
+
+                <div class="vote-progress-bar">
+                  <div
+                    class="vote-progress"
+                    :style="{ width: vote.stakePercent + '%' }"
+                  >
+                    {{ vote.stakePercent }}%
+                  </div>
+                </div>
+              </div>
               <br>
               <button
                 v-if="!vote.isClosed && !vote.accountHasVoted"
                 @click="voteOption(vote.voteAddress, true)"
               >
-                <!-- eslint-disable vue-i18n/no-raw-text -->For
+                For
               </button>
               <button
                 v-if="!vote.isClosed && !vote.accountHasVoted"
                 @click="voteOption(vote.voteAddress, false)"
               >
-                <!-- eslint-disable vue-i18n/no-raw-text -->Against
+                Against
               </button>
-              <button
-                v-if="!vote.isClosed && vote.accountHasVoted"
-                @click="revokeVote(vote.voteAddress)"
-              >
-                <!-- eslint-disable vue-i18n/no-raw-text -->Revoke
-              </button>
+
               <span v-if="vote.isClosed && !vote.alreadyApplied">vote closed</span>
               <span v-if="vote.alreadyApplied">, result applied</span>
               <span v-if="!vote.alreadyApplied && vote.timeouted">, timeouted</span>
@@ -141,13 +175,13 @@
                 v-if="vote.isClosed && !vote.alreadyApplied && !vote.timeouted && vote.isSuccess"
                 @click="applyPayout(vote.id)"
               >
-                <!-- eslint-disable vue-i18n/no-raw-text -->Apply Payout
+                Apply Payout
               </button>
               <button
                 v-if="vote.isClosed && vote.hasWithdrawAmount"
                 @click="withdraw(vote.voteAddress)"
               >
-                <!-- eslint-disable vue-i18n/no-raw-text -->Withdraw
+                Withdraw
               </button>
             </div>
           </div>
@@ -173,6 +207,8 @@ import IconInfo from '../assets/iconInfo.svg?icon-component';
 import AeAmount from '../components/AeAmount.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
+import AeInputAmount from '../components/AeInputAmount.vue';
+import AeButton from '../components/AeButton.vue';
 
 export default {
   name: 'WordBazaar',
@@ -182,13 +218,15 @@ export default {
     AeAmount,
     WordBuySellButtons,
     BackButtonRibbon,
+    AeInputAmount,
+    AeButton,
   },
   data: () => ({
     wordRegistryState: null,
     selectedWord: null,
     selectedWordContract: null,
     saleContractAddress: null,
-    spread: 0,
+    stakeAmount: 0,
     ongoingVotes: [],
     pastVotes: [],
     myVotes: [],
@@ -196,7 +234,7 @@ export default {
     newVotePayout: '',
     tokenVoting: {},
     activity: 'voting',
-    activeTab: 'ongoing',
+    activeTab: 'past',
     ribbonTabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Voting', activity: 'voting' }],
     tabs: [{ text: 'Ongoing Votes', tab: 'ongoing' }, { text: 'Past Votes', tab: 'past' }, { text: 'My Votes', tab: 'my' }],
   }),
@@ -247,7 +285,7 @@ export default {
 
       this.ongoingVotes = votes.filter((v) => !v.isClosed);
       this.pastVotes = votes.filter((v) => v.isClosed);
-      this.myVotes = votes.filter((v) => v.voteAccounts.map(a => a[0]).includes(this.address));
+      this.myVotes = votes.filter((v) => v.voteAccounts.map((a) => a[0]).includes(this.address));
     },
     async applyPayout(id) {
       await this.initSaleContractIfUnknown();
@@ -318,7 +356,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 h2 {
   margin-top: 1rem;
 }
@@ -355,12 +393,12 @@ h3 {
   }
 
   .asset_details__section-content {
-    padding: 1.6rem;
+    padding: 0 1.5rem 1.5rem 1.5rem;
   }
 }
 
 .asset_details__info {
-  padding: 1.6rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -375,6 +413,71 @@ h3 {
 .asset_voting__section {
   .asset_details__info {
     background-color: $light_color;
+  }
+}
+.vote {
+  box-sizing: border-box;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 0.375rem;
+  background-color: $thumbnail_background_color;
+  padding: 1rem;
+  border: 1px solid $thumbnail_background_color;
+  margin-bottom: 1.5rem;
+
+  &:active, &:hover {
+    border: 1px solid $custom_links_color;
+  }
+
+  .vote-progress-bar {
+    background-color: $bg_hover;
+    width: 11.25rem;
+    border-radius: 0.375rem;
+    overflow: hidden;
+  }
+
+  .vote-progress {
+    background-color: rgba(
+        red($custom_links_color),
+        green($custom_links_color),
+        blue($custom_links_color),
+        0.5);
+    height: 100%;
+    color: $pure_white;
+    line-height: 2.5rem;
+    font-size: 1.25rem;
+    padding-left: 0.875rem;
+  }
+
+  .ae-button {
+    height: 100%;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  .input-bar {
+    display: flex;
+    height: 2.5rem;
+
+    & > * {
+      margin-left: 0.5rem;
+    }
+
+    & > *:first-child {
+      margin-left: 0;
+    }
+  }
+
+  .input-group {
+    width: auto;
+    height: 100%;
+
+    .input-group-append > span.append__ae {
+      font-size: 0.875rem;
+    }
+
+    .form-control {
+      height: 100%;
+    }
   }
 }
 

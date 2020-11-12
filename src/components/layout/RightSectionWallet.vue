@@ -22,13 +22,28 @@
       </div>
       <div class="not-bootstrap-row">
         <AeAmount :amount="balance" />
-        <Dropdown
+        <CustomDropdown
           v-if="currencyDropdownOptions.length"
           :options="currencyDropdownOptions"
-          :method="updateCurrency"
+          :method="updateSelectedCurrency"
           :selected="selectedCurrency"
-          rounded
-        />
+          show-right
+        >
+          <template #diplayValue>
+            <span class="currency-value spaced">
+              <!--eslint-disable-line vue-i18n/no-raw-text-->
+              ~ {{ selectedCurrencyPrice }}
+            </span>
+            {{ selectedCurrency.toUpperCase() }}
+          </template>
+          <template slot-scope="{ option }">
+            <span class="currency-value">
+              <!--eslint-disable-line vue-i18n/no-raw-text-->
+              ~ {{ option.price }}
+            </span>
+            {{ option.currency.toUpperCase() }}
+          </template>
+        </CustomDropdown>
       </div>
 
       <template v-if="hasContractV2Address">
@@ -54,13 +69,13 @@
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
-import Dropdown from '../Dropdown.vue';
+import CustomDropdown from '../CustomDropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
 import OutlinedButton from '../OutlinedButton.vue';
 
 export default {
   components: {
-    RightSectionTitle, AeAmount, Dropdown, OutlinedButton,
+    RightSectionTitle, AeAmount, CustomDropdown, OutlinedButton,
   },
   props: { closed: Boolean },
   data: () => ({
@@ -69,27 +84,32 @@ export default {
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
+    ...mapState('backend', ['prices']),
     ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency', 'tokenBalances']),
-    ...mapState({
-      currencyDropdownOptions({ backend: { prices }, balance }) {
-        return Object.entries(prices).map(([currency, price]) => ({
-          text: [
-            new BigNumber(balance).multipliedBy(price).toFixed(2),
-            currency.toUpperCase(),
-          ].join(' '),
-          value: currency,
-        }));
-      },
-    }),
+    currencyDropdownOptions() {
+      return Object.entries(this.prices).map(([currency, price]) => ({
+        price: new BigNumber(this.balance).multipliedBy(price).toFixed(2),
+        currency,
+      }));
+    },
+    selectedCurrencyPrice() {
+      return new BigNumber(this.balance)
+        .multipliedBy(this.prices[this.selectedCurrency])
+        .toFixed(2);
+    },
   },
-  methods: mapMutations(['updateCurrency', 'enableIframeWallet']),
+  methods: {
+    ...mapMutations(['updateCurrency', 'enableIframeWallet']),
+    updateSelectedCurrency(option) {
+      this.updateCurrency(option.currency);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .right-section-wallet {
   padding: 0.8rem 1rem;
-  overflow: hidden;
 
   &.iframe {
     padding: 0;
@@ -126,6 +146,14 @@ export default {
       flex-grow: 1;
       font-size: 1.3rem;
     }
+  }
+
+  .currency-value {
+    color: $tip_note_color;
+  }
+
+  .currency-value.spaced {
+    margin-right: 0.2rem;
   }
 }
 </style>

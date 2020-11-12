@@ -109,7 +109,7 @@
               Create Vote
             </button>
             <div
-              v-for="vote in votes && votes"
+              v-for="vote in votes"
               id="vote"
               :key="vote.id"
             >
@@ -189,7 +189,9 @@ export default {
     selectedWordContract: null,
     saleContractAddress: null,
     spread: 0,
-    votes: null,
+    ongoingVotes: [],
+    pastVotes: [],
+    myVotes: [],
     data: null,
     newVotePayout: '',
     tokenVoting: {},
@@ -200,6 +202,18 @@ export default {
   }),
   computed: {
     ...mapState(['address']),
+    votes() {
+      switch (this.activeTab) {
+        case 'ongoing':
+          return this.ongoingVotes;
+        case 'past':
+          return this.pastVotes;
+        case 'my':
+          return this.myVotes;
+        default:
+          return [];
+      }
+    },
   },
   mounted() {
     this.selectedWord = this.$route.params.word;
@@ -224,8 +238,16 @@ export default {
         : await getClient().then((client) => client
           .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.saleContractAddress }));
 
-      this.votes = await Promise.all((await this.selectedWordContract.methods.votes()).decodedResult
-        .map(([id, vote]) => this.getVoteInfo(id, vote[1], vote[0])));
+      const votes = await Promise.all(
+        (await this.selectedWordContract.methods.votes()).decodedResult
+          .map(([id, vote]) => this.getVoteInfo(id, vote[1], vote[0])),
+      );
+
+      console.log(votes);
+
+      this.ongoingVotes = votes.filter((v) => !v.isClosed);
+      this.pastVotes = votes.filter((v) => v.isClosed);
+      this.myVotes = []; // TODO
     },
     async getVoteInfo(id, vote, alreadyApplied) {
       this.tokenVoting[vote] = this.tokenVoting[vote] ? this.tokenVoting[vote]

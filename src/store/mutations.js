@@ -2,9 +2,8 @@ import Vue from 'vue';
 import { mergeWith } from 'lodash-es';
 
 export default {
-  setLoggedInAccount(state, { address, balance }) {
+  setAddress(state, address) {
     state.address = address;
-    state.balance = balance;
   },
   resetState(state) {
     state.useSdkWallet = false;
@@ -20,12 +19,6 @@ export default {
   },
   setOracleState(state, payload) {
     state.oracleState = payload;
-  },
-  addLoading(state, payload) {
-    state.loading[payload] = true;
-  },
-  removeLoading(state, payload) {
-    state.loading[payload] = false;
   },
   setChainNames(state, payload) {
     state.chainNames = payload;

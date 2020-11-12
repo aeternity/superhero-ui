@@ -1,15 +1,14 @@
 <template>
   <div class="tips-and-comments">
     <BackButtonRibbon />
-    <div
+
+    <Component
+      :is="id ? 'TipComment' : 'TipRecord'"
       v-if="record"
-      class="tipped__url"
-    >
-      <Component
-        :is="id ? 'TipComment' : 'TipRecord'"
-        v-bind="{ [id ? 'comment' : 'tip']: record }"
-      />
-    </div>
+      class="record"
+      v-bind="id ? record : { tip: record }"
+    />
+
     <div
       v-if="record"
       class="comment__section"
@@ -31,17 +30,12 @@
         <div
           v-if="nestedComments.length === 0 && !showLoading"
           class="no-results text-center w-100"
-          :class="[error ? 'error' : '']"
+          :class="{ error }"
         >
           {{ $t('views.TipCommentsView.NoResultsMsg') }}
         </div>
 
-        <Component
-          :is="id ? 'TipComment' : 'TipCommentList'"
-          v-for="(nestedComment, index) in nestedComments"
-          :key="index"
-          :comment="nestedComment"
-        />
+        <TipCommentList :comments="nestedComments" />
       </template>
     </div>
   </div>
@@ -81,7 +75,9 @@ export default {
         : this.$store.state.backend.tip[this.tipId];
     },
     nestedComments() {
-      return this.id ? this.record.children : this.record.comments;
+      return this.id
+        ? this.record.children
+        : this.record.comments.filter(({ parentId }) => !parentId);
     },
   },
   async mounted() {
@@ -131,39 +127,32 @@ export default {
   color: $light_font_color;
   font-size: 0.75rem;
 
-  .tipped__url {
-    .tip__record {
+  .record {
+    &.tip__record {
       margin-bottom: 0;
+      background-color: $thumbnail_background_color;
 
-      &.row {
-        background-color: $thumbnail_background_color;
+      ::v-deep .tip__body .tip__article {
+        background-color: $thumbnail_background_color_alt;
+
+        .preview__image {
+          background-color: $thumbnail_background_color_alt;
+        }
+
+        &:hover {
+          background-color: #373843;
+
+          .preview__image {
+            background-color: #373843;
+          }
+        }
       }
     }
 
-    .tip-comment.row {
+    &.tip-comment {
       background-color: $thumbnail_background_color;
       border-radius: 0;
       margin-bottom: 0;
-
-      ::v-deep .body .note {
-        overflow: visible;
-      }
-    }
-  }
-
-  .tipped__url .tip__record.row ::v-deep .tip__body .tip__article {
-    background-color: $thumbnail_background_color_alt;
-
-    .preview__image {
-      background-color: $thumbnail_background_color_alt;
-    }
-
-    &:hover {
-      background-color: #373843;
-
-      .preview__image {
-        background-color: #373843;
-      }
     }
   }
 

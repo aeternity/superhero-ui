@@ -45,6 +45,7 @@
 
 <script>
 import { debounce } from 'lodash-es';
+import { mapState } from 'vuex';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 import UserCard from '../UserCard.vue';
@@ -57,7 +58,6 @@ export default {
   },
   props: {
     address: { type: String, required: true },
-    name: { type: String, default: '' },
   },
   data: () => ({ hover: false }),
   computed: {
@@ -69,6 +69,11 @@ export default {
         this.hover = hover;
       }, 500),
     },
+    ...mapState({
+      name({ chainNames }) {
+        return chainNames[this.address] || '';
+      },
+    }),
   },
 };
 </script>
@@ -80,7 +85,7 @@ export default {
   display: flex;
   font-size: 0.8rem;
   justify-content: space-between;
-  padding: 0 1rem 0.9rem 1rem;
+  padding-bottom: 0.9rem;
 
   .router-link {
     max-width: 80%;

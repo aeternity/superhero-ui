@@ -1,42 +1,36 @@
 <template>
   <div
-    class="row position-relative tip-comment"
+    class="tip-comment"
     :class="{ clickable }"
     @click="clickable && $router.push({
       name: 'comment',
-      params: { tipId: comment.tipId, id: comment.id },
+      params: { tipId, id },
     })"
   >
-    <div class="body">
-      <AuthorAndDate
-        :date="new Date(comment.createdAt)"
-        :address="comment.author"
-        :name="userChainName || comment.chainName"
+    <AuthorAndDate
+      :date="createdAt"
+      :address="author"
+    />
+    <div class="note">
+      {{ text }}
+    </div>
+    <div class="actions">
+      <TipInput
+        :comment="{ tipId, id }"
+        @click.native.stop
       />
-      <div
-        class="note"
-        :title="comment.text"
+      <span
+        class="comments-count"
+        :title="$t('components.tipRecords.TipComment.Replies')"
       >
-        {{ comment.text }}
-      </div>
-      <div class="actions">
-        <span @click.stop>
-          <TipInput :comment="comment" />
-        </span>
-        <span
-          :title="$t('components.tipRecords.TipComment.Replies')"
-          class="comments"
-        >
-          <img src="../../assets/iconReply.svg">
-          &nbsp;<span>{{ childComments }}</span>
-        </span>
-      </div>
+        <img src="../../assets/iconReply.svg">
+        &nbsp;<span>{{ children.length }}</span>
+      </span>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import TipInput from '../TipInput.vue';
 import AuthorAndDate from './AuthorAndDate.vue';
 
@@ -45,22 +39,18 @@ export default {
     TipInput,
     AuthorAndDate,
   },
+  inheritAttrs: false,
   props: {
-    comment: { type: Object, required: true },
+    tipId: { type: String, required: true },
+    id: { type: Number, required: true },
+    author: { type: String, required: true },
+    text: { type: String, required: true },
+    children: { type: Array, default: () => [] },
+    createdAt: { type: String, required: true },
   },
   computed: {
-    ...mapState(['chainNames']),
-    userChainName() {
-      return this.chainNames[this.comment.author];
-    },
-    childComments() {
-      if (this.comment && this.comment.children) {
-        return this.comment.children.length;
-      }
-      return 0;
-    },
     clickable() {
-      return this.$route.name !== 'comment' || +this.$route.params.id !== +this.comment.id;
+      return this.$route.name !== 'comment' || +this.$route.params.id !== +this.id;
     },
   },
 };
@@ -68,76 +58,56 @@ export default {
 
 <style lang="scss" scoped>
 .tip-comment {
-  margin: 0 0 0.5rem 0;
-  padding-bottom: 0;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   background-color: $light_color;
+
+  @include smallest {
+    padding: 0.5rem;
+  }
 
   &.clickable:hover {
     cursor: pointer;
   }
 
-  .body {
-    padding-top: 1rem;
-    width: 100%;
+  .author-and-date {
+    padding-bottom: 0;
 
-    .author-and-date {
-      padding-bottom: 0;
-
-      ::v-deep .address {
-        font-size: 0.6rem;
-      }
-    }
-
-    .note {
-      padding: 0.35rem 1rem 0.25rem 1rem;
-      line-height: 1.1rem;
-      color: $comment_text_color;
-      height: initial;
-      font-size: 0.7rem;
-      font-weight: 400;
-      margin: 0;
-    }
-
-    .actions {
-      padding: 0.25rem 1rem 1rem 1rem;
-      color: $standard_font_color;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-
-      img {
-        height: 0.7rem;
-      }
-    }
-
-    .comments {
-      margin-left: 3rem;
-
-      > * {
-        vertical-align: middle;
-      }
+    ::v-deep .address {
+      font-size: 0.6rem;
     }
   }
-}
 
-@include smallest {
-  .tip-comment {
-    padding: 0.5rem;
+  .note {
+    padding: 0.35rem 0 0.25rem 0;
+    line-height: 1.1rem;
+    color: $comment_text_color;
+    font-size: 0.7rem;
+    font-weight: 400;
 
-    .body {
+    @include smallest {
+      padding: 0.25rem 0 0 0;
+    }
+  }
+
+  .actions {
+    padding-top: 0.25rem;
+    color: $standard_font_color;
+    font-size: 0.8rem;
+    display: flex;
+
+    @include smallest {
       padding-left: 0;
+      padding-top: 0.5rem;
+    }
 
-      .note {
-        margin-top: 0.25rem;
-        margin-bottom: 0;
-        padding: 0;
-      }
+    .comments-count > * {
+      vertical-align: middle;
+    }
 
-      .actions {
-        padding-left: 0;
-        padding-top: 0.5rem;
-      }
+    > :not(:first-child) {
+      margin-left: 3rem;
     }
   }
 }

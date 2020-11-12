@@ -231,6 +231,19 @@ export default {
         .methods[method](...args, options);
       return decodedResult;
     },
+    async tokenVotingMethod(
+      { dispatch, state: { tokenVotingContracts } },
+      contractAddress,
+      method,
+      args,
+      options,
+    ) {
+      await dispatch('initTokenVotingContractIfNeeded', contractAddress);
+
+      const { decodedResult } = await tokenVotingContracts[contractAddress]
+        .methods[method](...args, options);
+      return decodedResult;
+    },
     async tokenBalance(
       { dispatch, state: { fungibleTokenContracts } },
       contractAddress,

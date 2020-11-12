@@ -145,7 +145,7 @@
               <span v-if="vote.alreadyApplied">, result applied</span>
               <span v-if="!vote.alreadyApplied && vote.timeouted">, timeouted</span>
               <button
-                v-if="vote.isClosed && !vote.alreadyApplied && !vote.timeouted && hasSpread"
+                v-if="vote.isClosed && !vote.alreadyApplied && !vote.timeouted && vote.isSuccess"
                 @click="applyPayout(vote.id)"
               >
                 <!-- eslint-disable vue-i18n/no-raw-text -->Apply Payout
@@ -249,7 +249,7 @@ export default {
 
       this.ongoingVotes = votes.filter((v) => !v.isClosed);
       this.pastVotes = votes.filter((v) => v.isClosed);
-      this.myVotes = [];
+      this.myVotes = votes.filter((v) => v.voteAccounts.map(a => a[0]).includes(this.address));
     },
     async applyPayout(id) {
       await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress,

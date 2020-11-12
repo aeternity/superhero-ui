@@ -116,7 +116,7 @@
               Create Vote
             </button>
             <div
-              v-for="vote in votes && votes"
+              v-for="vote in votes"
               id="vote"
               :key="vote.id"
             >
@@ -191,7 +191,9 @@ export default {
     selectedWord: null,
     saleContractAddress: null,
     spread: 0,
-    votes: null,
+    ongoingVotes: [],
+    pastVotes: [],
+    myVotes: [],
     data: null,
     newVotePayout: '',
     tokenVoting: {},
@@ -202,6 +204,18 @@ export default {
   }),
   computed: {
     ...mapState(['address']),
+    votes() {
+      switch (this.activeTab) {
+        case 'ongoing':
+          return this.ongoingVotes;
+        case 'past':
+          return this.pastVotes;
+        case 'my':
+          return this.myVotes;
+        default:
+          return [];
+      }
+    },
   },
   mounted() {
     this.selectedWord = this.$route.params.word;
@@ -222,10 +236,14 @@ export default {
       this.data = await Backend.getWordSale(this.saleContractAddress);
     },
     async loadVotes() {
-      this.votes = await Promise.all(
+      const votes = await Promise.all(
         (await this.$store.dispatch('tokenSaleVotes', this.saleContractAddress))
           .map(([id, vote]) => this.getVoteInfo(id, vote[1], vote[0])),
       );
+
+      this.ongoingVotes = votes.filter((v) => !v.isClosed);
+      this.pastVotes = votes.filter((v) => v.isClosed);
+      this.myVotes = [];
     },
     async getVoteInfo(id, vote, alreadyApplied) {
       const state = await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'get_state');

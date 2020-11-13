@@ -142,7 +142,7 @@
                   :v-if="!vote.isClosed && vote.accountHasVoted"
                   @click="revokeVote(vote.voteAddress)"
                 >
-                  Revoke
+                  <IconClaimBack /> Revoke
                 </AeButton>
 
                 <div class="vote-progress-bar">
@@ -204,6 +204,7 @@ import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import WordBuySellButtons from '../components/WordBuySellButtons.vue';
 import IconPie from '../assets/iconPie.svg?icon-component';
 import IconInfo from '../assets/iconInfo.svg?icon-component';
+import IconClaimBack from '../assets/iconClaimBack.svg?icon-component';
 import AeAmount from '../components/AeAmount.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
@@ -220,6 +221,7 @@ export default {
     BackButtonRibbon,
     AeInputAmount,
     AeButton,
+    IconClaimBack,
   },
   data: () => ({
     wordRegistryState: null,
@@ -357,14 +359,6 @@ export default {
 </script>
 
 <style lang="scss">
-h2 {
-  margin-top: 1rem;
-}
-
-#vote {
-  margin-bottom: 0.5rem;
-}
-
 h3 {
   color: $small_heading_color;
   font-weight: 500;
@@ -375,8 +369,7 @@ h3 {
 .asset_details__section {
   background-color: $light_color;
   font-weight: 500;
-  font-size: 0.9rem;
-  line-height: 1.5rem;
+  font-size: 0.75rem;
 
   .asset-details__asset {
     color: $pure_white;
@@ -417,12 +410,13 @@ h3 {
 }
 .vote {
   box-sizing: border-box;
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 0.375rem;
+  box-shadow: 0.1rem 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
   background-color: $thumbnail_background_color;
-  padding: 1rem;
+  padding: 0.8rem;
   border: 1px solid $thumbnail_background_color;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
+  color: $small_heading_color;
 
   &:active, &:hover {
     border: 1px solid $custom_links_color;
@@ -430,8 +424,8 @@ h3 {
 
   .vote-progress-bar {
     background-color: $bg_hover;
-    width: 11.25rem;
-    border-radius: 0.375rem;
+    width: 9rem;
+    border-radius: 0.3rem;
     overflow: hidden;
   }
 
@@ -443,36 +437,44 @@ h3 {
         0.5);
     height: 100%;
     color: $pure_white;
-    line-height: 2.5rem;
-    font-size: 1.25rem;
-    padding-left: 0.875rem;
+    line-height: 2rem;
+    font-size: 1rem;
+    padding-left: 0.7rem;
   }
 
   .ae-button {
     height: 100%;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 
   .input-bar {
     display: flex;
-    height: 2.5rem;
+    height: 2rem;
+    width: 100%;
+    justify-content: space-between;
 
     & > * {
-      margin-left: 0.5rem;
+      margin-left: 0.4rem;
     }
 
     & > *:first-child {
       margin-left: 0;
     }
+
+    & > *:last-child {
+      justify-content: flex-end;
+      margin-left: auto;
+    }
   }
 
   .input-group {
     width: auto;
+    max-width: 10rem;
     height: 100%;
 
     .input-group-append > span.append__ae {
-      font-size: 0.875rem;
+      font-size: 0.62rem;
     }
 
     .form-control {

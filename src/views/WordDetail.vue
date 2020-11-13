@@ -261,7 +261,7 @@ export default {
     tabs: [{ text: 'Ongoing Votes', tab: 'ongoing' }, { text: 'Past Votes', tab: 'past' }, { text: 'My Votes', tab: 'my' }],
   }),
   computed: {
-    ...mapState(['address', 'tokenInfo']),
+    ...mapState(['address', 'tokenInfo', 'tokenBalances']),
     votes() {
       switch (this.activeTab) {
         case 'ongoing':
@@ -273,6 +273,12 @@ export default {
         default:
           return [];
       }
+    },
+    maxAmount() {
+      const tokenBalance = this.tokenBalances && this.data
+        && this.tokenBalances.find((b) => b.token === this.data.tokenAddress);
+
+      return tokenBalance ? tokenBalance.balance : '0';
     },
   },
   mounted() {
@@ -315,12 +321,9 @@ export default {
         const statusPast = statusTimeouted || statusApplied;
 
         const statusMy = accountHasVoted;
-        const stakeAmount = voterAccount
-          ? shiftDecimalPlaces(voterAccount[1][0], -this.tokenInfo[this.data.tokenAddress].decimals)
-            .toFixed()
-          : '0';
-
-        console.log(showRevoke)
+        const stakeAmountUnshifted = voterAccount ? voterAccount[1][0] : this.maxAmount;
+        const stakeAmount = shiftDecimalPlaces(
+          stakeAmountUnshifted, -this.tokenInfo[this.data.tokenAddress].decimals);
 
         return {
           ...vote,
@@ -360,15 +363,10 @@ export default {
       await this.initSaleContractIfUnknown();
       await this.initTokenVotingContractIfUnknown(address);
 
-      const token = (await this.selectedWordContract.methods.get_token()).decodedResult;
-      const tokenContract = await getClient().then((client) => client
-        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token }));
-
-      const maxAmount = (await tokenContract.methods.balance(this.address)).decodedResult;
       const shiftedAmount = shiftDecimalPlaces(amount,
         this.tokenInfo[this.data.tokenAddress].decimals).toFixed();
 
-      await createOrChangeAllowance(token, shiftedAmount, address.replace('ct_', 'ak_'));
+      await createOrChangeAllowance(this.data.tokenAddress, shiftedAmount, address.replace('ct_', 'ak_'));
 
       await this.tokenVoting[address].methods.vote(option, shiftedAmount);
       await Backend.invalidateWordSaleVoteStateCache(address);

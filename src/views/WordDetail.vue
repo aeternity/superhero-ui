@@ -139,10 +139,23 @@
                 Apply Payout
               </AeButton>
 
+              <label
+                class="stake-label"
+                v-if="vote.showVoteOption"
+              >
+                Enter stake amount
+              </label>
+              <label
+                class="stake-label"
+                v-else
+              >
+                You staked
+              </label>
 
               <div class="input-bar">
                 <AeInputAmount
-                  v-model="stakeAmount"
+                  v-model="vote.stakeAmount"
+                  :disabled="!vote.showVoteOption"
                   :not-token-tipable="true"
                   :symbol="selectedWord"
                 />
@@ -157,7 +170,7 @@
 
                 <AeButton
                   v-if="vote.showVoteOption"
-                  @click="voteOption(vote.voteAddress, true)"
+                  @click="voteOption(vote.voteAddress, true, vote.stakeAmount)"
                 >
                   <IconCheckmarkCircle />
                   Vote
@@ -178,8 +191,8 @@
                     :style="{ width: vote.stakePercent + '%' }"
                   >
                     <span v-if="vote.statusOngoing">{{ vote.stakePercent }}%</span>
-                    <span v-if="vote.statusTimeouted">Timeouted</span>
-                    <span v-if="vote.statusApplied">Funds transferred 🎉</span>
+                    <span v-if="vote.statusTimeouted">Timed out 👎</span>
+                    <span v-if="vote.statusApplied">Funds transferred 👍</span>
 
                   </div>
                 </div>
@@ -214,6 +227,7 @@ import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
 import AeInputAmount from '../components/AeInputAmount.vue';
 import AeButton from '../components/AeButton.vue';
+import { shiftDecimalPlaces } from '../utils';
 
 export default {
   name: 'WordBazaar',
@@ -247,7 +261,7 @@ export default {
     tabs: [{ text: 'Ongoing Votes', tab: 'ongoing' }, { text: 'Past Votes', tab: 'past' }, { text: 'My Votes', tab: 'my' }],
   }),
   computed: {
-    ...mapState(['address']),
+    ...mapState(['address', 'tokenInfo']),
     votes() {
       switch (this.activeTab) {
         case 'ongoing':
@@ -292,14 +306,21 @@ export default {
         const showVoteOption = !vote.isClosed && !accountHasVoted;
         const showApplyPayout = vote.isClosed && !vote.alreadyApplied
           && !vote.timeouted && vote.isSuccess;
-        const showWithdraw = vote.isClosed && vote.hasWithdrawAmount;
+        const showWithdraw = vote.isClosed && hasWithdrawAmount;
 
         const statusClosed = vote.isClosed && !vote.alreadyApplied && !vote.timeouted;
         const statusApplied = vote.alreadyApplied;
         const statusTimeouted = !vote.alreadyApplied && vote.timeouted;
         const statusOngoing = !vote.isClosed || !(statusTimeouted || statusApplied);
         const statusPast = statusTimeouted || statusApplied;
-        const statusMy = vote.voteAccounts.map((a) => a[0]).includes(this.address);
+
+        const statusMy = accountHasVoted;
+        const stakeAmount = voterAccount
+          ? shiftDecimalPlaces(voterAccount[1][0], -this.tokenInfo[this.data.tokenAddress].decimals)
+            .toFixed()
+          : '0';
+
+        console.log(showRevoke)
 
         return {
           ...vote,
@@ -315,6 +336,7 @@ export default {
           statusOngoing,
           statusPast,
           statusMy,
+          stakeAmount,
         };
       });
 
@@ -334,7 +356,7 @@ export default {
       this.updateWords();
       EventBus.$emit('reloadData');
     },
-    async voteOption(address, option) {
+    async voteOption(address, option, amount) {
       await this.initSaleContractIfUnknown();
       await this.initTokenVotingContractIfUnknown(address);
 
@@ -342,10 +364,13 @@ export default {
       const tokenContract = await getClient().then((client) => client
         .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token }));
 
-      const amount = (await tokenContract.methods.balance(this.address)).decodedResult;
-      await createOrChangeAllowance(token, amount, address.replace('ct_', 'ak_'));
+      const maxAmount = (await tokenContract.methods.balance(this.address)).decodedResult;
+      const shiftedAmount = shiftDecimalPlaces(amount,
+        this.tokenInfo[this.data.tokenAddress].decimals).toFixed();
 
-      await this.tokenVoting[address].methods.vote(option, amount);
+      await createOrChangeAllowance(token, shiftedAmount, address.replace('ct_', 'ak_'));
+
+      await this.tokenVoting[address].methods.vote(option, shiftedAmount);
       await Backend.invalidateWordSaleVoteStateCache(address);
       this.updateWords();
       EventBus.$emit('reloadData');
@@ -451,6 +476,14 @@ h3 {
   margin-bottom: 1.2rem;
   color: $small_heading_color;
 
+  .stake-label {
+    color: $small_heading_color;
+    font-weight: 500;
+    font-size: 0.75rem;
+    margin-top: 0.8rem;
+    padding-left: 0.1rem;
+  }
+
   .payout-address {
     color: $tip_note_color;
     font-weight: normal;
@@ -474,6 +507,7 @@ h3 {
         green($custom_links_color),
         blue($custom_links_color),
         0.5);
+    font-weight: normal;
     height: 100%;
     color: $pure_white;
     line-height: 2rem;
@@ -481,17 +515,16 @@ h3 {
     padding-left: 0.7rem;
 
     &.timeouted {
-      background-color: rgba(
-          red($red_color),
-          green($red_color),
-          blue($red_color),
-          0.5);
+      text-align: center;
+      background-color: $bg_hover;
       color: $red_color;
       font-size: 0.75rem;
       width: 100% !important;
     }
 
     &.applied {
+      text-align: center;
+      background-color: $bg_hover;
       color: $custom_links_color;
       font-size: 0.75rem;
       width: 100% !important;
@@ -505,6 +538,7 @@ h3 {
   }
 
   .input-bar {
+    margin-top: -0.4rem;
     display: flex;
     height: 2rem;
     width: 100%;
@@ -526,7 +560,7 @@ h3 {
 
   .input-group {
     width: auto;
-    max-width: 10rem;
+    max-width: 8rem;
     height: 100%;
 
     .input-group-append > span.append__ae {

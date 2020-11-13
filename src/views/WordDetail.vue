@@ -129,7 +129,16 @@
                 :amount="data.spread"
                 aettos
               /> spread released for transfer to
-              <div>{{ vote.subject.VotePayout[0] }}</div>
+              <div class="payout-address">{{ vote.subject.VotePayout[0] }}</div>
+
+              <AeButton
+                v-if="vote.showApplyPayout"
+                @click="applyPayout(vote.id)"
+              >
+                <IconClaimBack />
+                Apply Payout
+              </AeButton>
+
 
               <div class="input-bar">
                 <AeInputAmount
@@ -139,50 +148,43 @@
                 />
 
                 <AeButton
-                  :v-if="!vote.isClosed && vote.accountHasVoted"
+                  v-if="vote.showRevoke"
                   @click="revokeVote(vote.voteAddress)"
                 >
-                  <IconClaimBack /> Revoke
+                  <IconCloseCircle />
+                  Revoke
+                </AeButton>
+
+                <AeButton
+                  v-if="vote.showVoteOption"
+                  @click="voteOption(vote.voteAddress, true)"
+                >
+                  <IconCheckmarkCircle />
+                  Vote
+                </AeButton>
+
+                <AeButton
+                  v-if="vote.showWithdraw"
+                  @click="withdraw(vote.voteAddress)"
+                >
+                  <IconClaimBack />
+                  Claim Back
                 </AeButton>
 
                 <div class="vote-progress-bar">
                   <div
                     class="vote-progress"
+                    :class="{ timeouted: vote.statusTimeouted, applied: vote.statusApplied }"
                     :style="{ width: vote.stakePercent + '%' }"
                   >
-                    {{ vote.stakePercent }}%
+                    <span v-if="vote.statusOngoing">{{ vote.stakePercent }}%</span>
+                    <span v-if="vote.statusTimeouted">Timeouted</span>
+                    <span v-if="vote.statusApplied">Funds transferred 🎉</span>
+
                   </div>
                 </div>
               </div>
               <br>
-              <button
-                v-if="!vote.isClosed && !vote.accountHasVoted"
-                @click="voteOption(vote.voteAddress, true)"
-              >
-                For
-              </button>
-              <button
-                v-if="!vote.isClosed && !vote.accountHasVoted"
-                @click="voteOption(vote.voteAddress, false)"
-              >
-                Against
-              </button>
-
-              <span v-if="vote.isClosed && !vote.alreadyApplied">vote closed</span>
-              <span v-if="vote.alreadyApplied">, result applied</span>
-              <span v-if="!vote.alreadyApplied && vote.timeouted">, timeouted</span>
-              <button
-                v-if="vote.isClosed && !vote.alreadyApplied && !vote.timeouted && vote.isSuccess"
-                @click="applyPayout(vote.id)"
-              >
-                Apply Payout
-              </button>
-              <button
-                v-if="vote.isClosed && vote.hasWithdrawAmount"
-                @click="withdraw(vote.voteAddress)"
-              >
-                Withdraw
-              </button>
             </div>
           </div>
         </div>
@@ -205,6 +207,8 @@ import WordBuySellButtons from '../components/WordBuySellButtons.vue';
 import IconPie from '../assets/iconPie.svg?icon-component';
 import IconInfo from '../assets/iconInfo.svg?icon-component';
 import IconClaimBack from '../assets/iconClaimBack.svg?icon-component';
+import IconCloseCircle from '../assets/iconCloseCircle.svg?icon-component';
+import IconCheckmarkCircle from '../assets/iconCheckmarkCircle.svg?icon-component';
 import AeAmount from '../components/AeAmount.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
@@ -222,6 +226,8 @@ export default {
     AeInputAmount,
     AeButton,
     IconClaimBack,
+    IconCloseCircle,
+    IconCheckmarkCircle,
   },
   data: () => ({
     wordRegistryState: null,
@@ -278,16 +284,43 @@ export default {
       votes = votes.map((vote) => {
         const voterAccount = vote.voteAccounts.find(([acc]) => acc === this.address);
 
-        vote.accountHasVoted = !!voterAccount;
-        vote.hasWithdrawAmount = voterAccount
+        const accountHasVoted = !!voterAccount;
+        const hasWithdrawAmount = voterAccount
           && new BigNumber(voterAccount[1][0]).isGreaterThan(0) && !voterAccount[1][2];
 
-        return vote;
+        const showRevoke = !vote.isClosed && accountHasVoted;
+        const showVoteOption = !vote.isClosed && !accountHasVoted;
+        const showApplyPayout = vote.isClosed && !vote.alreadyApplied
+          && !vote.timeouted && vote.isSuccess;
+        const showWithdraw = vote.isClosed && vote.hasWithdrawAmount;
+
+        const statusClosed = vote.isClosed && !vote.alreadyApplied && !vote.timeouted;
+        const statusApplied = vote.alreadyApplied;
+        const statusTimeouted = !vote.alreadyApplied && vote.timeouted;
+        const statusOngoing = !vote.isClosed || !(statusTimeouted || statusApplied);
+        const statusPast = statusTimeouted || statusApplied;
+        const statusMy = vote.voteAccounts.map((a) => a[0]).includes(this.address);
+
+        return {
+          ...vote,
+          accountHasVoted,
+          hasWithdrawAmount,
+          showRevoke,
+          showVoteOption,
+          showApplyPayout,
+          showWithdraw,
+          statusClosed,
+          statusApplied,
+          statusTimeouted,
+          statusOngoing,
+          statusPast,
+          statusMy,
+        };
       });
 
-      this.ongoingVotes = votes.filter((v) => !v.isClosed);
-      this.pastVotes = votes.filter((v) => v.isClosed);
-      this.myVotes = votes.filter((v) => v.voteAccounts.map((a) => a[0]).includes(this.address));
+      this.ongoingVotes = votes.filter((v) => v.statusOngoing);
+      this.pastVotes = votes.filter((v) => v.statusPast);
+      this.myVotes = votes.filter((v) => v.statusMy);
     },
     async applyPayout(id) {
       await this.initSaleContractIfUnknown();
@@ -377,7 +410,7 @@ h3 {
   }
 
   .asset-details__description {
-    color: $lighter_grey_color;
+    color: $tip_note_color;
     padding-bottom: 1rem;
   }
 
@@ -418,6 +451,12 @@ h3 {
   margin-bottom: 1.2rem;
   color: $small_heading_color;
 
+  .payout-address {
+    color: $tip_note_color;
+    font-weight: normal;
+    font-size: 0.7rem;
+  }
+
   &:active, &:hover {
     border: 1px solid $custom_links_color;
   }
@@ -440,6 +479,23 @@ h3 {
     line-height: 2rem;
     font-size: 1rem;
     padding-left: 0.7rem;
+
+    &.timeouted {
+      background-color: rgba(
+          red($red_color),
+          green($red_color),
+          blue($red_color),
+          0.5);
+      color: $red_color;
+      font-size: 0.75rem;
+      width: 100% !important;
+    }
+
+    &.applied {
+      color: $custom_links_color;
+      font-size: 0.75rem;
+      width: 100% !important;
+    }
   }
 
   .ae-button {

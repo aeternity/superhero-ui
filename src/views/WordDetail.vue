@@ -256,7 +256,7 @@ export default {
     tabs: [{ text: 'Ongoing Votes', tab: 'ongoing' }, { text: 'Past Votes', tab: 'past' }, { text: 'My Votes', tab: 'my' }],
   }),
   computed: {
-    ...mapState(['address', 'tokenInfo']),
+    ...mapState(['address', 'tokenInfo', 'tokenBalances']),
     votes() {
       switch (this.activeTab) {
         case 'ongoing':
@@ -268,6 +268,12 @@ export default {
         default:
           return [];
       }
+    },
+    maxAmount() {
+      const tokenBalance = this.tokenBalances && this.data
+        && this.tokenBalances.find((b) => b.token === this.data.tokenAddress);
+
+      return tokenBalance ? tokenBalance.balance : '0';
     },
   },
   mounted() {
@@ -310,12 +316,9 @@ export default {
         const statusPast = statusTimeouted || statusApplied;
 
         const statusMy = accountHasVoted;
-        const stakeAmount = voterAccount
-          ? shiftDecimalPlaces(voterAccount[1][0], -this.tokenInfo[this.data.tokenAddress].decimals)
-            .toFixed()
-          : '0';
-
-        console.log(showRevoke)
+        const stakeAmountUnshifted = voterAccount ? voterAccount[1][0] : this.maxAmount;
+        const stakeAmount = shiftDecimalPlaces(
+          stakeAmountUnshifted, -this.tokenInfo[this.data.tokenAddress].decimals);
 
         return {
           ...vote,
@@ -352,12 +355,10 @@ export default {
       EventBus.$emit('reloadData');
     },
     async voteOption(address, option, amount) {
-      const token = await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'get_token');
-
       const shiftedAmount = shiftDecimalPlaces(amount,
         this.tokenInfo[this.data.tokenAddress].decimals).toFixed();
 
-      await this.$store.dispatch('createOrChangeAllowance', token, shiftedAmount, address.replace('ct_', 'ak_'));
+      await this.$store.dispatch('createOrChangeAllowance', this.data.tokenAddress, shiftedAmount, address.replace('ct_', 'ak_'));
       await this.$store.dispatch('tokenVotingMethod', address, 'vote', [option, shiftedAmount]);
       await Backend.invalidateWordSaleVoteStateCache(address);
       this.updateWords();

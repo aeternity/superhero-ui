@@ -58,11 +58,6 @@ module.exports = {
         return [definitions];
       })
       .end()
-      .plugin('ssr')
-      .tap((options) => ({
-        entry: (target) => `./src/entry-${target}`,
-        ...options[0],
-      }))
       .resolve.alias.delete('@').parent.parent
       .module
       .rule('aes')

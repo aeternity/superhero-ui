@@ -23,6 +23,6 @@ const router = new VueRouter({
   routes,
 });
 
-Vue.use(router);
+Vue.use(VueRouter);
 
 export default router;

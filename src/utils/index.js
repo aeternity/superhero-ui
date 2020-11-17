@@ -9,10 +9,6 @@ export const shiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).sh
 export const atomsToAe = (atoms) => shiftDecimalPlaces(atoms, -18);
 export const aeToAtoms = (ae) => shiftDecimalPlaces(ae, 18);
 
-export const supportedBrowsers = [
-  'chrome', 'firefox', 'opera', 'vivaldi', 'brave', 'edge-chromium',
-];
-
 export const currencySigns = {
   eur: '€',
   usd: '$',

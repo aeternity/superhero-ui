@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <div
-      v-if="isSupportedBrowser"
-      class="supportedbrowser--alert"
-    >
-      {{ $t('noExtensionSupport') }}
-    </div>
     <MobileNavigation v-if="!$route.meta.fullScreen" />
     <div class="not-bootstrap-row">
       <div
@@ -33,11 +27,10 @@
 
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
-import { detect } from 'detect-browser';
 import { initSdk, scanForWallets, tokenBalance } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
-import { IS_MOBILE_DEVICE, supportedBrowsers, atomsToAe } from './utils';
+import { atomsToAe } from './utils';
 import MobileNavigation from './components/layout/MobileNavigation.vue';
 import LeftSection from './components/layout/LeftSection.vue';
 import RightSection from './components/layout/RightSection.vue';
@@ -47,10 +40,6 @@ export default {
   computed: {
     ...mapGetters('modals', ['opened']),
     ...mapState(['address', 'sdk']),
-    isSupportedBrowser() {
-      const browser = detect();
-      return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));
-    },
   },
   async created() {
     EventBus.$on('reloadData', () => {
@@ -155,11 +144,6 @@ export default {
   max-width: var(--container-width);
   display: flex;
   flex-direction: column;
-
-  .supportedbrowser--alert {
-    text-align: center;
-    line-height: 3rem;
-  }
 
   .not-bootstrap-row {
     flex-grow: 1;

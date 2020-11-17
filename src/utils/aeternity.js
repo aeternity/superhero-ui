@@ -9,25 +9,22 @@ import TIPPING_V1_INTERFACE from 'tipping-contract/Tipping_v1_Interface.aes';
 import TIPPING_V2_INTERFACE from 'tipping-contract/Tipping_v2_Interface.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
 import { BigNumber } from 'bignumber.js';
-import { COMPILER_URL, NODE_URL } from '../config/constants';
-import { EventBus } from './eventBus';
 import store from '../store';
 import { IS_MOBILE_DEVICE } from './index';
 
+let sdk;
 let contractV1;
 let contractV2;
 
-export let client; // eslint-disable-line import/no-mutable-exports
-
 const initTippingContractIfNeeded = async () => {
-  if (!client) throw new Error('Init sdk first');
+  if (!sdk) throw new Error('Init sdk first');
   if (!contractV1) {
-    contractV1 = await client.getContractInstance(TIPPING_V1_INTERFACE, {
+    contractV1 = await sdk.getContractInstance(TIPPING_V1_INTERFACE, {
       contractAddress: process.env.VUE_APP_CONTRACT_V1_ADDRESS,
     });
   }
   if (!contractV2 && process.env.VUE_APP_CONTRACT_V2_ADDRESS) {
-    contractV2 = await client.getContractInstance(TIPPING_V2_INTERFACE, {
+    contractV2 = await sdk.getContractInstance(TIPPING_V2_INTERFACE, {
       contractAddress: process.env.VUE_APP_CONTRACT_V2_ADDRESS,
     });
   }
@@ -37,15 +34,15 @@ const initTippingContractIfNeeded = async () => {
  * Initializes the aeternity sdk to be imported in other occasions
  * @returns {Promise<>}
  */
-export const initClient = async () => {
+export const initSdk = async () => {
   try {
+    const common = {
+      nodes: [{ name: 'node', instance: await Node({ url: process.env.VUE_APP_NODE_URL }) }],
+      compilerUrl: process.env.VUE_APP_COMPILER_URL,
+    };
     if (window.Cypress) {
-      client = await Universal({
-        compilerUrl: COMPILER_URL,
-        nodes: [{
-          name: 'testnet',
-          instance: await Node({ url: 'https://testnet.aeternity.io' }),
-        }],
+      sdk = await Universal({
+        ...common,
         accounts: [
           MemoryAccount({
             keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey') },
@@ -53,26 +50,25 @@ export const initClient = async () => {
         ],
         address: Cypress.env('publicKey'),
       });
-      client.rpcClient = {
+      sdk.rpcClient = {
         getCurrentAccount: async () => Cypress.env('publicKey'),
       };
       await initTippingContractIfNeeded();
     } else {
-      client = await RpcAepp({
+      sdk = await RpcAepp({
+        ...common,
         name: 'Superhero',
-        nodes: [{ name: 'node', instance: await Node({ url: NODE_URL }) }],
-        compilerUrl: COMPILER_URL,
         onDisconnect() {
           store.commit('resetState');
         },
       });
     }
-    store.commit('setSdk', client);
+    store.commit('setSdk', sdk);
   } catch (err) {
-    EventBus.$emit('backendError');
+    store.commit('setBackendStatus', false);
     return;
   }
-  EventBus.$emit('backendLive');
+  store.commit('setBackendStatus', true);
 };
 
 export const scanForWallets = async () => {
@@ -86,16 +82,18 @@ export const scanForWallets = async () => {
     detector.scan(async ({ newWallet }) => {
       if (!newWallet) return;
       clearInterval(webWalletTimeout);
+      await sdk.connectToWallet(await newWallet.getConnection());
+      await sdk.subscribeAddress('subscribe', 'current');
+      const address = sdk.rpcClient.getCurrentAccount();
+      if (!address) return;
       detector.stopScan();
-      await client.connectToWallet(await newWallet.getConnection());
-      await client.subscribeAddress('subscribe', 'current');
-      resolve();
+      resolve(address);
     });
   });
 };
 
 export const tokenBalance = async (token, address) => {
-  const tokenContract = await client
+  const tokenContract = await sdk
     .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token });
 
   const { decodedResult } = await tokenContract.methods.balance(address);
@@ -103,11 +101,11 @@ export const tokenBalance = async (token, address) => {
 };
 
 const createOrChangeAllowance = async (tokenAddress, amount) => {
-  const tokenContract = await client
+  const tokenContract = await sdk
     .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
 
   const { decodedResult } = await tokenContract.methods.allowance({
-    from_account: await client.address(),
+    from_account: await sdk.address(),
     for_account: process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
   });
 

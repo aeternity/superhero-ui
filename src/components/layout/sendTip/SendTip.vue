@@ -1,12 +1,12 @@
 <template>
   <div class="send-tip tip__post">
-    <div v-if="open">
+    <div v-if="showForm">
       <div class="tip__post__label clearfix">
         <img
           :title="$t('close')"
           class="close-sendform"
           src="../../../assets/iconClose.svg"
-          @click="toggleSendTip(false)"
+          @click="toggleForm"
         >
       </div>
       <form @submit.prevent="sendTip">
@@ -36,9 +36,8 @@
           </div>
           <div class="text-right">
             <AeButton
-              :disabled="!canTip || !isSendTipDataValid"
+              :disabled="!isSendTipDataValid"
               :loading="sendingTip"
-              @click="sendTip"
             >
               <span class="text-nowrap">
                 <IconDiamond /> {{ $t('tip') }}
@@ -52,7 +51,7 @@
       v-else
       class="closed-view"
       :placeholder="$t('components.layout.SendTip.SendNewTip')"
-      @focus="canTip ? toggleSendTip(true) : openTipDeeplink()"
+      @focus="useSdkWallet ? toggleForm() : openTipDeeplink()"
     />
   </div>
 </template>
@@ -87,13 +86,12 @@ export default {
       },
       sendingTip: false,
       isBlacklistedUrl: false,
-      open: false,
+      showForm: false,
     };
   },
   computed: {
-    ...mapGetters(['isLoggedIn']),
     ...mapGetters('backend', ['minTipAmount']),
-    ...mapState(['loading', 'tokenInfo']),
+    ...mapState(['useSdkWallet', 'tokenInfo']),
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
@@ -102,9 +100,6 @@ export default {
           && this.sendTipForm.title.length > 0
           && urlRegex.test(this.sendTipForm.url)
           && !this.isBlacklistedUrl;
-    },
-    canTip() {
-      return this.isLoggedIn && !this.loading.wallet;
     },
   },
   methods: {
@@ -140,8 +135,8 @@ export default {
       this.sendTipForm = { amount: 0, url: '', title: '' };
       this.sendingTip = false;
     },
-    toggleSendTip(openSection) {
-      this.open = openSection;
+    toggleForm() {
+      this.showForm = !this.showForm;
       this.clearTipForm();
     },
     openTipDeeplink() {

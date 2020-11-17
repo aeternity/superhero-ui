@@ -14,15 +14,15 @@
     >
       <div
         class="avatar-wrapper"
-        @mouseover="hover = true"
-        @mouseleave="hover = false"
+        @mouseover="hoverDebounced = true"
+        @mouseleave="hoverDebounced = false"
       >
         <Avatar
           :address="address"
         />
         <Transition name="fade">
           <UserCard
-            v-if="hover"
+            v-if="hoverDebounced"
             :address="address"
           />
         </Transition>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import { debounce } from 'lodash-es';
+import { mapState } from 'vuex';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 import UserCard from '../UserCard.vue';
@@ -56,9 +58,23 @@ export default {
   },
   props: {
     address: { type: String, required: true },
-    name: { type: String, default: '' },
   },
   data: () => ({ hover: false }),
+  computed: {
+    hoverDebounced: {
+      get() {
+        return this.hover;
+      },
+      set: debounce(function set(hover) {
+        this.hover = hover;
+      }, 500),
+    },
+    ...mapState({
+      name({ chainNames }) {
+        return chainNames[this.address] || '';
+      },
+    }),
+  },
 };
 </script>
 
@@ -69,7 +85,7 @@ export default {
   display: flex;
   font-size: 0.8rem;
   justify-content: space-between;
-  padding: 0 1rem 0.9rem 1rem;
+  padding-bottom: 0.9rem;
 
   .router-link {
     max-width: 80%;
@@ -116,11 +132,6 @@ export default {
       &.fade-enter-active,
       &.fade-leave-active {
         transition: opacity 0.3s;
-      }
-
-      &.fade-enter-to,
-      &.fade-leave-to {
-        transition-delay: 0.5s;
       }
 
       &.fade-enter,

@@ -1,28 +1,21 @@
 <template>
-  <div
-    v-if="!comment.parentId"
-    class="comment-list"
-  >
-    <TipComment :comment="comment" />
+  <div class="tip-comment-list">
     <div
-      v-if="childComments.length"
-      class="child-comments"
+      v-for="comment in sort(comments, false)"
+      :key="comment.id"
+      class="tree"
     >
+      <TipComment v-bind="comment" />
       <TipComment
-        v-for="childComment in childComments"
+        v-for="childComment in sort(comment.children || [], true)"
         :key="childComment.id"
-        :comment="childComment"
+        v-bind="childComment"
       />
       <SendComment
         :tip-id="comment.tipId"
         :parent-id="comment.id"
       />
     </div>
-    <SendComment
-      v-if="!childComments.length"
-      :tip-id="comment.tipId"
-      :parent-id="comment.id"
-    />
   </div>
 </template>
 
@@ -36,53 +29,51 @@ export default {
     SendComment,
   },
   props: {
-    comment: { type: Object, required: true },
+    comments: { type: Array, required: true },
   },
-  computed: {
-    childComments() {
-      return this.comment.children || 0;
-    },
+  methods: {
+    sort: (array, isAsc) => array.slice().sort((a, b) => {
+      const values = [a, b].map((e) => Date.parse(e.createdAt));
+      if (isAsc) values.reverse();
+      return values[1] - values[0];
+    }),
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.comment-list {
+.tip-comment-list .tree {
   background-color: $light_color;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
+  padding: 1rem;
+
+  @include smallest {
+    padding: 0.5rem;
+  }
 
   .tip-comment {
     margin-bottom: 0;
-  }
-}
+    padding-left: 0;
+    padding-right: 0;
 
-.child-comments {
-  border-top: 0.05rem solid $article_content_color;
-  margin: 0 1rem;
-
-  & > * {
-    margin-right: -1rem;
-    margin-left: 2rem;
-  }
-}
-
-.send-comment {
-  padding: 0 1rem 1rem 1rem;
-}
-
-@include smallest {
-  .child-comments {
-    margin: 0 0.5rem;
-
-    & > * {
-      margin-right: -0.5rem;
-      margin-left: 1rem;
+    &:first-child {
+      padding-top: 0;
     }
-  }
 
-  .send-comment {
-    padding: 0 0.5rem 1rem 0.5rem;
+    &:nth-child(2) {
+      border-top: 0.05rem solid $article_content_color;
+      border-radius: 0;
+    }
+
+    + .tip-comment,
+    + .tip-comment + .send-comment {
+      padding-left: 3rem;
+
+      @include smallest {
+        padding-left: 1.5rem;
+      }
+    }
   }
 }
 </style>

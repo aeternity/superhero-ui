@@ -2,9 +2,11 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import mutations from './mutations';
+// eslint-disable-next-line import/no-cycle
 import backend from './modules/backend';
 import persistState from './plugins/persistState';
 import modals from './plugins/modals';
+// eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 
 Vue.use(Vuex);

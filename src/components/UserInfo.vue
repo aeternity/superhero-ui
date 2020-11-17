@@ -88,8 +88,7 @@
           <a
             class="profile__username"
             target="_blank"
-            :href="openExplorer(address)"
-            :title="address"
+            :href="explorerTransactionsUrl"
           >
             <div class="chain">
               {{ userChainName ? userChainName : $t('FellowSuperhero') }}
@@ -99,7 +98,6 @@
           <div
             v-if="balance"
             class="balance"
-            :title="balance"
           >
             <span>{{ $t('Balance') }}</span>
             <AeAmountFiat :amount="balance" />
@@ -196,9 +194,7 @@
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
-import { EXPLORER_URL } from '../config/constants';
 import { atomsToAe } from '../utils';
-import { client } from '../utils/aeternity';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Avatar from './Avatar.vue';
 import { EventBus } from '../utils/eventBus';
@@ -240,7 +236,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'chainNames']),
+    ...mapState(['useSdkWallet', 'chainNames', 'sdk']),
     ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];
@@ -299,13 +295,16 @@ export default {
         },
       ];
     },
+    explorerTransactionsUrl() {
+      return `${process.env.VUE_APP_EXPLORER_URL}/account/transactions/${this.address}`;
+    },
   },
   mounted() {
     this.$watch(
       () => this.address,
       () => {
         this.reloadData();
-        this.getBalance();
+        this.reloadBalance();
       },
       { immediate: true },
     );
@@ -318,21 +317,9 @@ export default {
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
   },
   methods: {
-    getBalance() {
-      if (client) {
-        client.balance(this.address).then((balance) => {
-          this.balance = atomsToAe(balance).toFixed(2);
-        }).catch(() => 0);
-      } else {
-        const that = this;
-
-        setTimeout(() => {
-          that.getBalance();
-        }, 200);
-      }
-    },
-    openExplorer(address) {
-      return `${EXPLORER_URL}account/transactions/${address}`;
+    async reloadBalance() {
+      await this.$watchUntilTruly(() => this.sdk);
+      this.balance = atomsToAe(await this.sdk.balance(this.address).catch(() => 0)).toFixed(2);
     },
     async resetEditedValues() {
       this.editMode = false;

@@ -12,11 +12,7 @@ import { EventBus } from '../utils/eventBus';
 export default {
   mounted() {
     const interval = setInterval(() => EventBus.$emit('reloadData'), 10 * 1000);
-
-    EventBus.$on('backendLive', () => {
-      clearInterval(interval);
-      this.$router.push('/');
-    });
+    this.$once('hook:destroyed', () => clearInterval(interval));
   },
 };
 </script>
@@ -24,13 +20,13 @@ export default {
 <style lang="scss" scoped>
 .maintenance {
   background-color: #14151f;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
 
   @media (min-width: 400px) {
     position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 
   h1 {

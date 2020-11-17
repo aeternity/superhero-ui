@@ -3,7 +3,7 @@ import './styles/base.scss';
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
 import App from './App.vue';
-import { createStore } from './store';
+import createStore from './store';
 import { createRouter } from './router';
 import i18n from './utils/i18nHelper';
 import registerModals from './views/modals';
@@ -20,13 +20,12 @@ export default async function createApp ({
           afterApp = () => {}
         } = {}) {
           const router = createRouter()
-
+          const store = createStore()
 
 
           await beforeApp({
             router,
-
-
+            store,
           })
 
           const app = new Vue({
@@ -40,8 +39,7 @@ export default async function createApp ({
           const result = {
             app,
             router,
-
-
+            store,
           }
 
           await afterApp(result)

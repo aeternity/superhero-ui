@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Home from '../views/Home.vue';
 
+Vue.use(VueRouter);
+
 const routes = [
   {
     path: '/',
@@ -22,7 +24,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
-Vue.use(VueRouter);
 
 export default router;

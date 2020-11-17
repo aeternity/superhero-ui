@@ -9,56 +9,60 @@ import Backend from '../utils/backend';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-    address: null,
-    balance: 0,
-    profile: {},
-    pinnedItems: [],
-    selectedCurrency: 'eur',
-    topics: [],
-    tipSortBy: 'hot',
-    oracleState: {},
-    loading: {
-      wallet: false,
-      initial: false,
+export default function () {
+  return new Vuex.Store({
+    state() {
+      return {
+        address: null,
+        balance: 0,
+        profile: {},
+        pinnedItems: [],
+        selectedCurrency: 'eur',
+        topics: [],
+        tipSortBy: 'hot',
+        oracleState: {},
+        loading: {
+          wallet: false,
+          initial: false,
+        },
+        chainNames: [],
+        verifiedUrls: [],
+        graylistedUrls: [],
+        tokenInfo: {},
+        tokenBalances: [],
+        isHiddenContent: true,
+        useSdkWallet: false,
+        useIframeWallet: false,
+        sdk: null,
+      }
     },
-    chainNames: [],
-    verifiedUrls: [],
-    graylistedUrls: [],
-    tokenInfo: {},
-    tokenBalances: [],
-    isHiddenContent: true,
-    useSdkWallet: false,
-    useIframeWallet: false,
-    sdk: null,
-  },
-  mutations,
-  actions: {
-    async updateUserProfile({ commit, state: { address } }) {
-      commit('setUserProfile', await Backend.getProfile(address));
+    mutations,
+    actions: {
+      async updateUserProfile({ commit, state: { address } }) {
+        commit('setUserProfile', await Backend.getProfile(address));
+      },
+      async updatePinnedItems({ commit, state: { address } }) {
+        commit('setPinnedItems', await Backend.getPinnedItems(address));
+      },
     },
-    async updatePinnedItems({ commit, state: { address } }) {
-      commit('setPinnedItems', await Backend.getPinnedItems(address));
+    getters: {
+      isLoggedIn: (state) => !!state.address,
     },
-  },
-  getters: {
-    isLoggedIn: (state) => !!state.address,
-  },
-  modules: { backend },
-  plugins: [
-    persistState(
-      (state) => state,
-      ({
-        selectedCurrency, address, balance, tokenInfo, tokenBalances,
-      }) => ({
-        selectedCurrency,
-        address,
-        balance,
-        tokenInfo,
-        tokenBalances,
-      }),
-    ),
-    modals,
-  ],
-});
+    modules: { backend },
+    plugins: [
+      persistState(
+        (state) => state,
+        ({
+          selectedCurrency, address, balance, tokenInfo, tokenBalances,
+        }) => ({
+          selectedCurrency,
+          address,
+          balance,
+          tokenInfo,
+          tokenBalances,
+        }),
+      ),
+      modals,
+    ],
+  })
+};

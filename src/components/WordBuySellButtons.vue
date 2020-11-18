@@ -188,6 +188,7 @@ export default {
       await this.$store.dispatch('tokenSaleMethod', this.sale,
         'sell', [amount]);
 
+      await Backend.invalidateTokenCache(this.tokenAddress);
       await Backend.invalidateWordSaleCache(this.sale);
       EventBus.$emit('reloadData');
       this.loadWordData();

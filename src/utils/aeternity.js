@@ -74,7 +74,7 @@ export const initSdk = async () => {
 };
 
 export const getClient = async () => {
-  if (client) return client;
+  if (sdk) return sdk;
   await new Promise((r) => setTimeout(r, 500));
   return getClient();
 };

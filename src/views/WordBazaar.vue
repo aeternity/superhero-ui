@@ -70,7 +70,7 @@ import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.ae
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import BONDING_CURVE_MOCK from 'wordbazaar-contracts/BondingCurveMock.aes';
 import { mapState } from 'vuex';
-import { client } from '../utils/aeternity';
+import { getClient } from '../utils/aeternity';
 import Backend from '../utils/backend';
 import WordListing from '../components/WordListing.vue';
 import Loading from '../components/Loading.vue';
@@ -115,13 +115,16 @@ export default {
     },
     async createWordSale() {
       this.loadingState = true;
-      const bondingCurveMock = await client.getContractInstance(BONDING_CURVE_MOCK);
+      const bondingCurveMock = await getClient().then((client) => client
+        .getContractInstance(BONDING_CURVE_MOCK));
       this.createProgressText = `Please confirm popup 1 of 5\n\n Creating Bonding Curve Contract for sale of ${this.newWord} Tokens`;
       await bondingCurveMock.deploy();
-      const tokenSale = await client.getContractInstance(TOKEN_SALE_CONTRACT);
+      const tokenSale = await getClient().then((client) => client
+        .getContractInstance(TOKEN_SALE_CONTRACT));
       this.createProgressText = `Please confirm popup 2 of 5\n\n Creating Token Sale Contract for ${this.newWord} Tokens`;
       await tokenSale.methods.init(20, bondingCurveMock.deployInfo.address);
-      const token = await client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
+      const token = await getClient().then((client) => client
+        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT));
       this.createProgressText = `Please confirm popup 3 of 5\n\n Creating ${this.newWord} Token Contract`;
       await token.methods.init(`${this.newWord} Token`, 18, this.newWord,
         tokenSale.deployInfo.address.replace('ct_', 'ak_'));
@@ -130,9 +133,9 @@ export default {
       await tokenSale.methods.set_token(token.deployInfo.address);
       this.createProgressText = `Please confirm popup 5 of 5\n\n Adding Token Sale for ${this.newWord} to Word Bazaar`;
 
-      const wordRegistry = await client
+      const wordRegistry = await getClient().then((client) => client
         .getContractInstance(WORD_REGISTRY_CONTRACT,
-          { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS });
+          { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS }));
       await wordRegistry.methods.add_token(tokenSale.deployInfo.address);
       await Backend.invalidateWordRegistryCache();
 

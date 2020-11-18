@@ -107,7 +107,7 @@
 <script>
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import { mapState } from 'vuex';
-import { client, createOrChangeAllowance } from '../utils/aeternity';
+import { getClient, createOrChangeAllowance } from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import AeAmount from './AeAmount.vue';
@@ -191,13 +191,14 @@ export default {
         this.contract.deployInfo.address.replace('ct_', 'ak_'));
       await this.contract.methods.sell(amount);
 
+      await Backend.invalidateTokenCache(this.tokenAddress);
       await Backend.invalidateWordSaleCache(this.sale);
       EventBus.$emit('reloadData');
       this.loadWordData();
     },
     async initContract() {
-      this.contract = this.contract ? this.contract : await client
-        .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.sale });
+      this.contract = this.contract ? this.contract : await getClient().then((client) => client
+        .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress: this.sale }));
     },
   },
 };

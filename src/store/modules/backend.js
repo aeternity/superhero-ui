@@ -3,7 +3,6 @@ import Vue from 'vue';
 import { times } from 'lodash-es';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../../utils/backend';
-// eslint-disable-next-line import/no-cycle
 import { createDeepLinkUrl } from '../../utils';
 
 export default {

@@ -148,11 +148,15 @@ export default {
       return balance ? balance.balance : '0';
     },
   },
-  mounted() {
-    this.loadWordData();
+  created() {
+    this.reloadData();
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+    setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
-    async loadWordData() {
+    async reloadData() {
       this.totalSupply = null;
       this.buyPrice = null;
 
@@ -176,7 +180,6 @@ export default {
       await Backend.invalidateTokenCache(this.tokenAddress);
       await Backend.invalidateWordSaleCache(this.sale);
       EventBus.$emit('reloadData');
-      this.loadWordData();
     },
     async sell() {
       this.loading = true;
@@ -191,7 +194,6 @@ export default {
       await Backend.invalidateTokenCache(this.tokenAddress);
       await Backend.invalidateWordSaleCache(this.sale);
       EventBus.$emit('reloadData');
-      this.loadWordData();
     },
   },
 };

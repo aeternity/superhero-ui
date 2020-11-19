@@ -76,6 +76,36 @@
         />
 
         <div
+          v-if="activeTab === 'ongoing' && data"
+
+          class="asset_details__section initiate-vote"
+        >
+          <div class="stake-label">
+            Release
+            <AeAmount
+              :amount="data.spread"
+              aettos
+            />
+            spread for transfer to
+          </div>
+
+          <div class="initiate-vote-inputs">
+            <input
+              v-model.trim="newVotePayout"
+              class="form-control"
+              placeholder="Enter aeternity address"
+            >
+
+            <AeButton
+              @click="createVote"
+            >
+              <IconCheckmarkCircle />
+              Initiate Vote
+            </AeButton>
+          </div>
+        </div>
+
+        <div
           v-if="data"
           class="asset_details__info"
         >
@@ -107,19 +137,6 @@
 
         <div class="asset_details__section">
           <div class="asset_details__section-content">
-
-            <div class="d-none">
-              <input
-                v-model="newVotePayout"
-                placeholder="ak_..."
-              >
-              <button @click="createVote">
-                <!-- eslint-disable vue-i18n/no-raw-text -->
-                Create Vote
-              </button>
-            </div>
-
-
             <div
               v-for="vote in votes"
               :key="vote.id"
@@ -147,33 +164,33 @@
                   />
                   <span v-if="vote.statusPast"> ago</span>
                   <span v-if="vote.statusTimeouting"> left to send funds</span>
-
                 </div>
               </div>
 
               <div class="vote-row">
-
-                <div class="vote-row-start payout-address">{{ vote.subject.VotePayout[0] }}</div>
+                <div class="vote-row-start payout-address">
+                  {{ vote.subject.VotePayout[0] }}
+                </div>
 
                 <AeButton
                   v-if="vote.showApplyPayout"
                   class="vote-row-end green"
                   @click="applyPayout(vote.id)"
                 >
-                  <IconCheckmarkCircle/>
+                  <IconCheckmarkCircle />
                   Send
                 </AeButton>
               </div>
 
               <label
-                class="stake-label"
                 v-if="vote.showVoteOption"
+                class="stake-label"
               >
                 Enter stake amount
               </label>
               <label
-                class="stake-label"
                 v-else
+                class="stake-label"
               >
                 You staked
               </label>
@@ -219,7 +236,6 @@
                     <span v-if="vote.statusOngoing">{{ vote.stakePercent }}%</span>
                     <span v-if="vote.statusTimeouted">Timed out 👎</span>
                     <span v-if="vote.statusApplied">Funds transferred 👍</span>
-
                   </div>
                 </div>
               </div>
@@ -278,7 +294,7 @@ export default {
     newVotePayout: '',
     tokenVoting: {},
     activity: 'voting',
-    activeTab: 'past',
+    activeTab: 'ongoing',
     ribbonTabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Voting', activity: 'voting' }],
     tabs: [{ text: 'Ongoing Votes', tab: 'ongoing' }, { text: 'Past Votes', tab: 'past' }, { text: 'My Votes', tab: 'my' }],
   }),
@@ -303,12 +319,16 @@ export default {
       return tokenBalance ? tokenBalance.balance : '0';
     },
   },
-  mounted() {
+  created() {
     this.selectedWord = this.$route.params.word;
-    this.updateWords();
+    this.reloadData();
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+    setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
-    async updateWords() {
+    async reloadData() {
       this.wordRegistryState = await Backend.getWordRegistry();
 
       // eslint-disable-next-line prefer-destructuring
@@ -383,11 +403,11 @@ export default {
         'apply_vote_subject', [id]);
 
       this.updateWords();
+      await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
       EventBus.$emit('reloadData');
     },
     async withdraw(address) {
       await this.$store.dispatch('tokenVotingMethod', address, 'withdraw');
-      this.updateWords();
       EventBus.$emit('reloadData');
     },
     async voteOption(address, option, amount) {
@@ -397,13 +417,11 @@ export default {
       await this.$store.dispatch('createOrChangeAllowance', this.data.tokenAddress, shiftedAmount, address.replace('ct_', 'ak_'));
       await this.$store.dispatch('tokenVotingMethod', address, 'vote', [option, shiftedAmount]);
       await Backend.invalidateWordSaleVoteStateCache(address);
-      this.updateWords();
       EventBus.$emit('reloadData');
     },
     async revokeVote(address) {
       await this.$store.dispatch('tokenVotingMethod', address, 'revoke_vote');
       await Backend.invalidateWordSaleVoteStateCache(address);
-      this.updateWords();
       EventBus.$emit('reloadData');
     },
     async createVote() {
@@ -477,6 +495,46 @@ h3 {
     background-color: $light_color;
   }
 }
+
+.initiate-vote {
+  margin-bottom: 0.1rem;
+  padding: 1.2rem;
+
+  .initiate-vote-inputs {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.4rem;
+
+    input {
+      background-color: $buttons_background;
+      color: $standard_font_color;
+      border: 0.05rem solid $buttons_background;
+      border-radius: 0.25rem;
+      flex: 1;
+      margin-right: 1.2rem;
+      font-size: 0.7rem;
+      height: 2rem;
+
+      &:focus, &:active {
+        border: 0.05rem solid $secondary_color;
+        box-shadow: none;
+      }
+    }
+
+    .ae-button {
+      font-size: 0.8rem;
+      height: 2rem;
+    }
+  }
+}
+
+.stake-label {
+  color: $small_heading_color;
+  font-weight: 500;
+  font-size: 0.75rem;
+  padding-left: 0.1rem;
+}
+
 .vote {
   box-sizing: border-box;
   box-shadow: 0.1rem 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
@@ -503,13 +561,6 @@ h3 {
         color: $tip_note_color;
       }
     }
-  }
-
-  .stake-label {
-    color: $small_heading_color;
-    font-weight: 500;
-    font-size: 0.75rem;
-    padding-left: 0.1rem;
   }
 
   .payout-address {

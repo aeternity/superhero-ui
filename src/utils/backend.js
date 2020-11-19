@@ -1,4 +1,25 @@
-import { wrapTry } from './index';
+// eslint-disable-next-line import/no-cycle
+import store from '../store';
+
+const wrapTry = async (promise) => {
+  try {
+    return promise.then((res) => {
+      if (!res) {
+        store.commit('setBackendStatus', false);
+        return null;
+      }
+      store.commit('setBackendStatus', true);
+      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
+      return res.json();
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+  } catch (err) {
+    store.commit('setBackendStatus', false);
+    return null;
+  }
+};
 
 const backendFetch = (path, ...args) => wrapTry(
   fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err)),
@@ -113,4 +134,18 @@ export default class Backend {
   static getTipTraceBackend = (id) => backendFetch(`tracing/backend?id=${id}`);
 
   static getTipTraceBlockchain = (id) => backendFetch(`tracing/blockchain?id=${id}`);
+
+  static getCookiesConsent = async (address, query) => backendFetch(`consent/${address}${query ? `?challenge=${query.challenge}&signature=${query.signature}` : ''}`);
+
+  static setCookiesYouTube = async (address, postParam) => backendFetch(`consent/${address}/YouTube`, {
+    method: 'post',
+    body: JSON.stringify({ ...postParam, status: postParam.status ? 'ALLOWED' : 'REJECTED' }),
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  static setCookiesSoundCloud = async (address, postParam) => backendFetch(`consent/${address}/SoundCloud`, {
+    method: 'post',
+    body: JSON.stringify({ ...postParam, status: postParam.status ? 'ALLOWED' : 'REJECTED' }),
+    headers: { 'Content-Type': 'application/json' },
+  })
 }

@@ -187,6 +187,7 @@ export default {
 
     img {
       height: 1em;
+      margin-right: 0.2rem;
     }
 
     .ae-amount-fiat {

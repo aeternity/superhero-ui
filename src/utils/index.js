@@ -1,6 +1,5 @@
 import { get } from 'lodash-es';
 import BigNumber from 'bignumber.js';
-import { EventBus } from './eventBus';
 import i18n from './i18nHelper';
 
 export const topicsRegex = /(#[a-zA-Z]+\b)(?!;)/g;
@@ -9,30 +8,6 @@ export const shiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).sh
 
 export const atomsToAe = (atoms) => shiftDecimalPlaces(atoms, -18);
 export const aeToAtoms = (ae) => shiftDecimalPlaces(ae, 18);
-
-export const wrapTry = async (promise) => {
-  try {
-    return promise.then((res) => {
-      if (!res) {
-        EventBus.$emit('backendError');
-        return null;
-      }
-      EventBus.$emit('backendLive');
-      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
-      return res.json();
-    }).catch((error) => {
-      console.error(error);
-      return null;
-    });
-  } catch (err) {
-    EventBus.$emit('backendError');
-    return null;
-  }
-};
-
-export const supportedBrowsers = [
-  'chrome', 'firefox', 'opera', 'vivaldi', 'brave', 'edge-chromium',
-];
 
 export const currencySigns = {
   eur: '€',

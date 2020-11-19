@@ -1,5 +1,6 @@
 <template>
   <time
+    class="format-date"
     :datetime="isoFormattedDateAndTime"
     :title="wholeDateAndTime"
   >
@@ -10,20 +11,23 @@
 <script>
 export default {
   props: {
-    date: { type: Date, required: true },
+    date: { type: [String, Number, Date], required: true },
   },
   computed: {
+    dateObject() {
+      return new Date(this.date);
+    },
     formatDate() {
-      const today = new Date();
-      const tipDate = this.date;
-      const isToday = (today.toDateString() === tipDate.toDateString());
-      return isToday ? tipDate.toLocaleTimeString('en-GB') : tipDate.toLocaleDateString('en-US');
+      const now = new Date();
+      const date = this.dateObject;
+      const isToday = now.toDateString() === date.toDateString();
+      return isToday ? date.toLocaleTimeString('en-GB') : date.toLocaleDateString('en-US');
     },
     wholeDateAndTime() {
-      return this.date.toLocaleString('en-US', { hourCycle: 'h24' });
+      return this.dateObject.toLocaleString('en-US', { hourCycle: 'h24' });
     },
     isoFormattedDateAndTime() {
-      return this.date.toISOString();
+      return this.dateObject.toISOString();
     },
   },
 };

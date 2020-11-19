@@ -9,7 +9,7 @@
 
       <div class="row">
         <FormatDate
-          :date="new Date(blockchainTrace.tip.timestamp)"
+          :date="blockchainTrace.tip.timestamp"
           class="mr-1"
         />
         <span class="font-weight-bold">{{ blockchainTrace.tip.url }}</span>
@@ -76,7 +76,7 @@
         :key="i"
         class="row"
       >
-        <FormatDate :date="new Date(event.time)" />
+        <FormatDate :date="event.time" />
         <span class="mx-1 font-weight-bold">{{ event.event }}</span>
         ({{ event.address }}
         <span v-if="event.event === 'CheckPersistClaim'">, {{ event.amount }}%</span>
@@ -100,7 +100,7 @@
         class="flex-column"
       >
         <h4 @click="expandedTrace = expandedTrace === i ? null : i">
-          <FormatDate :date="new Date(trace[0].date)" />
+          <FormatDate :date="trace[0].date" />
           Claim {{ i }} - {{ traceState(trace) }}
         </h4>
         <div
@@ -110,7 +110,7 @@
           class="mb-2"
         >
           <span class="font-weight-bold">
-            <FormatDate :date="new Date(event.date)" />
+            <FormatDate :date="event.date" />
             {{ event.state }}
           </span>
           <br>

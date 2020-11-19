@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <div
-      v-if="isSupportedBrowser"
-      class="supportedbrowser--alert"
-    >
-      {{ $t('noExtensionSupport') }}
-    </div>
     <MobileNavigation v-if="!$route.meta.fullScreen" />
     <div class="not-bootstrap-row">
       <div
@@ -33,13 +27,10 @@
 
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
-import { detect } from 'detect-browser';
-import {
-  client, initClient, scanForWallets, tokenBalance,
-} from './utils/aeternity';
+import { initSdk, scanForWallets, tokenBalance } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
-import { IS_MOBILE_DEVICE, supportedBrowsers, atomsToAe } from './utils';
+import { atomsToAe } from './utils';
 import MobileNavigation from './components/layout/MobileNavigation.vue';
 import LeftSection from './components/layout/LeftSection.vue';
 import RightSection from './components/layout/RightSection.vue';
@@ -48,31 +39,28 @@ export default {
   components: { MobileNavigation, LeftSection, RightSection },
   computed: {
     ...mapGetters('modals', ['opened']),
-    ...mapState(['address']),
-    isSupportedBrowser() {
-      const browser = detect();
-      return !IS_MOBILE_DEVICE && (browser && !supportedBrowsers.includes(browser.name));
-    },
+    ...mapState(['address', 'sdk']),
   },
   async created() {
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
     setInterval(() => this.reloadData(), 120 * 1000);
-    EventBus.$on('backendError', () => this.$route.name !== 'maintenance' && this.$router.push({
-      name: 'maintenance',
-    }).catch((err) => { console.error(err); }));
-    await this.initialLoad();
+
+    await initSdk();
+    await Promise.all([
+      this.initWallet(),
+      this.reloadData(),
+    ]);
   },
   methods: {
     ...mapMutations([
-      'setLoggedInAccount', 'updateTopics', 'updateCurrencyRates',
-      'setOracleState', 'addLoading', 'removeLoading', 'setChainNames', 'updateBalance',
+      'setAddress', 'updateTopics', 'updateCurrencyRates',
+      'setOracleState', 'setChainNames', 'updateBalance',
       'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
       'setPinnedItems',
     ]),
     async reloadData() {
-      // await fetch
       const [
         chainNames, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
       ] = await Promise.all([
@@ -84,62 +72,42 @@ export default {
         Backend.getTokenInfo(),
         this.$store.dispatch('backend/reloadStats'),
         this.$store.dispatch('backend/reloadPrices'),
+        this.reloadUserData(),
       ]);
 
-      if (this.address) {
-        const balance = await client.balance(this.address).catch(() => 0);
-        this.updateBalance(atomsToAe(balance).toFixed(2));
-      }
-
-      // async fetch
       this.updateTopics(topics);
       this.setChainNames(chainNames);
       this.setOracleState(oracleState);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
       this.setTokenInfo(tokenInfo);
-      if (this.address) this.loadTokenBalances(this.address);
     },
-    async fetchUserData() {
+    async reloadUserData() {
+      if (!this.address) return;
       await Promise.all([
         this.$store.dispatch('updatePinnedItems'),
         this.$store.dispatch('updateUserProfile'),
+        (async () => {
+          const balance = await this.sdk.balance(this.address).catch(() => 0);
+          this.updateBalance(atomsToAe(balance).toFixed(2));
+        })(),
+        (async () => {
+          const tokens = await Backend.getTokenBalances(this.address);
+          await Promise.all(Object.entries(tokens).map(async ([token]) => this
+            .addTokenBalance({ token, balance: await tokenBalance(token, this.address) })));
+        })(),
       ]);
     },
-    async initialLoad() {
-      this.addLoading('initial');
-      this.addLoading('wallet');
-      await initClient();
-      await this.reloadData();
-      this.removeLoading('initial');
-      if (this.address) {
-        this.removeLoading('wallet');
-        this.fetchUserData();
-      }
-
+    async initWallet() {
       let { address } = this.$route.query;
       if (!address) {
-        await scanForWallets();
-        address = client.rpcClient.getCurrentAccount();
+        address = await scanForWallets();
         console.log('found wallet');
         this.useSdkWallet();
+        this.$store.dispatch('updateCookiesConsent', address);
       }
-      const balance = await client.balance(address).catch(() => 0);
-      this.setLoggedInAccount({
-        address,
-        balance: atomsToAe(balance).toFixed(2),
-      });
-
-      // trigger run async in background
-      this.loadTokenBalances(address);
-
-      this.fetchUserData();
-      this.removeLoading('wallet');
-    },
-    async loadTokenBalances(address) {
-      const tokens = await Backend.getTokenBalances(address);
-      await Promise.all(Object.entries(tokens).map(async ([token]) => this
-        .addTokenBalance({ token, balance: await tokenBalance(token, address) })));
+      this.setAddress(address);
+      await this.reloadUserData();
     },
   },
 };
@@ -177,11 +145,6 @@ export default {
   max-width: var(--container-width);
   display: flex;
   flex-direction: column;
-
-  .supportedbrowser--alert {
-    text-align: center;
-    line-height: 3rem;
-  }
 
   .not-bootstrap-row {
     flex-grow: 1;

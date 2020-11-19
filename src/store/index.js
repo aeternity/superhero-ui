@@ -2,10 +2,10 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import mutations from './mutations';
-// eslint-disable-next-line import/no-cycle
-import backend from './modules/backend';
 import persistState from './plugins/persistState';
 import modals from './plugins/modals';
+// eslint-disable-next-line import/no-cycle
+import backend from './modules/backend';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 
@@ -31,6 +31,7 @@ export default new Vuex.Store({
     useIframeWallet: false,
     sdk: null,
     isBackendLive: true,
+    cookiesConsent: { },
   },
   mutations,
   actions: {
@@ -39,6 +40,10 @@ export default new Vuex.Store({
     },
     async updatePinnedItems({ commit, state: { address } }) {
       commit('setPinnedItems', await Backend.getPinnedItems(address));
+    },
+    async updateCookiesConsent({ commit, dispatch }) {
+      dispatch('backend/callWithAuth', { method: 'getCookiesConsent' })
+        .then((list) => list.forEach(({ scope, status }) => commit('setCookiesConsent', { scope, status: status === 'ALLOWED' })));
     },
   },
   getters: {
@@ -49,13 +54,14 @@ export default new Vuex.Store({
     persistState(
       (state) => state,
       ({
-        selectedCurrency, address, balance, tokenInfo, tokenBalances,
+        selectedCurrency, address, balance, tokenInfo, tokenBalances, cookiesConsent,
       }) => ({
         selectedCurrency,
         address,
         balance,
         tokenInfo,
         tokenBalances,
+        cookiesConsent,
       }),
     ),
     modals,

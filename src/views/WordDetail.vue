@@ -108,7 +108,7 @@
         <div class="asset_details__section">
           <div class="asset_details__section-content">
 
-            <div>
+            <div class="d-none">
               <input
                 v-model="newVotePayout"
                 placeholder="ak_..."
@@ -125,19 +125,45 @@
               :key="vote.id"
               class="vote"
             >
-              <AeAmount
-                :amount="data.spread"
-                aettos
-              /> spread released for transfer to
-              <div class="payout-address">{{ vote.subject.VotePayout[0] }}</div>
+              <div class="vote-row">
+                <div class="vote-row-start">
+                  <AeAmount
+                    :amount="data.spread"
+                    aettos
+                  />
+                  <span v-if="vote.statusTimeouting"> released for transfer to</span>
+                  <span v-if="vote.statusApplied"> spread was transferred to</span>
+                  <span v-if="!vote.isClosed"> to be released for transfer to</span>
+                  <span v-if="vote.statusTimeouted"> spread was not transferred to</span>
+                </div>
+                <div class="vote-row-end">
+                  <IconHourglass />
+                  <span v-if="!vote.isClosed">Closing in </span>
+                  <span v-if="vote.statusPast">Closed </span>
 
-              <AeButton
-                v-if="vote.showApplyPayout"
-                @click="applyPayout(vote.id)"
-              >
-                <IconClaimBack />
-                Apply Payout
-              </AeButton>
+                  <Timeago
+                    :datetime="vote.statusTimeouting ? vote.dateTimeout : vote.dateClose"
+                    auto-update
+                  />
+                  <span v-if="vote.statusPast"> ago</span>
+                  <span v-if="vote.statusTimeouting"> left to send funds</span>
+
+                </div>
+              </div>
+
+              <div class="vote-row">
+
+                <div class="vote-row-start payout-address">{{ vote.subject.VotePayout[0] }}</div>
+
+                <AeButton
+                  v-if="vote.showApplyPayout"
+                  class="vote-row-end green"
+                  @click="applyPayout(vote.id)"
+                >
+                  <IconCheckmarkCircle/>
+                  Send
+                </AeButton>
+              </div>
 
               <label
                 class="stake-label"
@@ -207,7 +233,6 @@
 </template>
 
 <script>
-import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.aes';
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
 import { mapState } from 'vuex';
@@ -222,12 +247,13 @@ import IconInfo from '../assets/iconInfo.svg?icon-component';
 import IconClaimBack from '../assets/iconClaimBack.svg?icon-component';
 import IconCloseCircle from '../assets/iconCloseCircle.svg?icon-component';
 import IconCheckmarkCircle from '../assets/iconCheckmarkCircle.svg?icon-component';
+import IconHourglass from '../assets/iconHourglass.svg?icon-component';
 import AeAmount from '../components/AeAmount.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
 import AeInputAmount from '../components/AeInputAmount.vue';
 import AeButton from '../components/AeButton.vue';
-import { shiftDecimalPlaces } from '../utils';
+import { shiftDecimalPlaces, blockToDate } from '../utils';
 
 export default {
   name: 'WordBazaar',
@@ -242,13 +268,13 @@ export default {
     IconClaimBack,
     IconCloseCircle,
     IconCheckmarkCircle,
+    IconHourglass,
   },
   data: () => ({
     wordRegistryState: null,
     selectedWord: null,
     selectedWordContract: null,
     saleContractAddress: null,
-    stakeAmount: 0,
     ongoingVotes: [],
     pastVotes: [],
     myVotes: [],
@@ -301,6 +327,7 @@ export default {
     },
     async loadVotes() {
       let votes = await Backend.getWordSaleVotesDetails(this.saleContractAddress);
+      const height = await getClient().then((client) => client.height());
       votes = votes.map((vote) => {
         const voterAccount = vote.voteAccounts.find(([acc]) => acc === this.address);
 
@@ -317,13 +344,18 @@ export default {
         const statusClosed = vote.isClosed && !vote.alreadyApplied && !vote.timeouted;
         const statusApplied = vote.alreadyApplied;
         const statusTimeouted = !vote.alreadyApplied && vote.timeouted;
+        const statusTimeouting = statusClosed && !statusTimeouted;
         const statusOngoing = !vote.isClosed || !(statusTimeouted || statusApplied);
         const statusPast = statusTimeouted || statusApplied;
 
         const statusMy = accountHasVoted;
         const stakeAmountUnshifted = voterAccount ? voterAccount[1][0] : this.maxAmount;
         const stakeAmount = shiftDecimalPlaces(
-          stakeAmountUnshifted, -this.tokenInfo[this.data.tokenAddress].decimals);
+          stakeAmountUnshifted, -this.tokenInfo[this.data.tokenAddress].decimals,
+        ).toFixed(2);
+
+        const dateClose = blockToDate(vote.closeHeight, height);
+        const dateTimeout = blockToDate(vote.timeoutHeight, height);
 
         return {
           ...vote,
@@ -336,10 +368,13 @@ export default {
           statusClosed,
           statusApplied,
           statusTimeouted,
+          statusTimeouting,
           statusOngoing,
           statusPast,
           statusMy,
           stakeAmount,
+          dateClose,
+          dateTimeout,
         };
       });
 
@@ -474,11 +509,28 @@ h3 {
   margin-bottom: 1.2rem;
   color: $small_heading_color;
 
+  .vote-row {
+    display: flex;
+    margin-bottom: 0.6rem;
+
+    .vote-row-start {
+      flex: 1;
+    }
+
+    .vote-row-end {
+      font-weight: normal;
+      justify-content: end;
+
+      time {
+        color: $tip_note_color;
+      }
+    }
+  }
+
   .stake-label {
     color: $small_heading_color;
     font-weight: 500;
     font-size: 0.75rem;
-    margin-top: 0.8rem;
     padding-left: 0.1rem;
   }
 

@@ -35,14 +35,10 @@
 </template>
 
 <script>
-import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import { mapState } from 'vuex';
-import { getClient, createOrChangeAllowance } from '../utils/aeternity';
 import Backend from '../utils/backend';
-import { EventBus } from '../utils/eventBus';
 import AeAmount from './AeAmount.vue';
 import Loading from './Loading.vue';
-import { shiftDecimalPlaces } from '../utils';
 import WordBuySellButtons from './WordBuySellButtons.vue';
 
 export default {

@@ -10,6 +10,7 @@ export default {
     state.address = null;
     state.balance = 0;
     state.profile = {};
+    state.cookiesConsent = {};
   },
   updateTopics(state, payload) {
     state.topics = payload;
@@ -74,5 +75,8 @@ export default {
   },
   setBackendStatus(state, isBackendLive) {
     state.isBackendLive = isBackendLive;
+  },
+  setCookiesConsent(state, { scope, status }) {
+    Vue.set(state.cookiesConsent, scope, status);
   },
 };

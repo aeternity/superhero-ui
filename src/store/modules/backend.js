@@ -112,12 +112,13 @@ export default {
     async reloadPrices({ commit }) {
       commit('setPrices', (await Backend.getPrice())?.aeternity);
     },
+    // eslint-disable-next-line consistent-return
     async callWithAuth({ rootState: { useSdkWallet, sdk, address } }, { method, arg, to }) {
       const { challenge } = await Backend[method](address, arg);
       if (useSdkWallet) {
         const signature = await sdk.signMessage(challenge);
-        await Backend[method](address, { challenge, signature });
-        return;
+        const response = await Backend[method](address, { challenge, signature });
+        return response;
       }
 
       const url = new URL(to || window.location, window.location);

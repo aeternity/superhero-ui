@@ -1,3 +1,4 @@
+<!-- eslint-disable vue-i18n/no-raw-text -->
 <template>
   <div class="user-info">
     <div class="profile__section clearfix">
@@ -43,7 +44,7 @@
             :title="$t('cancel')"
             @click="resetEditedValues"
           >
-            <img src="../assets/buttonCancel.svg">
+            <IconCancel />
           </button>
           <button
             v-if="editMode"
@@ -80,7 +81,7 @@
               :title="$t('views.UserProfileView.DeleteAvatar')"
               @click="deleteAvatar"
             >
-              <img src="../assets/buttonCancel.svg">
+              <IconCancel />
             </button>
           </template>
         </div>
@@ -158,6 +159,29 @@
       </div>
     </div>
     <div
+      v-if="editMode"
+      class="cookies-settings"
+    >
+      <div class="cookies-header">
+        <IconCookies />
+        Cookies policy
+      </div>
+      <div class="cookies-list">
+        Allow third-party tracking cookies
+        <div>
+          <ButtonPlain
+            v-for="scope in ['SoundCloud', 'YouTube']"
+            :key="scope"
+            class="cookies-button"
+            :class="{ active: cookiesConsent[scope] }"
+            @click="setCookies(scope, !cookiesConsent[scope] )"
+          >
+            {{ scope }}
+          </ButtonPlain>
+        </div>
+      </div>
+    </div>
+    <div
       class="profile__stats"
     >
       <div
@@ -199,13 +223,19 @@ import AeAmountFiat from './AeAmountFiat.vue';
 import Avatar from './Avatar.vue';
 import { EventBus } from '../utils/eventBus';
 import TipInput from './TipInput.vue';
+import ButtonPlain from './ButtonPlain.vue';
 import SuccessIcon from '../assets/verifiedUrl.svg';
+import IconCookies from '../assets/iconCookies.svg?icon-component';
+import IconCancel from '../assets/iconCancel.svg?icon-component';
 
 export default {
   components: {
     AeAmountFiat,
     Avatar,
     TipInput,
+    IconCookies,
+    IconCancel,
+    ButtonPlain,
   },
   props: {
     address: { type: String, required: true },
@@ -236,7 +266,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'chainNames', 'sdk']),
+    ...mapState(['useSdkWallet', 'chainNames', 'sdk', 'cookiesConsent']),
     ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];
@@ -369,6 +399,16 @@ export default {
         })
         .catch(console.error);
     },
+    async setCookies(scope, status) {
+      await this.backendAuth(`setCookies${scope}`, {
+        scope,
+        status,
+      });
+      this.$store.commit('setCookiesConsent', {
+        scope,
+        status,
+      });
+    },
   },
 };
 </script>
@@ -450,6 +490,7 @@ input[type="file"] {
     position: absolute;
     right: -0.25rem;
     top: -0.25rem;
+    color: #fff;
 
     &:hover {
       background: #ff495242;
@@ -463,6 +504,7 @@ input[type="file"] {
   .edit__button,
   .cancel__button {
     background: #babac01e;
+    color: #fff;
 
     &:hover {
       background: #babac042;
@@ -755,6 +797,43 @@ input[type="file"] {
 
     input {
       margin-bottom: 0.3rem;
+    }
+  }
+}
+
+.cookies-settings {
+  font-weight: 500;
+
+  .cookies-header {
+    background-color: $light_color;
+    color: $standard_font_color;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+
+    svg {
+      height: 0.9rem;
+      margin-bottom: 0.2rem;
+      margin-right: 0.2rem;
+    }
+  }
+
+  .cookies-list {
+    color: $light_font_color;
+    background-color: $buttons_background;
+    padding: 0.5rem 1rem;
+
+    .cookies-button {
+      border-radius: 1rem;
+      font-weight: 500;
+      padding: 0.35rem 0.7rem;
+      background-color: $thumbnail_background_color;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+
+      &.active {
+        color: $secondary_color;
+        background-color: #2a9cff50;
+      }
     }
   }
 }

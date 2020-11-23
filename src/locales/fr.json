@@ -10,7 +10,6 @@
   "addMessage": "Qu'est-ce que vous appréciez?",
   "comments": "Commentaires",
   "FAQ": "FAQ",
-  "noExtensionSupport": "Vous devez détenir un portefeuille Superhero pour commenter et donner des pourboires.",
   "FellowSuperhero": "Membres superhero",
   "Balance": "Balance:",
   "aeternityBlockchain": "aeternity blockchain",
@@ -318,7 +317,7 @@
         },
         {
           "text": "RÉAPPROVISIONNER SON PORTEFEUILLE {br}{br} Cliquez sur le bouton Réapprovisioner votre portefeuille. Vous pouvez ACHETER des TOKENS AE en petite quantité grâce à la boutique æternity. Vous pouvez également ÉCHANGER instantanémpent vos CRYPTOMONNAIES pour des TOKENS AE à travers la plateforme JellySwap. {br} Alternativement, vous pouvez réapprovisionner votre portefeuille SUPERHERO en envoyant des tokens AE depuis votre plateforme favorite d'échange de cryptomonnaies. Nous sommes actuellement en train de rassembler toutes les informations sur un wiki complet pour trouver les moyens les plus économiques d'obtenir des tokens AE et nous publierons bientôt ce document."
-        }, 
+        },
         {
           "text": "FAIRE UN RETRAIT {br}{br} De la même manière que vous ne marchez pas dans la rue avec un gros montant d'argent liquide caché dans votre sac, il est hautement recommandé de ne pas garder de gros montants de tokens AE dans votre portefeuille Superhero. Pour garder sur le long terme de grandes quantités de tokens AE, nous vous recommandons d'utiliser un portefeuille de cryptomonnaie non connecté à Internet comme AirGap. {br} Pour effectuer le retrait des pourboires que vous avez collecté, vous pouvez envoyer des pourboires depuis votre portefeuille SUPERHERO à votre adresse de portefeuille AE sur une plateforme d'échange de cryptomonnaies qui supporte les tokens AE. {br} - Pour effectuer le retrait, allez sur le menu hamburger. {br} - Cliquez sur Faire un Retrait. {br} - Entrez votre adresse de portefeuille depuis la plateforme d'échange de cryptomonnaies de votre choix. Vous pouvez aussi envoyer ce retrait au portefeuille de quelqu'un d'autre en collant l'adresse de son portefeuille dans le champs réservé à cet effet. {br} - Entrez le montant que vous souhaiter retirer. {br} Cliquez sur Révision afin de vérifier les détails de la transaction. {br} - Appuyez sur le bouton Confirmer le Retrait. {br} Les pourboires peuvent être convertis en d'autres cryptomonnaies ou monnaies fiduciaires et transférés à votre banque locale. {br} Les procédures d'échanges peuvent varier en fonction des pays. Dans la plupart des cas, il y aura quelques minutes d'attente dépendemment des capacités de la plateforme d'échange et des procédures employées. Mais vous pouvez suivre aisément vos transactions en cliquant sur le bouton en forme d'oeil juste à côté de votre transaction dans le rapport historique des activités."
         },
@@ -335,7 +334,7 @@
           "text": "Puis-je envoyer des pourboires sur n'importe quel site? {br} OUI. N'importe quelle adresse URL publique peut recevoir un pourboire via Superhero."
         },
         {
-          "text": "Où va le pourboire s'il y a plus d'une adresse de portefeuille sur une URL? {br} La première adresse de portefeuille où le pourboire est réclamé reçoit le montant." 
+          "text": "Où va le pourboire s'il y a plus d'une adresse de portefeuille sur une URL? {br} La première adresse de portefeuille où le pourboire est réclamé reçoit le montant."
         },
         {
           "text": "Existe-t-il une limite de temps pour réclamer les pourboires? {br} OUI. Les pourboires doivent être réclamés dans une limite de un (1) an. Si ce délai est écoulé, les pourboires non réclamés ne peuvent être récupérés par les expéditeurs. Si un pourboire reste non réclamé après deux (2) ans par l'expéditeur ou le destinataire, il est transféré à la fondation cryptomonnaie d'aeternity."
@@ -443,7 +442,7 @@
         {
           "text": "Inscrivez-vous pour recevoir les dernières mises à jour sur les tokens et autres fonctionnalités à venir sur Superhero.com!"
         }
-      ] 
+      ]
     }
   },
   "components": {

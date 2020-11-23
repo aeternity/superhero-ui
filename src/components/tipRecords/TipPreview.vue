@@ -3,7 +3,7 @@
     class="tip__article"
   >
     <div
-      v-if="richPreviewComponent"
+      v-if="richPreviewComponent && isPreviewToBeVisualized"
       class="tip__article--hasresults"
     >
       <div class="tip__article__content">

@@ -9,7 +9,7 @@ import { createRouter } from './router';
 import i18n from './utils/i18nHelper';
 import registerModals from './views/modals';
 
-Vue.use(VueRouter);
+// Vue.use(VueRouter);
 
 Vue.config.productionTip = false;
 

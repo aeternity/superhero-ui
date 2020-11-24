@@ -24,7 +24,7 @@ export default {
 <style lang="scss" scoped>
 .user-card {
   border: 1px solid $card_border_color;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   overflow: hidden;
   cursor: default;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);

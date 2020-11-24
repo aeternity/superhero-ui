@@ -2,16 +2,6 @@
   <div class="left-section">
     <Navigation />
     <Overview />
-
-    <div class="powered-by">
-      {{ $t('components.layout.Overview.PoweredBy') }}
-      <a
-        href="https://aeternity.com/"
-        target="_blank"
-      >
-        <img src="../../assets/aeternityLogo.svg">
-      </a>
-    </div>
   </div>
 </template>
 

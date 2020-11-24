@@ -139,7 +139,7 @@ export default {
 
 <style lang="scss" scoped>
 #app {
-  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-family: IBM Plex Sans, Roboto, Helvetica, Arial, sans-serif;
   margin: 0 auto;
   min-height: 100vh;
   max-width: var(--container-width);

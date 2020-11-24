@@ -241,7 +241,7 @@ export default {
 
 .tip__article {
   background-color: $buttons_background;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   font-size: 0.75rem;
   height: auto;
   margin-left: 1rem;
@@ -393,7 +393,7 @@ export default {
   width: 100%;
   max-width: 100%;
   background: #000;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 0.25rem 0.5rem 0 0;
 
   img {
     bottom: 0;

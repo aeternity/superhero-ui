@@ -70,7 +70,7 @@ export default {
   left: -4%;
   background-color: $buttons_background;
   border: 1px solid $article_content_color;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   width: 108%;
   padding: 1rem;
   cursor: default;
@@ -103,7 +103,7 @@ export default {
 
   .cookies-button {
     border: 1px solid $secondary_color;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     font-weight: 500;
     color: $secondary_color;
     padding: 0.35rem 0.7rem;
@@ -111,7 +111,7 @@ export default {
     margin: 0.5rem 0.5rem 0.5rem 0;
 
     &:hover {
-      background-color: #2a9cff50;
+      background-color: #1161FE50;
     }
   }
 }

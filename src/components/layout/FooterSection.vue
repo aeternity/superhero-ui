@@ -3,7 +3,7 @@
     <div class="footer-btns">
       <OutlinedButton
         :to="'https://form.jotform.com/201075183408046'"
-        class="green feedback"
+        class="blue feedback"
       >
         {{ $t('components.layout.FooterSection.Feedback') }}
       </OutlinedButton>
@@ -25,6 +25,14 @@
           {{ $t('components.layout.FooterSection.ContributeOnGithub') }}
           <img src="../../assets/ghLogo.svg">
         </a>
+      </p>
+      <p>
+        <div class="powered-by">
+        {{ $t('components.layout.Overview.PoweredBy') }}
+        <a href="https://aeternity.com/" target="_blank">
+          <img style="max-height:12px;" src="../../assets/aeternityLogo.svg">
+        </a>
+    </div>
       </p>
     </div>
     <span>
@@ -54,6 +62,7 @@
         <img src="../../assets/iconVenture.svg">
       </a>
     </div>
+    
     <div
       v-if="!isLoggedIn"
       class="login-footer"

@@ -7,7 +7,7 @@
       v-bind="$attrs"
       :closed="closed"
     >
-      <img src="../../assets/iconTrending.svg">
+     
       {{ $t('components.layout.RightSection.Trending') }}
     </RightSectionTitle>
 

@@ -474,13 +474,13 @@ input[type="file"] {
   }
 
   .avatar__button {
-    background: #2a9cffa8;
+    background: #1161FEa8;
     bottom: 0;
     left: 0;
     position: absolute;
 
     &:hover {
-      background: #2a9cffcc;
+      background: #1161FEcc;
     }
   }
 
@@ -512,10 +512,10 @@ input[type="file"] {
   }
 
   .save__button {
-    background: #67f7b8a8;
+    background: #00FF9Da8;
 
     &:hover {
-      background: #67f7b8cc;
+      background: #00FF9Dcc;
     }
   }
 
@@ -832,7 +832,7 @@ input[type="file"] {
 
       &.active {
         color: $secondary_color;
-        background-color: #2a9cff50;
+        background-color: #1161FE50;
       }
     }
   }

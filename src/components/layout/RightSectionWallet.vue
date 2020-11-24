@@ -7,7 +7,7 @@
       v-bind="$attrs"
       :closed="closed"
     >
-      <img src="../../assets/iconWallet.svg">
+     
       {{ $t('components.layout.RightSection.Wallet') }}
     </RightSectionTitle>
 

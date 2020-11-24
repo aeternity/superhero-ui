@@ -62,7 +62,7 @@ export default {
     margin: 0 auto;
     padding: 2.5rem 2.5rem;
     background-color: $actions_ribbon_background_color;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.33);
 
     img {

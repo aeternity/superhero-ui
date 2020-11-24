@@ -3,7 +3,7 @@
     <div class="footer-btns">
       <OutlinedButton
         :to="'https://form.jotform.com/201075183408046'"
-        class="green feedback"
+        class="blue feedback"
       >
         {{ $t('components.layout.FooterSection.Feedback') }}
       </OutlinedButton>
@@ -26,6 +26,18 @@
           <img src="../../assets/ghLogo.svg">
         </a>
       </p>
+      <div class="powered-by">
+        {{ $t('components.layout.Overview.PoweredBy') }}
+        <a
+          href="https://aeternity.com/"
+          target="_blank"
+        >
+          <img
+            style="max-height: 12px;"
+            src="../../assets/aeternityLogo.svg"
+          >
+        </a>
+      </div>
     </div>
     <span>
       <a :href="`https://github.com/aeternity/superhero-ui/commit/${commitHash}`">

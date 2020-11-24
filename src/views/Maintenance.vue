@@ -1,7 +1,10 @@
 <template>
   <div class="maintenance">
     <h1>{{ $t('views.Maintenance.RechargeTitle') }}</h1>
-    <img src="../assets/recharge.gif">
+    <img
+      style="max-width: 250px;"
+      src="../assets/recharge.gif"
+    >
     <h2>{{ $t('views.Maintenance.RechargeSubTitle') }}</h2>
   </div>
 </template>
@@ -19,7 +22,7 @@ export default {
 
 <style lang="scss" scoped>
 .maintenance {
-  background-color: #14151f;
+  background-color: #000;
 
   @media (min-width: 400px) {
     position: fixed;
@@ -48,7 +51,7 @@ export default {
     line-height: 55px;
     text-align: center;
     margin: 50px 1rem;
-    color: #3290e2;
+    color: blue;
   }
 }
 </style>

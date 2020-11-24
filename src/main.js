@@ -35,12 +35,12 @@ export default async function createApp ({
           afterApp = () => {}
         } = {}) {
           const router = createRouter()
-          const store = createStore()
+          // const store = createStore()
 
 
           await beforeApp({
             router,
-            store,
+            // store,
           })
 
           const app = new Vue({
@@ -54,7 +54,7 @@ export default async function createApp ({
           const result = {
             app,
             router,
-            store,
+            // store,
           }
 
           await afterApp(result)

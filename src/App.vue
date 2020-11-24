@@ -1,27 +1,6 @@
 <template>
   <div id="app">
-    <MobileNavigation v-if="!$route.meta.fullScreen" />
-    <div class="not-bootstrap-row">
-      <div
-        v-if="!$route.meta.fullScreen"
-        class="sidebar-sticky"
-      >
-        <LeftSection />
-      </div>
-      <RouterView class="router-view" />
-      <div
-        v-if="!$route.meta.fullScreen"
-        class="sidebar-sticky"
-      >
-        <RightSection />
-      </div>
-    </div>
-    <Component
-      :is="component"
-      v-for="{ component, key, props } in opened"
-      :key="key"
-      v-bind="props"
-    />
+    <div>TEST</div>
   </div>
 </template>
 
@@ -36,80 +15,7 @@ import LeftSection from './components/layout/LeftSection.vue';
 import RightSection from './components/layout/RightSection.vue';
 
 export default {
-  components: { MobileNavigation, LeftSection, RightSection },
-  computed: {
-    ...mapGetters('modals', ['opened']),
-    ...mapState(['address', 'sdk']),
-  },
-  async created() {
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
-    });
-    setInterval(() => this.reloadData(), 120 * 1000);
 
-    await initSdk();
-    await Promise.all([
-      this.initWallet(),
-      this.reloadData(),
-    ]);
-  },
-  methods: {
-    ...mapMutations([
-      'setAddress', 'updateTopics', 'updateCurrencyRates',
-      'setOracleState', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
-      'setPinnedItems',
-    ]),
-    async reloadData() {
-      const [
-        chainNames, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
-      ] = await Promise.all([
-        Backend.getCacheChainNames(),
-        Backend.getOracleCache(),
-        Backend.getTopicsCache(),
-        Backend.getVerifiedUrls(),
-        Backend.getGrayListedUrls(),
-        Backend.getTokenInfo(),
-        this.$store.dispatch('backend/reloadStats'),
-        this.$store.dispatch('backend/reloadPrices'),
-        this.reloadUserData(),
-      ]);
-
-      this.updateTopics(topics);
-      this.setChainNames(chainNames);
-      this.setOracleState(oracleState);
-      this.setGraylistedUrls(graylistedUrls);
-      this.setVerifiedUrls(verifiedUrls);
-      this.setTokenInfo(tokenInfo);
-    },
-    async reloadUserData() {
-      if (!this.address) return;
-      await Promise.all([
-        this.$store.dispatch('updatePinnedItems'),
-        this.$store.dispatch('updateUserProfile'),
-        (async () => {
-          const balance = await this.sdk.balance(this.address).catch(() => 0);
-          this.updateBalance(atomsToAe(balance).toFixed(2));
-        })(),
-        (async () => {
-          const tokens = await Backend.getTokenBalances(this.address);
-          await Promise.all(Object.entries(tokens).map(async ([token]) => this
-            .addTokenBalance({ token, balance: await tokenBalance(token, this.address) })));
-        })(),
-      ]);
-    },
-    async initWallet() {
-      let { address } = this.$route.query;
-      if (!address) {
-        address = await scanForWallets();
-        console.log('found wallet');
-        this.useSdkWallet();
-        this.$store.dispatch('updateCookiesConsent', address);
-      }
-      this.setAddress(address);
-      await this.reloadUserData();
-    },
-  },
 };
 </script>
 

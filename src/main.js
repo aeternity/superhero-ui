@@ -28,7 +28,7 @@ Vue.prototype.$watchUntilTruly = function watchUntilTruly(getter) {
 };
 
 registerModals();
-sync(store, router);
+// sync(store, router);
 
 export default async function createApp ({
           beforeApp = () => {},
@@ -45,7 +45,7 @@ export default async function createApp ({
 
           const app = new Vue({
   el: '#app',
-  store,
+  // store,
   router,
   i18n,
   render: (h) => h(App),

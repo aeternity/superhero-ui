@@ -10,7 +10,6 @@
   "addMessage": "What do you appreciate?",
   "comments": "Comments",
   "FAQ": "FAQ",
-  "noExtensionSupport": "You need a Superhero wallet to comment and send tips.",
   "FellowSuperhero": "Fellow superhero",
   "Balance": "Balance:",
   "aeternityBlockchain": "aeternity blockchain",
@@ -317,7 +316,7 @@
         },
         {
           "text": "TOPPING UP {br}{br} Click the Top Up button on your wallet. You can BUY AE TOKENS in small amounts through the æternity Store. You can also instantly SWAP CRYPTO FOR AE TOKENS through JellySwap. {br} Alternatively, you can top up your SUPERHERO wallet by sending AE tokens from a cryptocurrency exchange of your choice. We are collating a full wiki for the most cost-efficient ways to get AE and will be posting this soon."
-        }, 
+        },
         {
           "text": "WITHDRAWING {br}{br} In the same way you don’t walk around with large amounts of cash in your purse, it is highly recommended that you do not keep large amounts of AE in your Superhero wallet. For long-term storage of large amounts of AE, we recommend using a cold wallet, like AirGap. {br} To withdraw tips you've collected, you can send tips from your SUPERHERO wallet to your AE wallet address in a crypto exchange that supports AE tokens. {br} - To withdraw, go to the hamburger menu. {br} - Click Withdraw. {br} - Enter your wallet address from the crypto exchange of your choice. You can also send to someone else’s wallet by pasting their wallet address into the wallet address field. {br} - Enter the amount you want to withdraw. {br} Click Review to check your transaction details. {br} - Hit Send to confirm the withdrawal. {br}Tips can then be converted into other cryptocurrencies or fiat and transferred to your local bank. {br} Processes for exchanges vary per country. In many cases, there will be a few minutes’ wait time or longer depending on the exchange’s capacity and processes. But you can track your transactions easily by clicking the eye button next to the transaction in your Activity History."
         },
@@ -334,7 +333,7 @@
           "text": "Can I send tips to any website? {br} YES. Any public URL can be tipped with Superhero."
         },
         {
-          "text": "Where does a tip go if there are more than one wallet addresses on a URL? {br} The first wallet address among the addresses on the page to claim the tip, gets the tip." 
+          "text": "Where does a tip go if there are more than one wallet addresses on a URL? {br} The first wallet address among the addresses on the page to claim the tip, gets the tip."
         },
         {
           "text": "Is there a deadline for claiming tips? {br} YES. Tips must be claimed within one (1) year. If that time lapses, unclaimed tips can be retrieved by tip senders. If a tip remains unclaimed after two (2) years by the sender or receiver, it is transferred to the aeternity crypto foundation."
@@ -442,7 +441,7 @@
         {
           "text": "Subscribe to get early updates about tokens and other upcoming features on Superhero.com!"
         }
-      ] 
+      ]
     }
   },
   "components": {

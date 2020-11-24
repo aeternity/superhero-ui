@@ -1,6 +1,6 @@
 {
   "name": "superhero-ui",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -28,7 +28,6 @@
     "bignumber.js": "^9.0.0",
     "bootstrap": "^4.5.2",
     "core-js": "^3.6.5",
-    "detect-browser": "^4.8.0",
     "i18n": "^0.8.6",
     "jdenticon": "^2.2.0",
     "jitsi-iframe-api": "^1.0.0",

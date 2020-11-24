@@ -9,7 +9,6 @@
   "addMessage": "¿Qué es lo que te gusta?",
   "comments": "Comentarios",
   "FAQ": "Preguntas frecuentes",
-  "noExtensionSupport": "Necesitas un monedero Superhero para comentar y enviar propinas.",
   "FellowSuperhero": "Querido Superhero",
   "views": {
     "CreateProfile": {
@@ -325,7 +324,7 @@
         },
         {
           "text": "RECARGANDO {br} {br}Haz clic en el botón Recargar de tu billetera. {br} {br} Puedes COMPRAR TOKENS AE en pequeñas cantidades a través de la tienda æternity. {br} También puedes INTERCAMBIAR instantáneamente CRIPTO POR TOKENS AE a través de JellySwap. {br} {br} Alternativamente, puedes recargar tu billetera SUPERHERO enviando tokens AE desde una casa de cambio de criptomonedas que elijas. Estamos recopilando una wiki completa para conocer las formas más económicas de obtener AE y la publicaremos pronto."
-        }, 
+        },
         {
           "text": "RETIRAR {br} {br} De la misma manera que no andas con grandes cantidades de dinero en efectivo en tu cartera, es muy recomendable que no guardes grandes cantidades de AE en tu billetera Superhero. Para el almacenamiento a largo plazo de grandes cantidades de AE, recomendamos usar una billetera fría, como AirGap. {br} {br} Para retirar las propinas que has recopilado, puedes enviar propinas desde tu billetera SUPERHERO a la dirección de su billetera AE en una casa de cambio de criptomonedas que admita tokens AE. {br} {br} - Para retirar, ve al menú de hamburguesas. {br} - Haz clic en Retirar. {br} - Ingresa la dirección de su billetera desde la casa de cambio de criptomonedas de su elección. También puedes enviar a la billetera de otra persona pegando su dirección de billetera en el campo de dirección de billetera. {br} - Ingresa la cantidad que deseas retirar. {br} Haz clic en Revisar para verificar los detalles de su transacción. {br} - Presiona Enviar para confirmar el retiro. Las{br} {br} propinas pueden intercambiarse por otras criptomonedas o monedas fiduciarias y transferirse a su banco local. {br} {br} Los procesos para intercambios varían según el país. En muchos casos, habrá unos minutos de espera o más, dependiendo de la capacidad y los procesos a seguir de la casa de cambio de criptomonedas. Pero puede realizar un seguimiento de sus transacciones fácilmente haciendo clic en el botón del ojo al lado de la transacción en su Historial de actividades"
         },
@@ -342,7 +341,7 @@
           "text": "¿Puedo enviar propinas a cualquier sitio web? {br} SÍ. Cualquier URL pública se puede usar con Superhero "
         },
         {
-          "text": "¿A dónde va una propina si hay más de una dirección de billetera en una URL? {br} La primera dirección de billetera entre las direcciones en la página para reclamar la propina, recibe la propina." 
+          "text": "¿A dónde va una propina si hay más de una dirección de billetera en una URL? {br} La primera dirección de billetera entre las direcciones en la página para reclamar la propina, recibe la propina."
         },
         {
           "text": "¿Hay una fecha límite para reclamar propinas? {br} SÍ. Las propinas deben ser reclamadas dentro de un (1) año. Si transcurre ese tiempo, los remitentes pueden recuperar las propinas no reclamadas. Si el emisor o el receptor no reclama una propina después de dos (2) años, se transfiere a la Fundación Aeternity crypto."
@@ -450,7 +449,7 @@
         {
           "text": "¡Suscríbete para recibir actualizaciones tempranas sobre tokens y otras futuras funciones de Superhero.com!"
         }
-      ] 
+      ]
     }
   },
   "components": {

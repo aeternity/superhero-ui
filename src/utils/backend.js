@@ -134,4 +134,18 @@ export default class Backend {
   static getTipTraceBackend = (id) => backendFetch(`tracing/backend?id=${id}`);
 
   static getTipTraceBlockchain = (id) => backendFetch(`tracing/blockchain?id=${id}`);
+
+  static getCookiesConsent = async (address, query) => backendFetch(`consent/${address}${query ? `?challenge=${query.challenge}&signature=${query.signature}` : ''}`);
+
+  static setCookiesYouTube = async (address, postParam) => backendFetch(`consent/${address}/YouTube`, {
+    method: 'post',
+    body: JSON.stringify({ ...postParam, status: postParam.status ? 'ALLOWED' : 'REJECTED' }),
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  static setCookiesSoundCloud = async (address, postParam) => backendFetch(`consent/${address}/SoundCloud`, {
+    method: 'post',
+    body: JSON.stringify({ ...postParam, status: postParam.status ? 'ALLOWED' : 'REJECTED' }),
+    headers: { 'Content-Type': 'application/json' },
+  })
 }

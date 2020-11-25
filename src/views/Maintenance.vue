@@ -49,7 +49,7 @@ export default {
     line-height: 55px;
     text-align: center;
     margin: 50px 1rem;
-    color: blue;
+    color: $secondary_color;
   }
 }
 </style>

@@ -32,10 +32,7 @@
           href="https://aeternity.com/"
           target="_blank"
         >
-          <img
-            style="max-height: 12px;"
-            src="../../assets/aeternityLogo.svg"
-          >
+          <img src="../../assets/aeternityLogo.svg">
         </a>
       </div>
     </div>
@@ -157,6 +154,21 @@ export default {
 
       a {
         padding: 0.625rem 1rem 0.625rem 1rem;
+      }
+    }
+
+    .powered-by {
+      color: $standard_font_color;
+      font-size: 0.7rem;
+
+      a {
+        &:hover {
+          filter: brightness(1.3);
+        }
+
+        img {
+          height: 0.55rem;
+        }
       }
     }
   }

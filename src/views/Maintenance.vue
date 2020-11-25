@@ -1,10 +1,7 @@
 <template>
   <div class="maintenance">
     <h1>{{ $t('views.Maintenance.RechargeTitle') }}</h1>
-    <img
-      style="max-width: 250px;"
-      src="../assets/recharge.gif"
-    >
+    <img src="../assets/recharge.gif">
     <h2>{{ $t('views.Maintenance.RechargeSubTitle') }}</h2>
   </div>
 </template>
@@ -44,6 +41,7 @@ export default {
   img {
     display: block;
     margin: 0 auto;
+    max-width: 250px;
   }
 
   h2 {

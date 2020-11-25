@@ -25,6 +25,7 @@
     "bignumber.js": "^9.0.0",
     "bootstrap": "^4.5.2",
     "core-js": "^3.6.5",
+    "fontsource-ibm-plex-sans": "^3.0.9",
     "i18n": "^0.8.6",
     "jdenticon": "^2.2.0",
     "jitsi-iframe-api": "^1.0.0",

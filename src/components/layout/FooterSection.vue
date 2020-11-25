@@ -51,7 +51,8 @@
         target="_blank"
         href="https://venture.com/"
       >
-        <img src="../../assets/iconVenture.svg">
+        <!--eslint-disable-next-line vue-i18n/no-raw-text-->
+        <IconVenture /> <span>Branded by Venture</span>
       </a>
     </div>
     <div
@@ -69,10 +70,11 @@
 import { mapGetters } from 'vuex';
 import { createDeepLinkUrl } from '../../utils';
 import OutlinedButton from '../OutlinedButton.vue';
+import IconVenture from '../../assets/iconVenture.svg?icon-component';
 
 export default {
   components: {
-    OutlinedButton,
+    OutlinedButton, IconVenture,
   },
   data: () => ({
     version: process.env.npm_package_version,
@@ -101,9 +103,16 @@ export default {
 
     .venture {
       margin-left: 0.35rem;
+      color: #cda564;
+      letter-spacing: -0.045em;
 
-      img {
-        height: 0.65rem;
+      svg {
+        height: 0.5rem;
+      }
+
+      svg,
+      span {
+        vertical-align: middle;
       }
 
       &:hover {

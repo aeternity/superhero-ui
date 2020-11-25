@@ -82,7 +82,6 @@ export default {
   a:not(.logo) {
     color: #fff;
     text-decoration: none;
-    font-weight: 400;
     display: flex;
     align-items: center;
     font-size: 0.93rem;

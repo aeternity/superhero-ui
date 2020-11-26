@@ -1,4 +1,5 @@
 import Router from 'vue-router';
+import Vue from 'vue';
 import { IS_MOBILE_DEVICE } from './utils';
 import Tracing from './views/admin/Tracing.vue';
 import Conference from './views/Conference.vue';

@@ -256,7 +256,7 @@ export default {
 
   .not-bootstrap-modal > ::v-deep .not-bootstrap-modal-content {
     background-color: $article_content_color;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     margin-top: 0.25rem;
     min-width: 19rem;
     padding: 1rem;

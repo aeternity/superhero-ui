@@ -3,7 +3,7 @@
     <div class="footer-btns">
       <OutlinedButton
         :to="'https://form.jotform.com/201075183408046'"
-        class="green feedback"
+        class="blue feedback"
       >
         {{ $t('components.layout.FooterSection.Feedback') }}
       </OutlinedButton>

@@ -463,14 +463,19 @@ input[type="file"] {
     }
   }
 
+<<<<<<< HEAD
   .avatar-button {
     background: #2a9cffa8;
+=======
+  .avatar__button {
+    background: #1161fea8;
+>>>>>>> bb18b8de... Implement new Brand Identity
     bottom: 0;
     left: 0;
     position: absolute;
 
     &:hover {
-      background: #2a9cffcc;
+      background: #1161fecc;
     }
   }
 
@@ -501,11 +506,16 @@ input[type="file"] {
     }
   }
 
+<<<<<<< HEAD
   .save-button {
     background: #67f7b8a8;
+=======
+  .save__button {
+    background: #00ff9da8;
+>>>>>>> bb18b8de... Implement new Brand Identity
 
     &:hover {
-      background: #67f7b8cc;
+      background: #00ff9dcc;
     }
   }
 
@@ -822,7 +832,7 @@ input[type="file"] {
 
       &.active {
         color: $secondary_color;
-        background-color: #2a9cff50;
+        background-color: #1161fe50;
       }
     }
   }

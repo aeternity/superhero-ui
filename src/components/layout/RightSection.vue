@@ -49,7 +49,7 @@ export default {
 <style lang="scss" scoped>
 .right-section .section {
   background-color: $article_content_color;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   margin-bottom: 0.5rem;
 }
 </style>

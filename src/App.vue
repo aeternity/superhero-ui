@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div>TEST</div>
+    <RouterView />
   </div>
 </template>
 

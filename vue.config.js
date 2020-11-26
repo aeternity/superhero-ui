@@ -66,6 +66,10 @@ module.exports = {
       .loader('raw-loader')
       .end();
 
+    // config
+    //   .devServer
+    //   .historyApiFallback(true);
+
     config.module.rule('svg')
       .uses.clear().end()
       .oneOf('icon-component')

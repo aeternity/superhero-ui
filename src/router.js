@@ -18,6 +18,8 @@ import TutorialWallet from './views/tutorial/Wallet.vue';
 import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
 
+Vue.use(Router);
+
 export function createRouter() {
     const routes = [
       {

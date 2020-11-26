@@ -134,6 +134,8 @@ export default class Backend {
 
   static getWordSaleVotesDetails = async (address) => backendFetch(`tokenCache/wordSaleVotesDetails?address=${address}`);
 
+  static getWordSaleDetailsByToken = async (address) => backendFetch(`tokenCache/wordSaleByToken?address=${address}`);
+
   static getWordSale = async (address) => backendFetch(`tokenCache/wordSale?address=${address}`);
 
   static getTokenBalances = async (address) => backendFetch(`tokenCache/balances?address=${address}`);

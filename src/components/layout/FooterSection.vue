@@ -26,6 +26,15 @@
           <img src="../../assets/ghLogo.svg">
         </a>
       </p>
+      <div class="powered-by">
+        {{ $t('components.layout.Overview.PoweredBy') }}
+        <a
+          href="https://aeternity.com/"
+          target="_blank"
+        >
+          <img src="../../assets/aeternityLogo.svg">
+        </a>
+      </div>
     </div>
     <span>
       <a :href="`https://github.com/aeternity/superhero-ui/commit/${commitHash}`">
@@ -145,6 +154,21 @@ export default {
 
       a {
         padding: 0.625rem 1rem 0.625rem 1rem;
+      }
+    }
+
+    .powered-by {
+      color: $standard_font_color;
+      font-size: 0.7rem;
+
+      a {
+        &:hover {
+          filter: brightness(1.3);
+        }
+
+        img {
+          height: 0.55rem;
+        }
       }
     }
   }

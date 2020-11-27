@@ -5,8 +5,7 @@
       :token="token"
     />
     &nbsp;<FiatValue
-      v-if="!token"
-      v-bind="$attrs"
+      v-bind="!token ? $attrs : { amount: 0 }"
     />
   </span>
 </template>

@@ -13,14 +13,23 @@
           v-if="!tipUrlStats.tokenTotalAmount.length || +tipUrlStats.totalAmountAe !== 0"
           :amount="tipUrlStats.totalAmountAe"
         />
-        <AeAmountFiat
-          v-for="tokenTip in tipUrlStats.tokenTotalAmount"
-          :key="tokenTip.token"
-          :amount="tokenTip.amount"
-          :token="tokenTip.token"
-        />
       </template>
     </Component>
+    <CustomDropdown
+      v-if="tipUrlStats && tipUrlStats.tokenTotalAmount.length"
+      :options="tipUrlStats.tokenTotalAmount"
+      show-right
+      class="token-tips"
+      @click.stop
+    >
+      <template slot-scope="{ option }">
+        <AeAmountFiat
+          :key="option.token"
+          :amount="option.amount"
+          :token="option.token"
+        />
+      </template>
+    </CustomDropdown>
     <Modal
       v-if="showModal"
       @close="hideModal"
@@ -72,6 +81,7 @@ import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
+import CustomDropdown from './CustomDropdown.vue';
 import Modal from './Modal.vue';
 
 export default {
@@ -81,6 +91,7 @@ export default {
     AeButton,
     AeAmountFiat,
     Modal,
+    CustomDropdown,
   },
   props: {
     tip: { type: Object, default: null },
@@ -217,6 +228,11 @@ export default {
       min-width: 16rem;
       padding: 0.5rem;
     }
+
+    .not-bootstrap-modal-content {
+      padding: 0;
+      min-width: 15rem;
+    }
   }
 
   .not-bootstrap-modal .not-bootstrap-modal-content {
@@ -234,6 +250,20 @@ export default {
       .ae-button {
         margin-left: 0.5rem;
       }
+    }
+  }
+
+  .token-tips {
+    display: inline-block;
+    top: -0.15rem;
+    position: relative;
+
+    ::v-deep button {
+      padding: 0;
+    }
+
+    ::v-deep .not-bootstrap-modal-content {
+      min-width: 9rem;
     }
   }
 }

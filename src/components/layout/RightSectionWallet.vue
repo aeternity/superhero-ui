@@ -21,7 +21,27 @@
         {{ address }}
       </div>
       <div class="not-bootstrap-row">
-        <AeAmount :amount="balance" />
+        <CustomDropdown
+          v-if="hasContractV2Address"
+          :options="tokenBalancesOptions"
+          :method="updateTokenBalance"
+          :selected="selectedTokenBalance.token"
+        >
+          <template #diplayValue>
+            <AeAmount
+              class="not-bootstrap-row"
+              :amount="selectedTokenBalance.balance"
+              :token="selectedTokenBalance.token"
+            />
+          </template>
+          <template slot-scope="{ option }">
+            <TokenAvatarAndSymbol :address="option.token" />
+          </template>
+        </CustomDropdown>
+        <AeAmount
+          v-else
+          :amount="balance"
+        />
         <CustomDropdown
           v-if="currencyDropdownOptions.length"
           :options="currencyDropdownOptions"
@@ -45,16 +65,6 @@
           </template>
         </CustomDropdown>
       </div>
-
-      <template v-if="hasContractV2Address">
-        <AeAmount
-          v-for="tokenBalance in tokenBalances"
-          :key="tokenBalance.token"
-          class="not-bootstrap-row"
-          :amount="tokenBalance.balance"
-          :token="tokenBalance.token"
-        />
-      </template>
     </template>
     <OutlinedButton
       v-else
@@ -72,15 +82,17 @@ import AeAmount from '../AeAmount.vue';
 import CustomDropdown from '../CustomDropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
 import OutlinedButton from '../OutlinedButton.vue';
+import TokenAvatarAndSymbol from '../fungibleTokens/TokenAvatarAndSymbol.vue';
 
 export default {
   components: {
-    RightSectionTitle, AeAmount, CustomDropdown, OutlinedButton,
+    RightSectionTitle, AeAmount, CustomDropdown, OutlinedButton, TokenAvatarAndSymbol,
   },
   props: { closed: Boolean },
   data: () => ({
     walletUrl: process.env.VUE_APP_WALLET_URL,
     hasContractV2Address: !!process.env.VUE_APP_CONTRACT_V2_ADDRESS,
+    selectedTokenBalance: {},
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -97,11 +109,30 @@ export default {
         .multipliedBy(this.prices[this.selectedCurrency])
         .toFixed(2);
     },
+    aeternityTokenData() {
+      return {
+        balance: this.balance,
+        token: '',
+      };
+    },
+    tokenBalancesOptions() {
+      // Aeternity token + FT data
+      return [
+        ...[this.aeternityTokenData],
+        ...this.tokenBalances,
+      ];
+    },
+  },
+  created() {
+    this.selectedTokenBalance = { ...this.aeternityTokenData };
   },
   methods: {
     ...mapMutations(['updateCurrency', 'enableIframeWallet']),
     updateSelectedCurrency(option) {
       this.updateCurrency(option.currency);
+    },
+    updateTokenBalance(option) {
+      this.selectedTokenBalance = option;
     },
   },
 };
@@ -142,18 +173,18 @@ export default {
     display: flex;
     align-items: center;
 
-    .ae-amount {
+    .ae-amount, .dropdown:first-child {
       flex-grow: 1;
-      font-size: 1.3rem;
+      font-size: 1rem;
     }
   }
 
   .currency-value {
     color: $tip_note_color;
-  }
 
-  .currency-value.spaced {
-    margin-right: 0.2rem;
+    &.spaced {
+      margin-right: 0.2rem;
+    }
   }
 }
 </style>

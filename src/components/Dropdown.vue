@@ -16,7 +16,7 @@
         @change="method(selectedVal)"
       >
         <option
-          v-for="(option, idx) in optionsVal"
+          v-for="(option, idx) in options"
           :key="idx"
           :value="option.value"
         >
@@ -38,12 +38,11 @@ export default {
   data() {
     return {
       selectedVal: this.selected,
-      optionsVal: this.options,
     };
   },
   computed: {
     displayValue() {
-      const selectedOption = this.optionsVal.find((option) => option.value === this.selectedVal);
+      const selectedOption = this.options.find((option) => option.value === this.selectedVal);
       return selectedOption ? selectedOption.text : '';
     },
   },

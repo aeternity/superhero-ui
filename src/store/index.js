@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import mutations from './mutations';
+import getters from './getters';
 import persistState from './plugins/persistState';
 import modals from './plugins/modals';
 // eslint-disable-next-line import/no-cycle
@@ -46,9 +47,7 @@ export default new Vuex.Store({
         .then((list) => list.forEach(({ scope, status }) => commit('setCookiesConsent', { scope, status: status === 'ALLOWED' })));
     },
   },
-  getters: {
-    isLoggedIn: (state) => !!state.address,
-  },
+  getters,
   modules: { backend },
   plugins: [
     persistState(

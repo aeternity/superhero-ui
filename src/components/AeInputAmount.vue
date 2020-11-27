@@ -42,12 +42,7 @@
         <template v-slot="{ option }">
           <div class="token-option">
             <TokenAvatarAndSymbol :address="option.token" />
-            <AeAmount
-              :amount="option.balance"
-              :token="option.token"
-              without-symbol
-              class="tokens-amount"
-            />
+            <span class="tokens-amount">{{ showTokenAmount(option.balance, option.token) }}</span>
             &nbsp;
             <FiatValue
               :amount="option.token === 'native' ? option.balance.toString() : '0'"
@@ -60,15 +55,14 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import FiatValue from './FiatValue.vue';
 import Dropdown from './Dropdown.vue';
-import AeAmount from './AeAmount.vue';
 import TokenAvatarAndSymbol from './fungibleTokens/TokenAvatarAndSymbol.vue';
 
 export default {
   components: {
-    Dropdown, FiatValue, TokenAvatarAndSymbol, AeAmount,
+    Dropdown, FiatValue, TokenAvatarAndSymbol,
   },
   props: {
     min: { type: Number, default: 0 },
@@ -82,6 +76,7 @@ export default {
     selectedToken: 'native',
   }),
   computed: {
+    ...mapGetters(['roundedTokenAmount']),
     ...mapState(['tokenInfo']),
     ...mapState({
       selectTokenOptions: ({ tokenBalances, balance }) => [
@@ -97,6 +92,9 @@ export default {
     selectToken(selected) {
       this.selectedToken = selected.token;
       this.selectTokenF(this.selectedToken);
+    },
+    showTokenAmount(amount, token) {
+      return this.roundedTokenAmount(amount, token);
     },
   },
 };
@@ -163,7 +161,7 @@ export default {
     > button {
       background-color: transparent;
       height: 2.1rem;
-      margin-left: -.8rem;;
+      margin-left: -0.8rem;
     }
 
     .not-bootstrap-modal-content {

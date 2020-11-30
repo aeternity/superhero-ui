@@ -390,19 +390,18 @@ export default {
   position: relative;
   overflow: hidden;
   width: 100%;
+  height: 319px;
   max-width: 100%;
   background: #000;
   border-radius: 0.5rem 0.5rem 0 0;
 
   img {
-    margin: auto;
     max-width: 100%;
     width: 100%;
     border: none;
     height: auto;
     cursor: pointer;
     transition: 0.4s all;
-    overflow: hidden;
   }
 
   img:hover {

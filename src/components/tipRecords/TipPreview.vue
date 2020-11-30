@@ -388,7 +388,6 @@ export default {
 
 ::v-deep .tip__cover-preview {
   position: relative;
-  padding-top: 55%;
   overflow: hidden;
   width: 100%;
   max-width: 100%;
@@ -396,15 +395,9 @@ export default {
   border-radius: 0.5rem 0.5rem 0 0;
 
   img {
-    bottom: 0;
-    display: block;
-    left: 0;
     margin: auto;
     max-width: 100%;
     width: 100%;
-    position: absolute;
-    right: 0;
-    top: 0;
     border: none;
     height: auto;
     cursor: pointer;

@@ -122,7 +122,7 @@ export default {
     },
     deepLink() {
       return createDeepLinkUrl(this.tip
-        ? { type: 'retip', id: this.tip.id } : { type: 'tip', url: this.tipUrl });
+        ? { type: 'retip', id: this.tip.id.split('_')[0] } : { type: 'tip', url: this.tipUrl });
     },
     isValid() {
       return (this.tip || this.message.trim().length > 0) && this.inputValue > this.minTipAmount;

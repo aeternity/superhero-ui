@@ -21,31 +21,30 @@
         {{ address }}
       </div>
       <div class="not-bootstrap-row">
-        <CustomDropdown
+        <Dropdown
           v-if="hasContractV2Address"
           :options="tokenBalancesOptions"
-          :method="updateTokenBalance"
-          :selected="selectedTokenBalance.token"
+          :method="option => showCurrencyDropdown = !(option.token.length > 0)"
+          :selected="aeternityTokenData.token"
         >
-          <template #diplayValue>
+          <template #diplayValue="{ diplayValue }">
             <AeAmount
-              class="not-bootstrap-row"
-              :amount="selectedTokenBalance.balance"
-              :token="selectedTokenBalance.token"
+              :amount="displayValue.balance"
+              :token="displayValue.token"
             />
           </template>
-          <template slot-scope="{ option }">
+          <template v-slot="{ option }">
             <TokenAvatarAndSymbol :address="option.token" />
           </template>
-        </CustomDropdown>
+        </Dropdown>
         <AeAmount
           v-else
           :amount="balance"
         />
-        <CustomDropdown
-          v-if="currencyDropdownOptions.length"
+        <Dropdown
+          v-if="currencyDropdownOptions.length && showCurrencyDropdown"
           :options="currencyDropdownOptions"
-          :method="updateSelectedCurrency"
+          :method="({ currency }) => updateCurrency(currency)"
           :selected="selectedCurrency"
           show-right
         >
@@ -56,14 +55,14 @@
             </span>
             {{ selectedCurrency.toUpperCase() }}
           </template>
-          <template slot-scope="{ option }">
+          <template v-slot="{ option }">
             <span class="currency-value">
               <!--eslint-disable-line vue-i18n/no-raw-text-->
               ~ {{ option.price }}
             </span>
             {{ option.currency.toUpperCase() }}
           </template>
-        </CustomDropdown>
+        </Dropdown>
       </div>
     </template>
     <OutlinedButton
@@ -79,20 +78,20 @@
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
-import CustomDropdown from '../CustomDropdown.vue';
+import Dropdown from '../Dropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
 import OutlinedButton from '../OutlinedButton.vue';
 import TokenAvatarAndSymbol from '../fungibleTokens/TokenAvatarAndSymbol.vue';
 
 export default {
   components: {
-    RightSectionTitle, AeAmount, CustomDropdown, OutlinedButton, TokenAvatarAndSymbol,
+    RightSectionTitle, AeAmount, Dropdown, OutlinedButton, TokenAvatarAndSymbol,
   },
   props: { closed: Boolean },
   data: () => ({
     walletUrl: process.env.VUE_APP_WALLET_URL,
     hasContractV2Address: !!process.env.VUE_APP_CONTRACT_V2_ADDRESS,
-    selectedTokenBalance: {},
+    showCurrencyDropdown: true,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -116,25 +115,13 @@ export default {
       };
     },
     tokenBalancesOptions() {
-      // Aeternity token + FT data
       return [
-        ...[this.aeternityTokenData],
+        this.aeternityTokenData,
         ...this.tokenBalances,
       ];
     },
   },
-  created() {
-    this.selectedTokenBalance = { ...this.aeternityTokenData };
-  },
-  methods: {
-    ...mapMutations(['updateCurrency', 'enableIframeWallet']),
-    updateSelectedCurrency(option) {
-      this.updateCurrency(option.currency);
-    },
-    updateTokenBalance(option) {
-      this.selectedTokenBalance = option;
-    },
-  },
+  methods: mapMutations(['updateCurrency', 'enableIframeWallet']),
 };
 </script>
 
@@ -173,7 +160,8 @@ export default {
     display: flex;
     align-items: center;
 
-    .ae-amount, .dropdown:first-child {
+    .ae-amount,
+    .dropdown:first-child {
       flex-grow: 1;
       font-size: 1rem;
     }

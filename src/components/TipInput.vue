@@ -8,28 +8,24 @@
       @click="useSdkWallet && (showModal = true)"
     >
       <img :src="iconTip">
-      <template v-if="!userAddress">
-        <AeAmountFiat
-          v-if="!tipUrlStats.tokenTotalAmount.length || +tipUrlStats.totalAmountAe !== 0"
-          :amount="tipUrlStats.totalAmountAe"
-        />
-      </template>
+      <AeAmountFiat
+        v-if="!userAddress
+          && (!tipUrlStats.tokenTotalAmount.length || +tipUrlStats.totalAmountAe !== 0)"
+        :amount="tipUrlStats.totalAmountAe"
+      />
     </Component>
-    <CustomDropdown
-      v-if="tipUrlStats && tipUrlStats.tokenTotalAmount.length"
+    <Dropdown
+      v-if="!userAddress && tipUrlStats && tipUrlStats.tokenTotalAmount.length"
+      v-slot="{ option }"
       :options="tipUrlStats.tokenTotalAmount"
       show-right
-      class="token-tips"
-      @click.stop
     >
-      <template slot-scope="{ option }">
-        <AeAmountFiat
-          :key="option.token"
-          :amount="option.amount"
-          :token="option.token"
-        />
-      </template>
-    </CustomDropdown>
+      <AeAmountFiat
+        :key="option.token"
+        :amount="option.amount"
+        :token="option.token"
+      />
+    </Dropdown>
     <Modal
       v-if="showModal"
       @close="hideModal"
@@ -81,7 +77,7 @@ import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
-import CustomDropdown from './CustomDropdown.vue';
+import Dropdown from './Dropdown.vue';
 import Modal from './Modal.vue';
 
 export default {
@@ -91,7 +87,7 @@ export default {
     AeButton,
     AeAmountFiat,
     Modal,
-    CustomDropdown,
+    Dropdown,
   },
   props: {
     tip: { type: Object, default: null },
@@ -136,7 +132,8 @@ export default {
         ? { type: 'retip', id: this.tip.id } : { type: 'tip', url: this.tipUrl });
     },
     isValid() {
-      return (this.tip || this.message.trim().length > 0) && this.inputValue > this.minTipAmount;
+      return (this.tip || this.message.trim().length > 0)
+        && (this.inputToken !== 'native' || this.inputValue > this.minTipAmount);
     },
     iconTip() {
       if (this.userAddress) return iconTipUser;
@@ -250,20 +247,6 @@ export default {
       .ae-button {
         margin-left: 0.5rem;
       }
-    }
-  }
-
-  .token-tips {
-    display: inline-block;
-    top: -0.15rem;
-    position: relative;
-
-    ::v-deep button {
-      padding: 0;
-    }
-
-    ::v-deep .not-bootstrap-modal-content {
-      min-width: 9rem;
     }
   }
 }

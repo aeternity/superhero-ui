@@ -17,11 +17,12 @@
       v-if="showMenu"
       @close="showMenu = false"
     >
-      <div
+      <Component
+        :is="method ? ButtonPlain : 'div'"
         v-for="option in options"
         :key="option.value"
         class="dropdown-item"
-        @click="method ? method(option) : null, showMenu = false"
+        @click="selectItem(option)"
       >
         <slot :option="option">
           {{ option.text }}
@@ -47,6 +48,8 @@ export default {
   data() {
     return {
       showMenu: false,
+      currentValue: this.options[0],
+      ButtonPlain,
     };
   },
   computed: {
@@ -58,12 +61,23 @@ export default {
       return selectedOption ? selectedOption.text : '';
     },
   },
+  methods: {
+    selectItem(option) {
+      if (this.method) {
+        this.currentValue = option;
+        this.method(option);
+      }
+      this.showMenu = false;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .dropdown {
   position: relative;
+  display: inline-block;
+  vertical-align: middle;
 
   button {
     background-color: transparent;
@@ -84,11 +98,10 @@ export default {
   .dropdown-item {
     font-size: 0.75rem;
     min-width: 6.5rem;
-    padding: 0.6rem 0.8rem;
+    padding: 0.4rem 0.8rem;
     background-color: $actions_ribbon_background_color;
     color: $standard_font_color;
     box-shadow: inset 0 0 0.1rem $article_content_color;
-    cursor: pointer;
 
     &:first-child {
       border-radius: 0.15rem 0.15rem 0 0;
@@ -103,8 +116,11 @@ export default {
     }
   }
 
-  &.right ::v-deep .not-bootstrap-modal-content {
-    right: 0;
+  ::v-deep button {
+    padding: 0;
+  }
+
+  &::v-deep .not-bootstrap-modal-content {
     max-height: 10rem;
     overflow-y: auto;
 

@@ -32,20 +32,21 @@
           :amount="!tokenTipable || selectedToken === 'native' ? value.toString() : '0'"
         />
       </span>
-      <CustomDropdown
+      <Dropdown
         v-if="tokenTipable"
         :options="selectTokenOptions"
         :selected="selectedToken"
         :method="selectToken"
         show-right
       >
-        <template slot-scope="{ option }">
+        <template v-slot="{ option }">
           <div class="token-option">
             <TokenAvatarAndSymbol :address="option.token" />
             <AeAmount
               :amount="option.balance"
               :token="option.token"
               without-symbol
+              class="tokens-amount"
             />
             &nbsp;
             <FiatValue
@@ -53,7 +54,7 @@
             />
           </div>
         </template>
-      </CustomDropdown>
+      </Dropdown>
     </div>
   </div>
 </template>
@@ -61,13 +62,13 @@
 <script>
 import { mapState } from 'vuex';
 import FiatValue from './FiatValue.vue';
-import CustomDropdown from './CustomDropdown.vue';
+import Dropdown from './Dropdown.vue';
 import AeAmount from './AeAmount.vue';
 import TokenAvatarAndSymbol from './fungibleTokens/TokenAvatarAndSymbol.vue';
 
 export default {
   components: {
-    CustomDropdown, FiatValue, TokenAvatarAndSymbol, AeAmount,
+    Dropdown, FiatValue, TokenAvatarAndSymbol, AeAmount,
   },
   props: {
     min: { type: Number, default: 0 },
@@ -152,10 +153,14 @@ export default {
     }
   }
 
+  .tokens-amount {
+    color: $tip-note-color;
+  }
+
   .dropdown::v-deep {
     border-radius: 50%;
 
-    button {
+    > button {
       background-color: transparent;
       height: 2.1rem;
       margin-left: -.8rem;;

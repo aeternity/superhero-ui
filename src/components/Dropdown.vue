@@ -3,16 +3,17 @@
     class="dropdown"
     :class="{ right: showRight, 'read-only': !method }"
   >
-    <button
+    <ButtonPlain
       :class="{ active: showMenu }"
       @click.prevent="showMenu = true"
     >
       <slot
         name="diplayValue"
+        :diplayValue="currentValue"
       />
       <span v-if="!$slots.diplayValue">{{ displayValue }}</span>
       <img src="../assets/carretDown.svg">
-    </button>
+    </ButtonPlain>
     <Modal
       v-if="showMenu"
       @close="showMenu = false"
@@ -27,17 +28,19 @@
         <slot :option="option">
           {{ option.text }}
         </slot>
-      </div>
+      </Component>
     </Modal>
   </div>
 </template>
 
 <script>
 import Modal from './Modal.vue';
+import ButtonPlain from './ButtonPlain.vue';
 
 export default {
   components: {
     Modal,
+    ButtonPlain,
   },
   props: {
     options: { type: Array, default: null },
@@ -79,15 +82,12 @@ export default {
   display: inline-block;
   vertical-align: middle;
 
-  button {
-    background-color: transparent;
-    border: none;
+  > button {
     display: flex;
     align-items: center;
     padding: 0.2rem 0.4rem;
     font-size: 0.75rem;
     color: $standard_font_color;
-    outline: none;
     border-radius: 2.5rem;
 
     &.active {
@@ -102,6 +102,7 @@ export default {
     background-color: $actions_ribbon_background_color;
     color: $standard_font_color;
     box-shadow: inset 0 0 0.1rem $article_content_color;
+    border-radius: unset;
 
     &:first-child {
       border-radius: 0.15rem 0.15rem 0 0;
@@ -128,6 +129,10 @@ export default {
       scrollbar-width: none;
       display: none;
     }
+  }
+
+  &.right::v-deep .not-bootstrap-modal-content {
+    right: 0;
   }
 
   &.read-only .dropdown-item {

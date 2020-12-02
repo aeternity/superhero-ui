@@ -12,7 +12,7 @@
         :diplayValue="currentValue"
       />
       <span v-if="!$slots.diplayValue">{{ displayValue }}</span>
-      <img src="../assets/carretDown.svg">
+      <img src="../assets/caretDown.svg">
     </ButtonPlain>
     <Modal
       v-if="showMenu"

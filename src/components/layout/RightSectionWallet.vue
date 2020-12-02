@@ -27,7 +27,7 @@
           :method="option => showCurrencyDropdown = !(option.token.length > 0)"
           :selected="aeternityTokenData.token"
         >
-          <template #diplayValue="{ diplayValue }">
+          <template #displayValue="{ displayValue }">
             <AeAmount
               :amount="displayValue.balance"
               :token="displayValue.token"
@@ -48,7 +48,7 @@
           :selected="selectedCurrency"
           show-right
         >
-          <template #diplayValue>
+          <template #displayValue>
             <span class="currency-value spaced">
               <!--eslint-disable-line vue-i18n/no-raw-text-->
               ~ {{ selectedCurrencyPrice }}

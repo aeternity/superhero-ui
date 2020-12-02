@@ -8,10 +8,10 @@
       @click.prevent="showMenu = true"
     >
       <slot
-        name="diplayValue"
-        :diplayValue="currentValue"
+        name="displayValue"
+        :displayValue="currentValue"
       />
-      <span v-if="!$slots.diplayValue">{{ displayValue }}</span>
+      <span v-if="!$slots.displayValue">{{ displayValue }}</span>
       <img src="../assets/caretDown.svg">
     </ButtonPlain>
     <Modal

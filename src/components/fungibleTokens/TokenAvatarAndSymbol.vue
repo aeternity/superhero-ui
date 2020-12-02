@@ -5,8 +5,9 @@
       :address="address"
       show-identicon-only
     />
-    <div
+    <img
       v-else
+      src="../../assets/aeternitySymbol.svg"
       class="aeternity-logo"
     />
     <!--eslint-disable-next-line vue-i18n/no-raw-text-->
@@ -48,7 +49,9 @@ export default {
     display: inline-block;
     width: 1.5rem;
     height: 1.5rem;
-    background: url('../../assets/aeternitySymbol.svg') no-repeat center $article_content_color;
+    padding: 4px;
+    object-fit: contain;
+    background: $article_content_color;
     border-radius: 50%;
   }
 

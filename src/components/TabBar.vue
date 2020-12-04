@@ -1,6 +1,6 @@
 <template>
   <div class="tab-bar">
-    <a
+    <ButtonPlain
       v-for="tab in tabs"
       :key="tab.text"
       :class="{ active: activeTab === tab.tab }"

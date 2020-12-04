@@ -3,8 +3,8 @@
     <ButtonPlain
       v-for="tab in tabs"
       :key="tab.text"
-      :class="{ active: activeTab === tab.tab }"
-      @click="set(tab.tab)"
+      :class="{ active: value === tab.tab }"
+      @click="updateValue(tab.tab)"
     >
       {{ tab.text }}
     </ButtonPlain>
@@ -21,8 +21,12 @@ export default {
   },
   props: {
     tabs: { type: Array, required: true },
-    activeTab: { type: String, required: true },
-    set: { type: Function, required: true },
+    value: { type: String, required: true },
+  },
+  methods: {
+    updateValue(value) {
+      this.$emit('input', value);
+    },
   },
 };
 </script>

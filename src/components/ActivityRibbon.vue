@@ -3,8 +3,8 @@
     <FilterButton
       v-for="tab in tabs"
       :key="tab.text"
-      :class="{ active: activity === tab.activity }"
-      @click="set(tab.activity)"
+      :class="{ active: value === tab.activity }"
+      @click="updateValue(tab.activity)"
     >
       <Component :is="tab.icon" />
 
@@ -24,8 +24,12 @@ export default {
   },
   props: {
     tabs: { type: Array, required: true },
-    activity: { type: String, required: true },
-    set: { type: Function, required: true },
+    value: { type: String, required: true },
+  },
+  methods: {
+    updateValue(value) {
+      this.$emit('input', value);
+    },
   },
 };
 </script>

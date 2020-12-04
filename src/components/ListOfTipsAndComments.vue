@@ -1,15 +1,14 @@
 <template>
   <div>
     <ActivityRibbon
-      :tabs="ribbonTabs"
       v-model="activity"
+      :tabs="ribbonTabs"
     />
 
     <TabBar
       v-if="activity === 'activity'"
+      v-model="activeTab"
       :tabs="tabs"
-      :active-tab="activeTab"
-      :set="(setTab) => activeTab = setTab"
     />
 
     <div class="position-relative">

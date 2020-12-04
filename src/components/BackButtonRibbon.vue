@@ -1,10 +1,10 @@
 <template>
   <div class="actions-ribbon">
-    <div class="back-button">
-      <img
-        src="../assets/backArrow.svg"
-        @click="back"
-      >
+    <ButtonPlain
+      class="back-button"
+      @click="back"
+    >
+      <img src="../assets/backArrow.svg">
     </div>
 
     <div class="title">

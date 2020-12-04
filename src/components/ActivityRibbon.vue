@@ -36,7 +36,7 @@ export default {
   padding: 0.5rem 0 0.5rem 0.75rem;
   margin-bottom: 0.15rem;
 
-  .activity-ribbon__text {
+  .text {
     padding-left: 0.15rem;
   }
 }

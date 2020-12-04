@@ -8,7 +8,7 @@
     >
       <Component :is="tab.icon" />
 
-      <span class="vertical-align-mid activity-ribbon__text">
+      <span class="activity-ribbon__text">
         {{ tab.text }}
       </span>
     </FilterButton>

@@ -35,7 +35,6 @@ export default {
         .toLocaleString('en-US', { style: 'currency', currency: selectedCurrency });
     },
     tokenData({ tokenPrices, tokenInfo }) {
-      console.log(this.token, tokenPrices, tokenInfo);
       if (!this.token) return null;
       if (!tokenInfo[this.token] || !tokenPrices[this.token]) return null;
 

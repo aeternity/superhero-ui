@@ -5,7 +5,7 @@
       @click="back"
     >
       <img src="../assets/backArrow.svg">
-    </div>
+    </ButtonPlain>
 
     <div class="title">
       {{ title }}
@@ -18,7 +18,12 @@
 </template>
 
 <script>
+import ButtonPlain from './ButtonPlain.vue';
+
 export default {
+  components: {
+    ButtonPlain,
+  },
   props: {
     title: { type: String, default: '' },
   },

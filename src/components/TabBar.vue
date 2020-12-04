@@ -7,13 +7,18 @@
       @click="set(tab.tab)"
     >
       {{ tab.text }}
-    </a>
+    </ButtonPlain>
   </div>
 </template>
 
 <script>
 
+import ButtonPlain from './ButtonPlain.vue';
+
 export default {
+  components: {
+    ButtonPlain,
+  },
   props: {
     tabs: { type: Array, required: true },
     activeTab: { type: String, required: true },
@@ -27,7 +32,7 @@ export default {
   padding: 0 1.5rem;
   background-color: $actions_ribbon_background_color;
 
-  a {
+  button {
     color: $light_font_color;
     display: inline-block;
     font-size: 0.8rem;

@@ -2,7 +2,8 @@
   <div>
     <ActivityRibbon
       :tabs="ribbonTabs"
-      v-model="activity"
+      :activity="activity"
+      :set="(setActivity) => activity = setActivity"
     />
 
     <TabBar

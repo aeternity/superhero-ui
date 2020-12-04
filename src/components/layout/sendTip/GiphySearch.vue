@@ -1,14 +1,11 @@
 <template>
   <div class="giphy-search">
-    <div class="search-input">
-      <input
-        v-model="query"
-        type="text"
-        placeholder="Search GIPHY"
-        @input="submit"
-      >
-      <IconSearch />
-    </div>
+    <SearchInput
+      v-model="query"
+      placeholder="Search GIPHY"
+      sided
+      @input="newSearch"
+    />
     <div
       v-if="resultsCount"
       class="results-count"
@@ -43,14 +40,13 @@
 </template>
 
 <script>
-import { debounce } from 'lodash-es';
 import Loading from '../../Loading.vue';
-import IconSearch from '../../../assets/iconSearch.svg?icon-component';
+import SearchInput from '../SearchInput.vue';
 
 export default {
   components: {
-    IconSearch,
     Loading,
+    SearchInput,
   },
   data() {
     return {
@@ -60,19 +56,18 @@ export default {
       resultsCount: '',
       loading: false,
       hovered: null,
+      focused: false,
     };
   },
-  mounted() {
-    this.search();
-  },
+  mounted() { this.newSearch(); },
   methods: {
-    submit: debounce(function a() {
+    newSearch() {
       this.resultsCount = '';
       this.loading = true;
       this.results = [];
       this.offset = 0;
       this.search();
-    }, 500),
+    },
     async search() {
       try {
         const results = await fetch(`https://api.giphy.com/v1/gifs/${this.query ? `search?q=${this.query}&` : 'trending?'}api_key=${process.env.VUE_APP_GIPHY_API_KEY}&limit=10&offset=${this.offset}`);
@@ -100,6 +95,7 @@ export default {
 <style lang="scss" scoped>
 .giphy-search {
   position: relative;
+  margin: 0.5rem;
 
   .loading {
     position: absolute;
@@ -108,26 +104,7 @@ export default {
 }
 
 .search-input {
-  background-color: $article_content_color;
   border-radius: 0.25rem 0.25rem 0 0;
-  display: flex;
-  align-items: center;
-  font-size: 1rem;
-  padding: 0.5rem;
-
-  input {
-    background: none;
-    border: none;
-    outline: none;
-    color: $light_font_color;
-    flex-grow: 1;
-    font-size: 0.75rem;
-  }
-
-  svg {
-    height: 1rem;
-    width: auto;
-  }
 }
 
 .results-count {

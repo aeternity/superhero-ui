@@ -6,52 +6,61 @@
     <input
       v-model="query"
       type="text"
-      :placeholder="$t('views.TipList.SearchPlaceholder')"
+      :placeholder="placeholder"
       @focus="focused = true"
       @blur="focused = false"
+      @input="search($event.target.value)"
     >
-
-    <RouterLink
+    <ButtonPlain
       v-if="query.length"
       :title="$t('views.TipList.Clear')"
-      :to="{ name: 'tips' }"
+      @click="clear"
     >
-      <img src="../../assets/iconEraser.svg">
-    </RouterLink>
-    <img
-      v-else-if="sided && !focused"
-      src="../../assets/iconSearch.svg"
-    >
-
-    <button
+      <IconEraser />
+    </ButtonPlain>
+    <IconSearch v-else-if="sided && !focused" />
+    <ButtonPlain
       v-if="!sided"
       :title="$t('views.TipList.CloseSearch')"
       @click="$emit('close')"
     >
-      <!--eslint-disable-line vue-i18n/no-raw-text-->
-      &#x2715;
-    </button>
+      <IconClose />
+    </ButtonPlain>
   </div>
 </template>
 
 <script>
 import { debounce } from 'lodash-es';
+import IconSearch from '../../assets/iconSearch.svg?icon-component';
+import IconEraser from '../../assets/iconEraser.svg?icon-component';
+import IconClose from '../../assets/iconClose.svg?icon-component';
+import ButtonPlain from '../ButtonPlain.vue';
 
 export default {
+  components: {
+    IconSearch,
+    IconEraser,
+    IconClose,
+    ButtonPlain,
+  },
   props: {
     sided: { type: Boolean },
+    placeholder: { type: String, default: '' },
+    value: { type: String, default: '' },
   },
-  data: () => ({ focused: false }),
-  computed: {
-    query: {
-      get() {
-        return this.$route.params.query || '';
-      },
-      set: debounce(function set(query) {
-        this.$router[this.$route.name.startsWith('tips') ? 'replace' : 'push']({
-          name: query ? 'feed-search' : 'tips', params: { query },
-        });
-      }, 300),
+  data() {
+    return {
+      query: this.value,
+      focused: false,
+    };
+  },
+  methods: {
+    search: debounce(function set(query) {
+      this.$emit('input', query);
+    }, 300),
+    clear() {
+      this.query = '';
+      this.search('');
     },
   },
 };
@@ -69,16 +78,10 @@ export default {
     border-color: $secondary_color;
   }
 
-  input,
-  button {
+  input {
     background: none;
     border: none;
-    padding: 0;
     outline: none;
-    color: #fff;
-  }
-
-  input {
     flex-grow: 1;
     font-size: 0.75rem;
     color: $standard_font_color;
@@ -89,8 +92,9 @@ export default {
     }
   }
 
-  img {
-    width: 1rem;
+  svg {
+    height: 1rem;
+    width: auto;
   }
 
   &.sided {

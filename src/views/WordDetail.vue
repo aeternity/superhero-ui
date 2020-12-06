@@ -80,8 +80,10 @@ export default {
       activity: 'info',
     };
   },
-  async mounted() {
+  async prefetch() {
     await this.reloadData();
+  },
+  async mounted() {
     const interval = setInterval(() => this.reloadData(), 120 * 1000);
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
   },

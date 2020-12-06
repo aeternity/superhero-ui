@@ -318,6 +318,9 @@ export default {
       return `${process.env.VUE_APP_EXPLORER_URL}/account/transactions/${this.address}`;
     },
   },
+  async prefetch() {
+    await this.reloadData();
+  },
   mounted() {
     this.$watch(
       () => this.address,
@@ -325,8 +328,8 @@ export default {
         this.reloadData();
         this.reloadBalance();
       },
-      { immediate: true },
     );
+    this.reloadBalance();
 
     EventBus.$on('reloadData', () => {
       this.reloadData();
@@ -362,14 +365,14 @@ export default {
       await this.backendAuth('sendProfileData', data);
       await this.resetEditedValues();
     },
-    reloadData() {
+    async reloadData() {
       this.getProfile();
-      Backend.getSenderStats(this.address).then((stats) => {
+      await Backend.getSenderStats(this.address).then((stats) => {
         this.userStats = stats;
       });
     },
     async getProfile() {
-      Backend.getProfile(this.address)
+      await Backend.getProfile(this.address)
         .then((profile) => {
           if (!profile) {
             return;

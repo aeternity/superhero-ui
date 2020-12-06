@@ -83,13 +83,16 @@ export default {
         : this.record.comments.filter(({ parentId }) => !parentId);
     },
   },
+  async prefetch() {
+    await this.reloadData();
+  },
   async mounted() {
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
 
     const handler = () => this.reloadData();
-    this.$watch(({ id }) => id, handler, { immediate: true });
+    this.$watch(({ id }) => id, handler);
     const interval = setInterval(handler, 120 * 1000);
 
     this.$once('hook:destroyed', () => {

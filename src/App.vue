@@ -62,6 +62,12 @@ export default {
       this.reloadData(),
     ]);
   },
+  async prefetch() {
+    await Promise.all([
+      this.$store.dispatch('backend/reloadPrices'),
+      Backend.getCacheChainNames().then((names) => this.setChainNames(names)),
+    ]);
+  },
   methods: {
     ...mapMutations([
       'setAddress', 'setChainNames', 'updateBalance',

@@ -22,7 +22,7 @@ import AeAmountFiat from './AeAmountFiat.vue';
 export default {
   components: { Topic, AeAmountFiat },
   data: () => ({ topics: [] }),
-  async mounted() {
+  async prefetch() {
     this.topics = (await Backend.getTopics()).filter(([t]) => t !== '#test');
   },
 };

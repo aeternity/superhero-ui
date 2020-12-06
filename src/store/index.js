@@ -75,22 +75,24 @@ export default () => new Vuex.Store({
     aeternity,
   },
   plugins: [
-    persistState(
-      (state) => state,
-      ({
-        selectedCurrency, address, balance, tokenInfo, tokenBalances,
-        tokenPrices, wordRegistry, cookiesConsent,
-      }) => ({
-        selectedCurrency,
-        address,
-        balance,
-        tokenInfo,
-        tokenBalances,
-        tokenPrices,
-        wordRegistry,
-        cookiesConsent,
-      }),
-    ),
+    ...process.env.VUE_CLI_SSR ? [] : [
+      persistState(
+        (state) => state,
+        ({
+          selectedCurrency, address, balance, tokenInfo, tokenBalances,
+          tokenPrices, wordRegistry, cookiesConsent,
+        }) => ({
+          selectedCurrency,
+          address,
+          balance,
+          tokenInfo,
+          tokenBalances,
+          tokenPrices,
+          wordRegistry,
+          cookiesConsent,
+        }),
+      ),
+    ],
     modals,
   ],
 });

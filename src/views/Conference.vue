@@ -10,7 +10,6 @@
 </template>
 <script>
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
-import JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import { IS_MOBILE_DEVICE } from '../utils';
 import Loading from '../components/Loading.vue';
 
@@ -47,7 +46,8 @@ export default {
     });
   },
   methods: {
-    initJitsi() {
+    async initJitsi() {
+      const JitsiMeetExternalAPI = await import('jitsi-iframe-api');
       // eslint-disable-next-line no-new
       this.jitsi = new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_HOST, {
         parentNode: this.$refs.jitsi,

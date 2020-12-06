@@ -49,6 +49,7 @@ module.exports = {
           definitions['process.env.npm_package_version'] = JSON.stringify(npm_package_version);
         }
         definitions['process.env.COMMIT_HASH'] = JSON.stringify(commitHash);
+        definitions['process.env.VUE_CLI_SSR'] = JSON.stringify(process.env.UVUE_SIDE === 'server');
         return [definitions];
       })
       .end()

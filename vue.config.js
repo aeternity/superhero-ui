@@ -9,6 +9,11 @@ const commitHash = require('child_process')
 
 module.exports = {
   lintOnSave: false,
+  pluginOptions: {
+    ssr: {
+      favicon: './dist/assets/favicon.ico',
+    },
+  },
   css: {
     loaderOptions: {
       sass: {

@@ -12,6 +12,7 @@ module.exports = {
   pluginOptions: {
     ssr: {
       favicon: './dist/assets/favicon.ico',
+      nodeExternalsWhitelist: [/\.css$/, /\?vue&type=style/, 'lodash-es'],
     },
   },
   css: {

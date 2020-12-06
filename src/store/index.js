@@ -51,19 +51,21 @@ export default () => new Vuex.Store({
   },
   modules: { backend },
   plugins: [
-    persistState(
-      (state) => state,
-      ({
-        selectedCurrency, address, balance, tokenInfo, tokenBalances, cookiesConsent,
-      }) => ({
-        selectedCurrency,
-        address,
-        balance,
-        tokenInfo,
-        tokenBalances,
-        cookiesConsent,
-      }),
-    ),
+    ...process.env.VUE_CLI_SSR ? [] : [
+      persistState(
+        (state) => state,
+        ({
+          selectedCurrency, address, balance, tokenInfo, tokenBalances, cookiesConsent,
+        }) => ({
+          selectedCurrency,
+          address,
+          balance,
+          tokenInfo,
+          tokenBalances,
+          cookiesConsent,
+        }),
+      ),
+    ],
     modals,
   ],
 });

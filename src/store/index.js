@@ -6,7 +6,6 @@ import { mapObject } from '@aeternity/aepp-sdk/es/utils/other';
 import { camelCase } from 'lodash-es';
 import mutations from './mutations';
 import getters from './getters';
-import persistState from './plugins/persistState';
 import modals from './plugins/modals';
 import backend from './modules/backend';
 import aeternity from './modules/aeternity';
@@ -128,22 +127,6 @@ export default () => new Vuex.Store({
     aeternity,
   },
   plugins: [
-    persistState(
-      (state) => state,
-      ({
-        selectedCurrency, address, balance, tokenInfo, tokenBalances,
-        tokenPrices, wordRegistry, cookiesConsent,
-      }) => ({
-        selectedCurrency,
-        address,
-        balance,
-        tokenInfo,
-        tokenBalances,
-        tokenPrices,
-        wordRegistry,
-        cookiesConsent,
-      }),
-    ),
     modals,
   ],
 });

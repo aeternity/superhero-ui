@@ -9,6 +9,7 @@ import VueTimeago from 'vue-timeago';
 import formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import App from './App.vue';
 import createStore from './store';
+import setupClientState from './store/plugins/setupClientState';
 import createRouter from './router';
 import i18n from './utils/i18nHelper';
 import registerModals from './views/modals';
@@ -47,6 +48,10 @@ export default () => {
   const router = createRouter();
 
   sync(store, router);
+
+  if (!process.env.VUE_CLI_SSR) {
+    setupClientState(store);
+  }
 
   return new Vue({
     store,

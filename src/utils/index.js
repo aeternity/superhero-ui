@@ -42,8 +42,9 @@ export const AVATAR_CONFIG = {
 
 export const createDeepLinkUrl = ({ type, ...params }) => {
   const url = new URL(`${process.env.VUE_APP_WALLET_URL}/${type}`);
-  url.searchParams.set('x-success', window.location);
-  url.searchParams.set('x-cancel', window.location);
+  const currentUrl = process.env.VUE_CLI_SSR ? 'http://superhero.com' : window.location;
+  url.searchParams.set('x-success', currentUrl);
+  url.searchParams.set('x-cancel', currentUrl);
   Object.entries(params)
     .filter(([, value]) => ![undefined, null].includes(value))
     .forEach(([name, value]) => url.searchParams.set(name, value));

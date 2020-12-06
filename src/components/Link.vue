@@ -24,8 +24,10 @@ export default {
   },
   computed: {
     isLinkOnSameHost() {
+      const currentLocation = process.env.VUE_CLI_SSR ? 'http://superhero.com' : window.location;
+      const currentLocationHost = process.env.VUE_CLI_SSR ? 'superhero.com' : window.location.host;
       return (typeof this.to === 'object' && !(this.to instanceof URL))
-        || (new URL(this.to, window.location)).host === window.location.host;
+        || (new URL(this.to, currentLocation)).host === currentLocationHost;
     },
     routerLinkTo() {
       return this.to instanceof URL ? this.to.toString() : this.to;

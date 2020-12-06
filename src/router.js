@@ -191,10 +191,12 @@ const routes = [
 export default () => {
   const router = new Router({ mode: 'history', routes });
 
-  router.beforeEach((to, from, next) => {
-    document.title = `${to.meta.title} - Superhero.com`;
-    next();
-  });
+  if (!process.env.VUE_CLI_SSR) {
+    router.beforeEach((to, from, next) => {
+      document.title = `${to.meta.title} - Superhero.com`;
+      next();
+    });
+  }
 
   return router;
 };

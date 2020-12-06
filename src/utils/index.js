@@ -16,8 +16,8 @@ export const currencySigns = {
   cny: '¥',
 };
 
-export const IS_MOBILE_DEVICE = window.navigator.userAgent.includes('Mobi');
-export const IS_FRAME = window.parent !== window;
+export const IS_MOBILE_DEVICE = !process.env.VUE_CLI_SSR && window.navigator.userAgent.includes('Mobi');
+export const IS_FRAME = !process.env.VUE_CLI_SSR && window.parent !== window;
 
 export const IDENTICON_CONFIG = {
   lightness: {

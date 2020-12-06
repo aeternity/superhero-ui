@@ -90,7 +90,7 @@ export default {
     commitHash: process.env.COMMIT_HASH,
     addressDeepLink: createDeepLinkUrl({
       type: 'address',
-      'x-success': `${window.location}?address={address}`,
+      'x-success': `${process.env.VUE_CLI_SSR ? 'http://superhero.com' : window.location}?address={address}`,
     }),
   }),
   computed: mapGetters(['isLoggedIn']),

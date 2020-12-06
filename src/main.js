@@ -46,6 +46,29 @@ Vue.prototype.$watchUntilTruly = function watchUntilTruly(getter) {
   });
 };
 
+if (!('$location' in Vue.prototype)) {
+  Object.defineProperty(Vue.prototype, '$location', {
+    get() {
+      if (!process.env.VUE_CLI_SSR) return new URL(window.location);
+      const { host } = this.$context.req.headers;
+      const isHttp = /^\w+:\d+$/.test(host);
+      return new URL(`http${isHttp ? '' : 's'}://${host}${this.$context.url}`);
+    },
+  });
+  Object.defineProperty(Vue.prototype, '$userAgent', {
+    get() {
+      return process.env.VUE_CLI_SSR
+        ? this.$context.req.headers['user-agent'] || ''
+        : window.navigator.userAgent;
+    },
+  });
+  Object.defineProperty(Vue.prototype, '$isMobileDevice', {
+    get() {
+      return this.$userAgent.includes('Mobi');
+    },
+  });
+}
+
 registerModals();
 
 export default () => {

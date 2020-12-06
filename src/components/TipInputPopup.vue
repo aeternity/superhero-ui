@@ -38,7 +38,7 @@
 <script>
 import { createPopper } from '@popperjs/core';
 import { mapState, mapGetters } from 'vuex';
-import { shiftDecimalPlaces } from '../utils';
+import { shiftDecimalPlaces, ElementType } from '../utils';
 import Input from './Input.vue';
 import AeInputAmount from './AeInputAmount.vue';
 import AeButton from './AeButton.vue';
@@ -53,7 +53,7 @@ export default {
   },
   props: {
     resolve: { type: Function, required: true },
-    reference: { type: Element, required: true },
+    reference: { type: ElementType, required: true },
     tip: { type: Object, default: null },
     tipUrl: { type: String, required: true },
   },

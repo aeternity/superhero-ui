@@ -28,7 +28,7 @@ export default {
   computed: {
     isLinkOnSameHost() {
       return (typeof this.to === 'object' && !(this.to instanceof URL))
-        || (new URL(this.to, window.location)).host === window.location.host;
+        || (new URL(this.to, this.$location)).host === this.$location.host;
     },
     routerLinkTo() {
       if (this.toRelative) {

@@ -22,6 +22,7 @@
 import { mapState } from 'vuex';
 import { createPopper } from '@popperjs/core';
 import Backend from '../utils/backend';
+import { ElementType } from '../utils';
 import backendAuthMixin from '../utils/backendAuthMixin';
 import Menu from './Menu.vue';
 import ButtonPlain from './ButtonPlain.vue';
@@ -31,7 +32,7 @@ export default {
   mixins: [backendAuthMixin(true)],
   props: {
     resolve: { type: Function, required: true },
-    reference: { type: Element, required: true },
+    reference: { type: ElementType, required: true },
     id: { type: String, required: true },
     url: { type: String, default: '' },
     type: { type: String, required: true },

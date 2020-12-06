@@ -33,6 +33,7 @@
 <script>
 import { createPopper } from '@popperjs/core';
 import { mapState } from 'vuex';
+import { ElementType } from '../utils';
 import ButtonPlain from './ButtonPlain.vue';
 import CookieImg from '../assets/cookieImg.svg?icon-component';
 import IconCancel from '../assets/iconCancel.svg?icon-component';
@@ -41,7 +42,7 @@ export default {
   components: { ButtonPlain, CookieImg, IconCancel },
   props: {
     resolve: { type: Function, required: true },
-    reference: { type: Element, required: true },
+    reference: { type: ElementType, required: true },
     scope: { type: String, required: true },
   },
   computed: mapState(['address']),

@@ -13,12 +13,13 @@
 <script>
 import { debounce } from 'lodash-es';
 import { createPopper } from '@popperjs/core';
+import { ElementType } from '../utils';
 import UserInfo from './UserInfo.vue';
 
 export default {
   components: { UserInfo },
   props: {
-    reference: { type: Element, required: true },
+    reference: { type: ElementType, required: true },
     address: { type: String, required: true },
     resolve: { type: Function, required: true },
   },

@@ -149,7 +149,7 @@ export default {
       title,
       meta: [
         { property: 'og:image', content: image },
-        { property: 'og:url', content: window.location.href.split('?')[0] },
+        { property: 'og:url', content: this.$location.href.split('?')[0] },
         { property: 'og:title', content: `Superhero ${title}` },
         { property: 'og:description', content: description },
         { property: 'og:site_name', content: 'Superhero' },

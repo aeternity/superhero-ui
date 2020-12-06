@@ -86,12 +86,17 @@ export default {
   data: () => ({
     version: process.env.npm_package_version,
     commitHash: process.env.COMMIT_HASH,
-    addressDeepLink: createDeepLinkUrl({
-      type: 'address',
-      'x-success': `${window.location}?address={address}`,
-    }),
   }),
-  computed: mapGetters(['isLoggedIn']),
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+    addressDeepLink() {
+      return createDeepLinkUrl({
+        type: 'address',
+        'x-success': `${this.$location}?address={address}`,
+        'x-cancel': this.$location,
+      });
+    },
+  },
 };
 </script>
 

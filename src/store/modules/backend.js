@@ -145,6 +145,7 @@ export default {
         type: 'sign-message',
         message: challenge,
         'x-success': `${url}?method=${method}&address=${address}&challenge=${challenge}&signature={signature}`,
+        'x-cancel': url,
       });
     },
     async sendComment(
@@ -153,7 +154,7 @@ export default {
     ) {
       if (!useSdkWallet) {
         window.location = createDeepLinkUrl({
-          type: 'comment', id: tipId, text, parentId,
+          type: 'comment', id: tipId, text, parentId, callbackUrl: window.location,
         });
         return;
       }

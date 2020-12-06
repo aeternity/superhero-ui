@@ -10,7 +10,6 @@
 </template>
 <script>
 import { BrowserWindowMessageConnection } from '@aeternity/aepp-sdk';
-import { IS_MOBILE_DEVICE } from '../utils';
 import Loading from '../components/Loading.vue';
 
 export default {
@@ -28,6 +27,17 @@ export default {
       this.jitsi.dispose();
       this.initJitsi();
     },
+  },
+  created() {
+    if (this.$isMobileDevice) {
+      const url = `https://${process.env.VUE_APP_JITSI_HOST}/${this.room || ''}`;
+      // TODO: Remove after solving https://github.com/universal-vue/uvue/pull/64
+      if (this.$context.isClient) {
+        window.location = url;
+        return;
+      }
+      this.$redirect(url, 302);
+    }
   },
   async mounted() {
     this.initJitsi();
@@ -55,7 +65,7 @@ export default {
         height: '100%',
         roomName: this.room,
         configOverwrite: {
-          disableDeepLinking: IS_MOBILE_DEVICE,
+          disableDeepLinking: this.$isMobileDevice,
         },
         onload: () => {
           this.loading = false;

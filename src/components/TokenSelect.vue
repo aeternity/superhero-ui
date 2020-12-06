@@ -26,6 +26,7 @@
 <script>
 import { createPopper } from '@popperjs/core';
 import { mapState, mapGetters } from 'vuex';
+import { ElementType } from '../utils';
 import Menu from './Menu.vue';
 import ButtonPlain from './ButtonPlain.vue';
 import TokenAvatarAndSymbol from './fungibleTokens/TokenAvatarAndSymbol.vue';
@@ -40,7 +41,7 @@ export default {
   },
   props: {
     resolve: { type: Function, required: true },
-    reference: { type: Element, required: true },
+    reference: { type: ElementType, required: true },
     tokens: { type: Array, required: true },
     notSelectable: Boolean,
     inEnd: Boolean,

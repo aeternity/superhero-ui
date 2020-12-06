@@ -7,7 +7,7 @@ import { createDeepLinkUrl } from '../../utils';
 
 export default {
   namespaced: true,
-  state: {
+  state: () => ({
     tips: {},
     tipsPageCount: {},
     tipsReloading: {},
@@ -18,7 +18,7 @@ export default {
     comment: {},
     stats: null,
     prices: {},
-  },
+  }),
   getters: {
     minTipAmount: ({ prices: { usd } }) => 0.01 / usd,
   },

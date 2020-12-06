@@ -11,7 +11,7 @@ import Backend from '../utils/backend';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+export default () => new Vuex.Store({
   state: {
     address: null,
     balance: 0,

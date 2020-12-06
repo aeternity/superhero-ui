@@ -188,11 +188,13 @@ const routes = [
   },
 ];
 
-const router = new Router({ mode: 'history', routes });
+export default () => {
+  const router = new Router({ mode: 'history', routes });
 
-router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} - Superhero.com`;
-  next();
-});
+  router.beforeEach((to, from, next) => {
+    document.title = `${to.meta.title} - Superhero.com`;
+    next();
+  });
 
-export default router;
+  return router;
+};

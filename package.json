@@ -11,6 +11,9 @@
     "lint:vue:fix": "vue-cli-service lint --fix",
     "lint:css": "stylelint src/**/*.{css,scss,vue}",
     "lint": "npm run lint:vue && npm run lint:css",
+    "ssr:build": "vue-cli-service ssr:build",
+    "ssr:serve": "vue-cli-service ssr:serve",
+    "ssr:start": "cross-env NODE_ENV=production vue-cli-service ssr:serve --mode production",
     "test": "npm run lint && npm run test:unit",
     "test:withe2e": "npm run lint && npm run test:unit && npm run test:e2e -- --headless"
   },
@@ -35,10 +38,12 @@
     "vue": "^2.6.12",
     "vue-i18n": "^8.21.1",
     "vue-router": "^3.4.5",
+    "vue-server-renderer": "^2.6.0",
     "vuex": "^3.5.1",
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "@akryum/vue-cli-plugin-ssr": "~0.6.0",
     "@vue/cli-plugin-babel": "~4.2.0",
     "@vue/cli-plugin-e2e-cypress": "~4.2.0",
     "@vue/cli-plugin-eslint": "~4.2.0",

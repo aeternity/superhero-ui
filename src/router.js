@@ -141,4 +141,4 @@ const routes = [
   },
 ];
 
-export default new Router({ mode: 'history', routes });
+export default () => new Router({ mode: 'history', routes });

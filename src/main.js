@@ -8,8 +8,8 @@ import VueMeta from 'vue-meta';
 import VueTimeago from 'vue-timeago';
 import formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import App from './App.vue';
-import store from './store';
-import router from './router';
+import createStore from './store';
+import createRouter from './router';
 import i18n from './utils/i18nHelper';
 import registerModals from './views/modals';
 
@@ -41,12 +41,17 @@ Vue.prototype.$watchUntilTruly = function watchUntilTruly(getter) {
 };
 
 registerModals();
-sync(store, router);
 
-export default new Vue({
-  el: '#app',
-  store,
-  router,
-  i18n,
-  render: (h) => h(App),
-}).$mount('#app');
+export default () => {
+  const store = createStore();
+  const router = createRouter();
+
+  sync(store, router);
+
+  return new Vue({
+    store,
+    router,
+    i18n,
+    render: (h) => h(App),
+  });
+};

@@ -7,12 +7,17 @@ import { defer } from 'lodash-es';
 import VueMeta from 'vue-meta';
 import VueTimeago from 'vue-timeago';
 import formatDistanceStrict from 'date-fns/formatDistanceStrict';
+import fetch from 'node-fetch';
 import App from './App.vue';
 import createStore from './store';
 import setupClientState from './store/plugins/setupClientState';
 import createRouter from './router';
 import i18n from './utils/i18nHelper';
 import registerModals from './views/modals';
+
+if (process.env.VUE_CLI_SSR) {
+  global.fetch = fetch;
+}
 
 Vue.use(VueRouter);
 Vue.use(VueMeta);

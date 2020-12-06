@@ -8,8 +8,8 @@ import VueMeta from 'vue-meta';
 import VueTimeago from 'vue-timeago';
 import formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import App from './App.vue';
-import store from './store';
-import router from './router';
+import createStore from './store';
+import createRouter from './router';
 import i18n from './utils/i18nHelper';
 import registerModals from './views/modals';
 
@@ -41,21 +41,26 @@ Vue.prototype.$watchUntilTruly = function watchUntilTruly(getter) {
 };
 
 registerModals();
-sync(store, router);
 
-store.watch(
-  ({ isBackendLive }) => isBackendLive,
-  async (isBackendLive) => {
-    const targetRouteName = isBackendLive ? 'feed' : 'maintenance';
-    if (router.currentRoute.name === targetRouteName) return;
-    await router.push({ name: targetRouteName });
-  },
-);
+export default () => {
+  const store = createStore();
+  const router = createRouter();
 
-export default new Vue({
-  el: '#app',
-  store,
-  router,
-  i18n,
-  render: (h) => h(App),
-}).$mount('#app');
+  sync(store, router);
+
+  store.watch(
+    ({ isBackendLive }) => isBackendLive,
+    async (isBackendLive) => {
+      const targetRouteName = isBackendLive ? 'feed' : 'maintenance';
+      if (router.currentRoute.name === targetRouteName) return;
+      await router.push({ name: targetRouteName });
+    },
+  );
+
+  return new Vue({
+    store,
+    router,
+    i18n,
+    render: (h) => h(App),
+  });
+};

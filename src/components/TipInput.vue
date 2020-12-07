@@ -38,6 +38,12 @@
         >
           {{ $t('components.TipInput.error') }}
         </div>
+        <div
+          v-if="v1TipWarning"
+          class="error"
+        >
+          {{ $t('components.TipInput.v1TipWarning') }}
+        </div>
         <form @submit.prevent="sendTip">
           <div class="input-group">
             <!-- TODO: Remove this wrapper after removing bootstrap -->
@@ -54,7 +60,7 @@
               v-model="inputValue"
               :select-token-f="(token) => inputToken = token"
             />
-            <AeButton :disabled="!isValid">
+            <AeButton :disabled="!isValid || v1TipWarning">
               {{ tip ? $t('retip') : $t('tip') }}
             </AeButton>
           </div>
@@ -115,8 +121,8 @@ export default {
         };
       },
     }),
-    isTokenTipable() {
-      return this.tip.id.split('_')[1] === 'v2';
+    v1TipWarning() {
+      return this.tip.id.split('_')[1] === 'v1' && this.inputToken !== 'native';
     },
     tipUrl() {
       if (this.comment) {

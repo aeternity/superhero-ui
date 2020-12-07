@@ -4,13 +4,15 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { sync } from 'vuex-router-sync';
 import { defer } from 'lodash-es';
+import VueMeta from 'vue-meta';
 import App from './App.vue';
 import store from './store';
 import router from './router';
 import i18n from './utils/i18nHelper';
 import registerModals from './views/modals';
 
-Vue.use(VueRouter);
+const PLUGINS = [VueRouter, VueMeta];
+PLUGINS.forEach((plugin) => Vue.use(plugin));
 
 Vue.config.productionTip = false;
 

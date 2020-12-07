@@ -110,6 +110,14 @@ export default {
       await this.reloadUserData();
     },
   },
+  metaInfo() {
+    return {
+      // default title
+      title: 'Superhero.com',
+      // will be injected into page meta
+      titleTemplate: `${this.$route.meta.title} | Superhero.com`,
+    };
+  },
 };
 </script>
 

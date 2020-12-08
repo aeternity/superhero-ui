@@ -23,6 +23,14 @@
   </div>
 </template>
 
+<script>
+export default {
+  metaInfo: {
+    title: 'Mission Page',
+  },
+};
+</script>
+
 <style lang="scss" scoped>
 .mission-page {
   background-image: url('../assets/Mission.jpg');

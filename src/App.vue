@@ -110,6 +110,9 @@ export default {
       await this.reloadUserData();
     },
   },
+  metaInfo: {
+    titleTemplate: '%s - Superhero.com',
+  },
 };
 </script>
 

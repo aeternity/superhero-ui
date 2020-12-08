@@ -5,6 +5,14 @@
   />
 </template>
 
+<script>
+export default {
+  metaInfo: {
+    title: 'Superhero League',
+  },
+};
+</script>
+
 <style lang="scss" scoped>
 .league {
   border: none;

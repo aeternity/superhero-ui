@@ -26,6 +26,9 @@ export default {
     getI18nPath,
     isTitle,
   },
+  metaInfo: {
+    title: 'Terms of service',
+  },
 };
 </script>
 

@@ -1,27 +1,37 @@
 <template>
-  <!-- eslint-disable vue-i18n/no-raw-text -->
-  <div class="input-group mb-2">
-    <input
-      v-model="newWord"
-      class="form-control"
-    >
-    <OutlinedButton
-      class="green"
-      @click="createWordSale"
-    >
-      <Loading
-        v-if="loadingState"
-        small
-        class="p-0"
+  <div>
+    <!-- eslint-disable vue-i18n/no-raw-text -->
+    <div class="steps">
+      <div
+        v-for="i in 5"
+        :key="i"
+        class="step"
+        :class="{ active: step >= i }"
       />
-      <span v-else>+</span>
-    </OutlinedButton>
-    <Modal
-      v-if="createProgressText"
-      @close="createProgressText = null"
-    >
-      {{ createProgressText }}
-    </Modal>
+    </div>
+    <div class="input-group mb-2">
+      <input
+        v-model="newWord"
+        class="form-control"
+      >
+      <OutlinedButton
+        class="green"
+        @click="createWordSale"
+      >
+        <Loading
+          v-if="loadingState"
+          small
+          class="p-0"
+        />
+        <span v-else>+</span>
+      </OutlinedButton>
+      <Modal
+        v-if="createProgressText"
+        @close="createProgressText = null"
+      >
+        {{ createProgressText }}
+      </Modal>
+    </div>
   </div>
 </template>
 
@@ -47,6 +57,7 @@ export default {
   data: () => ({
     newWord: '',
     loadingState: false,
+    step: 1,
     createProgressText: null,
   }),
   methods: {
@@ -82,6 +93,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.steps {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  .step {
+    height: 0.8rem;
+
+    background: #0F0F0F;
+    /* SH Neo UIBG1 */
+
+    border: 1px solid #0F0F0F;
+    box-sizing: border-box;
+    box-shadow: inset -2px 3px 6px rgba(0, 0, 0, 0.25);
+
+    border-radius: 6px;
+
+    /* Inside Auto Layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+    margin: 16px 0px;
+
+    &.active {
+      background: $custom_links_color;
+      box-shadow: inset 0 0 6px 1px rgba(red($custom_links_color), green($custom_links_color), blue($custom_links_color), 0.4);
+    }
+  }
+}
 
 .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
   background-color: $article_content_color;

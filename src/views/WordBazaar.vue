@@ -11,53 +11,33 @@
       :tabs="ribbonTabs"
     />
 
-    <TabBar
-      v-model="activeTab"
-      :tabs="tabs"
-    />
+    <template v-if="activity === 'assets'">
+      <TabBar
+        v-model="activeTab"
+        :tabs="tabs"
+      />
 
-    <div class="input-group mb-2 d-none">
-      <input
-        v-model="newWord"
-        class="form-control"
-      >
-      <OutlinedButton
-        class="green"
-        @click="createWordSale"
-      >
-        <Loading
-          v-if="loadingState && wordRegistryState !== null"
-          small
-          class="p-0"
-        />
-        <span v-else>+</span>
-      </OutlinedButton>
-      <Modal
-        v-if="createProgressText"
-        @close="createProgressText = null"
-      >
-        {{ createProgressText }}
-      </Modal>
-    </div>
+      <WordListing heading />
 
-    <WordListing heading />
+      <Loading
+        v-if="wordRegistryState === null"
+        above-content
+      />
 
-    <Loading
-      v-if="loadingState && wordRegistryState === null"
-      above-content
-    />
-
-    <div v-else>
-      <div
-        v-for="[word, sale] in wordRegistryState && wordRegistryState.tokens"
-        :key="word"
-      >
-        <WordListing
-          :word="word"
-          :sale="sale"
-        />
+      <div v-else>
+        <div
+          v-for="[word, sale] in wordRegistryState && wordRegistryState.tokens"
+          :key="word"
+        >
+          <WordListing
+            :word="word"
+            :sale="sale"
+          />
+        </div>
       </div>
-    </div>
+    </template>
+
+    <CreateToken v-if="activity === 'create'" />
   </div>
 </template>
 
@@ -66,12 +46,10 @@ import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import WordListing from '../components/WordListing.vue';
 import Loading from '../components/Loading.vue';
-import OutlinedButton from '../components/OutlinedButton.vue';
-import { EventBus } from '../utils/eventBus';
-import Modal from '../components/Modal.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
+import CreateToken from '../components/CreateToken.vue';
 import IconHelp2 from '../assets/iconHelp2.svg?icon-component';
 import IconTokens from '../assets/iconTokens.svg?icon-component';
 import IconPlus from '../assets/iconPlus.svg?icon-component';
@@ -82,29 +60,26 @@ export default {
   components: {
     WordListing,
     Loading,
-    OutlinedButton,
-    Modal,
     BackButtonRibbon,
     ActivityRibbon,
     TabBar,
+    CreateToken,
   },
   data: () => ({
-    newWord: '',
-    words: [],
     wordRegistryState: null,
-    selectedWord: null,
-    selectedWordContract: null,
-    buyAmount: 0,
-    sellAmount: 0,
-    spread: 0,
-    votes: null,
-    newVotePayout: '',
-    loadingState: true,
-    createProgressText: null,
     activity: 'assets',
     activeTab: 'all',
-    ribbonTabs: [{ icon: IconTokens, text: 'Assets', activity: 'assets' }, { icon: IconPlus, text: 'Create token', activity: 'create' }, { icon: IconAe, text: 'Get AE', activity: 'getae' }, { icon: IconHelp2, text: 'How it works', activity: 'how' }],
-    tabs: [{ text: 'All tokens', tab: 'all' }, { text: 'Trending', tab: 'trending' }, { text: 'Recent', tab: 'recent' }],
+    ribbonTabs: [
+      { icon: IconTokens, text: 'Assets', activity: 'assets' },
+      { icon: IconPlus, text: 'Create token', activity: 'create' },
+      { icon: IconAe, text: 'Get AE', activity: 'getae' },
+      { icon: IconHelp2, text: 'How it works', activity: 'how' },
+    ],
+    tabs: [
+      { text: 'All tokens', tab: 'all' },
+      { text: 'Trending', tab: 'trending' },
+      { text: 'Recent', tab: 'recent' },
+    ],
   }),
   computed: {
     ...mapState(['address']),
@@ -114,37 +89,7 @@ export default {
   },
   methods: {
     async updateWords() {
-      this.loadingState = true;
       this.wordRegistryState = await Backend.getWordRegistry();
-      this.loadingState = false;
-      this.newWord = '';
-    },
-    async createWordSale() {
-      this.loadingState = true;
-      this.createProgressText = `Please confirm popup 1 of 5\n\n Creating Bonding Curve Contract for sale of ${this.newWord} Tokens`;
-      const bondingCurve = await this.$store.dispatch('deployBondingCurve');
-      this.createProgressText = `Please confirm popup 2 of 5\n\n Creating Token Sale Contract for ${this.newWord} Tokens`;
-      const tokenSaleAddress = await this.$store.dispatch('deployTokenSaleContract',
-        20, bondingCurve.deployInfo.address);
-
-      this.createProgressText = `Please confirm popup 3 of 5\n\n Creating ${this.newWord} Token Contract`;
-      const fungibleTokenAddress = await this.$store.dispatch('deployFungibleTokenContract', `${this.newWord} Token`, 18, this.newWord,
-        tokenSaleAddress.replace('ct_', 'ak_'));
-
-      this.addToken(fungibleTokenAddress);
-      this.createProgressText = `Please confirm popup 4 of 5\n\n Registering ${this.newWord} Token for sale`;
-      await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'set_token', fungibleTokenAddress);
-      this.createProgressText = `Please confirm popup 5 of 5\n\n Adding Token Sale for ${this.newWord} to Word Bazaar`;
-
-      await this.$store.dispatch('wordRegistryAddToken', tokenSaleAddress);
-      await Backend.invalidateWordRegistryCache();
-
-      await this.updateWords();
-      this.createProgressText = null;
-    },
-    async addToken(address) {
-      await Backend.addToken(address);
-      EventBus.$emit('reloadData');
     },
   },
 };
@@ -158,14 +103,5 @@ a {
 
 h2 {
   margin-top: 1rem;
-}
-
-.not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
-  background-color: $article_content_color;
-  border-radius: 0.5rem;
-  margin: 0 -33rem;
-  white-space: pre-line;
-  padding: 1rem;
-  width: 34rem;
 }
 </style>

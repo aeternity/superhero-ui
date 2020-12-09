@@ -506,7 +506,8 @@
       "tipUser": "Tip User",
       "totalTipsWithYou": "Total tips (you tipped too)",
       "totalTips": "Total tips (click to retip the same URL)",
-      "tipComment": "Tip Comment"
+      "tipComment": "Tip Comment",
+      "v1TipWarning": "This post could not receive fungible tokens"
     },
     "TipsPagination": {
       "NoResultsMsg": "There are no results found"

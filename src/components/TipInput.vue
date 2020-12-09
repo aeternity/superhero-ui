@@ -8,19 +8,24 @@
       @click="useSdkWallet && (showModal = true)"
     >
       <img :src="iconTip">
-      <template v-if="!userAddress">
-        <AeAmountFiat
-          v-if="!tipUrlStats.tokenTotalAmount.length || +tipUrlStats.totalAmountAe !== 0"
-          :amount="tipUrlStats.totalAmountAe"
-        />
-        <AeAmountFiat
-          v-for="tokenTip in tipUrlStats.tokenTotalAmount"
-          :key="tokenTip.token"
-          :amount="tokenTip.amount"
-          :token="tokenTip.token"
-        />
-      </template>
+      <AeAmountFiat
+        v-if="!userAddress
+          && (!tipUrlStats.tokenTotalAmount.length || +tipUrlStats.totalAmountAe !== 0)"
+        :amount="tipUrlStats.totalAmountAe"
+      />
     </Component>
+    <Dropdown
+      v-if="!userAddress && tipUrlStats && tipUrlStats.tokenTotalAmount.length"
+      v-slot="{ option }"
+      :options="tipUrlStats.tokenTotalAmount"
+      show-right
+    >
+      <AeAmountFiat
+        :key="option.token"
+        :amount="option.amount"
+        :token="option.token"
+      />
+    </Dropdown>
     <Modal
       v-if="showModal"
       @close="hideModal"
@@ -32,6 +37,12 @@
           class="error"
         >
           {{ $t('components.TipInput.error') }}
+        </div>
+        <div
+          v-if="v1TipWarning"
+          class="error"
+        >
+          {{ $t('components.TipInput.v1TipWarning') }}
         </div>
         <form @submit.prevent="sendTip">
           <div class="input-group">
@@ -49,7 +60,7 @@
               v-model="inputValue"
               :select-token-f="(token) => inputToken = token"
             />
-            <AeButton :disabled="!isValid">
+            <AeButton :disabled="!isValid || v1TipWarning">
               {{ tip ? $t('retip') : $t('tip') }}
             </AeButton>
           </div>
@@ -72,6 +83,7 @@ import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
+import Dropdown from './Dropdown.vue';
 import Modal from './Modal.vue';
 
 export default {
@@ -81,6 +93,7 @@ export default {
     AeButton,
     AeAmountFiat,
     Modal,
+    Dropdown,
   },
   props: {
     tip: { type: Object, default: null },
@@ -108,8 +121,8 @@ export default {
         };
       },
     }),
-    isTokenTipable() {
-      return this.tip.id.split('_')[1] === 'v2';
+    v1TipWarning() {
+      return this.tip.id.split('_')[1] === 'v1' && this.inputToken !== 'native';
     },
     tipUrl() {
       if (this.comment) {
@@ -125,7 +138,8 @@ export default {
         ? { type: 'retip', id: this.tip.id } : { type: 'tip', url: this.tipUrl });
     },
     isValid() {
-      return (this.tip || this.message.trim().length > 0) && this.inputValue > this.minTipAmount;
+      return (this.tip || this.message.trim().length > 0)
+        && (this.inputToken !== 'native' || this.inputValue > this.minTipAmount);
     },
     iconTip() {
       if (this.userAddress) return iconTipUser;
@@ -206,7 +220,7 @@ export default {
     }
   }
 
-  .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
+  .not-bootstrap-modal > ::v-deep .not-bootstrap-modal-content {
     background-color: $article_content_color;
     border-radius: 0.5rem;
     margin-top: 0.25rem;

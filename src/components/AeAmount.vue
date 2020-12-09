@@ -7,9 +7,7 @@
 </template>
 
 <script>
-import BigNumber from 'bignumber.js';
-import { mapState } from 'vuex';
-import { atomsToAe, shiftDecimalPlaces } from '../utils';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -19,6 +17,7 @@ export default {
     token: { type: String, default: null },
   },
   computed: {
+    ...mapGetters(['roundedTokenAmount']),
     ...mapState({
       amountTokenInfo({ tokenInfo }) {
         return this.token ? tokenInfo[this.token] : null;
@@ -28,12 +27,7 @@ export default {
       return this.amountTokenInfo ? this.amountTokenInfo.symbol : null;
     },
     roundedAmount() {
-      const aeOrAettos = this.aettos ? atomsToAe(this.amount) : this.amount;
-      const aeTokenAmount = this.amountTokenInfo
-        ? shiftDecimalPlaces(this.amount, -this.amountTokenInfo.decimals)
-        : aeOrAettos;
-
-      return new BigNumber(aeTokenAmount).toFixed(this.round);
+      return this.roundedTokenAmount(this.amount, this.token, this.round, this.aettos);
     },
   },
 };

@@ -15,17 +15,6 @@
       @input="$emit('input', $event.target.value)"
     >
     <div
-      v-if="tokenTipable"
-      class="input-group-append"
-    >
-      <Dropdown
-        :options="selectTokenOptions"
-        :selected="selectedToken"
-        :method="selectToken"
-      />
-    </div>
-    <div
-      v-if="selectedToken === 'native'"
       class="input-group-append"
     >
       <span
@@ -34,29 +23,46 @@
       >
         <!-- eslint-disable vue-i18n/no-raw-text -->
         <span
-          v-if="!tokenTipable"
-          class="ae"
+          class="symbol"
         >
-          AE
-        </span>&nbsp;
+          {{ tokenTipable && selectedToken !== 'native' ? tokenInfo[selectedToken].symbol : 'AE' }}
+        </span>
         <!-- eslint-enable vue-i18n/no-raw-text -->
         <FiatValue
-          display-symbol
-          :amount="value.toString()"
+          :amount="!tokenTipable || selectedToken === 'native' ? value.toString() : '0'"
         />
       </span>
+      <Dropdown
+        v-if="tokenTipable"
+        :options="selectTokenOptions"
+        :selected="selectedToken"
+        :method="selectToken"
+        show-right
+      >
+        <template v-slot="{ option }">
+          <div class="token-option">
+            <TokenAvatarAndSymbol :address="option.token" />
+            <span class="tokens-amount">{{ showTokenAmount(option.balance, option.token) }}</span>
+            &nbsp;
+            <FiatValue
+              :amount="option.token === 'native' ? option.balance.toString() : '0'"
+            />
+          </div>
+        </template>
+      </Dropdown>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import FiatValue from './FiatValue.vue';
 import Dropdown from './Dropdown.vue';
+import TokenAvatarAndSymbol from './fungibleTokens/TokenAvatarAndSymbol.vue';
 
 export default {
   components: {
-    Dropdown, FiatValue,
+    Dropdown, FiatValue, TokenAvatarAndSymbol,
   },
   props: {
     min: { type: Number, default: 0 },
@@ -70,10 +76,12 @@ export default {
     selectedToken: 'native',
   }),
   computed: {
+    ...mapGetters(['roundedTokenAmount']),
+    ...mapState(['tokenInfo']),
     ...mapState({
-      selectTokenOptions: ({ tokenBalances, tokenInfo }) => [
-        { text: 'AE', value: 'native' },
-        ...tokenBalances.map(({ token }) => ({ text: tokenInfo[token].symbol, value: token })),
+      selectTokenOptions: ({ tokenBalances, balance }) => [
+        { token: 'native', balance },
+        ...tokenBalances,
       ],
     }),
     tokenTipable() {
@@ -82,8 +90,11 @@ export default {
   },
   methods: {
     selectToken(selected) {
-      this.selectedToken = selected;
+      this.selectedToken = selected.token;
       this.selectTokenF(this.selectedToken);
+    },
+    showTokenAmount(amount, token) {
+      return this.roundedTokenAmount(amount, token);
     },
   },
 };
@@ -96,14 +107,14 @@ export default {
 
   .input-group-append {
     max-width: 65%;
+    background: $buttons_background;
+    align-items: center;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
   }
 
   .input-group-text {
     display: block;
-
-    span {
-      vertical-align: sub;
-    }
   }
 
   &:focus-within {
@@ -124,8 +135,37 @@ export default {
     background: $buttons_background;
     cursor: default;
 
-    .ae {
+    .symbol {
       color: $secondary_color;
+    }
+  }
+
+  .token-option {
+    display: flex;
+    align-items: center;
+    min-width: 12rem;
+    max-width: 15rem;
+
+    > div:first-child {
+      flex-grow: 1;
+    }
+  }
+
+  .tokens-amount {
+    color: $tip-note-color;
+  }
+
+  .dropdown::v-deep {
+    border-radius: 50%;
+
+    > button {
+      background-color: transparent;
+      height: 2.1rem;
+      margin-left: -0.8rem;
+    }
+
+    .not-bootstrap-modal-content {
+      margin-top: 0.25rem;
     }
   }
 }

@@ -92,10 +92,13 @@ export default {
   computed: {
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState(['useSdkWallet', 'tokenInfo']),
+    isTipAmountValid() {
+      return this.inputToken !== 'native' || (this.sendTipForm.amount > this.minTipAmount);
+    },
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
-      return this.sendTipForm.amount > this.minTipAmount
+      return this.isTipAmountValid
           && this.sendTipForm.url.length > 0
           && this.sendTipForm.title.length > 0
           && urlRegex.test(this.sendTipForm.url)

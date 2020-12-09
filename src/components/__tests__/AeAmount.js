@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
 
 describe('AeAmount', () => {
@@ -34,6 +35,7 @@ describe('AeAmount', () => {
     const wrapper = shallowMount(AeAmount, {
       computed: {
         amountTokenInfo: () => null,
+        roundedTokenAmount: () => (amount, _, round = 2) => new BigNumber(amount).toFixed(round),
       },
       propsData: {
         amount: test.amount,

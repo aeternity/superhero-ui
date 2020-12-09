@@ -1,7 +1,7 @@
 <template>
   <img
     class="avatar"
-    :src="error ? profileIdenticonUrl : profileImageUrl"
+    :src="showIdenticonOnly || error ? profileIdenticonUrl : profileImageUrl"
     loading="lazy"
     @error="error = true"
   >
@@ -20,6 +20,7 @@ jdenticon.config = IDENTICON_CONFIG;
 export default {
   props: {
     address: { type: String, default: '' },
+    showIdenticonOnly: { type: Boolean },
   },
   data: () => ({
     error: false,

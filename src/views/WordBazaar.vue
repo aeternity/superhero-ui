@@ -72,8 +72,10 @@ import Modal from '../components/Modal.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
-import IconPie from '../assets/iconPie.svg?icon-component';
-import IconInfo from '../assets/iconInfo.svg?icon-component';
+import IconHelp2 from '../assets/iconHelp2.svg?icon-component';
+import IconTokens from '../assets/iconTokens.svg?icon-component';
+import IconPlus from '../assets/iconPlus.svg?icon-component';
+import IconAe from '../assets/iconAe.svg?icon-component';
 
 export default {
   name: 'WordBazaar',
@@ -101,7 +103,7 @@ export default {
     createProgressText: null,
     activity: 'assets',
     activeTab: 'all',
-    ribbonTabs: [{ icon: IconInfo, text: 'Assets', activity: 'assets' }, { icon: IconPie, text: 'Create word', activity: 'create' }, { icon: IconPie, text: 'How it works', activity: 'how' }],
+    ribbonTabs: [{ icon: IconTokens, text: 'Assets', activity: 'assets' }, { icon: IconPlus, text: 'Create token', activity: 'create' }, { icon: IconAe, text: 'Get AE', activity: 'getae' }, { icon: IconHelp2, text: 'How it works', activity: 'how' }],
     tabs: [{ text: 'All tokens', tab: 'all' }, { text: 'Trending', tab: 'trending' }, { text: 'Recent', tab: 'recent' }],
   }),
   computed: {

@@ -9,7 +9,7 @@
         Asset
       </div>
       <div class="word-listing-column">
-        Price
+        Buy Price <IconSort />
       </div>
       <div class="word-listing-column">
         Supply
@@ -63,6 +63,7 @@ import Backend from '../utils/backend';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Loading from './Loading.vue';
 import WordBuySellButtons from './WordBuySellButtons.vue';
+import IconSort from '../assets/iconSort.svg?icon-component';
 
 export default {
   name: 'WordListing',
@@ -70,6 +71,7 @@ export default {
     WordBuySellButtons,
     AeAmountFiat,
     Loading,
+    IconSort,
   },
   props: {
     word: { type: String, default: null },
@@ -126,6 +128,7 @@ export default {
   display: flex;
 
   .asset-column {
+    font-weight: 500;
     padding-left: 1.2rem;
   }
 

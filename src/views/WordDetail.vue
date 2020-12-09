@@ -341,7 +341,7 @@ export default {
     },
     async loadVotes() {
       let votes = await Backend.getWordSaleVotesDetails(this.saleContractAddress);
-      const height = await getClient().then((client) => client.height());
+      const height = await this.$store.dispatch('getHeight');
       votes = votes.map((vote) => {
         const voterAccount = vote.voteAccounts.find(([acc]) => acc === this.address);
 

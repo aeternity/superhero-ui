@@ -54,7 +54,7 @@ const routes = [
     name: 'wordbazaar',
     component: WordBazaar,
     meta: {
-      title: 'Word Bazaar',
+      title: 'WordBazaar',
     },
     props: true,
   },

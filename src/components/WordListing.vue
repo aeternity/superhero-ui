@@ -9,7 +9,7 @@
         Asset
       </div>
       <div class="word-listing-column">
-        Buy Price <IconSort />
+        <span class="heading-text active">Buy Price</span> <IconSort />
       </div>
       <div class="word-listing-column">
         Supply
@@ -61,6 +61,7 @@
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import AeAmountFiat from './AeAmountFiat.vue';
+import AeAmount from './AeAmount.vue';
 import Loading from './Loading.vue';
 import WordBuySellButtons from './WordBuySellButtons.vue';
 import IconSort from '../assets/iconSort.svg?icon-component';
@@ -70,6 +71,7 @@ export default {
   components: {
     WordBuySellButtons,
     AeAmountFiat,
+    AeAmount,
     Loading,
     IconSort,
   },
@@ -121,11 +123,24 @@ export default {
 <style lang="scss" scoped>
 
 .word-listing {
+  .iconSort {
+    margin-top: -0.2rem;
+
+    &.asc {
+      margin-top: 0.2rem;
+      transform: rotate(180deg);
+    }
+  }
+
   font-size: 0.75rem;
   padding: 0.4rem 0;
   margin-bottom: 0.05rem;
   background-color: $light_color;
   display: flex;
+
+  .heading-text.active{
+    color: $custom_links_color;
+  }
 
   .asset-column {
     font-weight: 500;

@@ -1,43 +1,66 @@
 <template>
-  <div class="row">
-    <div class="col-md-3">
-      <RouterLink
-        class="link"
-        :to="{ name: 'word-detail', params: { word } }"
-      >
-        {{ word }}
-      </RouterLink>
+  <div>
+    <!-- eslint-disable vue-i18n/no-raw-text -->
+    <div
+      v-if="heading"
+      class="word-listing word-listing-heading"
+    >
+      <div class="word-listing-column asset-column">
+        Asset
+      </div>
+      <div class="word-listing-column">
+        Price
+      </div>
+      <div class="word-listing-column">
+        Supply
+      </div>
+      <div class="word-listing-column">
+        Market
+      </div>
     </div>
-    <div class="col-md-3">
-      <AeAmount
-        v-if="buyPrice"
-        :amount="buyPrice"
-      />
-      <Loading
-        v-else
-        :small="true"
-      />
-    </div>
-    <div class="col-md-3">
-      <AeAmount
-        v-if="totalSupply !== null && tokenAddress"
-        :amount="totalSupply"
-        :token="tokenAddress"
-      />
-      <Loading
-        v-else
-        :small="true"
-      />
-    </div>
+    <div
+      v-else
+      class="word-listing"
+    >
+      <div class="word-listing-column asset-column">
+        <RouterLink
+          class="link"
+          :to="{ name: 'word-detail', params: { word } }"
+        >
+          {{ word }}
+        </RouterLink>
+      </div>
+      <div class="word-listing-column">
+        <AeAmountFiat
+          v-if="buyPrice"
+          :amount="buyPrice"
+        />
+        <Loading
+          v-else
+          :small="true"
+        />
+      </div>
+      <div class="word-listing-column">
+        <AeAmount
+          v-if="totalSupply !== null && tokenAddress"
+          :amount="totalSupply"
+          :token="tokenAddress"
+        />
+        <Loading
+          v-else
+          :small="true"
+        />
+      </div>
 
-    <WordBuySellButtons :sale="sale" />
+      <WordBuySellButtons :sale="sale" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
-import AeAmount from './AeAmount.vue';
+import AeAmountFiat from './AeAmountFiat.vue';
 import Loading from './Loading.vue';
 import WordBuySellButtons from './WordBuySellButtons.vue';
 
@@ -45,12 +68,13 @@ export default {
   name: 'WordListing',
   components: {
     WordBuySellButtons,
-    AeAmount,
+    AeAmountFiat,
     Loading,
   },
   props: {
-    word: { type: String, required: true },
-    sale: { type: String, required: true },
+    word: { type: String, default: null },
+    sale: { type: String, default: null },
+    heading: { type: Boolean },
   },
   data: () => ({
     contract: null,
@@ -99,23 +123,43 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.link {
-  color: $secondary_color;
-  text-decoration: none;
-}
 
-h2 {
-  margin-top: 1rem;
-}
+.word-listing {
+  font-size: 0.75rem;
+  padding: 0.4rem 0;
+  margin-bottom: 0.05rem;
+  background-color: $light_color;
+  display: flex;
 
-.label {
-  color: $light_font_color;
-  font-size: 0.7rem;
-  margin-bottom: 0.5rem;
+  .asset-column {
+    padding-left: 1.2rem;
+  }
 
-  @include desktop {
-    margin-bottom: 0.4rem;
-    line-height: 0.9rem;
+  .word-listing-column {
+    flex: 0 0 25%;
+    width: 25%;
+  }
+
+  &.word-listing-heading {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .link {
+    color: $secondary_color;
+    text-decoration: none;
+  }
+
+  .word-listinglabel {
+    color: $light_font_color;
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+
+    @include desktop {
+      margin-bottom: 0.4rem;
+      line-height: 0.9rem;
+    }
   }
 }
+
 </style>

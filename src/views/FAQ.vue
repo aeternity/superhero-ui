@@ -37,6 +37,9 @@ export default {
   components: {
     ExpandableBlock,
   },
+  metaInfo: {
+    title: 'FAQ Page',
+  },
 };
 </script>
 

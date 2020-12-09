@@ -23,6 +23,9 @@ export default {
     getI18nPath,
     isTitle,
   },
+  metaInfo: {
+    title: 'Privacy policy',
+  },
 };
 </script>
 

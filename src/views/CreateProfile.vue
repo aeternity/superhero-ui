@@ -31,5 +31,8 @@ export default {
   components: {
     ExpandableBlock,
   },
+  metaInfo: {
+    title: 'Tutorial Page',
+  },
 };
 </script>

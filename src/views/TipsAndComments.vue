@@ -119,6 +119,13 @@ export default {
       }
     },
   },
+  metaInfo() {
+    const title = {
+      tip: 'Comments for a Tip',
+      comment: 'Comment View',
+    }[this.$route.name];
+    return { title };
+  },
 };
 </script>
 

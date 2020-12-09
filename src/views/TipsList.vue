@@ -63,6 +63,9 @@ export default {
   },
   computed: mapState(['tipSortBy', 'isHiddenContent']),
   methods: mapMutations(['setTipSortBy', 'setIsHiddenContent']),
+  metaInfo: {
+    title: 'Tips',
+  },
 };
 </script>
 

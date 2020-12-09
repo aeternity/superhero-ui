@@ -34,6 +34,7 @@
     "tipping-contract": "github:aeternity/tipping-contract#develop",
     "vue": "^2.6.12",
     "vue-i18n": "^8.21.1",
+    "vue-meta": "^2.4.0",
     "vue-router": "^3.4.5",
     "vuex": "^3.5.1",
     "vuex-router-sync": "^5.0.0"

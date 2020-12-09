@@ -11,3 +11,11 @@
     />
   </div>
 </template>
+
+<script>
+export default {
+  metaInfo: {
+    title: 'Tutorial Meet Page',
+  },
+};
+</script>

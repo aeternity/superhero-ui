@@ -14,6 +14,9 @@ export default {
     const interval = setInterval(() => EventBus.$emit('reloadData'), 10 * 1000);
     this.$once('hook:destroyed', () => clearInterval(interval));
   },
+  metaInfo: {
+    title: 'Maintenance',
+  },
 };
 </script>
 

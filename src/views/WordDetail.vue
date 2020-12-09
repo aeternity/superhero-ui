@@ -9,9 +9,8 @@
     </BackButtonRibbon>
 
     <ActivityRibbon
+      v-model="activity"
       :tabs="ribbonTabs"
-      :activity="activity"
-      :set="(setActivity) => activity = setActivity"
     />
 
     <div v-if="activity === 'info'">
@@ -70,9 +69,8 @@
     <div v-if="selectedWord && activity === 'voting'">
       <div class="asset_voting__section">
         <TabBar
+          v-model="activeTab"
           :tabs="tabs"
-          :active-tab="activeTab"
-          :set="(setTab) => activeTab = setTab"
         />
 
         <div
@@ -293,7 +291,7 @@ export default {
     data: null,
     newVotePayout: '',
     tokenVoting: {},
-    activity: 'voting',
+    activity: 'info',
     activeTab: 'ongoing',
     ribbonTabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Voting', activity: 'voting' }],
     tabs: [{ text: 'Ongoing Votes', tab: 'ongoing' }, { text: 'Past Votes', tab: 'past' }, { text: 'My Votes', tab: 'my' }],
@@ -515,7 +513,8 @@ h3 {
       font-size: 0.7rem;
       height: 2rem;
 
-      &:focus, &:active {
+      &:focus,
+      &:active {
         border: 0.05rem solid $secondary_color;
         box-shadow: none;
       }
@@ -569,7 +568,8 @@ h3 {
     font-size: 0.7rem;
   }
 
-  &:active, &:hover {
+  &:active,
+  &:hover {
     border: 1px solid $custom_links_color;
   }
 
@@ -581,11 +581,13 @@ h3 {
   }
 
   .vote-progress {
-    background-color: rgba(
+    background-color:
+      rgba(
         red($custom_links_color),
         green($custom_links_color),
         blue($custom_links_color),
-        0.5);
+        0.5
+      );
     font-weight: normal;
     height: 100%;
     color: $pure_white;

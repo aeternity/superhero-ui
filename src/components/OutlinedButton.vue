@@ -61,5 +61,11 @@ export default {
   &.fullwidth {
     width: 100%;
   }
+
+  &:disabled {
+    opacity: 0.4;
+    color: $tip_note_color;
+    border-color: $tip_note_color;
+  }
 }
 </style>

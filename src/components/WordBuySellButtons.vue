@@ -11,6 +11,7 @@
 
       <OutlinedButton
         class="red unpadded"
+        :disabled="tokenBalance === 0"
         @click="showSellModal = true"
       >
         <!-- eslint-disable vue-i18n/no-raw-text -->
@@ -107,6 +108,7 @@
 <script>
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import { mapState } from 'vuex';
+import BigNumber from 'bignumber.js';
 import { getClient, createOrChangeAllowance } from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
@@ -148,7 +150,7 @@ export default {
       const balance = this.tokenBalances && this.tokenAddress
         && this.tokenBalances.find((t) => t.token === this.tokenAddress);
 
-      return balance ? balance.balance : '0';
+      return new BigNumber(balance ? balance.balance : '0').toNumber();
     },
   },
   created() {

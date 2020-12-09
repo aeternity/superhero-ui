@@ -27,7 +27,7 @@
 
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
-import { initSdk, scanForWallets, tokenBalance } from './utils/aeternity';
+import { initSdk, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import { atomsToAe } from './utils';
@@ -55,10 +55,9 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setAddress', 'updateTopics', 'updateCurrencyRates',
+      'setAddress', 'updateTopics',
       'setOracleState', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
-      'addTokenPrice', 'setPinnedItems',
+      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet',
     ]),
     async reloadData() {
       const [
@@ -91,20 +90,7 @@ export default {
           const balance = await this.sdk.balance(this.address).catch(() => 0);
           this.updateBalance(atomsToAe(balance).toFixed(2));
         })(),
-        (async () => {
-          const tokens = await Backend.getTokenBalances(this.address);
-          await Promise.all(Object.entries(tokens).map(async ([token]) => {
-            this.addTokenBalance({
-              token,
-              balance: await tokenBalance(token, this.address),
-            });
-            this.addTokenPrice({
-              token,
-              price: await Backend.getWordSaleDetailsByToken(token)
-                .then((s) => s.buyPrice).catch(() => null),
-            });
-          }));
-        })(),
+        this.$store.dispatch('updateTokensBalanceAndPrice'),
       ]);
     },
     async initWallet() {

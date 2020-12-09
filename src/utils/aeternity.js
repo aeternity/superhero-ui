@@ -91,14 +91,6 @@ export const scanForWallets = async () => {
   });
 };
 
-export const tokenBalance = async (token, address) => {
-  const tokenContract = await sdk
-    .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: token });
-
-  const { decodedResult } = await tokenContract.methods.balance(address);
-  return new BigNumber(decodedResult || 0).toFixed();
-};
-
 const createOrChangeAllowance = async (tokenAddress, amount) => {
   const tokenContract = await sdk
     .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });

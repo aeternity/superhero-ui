@@ -34,8 +34,8 @@ module.exports = {
           appDescription: 'You Do Not Need A Cape To Be A Hero',
           developerName: 'Aeternity Developers',
           developerURL: 'https://github.com/kenodressel/aepp-boilerplate',
-          background: '#ff0d6a',
-          theme_color: '#ff0d6a',
+          background: '#1c1c24',
+          theme_color: '#1c1c24',
           icons: {
             coast: false,
             yandex: false,

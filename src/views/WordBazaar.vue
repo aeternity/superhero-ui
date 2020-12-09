@@ -1,10 +1,22 @@
 <template>
   <div>
     <!-- eslint-disable vue-i18n/no-raw-text -->
-    <h1>Word Bazaar Prototype</h1>
+    <BackButtonRibbon
+      title="WordBazaar"
+      hide-back
+    />
 
-    <div class="input-group mb-2">
-      <!-- eslint-disable vue/html-self-closing -->
+    <ActivityRibbon
+      v-model="activity"
+      :tabs="ribbonTabs"
+    />
+
+    <TabBar
+      v-model="activeTab"
+      :tabs="tabs"
+    />
+
+    <div class="input-group mb-2 d-none">
       <input
         v-model="newWord"
         class="form-control"
@@ -13,7 +25,6 @@
         class="green"
         @click="createWordSale"
       >
-        <!-- eslint-disable vue-i18n/no-raw-text -->
         <Loading
           v-if="loadingState && wordRegistryState !== null"
           small
@@ -29,20 +40,7 @@
       </Modal>
     </div>
 
-    <div class="row">
-      <div class="col-md-3">
-        Asset
-      </div>
-      <div class="col-md-3">
-        Price
-      </div>
-      <div class="col-md-3">
-        Supply
-      </div>
-      <div class="col-md-3">
-        Market
-      </div>
-    </div>
+    <WordListing heading />
 
     <Loading
       v-if="loadingState && wordRegistryState === null"
@@ -53,7 +51,6 @@
       <div
         v-for="[word, sale] in wordRegistryState && wordRegistryState.tokens"
         :key="word"
-        class="mb-2"
       >
         <WordListing
           :word="word"
@@ -77,6 +74,11 @@ import Loading from '../components/Loading.vue';
 import OutlinedButton from '../components/OutlinedButton.vue';
 import { EventBus } from '../utils/eventBus';
 import Modal from '../components/Modal.vue';
+import BackButtonRibbon from '../components/BackButtonRibbon.vue';
+import ActivityRibbon from '../components/ActivityRibbon.vue';
+import TabBar from '../components/TabBar.vue';
+import IconPie from '../assets/iconPie.svg?icon-component';
+import IconInfo from '../assets/iconInfo.svg?icon-component';
 
 export default {
   name: 'WordBazaar',
@@ -85,6 +87,9 @@ export default {
     Loading,
     OutlinedButton,
     Modal,
+    BackButtonRibbon,
+    ActivityRibbon,
+    TabBar,
   },
   data: () => ({
     newWord: '',
@@ -99,6 +104,10 @@ export default {
     newVotePayout: '',
     loadingState: true,
     createProgressText: null,
+    activity: 'assets',
+    activeTab: 'all',
+    ribbonTabs: [{ icon: IconInfo, text: 'Assets', activity: 'assets' }, { icon: IconPie, text: 'Create word', activity: 'create' }, { icon: IconPie, text: 'How it works', activity: 'how' }],
+    tabs: [{ text: 'All tokens', tab: 'all' }, { text: 'Trending', tab: 'trending' }, { text: 'Recent', tab: 'recent' }],
   }),
   computed: {
     ...mapState(['address']),

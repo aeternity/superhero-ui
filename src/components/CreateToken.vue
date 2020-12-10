@@ -1,36 +1,75 @@
 <template>
   <div>
     <!-- eslint-disable vue-i18n/no-raw-text -->
+    <div class="create-header">
+      <div class="create-header-content">
+        <h2>Create Your Token</h2>
+        <h3>In Less Than 5 Minutes</h3>
+      </div>
+    </div>
     <div class="steps">
       <div
         v-for="i in 5"
         :key="i"
         class="step"
-        :class="{ active: step >= i }"
-      />
-    </div>
-    <div class="input-group mb-2">
-      <input
-        v-model="newWord"
-        class="form-control"
       >
-      <OutlinedButton
-        class="green"
-        @click="createWordSale"
-      >
-        <Loading
-          v-if="loadingState"
-          small
-          class="p-0"
+        <span
+          v-if="step === i"
+          class="step-title"
+        >
+          Token info
+        </span>
+        <div
+          class="step-box"
+          :class="{ active: step >= i }"
         />
-        <span v-else>+</span>
-      </OutlinedButton>
-      <Modal
-        v-if="createProgressText"
-        @close="createProgressText = null"
-      >
-        {{ createProgressText }}
-      </Modal>
+      </div>
+    </div>
+    <div class="create-inputs input-group">
+      <div>
+        <label for="name">Tokenized asset</label>
+        <input
+          id="name"
+          v-model="name"
+          placeholder="Enter any combination of characters *"
+          class="form-control"
+          minlength="1"
+          maxlength="333"
+        >
+      </div>
+
+      <div>
+        <label for="description">Token Description</label>
+        <input
+          id="description"
+          v-model="description"
+          placeholder="Enter additional information about your token or community *"
+          class="form-control"
+          minlength="1"
+          maxlength="500"
+        >
+      </div>
+
+      <div>
+        <label for="ticker">Token short name</label>
+        <input
+          id="ticker"
+          v-model="ticker"
+          placeholder="Enter token ticker *"
+          class="form-control"
+          minlength="1"
+          maxlength="6"
+        >
+
+        <AeButton @click="createWordSale">
+          <Loading
+            v-if="loadingState"
+            small
+            class="p-0"
+          />
+          <span v-else>Create Token</span>
+        </AeButton>
+      </div>
     </div>
   </div>
 </template>
@@ -44,15 +83,13 @@ import Backend from '../utils/backend';
 import Loading from './Loading.vue';
 import { getClient } from '../utils/aeternity';
 import { EventBus } from '../utils/eventBus';
-import OutlinedButton from './OutlinedButton.vue';
-import Modal from './Modal.vue';
+import AeButton from './AeButton.vue';
 
 export default {
   name: 'WordListing',
   components: {
+    AeButton,
     Loading,
-    OutlinedButton,
-    Modal,
   },
   props: {
     word: { type: String, default: null },
@@ -60,7 +97,9 @@ export default {
     heading: { type: Boolean },
   },
   data: () => ({
-    newWord: '',
+    name: '',
+    description: '',
+    ticker: '',
     loadingState: false,
     step: 1,
     createProgressText: null,
@@ -68,31 +107,40 @@ export default {
   methods: {
     async createWordSale() {
       this.loadingState = true;
-      const bondingCurveMock = await getClient().then((client) => client
-        .getContractInstance(BONDING_CURVE_MOCK));
-      this.createProgressText = `Please confirm popup 1 of 5\n\n Creating Bonding Curve Contract for sale of ${this.newWord} Tokens`;
-      await bondingCurveMock.deploy();
-      const tokenSale = await getClient().then((client) => client
-        .getContractInstance(TOKEN_SALE_CONTRACT));
-      this.createProgressText = `Please confirm popup 2 of 5\n\n Creating Token Sale Contract for ${this.newWord} Tokens`;
-      await tokenSale.methods.init(20, bondingCurveMock.deployInfo.address, 'description');
-      const token = await getClient().then((client) => client
-        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT));
-      this.createProgressText = `Please confirm popup 3 of 5\n\n Creating ${this.newWord} Token Contract`;
-      await token.methods.init(`${this.newWord} Token`, 18, this.newWord,
-        tokenSale.deployInfo.address.replace('ct_', 'ak_'));
-      this.addToken(token.deployInfo.address);
-      this.createProgressText = `Please confirm popup 4 of 5\n\n Registering ${this.newWord} Token for sale`;
-      await tokenSale.methods.set_token(token.deployInfo.address);
-      this.createProgressText = `Please confirm popup 5 of 5\n\n Adding Token Sale for ${this.newWord} to Word Bazaar`;
+      const bondingCurveMock = await getClient()
+        .then((client) => client.getContractInstance(BONDING_CURVE_MOCK));
 
-      const wordRegistry = await getClient().then((client) => client
-        .getContractInstance(WORD_REGISTRY_CONTRACT,
+      this.step = 1;
+      // `Please confirm popup 1 of 5\n\n Creating Bonding Curve Contract for sale`;
+      await bondingCurveMock.deploy();
+      const tokenSale = await getClient()
+        .then((client) => client.getContractInstance(TOKEN_SALE_CONTRACT));
+
+      this.step = 2;
+      // `Please confirm popup 2 of 5\n\n Creating Token Sale Contract for ${this.newWord} Tokens`;
+      await tokenSale.methods.init(20, bondingCurveMock.deployInfo.address, this.description);
+      const token = await getClient()
+        .then((client) => client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT));
+
+      this.step = 3;
+      // `Please confirm popup 3 of 5\n\n Creating ${this.newWord} Token Contract`;
+      await token.methods.init(this.name, 18, this.ticker, tokenSale.deployInfo.address.replace('ct_', 'ak_'));
+      this.addToken(token.deployInfo.address);
+
+      this.step = 4;
+      // `Please confirm popup 4 of 5\n\n Registering ${this.newWord} Token for sale`;
+      await tokenSale.methods.set_token(token.deployInfo.address);
+
+      this.step = 5;
+      // `Please confirm popup 5 of 5\n\n Adding Token Sale for ${this.newWord} to Word Bazaar`;
+      const wordRegistry = await getClient()
+        .then((client) => client.getContractInstance(WORD_REGISTRY_CONTRACT,
           { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS }));
       await wordRegistry.methods.add_token(tokenSale.deployInfo.address);
       await Backend.invalidateWordRegistryCache();
 
-      this.createProgressText = null;
+      this.loadingState = false;
+      this.step = 1;
     },
     async addToken(address) {
       await Backend.addToken(address);
@@ -104,44 +152,87 @@ export default {
 
 <style lang="scss" scoped>
 
+.create-header {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/createTokenBg.svg');
+    filter: grayscale(100%);
+  }
+
+  .create-header-content {
+    padding: 1.2rem 0 2.2rem 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: $pure_white;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: normal;
+      color: $tip_note_color;
+    }
+  }
+}
+
 .steps {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 
   .step {
-    height: 0.8rem;
-
-    background: #0F0F0F;
-    /* SH Neo UIBG1 */
-
-    border: 1px solid #0F0F0F;
-    box-sizing: border-box;
-    box-shadow: inset -2px 3px 6px rgba(0, 0, 0, 0.25);
-
-    border-radius: 6px;
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 0;
     flex-grow: 1;
-    margin: 16px 0px;
+    margin: 0.8rem 0.4rem;
+    position: relative;
 
-    &.active {
-      background: $custom_links_color;
-      box-shadow: inset 0 0 6px 1px rgba(red($custom_links_color), green($custom_links_color), blue($custom_links_color), 0.4);
+    .step-title {
+      position: absolute;
+      margin-top: -1.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      z-index: 10;
+      text-align: center;
+      width: 100%;
+    }
+
+    .step-box {
+      height: 0.8rem;
+      background: $super_dark;
+      border: 1px solid $super_dark;
+      box-sizing: border-box;
+      box-shadow: inset -0.1rem 0.15rem 0.3rem rgba(0, 0, 0, 0.25);
+      border-radius: 0.3rem;
+
+      &.active {
+        background: $custom_links_color;
+        box-shadow:
+          inset 0 0 0.3rem 0.05rem
+          rgba(
+            red($custom_links_color),
+            green($custom_links_color),
+            blue($custom_links_color),
+            0.4
+          );
+      }
     }
   }
 }
 
-.not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
-  background-color: $article_content_color;
-  border-radius: 0.5rem;
-  margin: 0 -33rem;
-  white-space: pre-line;
-  padding: 1rem;
-  width: 34rem;
+.create-inputs {
+  display: flex;
+  flex-direction: column;
 }
 
 </style>

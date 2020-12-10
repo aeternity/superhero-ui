@@ -49,7 +49,7 @@ export default {
       },
       set: debounce(function set(query) {
         this.$router[this.$route.name.startsWith('tips') ? 'replace' : 'push']({
-          name: query ? 'tips-search' : 'tips', params: { query },
+          name: query ? 'feed-search' : 'tips', params: { query },
         });
       }, 300),
     },

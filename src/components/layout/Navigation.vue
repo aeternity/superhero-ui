@@ -11,9 +11,9 @@
       <img src="../../assets/headerLogo.svg">
     </RouterLink>
 
-    <RouterLink :to="{ name: 'tips' }">
+    <RouterLink :to="{ name: 'feed' }">
       <IconTips />
-      {{ $t('tips') }}
+      {{ $t('Feed') }}
     </RouterLink>
     <RouterLink :to="{ name: 'voting' }">
       <IconGovernance />

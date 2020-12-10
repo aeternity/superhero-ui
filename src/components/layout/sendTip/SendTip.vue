@@ -2,19 +2,18 @@
   <div class="send-tip tip__post">
     <div v-if="showForm">
       <div class="tip__post__label clearfix">
-        <img
+        <IconClose
           :title="$t('close')"
           class="close-sendform"
-          src="../../../assets/iconClose.svg"
           @click="toggleForm"
-        >
+        />
       </div>
       <form
         v-if="feed === 'posts'"
         @submit.prevent
       >
         <MessageInput
-          v-model="sendPostForm.title"
+          v-model="title"
           maxlength="280"
           :placeholder="$t('What are your thougts?')"
         />
@@ -34,9 +33,15 @@
         />
         <div class="mt-2 d-flex flex-row justify-content-between">
           <div class="post-actions">
-            <ButtonPlain disabled>
+            <label>
               <IconPictures />
-            </ButtonPlain>
+              <input
+                type="file"
+                name="upload-image"
+                accept="image/png, image/jpeg, image/gif"
+                @change="uploadImage($event)"
+              >
+            </label>
             <ButtonPlain disabled>
               <IconGif />
             </ButtonPlain>
@@ -129,6 +134,8 @@ import IconEmoji from '../../../assets/iconEmoji.svg?icon-component';
 import IconPoll from '../../../assets/iconPoll.svg?icon-component';
 import IconThreeDots from '../../../assets/iconThreeDots.svg?icon-component';
 import IconPosts from '../../../assets/iconPosts.svg?icon-component';
+import IconClose from '../../../assets/iconClose.svg?icon-component';
+import IconCancel from '../../../assets/iconCancel.svg?icon-component';
 
 export default {
   components: {
@@ -144,6 +151,8 @@ export default {
     IconPoll,
     IconThreeDots,
     IconPosts,
+    IconClose,
+    IconCancel,
   },
   props: { feed: { type: String, required: true } },
   data() {
@@ -243,15 +252,61 @@ export default {
         this.sendingPost = false;
       }
     },
+    async uploadImage(event) {
+      this.uploadingMedia = true;
+
+      const formData = new FormData();
+      formData.append('image', event.target.files[0]);
+      fetch('https://api.imgur.com/3/image.json', {
+        method: 'post',
+        body: formData,
+        headers: {
+          Authorization: `Client-ID ${process.env.VUE_APP_IMGUR_API_CLIENT_ID}`,
+        },
+      })
+        .then((res) => res.json())
+        .then(({ data }) => {
+          this.uploadingMedia = false;
+          this.media.push({ link: data.link, deletehash: data.deletehash });
+        })
+        .catch((e) => {
+          this.uploadingMedia = false;
+          console.error(e);
+        });
+    },
+    async deleteImage(index) {
+      this.uploadingMedia = true;
+
+      fetch(`https://api.imgur.com/3/image/${this.media[index].deletehash}`, {
+        method: 'delete',
+        headers: {
+          Authorization: `Client-ID ${process.env.VUE_APP_IMGUR_API_CLIENT_ID}`,
+        },
+      })
+        .then(() => {
+          this.uploadingMedia = false;
+          this.media.splice(index, 1);
+        })
+        .catch((e) => {
+          this.uploadingMedia = false;
+          console.error(e);
+        });
+    },
     clearPostForm() {
-      this.sendPostForm = { title: '' };
+      this.title = '';
+      this.media = [];
       this.sendingPost = false;
+      this.uploadingMedia = false;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+input[type="file"] {
+  display: none;
+}
+
 .tip__post {
   background-color: $actions_ribbon_background_color;
   max-height: 400px;
@@ -280,6 +335,46 @@ export default {
 
     .col-md-4 {
       padding-right: 0;
+    }
+  }
+
+  .media-row {
+    overflow-x: scroll;
+
+    .image-preview {
+      flex-shrink: 0;
+      height: 2.625rem;
+      width: 4rem;
+      margin-right: 0.5rem;
+      background-size: cover;
+      background-position: center;
+      border-radius: 0.25rem;
+      position: relative;
+
+      svg {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 100%;
+        background-color: $buttons_background;
+        color: $standard_font_color;
+        position: absolute;
+        right: 2px;
+        top: 2px;
+
+        &:hover {
+          cursor: pointer;
+          opacity: 0.8;
+        }
+      }
+    }
+
+    &::-webkit-scrollbar {
+      height: 0.25rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $light_font_color;
+      border-radius: 0.25rem;
     }
   }
 

@@ -144,7 +144,7 @@ export default {
   background-color: $light_color;
   display: flex;
 
-  .heading-text.active{
+  .heading-text.active {
     color: $custom_links_color;
   }
 

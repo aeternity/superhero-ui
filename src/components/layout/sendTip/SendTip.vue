@@ -15,9 +15,12 @@
         <MessageInput
           v-model="title"
           maxlength="280"
-          :placeholder="$t('What are your thougts?')"
+          :placeholder="$t('What are your thoughts?')"
         />
-        <div class="mt-2 d-flex flex-row media-row">
+        <div
+          v-if="media.length"
+          class="mt-2 d-flex flex-row media-row"
+        >
           <div
             v-for="({ link }, index) in media"
             :key="index"
@@ -42,8 +45,8 @@
                 @change="uploadImage($event)"
               >
             </label>
-            <ButtonPlain disabled>
-              <IconGif />
+            <ButtonPlain @click="showGifs = !showGifs">
+              <IconGif :class="{ active: showGifs }" />
             </ButtonPlain>
             <ButtonPlain disabled>
               <IconEmoji />
@@ -136,6 +139,7 @@ import IconThreeDots from '../../../assets/iconThreeDots.svg?icon-component';
 import IconPosts from '../../../assets/iconPosts.svg?icon-component';
 import IconClose from '../../../assets/iconClose.svg?icon-component';
 import IconCancel from '../../../assets/iconCancel.svg?icon-component';
+import GiphySearch from './GiphySearch.vue';
 
 export default {
   components: {
@@ -153,6 +157,7 @@ export default {
     IconPosts,
     IconClose,
     IconCancel,
+    GiphySearch,
   },
   props: { feed: { type: String, required: true } },
   data() {
@@ -170,6 +175,7 @@ export default {
       uploadingMedia: false,
       isBlacklistedUrl: false,
       showForm: false,
+      showGifs: false,
     };
   },
   computed: {
@@ -275,28 +281,29 @@ export default {
         });
     },
     async deleteImage(index) {
-      this.uploadingMedia = true;
+      this.media.splice(index, 1);
 
-      fetch(`https://api.imgur.com/3/image/${this.media[index].deletehash}`, {
-        method: 'delete',
-        headers: {
-          Authorization: `Client-ID ${process.env.VUE_APP_IMGUR_API_CLIENT_ID}`,
-        },
-      })
-        .then(() => {
-          this.uploadingMedia = false;
-          this.media.splice(index, 1);
+      if (this.media[index].deletehash) {
+        fetch(`https://api.imgur.com/3/image/${this.media[index].deletehash}`, {
+          method: 'delete',
+          headers: {
+            Authorization: `Client-ID ${process.env.VUE_APP_IMGUR_API_CLIENT_ID}`,
+          },
         })
-        .catch((e) => {
-          this.uploadingMedia = false;
-          console.error(e);
-        });
+          .catch((e) => {
+            console.error(e);
+          });
+      }
+    },
+    uploadGif(link) {
+      this.media.push({ link });
     },
     clearPostForm() {
       this.title = '';
       this.media = [];
       this.sendingPost = false;
       this.uploadingMedia = false;
+      this.showGifs = false;
     },
   },
 };
@@ -309,7 +316,6 @@ input[type="file"] {
 
 .tip__post {
   background-color: $actions_ribbon_background_color;
-  max-height: 400px;
 
   form {
     padding: 0.6rem 1rem 0 1rem;
@@ -340,6 +346,8 @@ input[type="file"] {
 
   .media-row {
     overflow-x: scroll;
+    scrollbar-color: $light_font_color $actions_ribbon_background_color;
+    scrollbar-width: thin;
 
     .image-preview {
       flex-shrink: 0;

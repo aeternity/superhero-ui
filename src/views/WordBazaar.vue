@@ -54,6 +54,7 @@ import IconHelp2 from '../assets/iconHelp2.svg?icon-component';
 import IconTokens from '../assets/iconTokens.svg?icon-component';
 import IconPlus from '../assets/iconPlus.svg?icon-component';
 import IconAe from '../assets/iconAe.svg?icon-component';
+import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'WordBazaar',
@@ -85,10 +86,17 @@ export default {
     ...mapState(['address']),
   },
   mounted() {
-    this.updateWords();
+    this.reloadData();
+  },
+  created() {
+    this.reloadData();
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+    setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
-    async updateWords() {
+    async reloadData() {
       this.wordRegistryState = await Backend.getWordRegistry();
     },
   },

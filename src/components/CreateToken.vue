@@ -9,7 +9,7 @@
     </div>
     <div class="steps">
       <div
-        v-for="i in 5"
+        v-for="i in 6"
         :key="i"
         class="step"
       >
@@ -104,17 +104,17 @@ export default {
       this.loadingState = true;
       const decimals = 18;
 
-      this.step = 1;
+      this.step = 2;
       // `Please confirm popup 1 of 5\n\n Creating Bonding Curve Contract for sale`;
       const bondingCurveAddress = await this.$store.dispatch('aeternity/deployBondingCurve', decimals);
 
-      this.step = 2;
+      this.step = 3;
       // `Please confirm popup 2 of 5\n\n Creating Token Sale Contract for ${this.newWord} Tokens`;
       const timeout = 20;
       const tokenSaleAddress = await this.$store.dispatch('aeternity/deployTokenSaleContract',
         { timeout, bondingCurveAddress, description: this.description });
 
-      this.step = 3;
+      this.step = 4;
       // `Please confirm popup 3 of 5\n\n Creating ${this.newWord} Token Contract`;
       const fungibleTokenAddress = await this.$store.dispatch('aeternity/deployFungibleTokenContract',
         {
@@ -123,9 +123,10 @@ export default {
           symbol: this.newWord,
           tokenSaleAddress: tokenSaleAddress.replace('ct_', 'ak_'),
         });
-      this.addToken(fungibleTokenAddress);
+      await Backend.addToken(fungibleTokenAddress);
+      EventBus.$emit('reloadData');
 
-      this.step = 4;
+      this.step = 5;
       // `Please confirm popup 4 of 5\n\n Registering ${this.newWord} Token for sale`;
       await this.$store.dispatch('aeternity/tokenSaleMethod',
         {
@@ -134,17 +135,14 @@ export default {
           args: [fungibleTokenAddress],
         });
 
-      this.step = 5;
+      this.step = 6;
       // `Please confirm popup 5 of 5\n\n Adding Token Sale for ${this.newWord} to Word Bazaar`;
       await this.$store.dispatch('aeternity/wordRegistryAddToken', tokenSaleAddress);
       await Backend.invalidateWordRegistryCache();
+      EventBus.$emit('reloadData');
 
       this.loadingState = false;
       this.step = 1;
-    },
-    async addToken(address) {
-      await Backend.addToken(address);
-      EventBus.$emit('reloadData');
     },
   },
 };

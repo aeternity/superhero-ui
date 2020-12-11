@@ -38,7 +38,7 @@ export default {
 
       const shiftAettos = this.aettos ? -18 : 0;
       const shiftBy = this.token ? -this.tokenData.decimals : shiftAettos;
-      const price = this.token ? this.tokenData.price : 1;
+      const price = this.token ? shiftDecimalPlaces(this.tokenData.price, shiftBy) : 1;
 
       const fiatValue = new BigNumber(shiftDecimalPlaces(this.amount, shiftBy))
         .multipliedBy(price).multipliedBy(this.rate)

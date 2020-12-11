@@ -28,6 +28,7 @@
             <div>
               <AeAmount
                 :amount="data.buyPrice"
+                aettos
               />
             </div>
           </div>
@@ -35,6 +36,7 @@
             <h3>Sell Price</h3>
             <AeAmount
               :amount="data.sellPrice"
+              aettos
             />
           </div>
           <div class="info-item">

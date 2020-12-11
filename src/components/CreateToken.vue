@@ -9,7 +9,7 @@
     </div>
     <div class="steps">
       <div
-        v-for="i in 5"
+        v-for="i in 6"
         :key="i"
         class="step"
       >
@@ -118,41 +118,44 @@ export default {
       const bondingCurveMock = await getClient()
         .then((client) => client.getContractInstance(BONDING_CURVE_DECIMALS));
 
-      this.step = 1;
+      const TOKEN_SALE_CONTRACT_DECIMALS = TOKEN_SALE_CONTRACT.replace(
+        'let decimals = 1',
+        `let decimals = ${shiftDecimalPlaces(1, decimals)}`,
+      );
+
+      this.step = 2;
       // `Please confirm popup 1 of 5\n\n Creating Bonding Curve Contract for sale`;
       await bondingCurveMock.deploy();
       const tokenSale = await getClient()
-        .then((client) => client.getContractInstance(TOKEN_SALE_CONTRACT));
+        .then((client) => client.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS));
 
-      this.step = 2;
+      this.step = 3;
       // `Please confirm popup 2 of 5\n\n Creating Token Sale Contract for ${this.newWord} Tokens`;
       await tokenSale.methods.init(20, bondingCurveMock.deployInfo.address, this.description);
       const token = await getClient()
         .then((client) => client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT));
 
-      this.step = 3;
+      this.step = 4;
       // `Please confirm popup 3 of 5\n\n Creating ${this.newWord} Token Contract`;
       await token.methods.init(this.name, decimals, this.ticker, tokenSale.deployInfo.address.replace('ct_', 'ak_'));
-      this.addToken(token.deployInfo.address);
+      await Backend.addToken(token.deployInfo.address);
+      EventBus.$emit('reloadData');
 
-      this.step = 4;
+      this.step = 5;
       // `Please confirm popup 4 of 5\n\n Registering ${this.newWord} Token for sale`;
       await tokenSale.methods.set_token(token.deployInfo.address);
 
-      this.step = 5;
+      this.step = 6;
       // `Please confirm popup 5 of 5\n\n Adding Token Sale for ${this.newWord} to Word Bazaar`;
       const wordRegistry = await getClient()
         .then((client) => client.getContractInstance(WORD_REGISTRY_CONTRACT,
           { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS }));
       await wordRegistry.methods.add_token(tokenSale.deployInfo.address);
       await Backend.invalidateWordRegistryCache();
+      EventBus.$emit('reloadData');
 
       this.loadingState = false;
       this.step = 1;
-    },
-    async addToken(address) {
-      await Backend.addToken(address);
-      EventBus.$emit('reloadData');
     },
   },
 };

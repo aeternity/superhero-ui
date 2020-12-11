@@ -65,14 +65,14 @@ export default {
       if (tipsReloading[args]) return;
       commit('tipsReloading', args);
       const value = (await Promise.all(
-        times(tipsPageCount[args], (p) => Backend.getCacheTips(p + 1, ...args)),
+        times(tipsPageCount[args], (p) => Backend.getCacheFeed(p + 1, ...args)),
       )).flat().filter((p) => p);
       commit('setTips', { args, value });
     },
     async loadNextPageOfTips({ commit, state }, args) {
       if (state.tipsEndReached[args] || state.tipsNextPageLoading[args]) return;
       commit('tipsNextPageLoading', args);
-      const value = await Backend.getCacheTips(state.tipsPageCount[args] + 1, ...args);
+      const value = await Backend.getCacheFeed(state.tipsPageCount[args] + 1, ...args);
       commit('addTips', { args, value });
     },
     async reloadUserComments({ commit }, address) {

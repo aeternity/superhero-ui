@@ -67,7 +67,7 @@ export default {
   },
   data: () => ({
     wordRegistryState: null,
-    activity: 'assets',
+    activity: 'create',
     activeTab: 'all',
     ribbonTabs: [
       { icon: IconTokens, text: 'Assets', activity: 'assets' },

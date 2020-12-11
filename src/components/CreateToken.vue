@@ -78,12 +78,13 @@
 import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
 import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.aes';
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
-import BONDING_CURVE_MOCK from 'wordbazaar-contracts/BondingCurveMock.aes';
+import BONDING_CURVE from 'sophia-bonding-curve/BondCurveLinear.aes';
 import Backend from '../utils/backend';
 import Loading from './Loading.vue';
 import { getClient } from '../utils/aeternity';
 import { EventBus } from '../utils/eventBus';
 import AeButton from './AeButton.vue';
+import { shiftDecimalPlaces } from '../utils';
 
 export default {
   name: 'WordListing',
@@ -106,9 +107,18 @@ export default {
   }),
   methods: {
     async createWordSale() {
+      const decimals = 18;
+
+      const BONDING_CURVE_DECIMALS = BONDING_CURVE.replace(
+        'function alpha() : Frac.frac = Frac.make_frac(1, 1)',
+        `function alpha() : Frac.frac = Frac.make_frac(1, ${shiftDecimalPlaces(1, decimals)})`,
+      );
+
+      console.log(BONDING_CURVE_DECIMALS)
+
       this.loadingState = true;
       const bondingCurveMock = await getClient()
-        .then((client) => client.getContractInstance(BONDING_CURVE_MOCK));
+        .then((client) => client.getContractInstance(BONDING_CURVE_DECIMALS));
 
       this.step = 1;
       // `Please confirm popup 1 of 5\n\n Creating Bonding Curve Contract for sale`;
@@ -124,7 +134,7 @@ export default {
 
       this.step = 3;
       // `Please confirm popup 3 of 5\n\n Creating ${this.newWord} Token Contract`;
-      await token.methods.init(this.name, 18, this.ticker, tokenSale.deployInfo.address.replace('ct_', 'ak_'));
+      await token.methods.init(this.name, decimals, this.ticker, tokenSale.deployInfo.address.replace('ct_', 'ak_'));
       this.addToken(token.deployInfo.address);
 
       this.step = 4;

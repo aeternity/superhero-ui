@@ -341,7 +341,7 @@ export default {
     },
     async loadVotes() {
       let votes = await Backend.getWordSaleVotesDetails(this.saleContractAddress);
-      const height = await this.$store.dispatch('getHeight');
+      const height = await this.$store.dispatch('aeternity/getHeight');
       votes = votes.map((vote) => {
         const voterAccount = vote.voteAccounts.find(([acc]) => acc === this.address);
 
@@ -397,28 +397,32 @@ export default {
       this.myVotes = votes.filter((v) => v.statusMy);
     },
     async applyPayout(id) {
-      await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress,
-        'apply_vote_subject', [id]);
+      await this.$store.dispatch('aeternity/tokenSaleMethod',
+        {
+          contractAddress: this.saleContractAddress,
+          method: 'apply_vote_subject',
+          args: [id],
+        });
 
       this.updateWords();
       await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
       EventBus.$emit('reloadData');
     },
     async withdraw(address) {
-      await this.$store.dispatch('tokenVotingMethod', address, 'withdraw');
+      await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'withdraw');
       EventBus.$emit('reloadData');
     },
     async voteOption(address, option, amount) {
       const shiftedAmount = shiftDecimalPlaces(amount,
         this.tokenInfo[this.data.tokenAddress].decimals).toFixed();
 
-      await this.$store.dispatch('createOrChangeAllowance', this.data.tokenAddress, shiftedAmount, address.replace('ct_', 'ak_'));
-      await this.$store.dispatch('tokenVotingMethod', address, 'vote', [option, shiftedAmount]);
+      await this.$store.dispatch('aeternity/createOrChangeAllowance', this.data.tokenAddress, shiftedAmount, address.replace('ct_', 'ak_'));
+      await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'vote', [option, shiftedAmount]);
       await Backend.invalidateWordSaleVoteStateCache(address);
       EventBus.$emit('reloadData');
     },
     async revokeVote(address) {
-      await this.$store.dispatch('tokenVotingMethod', address, 'revoke_vote');
+      await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'revoke_vote');
       await Backend.invalidateWordSaleVoteStateCache(address);
       EventBus.$emit('reloadData');
     },
@@ -429,13 +433,21 @@ export default {
         link: 'https://aeternity.com/',
       };
 
-      const height = await this.$store.dispatch('getHeight');
+      const height = await this.$store.dispatch('aeternity/getHeight');
       const closeHeight = height + 20;
-      const token = await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'get_token');
-      const address = await this.$store.dispatch('deployTokenVotingContract', metadata, closeHeight, token);
+      const token = await this.$store.dispatch('aeternity/tokenSaleMethod',
+        {
+          contractAddress: this.saleContractAddress,
+          method: 'get_token',
+        });
+      const address = await this.$store.dispatch('aeternity/deployTokenVotingContract', { metadata, closeHeight, token });
 
-      await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress,
-        'add_vote', [address]);
+      await this.$store.dispatch('aeternity/tokenSaleMethod',
+        {
+          contractAddress: this.saleContractAddress,
+          method: 'add_vote',
+          args: [address],
+        });
       await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
       EventBus.$emit('reloadData');
     },

@@ -153,5 +153,11 @@ export default class Backend {
     method: 'post',
     body: JSON.stringify({ ...postParam, status: postParam.status ? 'ALLOWED' : 'REJECTED' }),
     headers: { 'Content-Type': 'application/json' },
-  })
+  });
+
+  static sendPostWithoutTip = async (postParam) => backendFetch('payfortx/post', {
+    method: 'post',
+    body: JSON.stringify(postParam),
+    headers: { 'Content-Type': 'application/json' },
+  });
 }

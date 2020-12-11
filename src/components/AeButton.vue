@@ -2,6 +2,7 @@
   <button
     :disabled="disabled"
     class="btn btn-primary ae-button"
+    :class="{ green }"
     type="submit"
     @click="$emit('click', $event)"
   >
@@ -27,6 +28,7 @@ export default {
     disabled: Boolean,
     src: { type: String, default: '' },
     loading: { type: Boolean },
+    green: { type: Boolean },
   },
 };
 </script>
@@ -50,6 +52,10 @@ export default {
 
   span {
     vertical-align: inherit;
+  }
+
+  &.green {
+    background-color: $custom_links_color;
   }
 }
 </style>

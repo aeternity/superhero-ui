@@ -1,7 +1,7 @@
 <template>
   <div
     class="loading"
-    :class="{ 'above-content': aboveContent }"
+    :class="{ 'above-content': aboveContent, small }"
   >
     <div class="spinner-border text-primary" />
   </div>
@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  props: { aboveContent: Boolean },
+  props: { aboveContent: Boolean, small: Boolean },
 };
 </script>
 
@@ -24,6 +24,15 @@ export default {
   &.above-content {
     margin-bottom: -3rem;
     position: relative;
+  }
+
+  &.small {
+    height: 1rem;
+
+    .spinner-border {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 }
 </style>

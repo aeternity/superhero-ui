@@ -24,7 +24,7 @@
         <Dropdown
           v-if="hasContractV2Address"
           :options="tokenBalancesOptions"
-          :method="option => showCurrencyDropdown = !(option.token.length > 0)"
+          :method="selectToken"
           :selected="aeternityTokenData.token"
         >
           <template #displayValue="{ displayValue }">
@@ -51,14 +51,25 @@
           <template #displayValue>
             <span class="currency-value spaced">
               <!--eslint-disable-line vue-i18n/no-raw-text-->
-              ~ {{ selectedCurrencyPrice }}
+              <FiatValue
+                :amount="(selectedToken || aeternityTokenData).balance"
+                :token="(selectedToken || aeternityTokenData).token"
+                no-parentheses
+                no-symbol
+              />
             </span>
             {{ selectedCurrency.toUpperCase() }}
           </template>
           <template v-slot="{ option }">
             <span class="currency-value">
               <!--eslint-disable-line vue-i18n/no-raw-text-->
-              ~ {{ option.price }}
+              <FiatValue
+                :amount="(selectedToken || aeternityTokenData).balance"
+                :token="(selectedToken || aeternityTokenData).token"
+                :currency="option.currency"
+                no-parentheses
+                no-symbol
+              />
             </span>
             {{ option.currency.toUpperCase() }}
           </template>
@@ -82,26 +93,31 @@ import Dropdown from '../Dropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
 import OutlinedButton from '../OutlinedButton.vue';
 import TokenAvatarAndSymbol from '../fungibleTokens/TokenAvatarAndSymbol.vue';
+import FiatValue from '../FiatValue.vue';
 
 export default {
   components: {
-    RightSectionTitle, AeAmount, Dropdown, OutlinedButton, TokenAvatarAndSymbol,
+    FiatValue,
+    RightSectionTitle,
+    AeAmount,
+    Dropdown,
+    OutlinedButton,
+    TokenAvatarAndSymbol,
   },
   props: { closed: Boolean },
   data: () => ({
     walletUrl: process.env.VUE_APP_WALLET_URL,
     hasContractV2Address: !!process.env.VUE_APP_CONTRACT_V2_ADDRESS,
     showCurrencyDropdown: true,
+    selectedToken: null,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState('backend', ['prices']),
-    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency', 'tokenBalances']),
+    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency', 'tokenBalances',
+      'tokenPrices', 'tokenInfo']),
     currencyDropdownOptions() {
-      return Object.entries(this.prices).map(([currency, price]) => ({
-        price: new BigNumber(this.balance).multipliedBy(price).toFixed(2),
-        currency,
-      }));
+      return Object.entries(this.prices).map(([currency]) => ({ currency }));
     },
     selectedCurrencyPrice() {
       return new BigNumber(this.balance)
@@ -121,7 +137,14 @@ export default {
       ];
     },
   },
-  methods: mapMutations(['updateCurrency', 'enableIframeWallet']),
+  methods: {
+    ...mapMutations(['updateCurrency', 'enableIframeWallet']),
+    selectToken(option) {
+      this.selectedToken = option;
+      this.showCurrencyDropdown = !(option.token.length > 0)
+        || (!!this.tokenPrices[option.token] && !!this.tokenInfo[option.token]);
+    },
+  },
 };
 </script>
 

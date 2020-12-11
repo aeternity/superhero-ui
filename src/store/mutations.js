@@ -56,6 +56,9 @@ export default {
       .filter((bal, idx, arr) => !arr.slice(0, idx).some((b) => b.token === bal.token))
       .sort((a, b) => a.token.localeCompare(b.token));
   },
+  addTokenPrice({ tokenPrices }, payload) {
+    Vue.set(tokenPrices, payload.token, payload.price);
+  },
   setPinnedItems(state, pinnedItems) {
     state.pinnedItems = pinnedItems;
   },

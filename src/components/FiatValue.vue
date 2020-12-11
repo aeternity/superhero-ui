@@ -4,7 +4,10 @@
     class="fiat-value"
   >
     <!--eslint-disable-next-line vue-i18n/no-raw-text-->
-    <template>(~ {{ fiatValue }})</template>
+    <template v-if="noParentheses">~ {{ fiatValue }}</template>
+
+    <!--eslint-disable-next-line vue-i18n/no-raw-text-->
+    <template v-else>(~ {{ fiatValue }})</template>
   </span>
 </template>
 
@@ -18,10 +21,18 @@ export default {
     amount: { type: [String, Number], default: 0 },
     aettos: { type: Boolean, required: false },
     token: { type: String, default: null },
+    noParentheses: { type: Boolean },
+    noSymbol: { type: Boolean },
+    currency: { type: String, default: null },
   },
   computed: mapState({
-    rate: ({ selectedCurrency, backend: { prices } }) => prices[selectedCurrency],
-    fiatValue({ selectedCurrency }) {
+    showCurrency({ selectedCurrency }) {
+      return (this.currency || selectedCurrency).toLowerCase();
+    },
+    rate({ backend: { prices } }) {
+      return prices[this.showCurrency];
+    },
+    fiatValue() {
       if (!this.rate) return null;
       if (this.token && !this.tokenData) return null;
 
@@ -29,10 +40,12 @@ export default {
       const shiftBy = this.token ? -this.tokenData.decimals : shiftAettos;
       const price = this.token ? this.tokenData.price : 1;
 
-      return new BigNumber(shiftDecimalPlaces(this.amount, shiftBy))
+      const fiatValue = new BigNumber(shiftDecimalPlaces(this.amount, shiftBy))
         .multipliedBy(price).multipliedBy(this.rate)
-        .toNumber()
-        .toLocaleString('en-US', { style: 'currency', currency: selectedCurrency });
+        .toNumber();
+
+      return this.noSymbol ? fiatValue.toFixed(2) : fiatValue
+        .toLocaleString('en-US', { style: 'currency', currency: this.showCurrency });
     },
     tokenData({ tokenPrices, tokenInfo }) {
       if (!this.token) return null;

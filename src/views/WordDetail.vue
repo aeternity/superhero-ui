@@ -15,24 +15,6 @@
 
     <div v-if="activity === 'info'">
       <div class="asset_details__section">
-        <div class="asset_details__section-content">
-          <h3>Asset</h3>
-          <div class="asset-details__asset">
-            {{ selectedWord }}
-          </div>
-          <h3>Description</h3>
-          <div class="asset-details__description">
-            The Matrix is everywhere. It is all around us. Even now, in this very room.
-            You can see it when you look out your window or when you turn on your television.
-            You can feel it when you go to work... when you go to church...
-            when you pay your taxes. It is the world that has been pulled over your eyes to blind
-            you from the truth. What truth?
-            That you are a slave, Neo. Like everyone else you were born into bondage.
-            Into a prison that you cannot taste or
-            see or touch. A prison for your mind.
-          </div>
-        </div>
-
         <div
           v-if="data"
           class="asset_details__info"
@@ -50,9 +32,9 @@
             </div>
           </div>
           <div class="info-item">
-            <h3>Initial Price</h3>
+            <h3>Sell Price</h3>
             <AeAmount
-              :amount="data.buyPrice"
+              :amount="data.sellPrice"
             />
           </div>
           <div class="info-item">
@@ -61,6 +43,23 @@
               :token="data.tokenAddress"
               :amount="data.totalSupply"
             />
+          </div>
+        </div>
+
+        <div class="asset_details__section-content">
+          <h3>Asset</h3>
+          <div
+            v-if="data && tokenInfo"
+            class="asset-details__asset"
+          >
+            {{ tokenInfo[data.tokenAddress].name }}
+          </div>
+          <h3>Description</h3>
+          <div
+            v-if="data"
+            class="asset-details__description"
+          >
+            {{ data.description }}
           </div>
         </div>
       </div>
@@ -493,7 +492,7 @@ h3 {
   }
 
   .asset_details__section-content {
-    padding: 0 1.5rem 1.5rem 1.5rem;
+    padding: 1.5rem;
   }
 }
 

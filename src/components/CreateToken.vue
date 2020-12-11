@@ -114,8 +114,6 @@ export default {
         `function alpha() : Frac.frac = Frac.make_frac(1, ${shiftDecimalPlaces(1, decimals)})`,
       );
 
-      console.log(BONDING_CURVE_DECIMALS)
-
       this.loadingState = true;
       const bondingCurveMock = await getClient()
         .then((client) => client.getContractInstance(BONDING_CURVE_DECIMALS));

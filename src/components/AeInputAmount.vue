@@ -144,10 +144,6 @@ export default {
     opacity: 0.44;
   }
 
-  &.disabled {
-    opacity: 0.44;
-  }
-
   &:focus-within {
     border: 0.05rem solid $secondary_color;
   }

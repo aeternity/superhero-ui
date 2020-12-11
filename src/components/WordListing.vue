@@ -34,6 +34,7 @@
         <AeAmountFiat
           v-if="buyPrice"
           :amount="buyPrice"
+          aettos
         />
         <Loading
           v-else
@@ -65,6 +66,7 @@ import AeAmount from './AeAmount.vue';
 import Loading from './Loading.vue';
 import WordBuySellButtons from './WordBuySellButtons.vue';
 import IconSort from '../assets/iconSort.svg?icon-component';
+import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'WordListing',
@@ -98,11 +100,20 @@ export default {
       return balance ? balance.balance : '0';
     },
   },
+  created() {
+    this.reloadData();
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+    setInterval(() => this.reloadData(), 120 * 1000);
+  },
   mounted() {
-    this.loadWordData();
+    this.reloadData();
   },
   methods: {
-    async loadWordData() {
+    async reloadData() {
+      if (!this.sale) return;
+
       this.totalSupply = null;
       this.buyPrice = null;
 

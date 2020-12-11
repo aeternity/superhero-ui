@@ -102,32 +102,43 @@ export default {
   methods: {
     async createWordSale() {
       this.loadingState = true;
+      const decimals = 18;
 
       this.step = 1;
       // `Please confirm popup 1 of 5\n\n Creating Bonding Curve Contract for sale`;
-      const bondingCurve = await this.$store.dispatch('deployBondingCurve');
+      const bondingCurveAddress = await this.$store.dispatch('aeternity/deployBondingCurve', decimals);
 
       this.step = 2;
       // `Please confirm popup 2 of 5\n\n Creating Token Sale Contract for ${this.newWord} Tokens`;
-      const tokenSaleAddress = await this.$store.dispatch('deployTokenSaleContract',
-        20, bondingCurve.deployInfo.address);
+      const timeout = 20;
+      const tokenSaleAddress = await this.$store.dispatch('aeternity/deployTokenSaleContract',
+        { timeout, bondingCurveAddress, description: this.description });
 
       this.step = 3;
       // `Please confirm popup 3 of 5\n\n Creating ${this.newWord} Token Contract`;
-      const fungibleTokenAddress = await this.$store.dispatch('deployFungibleTokenContract', `${this.newWord} Token`, 18, this.newWord,
-        tokenSaleAddress.replace('ct_', 'ak_'));
+      const fungibleTokenAddress = await this.$store.dispatch('aeternity/deployFungibleTokenContract',
+        {
+          name: `${this.newWord} Token`,
+          decimals,
+          symbol: this.newWord,
+          tokenSaleAddress: tokenSaleAddress.replace('ct_', 'ak_'),
+        });
       this.addToken(fungibleTokenAddress);
 
       this.step = 4;
       // `Please confirm popup 4 of 5\n\n Registering ${this.newWord} Token for sale`;
-      await this.$store.dispatch('tokenSaleMethod', this.saleContractAddress, 'set_token', fungibleTokenAddress);
+      await this.$store.dispatch('aeternity/tokenSaleMethod',
+        {
+          contractAddress: tokenSaleAddress,
+          method: 'set_token',
+          args: [fungibleTokenAddress],
+        });
 
       this.step = 5;
       // `Please confirm popup 5 of 5\n\n Adding Token Sale for ${this.newWord} to Word Bazaar`;
-      await this.$store.dispatch('wordRegistryAddToken', tokenSaleAddress);
+      await this.$store.dispatch('aeternity/wordRegistryAddToken', tokenSaleAddress);
       await Backend.invalidateWordRegistryCache();
 
-      await this.updateWords();
       this.loadingState = false;
       this.step = 1;
     },

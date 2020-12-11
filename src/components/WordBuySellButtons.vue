@@ -39,12 +39,22 @@
           type="number"
           maxlength="90"
           class="form-control"
+          @change="buyValue"
         >
       </div>
       <div class="mt-3 label">
         Total you pay
       </div>
-      <AeAmountFiat :amount="buyAmount * buyPrice" />
+      <AeAmountFiat
+        v-if="buyAeAmount"
+        :amount="buyAeAmount"
+        aettos
+      />
+      <Loading
+        v-else
+        small
+        class="p-0"
+      />
       <div class="mt-3 text-center">
         <OutlinedButton
           class="green"
@@ -81,13 +91,22 @@
           type="number"
           maxlength="90"
           class="form-control"
+          @change="sellValue"
         >
       </div>
       <div class="mt-3 label">
         Total you get
       </div>
-      <AeAmountFiat :amount="sellAmount * sellPrice" />
-      <div class="mt-3 text-center">
+      <AeAmountFiat
+        v-if="sellAeAmount"
+        :amount="sellAeAmount"
+        aettos
+      />
+      <Loading
+        v-else
+        small
+        class="p-0"
+      />      <div class="mt-3 text-center">
         <OutlinedButton
           class="red"
           @click="sell"
@@ -132,11 +151,12 @@ export default {
   data: () => ({
     buyPrice: null,
     sellPrice: null,
-    buyAmount: 0,
-    sellAmount: 0,
+    buyAmount: 1,
+    sellAmount: 1,
     totalSupply: null,
     tokenAddress: null,
-    tokenContract: null,
+    buyAeAmount: null,
+    sellAeAmount: null,
     showBuyModal: false,
     showSellModal: false,
     loading: true,
@@ -167,17 +187,51 @@ export default {
       this.buyPrice = data.buyPrice;
       this.sellPrice = data.sellPrice;
 
+      this.buyAmount = 1;
+      this.sellAmount = 1;
+
+      // just trigger loading
+      this.buyValue();
+      this.sellValue();
+
       this.loading = false;
-      this.buyAmount = 0;
-      this.sellAmount = 0;
       this.showSellModal = false;
       this.showBuyModal = false;
+    },
+    async buyValue() {
+      const amount = shiftDecimalPlaces(this.buyAmount, 18).toFixed();
+
+      const value = await this.$store.dispatch('aeternity/tokenSaleMethod',
+        {
+          contractAddress: this.sale,
+          method: 'calculate_buy_price',
+          args: [amount],
+        });
+
+      this.buyAeAmount = value;
+
+      return { amount, value };
+    },
+    async sellValue() {
+      const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
+      this.sellAeAmount = await this.$store.dispatch('aeternity/tokenSaleMethod',
+        {
+          contractAddress: this.sale,
+          method: 'calculate_sell_return',
+          args: [amount],
+        });
     },
     async buy() {
       this.loading = true;
 
-      await this.$store.dispatch('tokenSaleMethod', this.sale,
-        'buy', [], { amount: shiftDecimalPlaces(this.buyAmount, 18).toFixed() });
+      const { amount, value } = await this.buyValue();
+      await this.$store.dispatch('aeternity/tokenSaleMethod',
+        {
+          contractAddress: this.sale,
+          method: 'buy',
+          args: [amount],
+          options: { amount: value },
+        });
 
       await Backend.invalidateTokenCache(this.tokenAddress);
       await Backend.invalidateWordSaleCache(this.sale);
@@ -188,10 +242,14 @@ export default {
 
       const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
 
-      await this.$store.dispatch('createOrChangeAllowance',
+      await this.$store.dispatch('aeternity/createOrChangeAllowance',
         this.tokenAddress, amount, this.sale.replace('ct_', 'ak_'));
-      await this.$store.dispatch('tokenSaleMethod', this.sale,
-        'sell', [amount]);
+      await this.$store.dispatch('aeternity/tokenSaleMethod',
+        {
+          contractAddress: this.sale,
+          method: 'sell',
+          args: [amount],
+        });
 
       await Backend.invalidateTokenCache(this.tokenAddress);
       await Backend.invalidateWordSaleCache(this.sale);

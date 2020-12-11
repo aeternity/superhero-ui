@@ -50,7 +50,7 @@
         <div class="tip__cover-preview">
           <img
             :src="tipPreviewImage"
-            :loading="`lazy`"
+            loading="lazy"
             @error="$event.target.src = require('../../assets/defaultImg.svg')"
           >
           <div
@@ -159,19 +159,19 @@
 
 <script>
 import Backend from '../../utils/backend';
-import TipInput from '../TipInput.vue';
 import YouTubeEmbed from './YouTubeEmbed.vue';
 import TwitterEmbed from './TwitterEmbed.vue';
 import SoundCloudEmbed from './SoundCloudEmbed.vue';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
+import TipInput from '../TipInput.vue';
 
 export default {
   components: {
-    TipInput,
     ExternalLink,
     YouTubeEmbed,
     TwitterEmbed,
     SoundCloudEmbed,
+    TipInput,
   },
   props: {
     tip: { type: Object, required: true },
@@ -187,10 +187,10 @@ export default {
       }
     },
     tipPreviewDescription() {
-      return this.tip?.preview.description || '';
+      return this.tip?.preview?.description || '';
     },
     tipPreviewTitle() {
-      return this.tip?.preview.title || '';
+      return this.tip?.preview?.title || '';
     },
     tipPreviewImage() {
       return this.isPreviewToBeVisualized && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';

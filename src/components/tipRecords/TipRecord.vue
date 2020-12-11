@@ -28,18 +28,17 @@
       </div>
       <div class="tip__note pr-2">
         <TipTitle :tip-title="tip.title" />
+        <TipMedia
+          v-if="tip.media && tip.media.length"
+          :media="tip.media"
+        />
       </div>
       <TipPreview
         v-if="tipUrl"
         :tip="tip"
         :go-to-tip="goToTip"
         :tip-url="tipUrl"
-      >
-        <TipInput
-          v-if="tip.type !== 'PostWithoutTip'"
-          :tip="tip"
-        />
-      </TipPreview>
+      />
       <div
         class="tip-footer"
         @click.stop
@@ -50,14 +49,15 @@
         />
         <div class="actions-wrapper">
           <ButtonPlain
-            class="actions"
+            class="action"
             :class="{ active: isTipPinned }"
             @click="pinOrUnPinTip"
           >
-            <IconStar />
+            <IconStarFilled v-if="isTipPinned" />
+            <IconStar v-else />
           </ButtonPlain>
           <ButtonPlain
-            class="actions"
+            class="action"
             :class="{ active: tip.commentCount }"
             @click="goToTip"
           >
@@ -65,7 +65,7 @@
             <span>{{ tip.commentCount }}</span>
           </ButtonPlain>
           <ButtonPlain
-            class="actions"
+            class="action"
           >
             <IconShare />
           </ButtonPlain>
@@ -80,6 +80,7 @@ import { mapState } from 'vuex';
 import Backend from '../../utils/backend';
 import backendAuthMixin from '../../utils/backendAuthMixin';
 import TipTitle from './TipTitle.vue';
+import TipMedia from './TipMedia.vue';
 import TipPreview from './TipPreview.vue';
 import TipInput from '../TipInput.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
@@ -87,17 +88,20 @@ import AuthorAndDate from './AuthorAndDate.vue';
 import ButtonPlain from '../ButtonPlain.vue';
 import IconComments from '../../assets/iconComments.svg?icon-component';
 import IconStar from '../../assets/iconStar.svg?icon-component';
+import IconStarFilled from '../../assets/iconStarFilled.svg?icon-component';
 import IconShare from '../../assets/iconShare.svg?icon-component';
 
 export default {
   components: {
     TipTitle,
+    TipMedia,
     TipPreview,
     ThreeDotsMenu,
     AuthorAndDate,
     ButtonPlain,
     IconComments,
     IconStar,
+    IconStarFilled,
     IconShare,
     TipInput,
   },
@@ -159,9 +163,10 @@ export default {
       await this.$store.dispatch('updatePinnedItems');
     },
     goToTip() {
-      return this.$route.params.tipId === this.tip.id
-        ? window.open(this.tipUrl)
-        : this.$router.push(this.toTip);
+      if (this.$route.params.tipId === this.tip.id) {
+        return this.tipUrl ? window.open(this.tipUrl) : null;
+      }
+      return this.$router.push(this.toTip);
     },
   },
 };
@@ -244,7 +249,7 @@ export default {
     flex-grow: 1;
     padding: 0 2.3rem;
 
-    .actions {
+    .action {
       svg {
         margin-bottom: 0.3rem;
         height: 0.9rem;

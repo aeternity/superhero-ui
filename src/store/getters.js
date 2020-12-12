@@ -3,9 +3,9 @@ import { atomsToAe, shiftDecimalPlaces } from '../utils';
 
 export default {
   roundedTokenAmount: ({ tokenInfo }) => (amount, token, round = 2, aettos = false) => {
-    let tokenAmount = 0;
-    if (token && tokenInfo[token]) {
-      tokenAmount = shiftDecimalPlaces(amount, -tokenInfo[token].decimals);
+    let tokenAmount;
+    if (token) {
+      tokenAmount = tokenInfo[token] ? shiftDecimalPlaces(amount, -tokenInfo[token].decimals) : 0;
     } else {
       tokenAmount = aettos ? atomsToAe(amount) : amount;
     }

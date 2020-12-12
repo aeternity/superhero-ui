@@ -218,7 +218,7 @@ export default {
 
       const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
       this.sellAeAmount = await this.contract.methods.calculate_sell_return(amount)
-        .then((r) => r.decodedResult);
+        .then((r) => r.decodedResult).catch(() => 0);
     },
     async buy() {
       this.loading = true;

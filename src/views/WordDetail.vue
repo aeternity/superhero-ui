@@ -198,8 +198,8 @@
                 <AeInputAmount
                   v-model="vote.stakeAmount"
                   :disabled="!vote.showVoteOption"
-                  :not-token-tipable="true"
-                  :symbol="selectedWord"
+                  :token="data.tokenAddress"
+                  no-dropdown
                 />
 
                 <AeButton

@@ -219,7 +219,7 @@ export default {
           contractAddress: this.sale,
           method: 'calculate_sell_return',
           args: [amount],
-        });
+        }).catch(() => 0);
     },
     async buy() {
       this.loading = true;

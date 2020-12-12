@@ -37,7 +37,10 @@
       </div>
     </template>
 
-    <CreateToken v-if="activity === 'create'" />
+    <CreateToken
+      v-if="activity === 'create'"
+      :navigate-assets="() => activity = 'assets'"
+    />
   </div>
 </template>
 

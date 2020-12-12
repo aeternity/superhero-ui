@@ -5,6 +5,7 @@
       <div class="create-header-content">
         <h2>Create Your Token</h2>
         <h3>In Less Than 5 Minutes</h3>
+        <span class="step-description">{{ stepDescription }}</span>
       </div>
     </div>
     <div class="steps">
@@ -13,15 +14,9 @@
         :key="i"
         class="step"
       >
-        <span
-          v-if="step === i"
-          class="step-title"
-        >
-          Token info
-        </span>
         <div
           class="step-box"
-          :class="{ active: step >= i }"
+          :class="{ active: step >= i, pulse: (step === i && step !== 1) }"
         />
       </div>
     </div>
@@ -35,6 +30,7 @@
           class="form-control"
           minlength="1"
           maxlength="333"
+          :disabled="loadingState"
         >
       </div>
 
@@ -47,6 +43,7 @@
           class="form-control"
           minlength="1"
           maxlength="500"
+          :disabled="loadingState"
         >
       </div>
 
@@ -59,9 +56,13 @@
           class="form-control"
           minlength="1"
           maxlength="6"
+          :disabled="loadingState"
         >
 
-        <AeButton @click="createWordSale">
+        <AeButton
+          :disabled="loadingState"
+          @click="createWordSale"
+        >
           <Loading
             v-if="loadingState"
             small
@@ -90,6 +91,7 @@ export default {
     word: { type: String, default: null },
     sale: { type: String, default: null },
     heading: { type: Boolean },
+    navigateAssets: { type: Function, required: true },
   },
   data: () => ({
     name: '',
@@ -97,7 +99,7 @@ export default {
     ticker: '',
     loadingState: false,
     step: 1,
-    createProgressText: null,
+    stepDescription: 'Please fill in the fields below with your token details.',
   }),
   methods: {
     async createWordSale() {
@@ -105,17 +107,17 @@ export default {
       const decimals = 18;
 
       this.step = 2;
-      // `Please confirm popup 1 of 5\n\n Creating Bonding Curve Contract for sale`;
+      this.stepDescription = `Creating ${this.ticker} Bonding Curve Contract... Please confirm the transaction!`;
       const bondingCurveAddress = await this.$store.dispatch('aeternity/deployBondingCurve', decimals);
 
       this.step = 3;
-      // `Please confirm popup 2 of 5\n\n Creating Token Sale Contract for ${this.newWord} Tokens`;
+      this.stepDescription = `Creating ${this.ticker} Token Sale Contract... Please confirm the transaction!`;
       const timeout = 20;
       const tokenSaleAddress = await this.$store.dispatch('aeternity/deployTokenSaleContract',
         { timeout, bondingCurveAddress, description: this.description });
 
       this.step = 4;
-      // `Please confirm popup 3 of 5\n\n Creating ${this.newWord} Token Contract`;
+      this.stepDescription = `Creating ${this.ticker} Token Contract... Please confirm the transaction!`;
       const fungibleTokenAddress = await this.$store.dispatch('aeternity/deployFungibleTokenContract',
         {
           name: `${this.newWord} Token`,
@@ -127,7 +129,7 @@ export default {
       EventBus.$emit('reloadData');
 
       this.step = 5;
-      // `Please confirm popup 4 of 5\n\n Registering ${this.newWord} Token for sale`;
+      this.stepDescription = `Registering ${this.ticker} Token for sale... Please confirm the transaction!`;
       await this.$store.dispatch('aeternity/tokenSaleMethod',
         {
           contractAddress: tokenSaleAddress,
@@ -136,13 +138,16 @@ export default {
         });
 
       this.step = 6;
-      // `Please confirm popup 5 of 5\n\n Adding Token Sale for ${this.newWord} to Word Bazaar`;
+      this.stepDescription = `Adding ${this.ticker} Sale to Word Bazaar... Please confirm the transaction!`;
       await this.$store.dispatch('aeternity/wordRegistryAddToken', tokenSaleAddress);
       await Backend.invalidateWordRegistryCache();
       EventBus.$emit('reloadData');
 
       this.loadingState = false;
+      this.stepDescription = 'Please fill in the fields below with your token details.';
       this.step = 1;
+
+      this.navigateAssets();
     },
   },
 };
@@ -161,11 +166,12 @@ export default {
     width: 100%;
     height: 100%;
     background-image: url('../assets/createTokenBg.svg');
-    filter: grayscale(100%);
+    background-repeat: no-repeat;
+    mix-blend-mode: luminosity;
   }
 
   .create-header-content {
-    padding: 1.2rem 0 2.2rem 0;
+    padding: 1.2rem 0 1.2rem 0;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -182,6 +188,13 @@ export default {
       font-weight: normal;
       color: $tip_note_color;
     }
+
+    .step-description {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: $pure_white;
+      margin-top: 1rem;
+    }
   }
 }
 
@@ -192,18 +205,8 @@ export default {
 
   .step {
     flex-grow: 1;
-    margin: 0.8rem 0.4rem;
+    margin: 0 0.4rem 1.6rem 0.4rem;
     position: relative;
-
-    .step-title {
-      position: absolute;
-      margin-top: -1.5rem;
-      font-size: 0.75rem;
-      font-weight: 500;
-      z-index: 10;
-      text-align: center;
-      width: 100%;
-    }
 
     .step-box {
       height: 0.8rem;
@@ -223,6 +226,21 @@ export default {
             blue($custom_links_color),
             0.4
           );
+
+        &.pulse {
+          animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+          0%,
+          100% {
+            filter: saturate(0.5) brightness(0.5);
+          }
+
+          50% {
+            filter: saturate(1) brightness(1);
+          }
+        }
       }
     }
   }

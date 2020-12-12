@@ -150,7 +150,9 @@
                   <span v-if="vote.statusTimeouting"> released for transfer to</span>
                   <span v-if="vote.statusApplied"> spread was transferred to</span>
                   <span v-if="!vote.isClosed"> to be released for transfer to</span>
-                  <span v-if="vote.statusTimeouted"> spread was not transferred to</span>
+                  <span
+                    v-if="vote.statusTimeouted || vote.statusClosedAndUnsuccessful"
+                  > spread was not transferred to</span>
                 </div>
                 <div class="vote-row-end">
                   <IconHourglass />
@@ -188,14 +190,21 @@
                 Enter stake amount
               </label>
               <label
-                v-else
+                v-if="vote.accountHasVoted"
                 class="stake-label"
               >
                 You staked
               </label>
+              <label
+                v-if="!vote.showVoteOption && !vote.accountHasVoted"
+                class="stake-label"
+              >
+                You didn't participate in staking
+              </label>
 
               <div class="input-bar">
                 <AeInputAmount
+                  v-if="vote.showVoteOption || vote.accountHasVoted"
                   v-model="vote.stakeAmount"
                   :disabled="!vote.showVoteOption"
                   :token="data.tokenAddress"
@@ -229,11 +238,15 @@
                 <div class="vote-progress-bar">
                   <div
                     class="vote-progress"
-                    :class="{ timeouted: vote.statusTimeouted, applied: vote.statusApplied }"
+                    :class="{
+                      timeouted: vote.statusTimeouted || vote.statusClosedAndUnsuccessful,
+                      applied: vote.statusApplied,
+                    }"
                     :style="{ width: vote.stakePercent + '%' }"
                   >
                     <span v-if="vote.statusOngoing">{{ vote.stakePercent }}%</span>
                     <span v-if="vote.statusTimeouted">Timed out 👎</span>
+                    <span v-if="vote.statusClosedAndUnsuccessful">Unsuccessful 👎</span>
                     <span v-if="vote.statusApplied">Funds transferred 👍</span>
                   </div>
                 </div>
@@ -361,14 +374,17 @@ export default {
         const showWithdraw = vote.isClosed && hasWithdrawAmount;
 
         const statusClosed = vote.isClosed && !vote.alreadyApplied && !vote.timeouted;
+        const statusClosedAndUnsuccessful = statusClosed && !vote.isSuccess;
         const statusApplied = vote.alreadyApplied;
         const statusTimeouted = !vote.alreadyApplied && vote.timeouted;
-        const statusTimeouting = statusClosed && !statusTimeouted;
-        const statusOngoing = !vote.isClosed || !(statusTimeouted || statusApplied);
-        const statusPast = statusTimeouted || statusApplied;
+        const statusTimeouting = statusClosed && !statusClosedAndUnsuccessful && !statusTimeouted;
+        const statusOngoing = (!vote.isClosed || !(statusTimeouted || statusApplied))
+          && !statusClosedAndUnsuccessful;
+        const statusPast = statusTimeouted || statusApplied || statusClosedAndUnsuccessful;
 
         const statusMy = accountHasVoted;
-        const stakeAmountUnshifted = voterAccount ? voterAccount[1][0] : this.maxAmount;
+        const stakeMaxAmount = showVoteOption ? this.maxAmount : 0;
+        const stakeAmountUnshifted = voterAccount ? voterAccount[1][0] : stakeMaxAmount;
         const stakeAmount = shiftDecimalPlaces(
           stakeAmountUnshifted, -this.tokenInfo[this.data.tokenAddress].decimals,
         ).toFixed(2);
@@ -385,6 +401,7 @@ export default {
           showApplyPayout,
           showWithdraw,
           statusClosed,
+          statusClosedAndUnsuccessful,
           statusApplied,
           statusTimeouted,
           statusTimeouting,
@@ -396,6 +413,8 @@ export default {
           dateTimeout,
         };
       });
+
+      console.log(votes);
 
       this.ongoingVotes = votes.filter((v) => v.statusOngoing);
       this.pastVotes = votes.filter((v) => v.statusPast);

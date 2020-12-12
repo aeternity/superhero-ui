@@ -56,6 +56,7 @@
                 :token="(selectedToken || aeternityTokenData).token"
                 no-parentheses
                 no-symbol
+                :aettos="selectedToken && selectedToken.token"
               />
             </span>
             {{ selectedCurrency.toUpperCase() }}
@@ -69,6 +70,7 @@
                 :currency="option.currency"
                 no-parentheses
                 no-symbol
+                :aettos="(selectedToken || aeternityTokenData).token"
               />
             </span>
             {{ option.currency.toUpperCase() }}
@@ -127,7 +129,7 @@ export default {
     aeternityTokenData() {
       return {
         balance: this.balance,
-        token: '',
+        token: null,
       };
     },
     tokenBalancesOptions() {
@@ -141,7 +143,7 @@ export default {
     ...mapMutations(['updateCurrency', 'enableIframeWallet']),
     selectToken(option) {
       this.selectedToken = option;
-      this.showCurrencyDropdown = !(option.token.length > 0)
+      this.showCurrencyDropdown = option.token === null
         || (!!this.tokenPrices[option.token] && !!this.tokenInfo[option.token]);
     },
   },

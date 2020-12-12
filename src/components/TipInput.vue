@@ -24,6 +24,7 @@
         :key="option.token"
         :amount="option.amount"
         :token="option.token"
+        :aettos="!!option.token"
       />
     </Dropdown>
     <Modal

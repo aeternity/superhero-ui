@@ -120,7 +120,7 @@ export default {
       return { name: 'tip', params: { tipId: this.tip.id } };
     },
     tipUrl() {
-      if (!this.tip.url) { return ''; }
+      if (!this.tip || !this.tip.url) return null;
       return this.tip.url.startsWith('http://') || this.tip.url.startsWith('https://') ? this.tip.url : `http://${this.tip.url}`;
     },
   },

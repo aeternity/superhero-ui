@@ -28,15 +28,16 @@
         <span
           class="symbol"
         >
-          {{ tokenTipable && selectedToken !== 'native' ? tokenInfo[selectedToken].symbol : 'AE' }}
+          {{ tokenInfo[selectedToken] && tokenInfo[selectedToken].symbol || 'AE' }}
         </span>
         <!-- eslint-enable vue-i18n/no-raw-text -->
         <FiatValue
-          :amount="(!tokenTipable || selectedToken === 'native') && value ? value.toString() : '0'"
+          :amount="value"
+          :token="selectedToken"
         />
       </span>
       <Dropdown
-        v-if="tokenTipable"
+        v-if="tokenTipable && !noDropdown"
         :options="selectTokenOptions"
         :selected="selectedToken"
         :method="selectToken"
@@ -46,32 +47,14 @@
           <div class="token-option">
             <TokenAvatarAndSymbol :address="option.token" />
             <span class="tokens-amount">{{ showTokenAmount(option.balance, option.token) }}</span>
-            &nbsp;
             <FiatValue
-              :amount="option.token === 'native'
-                && option.balance ? option.balance.toString() : '0'"
+              :amount="option.balance"
+              :token="option.token"
+              :aettos="!!option.token"
             />
           </div>
         </template>
       </Dropdown>
-    </div>
-
-    <div
-      v-if="selectedToken === 'native' && !symbol"
-      class="input-group-append"
-    >
-      <span class="input-group-text append__ae text-ellipsis">
-        <span class="ae">{{ symbol }}</span>
-      </span>
-    </div>
-
-    <div
-      v-if="symbol"
-      class="input-group-append"
-    >
-      <span class="input-group-text append__ae text-ellipsis">
-        <span class="ae">{{ symbol }}</span>
-      </span>
     </div>
   </div>
 </template>
@@ -91,25 +74,29 @@ export default {
     step: { type: Number, default: 0.01 },
     value: { type: [Number, String], required: true },
     selectTokenF: { type: Function, default: (t) => t },
-    symbol: { type: String, default: null },
+    token: { type: String, default: null },
     disabled: { type: Boolean },
     notTokenTipable: { type: Boolean },
+    noDropdown: { type: Boolean },
   },
   data: () => ({
-    selectedToken: 'native',
+    selectedToken: null,
   }),
   computed: {
     ...mapGetters(['roundedTokenAmount']),
     ...mapState(['tokenInfo']),
     ...mapState({
       selectTokenOptions: ({ tokenBalances, balance }) => [
-        { token: 'native', balance },
+        { token: null, balance },
         ...tokenBalances,
       ],
     }),
     tokenTipable() {
       return !this.notTokenTipable && !!process.env.VUE_APP_CONTRACT_V2_ADDRESS;
     },
+  },
+  created() {
+    this.selectToken(this.selectTokenOptions.find((t) => t.token === this.token));
   },
   methods: {
     selectToken(selected) {
@@ -180,6 +167,7 @@ export default {
 
   .tokens-amount {
     color: $tip-note-color;
+    margin-right: 0.1rem;
   }
 
   .dropdown::v-deep {

@@ -122,7 +122,7 @@ export default {
       },
     }),
     v1TipWarning() {
-      return this.tip.id.split('_')[1] === 'v1' && this.inputToken !== 'native';
+      return this.tip && this.tip.id.split('_')[1] === 'v1' && this.inputToken !== 'native';
     },
     tipUrl() {
       if (this.comment) {

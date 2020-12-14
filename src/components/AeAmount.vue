@@ -27,7 +27,7 @@ export default {
       return this.amountTokenInfo ? this.amountTokenInfo.symbol : null;
     },
     roundedAmount() {
-      return this.roundedTokenAmount(this.amount, this.token, this.round, this.aettos);
+      return this.roundedTokenAmount(this.amount || 0, this.token, this.round, this.aettos);
     },
   },
 };

@@ -32,7 +32,7 @@
         </span>
         <!-- eslint-enable vue-i18n/no-raw-text -->
         <FiatValue
-          :amount="!tokenTipable || selectedToken === 'native' ? value.toString() : '0'"
+          :amount="(!tokenTipable || selectedToken === 'native') && value ? value.toString() : '0'"
         />
       </span>
       <Dropdown
@@ -48,7 +48,8 @@
             <span class="tokens-amount">{{ showTokenAmount(option.balance, option.token) }}</span>
             &nbsp;
             <FiatValue
-              :amount="option.token === 'native' ? option.balance.toString() : '0'"
+              :amount="option.token === 'native'
+                && option.balance ? option.balance.toString() : '0'"
             />
           </div>
         </template>
@@ -107,7 +108,7 @@ export default {
       this.selectTokenF(this.selectedToken);
     },
     showTokenAmount(amount, token) {
-      return this.roundedTokenAmount(amount, token);
+      return this.roundedTokenAmount(amount || 0, token);
     },
   },
 };

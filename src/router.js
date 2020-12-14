@@ -47,6 +47,10 @@ const routes = [
   },
   {
     path: '/user-profile/:address',
+    redirect: '/users/:address',
+  },
+  {
+    path: '/users/:address',
     name: 'user-profile',
     component: UserProfile,
     props: true,

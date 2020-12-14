@@ -129,7 +129,8 @@ export default {
         return `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
       }
       if (this.userAddress) {
-        return `https://superhero.com/user-profile/${this.userAddress}`;
+        const { href } = this.$router.resolve({ name: 'user-profile', params: { address: this.userAddress } });
+        return `https://superhero.com${href}`;
       }
       return this.tip.url;
     },

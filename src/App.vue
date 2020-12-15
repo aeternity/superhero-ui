@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    :class="$route.meta.layoutClass"
+  >
     <MobileNavigation v-if="!$route.meta.fullScreen" />
     <div class="not-bootstrap-row">
       <div
@@ -38,10 +41,15 @@ export default {
   components: { MobileNavigation, LeftSection, RightSection },
   computed: {
     ...mapGetters('modals', ['opened']),
+    ...mapGetters(['isLoggedIn']),
     ...mapState(['address']),
     ...mapState('aeternity', ['sdk']),
   },
   async mounted() {
+    if (!this.isLoggedIn && this.$route.name === 'feed') {
+      this.$router.push({ name: 'landing' });
+    }
+
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });

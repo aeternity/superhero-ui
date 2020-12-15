@@ -57,6 +57,27 @@
         }
       ]
     },
+    "Landing": {
+      "topNavigation": {
+        "Contribute": "Contribute",
+        "GetStarted": "Get started"
+      },
+      "section1": {
+        "linkFeed": "Become a Superhero Today"
+      },
+      "footer": {
+        "Copyright": "© 2021 Superhero.com",
+        "Form": {
+          "inputEmail": "Get started",
+          "inputSubmit": "Subscribe now"
+        },
+        "Navigation": {
+          "About": "About",
+          "Blog": "Blog",
+          "Contact": "Contact"
+        }
+      }
+    },
     "Mission": {
       "header": "SUPERHERO: AN ORIGIN STORY WITH A MISSION",
       "sections": [
@@ -484,17 +505,36 @@
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
       "Stake": "Majority Stake",
-      "RibbonTabs": ["Token Info", "Funds release vote"],
-      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"]
+      "RibbonTabs": [
+        "Token Info",
+        "Funds release vote"
+      ],
+      "Tabs": [
+        "Ongoing Votes",
+        "Past Votes",
+        "My Votes"
+      ]
     },
     "WordBazaar": {
       "Title": "WordBazaar",
       "Placeholder": "Search for assets",
       "RibbonTabs": [
-        { "Text": "Assets", "Header": "WordBazaar Assets" },
-        { "Text": "Create token", "Header": "Create token" },
-        { "Text": "Get AE", "Header": "Get AE Tokens" },
-        { "Text": "How it works", "Header": "How it works" }
+        {
+          "Text": "Assets",
+          "Header": "WordBazaar Assets"
+        },
+        {
+          "Text": "Create token",
+          "Header": "Create token"
+        },
+        {
+          "Text": "Get AE",
+          "Header": "Get AE Tokens"
+        },
+        {
+          "Text": "How it works",
+          "Header": "How it works"
+        }
       ]
     }
   },
@@ -611,12 +651,18 @@
     },
     "GetAe": {
       "Platforms": [
-        { "Text": "BTC/{ae} ETH/{ae}", "Link": "https://jelly.market/" },
+        {
+          "Text": "BTC/{ae} ETH/{ae}",
+          "Link": "https://jelly.market/"
+        },
         {
           "Text": "Discover more {ae} exchanges",
           "Link": "https://coinmarketcap.com/en/currencies/aeternity/"
         },
-        { "Text": "Testnet {ae} tokens", "Link": "https://faucet.aepps.com/" }
+        {
+          "Text": "Testnet {ae} tokens",
+          "Link": "https://faucet.aepps.com/"
+        }
       ]
     },
     "WordListing": {

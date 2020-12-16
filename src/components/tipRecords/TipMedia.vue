@@ -7,51 +7,21 @@
     />
     <div
       class="media-container"
+      :class="`template${Math.min(media.length, 4)}`"
       @click.stop="openGallery = true"
     >
       <img
-        v-if="media.length === 1"
-        :src="media[0]"
-        class="full"
+        v-for="(image, index) in media.slice(0,4)"
+        :key="index"
+        :style="{ 'grid-area': `pos${index}` }"
+        :src="image"
         loading="lazy"
         @error="$event.target.src = require('../../assets/defaultImg.svg')"
       >
-      <template v-else>
-        <img
-          :src="media[0]"
-          class="half"
-        >
-        <img
-          v-if="media.length === 2"
-          :src="media[1]"
-          class="half"
-        >
-        <div v-else>
-          <img
-            class="quarter"
-            :src="media[1]"
-          >
-          <img
-            v-if="media.length === 3"
-            class="quarter"
-            :src="media[2]"
-          >
-          <template else>
-            <img
-              class="eighth"
-              :src="media[2]"
-            >
-            <img
-              class="eighth"
-              :src="media[3]"
-            >
-            <span
-              v-if="media.length > 4"
-              class="show-more"
-            >{{ `+${media.length - 4}` }}</span>
-          </template>
-        </div>
-      </template>
+      <span
+        v-if="media.length > 4"
+        class="show-more"
+      >{{ `+${media.length - 4}` }}</span>
     </div>
   </div>
 </template>
@@ -79,7 +49,6 @@ export default {
   border-radius: 0.5rem;
 
   .media-container {
-    display: flex;
     max-width: 100%;
     width: 100%;
     position: absolute;
@@ -88,46 +57,49 @@ export default {
     border: none;
     height: 100%;
     overflow: hidden;
-  }
+    display: grid;
 
-  img {
-    cursor: pointer;
-    transition: 0.4s filter;
-    object-fit: cover;
-
-    &:hover {
-      filter: brightness(1.3);
+    &.template1 {
+      grid-template-areas: 'pos0';
     }
 
-    &.full {
+    &.template2 {
+      grid-template-areas: 'pos0 pos1';
+    }
+
+    &.template3 {
+      grid-template-areas:
+        'pos0 pos1'
+        'pos0 pos2';
+    }
+
+    &.template4 {
+      grid-template-areas:
+        'pos0 pos0 pos1 pos1'
+        'pos0 pos0 pos2 pos3';
+    }
+
+    img {
+      cursor: pointer;
+      transition: 0.4s filter;
       width: 100%;
       height: 100%;
+      object-fit: cover;
+
+      &:hover {
+        filter: brightness(1.3);
+      }
     }
 
-    &.half {
-      width: 50%;
-      height: 100%;
+    .show-more {
+      color: $standard_font_color;
+      font-size: 2rem;
+      position: absolute;
+      bottom: 25%;
+      right: 12.5%;
+      margin-right: -1rem;
+      margin-bottom: -1rem;
     }
-
-    &.quarter {
-      width: 100%;
-      height: 50%;
-    }
-
-    &.eighth {
-      width: 50%;
-      height: 100%;
-    }
-  }
-
-  .show-more {
-    color: $standard_font_color;
-    font-size: 2rem;
-    position: absolute;
-    bottom: 25%;
-    right: 12.5%;
-    margin-right: -1rem;
-    margin-bottom: -1rem;
   }
 }
 </style>

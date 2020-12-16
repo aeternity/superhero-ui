@@ -234,11 +234,11 @@ export default {
         @keyframes pulse {
           0%,
           100% {
-            filter: saturate(0.5) brightness(0.5);
+            filter: opacity(0.4);
           }
 
           50% {
-            filter: saturate(1) brightness(1);
+            filter: opacity(1);
           }
         }
       }

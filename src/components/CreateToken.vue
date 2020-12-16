@@ -127,6 +127,7 @@ export default {
         });
       await Backend.addToken(fungibleTokenAddress);
       EventBus.$emit('reloadData');
+      EventBus.$emit('reloadData');
 
       this.step = 5;
       this.stepDescription = `Registering ${this.ticker} Token for sale... Please confirm the transaction!`;

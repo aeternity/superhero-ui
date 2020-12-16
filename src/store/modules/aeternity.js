@@ -149,9 +149,13 @@ export default {
       contractAddress,
     ) {
       if (!fungibleTokenContracts[contractAddress]) {
-        commit('setFungibleTokenContract', contractAddress, await sdk
-          .getContractInstance(FUNGIBLE_TOKEN_CONTRACT_INTERFACE, { contractAddress }));
+        const contract = await sdk
+          .getContractInstance(FUNGIBLE_TOKEN_CONTRACT_INTERFACE, { contractAddress });
+        commit('setFungibleTokenContract', contractAddress, contract);
+        return contract;
       }
+
+      return fungibleTokenContracts[contractAddress];
     },
     async initWordRegistryContractIfNeeded({ commit, state: { sdk, wordRegistryContract } }) {
       if (!wordRegistryContract) {
@@ -256,7 +260,7 @@ export default {
       return decodedResult;
     },
     async tokenVotingMethod(
-      { dispatch, state: { tokenVotingContracts } },
+      { dispatch },
       contractAddress,
       method,
       args,
@@ -267,22 +271,16 @@ export default {
       const { decodedResult } = await contract.methods[method](...args, options);
       return decodedResult;
     },
-    async tokenBalance(
-      { dispatch, state: { fungibleTokenContracts } },
-      contractAddress,
-      address,
-    ) {
-      await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
+    async tokenBalance({ dispatch }, { contractAddress, address }) {
+      const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
 
-      const { decodedResult } = await fungibleTokenContracts[contractAddress]
-        .methods.balance(address);
+      const { decodedResult } = await contract.methods.balance(address);
       return new BigNumber(decodedResult || 0).toFixed();
     },
-    async tokenTotalSupply({ dispatch, state: { fungibleTokenContracts } }, contractAddress) {
-      await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
+    async tokenTotalSupply({ dispatch }, contractAddress) {
+      const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
 
-      const { decodedResult } = await fungibleTokenContracts[contractAddress]
-        .methods.total_supply();
+      const { decodedResult } = await contract.methods.total_supply();
       return new BigNumber(decodedResult || 0).toFixed();
     },
     async createOrChangeAllowance(

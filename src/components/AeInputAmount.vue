@@ -32,6 +32,7 @@
         </span>
         <!-- eslint-enable vue-i18n/no-raw-text -->
         <FiatValue
+          v-if="!noFiatvalue"
           :amount="value"
           :token="selectedToken"
         />
@@ -78,6 +79,7 @@ export default {
     disabled: { type: Boolean },
     notTokenTipable: { type: Boolean },
     noDropdown: { type: Boolean },
+    noFiatvalue: { type: Boolean },
   },
   data: () => ({
     selectedToken: null,

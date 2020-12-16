@@ -39,22 +39,25 @@
           type="number"
           maxlength="90"
           class="form-control"
-          @change="buyValue"
+          @keyup="buyValue"
         >
       </div>
       <div class="mt-3 label">
         Total you pay
       </div>
-      <AeAmountFiat
-        v-if="buyAeAmount"
-        :amount="buyAeAmount"
-        aettos
-      />
-      <Loading
-        v-else
-        small
-        class="p-0"
-      />
+      <div class="return-amount">
+        <AeAmountFiat
+          v-if="buyAeAmount !== null"
+          :amount="buyAeAmount"
+          aettos
+        />
+        <Loading
+          v-if="buyAeAmount === null || updatingValue"
+          :class="{ 'update-loading': buyAeAmount !== null && updatingValue }"
+          small
+          class="p-0"
+        />
+      </div>
       <div class="mt-3 text-center">
         <OutlinedButton
           class="green"
@@ -91,22 +94,26 @@
           type="number"
           maxlength="90"
           class="form-control"
-          @change="sellValue"
+          @keyup="sellValue"
         >
       </div>
       <div class="mt-3 label">
         Total you get
       </div>
-      <AeAmountFiat
-        v-if="sellAeAmount"
-        :amount="sellAeAmount"
-        aettos
-      />
-      <Loading
-        v-else
-        small
-        class="p-0"
-      />      <div class="mt-3 text-center">
+      <div class="return-amount">
+        <AeAmountFiat
+          v-if="sellAeAmount !== null"
+          :amount="sellAeAmount"
+          aettos
+        />
+        <Loading
+          v-if="sellAeAmount === null || updatingValue"
+          :class="{ 'update-loading': sellAeAmount !== null && updatingValue }"
+          small
+          class="p-0"
+        />
+      </div>
+      <div class="mt-3 text-center">
         <OutlinedButton
           class="red"
           @click="sell"
@@ -164,6 +171,7 @@ export default {
     showBuyModal: false,
     showSellModal: false,
     loading: true,
+    updatingValue: true,
   }),
   computed: {
     ...mapState(['address', 'balance', 'tokenBalances']),
@@ -203,6 +211,7 @@ export default {
       this.showBuyModal = false;
     },
     async buyValue() {
+      this.updatingValue = true;
       await this.initContract();
 
       const amount = shiftDecimalPlaces(this.buyAmount, 18).toFixed();
@@ -210,15 +219,17 @@ export default {
         .then((r) => r.decodedResult);
 
       this.buyAeAmount = value;
-
+      this.updatingValue = false;
       return { amount, value };
     },
     async sellValue() {
+      this.updatingValue = true;
       await this.initContract();
 
       const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
       this.sellAeAmount = await this.contract.methods.calculate_sell_return(amount)
         .then((r) => r.decodedResult).catch(() => 0);
+      this.updatingValue = false;
     },
     async buy() {
       this.loading = true;
@@ -263,6 +274,17 @@ export default {
   @include smallest {
     min-width: 16rem;
     padding: 0.5rem;
+  }
+}
+
+.return-amount {
+  display: flex;
+  flex-direction: row;
+
+  .update-loading {
+    margin-left: 0.5rem;
+    width: auto;
+    opacity: 0.6;
   }
 }
 </style>

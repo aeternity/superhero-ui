@@ -174,7 +174,6 @@ export default {
     YouTubeEmbed,
     TwitterEmbed,
     SoundCloudEmbed,
-    TipInput,
   },
   props: {
     tip: { type: Object, required: true },

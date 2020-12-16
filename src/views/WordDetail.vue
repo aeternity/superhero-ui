@@ -209,6 +209,7 @@
                   :disabled="!vote.showVoteOption"
                   :token="data.tokenAddress"
                   no-dropdown
+                  no-fiatvalue
                 />
 
                 <AeButton

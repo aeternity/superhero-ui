@@ -411,8 +411,6 @@ export default {
         };
       });
 
-      console.log(votes);
-
       this.ongoingVotes = votes.filter((v) => v.statusOngoing);
       this.pastVotes = votes.filter((v) => v.statusPast);
       this.myVotes = votes.filter((v) => v.statusMy);

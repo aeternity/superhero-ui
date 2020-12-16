@@ -1,6 +1,6 @@
 <template>
   <div class="right-section">
-    <SearchInput
+    <SearchFeed
       class="section"
       sided
     />
@@ -28,13 +28,13 @@
 <script>
 import { mapState } from 'vuex';
 import FooterSection from './FooterSection.vue';
-import SearchInput from './SearchInput.vue';
+import SearchFeed from './SearchFeed.vue';
 import RightSectionWallet from './RightSectionWallet.vue';
 import RightSectionTopics from './RightSectionTopics.vue';
 
 export default {
   components: {
-    SearchInput,
+    SearchFeed,
     RightSectionWallet,
     RightSectionTopics,
     FooterSection,

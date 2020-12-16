@@ -1,1 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><g transform="translate(-620 -96)"><g transform="translate(273 11)" opacity="0"><circle cx="15" cy="15" r="15" transform="translate(347 85)" fill="#67f7b8" opacity="0.66"/></g><path d="M17.354,14.827a1,1,0,0,1-.9-.274l-5.7-5.7a1,1,0,0,1,0-1.414l.364-.364a1,1,0,0,1,1.414,0L17.354,11.9,28.394.859a1,1,0,0,1,1.414,0l.364.364a1,1,0,0,1,0,1.414L18.255,14.553a1,1,0,0,1-.9.274Z" transform="translate(614.535 103.434)" fill="#fff"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+    <g transform="translate(-620 -96)">
+        <g transform="translate(273 11)" opacity="0">
+            <circle cx="15" cy="15" r="15" transform="translate(347 85)" fill="#67f7b8" opacity="0.66" />
+        </g>
+        <path
+            d="M17.354,14.827a1,1,0,0,1-.9-.274l-5.7-5.7a1,1,0,0,1,0-1.414l.364-.364a1,1,0,0,1,1.414,0L17.354,11.9,28.394.859a1,1,0,0,1,1.414,0l.364.364a1,1,0,0,1,0,1.414L18.255,14.553a1,1,0,0,1-.9.274Z"
+            transform="translate(614.535 103.434)" fill="#fff" />
+    </g>
+</svg>

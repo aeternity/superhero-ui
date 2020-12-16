@@ -14,10 +14,10 @@
     <Navigation mobile />
     <FooterSection />
   </div>
-  <SearchInput
-    v-else-if="isTipsRoute && showSearchInput"
+  <SearchFeed
+    v-else-if="isTipsRoute && showSearchFeed"
     class="mobile-navigation-sticky"
-    @close="showSearchInput = false"
+    @close="showSearchFeed = false"
   />
   <div
     v-else
@@ -40,7 +40,7 @@
     </a>
     <ButtonPlain
       v-if="isTipsRoute"
-      @click="showSearchInput = true"
+      @click="showSearchFeed = true"
     >
       <IconSearch />
     </ButtonPlain>
@@ -54,7 +54,7 @@
 import { mapState } from 'vuex';
 import Navigation from './Navigation.vue';
 import FooterSection from './FooterSection.vue';
-import SearchInput from './SearchInput.vue';
+import SearchFeed from './SearchFeed.vue';
 import { createDeepLinkUrl } from '../../utils';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
 import IconSearch from '../../assets/iconSearch.svg?icon-component';
@@ -65,7 +65,7 @@ export default {
   components: {
     Navigation,
     FooterSection,
-    SearchInput,
+    SearchFeed,
     IconDiamond,
     IconSearch,
     IconMobileMenu,
@@ -73,13 +73,13 @@ export default {
   },
   data: () => ({
     showOverlay: false,
-    showSearchInput: false,
+    showSearchFeed: false,
     tipDeepLink: createDeepLinkUrl({ type: 'tip' }),
   }),
   computed: {
     ...mapState(['useSdkWallet']),
     isTipsRoute() {
-      return ['tips', 'tips-search'].includes(this.$route.name);
+      return ['feed', 'feed-search'].includes(this.$route.name);
     },
   },
   watch: {

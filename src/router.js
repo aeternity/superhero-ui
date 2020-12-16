@@ -11,7 +11,7 @@ import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
 import TipsAndComments from './views/TipsAndComments.vue';
-import TipsList from './views/TipsList.vue';
+import FeedList from './views/FeedList.vue';
 import TutorialMeet from './views/tutorial/Meet.vue';
 import TutorialVoting from './views/tutorial/Voting.vue';
 import TutorialWallet from './views/tutorial/Wallet.vue';
@@ -21,16 +21,18 @@ import UserProfile from './views/UserProfile.vue';
 const routes = [
   {
     path: '/',
-    name: 'tips',
-    component: TipsList,
+    name: 'feed',
+    component: FeedList,
+    meta: { title: 'Feed' },
     beforeEnter(to, from, next) {
       next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
     },
   },
   {
     path: '/search/:query',
-    name: 'tips-search',
-    component: TipsList,
+    name: 'feed-search',
+    component: FeedList,
+    meta: { title: 'Feed' },
     props: true,
   },
   {

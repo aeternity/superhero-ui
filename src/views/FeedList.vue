@@ -1,7 +1,36 @@
 <template>
   <div class="tips-list">
     <div class="actions">
-      <SendTip />
+      <SendTip :post="feed === 'posts'" />
+      <div class="feed-category-row">
+        <FilterButton
+          :class="{ active: feed === 'main' }"
+          @click="feed = 'main'"
+        >
+          <IconFeed />
+          <span>
+            {{ $t('Main') }}
+          </span>
+        </FilterButton>
+        <FilterButton
+          :class="{ active: feed === 'tips' }"
+          @click="feed = 'tips'"
+        >
+          <IconDiamond />
+          <span>
+            {{ $t('Tips') }}
+          </span>
+        </FilterButton>
+        <FilterButton
+          :class="{ active: feed === 'posts' }"
+          @click="feed = 'posts'"
+        >
+          <IconPosts />
+          <span>
+            {{ $t('Posts') }}
+          </span>
+        </FilterButton>
+      </div>
       <div class="not-bootstrap-row">
         <ButtonPlain
           :class="{ active: tipSortBy === 'hot' }"
@@ -34,10 +63,12 @@
       </div>
     </div>
 
-    <TipsPagination
+    <FeedPagination
       :tip-sort-by="tipSortBy"
       :search="query"
       :blacklist="isHiddenContent"
+      :show-tips="['main', 'tips'].includes(feed)"
+      :show-posts="['main', 'posts'].includes(feed)"
     />
   </div>
 </template>
@@ -45,22 +76,31 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
-import TipsPagination from '../components/TipsPagination.vue';
+import FeedPagination from '../components/FeedPagination.vue';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
 import Checkbox from '../components/Checkbox.vue';
 import ButtonPlain from '../components/ButtonPlain.vue';
+import FilterButton from '../components/FilterButton.vue';
+import IconFeed from '../assets/iconFeed.svg?icon-component';
+import IconDiamond from '../assets/iconDiamond.svg?icon-component';
+import IconPosts from '../assets/iconPosts.svg?icon-component';
 
 export default {
   components: {
-    TipsPagination,
+    FeedPagination,
     SendTip,
     Checkbox,
     ThreeDotsMenu,
     ButtonPlain,
+    FilterButton,
+    IconFeed,
+    IconDiamond,
+    IconPosts,
   },
   props: {
     query: { type: String, default: '' },
   },
+  data: () => ({ feed: 'main' }),
   computed: mapState(['tipSortBy', 'isHiddenContent']),
   methods: mapMutations(['setTipSortBy', 'setIsHiddenContent']),
   metaInfo: {
@@ -87,6 +127,21 @@ export default {
 
     @include smallest {
       display: none;
+    }
+  }
+
+  .feed-category-row {
+    background-color: $light-color;
+    padding: 0.5rem 1rem;
+
+    .filter-button {
+      svg {
+        height: 0.8rem;
+      }
+
+      span {
+        vertical-align: middle;
+      }
     }
   }
 

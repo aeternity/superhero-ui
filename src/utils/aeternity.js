@@ -1,11 +1,13 @@
 /* globals Cypress */
 import {
-  MemoryAccount, Node, Universal, RpcAepp,
+  MemoryAccount, Node, Universal, RpcAepp, Crypto,
 } from '@aeternity/aepp-sdk/es';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import TIPPING_V1_INTERFACE from 'tipping-contract/Tipping_v1_Interface.aes';
 import TIPPING_V2_INTERFACE from 'tipping-contract/Tipping_v2_Interface.aes';
+import TIPPING_V3_INTERFACE from 'tipping-contract/Tipping_v3_Interface.aes';
+import tippingContractUtil from 'tipping-contract/util/tippingContractUtil';
 import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
 import { BigNumber } from 'bignumber.js';
 import store from '../store';
@@ -14,19 +16,20 @@ import { IS_MOBILE_DEVICE } from './index';
 let sdk;
 let contractV1;
 let contractV2;
+let contractV3;
+let isTippingContractsInitialised;
 
 const initTippingContractIfNeeded = async () => {
   if (!sdk) throw new Error('Init sdk first');
-  if (!contractV1) {
-    contractV1 = await sdk.getContractInstance(TIPPING_V1_INTERFACE, {
-      contractAddress: process.env.VUE_APP_CONTRACT_V1_ADDRESS,
-    });
-  }
-  if (!contractV2 && process.env.VUE_APP_CONTRACT_V2_ADDRESS) {
-    contractV2 = await sdk.getContractInstance(TIPPING_V2_INTERFACE, {
-      contractAddress: process.env.VUE_APP_CONTRACT_V2_ADDRESS,
-    });
-  }
+  if (isTippingContractsInitialised) return;
+  [contractV1, contractV2, contractV3] = await Promise.all([
+    [TIPPING_V1_INTERFACE, process.env.VUE_APP_CONTRACT_V1_ADDRESS],
+    [TIPPING_V2_INTERFACE, process.env.VUE_APP_CONTRACT_V2_ADDRESS],
+    [TIPPING_V3_INTERFACE, process.env.VUE_APP_CONTRACT_V3_ADDRESS],
+  ].map(([tippingInterface, contractAddress]) => (contractAddress
+    ? sdk.getContractInstance(tippingInterface, { contractAddress })
+    : null)));
+  isTippingContractsInitialised = true;
 };
 
 /**
@@ -142,4 +145,15 @@ export const retip = async (contractAddress, id, amount, tokenAddress = null) =>
   }
 
   return null;
+};
+
+export const postWithoutTip = async (title, media) => {
+  await initTippingContractIfNeeded();
+  return contractV3.methods.post_without_tip(title, media);
+};
+
+export const postWithoutTipSignature = async (title, media) => {
+  const message = tippingContractUtil.postWithoutTippingString(title, media);
+  const hash = Crypto.hash(message);
+  return sdk.signMessage(hash, { returnHex: true });
 };

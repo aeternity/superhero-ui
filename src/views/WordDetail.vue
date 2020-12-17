@@ -337,6 +337,11 @@ export default {
       return tokenBalance ? tokenBalance.balance : '0';
     },
   },
+  watch: {
+    maxAmount() {
+      this.loadVotes();
+    },
+  },
   created() {
     this.selectedWord = this.$route.params.word;
     this.reloadData();

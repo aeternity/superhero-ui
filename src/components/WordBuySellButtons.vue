@@ -34,13 +34,14 @@
         Amount buying
       </div>
       <div class="input-group mb-2">
-        <input
+        <AeInputAmount
           v-model="buyAmount"
-          type="number"
-          maxlength="90"
-          class="form-control"
-          @keyup="buyValue"
-        >
+          :token="tokenAddress"
+          no-dropdown
+          no-fiatvalue
+          :key-up="buyValue"
+          class="input-amount"
+        />
       </div>
       <div class="mt-3 label">
         Total you pay
@@ -89,13 +90,14 @@
         Amount selling
       </div>
       <div class="input-group mb-2">
-        <input
+        <AeInputAmount
           v-model="sellAmount"
-          type="number"
-          maxlength="90"
-          class="form-control"
-          @keyup="sellValue"
-        >
+          :token="tokenAddress"
+          no-dropdown
+          no-fiatvalue
+          :key-up="sellValue"
+          class="input-amount"
+        />
       </div>
       <div class="mt-3 label">
         Total you get
@@ -142,10 +144,12 @@ import OutlinedButton from './OutlinedButton.vue';
 import Modal from './Modal.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 import { shiftDecimalPlaces } from '../utils';
+import AeInputAmount from './AeInputAmount.vue';
 
 export default {
   name: 'WordBuySellButtons',
   components: {
+    AeInputAmount,
     AeAmountFiat,
     AeAmount,
     Loading,
@@ -205,7 +209,7 @@ export default {
     async buyValue() {
       this.updatingValue = true;
 
-      const amount = shiftDecimalPlaces(this.buyAmount, 18).toFixed();
+      const amount = shiftDecimalPlaces(this.buyAmount || 0, 18).toFixed();
 
       const value = await this.$store.dispatch('aeternity/tokenSaleMethod',
         {
@@ -221,7 +225,7 @@ export default {
     async sellValue() {
       this.updatingValue = true;
 
-      const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
+      const amount = shiftDecimalPlaces(this.sellAmount || 0, 18).toFixed();
       this.sellAeAmount = await this.$store.dispatch('aeternity/tokenSaleMethod',
         {
           contractAddress: this.sale,
@@ -279,6 +283,10 @@ export default {
     min-width: 16rem;
     padding: 0.5rem;
   }
+}
+
+.input-amount {
+  max-width: 10rem;
 }
 
 .return-amount {

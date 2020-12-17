@@ -264,6 +264,7 @@
 <script>
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSaleInterface.aes';
 import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
+import TOKEN_VOTING_CONTRACT_INTERFACE from 'wordbazaar-contracts/TokenVotingInterface.aes';
 import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 import { getClient, createOrChangeAllowance } from '../utils/aeternity';
@@ -471,7 +472,7 @@ export default {
     async initTokenVotingContractIfUnknown(vote) {
       this.tokenVoting[vote] = this.tokenVoting[vote] ? this.tokenVoting[vote]
         : await getClient().then((client) => client
-          .getContractInstance(TOKEN_VOTING_CONTRACT, { contractAddress: vote }));
+          .getContractInstance(TOKEN_VOTING_CONTRACT_INTERFACE, { contractAddress: vote }));
     },
     async initSaleContractIfUnknown() {
       if (!this.selectedWordContract) {

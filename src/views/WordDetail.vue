@@ -262,7 +262,7 @@
 </template>
 
 <script>
-import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
+import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSaleInterface.aes';
 import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
 import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';

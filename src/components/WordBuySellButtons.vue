@@ -132,7 +132,7 @@
 </template>
 
 <script>
-import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
+import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSaleInterface.aes';
 import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 import { getClient, createOrChangeAllowance } from '../utils/aeternity';

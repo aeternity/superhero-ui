@@ -16,6 +16,7 @@
       aria-describedby="inputGroup-sizing-mn"
       :disabled="disabled"
       @input="$emit('input', $event.target.value)"
+      @keyup="keyUp"
     >
     <div
       class="input-group-append"
@@ -80,6 +81,7 @@ export default {
     notTokenTipable: { type: Boolean },
     noDropdown: { type: Boolean },
     noFiatvalue: { type: Boolean },
+    keyUp: { type: Function, default: (x) => x },
   },
   data: () => ({
     selectedToken: null,

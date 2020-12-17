@@ -29,7 +29,7 @@
         <span
           class="symbol"
         >
-          {{ tokenInfo[selectedToken] && tokenInfo[selectedToken].symbol || 'AE' }}
+          {{ symbol }}
         </span>
         <!-- eslint-enable vue-i18n/no-raw-text -->
         <FiatValue
@@ -63,6 +63,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+import BigNumber from 'bignumber.js';
 import FiatValue from './FiatValue.vue';
 import Dropdown from './Dropdown.vue';
 import TokenAvatarAndSymbol from './fungibleTokens/TokenAvatarAndSymbol.vue';
@@ -92,11 +93,15 @@ export default {
     ...mapState({
       selectTokenOptions: ({ tokenBalances, balance }) => [
         { token: null, balance },
-        ...tokenBalances,
+        ...tokenBalances.filter((t) => !new BigNumber(t.balance).isZero()),
       ],
     }),
     tokenTipable() {
       return !this.notTokenTipable && !!process.env.VUE_APP_CONTRACT_V2_ADDRESS;
+    },
+    symbol() {
+      if (this.token) return this.tokenInfo[this.token] ? this.tokenInfo[this.token].symbol : '';
+      return this.selectedToken ? this.tokenInfo[this.selectedToken].symbol : 'AE';
     },
   },
   created() {
@@ -104,6 +109,7 @@ export default {
   },
   methods: {
     selectToken(selected) {
+      if (this.noDropdown) return;
       this.selectedToken = selected.token;
       this.selectTokenF(this.selectedToken);
     },

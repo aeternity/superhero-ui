@@ -206,7 +206,7 @@
                 <AeInputAmount
                   v-if="vote.showVoteOption || vote.accountHasVoted"
                   v-model="vote.stakeAmount"
-                  :disabled="!vote.showVoteOption"
+                  :disabled="!vote.showVoteOption || isZero(vote.stakeAmount)"
                   :token="data.tokenAddress"
                   no-dropdown
                   no-fiatvalue
@@ -351,6 +351,9 @@ export default {
     setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
+    isZero(number) {
+      return new BigNumber(number).isZero();
+    },
     async reloadData() {
       this.wordRegistryState = await Backend.getWordRegistry();
 

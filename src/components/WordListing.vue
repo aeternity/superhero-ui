@@ -46,6 +46,7 @@
           v-if="totalSupply !== null && tokenAddress"
           :amount="totalSupply"
           :token="tokenAddress"
+          no-symbol
         />
         <Loading
           v-else

@@ -1,9 +1,10 @@
 <template>
   <div>
     <div>
+      <!-- eslint-disable vue/v-on-function-call -->
       <OutlinedButton
         class="green unpadded mr-1"
-        @click="showBuyModal = true"
+        @click="showBuyModal = true; buyValue()"
       >
         <!-- eslint-disable vue-i18n/no-raw-text -->
         Buy
@@ -12,9 +13,8 @@
       <OutlinedButton
         class="red unpadded"
         :disabled="tokenBalance === 0"
-        @click="showSellModal = true"
+        @click="showSellModal = true; sellValue()"
       >
-        <!-- eslint-disable vue-i18n/no-raw-text -->
         Sell
       </OutlinedButton>
     </div>
@@ -197,10 +197,6 @@ export default {
 
       this.buyAmount = 1;
       this.sellAmount = 1;
-
-      // just trigger loading
-      this.buyValue();
-      this.sellValue();
 
       this.loading = false;
       this.showSellModal = false;

@@ -181,9 +181,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="profile__stats"
-    >
+    <div class="profile__stats">
       <div
         v-for="(divClass, index) in ['tip_stats', 'stats']"
         :key="index"

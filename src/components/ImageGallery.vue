@@ -24,9 +24,7 @@
     <div class="image-wrapper">
       <img :src="media[imageIndex]">
     </div>
-    <div
-      class="bottom-row"
-    >
+    <div class="bottom-row">
       <MediaRow
         :media="media"
         :active="imageIndex"

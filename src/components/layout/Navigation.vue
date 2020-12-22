@@ -13,7 +13,7 @@
 
     <RouterLink :to="{ name: 'feed' }">
       <IconTips />
-      {{ $t('Feed') }}
+      {{ $t('components.layout.Navigation.feed') }}
     </RouterLink>
     <RouterLink :to="{ name: 'voting' }">
       <IconGovernance />

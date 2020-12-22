@@ -14,6 +14,10 @@
   "Balance": "Balance:",
   "aeternityBlockchain": "aeternity blockchain",
   "views": {
+    "FeedList": {
+      "main": "Main",
+      "posts": "Posts"
+    },
     "CreateProfile": {
       "header1": "HOW TO USE SUPERHERO.COM",
       "header2": "Social platform with no hidden agenda.",
@@ -457,6 +461,7 @@
         "LoginWithWallet": "Login with Web Wallet"
       },
       "Navigation": {
+        "feed": "Feed",
         "MyProfile": "My Profile",
         "League": "League",
         "Governance": "Voting"

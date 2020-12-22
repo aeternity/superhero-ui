@@ -549,8 +549,8 @@ input[type="file"] {
 
     img {
       vertical-align: top;
-      height: 0.75rem !important;
-      width: auto !important;
+      height: 0.75rem;
+      width: auto;
     }
 
     input[type="text"] {
@@ -659,8 +659,8 @@ input[type="file"] {
   margin-right: 2rem;
 
   img {
-    height: 0.75rem !important;
-    width: auto !important;
+    height: 0.75rem;
+    width: auto;
     margin-bottom: 0.2rem;
   }
 }
@@ -788,8 +788,8 @@ input[type="file"] {
 
 @include smallest {
   .profile__header .profile__image .avatar {
-    height: 4.5rem !important;
-    width: 4.5rem !important;
+    height: 4.5rem;
+    width: 4.5rem;
   }
 
   .profile__row {

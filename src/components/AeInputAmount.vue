@@ -17,17 +17,13 @@
       :disabled="disabled"
       @input="$emit('input', $event.target.value)"
     >
-    <div
-      class="input-group-append"
-    >
+    <div class="input-group-append">
       <span
         class="input-group-text append__ae text-ellipsis"
         :title="value"
       >
         <!-- eslint-disable vue-i18n/no-raw-text -->
-        <span
-          class="symbol"
-        >
+        <span class="symbol">
           {{ tokenTipable && selectedToken !== 'native' ? tokenInfo[selectedToken].symbol : 'AE' }}
         </span>
         <!-- eslint-enable vue-i18n/no-raw-text -->

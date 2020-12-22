@@ -58,11 +58,9 @@ export default {
     }
   }
 
-  ::v-deep .profile__image {
-    .avatar {
-      width: 3.5rem;
-      height: 3.5rem;
-    }
+  ::v-deep .profile__image .avatar {
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
   @include mobile {

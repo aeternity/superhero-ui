@@ -181,9 +181,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="profile__stats"
-    >
+    <div class="profile__stats">
       <div
         v-for="(divClass, index) in ['tip_stats', 'stats']"
         :key="index"
@@ -266,7 +264,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'chainNames', 'sdk', 'cookiesConsent']),
+    ...mapState(['chainNames', 'sdk', 'cookiesConsent']),
     ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];
@@ -549,8 +547,8 @@ input[type="file"] {
 
     img {
       vertical-align: top;
-      height: 0.75rem !important;
-      width: auto !important;
+      height: 0.75rem;
+      width: auto;
     }
 
     input[type="text"] {
@@ -659,8 +657,8 @@ input[type="file"] {
   margin-right: 2rem;
 
   img {
-    height: 0.75rem !important;
-    width: auto !important;
+    height: 0.75rem;
+    width: auto;
     margin-bottom: 0.2rem;
   }
 }
@@ -788,8 +786,8 @@ input[type="file"] {
 
 @include smallest {
   .profile__header .profile__image .avatar {
-    height: 4.5rem !important;
-    width: 4.5rem !important;
+    height: 4.5rem;
+    width: 4.5rem;
   }
 
   .profile__row {

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="loading"
-    :class="{ 'above-content': aboveContent, small }"
-  >
+  <div :class="['loading', { 'above-content': aboveContent, small }]">
     <div class="spinner-border text-primary" />
   </div>
 </template>

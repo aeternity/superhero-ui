@@ -264,7 +264,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['useSdkWallet', 'chainNames', 'sdk', 'cookiesConsent']),
+    ...mapState(['chainNames', 'sdk', 'cookiesConsent']),
     ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];

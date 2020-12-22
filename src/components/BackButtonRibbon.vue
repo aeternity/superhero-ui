@@ -30,7 +30,7 @@ export default {
   methods: {
     back() {
       if (!this.$store.state.route.from.name) {
-        this.$router.push({ name: 'tips' });
+        this.$router.push({ name: 'feed' });
         return;
       }
       this.$router.go(-1);

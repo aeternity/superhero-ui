@@ -36,7 +36,7 @@ sync(store, router);
 store.watch(
   ({ isBackendLive }) => isBackendLive,
   async (isBackendLive) => {
-    const targetRouteName = isBackendLive ? 'tips' : 'maintenance';
+    const targetRouteName = isBackendLive ? 'feed' : 'maintenance';
     if (router.currentRoute.name === targetRouteName) return;
     await router.push({ name: targetRouteName });
   },

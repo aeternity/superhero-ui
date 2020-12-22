@@ -9,7 +9,7 @@
         >
           <IconFeed />
           <span>
-            {{ $t('Main') }}
+            {{ $t('views.FeedList.main') }}
           </span>
         </FilterButton>
         <FilterButton
@@ -18,7 +18,7 @@
         >
           <IconDiamond />
           <span>
-            {{ $t('Tips') }}
+            {{ $t('tips') }}
           </span>
         </FilterButton>
         <FilterButton
@@ -27,7 +27,7 @@
         >
           <IconPosts />
           <span>
-            {{ $t('Posts') }}
+            {{ $t('views.FeedList.posts') }}
           </span>
         </FilterButton>
       </div>

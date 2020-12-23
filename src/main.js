@@ -6,6 +6,7 @@ import { sync } from 'vuex-router-sync';
 import { defer } from 'lodash-es';
 import VueMeta from 'vue-meta';
 import VueTimeago from 'vue-timeago';
+import formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import App from './App.vue';
 import store from './store';
 import router from './router';
@@ -19,9 +20,7 @@ Vue.use(VueTimeago, {
   locale: 'en',
   // https://github.com/egoist/vue-timeago/issues/94#issuecomment-475636750
   converter(date, locale, { includeSeconds = false, addSuffix = false }) {
-    // eslint-disable-next-line import/no-extraneous-dependencies,global-require
-    const distanceInWordsStrict = require('date-fns/distance_in_words_strict');
-    return distanceInWordsStrict(Date.now(), date, { locale, addSuffix, includeSeconds });
+    return formatDistanceStrict(Date.now(), date, { locale, addSuffix, includeSeconds });
   },
 });
 

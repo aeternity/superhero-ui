@@ -174,7 +174,7 @@
             :key="scope"
             class="cookies-button"
             :class="{ active: cookiesConsent[scope] }"
-            @click="setCookies(scope, !cookiesConsent[scope] )"
+            @click="setCookies({ scope, status: !cookiesConsent[scope] })"
           >
             {{ scope }}
           </ButtonPlain>
@@ -214,7 +214,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import Backend from '../utils/backend';
 import { atomsToAe } from '../utils';
 import AeAmountFiat from './AeAmountFiat.vue';
@@ -345,6 +345,7 @@ export default {
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
   },
   methods: {
+    ...mapActions('backend', ['setCookies']),
     async reloadBalance() {
       await this.$watchUntilTruly(() => this.sdk);
       this.balance = atomsToAe(await this.sdk.balance(this.address).catch(() => 0)).toFixed(2);
@@ -396,16 +397,6 @@ export default {
           this.$store.commit('setUserProfile', profile);
         })
         .catch(console.error);
-    },
-    async setCookies(scope, status) {
-      await this.backendAuth(`setCookies${scope}`, {
-        scope,
-        status,
-      });
-      this.$store.commit('setCookiesConsent', {
-        scope,
-        status,
-      });
     },
   },
 };

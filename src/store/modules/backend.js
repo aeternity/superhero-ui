@@ -151,5 +151,12 @@ export default {
         dispatch('reloadStats'),
       ]);
     },
+    async setCookies({ dispatch, commit }, { scope, status }) {
+      await dispatch('callWithAuth', {
+        method: `setCookies${scope}`,
+        arg: { scope, status },
+      });
+      commit('setCookiesConsent', { scope, status }, { root: true });
+    },
   },
 };

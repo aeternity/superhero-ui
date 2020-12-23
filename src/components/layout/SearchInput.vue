@@ -4,7 +4,7 @@
     :class="{ sided, focused }"
   >
     <input
-      v-model="query"
+      :value="value"
       type="text"
       :placeholder="placeholder"
       @focus="focused = true"
@@ -12,9 +12,9 @@
       @input="search($event.target.value)"
     >
     <ButtonPlain
-      v-if="query.length"
+      v-if="value.length"
       :title="$t('views.TipList.Clear')"
-      @click="clear"
+      @click="$emit('input', '')"
     >
       <IconEraser />
     </ButtonPlain>
@@ -50,18 +50,13 @@ export default {
   },
   data() {
     return {
-      query: this.value,
       focused: false,
     };
   },
   methods: {
-    search: debounce(function set(query) {
-      this.$emit('input', query);
+    search: debounce(function set(value) {
+      this.$emit('input', value);
     }, 300),
-    clear() {
-      this.query = '';
-      this.search('');
-    },
   },
 };
 </script>

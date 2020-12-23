@@ -72,8 +72,3 @@ export const getI18nPath = (index, page) => (isTitle(index, page)
   : `views.${page}.sections[${index}].text`);
 
 export const handleUnknownError = (error) => console.warn('Unknown rejection', error);
-
-export const blockToDate = (goalBlock, height) => {
-  const diff = goalBlock - height;
-  return new Date(diff * 180000 + Date.now());
-};

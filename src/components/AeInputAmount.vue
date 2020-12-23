@@ -16,7 +16,7 @@
       aria-describedby="inputGroup-sizing-mn"
       :disabled="disabled"
       @input="$emit('input', $event.target.value)"
-      @keyup="keyUp"
+      @keyup="$emit('keyup', $event)"
     >
     <div class="input-group-append">
       <span

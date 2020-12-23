@@ -27,7 +27,8 @@ export default {
   computed: {
     ...mapState({
       tokenData({ tokenInfo }) {
-        return this.address && tokenInfo[this.address] || null;
+        const hasTokenInfo = this.address && tokenInfo[this.address];
+        return hasTokenInfo || null;
       },
     }),
   },

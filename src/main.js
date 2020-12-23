@@ -16,8 +16,7 @@ Vue.use(VueRouter);
 Vue.use(VueMeta);
 
 Vue.use(VueTimeago, {
-  name: 'Timeago', // Component name, `Timeago` by default
-  locale: 'en', // Default locale
+  locale: 'en',
   // https://github.com/egoist/vue-timeago/issues/94#issuecomment-475636750
   converter(date, locale, { includeSeconds = false, addSuffix = false }) {
     // eslint-disable-next-line import/no-extraneous-dependencies,global-require

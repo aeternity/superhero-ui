@@ -153,7 +153,7 @@ export default {
     },
     async setCookies({ dispatch, commit }, { scope, status }) {
       await dispatch('callWithAuth', {
-        method: `setCookies${scope}`,
+        method: 'setCookiesConsent',
         arg: { scope, status },
       });
       commit('setCookiesConsent', { scope, status }, { root: true });

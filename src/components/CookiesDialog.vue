@@ -19,7 +19,7 @@
     <div>
       <ButtonPlain
         class="cookies-button"
-        @click="allow"
+        @click="setCookies({ scope, status: true })"
       >
         Allow {{ scope }}
       </ButtonPlain>
@@ -35,31 +35,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import backendAuthMixin from '../utils/backendAuthMixin';
+import { mapState, mapActions } from 'vuex';
 import ButtonPlain from './ButtonPlain.vue';
 import CookieImg from '../assets/cookieImg.svg?icon-component';
 import IconCancel from '../assets/iconCancel.svg?icon-component';
 
 export default {
   components: { ButtonPlain, CookieImg, IconCancel },
-  mixins: [backendAuthMixin()],
   props: { scope: { type: String, required: true } },
   computed: mapState(['address']),
-  methods: {
-    async allow() {
-      if (this.address) {
-        await this.backendAuth(`setCookies${this.scope}`, {
-          scope: this.scope,
-          status: true,
-        });
-      }
-      this.$store.commit('setCookiesConsent', {
-        scope: this.scope,
-        status: true,
-      });
-    },
-  },
+  methods: mapActions('backend', ['setCookies']),
 };
 </script>
 

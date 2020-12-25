@@ -1,14 +1,14 @@
 <template>
-  <div class="sound-cloud-player tip__two-columns-preview">
+  <div class="sound-cloud-player tip-two-columns-preview">
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
       scope="SoundCloud"
       @close="showCookiesDialog = false"
     />
-    <div class="tip__two-columns-img">
+    <div class="tip-two-columns-img">
       <img :src="tipPreviewImage">
     </div>
-    <div class="tip__two-columns-info">
+    <div class="tip-two-columns-info">
       <div class="source">
         {{ sourceUrl.toUpperCase() }}
       </div>

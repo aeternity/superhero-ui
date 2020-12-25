@@ -20,7 +20,7 @@
     >
     <div class="input-group-append">
       <span
-        class="input-group-text append__ae text-ellipsis"
+        class="input-group-text append-ae text-ellipsis"
         :title="value"
       >
         <!-- eslint-disable vue-i18n/no-raw-text -->
@@ -141,7 +141,7 @@ export default {
   }
 
   input,
-  input ~ .input-group-append > span.append__ae {
+  input ~ .input-group-append > span.append-ae {
     border: 0;
 
     &:focus {
@@ -149,7 +149,7 @@ export default {
     }
   }
 
-  .input-group-append > span.append__ae {
+  .input-group-append > span.append-ae {
     font-size: 0.75rem;
     background: $buttons_background;
     cursor: default;

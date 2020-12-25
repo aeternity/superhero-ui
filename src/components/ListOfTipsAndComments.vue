@@ -14,7 +14,7 @@
     <div class="position-relative">
       <div
         v-if="activeTab === 'tips' && activity === 'activity'"
-        class="tips__container"
+        class="tips-container"
       >
         <FeedPagination
           tip-sort-by="latest"
@@ -25,7 +25,7 @@
       </div>
       <div
         v-if="activeTab === 'comments' && activity === 'activity'"
-        class="tips__container"
+        class="tips-container"
       >
         <Loading
           v-if="showLoading"
@@ -46,7 +46,7 @@
       </div>
       <div
         v-if="activeTab === 'tips' && activity === 'channel'"
-        class="tips__container"
+        class="tips-container"
       >
         <div
           v-if="!pinnedItems.length"
@@ -154,7 +154,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.profile__actions {
+.profile-actions {
   background-color: $actions_ribbon_background_color;
   padding-left: 1rem;
   position: sticky;

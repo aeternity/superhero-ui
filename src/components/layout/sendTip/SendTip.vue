@@ -1,7 +1,7 @@
 <template>
-  <div class="send-tip tip__post">
+  <div class="send-tip tip-post">
     <div v-if="showForm">
-      <div class="tip__post__label clearfix">
+      <div class="tip-post-label clearfix">
         <IconClose
           :title="$t('close')"
           class="close-sendform"
@@ -165,7 +165,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tip__post {
+.tip-post {
   background-color: $actions_ribbon_background_color;
 
   form {
@@ -240,12 +240,12 @@ export default {
     margin-bottom: 1rem;
   }
 
-  .tip__post__balance span {
+  .tip-post-balance span {
     font-size: 0.75rem;
     color: $standard_font_color;
   }
 
-  .tip__post__label {
+  .tip-post-label {
     font-weight: 600;
     font-size: 0.8rem;
     color: $standard_font_color;

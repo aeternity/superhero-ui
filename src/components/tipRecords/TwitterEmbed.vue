@@ -1,13 +1,13 @@
 <template>
   <div
-    class="tip__two-columns-preview"
+    class="tip-two-columns-preview"
     @click.stop="goToTip"
   >
-    <div class="tip__two-columns-img">
+    <div class="tip-two-columns-img">
       <img :src="tipPreviewImage">
     </div>
 
-    <div class="tip__two-columns-info">
+    <div class="tip-two-columns-info">
       <div class="source">
         {{ sourceUrl.toUpperCase() }}
       </div>

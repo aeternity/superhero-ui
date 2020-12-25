@@ -50,7 +50,6 @@
         >
           <template #displayValue>
             <span class="currency-value spaced">
-              <!--eslint-disable-line vue-i18n/no-raw-text-->
               <FiatValue
                 :amount="(selectedToken || aeternityTokenData).balance"
                 :token="(selectedToken || aeternityTokenData).token"
@@ -63,7 +62,6 @@
           </template>
           <template v-slot="{ option }">
             <span class="currency-value">
-              <!--eslint-disable-line vue-i18n/no-raw-text-->
               <FiatValue
                 :amount="(selectedToken || aeternityTokenData).balance"
                 :token="(selectedToken || aeternityTokenData).token"

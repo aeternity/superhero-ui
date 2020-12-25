@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="tip__article"
-  >
+  <div class="tip__article">
     <div
       v-if="richPreviewComponent && isPreviewToBeVisualized"
       class="tip__article--hasresults"
@@ -53,9 +51,7 @@
             loading="lazy"
             @error="$event.target.src = require('../../assets/defaultImg.svg')"
           >
-          <div
-            class="tip__info"
-          >
+          <div class="tip__info">
             <div class="source">
               {{ sourceUrl }}
             </div>
@@ -73,9 +69,7 @@
             </div>
           </div>
         </div>
-        <div
-          class="tip__links"
-        >
+        <div class="tip__links">
           <div
             class="tip__amount"
             @click.stop

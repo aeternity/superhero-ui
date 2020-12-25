@@ -64,9 +64,7 @@
             <IconComments />
             <span>{{ tip.commentCount }}</span>
           </ButtonPlain>
-          <ButtonPlain
-            class="action"
-          >
+          <ButtonPlain class="action">
             <IconShare />
           </ButtonPlain>
         </div>

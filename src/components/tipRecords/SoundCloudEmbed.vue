@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="sound-cloud-player tip__two-columns-preview"
-  >
+  <div class="sound-cloud-player tip__two-columns-preview">
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
       scope="SoundCloud"

@@ -89,7 +89,6 @@
 
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
-import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
 import Dropdown from '../Dropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
@@ -120,11 +119,6 @@ export default {
       'tokenPrices', 'tokenInfo']),
     currencyDropdownOptions() {
       return Object.entries(this.prices).map(([currency]) => ({ currency }));
-    },
-    selectedCurrencyPrice() {
-      return new BigNumber(this.balance)
-        .multipliedBy(this.prices[this.selectedCurrency])
-        .toFixed(2);
     },
     aeternityTokenData() {
       return {

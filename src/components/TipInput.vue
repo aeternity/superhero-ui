@@ -76,7 +76,6 @@ import { mapState, mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
-import { tip, retip } from '../utils/aeternity';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl, shiftDecimalPlaces } from '../utils';
@@ -110,7 +109,8 @@ export default {
     message: '',
   }),
   computed: {
-    ...mapState(['useSdkWallet', 'address', 'tokenInfo']),
+    ...mapState(['address', 'tokenInfo']),
+    ...mapState({ useSdkWallet: ({ aeternity: { useSdkWallet } }) => useSdkWallet }),
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
@@ -182,8 +182,21 @@ export default {
         const amount = shiftDecimalPlaces(this.inputValue,
           this.inputToken !== null ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
-        if (!this.tip) await tip(this.tipUrl, this.message, amount, this.inputToken);
-        else await retip(this.tip.contractId, this.tip.id, amount, this.inputToken);
+        if (!this.tip) {
+          await this.$store.dispatch('tip', {
+            url: this.tipUrl,
+            title: this.message,
+            amount,
+            tokenAddress: this.inputToken,
+          });
+        } else {
+          await this.$store.dispatch('retip', {
+            contractAddress: this.tip.contractId,
+            id: this.tip.id,
+            amount,
+            tokenAddress: this.inputToken,
+          });
+        }
 
         if (!this.userAddress) {
           await Backend.cacheInvalidateTips();

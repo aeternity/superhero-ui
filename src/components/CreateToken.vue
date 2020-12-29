@@ -1,10 +1,9 @@
 <template>
   <div>
-    <!-- eslint-disable vue-i18n/no-raw-text -->
     <div class="create-header">
       <div class="create-header-content">
-        <h2>Create Your Token</h2>
-        <h3>In Less Than 5 Minutes</h3>
+        <h2>{{ $t('Create Your Token') }}</h2>
+        <h3>{{ $t('In Less Than 5 Minutes') }}</h3>
         <span class="step-description">{{ stepDescription }}</span>
       </div>
     </div>
@@ -22,7 +21,7 @@
     </div>
     <div class="create-inputs input-group">
       <div>
-        <label for="name">Tokenized asset</label>
+        <label for="name">{{ $t('Tokenized asset') }}</label>
         <input
           id="name"
           v-model="name"
@@ -35,7 +34,7 @@
       </div>
 
       <div>
-        <label for="description">Token Description</label>
+        <label for="description">{{ $t('Token Description') }}</label>
         <input
           id="description"
           v-model="description"
@@ -48,7 +47,7 @@
       </div>
 
       <div>
-        <label for="ticker">Token short name</label>
+        <label for="ticker">{{ $t('Token short name') }}</label>
         <input
           id="ticker"
           v-model="ticker"
@@ -68,7 +67,7 @@
             small
             class="p-0"
           />
-          <span v-else>Create Token</span>
+          <span v-else>{{ $t('Create Token') }}</span>
         </AeButton>
       </div>
     </div>

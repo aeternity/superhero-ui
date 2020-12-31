@@ -58,8 +58,8 @@
           </ButtonPlain>
           <ButtonPlain
             class="action"
-            :class="{ active: tip.commentCount }"
-            @click="goToTip"
+            :class="{ active: tip.commentCount, disabled: $route.name === 'tip' }"
+            @click.stop="$route.name === 'tip' ? null : $router.push(toTip)"
           >
             <IconComments />
             <span>{{ tip.commentCount }}</span>
@@ -223,12 +223,6 @@ export default {
   width: 1rem;
 }
 
-.comment__icon {
-  margin-right: 0.2rem;
-  vertical-align: top;
-  height: 1rem;
-}
-
 .tip-footer {
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
@@ -262,26 +256,12 @@ export default {
       &.active {
         color: #fff;
       }
+
+      &.disabled {
+        cursor: default;
+      }
     }
   }
-}
-
-.tip__comments {
-  height: 1rem;
-  align-items: center;
-  display: flex;
-  flex: 0 0 auto;
-  cursor: pointer;
-  position: relative;
-  width: max-content;
-
-  &.tip__comments--hascomments {
-    color: #fff;
-  }
-}
-
-.tip__comments:hover img {
-  filter: brightness(1.3);
 }
 
 @media only screen and (max-width: 1024px) {

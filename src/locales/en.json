@@ -303,7 +303,7 @@
       "Location": "Location",
       "noPinnedItems": "There are no pinned items to display."
     },
-     "Wallet": {
+    "Wallet": {
       "header": "WALLET: Fully P2P, instant tipping with no third-party leeches.",
       "sections": [
         {
@@ -529,6 +529,25 @@
       "Activity": "Activity",
       "NoPinnedItems": "There are no pinned items to display.",
       "NoActivity": "There is no activity to display."
+    },
+    "CreateToken": {
+      "NewToken": "New Token Created ✨",
+      "CreateToken": "Create Your Token",
+      "Proceed": "Proceed To Assets",
+      "FiveMinutes": "In Less Than 5 Minutes",
+      "TokenAsset": "Token asset",
+      "TokenDescription": "Token description",
+      "Abbreviation": "Abbreviation",
+      "AbbreviationLong": "Abbreviation (token short name)",
+      "StepsDescription": [
+        "Please fill in the fields below with your token details.",
+        "Creating {0} Bonding Curve Contract... Please confirm the transaction!",
+        "Creating {0} Token Sale Contract... Please confirm the transaction!",
+        "Creating {0} Token Contract... Please confirm the transaction!",
+        "Registering {0} Token for sale... Please confirm the transaction!",
+        "Adding {0} Sale to Word Bazaar... Please confirm the transaction!",
+        "🎉 Congratulations! {0} token has beend added to WordBazaar."
+      ]
     }
   },
   "Networking": {

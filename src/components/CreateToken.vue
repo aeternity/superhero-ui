@@ -2,9 +2,23 @@
   <div class="create-token">
     <div class="create-header">
       <div class="create-header-content">
-        <h2>{{ success ? $t('New Token Created ✨') : $t('Create Your Token') }}</h2>
-        <h3>{{ success ? `Redirecting in ${seconds} seconds` : $t('In Less Than 5 Minutes') }}</h3>
-        <span class="step-description">{{ stepDescription }}</span>
+        <h2>
+          {{ success ?
+            $t('components.CreateToken.NewToken') :
+            $t('components.CreateToken.CreateToken') }}
+        </h2>
+        <h3>
+          {{ success ?
+            `Redirecting in ${seconds} seconds` :
+            $t('components.CreateToken.FiveMinutes') }}
+        </h3>
+        <i18n
+          :path="`components.CreateToken.StepsDescription[${step}]`"
+          tag="p"
+          class="step-description"
+        >
+          <span class="abbreviation">{{ ticker }}</span>
+        </i18n>
       </div>
       <div class="arrow-up" />
     </div>
@@ -23,7 +37,7 @@
       </div>
       <div class="create-inputs input-group">
         <div>
-          <label for="name">{{ $t('Token asset') }}</label>
+          <label for="name">{{ $t('components.CreateToken.TokenAsset') }}</label>
           <textarea
             v-if="!loadingState"
             id="name"
@@ -45,7 +59,7 @@
         </div>
 
         <div>
-          <label for="description">{{ $t('Token description') }}</label>
+          <label for="description">{{ $t('components.CreateToken.TokenDescription') }}</label>
           <textarea
             v-if="!loadingState"
             id="description"
@@ -67,7 +81,9 @@
         </div>
         <div>
           <label for="ticker">
-            {{ loadingState ? $t('Abbreviation') : $t('Abbreviation (token short name)') }}
+            {{ loadingState ?
+              $t('components.CreateToken.Abbreviation') :
+              $t('components.CreateToken.AbbreviationLong') }}
           </label>
           <div class="ticker">
             <div>
@@ -98,7 +114,7 @@
             >
               <RightArrow />
               <span>
-                {{ $t('Proceed to Assets') }}
+                {{ $t('components.CreateToken.Proceed') }}
               </span>
             </AeButton>
             <AeButton
@@ -108,7 +124,9 @@
             >
               <RightArrow />
               <span>
-                {{ $t(loadingState ? 'Proceed to Assets' : 'Create your Token') }}
+                {{ loadingState ?
+                  $t('components.CreateToken.Proceed') :
+                  $t('components.CreateToken.CreateToken') }}
               </span>
             </AeButton>
           </div>
@@ -143,8 +161,7 @@ export default {
     description: '',
     ticker: '',
     loadingState: false,
-    step: 1,
-    stepDescription: 'Please fill in the fields below with your token details.',
+    step: 0,
     success: false,
     seconds: 10,
   }),
@@ -156,18 +173,15 @@ export default {
       this.loadingState = true;
       const decimals = 18;
 
-      this.step = 2;
-      this.stepDescription = `Creating ${this.ticker} Bonding Curve Contract... Please confirm the transaction!`;
+      this.step = 1;
       const bondingCurveAddress = await this.$store.dispatch('aeternity/deployBondingCurve', decimals);
 
-      this.step = 3;
-      this.stepDescription = `Creating ${this.ticker} Token Sale Contract... Please confirm the transaction!`;
+      this.step = 2;
       const timeout = 20;
       const tokenSaleAddress = await this.$store.dispatch('aeternity/deployTokenSaleContract',
         { timeout, bondingCurveAddress, description: this.description });
 
-      this.step = 4;
-      this.stepDescription = `Creating ${this.ticker} Token Contract... Please confirm the transaction!`;
+      this.step = 3;
       const fungibleTokenAddress = await this.$store.dispatch('aeternity/deployFungibleTokenContract',
         {
           name: `${this.newWord} Token`,
@@ -177,10 +191,8 @@ export default {
         });
       await Backend.addToken(fungibleTokenAddress);
       EventBus.$emit('reloadData');
-      EventBus.$emit('reloadData');
 
-      this.step = 5;
-      this.stepDescription = `Registering ${this.ticker} Token for sale... Please confirm the transaction!`;
+      this.step = 4;
       await this.$store.dispatch('aeternity/tokenSaleMethod',
         {
           contractAddress: tokenSaleAddress,
@@ -189,13 +201,10 @@ export default {
         });
 
       this.step = 6;
-      this.stepDescription = `Adding ${this.ticker} Sale to Word Bazaar... Please confirm the transaction!`;
       await this.$store.dispatch('aeternity/wordRegistryAddToken', tokenSaleAddress);
       await Backend.invalidateWordRegistryCache();
 
       this.step = 7;
-      this.stepDescription = `🎉 Congratulations! ${this.ticker} token has beend added to WordBazaar.`;
-
       EventBus.$emit('reloadData');
 
       this.success = true;

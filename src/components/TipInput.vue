@@ -9,9 +9,9 @@
     >
       <img :src="iconTip">
       <AeAmountFiat
-        v-if="!userAddress
-          && (!tipUrlStats.tokenTotalAmount.length || +tipUrlStats.totalAmountAe !== 0)"
-        :amount="tipUrlStats.totalAmountAe"
+        v-if="!userAddress && tipAmount.value"
+        :amount="tipAmount.value"
+        :token="tipAmount.token"
       />
     </Component>
     <Dropdown
@@ -121,6 +121,25 @@ export default {
         };
       },
     }),
+    largestFtTipAmount() {
+      return this.tipUrlStats.tokenTotalAmount.length
+        ? this.tipUrlStats.tokenTotalAmount.reduce(
+          (a, b) => (a.amount > b.amount ? a : b),
+          this.tipUrlStats.tokenTotalAmount[0],
+        )
+        : null;
+    },
+    tipAmount() {
+      return +this.tipUrlStats.totalAmountAe !== 0
+        ? {
+          value: this.tipUrlStats.totalAmountAe,
+          token: null,
+        }
+        : {
+          value: this.largestFtTipAmount.amount,
+          token: this.largestFtTipAmount.token,
+        };
+    },
     v1TipWarning() {
       return this.tip && this.tip.id.split('_')[1] === 'v1' && this.inputToken !== 'native';
     },

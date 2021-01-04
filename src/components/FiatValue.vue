@@ -34,7 +34,9 @@ export default {
     },
     fiatValue() {
       if (!this.rate) return null;
-      if (this.token && !this.tokenData) return null;
+      if (this.token && !this.tokenData) {
+        return (0).toLocaleString('en-US', { style: 'currency', currency: this.showCurrency });
+      }
 
       const shiftAettos = this.aettos ? -18 : 0;
       const shiftBy = this.token ? -this.tokenData.decimals : shiftAettos;

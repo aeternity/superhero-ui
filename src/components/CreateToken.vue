@@ -1,74 +1,118 @@
 <template>
-  <div>
+  <div class="create-token">
     <div class="create-header">
       <div class="create-header-content">
-        <h2>{{ $t('Create Your Token') }}</h2>
-        <h3>{{ $t('In Less Than 5 Minutes') }}</h3>
+        <h2>{{ success ? $t('New Token Created ✨') : $t('Create Your Token') }}</h2>
+        <h3>{{ success ? `Redirecting in ${seconds} seconds` : $t('In Less Than 5 Minutes') }}</h3>
         <span class="step-description">{{ stepDescription }}</span>
       </div>
+      <div class="arrow-up" />
     </div>
-    <div class="steps">
-      <div
-        v-for="i in 6"
-        :key="i"
-        class="step"
-      >
+    <div class="steps-wrapper">
+      <div class="steps">
         <div
-          class="step-box"
-          :class="{ active: step >= i, pulse: (step === i && step !== 1) }"
-        />
-      </div>
-    </div>
-    <div class="create-inputs input-group">
-      <div>
-        <label for="name">{{ $t('Tokenized asset') }}</label>
-        <input
-          id="name"
-          v-model="name"
-          placeholder="Enter any combination of characters *"
-          class="form-control"
-          minlength="1"
-          maxlength="333"
-          :disabled="loadingState"
+          v-for="(n,i) in 6"
+          :key="i"
+          class="step"
         >
-      </div>
-
-      <div>
-        <label for="description">{{ $t('Token Description') }}</label>
-        <input
-          id="description"
-          v-model="description"
-          placeholder="Enter additional information about your token or community *"
-          class="form-control"
-          minlength="1"
-          maxlength="500"
-          :disabled="loadingState"
-        >
-      </div>
-
-      <div>
-        <label for="ticker">{{ $t('Token short name') }}</label>
-        <input
-          id="ticker"
-          v-model="ticker"
-          placeholder="Enter token ticker *"
-          class="form-control"
-          minlength="1"
-          maxlength="6"
-          :disabled="loadingState"
-        >
-
-        <AeButton
-          :disabled="loadingState"
-          @click="createWordSale"
-        >
-          <Loading
-            v-if="loadingState"
-            small
-            class="p-0"
+          <div
+            class="step-box"
+            :class="{ active: step >= i, pulse: ((step === i && step !== 0) || step > 6) }"
           />
-          <span v-else>{{ $t('Create Token') }}</span>
-        </AeButton>
+        </div>
+      </div>
+      <div class="create-inputs input-group">
+        <div>
+          <label for="name">{{ $t('Token asset') }}</label>
+          <textarea
+            v-if="!loadingState"
+            id="name"
+            v-model="name"
+            placeholder="Enter any combination of characters *"
+            class="form-control"
+            :rows="name.split('\n').length || 1"
+            minlength="1"
+            maxlength="333"
+            :disabled="loadingState"
+          />
+          <p v-else>
+            {{ name }}
+          </p>
+          <span
+            v-if="!loadingState"
+            class="right"
+          >{{ `${name.length} / 333` }}</span>
+        </div>
+
+        <div>
+          <label for="description">{{ $t('Token description') }}</label>
+          <textarea
+            v-if="!loadingState"
+            id="description"
+            v-model="description"
+            placeholder="Enter additional information about your token *"
+            class="form-control"
+            :rows="description.split('\n').length || 1"
+            minlength="1"
+            maxlength="500"
+            :disabled="loadingState"
+          />
+          <p v-else>
+            {{ description }}
+          </p>
+          <span
+            v-if="!loadingState"
+            class="right"
+          >{{ `${description.length} / 500` }}</span>
+        </div>
+        <div>
+          <label for="ticker">
+            {{ loadingState ? $t('Abbreviation') : $t('Abbreviation (token short name)') }}
+          </label>
+          <div class="ticker">
+            <div>
+              <input
+                v-if="!loadingState"
+                id="ticker"
+                v-model="ticker"
+                placeholder="Enter token ticker *"
+                class="form-control"
+                minlength="1"
+                maxlength="6"
+                :disabled="loadingState"
+              >
+              <span
+                v-else
+                class="abbreviation"
+              >
+                {{ ticker }}
+              </span>
+              <span
+                v-if="!loadingState"
+                class="right"
+              >{{ `${ticker.length} / 6` }}</span>
+            </div>
+            <AeButton
+              v-if="success"
+              @click="navigateAssets"
+            >
+              <RightArrow />
+              <span>
+                {{ $t('Proceed to Assets') }}
+              </span>
+            </AeButton>
+            <AeButton
+              v-else
+              :disabled="loadingState || !name.length || !description.length || !ticker.length"
+              @click="createWordSale"
+            >
+              <RightArrow />
+              <span>
+                {{ $t(loadingState ? 'Proceed to Assets' : 'Create your Token') }}
+              </span>
+            </AeButton>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -80,17 +124,17 @@ import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.ae
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
 import BONDING_CURVE from 'sophia-bonding-curve/BondCurveLinear.aes';
 import Backend from '../utils/backend';
-import Loading from './Loading.vue';
 import { getClient } from '../utils/aeternity';
 import { EventBus } from '../utils/eventBus';
 import AeButton from './AeButton.vue';
 import { shiftDecimalPlaces } from '../utils';
+import RightArrow from '../assets/rightArrow.svg?icon-component';
 
 export default {
   name: 'WordListing',
   components: {
     AeButton,
-    Loading,
+    RightArrow,
   },
   props: {
     word: { type: String, default: null },
@@ -105,7 +149,12 @@ export default {
     loadingState: false,
     step: 1,
     stepDescription: 'Please fill in the fields below with your token details.',
+    success: false,
+    seconds: 10,
   }),
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
   methods: {
     async createWordSale() {
       const decimals = 18;
@@ -153,20 +202,29 @@ export default {
           { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS }));
       await wordRegistry.methods.add_token(tokenSale.deployInfo.address);
       await Backend.invalidateWordRegistryCache();
+
+      this.step = 7;
+      this.stepDescription = `🎉 Congratulations! ${this.ticker} token has beend added to WordBazaar.`;
+
       EventBus.$emit('reloadData');
 
-      this.loadingState = false;
-      this.stepDescription = 'Please fill in the fields below with your token details.';
-      this.step = 1;
-
-      this.navigateAssets();
+      this.success = true;
+      this.countdown();
+    },
+    countdown() {
+      this.interval = setInterval(() => {
+        this.seconds -= 1;
+        if (this.seconds <= 0) {
+          clearInterval(this.interval);
+          this.navigateAssets();
+        }
+      }, 1000);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
 .create-header {
   position: relative;
 
@@ -179,11 +237,13 @@ export default {
     height: 100%;
     background-image: url('../assets/createTokenBg.svg');
     background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     mix-blend-mode: luminosity;
   }
 
   .create-header-content {
-    padding: 1.2rem 0 1.2rem 0;
+    padding-top: 1.2rem;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -208,59 +268,126 @@ export default {
       margin-top: 1rem;
     }
   }
+
+  .arrow-up {
+    position: absolute;
+    bottom: 0;
+    margin-left: -0.5rem;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid #2f2f2f;
+  }
 }
 
-.steps {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+.steps-wrapper {
+  border: 1.5px solid #2f2f2f;
+  border-radius: 10px;
+  margin: 0 0.5rem;
+  padding: 1rem 0.5rem;
 
-  .step {
-    flex-grow: 1;
-    margin: 0 0.4rem 1.6rem 0.4rem;
-    position: relative;
+  .steps {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 
-    .step-box {
-      height: 0.8rem;
-      background: $super_dark;
-      border: 1px solid $super_dark;
-      box-sizing: border-box;
-      box-shadow: inset -0.1rem 0.15rem 0.3rem rgba(0, 0, 0, 0.25);
-      border-radius: 0.3rem;
+    .step {
+      flex-grow: 1;
+      margin: 0 0.4rem 1.6rem 0.4rem;
+      position: relative;
 
-      &.active {
-        background: $custom_links_color;
-        box-shadow:
-          inset 0 0 0.3rem 0.05rem
-          rgba(
-            red($custom_links_color),
-            green($custom_links_color),
-            blue($custom_links_color),
-            0.4
-          );
+      .step-box {
+        height: 0.8rem;
+        background: $super_dark;
+        border: 1px solid $super_dark;
+        box-sizing: border-box;
+        box-shadow: inset -0.1rem 0.15rem 0.3rem rgba(0, 0, 0, 0.25);
+        border-radius: 0.3rem;
 
-        &.pulse {
-          animation: pulse 2s infinite ease-in-out;
+        &.active {
+          background: $custom_links_color;
+          box-shadow:
+            inset 0 0 0.3rem 0.05rem
+            rgba(
+              red($custom_links_color),
+              green($custom_links_color),
+              blue($custom_links_color),
+              0.4
+            );
+
+          &.pulse {
+            animation: pulse 2s infinite ease-in-out;
+          }
+
+          @keyframes pulse {
+            0%,
+            100% {
+              filter: opacity(0.4);
+            }
+
+            50% {
+              filter: opacity(1);
+            }
+          }
         }
+      }
+    }
+  }
 
-        @keyframes pulse {
-          0%,
-          100% {
-            filter: opacity(0.4);
-          }
+  .create-inputs {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
-          50% {
-            filter: opacity(1);
-          }
+    label {
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+    }
+
+    input,
+    textarea {
+      background: #141414;
+      resize: none;
+      height: 100%;
+    }
+
+    p {
+      color: $standard_font_color;
+      word-break: break-word;
+    }
+
+    .ticker {
+      display: flex;
+      justify-content: space-between;
+
+      .ae-button {
+        font-weight: 700;
+        width: 45%;
+
+        svg {
+          height: 1.2rem;
+          border-radius: 100%;
+          background-color: rgba(255, 255, 255, 0.44);
+          padding: 0.2rem;
+          margin-bottom: 0.1rem;
         }
       }
     }
   }
 }
 
-.create-inputs {
+.right {
+  font-size: 0.65rem;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
 }
 
+.abbreviation {
+  font-weight: 500;
+  color: #1161fe;
+}
 </style>

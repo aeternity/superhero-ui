@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Loading
+    <Loader
       v-if="tipsReloading"
-      above-content
+      class="lg"
     />
     <div v-if="tips">
       <TipRecord
@@ -11,7 +11,7 @@
         :tip="tip"
         :fiat-value="tip.fiatValue"
       />
-      <Loading v-if="tipsNextPageLoading" />
+      <Loader v-if="tipsNextPageLoading" class="lg"/>
       <div
         v-if="tips.length === 0"
         class="no-results text-center m-2"
@@ -24,7 +24,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import Loading from './Loading.vue';
+import Loader from './Loader.vue';
 import TipRecord from './tipRecords/TipRecord.vue';
 import { EventBus } from '../utils/eventBus';
 
@@ -34,7 +34,7 @@ const namesToHandlers = (names, getHandler) => names
 export default {
   components: {
     TipRecord,
-    Loading,
+    Loader,
   },
   props: {
     tipSortBy: { type: String, required: true },

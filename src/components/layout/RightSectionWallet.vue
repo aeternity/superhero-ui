@@ -56,7 +56,7 @@
                 :token="(selectedToken || aeternityTokenData).token"
                 no-parentheses
                 no-symbol
-                :aettos="selectedToken?.token"
+                :aettos="selectedToken && !!selectedToken.token"
               />
             </span>
             {{ selectedCurrency.toUpperCase() }}

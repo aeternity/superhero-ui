@@ -78,7 +78,6 @@ export default {
     notTokenTipable: { type: Boolean },
     noDropdown: { type: Boolean },
     noFiatvalue: { type: Boolean },
-    keyUp: { type: Function, default: (x) => x },
   },
   data: () => ({
     selectedToken: null,

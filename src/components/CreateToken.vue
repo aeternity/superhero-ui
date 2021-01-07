@@ -170,45 +170,74 @@ export default {
   },
   methods: {
     async createWordSale() {
-      this.loadingState = true;
-      const decimals = 18;
+      try {
+        this.loadingState = true;
+        const decimals = 18;
 
-      this.step = 1;
-      const bondingCurveAddress = await this.$store.dispatch('aeternity/deployBondingCurve', decimals);
+        this.step = 1;
 
-      this.step = 2;
-      const timeout = 20;
-      const tokenSaleAddress = await this.$store.dispatch('aeternity/deployTokenSaleContract',
-        { timeout, bondingCurveAddress, description: this.description });
+        const bondingCurveAddress = await this.$store.dispatch('aeternity/deployBondingCurve', decimals);
 
-      this.step = 3;
-      const fungibleTokenAddress = await this.$store.dispatch('aeternity/deployFungibleTokenContract',
-        {
-          name: `${this.newWord} Token`,
-          decimals,
-          symbol: this.newWord,
-          tokenSaleAddress: tokenSaleAddress.replace('ct_', 'ak_'),
+        this.step = 2;
+        const timeout = 20;
+        const tokenSaleAddress = await this.$store.dispatch('aeternity/deployTokenSaleContract',
+          {
+            decimals,
+            timeout,
+            bondingCurveAddress,
+            description: this.description,
+          });
+
+        this.step = 3;
+        const fungibleTokenAddress = await this.$store.dispatch('aeternity/deployFungibleTokenContract',
+          {
+            name: `${this.newWord} Token`,
+            decimals,
+            symbol: this.newWord,
+            tokenSaleAddress: tokenSaleAddress.replace('ct_', 'ak_'),
+          });
+        await Backend.addToken(fungibleTokenAddress);
+        EventBus.$emit('reloadData');
+
+        this.step = 4;
+        await this.$store.dispatch('aeternity/tokenSaleMethod',
+          {
+            contractAddress: tokenSaleAddress,
+            method: 'set_token',
+            args: [fungibleTokenAddress],
+          });
+
+        this.step = 5;
+        await this.$store.dispatch('aeternity/wordRegistryAddToken', tokenSaleAddress)
+          .catch(() => { throw new Error(this.$t('components.CreateToken.ExistWarning')); });
+        await Backend.invalidateWordRegistryCache();
+
+        this.step = 6;
+        EventBus.$emit('reloadData');
+
+        this.success = true;
+        this.countdown();
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: [
+            this.$t('components.CreateToken.Error[0]', {
+              index: this.step + 1,
+              step: this.$t(`components.CreateToken.Steps[${this.step}]`),
+            }),
+            this.$t('components.CreateToken.Error[1]', { ticker: this.ticker }),
+          ],
+          hideIcon: true,
+          primaryButtonText: 'OK',
         });
-      await Backend.addToken(fungibleTokenAddress);
-      EventBus.$emit('reloadData');
-
-      this.step = 4;
-      await this.$store.dispatch('aeternity/tokenSaleMethod',
-        {
-          contractAddress: tokenSaleAddress,
-          method: 'set_token',
-          args: [fungibleTokenAddress],
-        });
-
-      this.step = 6;
-      await this.$store.dispatch('aeternity/wordRegistryAddToken', tokenSaleAddress);
-      await Backend.invalidateWordRegistryCache();
-
-      this.step = 7;
-      EventBus.$emit('reloadData');
-
-      this.success = true;
-      this.countdown();
+        this.name = '';
+        this.description = '';
+        this.ticker = '';
+        this.loadingState = false;
+        this.step = 0;
+        this.success = false;
+      }
     },
     countdown() {
       this.interval = setInterval(() => {

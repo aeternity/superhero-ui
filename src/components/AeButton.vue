@@ -1,6 +1,6 @@
 <template>
   <button
-    :disabled="disabled"
+    :disabled="disabled || loading"
     class="btn btn-primary ae-button"
     :class="{ green }"
     type="submit"

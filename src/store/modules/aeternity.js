@@ -205,9 +205,19 @@ export default {
     },
     async deployTokenSaleContract(
       { commit, state: { sdk } },
-      { timeout, bondingCurveAddress, description },
+      {
+        decimals,
+        timeout,
+        bondingCurveAddress,
+        description,
+      },
     ) {
-      const contract = await sdk.getContractInstance(TOKEN_SALE_CONTRACT);
+      const TOKEN_SALE_CONTRACT_DECIMALS = TOKEN_SALE_CONTRACT.replace(
+        'let decimals = 1',
+        `let decimals = ${shiftDecimalPlaces(1, decimals)}`,
+      );
+
+      const contract = await sdk.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS);
       await contract.methods.init(timeout, bondingCurveAddress, description);
       commit('setTokenSaleContract', contract.deployInfo.address, contract);
       return contract.deployInfo.address;

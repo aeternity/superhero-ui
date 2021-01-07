@@ -5,9 +5,17 @@
   >
     <div class="modal-wrapper">
       <div class="success-modal">
-        <img :src="failure ? FailureIcon : SuccessIcon">
+        <img
+          v-if="!hideIcon"
+          :src="failure ? FailureIcon : SuccessIcon"
+        >
         <h1>{{ title }}</h1>
-        <p>{{ body }}</p>
+        <p
+          v-for="(row, index) in body instanceof Array ? body : [body]"
+          :key="index"
+        >
+          {{ row }}
+        </p>
         <button
           class="button"
           @click="resolve"
@@ -26,9 +34,10 @@ import FailureIcon from '../assets/iconError.svg';
 export default {
   props: {
     title: { type: String, required: true },
-    body: { type: String, required: true },
+    body: { type: [String, Array], required: true },
     resolve: { type: Function, required: true },
     failure: { type: Boolean },
+    hideIcon: { type: Boolean },
     primaryButtonText: {
       type: String,
       default() { return this.$t('done'); },
@@ -61,9 +70,10 @@ export default {
     width: 25rem;
     margin: 0 auto;
     padding: 2.5rem 2.5rem;
-    background-color: $actions_ribbon_background_color;
+    background-color: #090909;
     border-radius: 0.25rem;
-    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.33);
+    border: 1px solid #2f2f2f;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
 
     img {
       height: 2rem;
@@ -77,11 +87,10 @@ export default {
     }
 
     .button {
-      width: 10rem;
-      background-color: inherit;
-      border: 1px solid $secondary_color;
+      background-color: #1161fe;
+      border: none;
       border-radius: 0.25rem;
-      color: $secondary_color;
+      color: $standard_font_color;
       font-size: 0.75rem;
       font-weight: 700;
       justify-self: center;

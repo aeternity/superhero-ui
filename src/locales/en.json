@@ -538,14 +538,27 @@
       "TokenDescription": "Token description",
       "Abbreviation": "Abbreviation",
       "AbbreviationLong": "Abbreviation (token short name)",
+      "Steps": [
+        "",
+        "Bonding Curve Contract",
+        "Token Sale Contract",
+        "Token Contract",
+        "Token for sale",
+        "Sale to Word Bazaar"
+      ],
       "StepsDescription": [
         "Please fill in the fields below with your token details.",
-        "Creating {0} Bonding Curve Contract... Please confirm the transaction!",
-        "Creating {0} Token Sale Contract... Please confirm the transaction!",
-        "Creating {0} Token Contract... Please confirm the transaction!",
-        "Registering {0} Token for sale... Please confirm the transaction!",
-        "Adding {0} Sale to Word Bazaar... Please confirm the transaction!",
-        "🎉 Congratulations! {0} token has beend added to WordBazaar."
+        "Creating {ticker} {step}... Please confirm the transaction!",
+        "Creating {ticker} {step}... Please confirm the transaction!",
+        "Creating {ticker} {step}... Please confirm the transaction!",
+        "Registering {ticker} {step}... Please confirm the transaction!",
+        "Adding {ticker} {step}... Please confirm the transaction!",
+        "🎉 Congratulations! {ticker} token has beend added to WordBazaar."
+      ],
+      "ExistWarning": "Symbol Already Existent!",
+      "Error": [
+        "{step} creation was not confirmed for your token (step {index} of 6).",
+        "{ticker} token was not added to WordBazaar."
       ]
     }
   },

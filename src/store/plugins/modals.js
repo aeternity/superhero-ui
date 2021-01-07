@@ -14,7 +14,8 @@ export default (store) => {
     state: { opened: [] },
     mutations: {
       open(state, modal) {
-        state.opened.push(modal);
+        state.opened
+          .push({ ...modal, props: { ...modal.props, body: [].concat(modal.props.body) } });
       },
       closeByKey(state, key) {
         const idx = state.opened.findIndex((modal) => modal.key === key);

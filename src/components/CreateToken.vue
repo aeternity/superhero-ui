@@ -17,7 +17,12 @@
           tag="p"
           class="step-description"
         >
-          <span class="abbreviation">{{ ticker }}</span>
+          <template #ticker>
+            <span class="abbreviation">{{ ticker }}</span>
+          </template>
+          <template #step>
+            {{ $t(`components.CreateToken.Steps[${step}]`) }}
+          </template>
         </i18n>
       </div>
       <div class="arrow-up" />
@@ -31,7 +36,7 @@
         >
           <div
             class="step-box"
-            :class="{ active: step >= i, pulse: ((step === i && step !== 0) || step > 6) }"
+            :class="{ active: step >= i, pulse: ((step === i && step !== 0) || step >= 6) }"
           />
         </div>
       </div>

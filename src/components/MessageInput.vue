@@ -51,32 +51,33 @@ export default {
   display: flex;
 
   &:focus-within .arrow {
-    border: 0.05rem solid $secondary_color;
+    border: 1px solid $secondary_color;
     border-top: none;
     border-right: none;
+    background-color: $background_color;
   }
 
   .arrow {
     flex-shrink: 0;
-    height: 0.8rem;
-    width: 0.8rem;
+    height: 16px;
+    width: 16px;
     background-color: $buttons_background;
     transform: rotate(45deg);
-    border-bottom-left-radius: 0.2rem;
-    margin-top: 0.6rem;
-    margin-left: 0.6rem;
-    margin-right: -0.4rem;
+    margin-top: 12px;
+    margin-left: 12px;
+    margin-right: -8px;
   }
 
   .text-box {
     flex-grow: 1;
     background-color: $buttons_background;
     display: flex;
-    border: 0.05rem solid transparent;
-    border-radius: 0.25rem;
+    border: 1px solid transparent;
+    border-radius: 6px;
 
     &:focus-within {
       border-color: $secondary_color;
+      background-color: $background_color;
     }
 
     textarea,
@@ -90,14 +91,14 @@ export default {
     textarea {
       flex-grow: 1;
       color: $standard_font_color;
-      height: 2.1rem;
-      font-size: 0.75rem;
-      line-height: 1.25rem;
-      padding: 0.375rem 0.25rem 0.375rem 0.75rem;
+      height: 38px;
+      font-size: 14px;
+      line-height: 22.65px;
+      padding: 8.5px 16px;
       resize: none;
 
       &::placeholder {
-        color: #6c757c;
+        color: $light_font_color;
       }
 
       &:disabled {
@@ -106,7 +107,7 @@ export default {
     }
 
     button {
-      padding-right: 0.25rem;
+      padding-right: 5px;
 
       img {
         transform: rotate(180deg);
@@ -115,7 +116,7 @@ export default {
 
     .spinner-border {
       align-self: center;
-      margin: 0 0.4rem;
+      margin: 0 8px;
     }
   }
 }

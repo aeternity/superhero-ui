@@ -91,11 +91,14 @@
           <div class="initiate-vote-inputs">
             <input
               v-model.trim="newVotePayout"
+              :disabled="loading.createVote"
               class="form-control"
               placeholder="Enter aeternity address"
             >
 
             <AeButton
+              :disabled="!newVotePayout"
+              :loading="loading.createVote"
               @click="createVote"
             >
               <IconCheckmarkCircle />
@@ -176,6 +179,7 @@
                 <AeButton
                   v-if="vote.showApplyPayout"
                   class="vote-row-end green"
+                  :loading="loading.applyPayout"
                   @click="applyPayout(vote.id)"
                 >
                   <IconCheckmarkCircle />
@@ -206,7 +210,8 @@
                 <AeInputAmount
                   v-if="vote.showVoteOption || vote.accountHasVoted"
                   v-model="vote.stakeAmount"
-                  :disabled="!vote.showVoteOption || isZero(vote.stakeAmount)"
+                  :disabled="!vote.showVoteOption || isZero(vote.stakeAmount) ||
+                    loading.revokeVote || loading.voteOption || loading.withdraw"
                   :token="data.tokenAddress"
                   no-dropdown
                   no-fiatvalue
@@ -214,6 +219,7 @@
 
                 <AeButton
                   v-if="vote.showRevoke"
+                  :loading="loading.revokeVote"
                   @click="revokeVote(vote.voteAddress)"
                 >
                   <IconCloseCircle />
@@ -222,6 +228,8 @@
 
                 <AeButton
                   v-if="vote.showVoteOption"
+                  :disabled="isZero(vote.stakeAmount)"
+                  :loading="loading.voteOption"
                   @click="voteOption(vote.voteAddress, true, vote.stakeAmount)"
                 >
                   <IconCheckmarkCircle />
@@ -230,6 +238,7 @@
 
                 <AeButton
                   v-if="vote.showWithdraw"
+                  :loading="loading.withdraw"
                   @click="withdraw(vote.voteAddress)"
                 >
                   <IconClaimBack />
@@ -310,6 +319,13 @@ export default {
     activeTab: 'ongoing',
     ribbonTabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Voting', activity: 'voting' }],
     tabs: [{ text: 'Ongoing Votes', tab: 'ongoing' }, { text: 'Past Votes', tab: 'past' }, { text: 'My Votes', tab: 'my' }],
+    loading: {
+      createVote: false,
+      revokeVote: false,
+      applyPayout: false,
+      withdraw: false,
+      voteOption: false,
+    },
   }),
   computed: {
     ...mapState(['address', 'tokenInfo', 'tokenBalances']),
@@ -424,59 +440,124 @@ export default {
       this.myVotes = votes.filter((v) => v.statusMy);
     },
     async applyPayout(id) {
-      await this.$store.dispatch('aeternity/tokenSaleMethod',
+      this.load.applyPayout = true;
+      try {
+        await this.$store.dispatch('aeternity/tokenSaleMethod',
         {
-          contractAddress: this.saleContractAddress,
+        contractAddress: this.saleContractAddress,
           method: 'apply_vote_subject',
           args: [id],
         });
 
       this.updateWords();
-      await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
-      EventBus.$emit('reloadData');
+        await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Payout failed!',
+          primaryButtonText: 'OK',
+        });
+      } finally {
+        this.load.applyPayout = false;
+        EventBus.$emit('reloadData');
+      }
     },
     async withdraw(address) {
-      await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'withdraw');
-      EventBus.$emit('reloadData');
+      this.loading.withdraw = true;
+      try {
+        await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'withdraw');
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Withdraw failed!',
+          primaryButtonText: 'OK',
+        });
+      } finally {
+        this.loading.withdraw = false;
+        EventBus.$emit('reloadData');
+      }
     },
     async voteOption(address, option, amount) {
-      const shiftedAmount = shiftDecimalPlaces(amount,
-        this.tokenInfo[this.data.tokenAddress].decimals).toFixed();
+      this.loading.voteOption = true;
+      try {
 
-      await this.$store.dispatch('aeternity/createOrChangeAllowance', this.data.tokenAddress, shiftedAmount, address.replace('ct_', 'ak_'));
-      await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'vote', [option, shiftedAmount]);
-      await Backend.invalidateWordSaleVoteStateCache(address);
-      EventBus.$emit('reloadData');
+        const shiftedAmount = shiftDecimalPlaces(amount,
+          this.tokenInfo[this.data.tokenAddress].decimals).toFixed();
+
+        await this.$store.dispatch('aeternity/createOrChangeAllowance', this.data.tokenAddress, shiftedAmount, address.replace('ct_', 'ak_'));
+        await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'vote', [option, shiftedAmount]);
+        await Backend.invalidateWordSaleVoteStateCache(address);
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Vote failed!',
+          primaryButtonText: 'OK',
+        });
+      } finally {
+        this.loading.voteOption = false;
+        EventBus.$emit('reloadData');
+      }
     },
     async revokeVote(address) {
-      await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'revoke_vote');
-      await Backend.invalidateWordSaleVoteStateCache(address);
-      EventBus.$emit('reloadData');
+      this.loading.revokeVote = true;
+      try {
+        await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'revoke_vote');
+        await Backend.invalidateWordSaleVoteStateCache(address);
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Vote revoke failed!',
+          primaryButtonText: 'OK',
+        });
+      } finally {
+        this.loading.revokeVote = false;
+        EventBus.$emit('reloadData');
+      }
     },
     async createVote() {
-      const metadata = {
-        subject: { VotePayout: [this.newVotePayout] },
-        description: `Payout spread of ${this.selectedWord} to ${this.newVotePayout}`,
-        link: 'https://aeternity.com/',
-      };
+      this.loading.createVote = true;
+      try {
+        const metadata = {
+          subject: {VotePayout: [this.newVotePayout]},
+          description: `Payout spread of ${this.selectedWord} to ${this.newVotePayout}`,
+          link: 'https://aeternity.com/',
+        };
 
-      const height = await this.$store.dispatch('aeternity/getHeight');
-      const closeHeight = height + 20;
-      const token = await this.$store.dispatch('aeternity/tokenSaleMethod',
-        {
-          contractAddress: this.saleContractAddress,
-          method: 'get_token',
+        const height = await this.$store.dispatch('aeternity/getHeight');
+        const closeHeight = height + 20;
+        const token = await this.$store.dispatch('aeternity/tokenSaleMethod',
+          {
+            contractAddress: this.saleContractAddress,
+            method: 'get_token',
+          });
+        const address = await this.$store.dispatch('aeternity/deployTokenVotingContract', {
+          metadata,
+          closeHeight,
+          token,
         });
-      const address = await this.$store.dispatch('aeternity/deployTokenVotingContract', { metadata, closeHeight, token });
 
-      await this.$store.dispatch('aeternity/tokenSaleMethod',
-        {
-          contractAddress: this.saleContractAddress,
-          method: 'add_vote',
-          args: [address],
+        await this.$store.dispatch('aeternity/tokenSaleMethod',
+          {
+            contractAddress: this.saleContractAddress,
+            method: 'add_vote',
+            args: [address],
+          });
+        await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Vote was not created!',
+          primaryButtonText: 'OK',
         });
-      await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
-      EventBus.$emit('reloadData');
+      } finally {
+        this.loading.createVote = false;
+        EventBus.$emit('reloadData');
+      }
     },
   },
 };

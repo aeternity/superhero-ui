@@ -1,6 +1,6 @@
 <template>
   <div :class="['loading', { 'above-content': aboveContent, small }]">
-    <div class="spinner-border text-primary" />
+    <div class="spinner-border" />
   </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
   width: 100%;
   text-align: center;
   padding: 0.5rem;
+  color: $light_font_color;
 
   &.above-content {
     margin-bottom: -3rem;
@@ -24,11 +25,11 @@ export default {
   }
 
   &.small {
-    height: 1rem;
+    height: 0.8rem;
 
     .spinner-border {
-      width: 1rem;
-      height: 1rem;
+      width: 0.8rem;
+      height: 0.8rem;
     }
   }
 }

@@ -117,15 +117,16 @@ export default {
 
 <style lang="scss" scoped>
 .input-group {
-  border: 0.05rem solid $buttons_background;
-  border-radius: 0.25rem;
+  border: 1px solid $buttons_background;
+  border-radius: 6px;
+  height: 42px;
 
   .input-group-append {
     max-width: 65%;
     background: $buttons_background;
     align-items: center;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
   }
 
   .input-group-text {
@@ -137,7 +138,8 @@ export default {
   }
 
   &:focus-within {
-    border: 0.05rem solid $secondary_color;
+    border-top: 1px solid $secondary_color;
+    border-bottom: 1px solid $secondary_color;
   }
 
   input,
@@ -150,6 +152,12 @@ export default {
   }
 
   .input-group-append > span.append-ae {
+  input:focus ~ .input-group-append,
+  input:focus ~ .input-group-append .input-group-text {
+    background-color: $background_color;
+  }
+
+  .input-group-append > span.append__ae {
     font-size: 0.75rem;
     background: $buttons_background;
     cursor: default;
@@ -162,8 +170,8 @@ export default {
   .token-option {
     display: flex;
     align-items: center;
-    min-width: 12rem;
-    max-width: 15rem;
+    min-width: 240px;
+    max-width: 300px;
 
     > div:first-child {
       flex-grow: 1;
@@ -180,12 +188,12 @@ export default {
 
     > button {
       background-color: transparent;
-      height: 2.1rem;
-      margin-left: -0.8rem;
+      height: 42px;
+      margin-left: -16px;
     }
 
     .not-bootstrap-modal-content {
-      margin-top: 0.25rem;
+      margin-top: 5px;
     }
   }
 }

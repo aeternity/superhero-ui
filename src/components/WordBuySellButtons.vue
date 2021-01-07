@@ -61,6 +61,7 @@
       </div>
       <div class="mt-3 text-center">
         <OutlinedButton
+          :disabled="buyAeAmount <= 0"
           class="green"
           @click="buy"
         >
@@ -117,6 +118,7 @@
       </div>
       <div class="mt-3 text-center">
         <OutlinedButton
+          :disabled="sellAeAmount <= 0"
           class="red"
           @click="sell"
         >
@@ -237,36 +239,58 @@ export default {
     async buy() {
       this.loading = true;
 
-      const { amount, value } = await this.buyValue();
-      await this.$store.dispatch('aeternity/tokenSaleMethod',
-        {
-          contractAddress: this.sale,
-          method: 'buy',
-          args: [amount],
-          options: { amount: value },
-        });
+      try {
+        const { amount, value } = await this.buyValue();
+        await this.$store.dispatch('aeternity/tokenSaleMethod',
+          {
+            contractAddress: this.sale,
+            method: 'buy',
+            args: [amount],
+            options: { amount: value },
+          });
 
-      await Backend.invalidateTokenCache(this.tokenAddress);
-      await Backend.invalidateWordSaleCache(this.sale);
-      EventBus.$emit('reloadData');
+        await Backend.invalidateTokenCache(this.tokenAddress);
+        await Backend.invalidateWordSaleCache(this.sale);
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Transaction was not made!',
+          primaryButtonText: 'OK',
+        });
+      } finally {
+        this.loading = false;
+        EventBus.$emit('reloadData');
+      }
     },
     async sell() {
       this.loading = true;
+      try {
+        const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
 
-      const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
+        await this.$store.dispatch('aeternity/createOrChangeAllowance',
+          this.tokenAddress, amount, this.sale.replace('ct_', 'ak_'))
+          .catch(() => { throw new Error('Insufficient Account Balance'); });
+        await this.$store.dispatch('aeternity/tokenSaleMethod',
+          {
+            contractAddress: this.sale,
+            method: 'sell',
+            args: [amount],
+          });
 
-      await this.$store.dispatch('aeternity/createOrChangeAllowance',
-        this.tokenAddress, amount, this.sale.replace('ct_', 'ak_'));
-      await this.$store.dispatch('aeternity/tokenSaleMethod',
-        {
-          contractAddress: this.sale,
-          method: 'sell',
-          args: [amount],
+        await Backend.invalidateTokenCache(this.tokenAddress);
+        await Backend.invalidateWordSaleCache(this.sale);
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Transaction was not made!',
+          primaryButtonText: 'OK',
         });
-
-      await Backend.invalidateTokenCache(this.tokenAddress);
-      await Backend.invalidateWordSaleCache(this.sale);
-      EventBus.$emit('reloadData');
+      } finally {
+        this.loading = false;
+        EventBus.$emit('reloadData');
+      }
     },
   },
 };

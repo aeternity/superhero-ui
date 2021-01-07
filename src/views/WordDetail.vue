@@ -76,8 +76,8 @@
         <TabBar
           v-model="activeTab"
           :tabs="tabs"
-        >       
-           <IconPlus
+        >
+          <IconPlus
             v-if="activeTab === 'ongoing' && maxAmount > 0"
             class="plus"
             :class="{ rotate: showInitiate }"
@@ -91,32 +91,33 @@
 
             class="asset_details__section initiate-vote"
           >
-           <i18n
-            path="components.WordDetail.Release"
-            tag="div"
-            class="stake-label"
-          >
-            <AeAmount
-              :amount="data.spread"
-              aettos
-            />
-          </i18n>
+            <i18n
+              path="components.WordDetail.Release"
+              tag="div"
+              class="stake-label"
+            >
+              <AeAmount
+                :amount="data.spread"
+                aettos
+              />
+            </i18n>
 
             <div class="initiate-vote-inputs">
               <input
                 v-model.trim="newVotePayout"
+                :disabled="loading.createVote"
                 class="form-control"
                 placeholder="Enter aeternity address"
               >
 
-               <AeButton
-              :disabled="!newVotePayout"
-              :loading="loading.createVote"
-              @click="createVote"
-            >
-              <IconCheckmarkCircle />
-              {{ $t('components.WordDetail.Initiate') }}
-            </AeButton>
+              <AeButton
+                :disabled="!newVotePayout"
+                :loading="loading.createVote"
+                @click="createVote"
+              >
+                <IconCheckmarkCircle />
+                {{ $t('components.WordDetail.Initiate') }}
+              </AeButton>
             </div>
           </div>
         </Transition>

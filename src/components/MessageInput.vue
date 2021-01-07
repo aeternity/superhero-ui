@@ -109,9 +109,7 @@ export default {
       padding-right: 0.25rem;
 
       img {
-        width: 0.8rem;
         transform: rotate(180deg);
-        vertical-align: baseline;
       }
     }
 

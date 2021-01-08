@@ -1,21 +1,23 @@
 <template>
   <div>
-    <!-- eslint-disable vue-i18n/no-raw-text -->
     <div
       v-if="heading"
       class="word-listing word-listing-heading"
     >
       <div class="word-listing-column asset-column">
-        Asset
+        {{ $t('components.WordListing.Asset') }}
       </div>
       <div class="word-listing-column">
-        <span class="heading-text active">Buy Price</span> <IconSort />
+        <span class="heading-text active">
+          {{ $t('components.WordListing.BuyPrice') }}
+        </span>
+        <IconSort />
       </div>
       <div class="word-listing-column">
-        Supply
+        {{ $t('components.WordListing.Supply') }}
       </div>
       <div class="word-listing-column">
-        Market
+        {{ $t('components.WordListing.Market') }}
       </div>
     </div>
     <div

@@ -570,6 +570,9 @@ export default {
       }
     },
   },
+  metaInfo() {
+    return { title: this.$t('components.WordDetail.Title', { word: this.selectedWord }) };
+  },
 };
 </script>
 

@@ -42,12 +42,12 @@ a:hover {
 .input-group,
 .form-group {
   .form-control {
-    border: 0.05rem solid transparent;
+    border: 1px solid transparent;
     box-shadow: none;
     transition: none;
 
     &:focus {
-      border: 0.05rem solid $secondary_color;
+      border: 1px solid $secondary_color;
     }
   }
 }
@@ -60,8 +60,12 @@ a:hover {
     background-color: $buttons_background;
     border: 1px solid $white_color;
     color: $standard_font_color;
-    font-size: 0.75rem;
-    height: 2.2rem;
+    font-size: 14px;
+    height: 40px;
+
+    &:focus {
+      background-color: $background_color;
+    }
   }
 }
 

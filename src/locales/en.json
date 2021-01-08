@@ -564,6 +564,7 @@
       "TotalGet": "Total you get:"
     },
     "WordDetail": {
+      "Title": "{word}: Word Details",
       "Ticker": "Ticker",
       "CurrentPrice": "Current Price",
       "SellPrice": "Sell Price",
@@ -592,7 +593,8 @@
       "TimedOut": "Timed out 👎",
       "Unsuccessful": "Unsuccessful 👎",
       "Tansfered": "Funds transferred 👍"
-    }
+    },
+    "WordBazaar":{"Title": "WordBazaar"}
   },
   "Networking": {
     "MenuLink": "Meet",

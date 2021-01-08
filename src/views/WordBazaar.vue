@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- eslint-disable vue-i18n/no-raw-text -->
     <BackButtonRibbon
       title="WordBazaar"
       hide-back

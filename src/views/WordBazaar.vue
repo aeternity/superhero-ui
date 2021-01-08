@@ -102,6 +102,9 @@ export default {
       this.wordRegistryState = await Backend.getWordRegistry();
     },
   },
+  metaInfo() {
+    return { title: this.$t('components.WordBazaar.Title') };
+  },
 };
 </script>
 

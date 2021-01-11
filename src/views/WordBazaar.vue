@@ -25,12 +25,11 @@
 
       <div v-else>
         <div
-          v-for="[word, sale] in wordRegistryState && wordRegistryState.tokens"
-          :key="word"
+          v-for="data in wordRegistryState && wordRegistryState"
+          :key="data.word"
         >
           <WordListing
-            :word="word"
-            :sale="sale"
+            :data="data"
           />
         </div>
       </div>

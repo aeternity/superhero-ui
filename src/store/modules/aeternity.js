@@ -23,23 +23,23 @@ export default {
     isTippingContractsInitialised: false,
   },
   mutations: {
-    setContractV1(state, contract) {
-      state.contractV1 = contract;
+    setAllContracts(state, contracts) {
+      const [contractV1, contractV2, contractV3] = contracts;
+      state.contractV1 = contractV1;
+      state.contractV2 = contractV2;
+      state.contractV3 = contractV3;
     },
-    setContractV2(state, contract) {
-      state.contractV2 = contract;
-    },
-    setContractV3(state, contract) {
-      state.contractV3 = contract;
-    },
-    setSDK(state, { instance, rpcClient: getCurrentAccount }) {
+    setSdk(state, { instance }) {
       state.sdk = instance;
-      if (getCurrentAccount) {
-        state.sdk.rpcClient = { getCurrentAccount };
-      }
     },
     useSdkWallet(state) {
       state.useSdkWallet = true;
+    },
+    enableIframeWallet(state) {
+      state.useIframeWallet = true;
+    },
+    setTippingContractsInitialised(state) {
+      state.isTippingContractsInitialised = true;
     },
   },
   actions: {
@@ -52,17 +52,15 @@ export default {
     }) {
       if (!sdk) throw new Error('Init sdk first');
       if (isTippingContractsInitialised) return;
-      const [contractV1, contractV2, contractV3] = await Promise.all([
+      const contracts = await Promise.all([
         [TIPPING_INTERFACE_V1, process.env.VUE_APP_CONTRACT_V1_ADDRESS],
         [TIPPING_INTERFACE_V2, process.env.VUE_APP_CONTRACT_V2_ADDRESS],
         [TIPPING_INTERFACE_V3, process.env.VUE_APP_CONTRACT_V3_ADDRESS],
       ].map(([tippingInterface, contractAddress]) => (contractAddress
         ? sdk.getContractInstance(tippingInterface, { contractAddress })
         : null)));
-      commit('isTippingContractsInitialised', true);
-      commit('setContractV1', contractV1);
-      commit('setContractV2', contractV2);
-      commit('setContractV3', contractV3);
+      commit('setTippingContractsInitialised', true);
+      commit('setAllContracts', contracts);
     },
     async initSdk({ dispatch, commit }) {
       try {
@@ -81,8 +79,8 @@ export default {
             address: Cypress.env('publicKey'),
           });
           const rpcClient = async () => Cypress.env('publicKey');
-
-          commit('setSDK', { instance, rpcClient });
+          instance.rpcClient = { getCurrentAccount: async () => Cypress.env('publicKey') };
+          commit('setSdk', { instance, rpcClient });
           await dispatch('initTippingContractIfNeeded');
         } else {
           const instance = await RpcAepp({
@@ -92,7 +90,7 @@ export default {
               commit('resetState');
             },
           });
-          commit('setSDK', { instance });
+          commit('setSdk', { instance });
           await dispatch('initTippingContractIfNeeded');
         }
       } catch (err) {

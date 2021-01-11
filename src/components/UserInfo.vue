@@ -266,7 +266,6 @@ export default {
   computed: {
     ...mapState(['chainNames']),
     ...mapState({
-      useSdkWallet: ({ aeternity: { useSdkWallet } }) => useSdkWallet,
       sdk: ({ aeternity: { sdk } }) => sdk,
       cookiesConsent: ({ aeternity: { cookiesConsent } }) => cookiesConsent,
     }),

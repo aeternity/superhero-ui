@@ -42,9 +42,6 @@ export default {
   setIsHiddenContent(state, payload) {
     state.isHiddenContent = payload;
   },
-  enableIframeWallet(state) {
-    state.useIframeWallet = true;
-  },
   setUserProfile(state, profile) {
     state.profile = profile;
   },

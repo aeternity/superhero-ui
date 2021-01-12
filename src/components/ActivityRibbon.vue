@@ -12,6 +12,8 @@
         {{ tab.text }}
       </span>
     </FilterButton>
+    <div class="separator" />
+    <slot />
   </div>
 </template>
 
@@ -37,11 +39,17 @@ export default {
 <style lang="scss" scoped>
 .activity-ribbon {
   background-color: $light_color;
-  padding: 0.5rem 0 0.5rem 0.75rem;
+  padding: 0.5rem 0.75rem 0.5rem 0.75rem;
   margin-bottom: 0.15rem;
+  display: flex;
+  align-items: center;
 
   .text {
     padding-left: 0.15rem;
+  }
+
+  .separator {
+    flex-grow: 1;
   }
 }
 </style>

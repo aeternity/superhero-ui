@@ -11,11 +11,11 @@
     </ButtonPlain>
 
     <div class="title">
-      {{ title }}
+      <slot name="title" />
     </div>
 
     <div class="buttons">
-      <slot />
+      <slot name="buttons" />
     </div>
   </div>
 </template>
@@ -29,7 +29,6 @@ export default {
   },
   props: {
     hideBack: { type: Boolean },
-    title: { type: String, default: '' },
   },
   methods: {
     back() {

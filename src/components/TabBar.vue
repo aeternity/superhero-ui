@@ -8,6 +8,9 @@
     >
       {{ tab.text }}
     </ButtonPlain>
+    <div class="right">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -35,6 +38,7 @@ export default {
 .tab-bar {
   padding: 0 1.5rem;
   background-color: $actions_ribbon_background_color;
+  display: flex;
 
   button {
     color: $light_font_color;
@@ -57,6 +61,13 @@ export default {
       border-bottom: 2px solid $custom_links_color;
       color: $custom_links_color;
     }
+  }
+
+  .right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 }
 </style>

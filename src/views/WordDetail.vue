@@ -1,16 +1,20 @@
 <template>
   <div>
-    <BackButtonRibbon :title="selectedWord">
-      <WordBuySellButtons
-        v-if="saleContractAddress"
-        :sale="saleContractAddress"
-      />
+    <BackButtonRibbon>
+      <template v-slot:title>
+        <span class="abbreviation">{{ selectedWord }}</span>
+      </template>
     </BackButtonRibbon>
 
     <ActivityRibbon
       v-model="activity"
       :tabs="ribbonTabs"
-    />
+    >
+      <WordBuySellButtons
+        v-if="saleContractAddress && activity === 'info'"
+        :sale="saleContractAddress"
+      />
+    </ActivityRibbon>
 
     <div v-if="activity === 'info'">
       <div class="asset_details__section">
@@ -43,6 +47,7 @@
             <AeAmount
               :token="data.tokenAddress"
               :amount="data.totalSupply"
+              no-symbol
             />
           </div>
         </div>
@@ -71,14 +76,22 @@
         <TabBar
           v-model="activeTab"
           :tabs="tabs"
-        />
+        >       
+           <IconPlus
+            v-if="activeTab === 'ongoing' && maxAmount > 0"
+            class="plus"
+            :class="{ rotate: showInitiate }"
+            @click="showInitiate = !showInitiate"
+          />
+        </TabBar>
 
-        <div
-          v-if="activeTab === 'ongoing' && data"
+        <Transition name="fade">
+          <div
+            v-if="activeTab === 'ongoing' && data && showInitiate"
 
-          class="asset_details__section initiate-vote"
-        >
-          <i18n
+            class="asset_details__section initiate-vote"
+          >
+           <i18n
             path="components.WordDetail.Release"
             tag="div"
             class="stake-label"
@@ -89,15 +102,14 @@
             />
           </i18n>
 
-          <div class="initiate-vote-inputs">
-            <input
-              v-model.trim="newVotePayout"
-              :disabled="loading.createVote"
-              class="form-control"
-              placeholder="Enter aeternity address"
-            >
+            <div class="initiate-vote-inputs">
+              <input
+                v-model.trim="newVotePayout"
+                class="form-control"
+                placeholder="Enter aeternity address"
+              >
 
-            <AeButton
+               <AeButton
               :disabled="!newVotePayout"
               :loading="loading.createVote"
               @click="createVote"
@@ -105,9 +117,9 @@
               <IconCheckmarkCircle />
               {{ $t('components.WordDetail.Initiate') }}
             </AeButton>
+            </div>
           </div>
-        </div>
-
+        </Transition>
         <div
           v-if="data"
           class="asset_details__info"
@@ -115,6 +127,10 @@
           <div class="info-item">
             <h3>{{ $t('components.WordDetail.Spread') }}</h3>
             <AeAmount
+              :amount="data.spread"
+              aettos
+            />
+            <FiatValue
               :amount="data.spread"
               aettos
             />
@@ -139,6 +155,37 @@
 
         <div class="asset_details__section">
           <div class="asset_details__section-content">
+            <div
+              v-if="!votes.length"
+              class="no-content"
+            >
+              <h3>{{ $t('components.WordDetail.NoVotes') }}</h3>
+              <i18n
+                v-if="maxAmount > 0"
+                path="components.WordDetail.VoteText"
+                tag="p"
+              >
+                <template v-slot:balance>
+                  <AeAmount
+                    :token="data.tokenAddress"
+                    :amount="maxAmount"
+                  />
+                </template>
+                <template v-slot:spread>
+                  <AeAmount
+                    :amount="data.spread"
+                    aettos
+                  />
+                </template>
+              </i18n>
+              <AeButton
+                v-if="maxAmount > 0"
+                @click="showInitiate = !showInitiate"
+              >
+                <IconCheckmarkCircle />
+                Initiate Vote
+              </AeButton>
+            </div>
             <div
               v-for="vote in votes"
               :key="vote.id"
@@ -293,7 +340,9 @@ import IconClaimBack from '../assets/iconClaimBack.svg?icon-component';
 import IconCloseCircle from '../assets/iconCloseCircle.svg?icon-component';
 import IconCheckmarkCircle from '../assets/iconCheckmarkCircle.svg?icon-component';
 import IconHourglass from '../assets/iconHourglass.svg?icon-component';
+import IconPlus from '../assets/iconPlus.svg?icon-component';
 import AeAmount from '../components/AeAmount.vue';
+import FiatValue from '../components/FiatValue.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
 import AeInputAmount from '../components/AeInputAmount.vue';
@@ -306,6 +355,7 @@ export default {
     TabBar,
     ActivityRibbon,
     AeAmount,
+    FiatValue,
     WordBuySellButtons,
     BackButtonRibbon,
     AeInputAmount,
@@ -314,6 +364,7 @@ export default {
     IconCloseCircle,
     IconCheckmarkCircle,
     IconHourglass,
+    IconPlus,
   },
   data: () => ({
     wordRegistryState: null,
@@ -336,6 +387,7 @@ export default {
       withdraw: false,
       voteOption: false,
     },
+    showInitiate: false,
   }),
   computed: {
     ...mapState(['address', 'tokenInfo', 'tokenBalances']),
@@ -605,6 +657,20 @@ h3 {
 
   .asset_details__section-content {
     padding: 1.5rem;
+
+    .no-content {
+      display: flex;
+      flex-direction: column;
+
+      h3 {
+        color: $pure_white
+      }
+
+      button {
+        width: 154px;
+        margin: 0 auto;
+      }
+    }
   }
 }
 
@@ -612,12 +678,34 @@ h3 {
   padding: 1.5rem;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
 
   .info-item {
+    flex-shrink: 1;
     font-size: 0.9rem;
     display: flex;
     flex-direction: column;
+    background: $super_dark;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    margin-right: 16px;
+    padding: 16px;
+
+    &:hover {
+      background: #141414;
+
+      h3 {
+        color: #BABAC0;
+      }
+    }
+
+    @include mobile {
+      font-size: 0.6rem;
+
+      h3{
+        font-size: 0.8rem;
+        line-height: 1rem;
+      }
+    }
   }
 }
 
@@ -630,6 +718,17 @@ h3 {
 .initiate-vote {
   margin-bottom: 0.1rem;
   padding: 1.2rem;
+
+  &.fade-enter-active,
+  &.fade-leave-active {
+    transition: all 0.5s ease;
+  }
+
+  &.fade-enter,
+  &.fade-leave-to {
+    opacity: 0;
+    transform: height(0);
+  }
 
   .initiate-vote-inputs {
     display: flex;
@@ -787,4 +886,16 @@ h3 {
   }
 }
 
+.abbreviation {
+  font-weight: 500;
+  color: #1161fe;
+}
+
+.plus {
+  transition: transform 0.5s;
+
+  &.rotate {
+    transform: rotate(45deg);
+  }
+}
 </style>

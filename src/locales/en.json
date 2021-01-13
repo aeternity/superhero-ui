@@ -446,6 +446,17 @@
           "text": "Subscribe to get early updates about tokens and other upcoming features on Superhero.com!"
         }
       ]
+    },
+    "WordDetail": {
+      "NoVotes": "There are no current votes for this asset.",
+      "VoteText": "As a holder of {balance} tokens you are eligible to initiate a blockchain vote in order to release the accumulated spread amount of {spread} tokens held by the smart contract and transfer it to another æternity blockchain address.",
+      "ConfirmMessage": "Please confirm the transaction!",
+      "CreateVote": {
+        "ProgressMessage": [
+          "Creating voting contract... (step 1 of 2)",
+          "Adding your vote to WordBazaar... (step 2 of 2)"
+        ]
+      }
     }
   },
   "components": {
@@ -588,7 +599,9 @@
       "Release": "Release {0} spread for transfer to",
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
-      "Stake": "Majority Stake",
+      "Stake": "Majority Stake"
+    },
+    "VoteCard":{
       "ReleasedTo": " released for transfer to",
       "SpreadTo": " spread was transferred to",
       "ToBeReleasedTo": " to be released for transfer to",
@@ -606,7 +619,14 @@
       "Claim": "Claim Back",
       "TimedOut": "Timed out 👎",
       "Unsuccessful": "Unsuccessful 👎",
-      "Tansfered": "Funds transferred 👍"
+      "Transfered": "Funds transferred 👍",
+      "VoteOption": [
+        "Freezing voting stake... (step 1 of 2)",
+        "Adding your stake to WordBazaar votes... (step 2 of 2)"
+      ],
+      "Withdraw": "Withdrawing stake...",
+      "Payout": "Payout sending...",
+      "RevokeVote": "Revoking your vote..."
     },
     "WordBazaar":{"Title": "WordBazaar"}
   },

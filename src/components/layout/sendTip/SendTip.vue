@@ -87,7 +87,7 @@ export default {
   props: { post: Boolean },
   data() {
     return {
-      inputToken: 'native',
+      inputToken: null,
       sendTipForm: {
         amount: 0,
         url: '',
@@ -102,7 +102,7 @@ export default {
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState(['useSdkWallet', 'tokenInfo']),
     isTipAmountValid() {
-      return this.inputToken !== 'native' || (this.sendTipForm.amount > this.minTipAmount);
+      return this.inputToken !== null || (this.sendTipForm.amount > this.minTipAmount);
     },
     isSendTipDataValid() {
       const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
@@ -118,7 +118,7 @@ export default {
     async sendTip() {
       this.sendingTip = true;
       const amount = shiftDecimalPlaces(this.sendTipForm.amount,
-        this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
+        this.inputToken !== null ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
       tip(this.sendTipForm.url, this.sendTipForm.title, amount, this.inputToken)
         .then(async () => {

@@ -94,13 +94,13 @@ export const scanForWallets = async () => {
   });
 };
 
-const createOrChangeAllowance = async (tokenAddress, amount) => {
+export const createOrChangeAllowance = async (tokenAddress, amount, forAccount = null) => {
   const tokenContract = await sdk
     .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress: tokenAddress });
 
   const { decodedResult } = await tokenContract.methods.allowance({
     from_account: await sdk.address(),
-    for_account: process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+    for_account: forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
   });
 
   const allowanceAmount = decodedResult !== undefined
@@ -109,7 +109,7 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
 
   return tokenContract
     .methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
-      process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+      forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
       allowanceAmount,
     );
 };
@@ -118,7 +118,7 @@ const createOrChangeAllowance = async (tokenAddress, amount) => {
 export const tip = async (url, title, amount, tokenAddress = null) => {
   await initTippingContractIfNeeded();
 
-  if (tokenAddress && tokenAddress !== 'native') {
+  if (tokenAddress !== null) {
     await createOrChangeAllowance(tokenAddress, amount);
     return contractV2.methods.tip_token(url, title, tokenAddress, amount);
   }
@@ -131,7 +131,7 @@ export const tip = async (url, title, amount, tokenAddress = null) => {
 export const retip = async (contractAddress, id, amount, tokenAddress = null) => {
   await initTippingContractIfNeeded();
 
-  if (tokenAddress && tokenAddress !== 'native') {
+  if (tokenAddress !== null) {
     await createOrChangeAllowance(tokenAddress, amount);
     return contractV2.methods.retip_token(Number(id.split('_')[0]), tokenAddress, amount);
   }
@@ -156,4 +156,9 @@ export const postWithoutTipSignature = async (title, media) => {
   const message = tippingContractUtil.postWithoutTippingString(title, media);
   const hash = Crypto.hash(message);
   return sdk.signMessage(hash, { returnHex: true });
+};
+
+export const blockToDate = async (goalHeight) => {
+  const diff = goalHeight - (await sdk.height());
+  return new Date(diff * 180000 + Date.now());
 };

@@ -5,6 +5,8 @@ import VueRouter from 'vue-router';
 import { sync } from 'vuex-router-sync';
 import { defer } from 'lodash-es';
 import VueMeta from 'vue-meta';
+import VueTimeago from 'vue-timeago';
+import formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import App from './App.vue';
 import store from './store';
 import router from './router';
@@ -13,6 +15,14 @@ import registerModals from './views/modals';
 
 Vue.use(VueRouter);
 Vue.use(VueMeta);
+
+Vue.use(VueTimeago, {
+  locale: 'en',
+  // https://github.com/egoist/vue-timeago/issues/94#issuecomment-475636750
+  converter(date, locale, { includeSeconds = false, addSuffix = false }) {
+    return formatDistanceStrict(Date.now(), date, { locale, addSuffix, includeSeconds });
+  },
+});
 
 Vue.config.productionTip = false;
 

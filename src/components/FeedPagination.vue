@@ -11,7 +11,10 @@
         :tip="tip"
         :fiat-value="tip.fiatValue"
       />
-      <Loader v-if="tipsNextPageLoading" class="lg"/>
+      <Loader
+        v-if="tipsNextPageLoading"
+        class="lg"
+      />
       <div
         v-if="tips.length === 0"
         class="no-results text-center m-2"

@@ -22,12 +22,13 @@ import Avatar from '../Avatar.vue';
 export default {
   components: { Avatar },
   props: {
-    address: { type: String, required: true },
+    address: { type: String, default: null },
   },
   computed: {
     ...mapState({
       tokenData({ tokenInfo }) {
-        return tokenInfo[this.address] || null;
+        const hasTokenInfo = this.address && tokenInfo[this.address];
+        return hasTokenInfo || null;
       },
     }),
   },

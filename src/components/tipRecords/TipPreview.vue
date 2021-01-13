@@ -163,15 +163,17 @@ import YouTubeEmbed from './YouTubeEmbed.vue';
 import TwitterEmbed from './TwitterEmbed.vue';
 import SoundCloudEmbed from './SoundCloudEmbed.vue';
 import ExternalLink from '../../assets/externalLink.svg?icon-component';
+import Avatar from '../Avatar.vue';
 import TipInput from '../TipInput.vue';
 
 export default {
   components: {
+    Avatar,
+    TipInput,
     ExternalLink,
     YouTubeEmbed,
     TwitterEmbed,
     SoundCloudEmbed,
-    TipInput,
   },
   props: {
     tip: { type: Object, required: true },

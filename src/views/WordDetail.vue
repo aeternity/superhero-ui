@@ -157,7 +157,7 @@
         <div class="asset_details__section">
           <div class="asset_details__section-content">
             <div
-              v-if="!votes.length"
+              v-if="!votes.length && activeTab === 'ongoing'"
               class="no-content"
             >
               <h3>{{ $t('components.WordDetail.NoVotes') }}</h3>

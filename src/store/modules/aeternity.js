@@ -23,11 +23,12 @@ export default {
     isTippingContractsInitialised: false,
   },
   mutations: {
-    setAllContracts(state, contracts) {
+    setContracts(state, contracts) {
       const [contractV1, contractV2, contractV3] = contracts;
       state.contractV1 = contractV1;
       state.contractV2 = contractV2;
       state.contractV3 = contractV3;
+      state.isTippingContractsInitialised = true;
     },
     setSdk(state, { instance }) {
       state.sdk = instance;
@@ -37,9 +38,6 @@ export default {
     },
     enableIframeWallet(state) {
       state.useIframeWallet = true;
-    },
-    setTippingContractsInitialised(state) {
-      state.isTippingContractsInitialised = true;
     },
   },
   actions: {
@@ -59,8 +57,7 @@ export default {
       ].map(([tippingInterface, contractAddress]) => (contractAddress
         ? sdk.getContractInstance(tippingInterface, { contractAddress })
         : null)));
-      commit('setTippingContractsInitialised', true);
-      commit('setAllContracts', contracts);
+      commit('setContracts', contracts);
     },
     async initSdk({ dispatch, commit }) {
       try {

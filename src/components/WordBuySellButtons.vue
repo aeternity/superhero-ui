@@ -39,8 +39,8 @@
           :token="tokenAddress"
           no-dropdown
           no-fiatvalue
-          :key-up="buyValue"
           class="input-amount"
+          @keyup="buyValue"
         />
       </div>
       <div class="mt-3 label">
@@ -95,8 +95,8 @@
           :token="tokenAddress"
           no-dropdown
           no-fiatvalue
-          :key-up="sellValue"
           class="input-amount"
+          @keyup="sellValue"
         />
       </div>
       <div class="mt-3 label">

@@ -132,11 +132,11 @@ export default class Backend {
 
   static getWordRegistry = async () => backendFetch('tokenCache/wordRegistry');
 
-  static getWordSaleVotesDetails = async (address) => backendFetch(`tokenCache/wordSaleVotesDetails?address=${address}`);
+  static getWordSaleVotesDetails = async (address) => backendFetch(`tokenCache/wordSaleVotesDetails/${address}`);
 
-  static getWordSaleDetailsByToken = async (address) => backendFetch(`tokenCache/wordSaleByToken?address=${address}`);
+  static getWordSaleDetailsByToken = async (address) => backendFetch(`tokenCache/wordSaleByToken/${address}`);
 
-  static getWordSale = async (address) => backendFetch(`tokenCache/wordSale?address=${address}`);
+  static getWordSale = async (address) => backendFetch(`tokenCache/wordSale/${address}`);
 
   static getTokenBalances = async (address) => backendFetch(`tokenCache/balances?address=${address}`);
 

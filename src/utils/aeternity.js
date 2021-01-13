@@ -163,8 +163,3 @@ export const postWithoutTipSignature = async (title, media) => {
   const hash = Crypto.hash(message);
   return sdk.signMessage(hash, { returnHex: true });
 };
-
-export const blockToDate = async (goalHeight) => {
-  const diff = goalHeight - (await sdk.height());
-  return new Date(diff * 180000 + Date.now());
-};

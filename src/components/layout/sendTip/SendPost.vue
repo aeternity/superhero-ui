@@ -56,7 +56,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import { postWithoutTip, postWithoutTipSignature } from '../../../utils/aeternity';
 import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import MessageInput from '../../MessageInput.vue';
@@ -105,7 +104,7 @@ export default {
         if (+this.balance === 0) {
           await this.postWithZeroBalance(data.title, data.media);
         } else {
-          await postWithoutTip(data.title, data.media);
+          await this.$store.dispatch('postWithoutTip', { title: data.title, media: data.media });
         }
         this.clearPostForm();
         this.$store.dispatch('modals/open', {
@@ -126,7 +125,7 @@ export default {
       }
     },
     async postWithZeroBalance(title, media) {
-      const signature = await postWithoutTipSignature(title, media);
+      const signature = await this.$store.dispatch('postWithoutTipSignature', { title, media });
       return Backend.sendPostWithoutTip({
         author: this.address,
         title,

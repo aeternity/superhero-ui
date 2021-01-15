@@ -8,6 +8,7 @@ import persistState from './plugins/persistState';
 import modals from './plugins/modals';
 // eslint-disable-next-line import/no-cycle
 import backend from './modules/backend';
+import aeternity from './modules/aeternity';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 
@@ -30,9 +31,6 @@ export default new Vuex.Store({
     tokenBalances: [],
     tokenPrices: {},
     isHiddenContent: true,
-    useSdkWallet: false,
-    useIframeWallet: false,
-    sdk: null,
     isBackendLive: true,
     cookiesConsent: { },
   },
@@ -70,7 +68,10 @@ export default new Vuex.Store({
     },
   },
   getters,
-  modules: { backend },
+  modules: {
+    backend,
+    aeternity,
+  },
   plugins: [
     persistState(
       (state) => state,

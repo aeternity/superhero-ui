@@ -6,7 +6,7 @@ export default {
     state.address = address;
   },
   resetState(state) {
-    state.useSdkWallet = false;
+    state.aeternity.useSdkWallet = false;
     state.address = null;
     state.balance = 0;
     state.profile = {};
@@ -42,12 +42,6 @@ export default {
   setIsHiddenContent(state, payload) {
     state.isHiddenContent = payload;
   },
-  useSdkWallet(state) {
-    state.useSdkWallet = true;
-  },
-  enableIframeWallet(state) {
-    state.useIframeWallet = true;
-  },
   setUserProfile(state, profile) {
     state.profile = profile;
   },
@@ -72,9 +66,6 @@ export default {
     };
     Object.entries(mergeWith({}, state, remoteState, customizer))
       .forEach(([name, value]) => Vue.set(state, name, value));
-  },
-  setSdk(state, sdk) {
-    state.sdk = sdk;
   },
   setBackendStatus(state, isBackendLive) {
     state.isBackendLive = isBackendLive;

@@ -101,7 +101,7 @@ export default {
     async reloadComment({ commit }, id) {
       commit('setComment', { id, value: await Backend.getCommentById(id) });
     },
-    async reloadStats({ commit, rootState: { sdk } }) {
+    async reloadStats({ commit, rootState: { aeternity: { sdk } } }) {
       const [stats1, stats2, height] = await Promise.all([
         Backend.getCacheStats(),
         Backend.getStats(),
@@ -113,7 +113,15 @@ export default {
       commit('setPrices', (await Backend.getPrice())?.aeternity);
     },
     // eslint-disable-next-line consistent-return
-    async callWithAuth({ rootState: { useSdkWallet, sdk, address } }, { method, arg, to }) {
+    async callWithAuth({
+      rootState: {
+        aeternity: {
+          useSdkWallet,
+          sdk,
+        },
+        address,
+      },
+    }, { method, arg, to }) {
       const { challenge } = await Backend[method](address, arg);
       if (useSdkWallet) {
         const signature = await sdk.signMessage(challenge);
@@ -130,7 +138,7 @@ export default {
       });
     },
     async sendComment(
-      { dispatch, rootState: { address, useSdkWallet } },
+      { dispatch, rootState: { address, aeternity: { useSdkWallet } } },
       { tipId, text, parentId },
     ) {
       if (!useSdkWallet) {

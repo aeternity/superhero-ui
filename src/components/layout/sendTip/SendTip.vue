@@ -64,7 +64,6 @@
 import { mapState, mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
 import { createDeepLinkUrl, shiftDecimalPlaces } from '../../../utils';
-import { tip } from '../../../utils/aeternity';
 import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
@@ -100,7 +99,9 @@ export default {
   },
   computed: {
     ...mapGetters('backend', ['minTipAmount']),
-    ...mapState(['useSdkWallet', 'tokenInfo']),
+    ...mapState(['tokenInfo']),
+    ...mapState({ useSdkWallet: ({ aeternity: { useSdkWallet } }) => useSdkWallet }),
+
     isTipAmountValid() {
       return this.inputToken !== null || (this.sendTipForm.amount > this.minTipAmount);
     },
@@ -120,7 +121,12 @@ export default {
       const amount = shiftDecimalPlaces(this.sendTipForm.amount,
         this.inputToken !== null ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
-      tip(this.sendTipForm.url, this.sendTipForm.title, amount, this.inputToken)
+      this.$store.dispatch('tip', {
+        url: this.sendTipForm.url,
+        title: this.sendTipForm.title,
+        amount,
+        tokenAddress: this.inputToken,
+      })
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();

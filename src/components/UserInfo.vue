@@ -264,7 +264,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(['chainNames', 'sdk', 'cookiesConsent']),
+    ...mapState(['chainNames']),
+    ...mapState({
+      sdk: ({ aeternity: { sdk } }) => sdk,
+      cookiesConsent: ({ aeternity: { cookiesConsent } }) => cookiesConsent,
+    }),
     ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];

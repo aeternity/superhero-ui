@@ -27,7 +27,6 @@
 
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
-import { initSdk, scanForWallets } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import { atomsToAe } from './utils';
@@ -39,7 +38,8 @@ export default {
   components: { MobileNavigation, LeftSection, RightSection },
   computed: {
     ...mapGetters('modals', ['opened']),
-    ...mapState(['address', 'sdk']),
+    ...mapState(['address']),
+    ...mapState({ sdk: ({ aeternity: { sdk } }) => sdk }),
   },
   async created() {
     EventBus.$on('reloadData', () => {
@@ -47,7 +47,7 @@ export default {
     });
     setInterval(() => this.reloadData(), 120 * 1000);
 
-    await initSdk();
+    await this.$store.dispatch('initSdk');
     await Promise.all([
       this.initWallet(),
       this.reloadData(),
@@ -96,7 +96,7 @@ export default {
     async initWallet() {
       let { address } = this.$route.query;
       if (!address) {
-        address = await scanForWallets();
+        address = await this.$store.dispatch('scanForWallets');
         console.log('found wallet');
         this.useSdkWallet();
         this.$store.dispatch('updateCookiesConsent', address);

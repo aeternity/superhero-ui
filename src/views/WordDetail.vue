@@ -212,7 +212,6 @@
 <script>
 import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSaleInterface.aes';
 import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
-import TOKEN_VOTING_CONTRACT_INTERFACE from 'wordbazaar-contracts/TokenVotingInterface.aes';
 import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 import { getClient } from '../utils/aeternity';
@@ -302,12 +301,9 @@ export default {
       await this.reloadData();
       callback();
     });
-    setInterval(() => this.reloadData(), 12 * 1000);
+    setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
-    isZero(number) {
-      return new BigNumber(number).isZero();
-    },
     async reloadData() {
       this.wordRegistryState = await Backend.getWordRegistry();
 
@@ -373,6 +369,7 @@ export default {
           statusPast,
           statusMy,
           stakeAmount,
+          initialStakeAmount: stakeAmount,
           dateClose,
           dateTimeout,
         };
@@ -397,6 +394,8 @@ export default {
         const closeHeight = (await getClient().then((client) => client.height())) + 20;
         await tokenVoting.methods.init(metadata, closeHeight, this.data.tokenAddress);
         this.progressMessage = this.$t('views.WordDetail.CreateVote.ProgressMessage[1]');
+
+        await this.initSaleContract();
         await this.selectedWordContract.methods.add_vote(tokenVoting.deployInfo.address);
         await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
       } catch (error) {
@@ -411,10 +410,6 @@ export default {
         this.progressMessage = '';
         EventBus.$emit('reloadData');
       }
-    },
-    async initTokenVotingContract(vote) {
-      this.tokenVoting[vote] = await getClient().then((client) => client
-        .getContractInstance(TOKEN_VOTING_CONTRACT_INTERFACE, { contractAddress: vote }));
     },
     async initSaleContract() {
       this.selectedWordContract = await getClient().then((client) => client

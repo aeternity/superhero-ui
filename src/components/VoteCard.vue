@@ -72,7 +72,7 @@
         <AeInputAmount
           v-if="vote.showVoteOption || vote.accountHasVoted"
           v-model="vote.stakeAmount"
-          :disabled="!vote.showVoteOption || isZero(vote.stakeAmount) || loading"
+          :disabled="!vote.showVoteOption || isZero(vote.initialStakeAmount) || loading"
           :token="data.tokenAddress"
           no-dropdown
           no-fiatvalue
@@ -89,7 +89,7 @@
 
         <AeButton
           v-if="vote.showVoteOption"
-          :disabled="isZero(vote.stakeAmount)"
+          :disabled="isZero(vote.initialStakeAmount)"
           :loading="loading"
           @click="voteOption(vote.voteAddress, true, vote.stakeAmount)"
         >
@@ -136,12 +136,14 @@ import TOKEN_VOTING_CONTRACT_INTERFACE from 'wordbazaar-contracts/TokenVotingInt
 import { EventBus } from '../utils/eventBus';
 import Backend from '../utils/backend';
 import { shiftDecimalPlaces } from '../utils';
-import { createOrChangeAllowance } from '../utils/aeternity';
+import { createOrChangeAllowance, getClient } from '../utils/aeternity';
 import IconClaimBack from '../assets/iconClaimBack.svg?icon-component';
 import IconCloseCircle from '../assets/iconCloseCircle.svg?icon-component';
+import IconCheckmarkCircle from '../assets/iconCheckmarkCircle.svg?icon-component';
 import IconHourglass from '../assets/iconHourglass.svg?icon-component';
 import AeInputAmount from './AeInputAmount.vue';
 import AeAmount from './AeAmount.vue';
+import AeButton from './AeButton.vue';
 import Loader from './Loader.vue';
 import OutlinedButton from './OutlinedButton.vue';
 
@@ -149,9 +151,11 @@ export default {
   components: {
     IconClaimBack,
     IconCloseCircle,
+    IconCheckmarkCircle,
     IconHourglass,
     AeInputAmount,
     AeAmount,
+    AeButton,
     Loader,
     OutlinedButton,
   },
@@ -166,11 +170,15 @@ export default {
     progressMessage: '',
   }),
   methods: {
+    isZero(number) {
+      return new BigNumber(number).isZero();
+    },
     async revokeVote(address) {
       this.loading = true;
       this.progressMessage = this.$t('components.VoteCard.RevokeVote');
       try {
-        await this.voting[address].methods.revoke_vote();
+        await this.initTokenVotingContract(address);
+        await this.voting.methods.revoke_vote();
         await Backend.invalidateWordSaleVoteStateCache(address);
       } catch (error) {
         this.$store.dispatch('modals/open', {
@@ -211,7 +219,8 @@ export default {
       this.loading = true;
       this.progressMessage = this.$t('components.VoteCard.Withdraw');
       try {
-        await this.voting[address].methods();
+        await this.initTokenVotingContract(address);
+        await this.voting.methods.withdraw();
         await Backend.invalidateWordSaleVoteStateCache(address);
       } catch (error) {
         this.$store.dispatch('modals/open', {
@@ -231,11 +240,12 @@ export default {
       this.loading = true;
       this.progressMessage = this.$t('components.VoteCard.VoteOption[0]');
       try {
+        await this.initTokenVotingContract(address);
         const shiftedAmount = shiftDecimalPlaces(amount,
           this.info[this.data.tokenAddress].decimals).toFixed();
         await createOrChangeAllowance(this.data.tokenAddress, shiftedAmount, address.replace('ct_', 'ak_'));
         this.progressMessage = this.$t('components.VoteCard.VoteOption[1]');
-        await this.voting[address].methods.vote(option, shiftedAmount);
+        await this.voting.methods.vote(option, shiftedAmount);
         await Backend.invalidateWordSaleVoteStateCache(address);
       } catch (error) {
         this.$store.dispatch('modals/open', {

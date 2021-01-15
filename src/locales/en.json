@@ -598,7 +598,7 @@
       "Release": "Release {0} spread for transfer to",
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
-      "Stake": "Majority Stake",
+      "Stake": "Majority Stake"
     },
     "VoteCard":{
       "ReleasedTo": " released for transfer to",
@@ -615,7 +615,7 @@
       "NotParticipate": "You didn't participate in staking",
       "Revoke": "Revoke",
       "Vote": "Vote",
-      "Claim": "Claim Back",
+      "ClaimBack": "Claim Back",
       "TimedOut": "Timed out 👎",
       "Unsuccessful": "Unsuccessful 👎",
       "Transfered": "Funds transferred 👍",

@@ -297,12 +297,9 @@ export default {
       await this.reloadData();
       callback();
     });
-    setInterval(() => this.reloadData(), 12 * 1000);
+    setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
-    isZero(number) {
-      return new BigNumber(number).isZero();
-    },
     async reloadData() {
       this.wordRegistryState = await Backend.getWordRegistry();
 
@@ -368,6 +365,7 @@ export default {
           statusPast,
           statusMy,
           stakeAmount,
+          initialStakeAmount: stakeAmount,
           dateClose,
           dateTimeout,
         };
@@ -401,6 +399,8 @@ export default {
         });
 
         this.progressMessage = this.$t('views.WordDetail.CreateVote.ProgressMessage[1]');
+
+        await this.initSaleContract();
         await this.$store.dispatch('aeternity/tokenSaleMethod',
           {
             contractAddress: this.saleContractAddress,

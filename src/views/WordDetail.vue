@@ -191,7 +191,7 @@
                 @click="showInitiate = !showInitiate"
               >
                 <IconCheckmarkCircle />
-                {{ $t('views.WordDetail.Initiate') }}
+                {{ $t('components.WordDetail.Initiate') }}
               </AeButton>
             </div>
             <VoteCard
@@ -313,63 +313,64 @@ export default {
     async loadSpread() {
       this.data = await Backend.getWordSale(this.saleContractAddress);
     },
+    calculateVoteStatus(vote, height) {
+      const voterAccount = vote.voteAccounts.find(([acc]) => acc === this.address);
+
+      const accountHasVoted = !!voterAccount;
+      const hasWithdrawAmount = voterAccount
+        && new BigNumber(voterAccount[1][0]).isGreaterThan(0) && !voterAccount[1][2];
+
+      const showRevoke = !vote.isClosed && accountHasVoted;
+      const showVoteOption = !vote.isClosed && !accountHasVoted;
+      const showApplyPayout = vote.isClosed && !vote.alreadyApplied
+        && !vote.timeouted && vote.isSuccess;
+      const showWithdraw = vote.isClosed && hasWithdrawAmount;
+
+      const statusClosed = vote.isClosed && !vote.alreadyApplied && !vote.timeouted;
+      const statusClosedAndUnsuccessful = statusClosed && !vote.isSuccess;
+      const statusApplied = vote.alreadyApplied;
+      const statusTimeouted = !vote.alreadyApplied && vote.timeouted;
+      const statusTimeouting = statusClosed && !statusClosedAndUnsuccessful && !statusTimeouted;
+      const statusOngoing = (!vote.isClosed || !(statusTimeouted || statusApplied))
+        && !statusClosedAndUnsuccessful;
+      const statusPast = statusTimeouted || statusApplied || statusClosedAndUnsuccessful;
+
+      const statusMy = accountHasVoted;
+      const stakeMaxAmount = showVoteOption ? this.maxAmount : 0;
+      const stakeAmountUnshifted = voterAccount ? voterAccount[1][0] : stakeMaxAmount;
+      const stakeAmount = shiftDecimalPlaces(
+        stakeAmountUnshifted, -this.tokenInfo[this.data.tokenAddress].decimals,
+      ).toFixed(2);
+
+      const dateClose = blockToDate(vote.closeHeight, height);
+      const dateTimeout = blockToDate(vote.timeoutHeight, height);
+
+      return {
+        ...vote,
+        accountHasVoted,
+        hasWithdrawAmount,
+        showRevoke,
+        showVoteOption,
+        showApplyPayout,
+        showWithdraw,
+        statusClosed,
+        statusClosedAndUnsuccessful,
+        statusApplied,
+        statusTimeouted,
+        statusTimeouting,
+        statusOngoing,
+        statusPast,
+        statusMy,
+        stakeAmount,
+        initialStakeAmount: stakeAmount,
+        dateClose,
+        dateTimeout,
+      };
+    },
     async loadVotes() {
       let votes = await Backend.getWordSaleVotesDetails(this.saleContractAddress);
       const height = await this.$store.dispatch('aeternity/getHeight');
-      votes = votes.map((vote) => {
-        const voterAccount = vote.voteAccounts.find(([acc]) => acc === this.address);
-
-        const accountHasVoted = !!voterAccount;
-        const hasWithdrawAmount = voterAccount
-          && new BigNumber(voterAccount[1][0]).isGreaterThan(0) && !voterAccount[1][2];
-
-        const showRevoke = !vote.isClosed && accountHasVoted;
-        const showVoteOption = !vote.isClosed && !accountHasVoted;
-        const showApplyPayout = vote.isClosed && !vote.alreadyApplied
-          && !vote.timeouted && vote.isSuccess;
-        const showWithdraw = vote.isClosed && hasWithdrawAmount;
-
-        const statusClosed = vote.isClosed && !vote.alreadyApplied && !vote.timeouted;
-        const statusClosedAndUnsuccessful = statusClosed && !vote.isSuccess;
-        const statusApplied = vote.alreadyApplied;
-        const statusTimeouted = !vote.alreadyApplied && vote.timeouted;
-        const statusTimeouting = statusClosed && !statusClosedAndUnsuccessful && !statusTimeouted;
-        const statusOngoing = (!vote.isClosed || !(statusTimeouted || statusApplied))
-          && !statusClosedAndUnsuccessful;
-        const statusPast = statusTimeouted || statusApplied || statusClosedAndUnsuccessful;
-
-        const statusMy = accountHasVoted;
-        const stakeMaxAmount = showVoteOption ? this.maxAmount : 0;
-        const stakeAmountUnshifted = voterAccount ? voterAccount[1][0] : stakeMaxAmount;
-        const stakeAmount = shiftDecimalPlaces(
-          stakeAmountUnshifted, -this.tokenInfo[this.data.tokenAddress].decimals,
-        ).toFixed(2);
-
-        const dateClose = blockToDate(vote.closeHeight, height);
-        const dateTimeout = blockToDate(vote.timeoutHeight, height);
-
-        return {
-          ...vote,
-          accountHasVoted,
-          hasWithdrawAmount,
-          showRevoke,
-          showVoteOption,
-          showApplyPayout,
-          showWithdraw,
-          statusClosed,
-          statusClosedAndUnsuccessful,
-          statusApplied,
-          statusTimeouted,
-          statusTimeouting,
-          statusOngoing,
-          statusPast,
-          statusMy,
-          stakeAmount,
-          initialStakeAmount: stakeAmount,
-          dateClose,
-          dateTimeout,
-        };
-      });
+      votes = votes.map((vote) => this.calculateVoteStatus(vote, height));
 
       this.ongoingVotes = votes.filter((v) => v.statusOngoing);
       this.pastVotes = votes.filter((v) => v.statusPast);

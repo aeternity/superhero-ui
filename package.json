@@ -59,6 +59,7 @@
     "wordbazaar-contracts": "github:aeternity/wordbazaar-contracts#v0.0.3-alpha2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
     "@uvue/vue-cli-plugin-ssr": "~0.1.7",
     "@vue/cli-plugin-babel": "~4.5.10",
     "@vue/cli-plugin-e2e-cypress": "~4.5.10",

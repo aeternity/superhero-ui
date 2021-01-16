@@ -64,6 +64,8 @@
     "url": "https://github.com/aeternity/superhero-ui"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.13",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-e2e-cypress": "^4.5.13",
     "@vue/cli-plugin-eslint": "^4.5.13",

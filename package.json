@@ -60,6 +60,7 @@
     "wordbazaar-contracts": "github:aeternity/wordbazaar-contracts#v0.0.3-alpha2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.13",
     "@babel/plugin-proposal-optional-chaining": "^7.12.7",
     "@uvue/vue-cli-plugin-ssr": "~0.1.7",
     "@vue/cli-plugin-babel": "~4.5.10",

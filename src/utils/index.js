@@ -61,6 +61,7 @@ export const urlStatus = (tipUrl, verifiedUrls, blacklistedUrls) => {
   const url = twitterProfile || tipUrl;
 
   if (blacklistedUrls.some((u) => url.includes(u))) return 'blacklisted';
+  if (url.startsWith('http') && !url.startsWith('https:')) return 'not-secure';
   if (verifiedUrls.includes(url)) return 'verified';
   return 'not-verified';
 };

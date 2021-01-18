@@ -520,7 +520,8 @@
     "UrlStatus": {
       "verifiedTitle": "",
       "notverifiedTitle": "",
-      "blacklisted": ""
+      "blacklisted": "",
+      "notSecure": ""
     },
     "ListOfTipsAndComments": {
       "Channel": "Channel",

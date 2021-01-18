@@ -11,6 +11,7 @@ import { urlStatus } from '../../../utils';
 import verifiedUrl from '../../../assets/verifiedUrl.svg';
 import notVerifiedUrl from '../../../assets/notVerifiedUrl.svg';
 import blacklistedUrl from '../../../assets/blacklistedUrl.svg';
+import notSecureUrl from '../../../assets/notSecureUrl.svg';
 import defaultUrl from '../../../assets/defaultUrl.svg';
 
 export default {
@@ -29,6 +30,8 @@ export default {
           return { src: notVerifiedUrl, title: this.$t('components.UrlStatus.notverifiedTitle') };
         case 'blacklisted':
           return { src: blacklistedUrl, title: this.$t('components.UrlStatus.blacklisted') };
+        case 'not-secure':
+          return { src: notSecureUrl, title: this.$t('components.UrlStatus.notSecure') };
         default:
           return { src: defaultUrl };
       }

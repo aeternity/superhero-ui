@@ -63,6 +63,7 @@
       </div>
       <div class="mt-3 text-center">
         <OutlinedButton
+          :disabled="buyAeAmount <= 0"
           class="green"
           @click="buy"
         >
@@ -120,6 +121,7 @@
       </div>
       <div class="mt-3 text-center">
         <OutlinedButton
+          :disabled="sellAeAmount <= 0"
           class="red"
           @click="sell"
         >
@@ -235,28 +237,48 @@ export default {
     },
     async buy() {
       this.loading = true;
+      try {
+        await this.initContract();
 
-      await this.initContract();
-
-      const { amount, value } = await this.buyValue();
-      await this.contract.methods.buy(amount, { amount: value });
-
-      await Backend.invalidateTokenCache(this.tokenAddress);
-      await Backend.invalidateWordSaleCache(this.sale);
-      EventBus.$emit('reloadData');
+        const { amount, value } = await this.buyValue();
+        await this.contract.methods.buy(amount, { amount: value });
+        await Backend.invalidateTokenCache(this.tokenAddress);
+        await Backend.invalidateWordSaleCache(this.sale);
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Transaction was not made!',
+          primaryButtonText: 'OK',
+        });
+      } finally {
+        this.loading = false;
+        EventBus.$emit('reloadData');
+      }
     },
     async sell() {
       this.loading = true;
+      try {
+        await this.initContract();
+        const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
+        await createOrChangeAllowance(this.tokenAddress, amount,
+          this.contract.deployInfo.address.replace('ct_', 'ak_'));
+        await this.contract.methods.sell(amount)
+          .catch(() => { throw new Error('Insufficient Account Balance'); });
 
-      await this.initContract();
-      const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
-      await createOrChangeAllowance(this.tokenAddress, amount,
-        this.contract.deployInfo.address.replace('ct_', 'ak_'));
-      await this.contract.methods.sell(amount);
-
-      await Backend.invalidateTokenCache(this.tokenAddress);
-      await Backend.invalidateWordSaleCache(this.sale);
-      EventBus.$emit('reloadData');
+        await Backend.invalidateTokenCache(this.tokenAddress);
+        await Backend.invalidateWordSaleCache(this.sale);
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Transaction was not made!',
+          primaryButtonText: 'OK',
+        });
+      } finally {
+        this.loading = false;
+        EventBus.$emit('reloadData');
+      }
     },
     async initContract() {
       this.contract = this.contract ? this.contract : await getClient().then((client) => client

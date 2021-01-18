@@ -17,7 +17,12 @@
           tag="p"
           class="step-description"
         >
-          <span class="abbreviation">{{ ticker }}</span>
+          <template #ticker>
+            <span class="abbreviation">{{ ticker }}</span>
+          </template>
+          <template #step>
+            {{ $t(`components.CreateToken.Steps[${step}]`) }}
+          </template>
         </i18n>
       </div>
       <div class="arrow-up" />
@@ -31,7 +36,7 @@
         >
           <div
             class="step-box"
-            :class="{ active: step >= i, pulse: ((step === i && step !== 0) || step > 6) }"
+            :class="{ active: step >= i, pulse: ((step === i && step !== 0) || step >= 6) }"
           />
         </div>
       </div>
@@ -181,45 +186,68 @@ export default {
         `function alpha() : Frac.frac = Frac.make_frac(1, ${shiftDecimalPlaces(1, decimals)})`,
       );
 
-      this.loadingState = true;
-      const bondingCurveMock = await getClient()
-        .then((client) => client.getContractInstance(BONDING_CURVE_DECIMALS));
+      try {
+        this.loadingState = true;
+        const bondingCurveMock = await getClient()
+          .then((client) => client.getContractInstance(BONDING_CURVE_DECIMALS));
 
-      const TOKEN_SALE_CONTRACT_DECIMALS = TOKEN_SALE_CONTRACT.replace(
-        'let decimals = 1',
-        `let decimals = ${shiftDecimalPlaces(1, decimals)}`,
-      );
+        const TOKEN_SALE_CONTRACT_DECIMALS = TOKEN_SALE_CONTRACT.replace(
+          'let decimals = 1',
+          `let decimals = ${shiftDecimalPlaces(1, decimals)}`,
+        );
 
-      this.step = 1;
-      await bondingCurveMock.deploy();
-      const tokenSale = await getClient()
-        .then((client) => client.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS));
+        this.step = 1;
+        await bondingCurveMock.deploy();
+        const tokenSale = await getClient()
+          .then((client) => client.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS));
 
-      this.step = 2;
-      await tokenSale.methods.init(20, bondingCurveMock.deployInfo.address, this.description);
-      const token = await getClient()
-        .then((client) => client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT));
+        this.step = 2;
+        await tokenSale.methods.init(20, bondingCurveMock.deployInfo.address, this.description);
+        const token = await getClient()
+          .then((client) => client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT));
 
-      this.step = 3;
-      await token.methods.init(this.name, decimals, this.ticker, tokenSale.deployInfo.address.replace('ct_', 'ak_'));
-      await Backend.addToken(token.deployInfo.address);
-      EventBus.$emit('reloadData');
+        this.step = 3;
+        await token.methods.init(this.name, decimals, this.ticker, tokenSale.deployInfo.address.replace('ct_', 'ak_'));
+        await Backend.addToken(token.deployInfo.address);
+        EventBus.$emit('reloadData');
 
-      this.step = 4;
-      await tokenSale.methods.set_token(token.deployInfo.address);
+        this.step = 4;
+        await tokenSale.methods.set_token(token.deployInfo.address);
 
-      this.step = 5;
-      const wordRegistry = await getClient()
-        .then((client) => client.getContractInstance(WORD_REGISTRY_CONTRACT,
-          { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS }));
-      await wordRegistry.methods.add_token(tokenSale.deployInfo.address);
-      await Backend.invalidateWordRegistryCache();
+        this.step = 5;
+        const wordRegistry = await getClient()
+          .then((client) => client.getContractInstance(WORD_REGISTRY_CONTRACT,
+            { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS }));
+        await wordRegistry.methods.add_token(tokenSale.deployInfo.address)
+          .catch(() => { throw new Error(this.$t('components.CreateToken.ExistWarning')); });
+        await Backend.invalidateWordRegistryCache();
 
-      this.step = 6;
-      EventBus.$emit('reloadData');
+        this.step = 6;
+        EventBus.$emit('reloadData');
 
-      this.success = true;
-      this.countdown();
+        this.success = true;
+        this.countdown();
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: [
+            this.$t('components.CreateToken.Error[0]', {
+              index: this.step + 1,
+              step: this.$t(`components.CreateToken.Steps[${this.step}]`),
+            }),
+            this.$t('components.CreateToken.Error[1]', { ticker: this.ticker }),
+          ],
+          hideIcon: true,
+          primaryButtonText: 'OK',
+        });
+        this.name = '';
+        this.description = '';
+        this.ticker = '';
+        this.loadingState = false;
+        this.step = 0;
+        this.success = false;
+      }
     },
     countdown() {
       this.interval = setInterval(() => {

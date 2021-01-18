@@ -1,21 +1,23 @@
 <template>
   <div>
     <div>
-      <!-- eslint-disable vue/v-on-function-call -->
       <OutlinedButton
         class="green unpadded mr-1"
-        @click="showBuyModal = true; buyValue()"
+        @click="() => {
+          showBuyModal = true; buyValue()
+        }"
       >
-        <!-- eslint-disable vue-i18n/no-raw-text -->
-        Buy
+        {{ $t('components.WordBuySellButtons.Buy') }}
       </OutlinedButton>
 
       <OutlinedButton
         class="red unpadded"
         :disabled="tokenBalance === 0"
-        @click="showSellModal = true; sellValue()"
+        @click="() => {
+          showSellModal = true; sellValue()
+        }"
       >
-        Sell
+        {{ $t('components.WordBuySellButtons.Sell') }}
       </OutlinedButton>
     </div>
 
@@ -24,14 +26,14 @@
       @close="showBuyModal = false"
     >
       <div class="label">
-        Account Balance
+        {{ $t('components.WordBuySellButtons.AccountBalance') }}
       </div>
       <AeAmount
         :amount="tokenBalance"
         :token="tokenAddress"
       />
       <div class="mt-3 label">
-        Amount buying
+        {{ $t('components.WordBuySellButtons.AmountBuying') }}
       </div>
       <div class="input-group mb-2">
         <AeInputAmount
@@ -44,7 +46,7 @@
         />
       </div>
       <div class="mt-3 label">
-        Total you pay
+        {{ $t('components.WordBuySellButtons.TotalPay') }}
       </div>
       <div class="return-amount">
         <AeAmountFiat
@@ -64,13 +66,14 @@
           class="green"
           @click="buy"
         >
-          <!-- eslint-disable vue-i18n/no-raw-text -->
           <Loading
             v-if="loading"
             small
             class="p-0"
           />
-          <span v-else>Buy</span>
+          <span v-else>
+            {{ $t('components.WordBuySellButtons.Buy') }}
+          </span>
         </OutlinedButton>
       </div>
     </Modal>
@@ -80,14 +83,14 @@
       @close="showSellModal = false"
     >
       <div class="label">
-        Account Balance
+        {{ $t('components.WordBuySellButtons.AccountBalance') }}
       </div>
       <AeAmount
         :amount="tokenBalance"
         :token="tokenAddress"
       />
       <div class="mt-3 label">
-        Amount selling
+        {{ $t('components.WordBuySellButtons.AmountSelling') }}
       </div>
       <div class="input-group mb-2">
         <AeInputAmount
@@ -100,7 +103,7 @@
         />
       </div>
       <div class="mt-3 label">
-        Total you get
+        {{ $t('components.WordBuySellButtons.TotalGet') }}
       </div>
       <div class="return-amount">
         <AeAmountFiat
@@ -120,13 +123,12 @@
           class="red"
           @click="sell"
         >
-          <!-- eslint-disable vue-i18n/no-raw-text -->
           <Loading
             v-if="loading"
             small
             class="p-0"
           />
-          <span v-else>Sell</span>
+          <span v-else>{{ $t('components.WordBuySellButtons.Sell') }}</span>
         </OutlinedButton>
       </div>
     </Modal>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- eslint-disable vue-i18n/no-raw-text -->
     <BackButtonRibbon
       title="WordBazaar"
       hide-back
@@ -102,6 +101,9 @@ export default {
     async reloadData() {
       this.wordRegistryState = await Backend.getWordRegistry();
     },
+  },
+  metaInfo() {
+    return { title: this.$t('components.WordBazaar.Title') };
   },
 };
 </script>

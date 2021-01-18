@@ -1,5 +1,4 @@
 <template>
-  <!-- eslint-disable vue-i18n/no-raw-text -->
   <div>
     <BackButtonRibbon :title="selectedWord">
       <WordBuySellButtons
@@ -20,11 +19,11 @@
           class="asset_details__info"
         >
           <div class="info-item">
-            <h3>Ticker</h3>
+            <h3>{{ $t('components.WordDetail.Ticker') }}</h3>
             <div>{{ selectedWord }}</div>
           </div>
           <div class="info-item">
-            <h3>Current Price</h3>
+            <h3>{{ $t('components.WordDetail.CurrentPrice') }}</h3>
             <div>
               <AeAmount
                 :amount="data.buyPrice"
@@ -33,14 +32,14 @@
             </div>
           </div>
           <div class="info-item">
-            <h3>Sell Price</h3>
+            <h3>{{ $t('components.WordDetail.SellPrice') }}</h3>
             <AeAmount
               :amount="data.sellPrice"
               aettos
             />
           </div>
           <div class="info-item">
-            <h3>Circulating Supply</h3>
+            <h3>{{ $t('components.WordDetail.Supply') }}</h3>
             <AeAmount
               :token="data.tokenAddress"
               :amount="data.totalSupply"
@@ -49,14 +48,14 @@
         </div>
 
         <div class="asset_details__section-content">
-          <h3>Asset</h3>
+          <h3>{{ $t('components.WordDetail.Asset') }}</h3>
           <div
             v-if="data && tokenInfo"
             class="asset-details__asset"
           >
             {{ tokenInfo[data.tokenAddress].name }}
           </div>
-          <h3>Description</h3>
+          <h3>{{ $t('components.WordDetail.Description') }}</h3>
           <div
             v-if="data"
             class="asset-details__description"
@@ -79,14 +78,16 @@
 
           class="asset_details__section initiate-vote"
         >
-          <div class="stake-label">
-            Release
+          <i18n
+            path="components.WordDetail.Release"
+            tag="div"
+            class="stake-label"
+          >
             <AeAmount
               :amount="data.spread"
               aettos
             />
-            spread for transfer to
-          </div>
+          </i18n>
 
           <div class="initiate-vote-inputs">
             <input
@@ -102,7 +103,7 @@
               @click="createVote"
             >
               <IconCheckmarkCircle />
-              Initiate Vote
+              {{ $t('components.WordDetail.Initiate') }}
             </AeButton>
           </div>
         </div>
@@ -112,23 +113,22 @@
           class="asset_details__info"
         >
           <div class="info-item">
-            <h3>Accumulated Spread</h3>
+            <h3>{{ $t('components.WordDetail.Spread') }}</h3>
             <AeAmount
               :amount="data.spread"
               aettos
             />
           </div>
           <div class="info-item">
-            <h3>Circulating Supply</h3>
+            <h3>{{ $t('components.WordDetail.Supply') }}</h3>
             <AeAmount
               :token="data.tokenAddress"
               :amount="data.totalSupply"
             />
           </div>
           <div class="info-item">
-            <h3>Majority Stake</h3>
+            <h3>{{ $t('components.WordDetail.Stake') }}</h3>
             <div>
-              >
               <AeAmount
                 :token="data.tokenAddress"
                 :amount="data.totalSupply / 2"
@@ -150,24 +150,28 @@
                     :amount="data.spread"
                     aettos
                   />
-                  <span v-if="vote.statusTimeouting"> released for transfer to</span>
-                  <span v-if="vote.statusApplied"> spread was transferred to</span>
-                  <span v-if="!vote.isClosed"> to be released for transfer to</span>
+                  <span v-if="vote.statusTimeouting">
+                    {{ $t('components.WordDetail.ReleasedTo') }}
+                  </span>
+                  <span v-if="vote.statusApplied">{{ $t('components.WordDetail.SpreadTo') }}</span>
+                  <span v-if="!vote.isClosed">
+                    {{ $t('components.WordDetail.ToBeReleasedTo') }}
+                  </span>
                   <span
                     v-if="vote.statusTimeouted || vote.statusClosedAndUnsuccessful"
-                  > spread was not transferred to</span>
+                  >{{ $t('components.WordDetail.NotTransferred') }}</span>
                 </div>
                 <div class="vote-row-end">
                   <IconHourglass />
-                  <span v-if="!vote.isClosed">Closing in </span>
-                  <span v-if="vote.statusPast">Closed </span>
+                  <span v-if="!vote.isClosed">{{ $t('components.WordDetail.ClosingIn') }}</span>
+                  <span v-if="vote.statusPast">{{ $t('components.WordDetail.Closed') }}</span>
 
                   <Timeago
                     :datetime="vote.statusTimeouting ? vote.dateTimeout : vote.dateClose"
                     auto-update
                   />
-                  <span v-if="vote.statusPast"> ago</span>
-                  <span v-if="vote.statusTimeouting"> left to send funds</span>
+                  <span v-if="vote.statusPast">{{ $t('components.WordDetail.Ago') }}</span>
+                  <span v-if="vote.statusTimeouting">{{ $t('components.WordDetail.Left') }}</span>
                 </div>
               </div>
 
@@ -183,7 +187,7 @@
                   @click="applyPayout(vote.id)"
                 >
                   <IconCheckmarkCircle />
-                  Send
+                  {{ $t('components.WordDetail.Send') }}
                 </AeButton>
               </div>
 
@@ -191,19 +195,19 @@
                 v-if="vote.showVoteOption"
                 class="stake-label"
               >
-                Enter stake amount
+                {{ $t('components.WordDetail.Amount') }}
               </label>
               <label
                 v-if="vote.accountHasVoted"
                 class="stake-label"
               >
-                You staked
+                {{ $t('components.WordDetail.Staked') }}
               </label>
               <label
                 v-if="!vote.showVoteOption && !vote.accountHasVoted"
                 class="stake-label"
               >
-                You didn't participate in staking
+                {{ $t('components.WordDetail.NotParticipate') }}
               </label>
 
               <div class="input-bar">
@@ -223,7 +227,7 @@
                   @click="revokeVote(vote.voteAddress)"
                 >
                   <IconCloseCircle />
-                  Revoke
+                  {{ $t('components.WordDetail.Revoke') }}
                 </AeButton>
 
                 <AeButton
@@ -233,7 +237,7 @@
                   @click="voteOption(vote.voteAddress, true, vote.stakeAmount)"
                 >
                   <IconCheckmarkCircle />
-                  Vote
+                  {{ $t('components.WordDetail.Vote') }}
                 </AeButton>
 
                 <AeButton
@@ -242,7 +246,7 @@
                   @click="withdraw(vote.voteAddress)"
                 >
                   <IconClaimBack />
-                  Claim Back
+                  {{ $t('components.WordDetail.Claim') }}
                 </AeButton>
 
                 <div class="vote-progress-bar">
@@ -254,10 +258,16 @@
                     }"
                     :style="{ width: vote.stakePercent + '%' }"
                   >
-                    <span v-if="vote.statusOngoing">{{ vote.stakePercent }}%</span>
-                    <span v-if="vote.statusTimeouted">Timed out 👎</span>
-                    <span v-if="vote.statusClosedAndUnsuccessful">Unsuccessful 👎</span>
-                    <span v-if="vote.statusApplied">Funds transferred 👍</span>
+                    <span v-if="vote.statusOngoing">{{ `${vote.stakePercent}%` }}</span>
+                    <span v-if="vote.statusTimeouted">
+                      {{ $t('components.WordDetail.TimedOut') }}
+                    </span>
+                    <span v-if="vote.statusClosedAndUnsuccessful">
+                      {{ $t('components.WordDetail.Unsuccessful') }}
+                    </span>
+                    <span v-if="vote.statusApplied">
+                      {{ $t('components.WordDetail.Transfered') }}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -561,6 +571,9 @@ export default {
             { contractAddress: this.saleContractAddress }));
       }
     },
+  },
+  metaInfo() {
+    return { title: this.$t('components.WordDetail.Title', { word: this.selectedWord }) };
   },
 };
 </script>

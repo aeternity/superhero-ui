@@ -560,7 +560,54 @@
         "{step} creation was not confirmed for your token (step {index} of 6).",
         "{ticker} token was not added to WordBazaar."
       ]
-    }
+    },
+    "WordListing": {
+      "Asset": "Asset",
+      "BuyPrice": "Buy Price",
+      "Supply": "Supply",
+      "Market": "Market"
+    },
+    "WordBuySellButtons": {
+      "Buy": "Buy",
+      "Sell": "Sell",
+      "AccountBalance": "Account Balance:",
+      "AmountBuying": "Amount buying:",
+      "AmountSelling": "Amount selling:",
+      "TotalPay": "Total you pay:",
+      "TotalGet": "Total you get:"
+    },
+    "WordDetail": {
+      "Title": "{word}: Word Details",
+      "Ticker": "Ticker",
+      "CurrentPrice": "Current Price",
+      "SellPrice": "Sell Price",
+      "Supply": "Circulating Supply",
+      "Asset": "Asset",
+      "Description": "Description",
+      "Release": "Release {0} spread for transfer to",
+      "Initiate": "Initiate Vote",
+      "Spread": "Accumulated Spread",
+      "Stake": "Majority Stake",
+      "ReleasedTo": " released for transfer to",
+      "SpreadTo": " spread was transferred to",
+      "ToBeReleasedTo": " to be released for transfer to",
+      "NotTransferred": " spread was not transferred to",
+      "ClosingIn": "Closing in ",
+      "Closed": "Closed ",
+      "Ago": " ago",
+      "Left": " left to send funds",
+      "Send": "Send",
+      "Amount": "Enter stake amount",
+      "Staked": "You staked",
+      "NotParticipate": "You didn't participate in staking",
+      "Revoke": "Revoke",
+      "Vote": "Vote",
+      "Claim": "Claim Back",
+      "TimedOut": "Timed out 👎",
+      "Unsuccessful": "Unsuccessful 👎",
+      "Tansfered": "Funds transferred 👍"
+    },
+    "WordBazaar":{"Title": "WordBazaar"}
   },
   "Networking": {
     "MenuLink": "Meet",

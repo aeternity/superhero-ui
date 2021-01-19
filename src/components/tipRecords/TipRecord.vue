@@ -213,14 +213,6 @@ export default {
   }
 }
 
-.retip-icon {
-  height: 1rem;
-  margin-right: 0.2rem;
-  vertical-align: top;
-  padding: 0.1rem 0;
-  width: 1rem;
-}
-
 .tip-footer {
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;

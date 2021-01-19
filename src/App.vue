@@ -99,9 +99,11 @@ export default {
         address = await this.$store.dispatch('scanForWallets');
         console.log('found wallet');
         this.useSdkWallet();
-        this.$store.dispatch('updateCookiesConsent', address);
+        this.setAddress(address);
+        this.$store.dispatch('updateCookiesConsent');
+      } else {
+        this.setAddress(address);
       }
-      this.setAddress(address);
       await this.reloadUserData();
     },
   },

@@ -258,6 +258,8 @@ export default {
   }
 
   .url-status {
+    width: 18px;
+    height: 18px;
     position: absolute;
     left: 0.55rem;
     top: 50%;

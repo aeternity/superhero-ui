@@ -408,7 +408,8 @@
     "UrlStatus": {
       "verifiedTitle": "",
       "notverifiedTitle": "",
-      "blacklisted": ""
+      "blacklisted": "",
+      "notSecure": ""
     }
   },
   "Networking": {

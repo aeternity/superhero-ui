@@ -1,10 +1,10 @@
 <template>
   <div
-    class="tip__record row"
+    class="tip-record row"
     @click="goToTip"
   >
-    <div class="tip__body">
-      <div class="tip__description">
+    <div class="tip-body">
+      <div class="tip-description">
         <AuthorAndDate
           :date="tip.timestamp"
           :address="tip.sender"
@@ -26,7 +26,7 @@
           </ThreeDotsMenu>
         </AuthorAndDate>
       </div>
-      <div class="tip__note pr-2">
+      <div class="tip-note pr-2">
         <TipTitle :tip-title="tip.title" />
         <TipMedia
           v-if="tip.media && tip.media.length"
@@ -64,9 +64,7 @@
             <IconComments />
             <span>{{ tip.commentCount }}</span>
           </ButtonPlain>
-          <ButtonPlain
-            class="action"
-          >
+          <ButtonPlain class="action">
             <IconShare />
           </ButtonPlain>
         </div>
@@ -173,7 +171,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tip__record {
+.tip-record {
   background-color: $light_color;
   margin: 0 0 0.15rem 0;
 
@@ -182,11 +180,11 @@ export default {
   }
 }
 
-.tip__body {
+.tip-body {
   padding-top: 1rem;
   width: 100%;
 
-  .tip__description .author-and-date {
+  .tip-description .author-and-date {
     padding-left: 1rem;
     padding-right: 1rem;
 
@@ -197,7 +195,7 @@ export default {
   }
 }
 
-.tip__note {
+.tip-note {
   @include truncate-overflow-mx(4);
 
   color: $tip_note_color;
@@ -213,14 +211,6 @@ export default {
       text-decoration: underline;
     }
   }
-}
-
-.retip__icon {
-  height: 1rem;
-  margin-right: 0.2rem;
-  vertical-align: top;
-  padding: 0.1rem 0;
-  width: 1rem;
 }
 
 .tip-footer {
@@ -265,28 +255,28 @@ export default {
 }
 
 @media only screen and (max-width: 1024px) {
-  .tip__record {
+  .tip-record {
     position: relative;
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .tip__note {
+  .tip-note {
     font-size: 0.75rem;
   }
 }
 
 @include smallest {
-  .tip__body {
+  .tip-body {
     padding: 0;
   }
 
-  .tip__record {
+  .tip-record {
     margin-bottom: 0.5rem;
     padding: 0.5rem;
     position: relative;
 
-    .tip__body .tip__description .author-and-date ::v-deep {
+    .tip-body .tip-description .author-and-date ::v-deep {
       font-size: 0.6rem;
       padding-left: 0;
       padding-right: 0;
@@ -302,7 +292,7 @@ export default {
     }
   }
 
-  .tip__note {
+  .tip-note {
     padding: 0;
   }
 

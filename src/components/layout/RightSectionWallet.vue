@@ -50,7 +50,6 @@
         >
           <template #displayValue>
             <span class="currency-value spaced">
-              <!--eslint-disable-line vue-i18n/no-raw-text-->
               <FiatValue
                 :amount="(selectedToken || aeternityTokenData).balance"
                 :token="(selectedToken || aeternityTokenData).token"
@@ -63,7 +62,6 @@
           </template>
           <template v-slot="{ option }">
             <span class="currency-value">
-              <!--eslint-disable-line vue-i18n/no-raw-text-->
               <FiatValue
                 :amount="(selectedToken || aeternityTokenData).balance"
                 :token="(selectedToken || aeternityTokenData).token"
@@ -89,7 +87,6 @@
 
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
-import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
 import Dropdown from '../Dropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
@@ -120,11 +117,6 @@ export default {
       'tokenPrices', 'tokenInfo']),
     currencyDropdownOptions() {
       return Object.entries(this.prices).map(([currency]) => ({ currency }));
-    },
-    selectedCurrencyPrice() {
-      return new BigNumber(this.balance)
-        .multipliedBy(this.prices[this.selectedCurrency])
-        .toFixed(2);
     },
     aeternityTokenData() {
       return {

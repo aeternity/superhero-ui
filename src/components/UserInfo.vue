@@ -1,24 +1,24 @@
 <!-- eslint-disable vue-i18n/no-raw-text -->
 <template>
   <div class="user-info">
-    <div class="profile__section clearfix">
+    <div class="profile-section clearfix">
       <div
         class="cover-photo"
         :style="{ 'background-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
       />
       <div class="cover-overlay" />
       <div
-        class="profile__header"
-        :class="{ 'profile__editable': backendAuth && currentAddress === address }"
+        class="profile-header"
+        :class="{ 'profile-editable': backendAuth && currentAddress === address }"
       >
         <div
           v-if="backendAuth && currentAddress === address"
-          class="edit__buttons"
+          class="edit-buttons"
         >
           <label
             v-if="!editMode"
             :title="$t('views.UserProfileView.ChangeCoverPhoto')"
-            class="profile__button edit__button"
+            class="profile-button edit-button"
           >
             <img src="../assets/coverPhotoEdit.svg">
             <input
@@ -30,7 +30,7 @@
           </label>
           <button
             v-if="!editMode"
-            class="profile__button edit__button"
+            class="profile-button edit-button"
             type="button"
             :title="$t('views.UserProfileView.EditProfile')"
             @click="editMode = true"
@@ -40,7 +40,7 @@
           <button
             v-if="editMode"
             type="button"
-            class="profile__button cancel__button"
+            class="profile-button cancel-button"
             :title="$t('cancel')"
             @click="resetEditedValues"
           >
@@ -49,23 +49,23 @@
           <button
             v-if="editMode"
             type="button"
-            class="profile__button save__button"
+            class="profile-button save-button"
             :title="$t('views.UserProfileView.Save')"
             @click="saveProfile"
           >
             <img src="../assets/buttonSave.svg">
           </button>
         </div>
-        <div class="profile__image">
+        <div class="profile-image">
           <Avatar :address="address" />
           <TipInput
             v-if="currentAddress !== address"
             :user-address="address"
-            class="profile__button avatar__button"
+            class="profile-button avatar-button"
           />
           <template v-else-if="!editMode && backendAuth">
             <label
-              class="profile__button avatar__button"
+              class="profile-button avatar-button"
               :title="$t('views.UserProfileView.ChangeAvatar')"
             >
               <img src="../assets/buttonPhoto.svg">
@@ -77,7 +77,7 @@
               >
             </label>
             <button
-              class="profile__button delete_avatar__button"
+              class="profile-button delete-avatar-button"
               :title="$t('views.UserProfileView.DeleteAvatar')"
               @click="deleteAvatar"
             >
@@ -85,9 +85,9 @@
             </button>
           </template>
         </div>
-        <div class="profile__info">
+        <div class="profile-info">
           <a
-            class="profile__username"
+            class="profile-username"
             target="_blank"
             :href="explorerTransactionsUrl"
           >
@@ -103,7 +103,7 @@
             <span>{{ $t('Balance') }}</span>
             <AeAmountFiat :amount="balance" />
           </div>
-          <div class="profile__row">
+          <div class="profile-row">
             <div class="location">
               <img
                 v-if="profile.location.length || currentAddress === address"
@@ -136,13 +136,13 @@
       </div>
       <div
         v-if="!editMode"
-        class="profile__description"
+        class="profile-description"
       >
         {{ profile.biography }}
       </div>
       <div
         v-if="editMode"
-        class="profile__description"
+        class="profile-description"
       >
         <textarea
           v-model="profile.biography"
@@ -181,7 +181,7 @@
         </div>
       </div>
     </div>
-    <div class="profile__stats">
+    <div class="profile-stats">
       <div
         v-for="(divClass, index) in ['tip_stats', 'stats']"
         :key="index"
@@ -190,7 +190,7 @@
         <div
           v-for="(stat, idx) in divClass === 'tip_stats' ? tipStats : showedStats"
           :key="idx"
-          :class="divClass === 'tip_stats' ? 'tips_stats_block' : 'stat_block'"
+          :class="divClass === 'tip_stats' ? 'tips-stats-block' : 'stat-block'"
         >
           <span class="stat-value">
             {{ stat.value }}
@@ -411,7 +411,7 @@ input[type="file"] {
   display: none;
 }
 
-.profile__description {
+.profile-description {
   color: $tip_note_color;
   display: flex;
   flex-flow: wrap;
@@ -434,19 +434,19 @@ input[type="file"] {
     color: $red_color;
   }
 
-  .edit__buttons {
+  .edit-buttons {
     display: flex;
     flex-direction: column;
     position: absolute;
     right: 0.5rem;
     top: 0.75rem;
 
-    .profile__button {
+    .profile-button {
       margin-bottom: 0.6rem;
     }
   }
 
-  .profile__button {
+  .profile-button {
     border: 0;
     border-radius: 100%;
     cursor: pointer;
@@ -466,7 +466,7 @@ input[type="file"] {
     }
   }
 
-  .avatar__button {
+  .avatar-button {
     background: #2a9cffa8;
     bottom: 0;
     left: 0;
@@ -477,7 +477,7 @@ input[type="file"] {
     }
   }
 
-  .delete_avatar__button {
+  .delete-avatar-button {
     background: #ff49521e;
     display: none;
     position: absolute;
@@ -490,12 +490,12 @@ input[type="file"] {
     }
   }
 
-  & .profile__image:hover .delete_avatar__button {
+  & .profile-image:hover .delete-avatar-button {
     display: unset;
   }
 
-  .edit__button,
-  .cancel__button {
+  .edit-button,
+  .cancel-button {
     background: #babac01e;
     color: #fff;
 
@@ -504,7 +504,7 @@ input[type="file"] {
     }
   }
 
-  .save__button {
+  .save-button {
     background: #67f7b8a8;
 
     &:hover {
@@ -609,19 +609,19 @@ input[type="file"] {
   }
 }
 
-.profile__header {
+.profile-header {
   align-items: flex-start;
   display: flex;
   padding: 1rem  1rem 0.5rem 1rem;
   position: relative;
 }
 
-.profile__row {
+.profile-row {
   margin-top: 0.3rem;
   display: flex;
 }
 
-.tip_stats {
+.tip-stats {
   display: grid;
   grid-auto-flow: column;
 
@@ -630,13 +630,13 @@ input[type="file"] {
   }
 }
 
-.tips_stats_block {
+.tips-stats-block {
   background-color: $thumbnail_background_color;
   border-right: 1px solid $light_color;
   padding: 0.5rem 1rem;
 }
 
-.tips_stats_block:last-child {
+.tips-stats-block:last-child {
   border: 0;
 }
 
@@ -648,7 +648,7 @@ input[type="file"] {
   width: 100%;
 }
 
-.stat_block {
+.stat-block {
   margin-right: 2rem;
 
   img {
@@ -670,13 +670,13 @@ input[type="file"] {
   vertical-align: middle;
 }
 
-.profile__section {
+.profile-section {
   background-color: $light_color;
   position: relative;
   padding-bottom: 1rem;
 }
 
-.profile__image {
+.profile-image {
   display: flex;
   margin-right: 0.5rem;
   position: relative;
@@ -688,12 +688,12 @@ input[type="file"] {
   }
 }
 
-.profile__info {
+.profile-info {
   display: flex;
   flex-direction: column;
   width: calc(100% - 8.5rem);
 
-  .profile__username {
+  .profile-username {
     color: $tip_note_color;
     display: block;
     font-size: 0.6rem;
@@ -716,53 +716,53 @@ input[type="file"] {
 
 @media screen and (max-width: 1024px) {
   .user-info {
-    .tips__container {
+    .tips-container {
       padding: 0.15rem 0.5rem;
     }
 
-    .edit__buttons {
+    .edit-buttons {
       flex-direction: row;
       top: 0.4rem;
     }
   }
 
-  .profile__header {
+  .profile-header {
     white-space: nowrap;
 
-    .profile__image .avatar {
+    .profile-image .avatar {
       height: 5rem;
       width: 5rem;
     }
   }
 
-  .profile__info {
+  .profile-info {
     vertical-align: middle;
     width: calc(100% - 4.5rem);
 
-    .profile__username {
+    .profile-username {
       font-size: 0.55rem;
     }
   }
 
-  .user-info .avatar__button {
+  .user-info .avatar-button {
     bottom: -0.5rem;
   }
 
-  .user-info .delete_avatar__button {
+  .user-info .delete-avatar-button {
     top: -0.5rem;
   }
 
-  .profile__stats {
+  .profile-stats {
     display: grid;
     grid-template-columns: 8rem auto;
   }
 
-  .tip_stats {
+  .tip-stats {
     grid-auto-flow: row;
     order: 2;
   }
 
-  .tips_stats_block {
+  .tips-stats-block {
     border: 0;
     border-bottom: 1px solid $light_color;
   }
@@ -774,18 +774,18 @@ input[type="file"] {
     justify-content: space-around;
   }
 
-  .stat_block {
+  .stat-block {
     margin: 0;
   }
 }
 
 @include smallest {
-  .profile__header .profile__image .avatar {
+  .profile-header .profile-image.avatar {
     height: 4.5rem;
     width: 4.5rem;
   }
 
-  .profile__row {
+  .profile-row {
     display: block;
 
     input {

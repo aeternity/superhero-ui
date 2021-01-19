@@ -1,13 +1,11 @@
 <template>
-  <div
-    class="tip__article"
-  >
+  <div class="tip-article">
     <div
       v-if="richPreviewComponent && isPreviewToBeVisualized"
-      class="tip__article--hasresults"
+      class="tip-article-hasresults"
     >
-      <div class="tip__article__content">
-        <div class="tip__embed">
+      <div class="tip-article-content">
+        <div class="tip-embed">
           <Component
             :is="richPreviewComponent"
             :tip="tip"
@@ -18,15 +16,15 @@
             :go-to-tip="goToTip"
           />
         </div>
-        <div class="tip__links">
+        <div class="tip-links">
           <div
-            class="tip__amount"
+            class="tip-amount"
             @click.stop
           >
             <TipInput :tip="tip" />
           </div>
           <div
-            class="site__url"
+            class="site-url"
             :title="tip.url"
           >
             <a
@@ -44,18 +42,16 @@
     </div>
     <div
       v-else-if="isPreviewToBeVisualized"
-      class="tip__article--hasresults"
+      class="tip-article-hasresults"
     >
-      <div class="tip__article__content">
-        <div class="tip__cover-preview">
+      <div class="tip-article-content">
+        <div class="tip-cover-preview">
           <img
             :src="tipPreviewImage"
             loading="lazy"
             @error="$event.target.src = require('../../assets/defaultImg.svg')"
           >
-          <div
-            class="tip__info"
-          >
+          <div class="tip-info">
             <div class="source">
               {{ sourceUrl }}
             </div>
@@ -73,17 +69,15 @@
             </div>
           </div>
         </div>
-        <div
-          class="tip__links"
-        >
+        <div class="tip-links">
           <div
-            class="tip__amount"
+            class="tip-amount"
             @click.stop
           >
             <TipInput :tip="tip" />
           </div>
           <div
-            class="site__url"
+            class="site-url"
             :title="tip.url"
           >
             <a
@@ -101,23 +95,23 @@
     </div>
     <div
       v-else
-      class="tip__article__content"
+      class="tip-article-content"
     >
-      <div class="tip__no-preview">
+      <div class="tip-no-preview">
         <div class="source">
           {{ sourceUrl }}
         </div>
         <div
           v-if="tip.receiver"
-          class="tip__author"
+          class="tip-author"
           :title="tip.receiver"
           @click.stop
         >
           <TipInput :tip="tip" />
           <RouterLink :to="{ name: 'user-profile', params: { address: tip.receiver } }">
             <Avatar :address="tip.receiver" />
-            <div class="tip__author_name">
-              <span class="chain__name">
+            <div class="tip-author_name">
+              <span class="chain-name">
                 {{ tip.chainName }}
               </span>
               <span class="address">{{ tip.receiver }}</span>
@@ -129,15 +123,15 @@
           No preview available for this URL
         </div>
       </div>
-      <div class="tip__links">
+      <div class="tip-links">
         <div
-          class="tip__amount"
+          class="tip-amount"
           @click.stop
         >
           <TipInput :tip="tip" />
         </div>
         <div
-          class="site__url"
+          class="site-url"
           :title="tip.url"
         >
           <template v-if="tip.url">
@@ -217,7 +211,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tip__amount {
+.tip-amount {
   align-items: center;
   display: flex;
   flex: 0 0 auto;
@@ -227,7 +221,7 @@ export default {
   width: max-content;
 }
 
-.tip__url {
+.tip-url {
   margin-left: 1rem;
   margin-right: 1rem;
 
@@ -241,7 +235,7 @@ export default {
   }
 }
 
-.tip__article {
+.tip-article {
   background-color: $buttons_background;
   border-radius: 0.5rem;
   font-size: 0.75rem;
@@ -251,7 +245,7 @@ export default {
   padding: 0;
   position: relative;
 
-  .tip__article__content {
+  .tip-article-content {
     color: #babac0;
     font-size: 0.75rem;
     height: auto;
@@ -259,30 +253,30 @@ export default {
     display: flex;
     flex-direction: column;
 
-    .tip__embed {
+    .tip-embed {
       flex-grow: 1;
     }
 
-    .tip__links {
+    .tip-links {
       display: flex;
       margin-top: 0.5rem;
 
-      .tip__amount {
+      .tip-amount {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
       }
 
-      .site__url {
+      .site-url {
         flex-grow: 1;
         overflow: hidden;
       }
     }
   }
 
-  .tip__article--hasresults {
+  .tip-article-hasresults {
     display: flex;
 
-    .tip__article__content {
+    .tip-article-content {
       flex: 0 0 100%;
       max-width: 100%;
       min-width: 100%;
@@ -290,7 +284,7 @@ export default {
     }
   }
 
-  .site__url {
+  .site-url {
     align-items: center;
     display: flex;
     flex-grow: 1;
@@ -324,46 +318,46 @@ export default {
     background-color: $thumbnail_background_color_alt;
     cursor: pointer;
 
-    .preview__image {
+    .preview-image {
       background-color: $thumbnail_background_color_alt;
     }
 
-    .tip__article__content {
+    .tip-article-content {
       color: #c6c6cc;
     }
   }
 }
 
 @media only screen and (max-width: 1024px) {
-  .tip__article {
+  .tip-article {
     min-height: 2rem;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .tip__amount:nth-child(2) .retip__container {
+  .tip-amount:nth-child(2) .retip-container {
     left: -50%;
     right: -50%;
   }
 
-  .tip__article .tip__article__content {
+  .tip-article .tip-article-content {
     font-size: 0.75rem;
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .tip__article .tip__article__content {
+  .tip-article .tip-article-content {
     font-size: 0.65rem;
   }
 }
 
 @include smallest {
-  .tip__article {
+  .tip-article {
     margin-left: 0;
     max-width: calc(100% + 1rem);
     width: 100%;
 
-    .tip__article__content {
+    .tip-article-content {
       line-height: 1.1rem;
 
       .description {
@@ -371,12 +365,12 @@ export default {
       }
     }
 
-    .site__url {
+    .site-url {
       text-decoration: underline;
     }
   }
 
-  .tip__url {
+  .tip-url {
     margin: 0 0 0.4rem 0;
   }
 }
@@ -388,7 +382,7 @@ export default {
   text-transform: uppercase;
 }
 
-::v-deep .tip__cover-preview {
+::v-deep .tip-cover-preview {
   position: relative;
   padding-top: 55%;
   overflow: hidden;
@@ -419,7 +413,7 @@ export default {
   }
 }
 
-::v-deep .tip__info {
+::v-deep .tip-info {
   width: 100%;
   max-width: 100%;
   position: absolute;
@@ -445,7 +439,7 @@ export default {
   }
 }
 
-.tip__no-preview {
+.tip-no-preview {
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   padding-left: 0.5rem;
@@ -453,7 +447,7 @@ export default {
   background: $thumbnail_background_color_alt;
 }
 
-::v-deep .tip__two-columns-preview {
+::v-deep .tip-two-columns-preview {
   display: flex;
   flex-direction: row;
   height: auto;
@@ -461,7 +455,7 @@ export default {
   -moz-transition: 0.4s all;
   transition: 0.4s all;
 
-  .tip__two-columns-img {
+  .tip-two-columns-img {
     flex: 0 0 35%;
     max-width: 35%;
     min-width: 35%;
@@ -487,7 +481,7 @@ export default {
     }
   }
 
-  .tip__two-columns-info {
+  .tip-two-columns-info {
     flex: 0 0 65%;
     max-width: 65%;
     min-width: 65%;
@@ -517,14 +511,14 @@ export default {
     }
   }
 
-  .tip__no-preview {
+  .tip-no-preview {
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
     padding-left: 0.5rem;
     padding-top: 0.5rem;
     background: $thumbnail_background_color_alt;
 
-    .tip__author {
+    .tip-author {
       align-items: center;
       color: $light_font_color;
       display: flex;
@@ -532,7 +526,7 @@ export default {
       justify-content: space-between;
       padding: 0 1rem 0.9rem 1rem;
 
-      .tip__date {
+      .tip-date {
         font-size: 0.6rem;
         display: flex;
         align-items: center;
@@ -549,7 +543,7 @@ export default {
       }
 
       .address,
-      .chain__name {
+      .chain-name {
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -559,7 +553,7 @@ export default {
       }
 
       img.user-identicon,
-      img.preview__image,
+      img.preview-image,
       svg {
         border-radius: 50%;
         flex-shrink: 0;
@@ -580,18 +574,18 @@ export default {
         }
       }
 
-      .chain__name {
+      .chain-name {
         color: #fff;
       }
 
-      .tip__description .author-and-date .date .three-dots {
+      .tip-description .author-and-date .date .three-dots {
         font-size: 0.75rem;
         margin-left: 0.3rem;
       }
     }
   }
 
-  ::v-deep .tip__two-columns-preview {
+  ::v-deep .tip-two-columns-preview {
     display: flex;
     flex-direction: row;
     height: auto;
@@ -599,7 +593,7 @@ export default {
     -moz-transition: 0.4s all;
     transition: 0.4s all;
 
-    .tip__two-columns-img {
+    .tip-two-columns-img {
       flex: 0 0 35%;
       max-width: 35%;
       min-width: 35%;
@@ -625,7 +619,7 @@ export default {
       }
     }
 
-    .tip__two-columns-info {
+    .tip-two-columns-info {
       flex: 0 0 65%;
       max-width: 65%;
       min-width: 65%;

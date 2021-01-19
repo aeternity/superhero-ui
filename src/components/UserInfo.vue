@@ -463,13 +463,8 @@ input[type="file"] {
     }
   }
 
-<<<<<<< HEAD
-  .avatar-button {
-    background: #2a9cffa8;
-=======
   .avatar__button {
     background: #1161fea8;
->>>>>>> bb18b8de... Implement new Brand Identity
     bottom: 0;
     left: 0;
     position: absolute;
@@ -506,13 +501,8 @@ input[type="file"] {
     }
   }
 
-<<<<<<< HEAD
-  .save-button {
-    background: #67f7b8a8;
-=======
   .save__button {
     background: #00ff9da8;
->>>>>>> bb18b8de... Implement new Brand Identity
 
     &:hover {
       background: #00ff9dcc;

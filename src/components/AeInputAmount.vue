@@ -44,7 +44,9 @@
         <template v-slot="{ option }">
           <div class="token-option">
             <TokenAvatarAndSymbol :address="option.token" />
-            <span class="tokens-amount">{{ showTokenAmount(option.balance, option.token) }}</span>
+            <span class="tokens-amount">{{
+              showTokenAmount(option.balance, option.token)
+            }}</span>
             <FiatValue
               :amount="option.balance"
               :token="option.token"
@@ -66,7 +68,9 @@ import TokenAvatarAndSymbol from './fungibleTokens/TokenAvatarAndSymbol.vue';
 
 export default {
   components: {
-    Dropdown, FiatValue, TokenAvatarAndSymbol,
+    Dropdown,
+    FiatValue,
+    TokenAvatarAndSymbol,
   },
   props: {
     min: { type: Number, default: 0 },
@@ -95,8 +99,14 @@ export default {
       return !this.notTokenTipable && !!process.env.VUE_APP_CONTRACT_V2_ADDRESS;
     },
     symbol() {
-      if (this.token) return this.tokenInfo[this.token] ? this.tokenInfo[this.token].symbol : '';
-      return this.selectedToken ? this.tokenInfo[this.selectedToken].symbol : 'AE';
+      if (this.token) {
+        return this.tokenInfo[this.token]
+          ? this.tokenInfo[this.token].symbol
+          : '';
+      }
+      return this.selectedToken
+        ? this.tokenInfo[this.selectedToken].symbol
+        : 'AE';
     },
   },
   created() {
@@ -152,48 +162,49 @@ export default {
   }
 
   .input-group-append > span.append-ae {
-  input:focus ~ .input-group-append,
-  input:focus ~ .input-group-append .input-group-text {
-    background-color: $background_color;
-  }
-
-  .input-group-append > span.append__ae {
-    font-size: 0.75rem;
-    background: $buttons_background;
-    cursor: default;
-
-    .symbol {
-      color: $secondary_color;
-    }
-  }
-
-  .token-option {
-    display: flex;
-    align-items: center;
-    min-width: 240px;
-    max-width: 300px;
-
-    > div:first-child {
-      flex-grow: 1;
-    }
-  }
-
-  .tokens-amount {
-    color: $tip-note-color;
-    margin-right: 0.1rem;
-  }
-
-  .dropdown::v-deep {
-    border-radius: 50%;
-
-    > button {
-      background-color: transparent;
-      height: 42px;
-      margin-left: -16px;
+    input:focus ~ .input-group-append,
+    input:focus ~ .input-group-append .input-group-text {
+      background-color: $background_color;
     }
 
-    .not-bootstrap-modal-content {
-      margin-top: 5px;
+    .input-group-append > span.append__ae {
+      font-size: 0.75rem;
+      background: $buttons_background;
+      cursor: default;
+
+      .symbol {
+        color: $secondary_color;
+      }
+    }
+
+    .token-option {
+      display: flex;
+      align-items: center;
+      min-width: 240px;
+      max-width: 300px;
+
+      > div:first-child {
+        flex-grow: 1;
+      }
+    }
+
+    .tokens-amount {
+      color: $tip-note-color;
+      margin-right: 0.1rem;
+    }
+
+    .dropdown::v-deep {
+      border-radius: 50%;
+
+      > button {
+        background-color: transparent;
+        height: 42px;
+        margin-left: -16px;
+      }
+
+      .not-bootstrap-modal-content {
+        margin-top: 5px;
+      }
     }
   }
 }

@@ -5,21 +5,52 @@
       class="word-listing word-listing-heading"
     >
       <div class="word-listing-column asset-column">
-        {{ $t('components.WordListing.Asset') }}
+        <span
+          class="heading-text"
+          @click="order('asset', 'desc')"
+        >
+          {{ $t('components.WordListing.Asset') }}
+        </span>
+        <IconSort
+          v-if="ordering === 'asset'"
+          :class="{ asc: direction === 'asc' }"
+          @click="order(ordering, direction === 'asc' ? 'desc' : 'asc')"
+        />
       </div>
+
       <div class="word-listing-column">
-        <span class="heading-text active">
+        <span
+          class="heading-text"
+          @click="order('buyprice', 'desc')"
+        >
           {{ $t('components.WordListing.BuyPrice') }}
         </span>
-        <IconSort />
+        <IconSort
+          v-if="ordering === 'buyprice'"
+          :class="{ asc: direction === 'asc' }"
+          @click="order(ordering, direction === 'asc' ? 'desc' : 'asc')"
+        />
       </div>
+
       <div class="word-listing-column">
-        {{ $t('components.WordListing.Supply') }}
+        <span
+          class="heading-text"
+          @click="order('supply', 'desc')"
+        >
+          {{ $t('components.WordListing.Supply') }}
+        </span>
+        <IconSort
+          v-if="ordering === 'supply'"
+          :class="{ asc: direction === 'asc' }"
+          @click="order(ordering, direction === 'asc' ? 'desc' : 'asc')"
+        />
       </div>
+
       <div class="word-listing-column">
-        {{ $t('components.WordListing.Market') }}
+        <span class="heading-text">{{ $t('components.WordListing.Market') }}</span>
       </div>
     </div>
+
     <div
       v-else
       class="word-listing"
@@ -27,49 +58,36 @@
       <div class="word-listing-column asset-column">
         <RouterLink
           class="link"
-          :to="{ name: 'word-detail', params: { word } }"
+          :to="{ name: 'word-detail', params: { word: data.word } }"
         >
-          {{ word }}
+          {{ data.word }}
         </RouterLink>
       </div>
       <div class="word-listing-column">
         <AeAmountFiat
-          v-if="buyPrice"
-          :amount="buyPrice"
+          :amount="data.buyPrice"
           aettos
-        />
-        <Loading
-          v-else
-          :small="true"
         />
       </div>
       <div class="word-listing-column">
         <AeAmount
-          v-if="totalSupply !== null && tokenAddress"
-          :amount="totalSupply"
-          :token="tokenAddress"
+          :amount="data.totalSupply"
+          :token="data.tokenAddress"
           no-symbol
-        />
-        <Loading
-          v-else
-          :small="true"
         />
       </div>
 
-      <WordBuySellButtons :sale="sale" />
+      <WordBuySellButtons :sale="data.sale" />
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import Backend from '../utils/backend';
 import AeAmountFiat from './AeAmountFiat.vue';
 import AeAmount from './AeAmount.vue';
-import Loading from './Loading.vue';
 import WordBuySellButtons from './WordBuySellButtons.vue';
 import IconSort from '../assets/iconSort.svg?icon-component';
-import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'WordListing',
@@ -77,58 +95,29 @@ export default {
     WordBuySellButtons,
     AeAmountFiat,
     AeAmount,
-    Loading,
     IconSort,
   },
   props: {
-    word: { type: String, default: null },
-    sale: { type: String, default: null },
+    data: { type: Object, default: null },
     heading: { type: Boolean },
   },
   data: () => ({
-    contract: null,
-    buyPrice: null,
-    sellPrice: null,
-    totalSupply: null,
-    tokenAddress: null,
-    tokenContract: null,
-    loading: true,
+    ordering: 'buyprice',
+    direction: 'desc',
   }),
   computed: {
     ...mapState(['address', 'balance', 'tokenBalances']),
     tokenBalance() {
-      const balance = this.tokenBalances && this.tokenAddress
-        && this.tokenBalances.find((t) => t.token === this.tokenAddress);
+      const balance = this.tokenBalances && this.data.tokenAddress
+        && this.tokenBalances.find((t) => t.token === this.data.tokenAddress);
 
       return balance ? balance.balance : '0';
     },
   },
-  created() {
-    this.reloadData();
-    EventBus.$on('reloadData', () => {
-      this.reloadData();
-    });
-    setInterval(() => this.reloadData(), 120 * 1000);
-  },
-  mounted() {
-    this.reloadData();
-  },
   methods: {
-    async reloadData() {
-      if (!this.sale) return;
-
-      this.totalSupply = null;
-      this.buyPrice = null;
-
-      const data = await Backend.getWordSale(this.sale);
-      this.tokenAddress = data.tokenAddress;
-      this.totalSupply = data.totalSupply;
-      this.buyPrice = data.buyPrice;
-      this.sellPrice = data.sellPrice;
-
-      this.loading = false;
-      this.buyAmount = 0;
-      this.sellAmount = 0;
+    order(ordering, direction) {
+      this.ordering = ordering;
+      this.direction = direction;
     },
   },
 };

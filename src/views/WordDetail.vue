@@ -23,11 +23,11 @@
           class="asset_details__info"
         >
           <div class="info-item">
-            <h3>{{ $t('components.WordDetail.Ticker') }}</h3>
+            <h3>{{ $t('views.WordDetail.Ticker') }}</h3>
             <div>{{ selectedWord }}</div>
           </div>
           <div class="info-item">
-            <h3>{{ $t('components.WordDetail.CurrentPrice') }}</h3>
+            <h3>{{ $t('views.WordDetail.CurrentPrice') }}</h3>
             <div>
               <AeAmount
                 :amount="data.buyPrice"
@@ -36,14 +36,14 @@
             </div>
           </div>
           <div class="info-item">
-            <h3>{{ $t('components.WordDetail.SellPrice') }}</h3>
+            <h3>{{ $t('views.WordDetail.SellPrice') }}</h3>
             <AeAmount
               :amount="data.sellPrice"
               aettos
             />
           </div>
           <div class="info-item">
-            <h3>{{ $t('components.WordDetail.Supply') }}</h3>
+            <h3>{{ $t('views.WordDetail.Supply') }}</h3>
             <AeAmount
               :token="data.tokenAddress"
               :amount="data.totalSupply"
@@ -53,14 +53,14 @@
         </div>
 
         <div class="asset_details__section-content">
-          <h3>{{ $t('components.WordDetail.Asset') }}</h3>
+          <h3>{{ $t('views.WordDetail.Asset') }}</h3>
           <div
             v-if="data && tokenInfo"
             class="asset-details__asset"
           >
             {{ tokenInfo[data.tokenAddress].name }}
           </div>
-          <h3>{{ $t('components.WordDetail.Description') }}</h3>
+          <h3>{{ $t('views.WordDetail.Description') }}</h3>
           <div
             v-if="data"
             class="asset-details__description"
@@ -97,8 +97,12 @@
               :message="$t('views.WordDetail.ConfirmMessage')"
             />
             <template v-else>
+              <MessageInput
+                v-model="description"
+                :placeholder="$t('views.WordDetail.CreateVote.Placeholder')"
+              />
               <i18n
-                path="components.WordDetail.Release"
+                path="views.WordDetail.Release"
                 tag="div"
                 class="stake-label"
               >
@@ -111,18 +115,16 @@
               <div class="initiate-vote-inputs">
                 <input
                   v-model.trim="newVotePayout"
-                  :disabled="loading.createVote"
                   class="form-control"
                   placeholder="Enter aeternity address"
                 >
 
                 <AeButton
-                  :disabled="!newVotePayout"
-                  :loading="loading.createVote"
+                  :disabled="!newVotePayout || !description.length"
                   @click="createVote"
                 >
                   <IconCheckmarkCircle />
-                  {{ $t('components.WordDetail.Initiate') }}
+                  {{ $t('views.WordDetail.Initiate') }}
                 </AeButton>
               </div>
             </template>
@@ -133,7 +135,7 @@
           class="asset_details__info"
         >
           <div class="info-item">
-            <h3>{{ $t('components.WordDetail.Spread') }}</h3>
+            <h3>{{ $t('views.WordDetail.Spread') }}</h3>
             <AeAmount
               :amount="data.spread"
               aettos
@@ -144,14 +146,14 @@
             />
           </div>
           <div class="info-item">
-            <h3>{{ $t('components.WordDetail.Supply') }}</h3>
+            <h3>{{ $t('views.WordDetail.Supply') }}</h3>
             <AeAmount
               :token="data.tokenAddress"
               :amount="data.totalSupply"
             />
           </div>
           <div class="info-item">
-            <h3>{{ $t('components.WordDetail.Stake') }}</h3>
+            <h3>{{ $t('views.WordDetail.Stake') }}</h3>
             <div>
               <AeAmount
                 :token="data.tokenAddress"
@@ -191,7 +193,7 @@
                 @click="showInitiate = !showInitiate"
               >
                 <IconCheckmarkCircle />
-                {{ $t('components.WordDetail.Initiate') }}
+                {{ $t('views.WordDetail.Initiate') }}
               </AeButton>
             </div>
             <VoteCard
@@ -227,6 +229,7 @@ import TabBar from '../components/TabBar.vue';
 import AeButton from '../components/AeButton.vue';
 import Loader from '../components/Loader.vue';
 import VoteCard from '../components/VoteCard.vue';
+import MessageInput from '../components/MessageInput.vue';
 import { shiftDecimalPlaces, blockToDate } from '../utils';
 
 export default {
@@ -243,6 +246,7 @@ export default {
     IconPlus,
     Loader,
     VoteCard,
+    MessageInput,
   },
   data: () => ({
     wordRegistryState: null,
@@ -253,7 +257,6 @@ export default {
     myVotes: [],
     data: null,
     newVotePayout: '',
-    tokenVoting: {},
     activity: 'info',
     activeTab: 'ongoing',
     ribbonTabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Voting', activity: 'voting' }],
@@ -261,6 +264,7 @@ export default {
     loading: false,
     progressMessage: '',
     showInitiate: false,
+    description: '',
   }),
   computed: {
     ...mapState(['address', 'tokenInfo', 'tokenBalances']),
@@ -383,7 +387,7 @@ export default {
       try {
         const metadata = {
           subject: { VotePayout: [this.newVotePayout] },
-          description: `Payout spread of ${this.selectedWord} to ${this.newVotePayout}`,
+          description: this.description,
           link: 'https://aeternity.com/',
         };
 
@@ -409,6 +413,9 @@ export default {
             args: [address],
           });
         await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
+        this.description = '';
+        this.newVotePayout = '';
+        this.showInitiate = false;
       } catch (error) {
         this.$store.dispatch('modals/open', {
           name: 'failure',
@@ -417,14 +424,15 @@ export default {
           primaryButtonText: 'OK',
         });
       } finally {
-        this.loading = false;
-        this.progressMessage = '';
-        EventBus.$emit('reloadData');
+        EventBus.$emit('reloadData', () => {
+          this.loading = false;
+          this.progressMessage = '';
+        });
       }
     },
   },
   metaInfo() {
-    return { title: this.$t('components.WordDetail.Title', { word: this.selectedWord }) };
+    return { title: this.$t('views.WordDetail.Title', { word: this.selectedWord }) };
   },
 };
 </script>
@@ -529,6 +537,10 @@ h3 {
   &.fade-leave-to {
     opacity: 0;
     transform: height(0);
+  }
+
+  .message-input {
+    margin-bottom: 16px;
   }
 
   .initiate-vote-inputs {

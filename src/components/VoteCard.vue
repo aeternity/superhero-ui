@@ -176,12 +176,12 @@ export default {
   computed: {
     ...mapState(['tokenInfo']),
   },
-  //   created (){
-  //  await this.initTokenVotingContract(this.vote.voteAddress);
-  //     const metadata = await this.voting.methods.metadata();
-  //     const decoded = await metadata.decode();
-  //     this.description = decoded.description;
-  //   },
+  async created() {
+    const metadata = await this.$store.dispatch('aeternity/tokenVotingMethod', {
+      contractAddress: this.vote.voteAddress, method: 'metadata',
+    });
+    this.description = metadata.description;
+  },
   methods: {
     isZero(number) {
       return new BigNumber(number).isZero();
@@ -395,6 +395,7 @@ export default {
     display: flex;
     height: 2rem;
     width: 100%;
+    height: 32px;
     justify-content: space-between;
 
     & > * {

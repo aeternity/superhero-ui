@@ -7,18 +7,7 @@
     />
     <template v-else>
       <div class="vote-row">
-        <div class="vote-row-start">
-          <AeAmount
-            :amount="data.spread"
-            aettos
-          />
-          <span v-if="vote.statusTimeouting">{{ $t('components.VoteCard.ReleasedTo') }}</span>
-          <span v-if="vote.statusApplied">{{ $t('components.VoteCard.SpreadTo') }}</span>
-          <span v-if="!vote.isClosed">{{ $t('components.VoteCard.ToBeReleasedTo') }}</span>
-          <span
-            v-if="vote.statusTimeouted || vote.statusClosedAndUnsuccessful"
-          >{{ $t('components.VoteCard.NotTransferred') }}</span>
-        </div>
+        <div class="vote-row-start" />
         <div class="vote-row-end">
           <IconHourglass />
           <span v-if="!vote.isClosed">{{ $t('components.VoteCard.ClosingIn') }}</span>
@@ -32,6 +21,24 @@
           <span v-if="vote.statusTimeouting">{{ $t('components.VoteCard.Left') }}</span>
         </div>
       </div>
+      <div class="vote-row">
+        <Avatar :address="vote.subject.VotePayout[0]" />
+        <p>{{ description }}</p>
+      </div>
+      <div class="vote-row">
+        <div class="vote-row-start">
+          <AeAmount
+            :amount="data.spread"
+            aettos
+          />
+          <span v-if="vote.statusTimeouting">{{ $t('components.VoteCard.ReleasedTo') }}</span>
+          <span v-if="vote.statusApplied">{{ $t('components.VoteCard.SpreadTo') }}</span>
+          <span v-if="!vote.isClosed">{{ $t('components.VoteCard.ToBeReleasedTo') }}</span>
+          <span
+            v-if="vote.statusTimeouted || vote.statusClosedAndUnsuccessful"
+          >{{ $t('components.VoteCard.NotTransferred') }}</span>
+        </div>
+      </div>
 
       <div class="vote-row">
         <div class="vote-row-start payout-address">
@@ -41,7 +48,6 @@
         <OutlinedButton
           v-if="vote.showApplyPayout"
           class="vote-row-end green unpadded send"
-          :loading="loading"
           @click="applyPayout(vote.id)"
         >
           <IconCheckmarkCircle />
@@ -72,7 +78,7 @@
         <AeInputAmount
           v-if="vote.showVoteOption || vote.accountHasVoted"
           v-model="vote.stakeAmount"
-          :disabled="!vote.showVoteOption || isZero(vote.initialStakeAmount) || loading"
+          :disabled="!vote.showVoteOption || isZero(vote.initialStakeAmount)"
           :token="data.tokenAddress"
           no-dropdown
           no-fiatvalue
@@ -80,7 +86,6 @@
 
         <AeButton
           v-if="vote.showRevoke"
-          :loading="loading"
           @click="revokeVote(vote.voteAddress)"
         >
           <IconCloseCircle />
@@ -90,7 +95,6 @@
         <AeButton
           v-if="vote.showVoteOption"
           :disabled="isZero(vote.initialStakeAmount)"
-          :loading="loading"
           @click="voteOption(vote.voteAddress, true, vote.stakeAmount)"
         >
           <IconCheckmarkCircle />
@@ -99,7 +103,6 @@
 
         <AeButton
           v-if="vote.showWithdraw"
-          :loading="loading"
           @click="withdraw(vote.voteAddress)"
         >
           <IconClaimBack />
@@ -144,6 +147,7 @@ import AeAmount from './AeAmount.vue';
 import AeButton from './AeButton.vue';
 import Loader from './Loader.vue';
 import OutlinedButton from './OutlinedButton.vue';
+import Avatar from './Avatar.vue';
 
 export default {
   components: {
@@ -156,6 +160,7 @@ export default {
     AeButton,
     Loader,
     OutlinedButton,
+    Avatar,
   },
   props: {
     vote: { type: Object, required: true },
@@ -166,10 +171,17 @@ export default {
   data: () => ({
     loading: false,
     progressMessage: '',
+    description: '',
   }),
   computed: {
     ...mapState(['tokenInfo']),
   },
+  //   created (){
+  //  await this.initTokenVotingContract(this.vote.voteAddress);
+  //     const metadata = await this.voting.methods.metadata();
+  //     const decoded = await metadata.decode();
+  //     this.description = decoded.description;
+  //   },
   methods: {
     isZero(number) {
       return new BigNumber(number).isZero();
@@ -295,8 +307,12 @@ export default {
     display: flex;
     margin-bottom: 0.6rem;
 
-    @include mobile {
-      flex-direction: column;
+    .avatar {
+      margin-right: 16px;
+    }
+
+    p {
+      word-break: break-word;
     }
 
     .vote-row-start {
@@ -321,6 +337,7 @@ export default {
     color: $tip_note_color;
     font-weight: normal;
     font-size: 0.7rem;
+    word-break: break-word;
   }
 
   &:active,

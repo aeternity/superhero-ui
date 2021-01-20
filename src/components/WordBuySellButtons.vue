@@ -25,114 +25,128 @@
       v-if="showBuyModal"
       @close="showBuyModal = false"
     >
-      <div class="label">
-        {{ $t('components.WordBuySellButtons.AccountBalance') }}
-      </div>
-      <AeAmount
-        :amount="tokenBalance"
-        :token="tokenAddress"
+      <Loader
+        v-if="loading"
+        :progress-message="progressMessage"
+        :message="$t('components.WordBuySellButtons.ConfirmMessage')"
       />
-      <div class="mt-3 label">
-        {{ $t('components.WordBuySellButtons.AmountBuying') }}
-      </div>
-      <div class="input-group mb-2">
-        <AeInputAmount
-          v-model="buyAmount"
+      <template v-else>
+        <div class="label">
+          {{ $t('components.WordBuySellButtons.AccountBalance') }}
+        </div>
+        <AeAmount
+          :amount="tokenBalance"
           :token="tokenAddress"
-          no-dropdown
-          no-fiatvalue
-          class="input-amount"
-          @keyup="buyValue"
         />
-      </div>
-      <div class="mt-3 label">
-        {{ $t('components.WordBuySellButtons.TotalPay') }}
-      </div>
-      <div class="return-amount">
-        <AeAmountFiat
-          v-if="buyAeAmount !== null"
-          :amount="buyAeAmount"
-          aettos
-        />
-        <Loading
-          v-if="buyAeAmount === null || updatingValue"
-          :class="{ 'update-loading': buyAeAmount !== null && updatingValue }"
-          small
-          class="p-0"
-        />
-      </div>
-      <div class="mt-3 text-center">
-        <OutlinedButton
-          :disabled="buyAeAmount <= 0"
-          class="green"
-          @click="buy"
-        >
+        <div class="mt-3 label">
+          {{ $t('components.WordBuySellButtons.AmountBuying') }}
+        </div>
+        <div class="input-group mb-2">
+          <AeInputAmount
+            v-model="buyAmount"
+            :token="tokenAddress"
+            no-dropdown
+            no-fiatvalue
+            class="input-amount"
+            @keyup="buyValue"
+          />
+        </div>
+        <div class="mt-3 label">
+          {{ $t('components.WordBuySellButtons.TotalPay') }}
+        </div>
+        <div class="return-amount">
+          <AeAmountFiat
+            v-if="buyAeAmount !== null"
+            :amount="buyAeAmount"
+            aettos
+          />
           <Loading
-            v-if="loading"
+            v-if="buyAeAmount === null || updatingValue"
+            :class="{ 'update-loading': buyAeAmount !== null && updatingValue }"
             small
             class="p-0"
           />
-          <span v-else>
-            {{ $t('components.WordBuySellButtons.Buy') }}
-          </span>
-        </OutlinedButton>
-      </div>
+        </div>
+        <div class="mt-3 text-center">
+          <OutlinedButton
+            :disabled="buyAeAmount <= 0"
+            class="green"
+            @click="buy"
+          >
+            <Loading
+              v-if="loading"
+              small
+              class="p-0"
+            />
+            <span v-else>
+              {{ $t('components.WordBuySellButtons.Buy') }}
+            </span>
+          </OutlinedButton>
+        </div>
+      </template>
     </Modal>
 
     <Modal
       v-if="showSellModal"
       @close="showSellModal = false"
     >
-      <div class="label">
-        {{ $t('components.WordBuySellButtons.AccountBalance') }}
-      </div>
-      <AeAmount
-        :amount="tokenBalance"
-        :token="tokenAddress"
+      <Loader
+        v-if="loading"
+        :progress-message="progressMessage"
+        :message="$t('components.WordBuySellButtons.ConfirmMessage')"
       />
-      <div class="mt-3 label">
-        {{ $t('components.WordBuySellButtons.AmountSelling') }}
-      </div>
-      <div class="input-group mb-2">
-        <AeInputAmount
-          v-model="sellAmount"
+      <template v-else>
+        <div class="label">
+          {{ $t('components.WordBuySellButtons.AccountBalance') }}
+        </div>
+        <AeAmount
+          :amount="tokenBalance"
           :token="tokenAddress"
-          no-dropdown
-          no-fiatvalue
-          class="input-amount"
-          @keyup="sellValue"
         />
-      </div>
-      <div class="mt-3 label">
-        {{ $t('components.WordBuySellButtons.TotalGet') }}
-      </div>
-      <div class="return-amount">
-        <AeAmountFiat
-          v-if="sellAeAmount !== null"
-          :amount="sellAeAmount"
-          aettos
-        />
-        <Loading
-          v-if="sellAeAmount === null || updatingValue"
-          :class="{ 'update-loading': sellAeAmount !== null && updatingValue }"
-          small
-          class="p-0"
-        />
-      </div>
-      <div class="mt-3 text-center">
-        <OutlinedButton
-          :disabled="sellAeAmount <= 0"
-          class="red"
-          @click="sell"
-        >
+        <div class="mt-3 label">
+          {{ $t('components.WordBuySellButtons.AmountSelling') }}
+        </div>
+        <div class="input-group mb-2">
+          <AeInputAmount
+            v-model="sellAmount"
+            :token="tokenAddress"
+            no-dropdown
+            no-fiatvalue
+            class="input-amount"
+            @keyup="sellValue"
+          />
+        </div>
+        <div class="mt-3 label">
+          {{ $t('components.WordBuySellButtons.TotalGet') }}
+        </div>
+        <div class="return-amount">
+          <AeAmountFiat
+            v-if="sellAeAmount !== null"
+            :amount="sellAeAmount"
+            aettos
+          />
           <Loading
-            v-if="loading"
+            v-if="sellAeAmount === null || updatingValue"
+            :class="{ 'update-loading': sellAeAmount !== null && updatingValue }"
             small
             class="p-0"
           />
-          <span v-else>{{ $t('components.WordBuySellButtons.Sell') }}</span>
-        </OutlinedButton>
-      </div>
+        </div>
+        <div class="mt-3 text-center">
+          <OutlinedButton
+            :disabled="sellAeAmount <= 0"
+            class="red"
+            @click="sell"
+          >
+            <Loading
+              v-if="loading"
+              small
+              class="p-0"
+            />
+            <span v-else>{{ $t('components.WordBuySellButtons.Sell') }}</span>
+          </OutlinedButton>
+        </div>
+      </template>
     </Modal>
   </div>
 </template>
@@ -149,6 +163,7 @@ import Modal from './Modal.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 import { shiftDecimalPlaces } from '../utils';
 import AeInputAmount from './AeInputAmount.vue';
+import Loader from './Loader.vue';
 
 export default {
   name: 'WordBuySellButtons',
@@ -159,6 +174,7 @@ export default {
     Loading,
     OutlinedButton,
     Modal,
+    Loader,
   },
   props: {
     sale: { type: String, required: true },
@@ -176,6 +192,7 @@ export default {
     showSellModal: false,
     loading: true,
     updatingValue: true,
+    progressMessage: '',
   }),
   computed: {
     ...mapState(['address', 'balance', 'tokenBalances']),
@@ -240,6 +257,7 @@ export default {
     },
     async buy() {
       this.loading = true;
+      this.progressMessage = this.$t('components.WordBuySellButtons.Buying');
 
       try {
         const { amount, value } = await this.buyValue();
@@ -261,12 +279,15 @@ export default {
           primaryButtonText: 'OK',
         });
       } finally {
-        this.loading = false;
-        EventBus.$emit('reloadData');
+        EventBus.$emit('reloadData', () => {
+          this.loading = false;
+          this.progressMessage = '';
+        });
       }
     },
     async sell() {
       this.loading = true;
+      this.progressMessage = this.$t('components.WordBuySellButtons.Selling[0]');
       try {
         const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
 
@@ -292,8 +313,10 @@ export default {
           primaryButtonText: 'OK',
         });
       } finally {
-        this.loading = false;
-        EventBus.$emit('reloadData');
+        EventBus.$emit('reloadData', () => {
+          this.loading = false;
+          this.progressMessage = '';
+        });
       }
     },
   },
@@ -306,9 +329,11 @@ export default {
   border-radius: 0.5rem;
   margin: 0 -6.3rem;
   padding: 1rem;
+  width: 192px;
+  min-height: 248px;
+  font-size: 0.75rem;
 
   @include smallest {
-    min-width: 16rem;
     padding: 0.5rem;
   }
 }

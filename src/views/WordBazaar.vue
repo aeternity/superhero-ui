@@ -16,7 +16,10 @@
         :tabs="tabs"
       />
 
-      <WordListing heading />
+      <WordListing
+        heading
+        @order="order"
+      />
 
       <Loading
         v-if="wordRegistryState === null"
@@ -71,6 +74,8 @@ export default {
     wordRegistryState: null,
     activity: 'assets',
     activeTab: 'all',
+    ordering: 'buyprice',
+    direction: 'desc',
     ribbonTabs: [
       { icon: IconTokens, text: 'Assets', activity: 'assets' },
       { icon: IconPlus, text: 'Create token', activity: 'create' },
@@ -97,8 +102,13 @@ export default {
     setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
+    async order(ordering, direction) {
+      this.ordering = ordering;
+      this.direction = direction;
+      await this.reloadData();
+    },
     async reloadData() {
-      this.wordRegistryState = await Backend.getWordRegistry();
+      this.wordRegistryState = await Backend.getWordRegistry(this.ordering, this.direction);
     },
   },
   metaInfo() {

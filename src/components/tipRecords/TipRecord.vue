@@ -108,7 +108,8 @@ export default {
     tip: { type: Object, required: true },
   },
   computed: {
-    ...mapState(['address', 'useSdkWallet']),
+    ...mapState(['address']),
+    ...mapState('aeternity', ['useSdkWallet']),
     ...mapState({
       isTipPinned({ pinnedItems }) {
         return pinnedItems.some(({ id }) => id === this.tip.id);

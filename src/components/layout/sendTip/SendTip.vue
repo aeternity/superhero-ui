@@ -100,7 +100,7 @@ export default {
   computed: {
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState(['tokenInfo']),
-    ...mapState({ useSdkWallet: ({ aeternity: { useSdkWallet } }) => useSdkWallet }),
+    ...mapState('aeternity', ['useSdkWallet']),
 
     isTipAmountValid() {
       return this.inputToken !== null || (this.sendTipForm.amount > this.minTipAmount);
@@ -121,7 +121,7 @@ export default {
       const amount = shiftDecimalPlaces(this.sendTipForm.amount,
         this.inputToken !== null ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
-      this.$store.dispatch('tip', {
+      this.$store.dispatch('aeternity/tip', {
         url: this.sendTipForm.url,
         title: this.sendTipForm.title,
         amount,

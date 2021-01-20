@@ -39,7 +39,7 @@ export default {
   computed: {
     ...mapGetters('modals', ['opened']),
     ...mapState(['address']),
-    ...mapState({ sdk: ({ aeternity: { sdk } }) => sdk }),
+    ...mapState('aeternity', ['sdk']),
   },
   async created() {
     EventBus.$on('reloadData', () => {
@@ -47,7 +47,7 @@ export default {
     });
     setInterval(() => this.reloadData(), 120 * 1000);
 
-    await this.$store.dispatch('initSdk');
+    await this.$store.dispatch('aeternity/initSdk');
     await Promise.all([
       this.initWallet(),
       this.reloadData(),
@@ -57,8 +57,9 @@ export default {
     ...mapMutations([
       'setAddress', 'updateTopics',
       'setOracleState', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet',
+      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls',
     ]),
+    ...mapMutations('aeternity', ['useSdkWallet']),
     async reloadData() {
       const [
         chainNames, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
@@ -96,7 +97,7 @@ export default {
     async initWallet() {
       let { address } = this.$route.query;
       if (!address) {
-        address = await this.$store.dispatch('scanForWallets');
+        address = await this.$store.dispatch('aeternity/scanForWallets');
         console.log('found wallet');
         this.useSdkWallet();
         this.setAddress(address);

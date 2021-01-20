@@ -42,7 +42,7 @@ export default {
   data: () => ({
     showTopics: false,
   }),
-  computed: mapState({ toggleable: 'useIframeWallet' }),
+  computed: mapState({ toggleable: ({ aeternity: { useIframeWallet } }) => useIframeWallet }),
 };
 </script>
 

@@ -110,7 +110,7 @@ export default {
   }),
   computed: {
     ...mapState(['address', 'tokenInfo']),
-    ...mapState({ useSdkWallet: ({ aeternity: { useSdkWallet } }) => useSdkWallet }),
+    ...mapState('aeternity', ['useSdkWallet']),
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
@@ -183,14 +183,14 @@ export default {
           this.inputToken !== null ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
         if (!this.tip) {
-          await this.$store.dispatch('tip', {
+          await this.$store.dispatch('aeternity/tip', {
             url: this.tipUrl,
             title: this.message,
             amount,
             tokenAddress: this.inputToken,
           });
         } else {
-          await this.$store.dispatch('retip', {
+          await this.$store.dispatch('aeternity/retip', {
             contractAddress: this.tip.contractId,
             id: this.tip.id,
             amount,

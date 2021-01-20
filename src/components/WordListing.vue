@@ -118,6 +118,7 @@ export default {
     order(ordering, direction) {
       this.ordering = ordering;
       this.direction = direction;
+      this.$emit('order', ordering, direction);
     },
   },
 };

@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <BackButtonRibbon
-      title="WordBazaar"
-      hide-back
-    />
+  <div class="word-bazaar">
+    <BackButtonRibbon hide-back>
+      <template v-slot:title>
+        <span>{{ $t('components.WordBazaar.Title') }}</span>
+      </template>
+    </BackButtonRibbon>
 
     <ActivityRibbon
       v-model="activity"
@@ -14,6 +15,28 @@
       <TabBar
         v-model="activeTab"
         :tabs="tabs"
+      >
+        <SearchInput
+          v-if="showSearch"
+          v-model="search"
+          :placeholder="$t('components.WordBazaar.Placeholder')"
+          class="desktop"
+          @input="reloadData"
+          @close="showSearch = false"
+        />
+        <IconSearch
+          v-else
+          @click="showSearch = true"
+        />
+        <IconPlus @click="activity = 'create'" />
+      </TabBar>
+      <SearchInput
+        v-if="showSearch"
+        v-model="search"
+        :placeholder="$t('components.WordBazaar.Placeholder')"
+        class="mobile"
+        @input="reloadData"
+        @close="showSearch = false"
       />
 
       <WordListing
@@ -21,9 +44,9 @@
         @order="order"
       />
 
-      <Loading
-        v-if="wordRegistryState === null"
-        above-content
+      <Loader
+        v-if="wordRegistryState === null || loading"
+        class="lg"
       />
 
       <div v-else>
@@ -49,26 +72,31 @@
 import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import WordListing from '../components/WordListing.vue';
-import Loading from '../components/Loading.vue';
+import Loader from '../components/Loader.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
 import CreateToken from '../components/CreateToken.vue';
+import SearchInput from '../components/layout/SearchInput.vue';
 import IconHelp2 from '../assets/iconHelp2.svg?icon-component';
 import IconTokens from '../assets/iconTokens.svg?icon-component';
 import IconPlus from '../assets/iconPlus.svg?icon-component';
 import IconAe from '../assets/iconAe.svg?icon-component';
+import IconSearch from '../assets/iconSearch.svg?icon-component';
 import { EventBus } from '../utils/eventBus';
 
 export default {
   name: 'WordBazaar',
   components: {
     WordListing,
-    Loading,
+    Loader,
     BackButtonRibbon,
     ActivityRibbon,
     TabBar,
     CreateToken,
+    IconPlus,
+    IconSearch,
+    SearchInput,
   },
   data: () => ({
     wordRegistryState: null,
@@ -76,6 +104,7 @@ export default {
     activeTab: 'all',
     ordering: 'buyprice',
     direction: 'desc',
+    search: '',
     ribbonTabs: [
       { icon: IconTokens, text: 'Assets', activity: 'assets' },
       { icon: IconPlus, text: 'Create token', activity: 'create' },
@@ -87,6 +116,8 @@ export default {
       { text: 'Trending', tab: 'trending' },
       { text: 'Recent', tab: 'recent' },
     ],
+    showSearch: false,
+    loading: true,
   }),
   computed: {
     ...mapState(['address']),
@@ -108,7 +139,10 @@ export default {
       await this.reloadData();
     },
     async reloadData() {
-      this.wordRegistryState = await Backend.getWordRegistry(this.ordering, this.direction);
+      this.loading = true;
+      this.wordRegistryState = await Backend
+        .getWordRegistry(this.ordering, this.direction, this.search);
+      this.loading = false;
     },
   },
   metaInfo() {
@@ -118,6 +152,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.word-bazaar {
+  ::v-deep .search-input {
+    border-radius: 0.5rem;
+
+    &.mobile {
+      margin: 4px;
+
+      @include desktop-only {
+        display: none;
+      }
+    }
+
+    &.desktop {
+      @include desktop {
+        display: none;
+      }
+    }
+
+    input {
+      padding: 0 0.5rem;
+    }
+
+    svg {
+      height: 0.75rem;
+      width: auto;
+    }
+  }
+
+  .iconSearch {
+    height: 18px;
+    width: 18px;
+  }
+}
+
 a {
   margin-right: 0.5rem;
   text-decoration: underline !important;

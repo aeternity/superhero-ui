@@ -2,7 +2,7 @@
   <div>
     <Loader
       v-if="tipsReloading"
-      class="lg"
+      lg
     />
     <div v-if="tips">
       <TipRecord
@@ -13,7 +13,7 @@
       />
       <Loader
         v-if="tipsNextPageLoading"
-        class="lg"
+        lg
       />
       <div
         v-if="tips.length === 0"

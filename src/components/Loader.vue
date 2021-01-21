@@ -1,7 +1,7 @@
 <template>
   <div
     class="loader"
-    :class="{ 'has-overlay': hasOverlay }"
+    :class="[{ 'has-overlay': hasOverlay }, { lg }]"
   >
     <img
       :src="animatedSpinner"
@@ -22,6 +22,7 @@ import animatedSpinner from '../assets/animatedSpinner.svg?skip-optimize';
 export default {
   props: {
     hasOverlay: { type: Boolean },
+    lg: { type: Boolean },
     progressMessage: { type: String },
     message: { type: String },
   },

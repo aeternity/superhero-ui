@@ -1,5 +1,4 @@
 import { mapState } from 'vuex';
-import Backend from './backend';
 
 export default (ignoreCallInQuery) => ({
   computed: mapState({
@@ -17,7 +16,7 @@ export default (ignoreCallInQuery) => ({
       }
       let succeed = false;
       try {
-        await Backend[method](address, { challenge, signature });
+        await this.$store.dispatch(`backend/${method}`, address, { challenge, signature });
         succeed = true;
       } finally {
         next((vm) => {

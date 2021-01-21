@@ -12,6 +12,7 @@ import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFullI
 import { BigNumber } from 'bignumber.js';
 import { IS_MOBILE_DEVICE } from '../../utils';
 
+// todo: getters
 export default {
   namespaced: true,
   state: {

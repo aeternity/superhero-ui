@@ -12,7 +12,6 @@ import { mapState } from 'vuex';
 import jdenticon from 'jdenticon';
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-avataaars-sprites';
-import Backend from '../utils/backend';
 import { IDENTICON_CONFIG, AVATAR_CONFIG } from '../utils';
 
 jdenticon.config = IDENTICON_CONFIG;
@@ -34,7 +33,7 @@ export default {
     },
     profileImageUrl({ address, profile }) {
       const key = address === this.address && profile?.signature?.slice(0, 5);
-      return `${Backend.getProfileImageUrl(this.address)}?${key || ''}`;
+      return `${this.$store.dispatch('backend/getProfileImageUrl', this.address)}?${key || ''}`;
     },
   }),
   watch: {

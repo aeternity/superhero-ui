@@ -65,7 +65,6 @@ import { mapState, mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
 import { createDeepLinkUrl, shiftDecimalPlaces } from '../../../utils';
 import { EventBus } from '../../../utils/eventBus';
-import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg?icon-component';
 import IconClose from '../../../assets/iconClose.svg?icon-component';
@@ -128,7 +127,7 @@ export default {
         tokenAddress: this.inputToken,
       })
         .then(async () => {
-          await Backend.cacheInvalidateTips().catch(console.error);
+          await this.$store.dispatch('backend/cacheInvalidateTips').catch(console.error);
           this.clearTipForm();
           this.$store.dispatch('modals/open', {
             name: 'success',

@@ -57,7 +57,6 @@
 <script>
 import { mapState } from 'vuex';
 import { EventBus } from '../../../utils/eventBus';
-import Backend from '../../../utils/backend';
 import MessageInput from '../../MessageInput.vue';
 import ButtonPlain from '../../ButtonPlain.vue';
 import IconPictures from '../../../assets/iconPictures.svg?icon-component';
@@ -125,11 +124,8 @@ export default {
       }
     },
     async postWithZeroBalance(title, media) {
-      const signature = await this.$store.dispatch(
-        'aeternity/postWithoutTipSignature',
-        { title, media },
-      );
-      return Backend.sendPostWithoutTip({
+      const signature = await this.$store.dispatch('postWithoutTipSignature', { title, media });
+      return this.$store.dispatch('backend/sendPostWithoutTip', {
         author: this.address,
         title,
         media,

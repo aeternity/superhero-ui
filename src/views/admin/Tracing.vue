@@ -127,7 +127,6 @@
 </template>
 
 <script>
-import Backend from '../../utils/backend';
 import AeAmount from '../../components/AeAmount.vue';
 import FormatDate from '../../components/tipRecords/FormatDate.vue';
 
@@ -164,8 +163,8 @@ export default {
       return trace[trace.length - 1].answer || trace[trace.length - 1].result;
     },
     async traceTip(id) {
-      this.backendTrace = await Backend.getTipTraceBackend(id);
-      this.blockchainTrace = await Backend.getTipTraceBlockchain(id);
+      this.backendTrace = await this.$store.dispatch('backend/getTipTraceBackend', id);
+      this.blockchainTrace = await this.$store.dispatch('backend/getTipTraceBlockchain', id);
     },
   },
   metaInfo: {

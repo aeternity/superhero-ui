@@ -27,7 +27,6 @@
 
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
-import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import { atomsToAe } from './utils';
 import MobileNavigation from './components/layout/MobileNavigation.vue';
@@ -64,12 +63,12 @@ export default {
       const [
         chainNames, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
       ] = await Promise.all([
-        Backend.getCacheChainNames(),
-        Backend.getOracleCache(),
-        Backend.getTopicsCache(),
-        Backend.getVerifiedUrls(),
-        Backend.getGrayListedUrls(),
-        Backend.getTokenInfo(),
+        this.$store.dispatch('backend/getCacheChainNames'),
+        this.$store.dispatch('backend/getOracleCache'),
+        this.$store.dispatch('backend/getTopicsCache'),
+        this.$store.dispatch('backend/getVerifiedUrls'),
+        this.$store.dispatch('backend/getGrayListedUrls'),
+        this.$store.dispatch('backend/getTokenInfo'),
         this.$store.dispatch('backend/reloadStats'),
         this.$store.dispatch('backend/reloadPrices'),
         this.reloadUserData(),

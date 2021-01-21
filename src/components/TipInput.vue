@@ -76,7 +76,6 @@ import { mapState, mapGetters } from 'vuex';
 import iconTip from '../assets/iconTip.svg';
 import iconTipUser from '../assets/iconTipUser.svg';
 import iconTipped from '../assets/iconTipped.svg';
-import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl, shiftDecimalPlaces } from '../utils';
 import AeInputAmount from './AeInputAmount.vue';
@@ -199,7 +198,7 @@ export default {
         }
 
         if (!this.userAddress) {
-          await Backend.cacheInvalidateTips();
+          await this.$store.dispatch('backend/cacheInvalidateTips');
           EventBus.$emit('reloadData');
         }
         this.hideModal();

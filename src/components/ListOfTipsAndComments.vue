@@ -67,7 +67,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import Loading from './Loading.vue';
 import FeedPagination from './FeedPagination.vue';
@@ -123,7 +122,7 @@ export default {
     });
 
     if (this.address !== this.currentAddress) {
-      Backend.getPinnedItems(this.address)
+      this.$store.dispatch('backend/getPinnedItems', this.address)
         .then((pinnedItems) => {
           this.userPinnedItems = pinnedItems;
         })

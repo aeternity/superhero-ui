@@ -75,7 +75,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import Backend from '../../utils/backend';
 import backendAuthMixin from '../../utils/backendAuthMixin';
 import TipTitle from './TipTitle.vue';
 import TipMedia from './TipMedia.vue';
@@ -136,7 +135,7 @@ export default {
     },
     async claim() {
       try {
-        await Backend.claimFromUrl({
+        await this.$store.dispatch('backend/claimFromUrl', {
           url: this.tip.url,
           address: this.address,
         });

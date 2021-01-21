@@ -10,7 +10,6 @@ import modals from './plugins/modals';
 import backend from './modules/backend';
 import aeternity from './modules/aeternity';
 // eslint-disable-next-line import/no-cycle
-import Backend from '../utils/backend';
 
 Vue.use(Vuex);
 
@@ -36,11 +35,11 @@ export default new Vuex.Store({
   },
   mutations,
   actions: {
-    async updateUserProfile({ commit, state: { address } }) {
-      commit('setUserProfile', await Backend.getProfile(address));
+    async updateUserProfile({ commit, dispatch, state: { address } }) {
+      commit('setUserProfile', await dispatch('backend/getProfile', address));
     },
-    async updatePinnedItems({ commit, state: { address } }) {
-      commit('setPinnedItems', await Backend.getPinnedItems(address));
+    async updatePinnedItems({ commit, dispatch, state: { address } }) {
+      commit('setPinnedItems', await dispatch('backend/getPinnedItems', address));
     },
     async updateCookiesConsent({ commit, dispatch }) {
       dispatch('backend/callWithAuth', { method: 'getCookiesConsent' })
@@ -53,7 +52,7 @@ export default new Vuex.Store({
       return new BigNumber(decodedResult || 0).toFixed();
     },
     async updateTokensBalanceAndPrice({ state: { address }, commit, dispatch }) {
-      const tokens = await Backend.getTokenBalances(address);
+      const tokens = await dispatch('backend/getTokenBalances', address);
       await Promise.all(Object.entries(tokens).map(async ([token]) => {
         commit('addTokenBalance', {
           token,
@@ -61,7 +60,7 @@ export default new Vuex.Store({
         });
         commit('addTokenPrice', {
           token,
-          price: await Backend.getWordSaleDetailsByToken(token)
+          price: await dispatch('backend/getWordSaleDetailsByToken', token)
             .then((s) => s.buyPrice).catch(() => null),
         });
       }));

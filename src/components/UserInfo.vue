@@ -215,7 +215,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import Backend from '../utils/backend';
 import { atomsToAe } from '../utils';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Avatar from './Avatar.vue';
@@ -375,18 +374,18 @@ export default {
     },
     reloadData() {
       this.getProfile();
-      Backend.getCacheUserStats(this.address).then((stats) => {
+      this.$store.dispatch('backend/getCacheUserStats', this.address).then((stats) => {
         this.userStats = stats;
       });
     },
     async getProfile() {
-      Backend.getCommentCountForAddress(this.address)
+      this.$store.dispatch('backend/getCommentCountForAddress', this.address)
         .then((userComment) => {
           this.userCommentCount = userComment.count;
         })
         .catch(console.error);
 
-      Backend.getProfile(this.address)
+      this.$store.dispatch('backend/getProfile', this.address)
         .then((profile) => {
           if (!profile) {
             return;

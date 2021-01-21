@@ -152,7 +152,6 @@
 </template>
 
 <script>
-import Backend from '../../utils/backend';
 import YouTubeEmbed from './YouTubeEmbed.vue';
 import TwitterEmbed from './TwitterEmbed.vue';
 import SoundCloudEmbed from './SoundCloudEmbed.vue';
@@ -189,7 +188,9 @@ export default {
       return this.tip?.preview?.title || '';
     },
     tipPreviewImage() {
-      return this.isPreviewToBeVisualized && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
+      return this.isPreviewToBeVisualized
+      && this.tip.preview.image !== null
+        ? this.$store.dispatch('backend/getTipPreviewUrl', this.tip.preview.image) : '';
     },
     isPreviewToBeVisualized() {
       return this.tip.preview && (this.tip.preview.description || this.tip.preview.title);

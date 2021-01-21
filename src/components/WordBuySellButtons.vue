@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="buttons">
       <OutlinedButton
         class="green unpadded mr-1"
         @click="() => {
@@ -324,6 +324,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.buttons {
+  button {
+    @include smallest {
+      margin-bottom: 0.25rem;
+    }
+  }
+}
+
 .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
   background-color: $article_content_color;
   border-radius: 0.5rem;

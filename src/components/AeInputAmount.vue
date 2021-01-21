@@ -127,16 +127,15 @@ export default {
 
 <style lang="scss" scoped>
 .input-group {
-  border: 1px solid $buttons_background;
-  border-radius: 6px;
-  height: 42px;
+  border: 0.05rem solid $buttons_background;
+  border-radius: 0.25rem;
 
   .input-group-append {
     max-width: 65%;
     background: $buttons_background;
     align-items: center;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
   }
 
   .input-group-text {
@@ -148,8 +147,8 @@ export default {
   }
 
   &:focus-within {
-    border-top: 1px solid $secondary_color;
-    border-bottom: 1px solid $secondary_color;
+    border-top: 0.05rem solid $secondary_color;
+    border-bottom: 0.05rem solid $secondary_color;
   }
 
   input,
@@ -162,49 +161,42 @@ export default {
   }
 
   .input-group-append > span.append-ae {
-    input:focus ~ .input-group-append,
-    input:focus ~ .input-group-append .input-group-text {
-      background-color: $background_color;
+    font-size: 0.75rem;
+    background: $buttons_background;
+    cursor: default;
+
+    .symbol {
+      color: $secondary_color;
+    }
+  }
+
+  .token-option {
+    display: flex;
+    align-items: center;
+    min-width: 12rem;
+    max-width: 15rem;
+
+    > div:first-child {
+      flex-grow: 1;
+    }
+  }
+
+  .tokens-amount {
+    color: $tip-note-color;
+    margin-right: 0.1rem;
+  }
+
+  .dropdown::v-deep {
+    border-radius: 50%;
+
+    > button {
+      background-color: transparent;
+      height: 2.1rem;
+      margin-left: -0.8rem;
     }
 
-    .input-group-append > span.append__ae {
-      font-size: 0.75rem;
-      background: $buttons_background;
-      cursor: default;
-
-      .symbol {
-        color: $secondary_color;
-      }
-    }
-
-    .token-option {
-      display: flex;
-      align-items: center;
-      min-width: 240px;
-      max-width: 300px;
-
-      > div:first-child {
-        flex-grow: 1;
-      }
-    }
-
-    .tokens-amount {
-      color: $tip-note-color;
-      margin-right: 0.1rem;
-    }
-
-    .dropdown::v-deep {
-      border-radius: 50%;
-
-      > button {
-        background-color: transparent;
-        height: 42px;
-        margin-left: -16px;
-      }
-
-      .not-bootstrap-modal-content {
-        margin-top: 5px;
-      }
+    .not-bootstrap-modal-content {
+      margin-top: 0.25rem;
     }
   }
 }

@@ -488,6 +488,10 @@ h3 {
   display: flex;
   flex-direction: row;
 
+  @include smallest {
+    flex-wrap: wrap;
+  }
+
   .info-item {
     flex-shrink: 1;
     font-size: 0.9rem;
@@ -514,6 +518,11 @@ h3 {
         font-size: 0.8rem;
         line-height: 1rem;
       }
+    }
+
+    @include smallest {
+      width: 40%;
+      margin: 8px;
     }
   }
 }

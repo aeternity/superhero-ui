@@ -350,6 +350,11 @@ export default {
     width: 9rem;
     border-radius: 0.3rem;
     overflow: hidden;
+
+    @include mobile {
+      width: 100%;
+      margin-top: 8px;
+    }
   }
 
   .vote-progress {
@@ -393,10 +398,10 @@ export default {
   .input-bar {
     margin-top: -0.4rem;
     display: flex;
-    height: 2rem;
     width: 100%;
     height: 32px;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     & > * {
       margin-left: 0.4rem;

@@ -75,6 +75,11 @@ export default {
     border: 1px solid #2f2f2f;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
 
+    @include smallest {
+      width: 100%;
+      padding: 1rem;
+    }
+
     img {
       height: 2rem;
       margin-bottom: 0.85rem;

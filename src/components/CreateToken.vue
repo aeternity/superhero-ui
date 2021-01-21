@@ -393,9 +393,17 @@ export default {
       display: flex;
       justify-content: space-between;
 
+      @include mobile {
+        flex-direction: column;
+      }
+
       .ae-button {
         font-weight: 700;
         width: 45%;
+
+        @include mobile {
+          width: 100%;
+        }
 
         svg {
           height: 1.2rem;

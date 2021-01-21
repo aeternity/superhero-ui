@@ -70,10 +70,16 @@ export default {
     width: 25rem;
     margin: 0 auto;
     padding: 2.5rem 2.5rem;
-    background-color: #090909;
+    background-color: $actions_ribbon_background_color;
     border-radius: 0.25rem;
-    border: 1px solid #2f2f2f;
+    border: 1px solid $card_border_color;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
+    word-break: break-word;
+
+    @include smallest {
+      width: 100%;
+      padding: 1rem;
+    }
 
     img {
       height: 2rem;
@@ -87,7 +93,7 @@ export default {
     }
 
     .button {
-      background-color: #1161fe;
+      background-color: $secondary_color;
       border: none;
       border-radius: 0.25rem;
       color: $standard_font_color;

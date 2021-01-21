@@ -304,8 +304,8 @@ export default {
       this.wordRegistryState = await Backend.getWordRegistry();
 
       // eslint-disable-next-line prefer-destructuring
-      this.saleContractAddress = this.wordRegistryState.tokens
-        .find(([word]) => word === this.selectedWord)[1];
+      this.saleContractAddress = this.wordRegistryState
+        .find((word) => word.word === this.selectedWord).sale;
 
       await this.loadSpread();
       await this.loadVotes();

@@ -27,7 +27,7 @@ export const IDENTICON_CONFIG = {
     color: 1.0,
     grayscale: 1.0,
   },
-  backColor: '#12121bff',
+  backColor: '#0F0F0Fff',
 };
 
 export const AVATAR_CONFIG = {

@@ -13,6 +13,7 @@ import { BigNumber } from 'bignumber.js';
 import { IS_MOBILE_DEVICE } from '../../utils';
 
 export default {
+  namespaced: true,
   state: {
     sdk: null,
     useSdkWallet: false,
@@ -91,10 +92,10 @@ export default {
           await dispatch('initTippingContractIfNeeded');
         }
       } catch (err) {
-        commit('setBackendStatus', false);
+        commit('setBackendStatus', false, { root: true });
         return;
       }
-      commit('setBackendStatus', true);
+      commit('setBackendStatus', true, { root: true });
     },
     async scanForWallets({ commit, state: { sdk } }) {
       const scannerConnection = await BrowserWindowMessageConnection({
@@ -112,7 +113,7 @@ export default {
           const address = sdk.rpcClient.getCurrentAccount();
           if (!address) return;
           detector.stopScan();
-          commit('setAddress', address);
+          commit('setAddress', address, { root: true });
           resolve(address);
         });
       });

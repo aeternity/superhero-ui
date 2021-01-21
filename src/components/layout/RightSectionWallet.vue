@@ -7,7 +7,6 @@
       v-bind="$attrs"
       :closed="closed"
     >
-      <img src="../../assets/iconWallet.svg">
       {{ $t('components.layout.RightSection.Wallet') }}
     </RightSectionTitle>
 
@@ -113,8 +112,9 @@ export default {
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState('backend', ['prices']),
-    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency', 'tokenBalances',
+    ...mapState(['balance', 'address', 'selectedCurrency', 'tokenBalances',
       'tokenPrices', 'tokenInfo']),
+    ...mapState('aeternity', ['useIframeWallet']),
     currencyDropdownOptions() {
       return Object.entries(this.prices).map(([currency]) => ({ currency }));
     },
@@ -132,7 +132,8 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['updateCurrency', 'enableIframeWallet']),
+    ...mapMutations(['updateCurrency']),
+    ...mapMutations('aeternity', ['enableIframeWallet']),
     selectToken(option) {
       this.selectedToken = option;
       this.showCurrencyDropdown = option.token === null

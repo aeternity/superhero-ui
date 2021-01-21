@@ -77,7 +77,7 @@ export default {
     tipDeepLink: createDeepLinkUrl({ type: 'tip' }),
   }),
   computed: {
-    ...mapState({ useSdkWallet: ({ aeternity: { useSdkWallet } }) => useSdkWallet }),
+    ...mapState('aeternity', ['useSdkWallet']),
     isTipsRoute() {
       return ['feed', 'feed-search'].includes(this.$route.name);
     },

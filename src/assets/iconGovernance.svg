@@ -1,6 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.2 18.2">
-  <g id="_17" data-name="17" transform="translate(0.031 2)">
-    <path id="Path_30" data-name="Path 30" d="M9.84,15.569A2.271,2.271,0,1,1,7.569,13.3h.757V8H7.569a7.569,7.569,0,1,0,7.569,7.569v-.757H9.84Zm1.438.757h2.3A6.055,6.055,0,1,1,6.812,9.559v2.3a3.785,3.785,0,1,0,4.466,4.466Z" transform="translate(-0.031 -6.938)" fill="currentColor"/>
-    <path id="Path_31" data-name="Path 31" d="M26.757,0H26V5.3h.757a2.271,2.271,0,0,1,2.271,2.271v.757h5.3V7.569A7.569,7.569,0,0,0,26.757,0Zm3.709,6.812A3.785,3.785,0,0,0,27.514,3.86v-2.3a6.055,6.055,0,0,1,5.253,5.253Z" transform="translate(-16.157 -2)" fill="currentColor"/>
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>iconGovernance</title>
+    <g id="iconGovernance" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iconGovernance" transform="translate(-3.000000, -3.000000)">
+            <rect id="bound" x="0" y="0" width="25" height="25"></rect>
+            <path d="M13.5414489,4.23111217 C17.6522955,4.74361765 20.8333333,8.25032323 20.8333333,12.5 C20.8333333,17.1023729 17.1023729,20.8333333 12.5,20.8333333 C7.89762708,20.8333333 4.16666667,17.1023729 4.16666667,12.5 L4.17020309,12.7081393 L13.5416667,14.5833333 Z" id="Combined-Shape" fill="currentColor" opacity="0.439999998"></path>
+            <path d="M11.4583333,3.125 L11.4579133,12.083 L3.1879389,10.4290418 C3.68487935,6.39479273 7.06504575,3.25309306 11.2035606,3.12882028 L11.4583333,3.125 L11.4583333,3.125 Z" id="Combined-Shape-Copy" fill="currentColor"></path>
+        </g>
+    </g>
 </svg>

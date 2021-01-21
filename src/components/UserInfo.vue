@@ -264,11 +264,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(['chainNames']),
-    ...mapState({
-      sdk: ({ aeternity: { sdk } }) => sdk,
-      cookiesConsent: ({ aeternity: { cookiesConsent } }) => cookiesConsent,
-    }),
+    ...mapState(['cookiesConsent', 'chainNames']),
+    ...mapState('aeternity', ['sdk']),
     ...mapState({ currentAddress: 'address' }),
     userChainName() {
       return this.chainNames[this.address];
@@ -466,14 +463,14 @@ input[type="file"] {
     }
   }
 
-  .avatar-button {
-    background: #2a9cffa8;
+  .avatar__button {
+    background: #1161fea8;
     bottom: 0;
     left: 0;
     position: absolute;
 
     &:hover {
-      background: #2a9cffcc;
+      background: #1161fecc;
     }
   }
 
@@ -504,11 +501,11 @@ input[type="file"] {
     }
   }
 
-  .save-button {
-    background: #67f7b8a8;
+  .save__button {
+    background: #00ff9da8;
 
     &:hover {
-      background: #67f7b8cc;
+      background: #00ff9dcc;
     }
   }
 
@@ -825,7 +822,7 @@ input[type="file"] {
 
       &.active {
         color: $secondary_color;
-        background-color: #2a9cff50;
+        background-color: #1161fe50;
       }
     }
   }

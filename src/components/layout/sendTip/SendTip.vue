@@ -100,7 +100,7 @@ export default {
   computed: {
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState(['tokenInfo']),
-    ...mapState({ useSdkWallet: ({ aeternity: { useSdkWallet } }) => useSdkWallet }),
+    ...mapState('aeternity', ['useSdkWallet']),
 
     isTipAmountValid() {
       return this.inputToken !== null || (this.sendTipForm.amount > this.minTipAmount);
@@ -121,7 +121,7 @@ export default {
       const amount = shiftDecimalPlaces(this.sendTipForm.amount,
         this.inputToken !== null ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
-      this.$store.dispatch('tip', {
+      this.$store.dispatch('aeternity/tip', {
         url: this.sendTipForm.url,
         title: this.sendTipForm.title,
         amount,
@@ -169,15 +169,15 @@ export default {
   background-color: $actions_ribbon_background_color;
 
   form {
-    padding: 0.6rem 1rem 0 1rem;
+    padding: 12px 20px 0 20px;
   }
 
   .form-row {
-    margin-top: 1rem;
+    margin-top: 20px;
 
     .form-group {
-      border: 0.05rem solid $buttons_background;
-      border-radius: 0.25rem;
+      border: 1px solid $buttons_background;
+      border-radius: 6px;
       padding: 0;
 
       input,
@@ -199,8 +199,9 @@ export default {
     position: relative;
     background-color: $buttons_background;
     color: $standard_font_color;
-    border: 0.05rem solid $buttons_background;
-    border-radius: 0.25rem;
+    border-top: 1px solid $buttons_background;
+    border-bottom: 1px solid $buttons_background;
+    border-radius: 6px;
     padding: 0;
 
     input,
@@ -210,12 +211,18 @@ export default {
 
     &:focus-within {
       border-color: $secondary_color;
+      background-color: $background_color;
     }
 
     input {
       background-color: $buttons_background;
       color: $standard_font_color;
-      font-size: 0.75rem;
+      font-size: 14px;
+      padding: 8.5px 16px;
+    }
+
+    input:focus {
+      background-color: $background_color;
     }
   }
 
@@ -225,13 +232,13 @@ export default {
     input {
       &.comment {
         display: inline-block;
-        width: calc(100% - 3.01rem);
+        width: calc(100% - 60px);
       }
 
       background-color: $buttons_background;
       color: $standard_font_color;
-      font-size: 0.75rem;
-      height: 2.2rem;
+      font-size: 14px;
+      height: 40px;
     }
   }
 
@@ -247,9 +254,9 @@ export default {
 
   .tip-post-label {
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 16px;
     color: $standard_font_color;
-    padding: 0.375rem 0.5rem;
+    padding: 7.5px 10px;
     background-color: $light_color;
 
     label {
@@ -261,13 +268,13 @@ export default {
     width: 18px;
     height: 18px;
     position: absolute;
-    left: 0.55rem;
+    left: 11px;
     top: 50%;
     transform: translateY(-50%);
   }
 
-  .url-input {
-    padding-left: 2.1rem;
+  input.url-input {
+    padding-left: 42px;
 
     &:focus {
       box-shadow: none;
@@ -275,7 +282,7 @@ export default {
   }
 
   .closed-view.message-input {
-    padding: 1rem;
+    padding: 20px;
 
     textarea::placeholder {
       color: $standard_font_color;
@@ -283,8 +290,8 @@ export default {
   }
 
   .close-sendform {
-    width: 0.85rem;
-    height: 0.85rem;
+    width: 17px;
+    height: 17px;
     float: right;
 
     &:hover {
@@ -295,12 +302,12 @@ export default {
 
   .ae-button {
     width: 100%;
-    height: 2.2rem;
-    margin-top: 0.05rem;
-    margin-bottom: 1rem;
+    height: 40px;
+    margin-top: 1px;
+    margin-bottom: 1px;
 
     svg {
-      height: 1.1em;
+      height: 22px;
     }
   }
 

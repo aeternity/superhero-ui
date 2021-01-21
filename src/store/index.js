@@ -32,7 +32,7 @@ export default new Vuex.Store({
     tokenPrices: {},
     isHiddenContent: true,
     isBackendLive: true,
-    cookiesConsent: { },
+    cookiesConsent: {},
   },
   mutations,
   actions: {
@@ -46,7 +46,7 @@ export default new Vuex.Store({
       dispatch('backend/callWithAuth', { method: 'getCookiesConsent' })
         .then((list) => list.forEach(({ scope, status }) => commit('setCookiesConsent', { scope, status: status === 'ALLOWED' })));
     },
-    async getTokenBalance({ state: { sdk, address } }, contractAddress) {
+    async getTokenBalance({ state: { address, aeternity: { sdk } } }, contractAddress) {
       const tokenContract = await sdk
         .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress });
       const { decodedResult } = await tokenContract.methods.balance(address);

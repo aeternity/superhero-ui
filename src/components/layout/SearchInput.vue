@@ -63,11 +63,12 @@ export default {
 
 <style lang="scss" scoped>
 .search-input {
-  background-color: $article_content_color;
-  border: 0.05rem solid transparent;
+  background-color: $buttons_background;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 14px;
 
   &.focused {
     border-color: $secondary_color;
@@ -78,25 +79,30 @@ export default {
     border: none;
     outline: none;
     flex-grow: 1;
-    font-size: 0.75rem;
+    font-size: 14px;
+    line-height: 22.65px;
     color: $standard_font_color;
-    padding: 1.05rem 1rem;
+    padding: 8.5px 16px;
 
     ~ * {
-      margin-right: 0.5rem;
+      margin-right: 10px;
+    }
+
+    &:focus {
+      background-color: $background_color;
     }
   }
 
   svg {
-    height: 1rem;
+    height: 20px;
     width: auto;
   }
 
   &.sided {
-    height: 2.2rem;
+    height: 44px;
 
     input ~ * {
-      margin-right: 1rem;
+      margin-right: 20px;
     }
   }
 }

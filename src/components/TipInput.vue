@@ -110,7 +110,7 @@ export default {
   }),
   computed: {
     ...mapState(['address', 'tokenInfo']),
-    ...mapState({ useSdkWallet: ({ aeternity: { useSdkWallet } }) => useSdkWallet }),
+    ...mapState('aeternity', ['useSdkWallet']),
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
@@ -183,14 +183,14 @@ export default {
           this.inputToken !== null ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
         if (!this.tip) {
-          await this.$store.dispatch('tip', {
+          await this.$store.dispatch('aeternity/tip', {
             url: this.tipUrl,
             title: this.message,
             amount,
             tokenAddress: this.inputToken,
           });
         } else {
-          await this.$store.dispatch('retip', {
+          await this.$store.dispatch('aeternity/retip', {
             contractAddress: this.tip.contractId,
             id: this.tip.id,
             amount,
@@ -256,7 +256,7 @@ export default {
 
   .not-bootstrap-modal > ::v-deep .not-bootstrap-modal-content {
     background-color: $article_content_color;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     margin-top: 0.25rem;
     min-width: 19rem;
     padding: 1rem;

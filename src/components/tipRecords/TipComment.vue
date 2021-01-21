@@ -60,7 +60,7 @@ export default {
 .tip-comment {
   margin-bottom: 0.5rem;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   background-color: $light_color;
 
   @include smallest {

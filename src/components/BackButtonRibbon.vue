@@ -61,13 +61,8 @@ export default {
     justify-content: flex-start;
   }
 
-  img {
-    width: 1rem;
-    height: 1rem;
-
-    &:hover {
-      cursor: pointer;
-    }
+  img:hover {
+    cursor: pointer;
   }
 
   .title {

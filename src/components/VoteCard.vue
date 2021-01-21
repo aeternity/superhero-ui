@@ -350,6 +350,12 @@ export default {
     width: 9rem;
     border-radius: 0.3rem;
     overflow: hidden;
+    height: 2.3rem;
+
+    @include mobile {
+      width: 100%;
+      margin-top: 8px;
+    }
   }
 
   .vote-progress {
@@ -363,9 +369,10 @@ export default {
     font-weight: normal;
     height: 100%;
     color: $pure_white;
-    line-height: 2rem;
+    line-height: 2.3rem;
     font-size: 1rem;
     padding-left: 0.7rem;
+    vertical-align: middle;
 
     &.timeouted {
       text-align: center;
@@ -385,7 +392,6 @@ export default {
   }
 
   .ae-button {
-    height: 100%;
     font-weight: bold;
     font-size: 0.8rem;
   }
@@ -393,10 +399,9 @@ export default {
   .input-bar {
     margin-top: -0.4rem;
     display: flex;
-    height: 2rem;
     width: 100%;
-    height: 32px;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     & > * {
       margin-left: 0.4rem;
@@ -409,6 +414,10 @@ export default {
     & > *:last-child {
       justify-content: flex-end;
       margin-left: auto;
+    }
+
+    @include mobile {
+      height: 100%;
     }
   }
 

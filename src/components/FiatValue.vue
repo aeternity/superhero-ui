@@ -46,7 +46,7 @@ export default {
 
       const fiatValue = new BigNumber(shiftDecimalPlaces(this.amount, shiftBy))
         .multipliedBy(price).multipliedBy(this.rate)
-        .toNumber();
+        .toNumber() || 0;
 
       return this.noSymbol ? fiatValue.toFixed(2) : fiatValue
         .toLocaleString('en-US', { style: 'currency', currency: this.showCurrency });

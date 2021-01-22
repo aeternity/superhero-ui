@@ -270,9 +270,11 @@ export default {
       try {
         const amount = shiftDecimalPlaces(this.sellAmount, 18).toFixed();
 
-        await this.$store.dispatch('aeternity/createOrChangeAllowance',
-          this.tokenAddress, amount, this.sale.replace('ct_', 'ak_'))
-          .catch(() => { throw new Error('Insufficient Account Balance'); });
+        await this.$store.dispatch('aeternity/createOrChangeAllowance', {
+          contractAddress: this.tokenAddress,
+          amount,
+          forAccount: this.sale.replace('ct_', 'ak_'),
+        }).catch(() => { throw new Error('Insufficient Account Balance'); });
         await this.$store.dispatch('aeternity/tokenSaleMethod',
           {
             contractAddress: this.sale,

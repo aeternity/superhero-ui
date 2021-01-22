@@ -130,6 +130,8 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js';
+import { mapState } from 'vuex';
 import { EventBus } from '../utils/eventBus';
 import Backend from '../utils/backend';
 import { shiftDecimalPlaces } from '../utils';
@@ -165,6 +167,9 @@ export default {
     loading: false,
     progressMessage: '',
   }),
+  computed: {
+    ...mapState(['tokenInfo']),
+  },
   methods: {
     isZero(number) {
       return new BigNumber(number).isZero();
@@ -173,7 +178,9 @@ export default {
       this.loading = true;
       this.progressMessage = this.$t('components.VoteCard.RevokeVote');
       try {
-        await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'revoke_vote');
+        await this.$store.dispatch('aeternity/tokenVotingMethod', {
+          contractAddress: address, method: 'revoke_vote',
+        });
         await Backend.invalidateWordSaleVoteStateCache(address);
       } catch (error) {
         this.$store.dispatch('modals/open', {
@@ -218,7 +225,9 @@ export default {
       this.loading = true;
       this.progressMessage = this.$t('components.VoteCard.Withdraw');
       try {
-        await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'withdraw');
+        await this.$store.dispatch('aeternity/tokenVotingMethod', {
+          contractAddress: address, method: 'withdraw',
+        });
         await Backend.invalidateWordSaleVoteStateCache(address);
       } catch (error) {
         this.$store.dispatch('modals/open', {
@@ -238,13 +247,20 @@ export default {
       this.loading = true;
       this.progressMessage = this.$t('components.VoteCard.VoteOption[0]');
       try {
-        await this.initTokenVotingContract(address);
         const shiftedAmount = shiftDecimalPlaces(amount,
           this.tokenInfo[this.data.tokenAddress].decimals).toFixed();
 
-        await this.$store.dispatch('aeternity/createOrChangeAllowance', this.data.tokenAddress, shiftedAmount, address.replace('ct_', 'ak_'));
+        await this.$store.dispatch('aeternity/createOrChangeAllowance', {
+          contractAddress: this.data.tokenAddress,
+          amount: shiftedAmount,
+          forAccount: address.replace('ct_', 'ak_'),
+        });
+
         this.progressMessage = this.$t('components.VoteCard.VoteOption[1]');
-        await this.$store.dispatch('aeternity/tokenVotingMethod', address, 'vote', [option, shiftedAmount]);
+        await this.$store.dispatch('aeternity/tokenVotingMethod', {
+          contractAddress: address, method: 'vote', args: [option, shiftedAmount],
+        });
+
         await Backend.invalidateWordSaleVoteStateCache(address);
       } catch (error) {
         this.$store.dispatch('modals/open', {

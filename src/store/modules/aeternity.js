@@ -271,10 +271,12 @@ export default {
     },
     async tokenVotingMethod(
       { dispatch },
-      contractAddress,
-      method,
-      args,
-      options,
+      {
+        contractAddress,
+        method,
+        args = [],
+        options = {},
+      },
     ) {
       const contract = await dispatch('initTokenVotingContractIfNeeded', contractAddress);
 
@@ -294,28 +296,24 @@ export default {
       return new BigNumber(decodedResult || 0).toFixed();
     },
     async createOrChangeAllowance(
-      { dispatch, state: { fungibleTokenContracts, sdk } },
-      contractAddress,
-      amount,
-      forAccount = null,
+      { dispatch, state: { sdk } },
+      { contractAddress, amount, forAccount = null },
     ) {
-      await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
+      const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
 
-      const { decodedResult } = await fungibleTokenContracts[contractAddress]
-        .methods.allowance({
-          from_account: await sdk.address(),
-          for_account: forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
-        });
+      const { decodedResult } = await contract.methods.allowance({
+        from_account: await sdk.address(),
+        for_account: forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+      });
 
       const allowanceAmount = decodedResult !== undefined
         ? new BigNumber(decodedResult).multipliedBy(-1).plus(amount).toNumber()
         : amount;
 
-      return fungibleTokenContracts[contractAddress]
-        .methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
-          forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
-          allowanceAmount,
-        );
+      return contract.methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
+        forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+        allowanceAmount,
+      );
     },
     async tip({ dispatch, state: { contractV2, contractV1 } }, {
       url,
@@ -326,7 +324,7 @@ export default {
       await dispatch('initTippingContractIfNeeded');
 
       if (tokenAddress && tokenAddress !== 'native') {
-        await dispatch('createOrChangeAllowance', tokenAddress, amount);
+        await dispatch('createOrChangeAllowance', { contractAddress: tokenAddress, amount });
         return contractV2.methods.tip_token(url, title, tokenAddress, amount);
       }
 
@@ -349,7 +347,7 @@ export default {
       await dispatch('initTippingContractIfNeeded');
 
       if (tokenAddress && tokenAddress !== 'native') {
-        await dispatch('createOrChangeAllowance', tokenAddress, amount);
+        await dispatch('createOrChangeAllowance', { contractAddress: tokenAddress, amount });
         return contractV2.methods.retip_token(Number(id.split('_')[0]), tokenAddress, amount);
       }
 

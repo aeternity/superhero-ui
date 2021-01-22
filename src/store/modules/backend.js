@@ -4,7 +4,6 @@ import { times } from 'lodash-es';
 // eslint-disable-next-line import/no-cycle
 import { createDeepLinkUrl } from '../../utils';
 
-// todo: getters
 export default {
   namespaced: true,
   state: {
@@ -167,10 +166,6 @@ export default {
       });
       commit('setCookiesConsent', { scope, status }, { root: true });
     },
-    /*
-      not sure that 'wrapTry' shuld be the part of the store actions
-      untill it's not realtaed to the store and it's just the util
-    */
     async wrapTry({ commit }, promise) {
       try {
         return promise.then((res) => {
@@ -190,10 +185,6 @@ export default {
         return null;
       }
     },
-    /*
-      not sure that 'backendFetch' shuld be the part of the store actions
-      untill it's not realtaed to the store and it's just the util
-    */
     backendFetch: ({ dispatch }, path, ...args) => dispatch(
       'wrapTry',
       fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err)),
@@ -299,7 +290,7 @@ export default {
     getTipTraceBlockchain: ({ dispatch }, id) => dispatch('backendFetch', `tracing/blockchain?id=${id}`),
     getCookiesConsent: async ({ dispatch }, address, query) => dispatch(
       'backendFetch',
-      `consent/${address}${query ? `?challenge=${query.challenge}&signature=${query.signature}` : ''}`
+      `consent/${address}${query ? `?challenge=${query.challenge}&signature=${query.signature}` : ''}`,
     ),
     setCookiesConsent: async ({ dispatch }, address, { scope, status }) => dispatch(
       'backendFetch',

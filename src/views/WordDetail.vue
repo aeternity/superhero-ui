@@ -305,12 +305,9 @@ export default {
   },
   methods: {
     async reloadData() {
-      this.wordRegistryState = await Backend.getWordRegistry();
-
-      // eslint-disable-next-line prefer-destructuring
+      this.wordRegistryState = await Backend.getWordRegistry('', '', this.selectedWord);
       this.saleContractAddress = this.wordRegistryState
-        .find((word) => word.word === this.selectedWord).sale;
-
+        .find(({ word }) => word === this.selectedWord).sale;
       await this.loadSpread();
       await this.loadVotes();
     },

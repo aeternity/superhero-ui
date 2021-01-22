@@ -295,7 +295,7 @@ export default {
     this.loading = false;
     EventBus.$on('reloadData', async (callback) => {
       await this.reloadData();
-      callback();
+      if (callback) callback();
     });
     setInterval(() => this.reloadData(), 120 * 1000);
   },
@@ -369,6 +369,7 @@ export default {
     },
     async loadVotes() {
       let votes = await Backend.getWordSaleVotesDetails(this.saleContractAddress);
+      await this.$watchUntilTruly(() => this.$store.state.aeternity.sdk);
       const height = await this.$store.dispatch('aeternity/getHeight');
       votes = votes.map((vote) => this.calculateVoteStatus(vote, height));
 
@@ -401,7 +402,6 @@ export default {
 
         this.progressMessage = this.$t('views.WordDetail.CreateVote.ProgressMessage[1]');
 
-        await this.initSaleContract();
         await this.$store.dispatch('aeternity/tokenSaleMethod',
           {
             contractAddress: this.saleContractAddress,

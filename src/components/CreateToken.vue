@@ -143,7 +143,6 @@
 
 <script>
 import Backend from '../utils/backend';
-import Loading from './Loading.vue';
 import { EventBus } from '../utils/eventBus';
 import AeButton from './AeButton.vue';
 import RightArrow from '../assets/rightArrow.svg?icon-component';
@@ -152,7 +151,6 @@ export default {
   name: 'WordListing',
   components: {
     AeButton,
-    Loading,
     RightArrow,
   },
   props: {
@@ -196,9 +194,9 @@ export default {
         this.step = 3;
         const fungibleTokenAddress = await this.$store.dispatch('aeternity/deployFungibleTokenContract',
           {
-            name: `${this.newWord} Token`,
+            name: this.name,
             decimals,
-            symbol: this.newWord,
+            symbol: this.ticker,
             tokenSaleAddress: tokenSaleAddress.replace('ct_', 'ak_'),
           });
         await Backend.addToken(fungibleTokenAddress);

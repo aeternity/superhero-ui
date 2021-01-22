@@ -11,6 +11,7 @@ import backend from './modules/backend';
 import aeternity from './modules/aeternity';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
+import Middleware from '../utils/middleware';
 
 Vue.use(Vuex);
 
@@ -46,24 +47,25 @@ export default new Vuex.Store({
       dispatch('backend/callWithAuth', { method: 'getCookiesConsent' })
         .then((list) => list.forEach(({ scope, status }) => commit('setCookiesConsent', { scope, status: status === 'ALLOWED' })));
     },
-    async getTokenBalance({ state: { address, aeternity: { sdk } } }, contractAddress) {
-      const tokenContract = await sdk
-        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT, { contractAddress });
-      const { decodedResult } = await tokenContract.methods.balance(address);
-      return new BigNumber(decodedResult || 0).toFixed();
+    async getTokenBalance({ state: { address } }, contractAddress) {
+      const result = await Middleware.getAex9Balance(contractAddress, address);
+      return new BigNumber(result.amount || 0).toFixed();
     },
     async updateTokensBalanceAndPrice({ state: { address }, commit, dispatch }) {
       const tokens = await Backend.getTokenBalances(address);
+      const knownTokens = (await Backend.getWordRegistry()).map((item) => item.tokenAddress);
       await Promise.all(Object.entries(tokens).map(async ([token]) => {
         commit('addTokenBalance', {
           token,
           balance: await dispatch('getTokenBalance', token),
         });
-        commit('addTokenPrice', {
-          token,
-          price: await Backend.getWordSaleDetailsByToken(token)
-            .then((s) => s.buyPrice).catch(() => null),
-        });
+        if (knownTokens.includes(token)) {
+          commit('addTokenPrice', {
+            token,
+            price: await Backend.getWordSaleDetailsByToken(token)
+              .then((s) => s.buyPrice).catch(() => null),
+          });
+        }
       }));
     },
   },

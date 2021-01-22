@@ -202,11 +202,11 @@ export default {
       try {
         await this.$store.dispatch('aeternity/tokenSaleMethod',
           {
-            contractAddress: this.saleContractAddress,
+            contractAddress: this.contractAddress,
             method: 'apply_vote_subject',
             args: [id],
           });
-        await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
+        await Backend.invalidateWordSaleVotesCache(this.contractAddress);
       } catch (error) {
         this.$store.dispatch('modals/open', {
           name: 'failure',

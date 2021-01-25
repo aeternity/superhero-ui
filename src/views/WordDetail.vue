@@ -593,11 +593,6 @@ h3 {
   padding-left: 0.1rem;
 }
 
-.abbreviation {
-  font-weight: 500;
-  color: #1161fe;
-}
-
 .plus {
   transition: transform 0.5s;
 

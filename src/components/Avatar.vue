@@ -23,6 +23,7 @@ export default {
   },
   data: () => ({
     error: false,
+    profileImageUrl: '',
   }),
   computed: mapState({
     profileIdenticonUrl({ chainNames }) {
@@ -31,15 +32,10 @@ export default {
         ? new Avatars(sprites, AVATAR_CONFIG).create(name)
         : `data:image/svg+xml;base64,${btoa(jdenticon.toSvg(this.address, 32))}`;
     },
-    profileImageUrl({ address, profile }) {
-      const key = address === this.address && profile?.signature?.slice(0, 5);
-      return `${this.$store.dispatch('backend/getProfileImageUrl', this.address)}?${key || ''}`;
-    },
   }),
-  watch: {
-    profileImageUrl() {
-      this.error = false;
-    },
+  async created() {
+    const key = this.profile?.signature?.slice(0, 5);
+    this.profileImageUrl = `${await this.$store.dispatch('backend/getProfileImageUrl', this.address)}?${key || ''}`;
   },
 };
 </script>

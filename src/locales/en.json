@@ -585,6 +585,16 @@
         "{ticker} token was not added to WordBazaar."
       ]
     },
+    "GetAe": {
+      "Platforms": [
+        { "Text": "BTC/{ae} ETH/{ae}", "Link": "https://jelly.market/" },
+        {
+          "Text": "Discover more {ae} exchanges",
+          "Link": "https://coinmarketcap.com/en/currencies/aeternity/"
+        },
+        { "Text": "Testnet {ae} tokens", "Link": "https://faucet.aepps.com/" }
+      ]
+    },
     "WordListing": {
       "Asset": "Asset",
       "BuyPrice": "Buy Price",

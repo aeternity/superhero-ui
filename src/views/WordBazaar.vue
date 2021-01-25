@@ -65,6 +65,7 @@
       v-if="activity === 'create'"
       :navigate-assets="() => activity = 'assets'"
     />
+    <GetAe v-if="activity === 'getae'" />
   </div>
 </template>
 
@@ -77,6 +78,7 @@ import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
 import CreateToken from '../components/CreateToken.vue';
+import GetAe from '../components/GetAe.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
 import IconHelp2 from '../assets/iconHelp2.svg?icon-component';
 import IconTokens from '../assets/iconTokens.svg?icon-component';
@@ -94,6 +96,7 @@ export default {
     ActivityRibbon,
     TabBar,
     CreateToken,
+    GetAe,
     IconPlus,
     IconSearch,
     SearchInput,
@@ -193,5 +196,10 @@ a {
 
 h2 {
   margin-top: 1rem;
+}
+
+::v-deep .abbreviation {
+  font-weight: 500;
+  color: $secondary_color;
 }
 </style>

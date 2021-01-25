@@ -173,6 +173,14 @@ export default {
     goToTip: { type: Function, required: true },
     tipUrl: { type: String, default: '' },
   },
+  data: () => ({
+    tipPreviewImage: '',
+  }),
+  async created() {
+    this.tipPreviewImage = this.isPreviewToBeVisualized
+      && this.tip.preview.image !== null
+      ? await this.$store.dispatch('backend/getTipPreviewUrl', this.tip.preview.image) : '';
+  },
   computed: {
     sourceUrl() {
       try {
@@ -186,11 +194,6 @@ export default {
     },
     tipPreviewTitle() {
       return this.tip?.preview?.title || '';
-    },
-    tipPreviewImage() {
-      return this.isPreviewToBeVisualized
-      && this.tip.preview.image !== null
-        ? this.$store.dispatch('backend/getTipPreviewUrl', this.tip.preview.image) : '';
     },
     isPreviewToBeVisualized() {
       return this.tip.preview && (this.tip.preview.description || this.tip.preview.title);

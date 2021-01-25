@@ -424,9 +424,4 @@ export default {
   align-items: flex-end;
   justify-content: center;
 }
-
-.abbreviation {
-  font-weight: 500;
-  color: #1161fe;
-}
 </style>

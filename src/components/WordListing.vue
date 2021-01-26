@@ -74,6 +74,7 @@
           :amount="data.totalSupply"
           :token="data.tokenAddress"
           no-symbol
+          class="supply"
         />
       </div>
 
@@ -125,8 +126,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .word-listing {
+  color: $light_font_color;
+
   .iconSort {
     margin-top: -0.2rem;
 
@@ -154,6 +156,10 @@ export default {
   .word-listing-column {
     flex: 0 0 25%;
     width: 25%;
+
+    .supply {
+      color: $tip_note_color;
+    }
   }
 
   &.word-listing-heading {

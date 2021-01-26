@@ -23,7 +23,10 @@
       </div>
       <div class="vote-row">
         <Avatar :address="vote.subject.VotePayout[0]" />
-        <p>{{ description }}</p>
+        <div class="arrow" />
+        <div class="text-box">
+          <p>{{ description }}</p>
+        </div>
       </div>
       <div class="vote-row">
         <div class="vote-row-start">
@@ -307,12 +310,31 @@ export default {
     display: flex;
     margin-bottom: 0.6rem;
 
-    .avatar {
-      margin-right: 16px;
+    .arrow {
+      flex-shrink: 0;
+      height: 16px;
+      width: 16px;
+      background-color: $buttons_background;
+      transform: rotate(45deg);
+      margin-top: 12px;
+      margin-left: 12px;
+      margin-right: -8px;
     }
 
-    p {
-      word-break: break-word;
+    .text-box {
+      flex-grow: 1;
+      background-color: $buttons_background;
+      display: flex;
+      border: 1px solid transparent;
+      border-radius: 6px;
+
+      p {
+        word-break: break-word;
+        padding: 8.5px 16px;
+        margin: 0;
+        color: $tip_note_color;
+        font-weight: 400;
+      }
     }
 
     .vote-row-start {

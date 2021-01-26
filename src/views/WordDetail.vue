@@ -259,7 +259,7 @@ export default {
     newVotePayout: '',
     activity: 'info',
     activeTab: 'ongoing',
-    ribbonTabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Voting', activity: 'voting' }],
+    ribbonTabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Funds release vote', activity: 'voting' }],
     tabs: [{ text: 'Ongoing Votes', tab: 'ongoing' }, { text: 'Past Votes', tab: 'past' }, { text: 'My Votes', tab: 'my' }],
     loading: false,
     progressMessage: '',
@@ -485,7 +485,7 @@ h3 {
   display: flex;
   flex-direction: row;
 
-  @include smallest {
+  @include mobile {
     flex-wrap: wrap;
   }
 
@@ -510,16 +510,13 @@ h3 {
 
     @include mobile {
       font-size: 0.6rem;
+      width: 40%;
+      margin: 8px;
 
       h3 {
         font-size: 0.8rem;
         line-height: 1rem;
       }
-    }
-
-    @include smallest {
-      width: 40%;
-      margin: 8px;
     }
   }
 }

@@ -646,6 +646,19 @@
     "WordBazaar": {
       "Title": "WordBazaar",
       "Placeholder": "Search for assets"
+    },
+    "HowItWorks": {
+      "Title": "How it works",
+      "Subtitle": "The WordBazaar would enable anyone—even with absolutely zero development skills—to create and issue tokens.",
+      "Text": [
+        {"Paragraph": "Launching tokens on æternity will no longer be exclusive to those who can afford developer teams or to those with development skills themselves. Anyone can launch and issue tokens within a few clicks, and in less than 5 minutes."},
+        {"Header": "Token profile", "Paragraph": "By clicking on the token name – the token profile will appear with additional information (Ticker, Current Price, Sell Price, Circulating Supply, Asset name, description) and option to start Voting (but also see your votes, and past votes)."},
+        {"Header": "Powered by bonding curve", "Paragraph": "A bonding curve is a mathematical formula used to set a relationship between a token’s price and its supply. Launching a token in this way entails a bonding curve smart contract. Once this contract is launched, users can buy or sell into the curve. Buying pushes the token price up along the curve, while selling pushes the token price down along the curve."},
+        {"Header": "Voting on Payout spread", "Paragraph": "Payout spread of the token is the difference between the token's buy price and sell price - in a similar vein to how fiat currency exchange rates work. Users that have bought any amount of the token can then vote on the payout spread to be paid out to the creator of the smart contract, . If  the creator has earned the communities trust, they can then vote on, essentially, releasing a portion of the tokens to be used by the creator of the smart contract."},
+        {"Header": "Token buy/sell options", "Paragraph": "Initial price of the created token will be fixed at 1.5Æ along with a BUY token option. The SELL token option will not be available, as there is no supply yet (not possible to sell without buying first). For each activity you must confirm the transaction (pop-up windows approved)."},
+        {"Header": "Tip and vote options", "Paragraph": "Your just created, custom, token can be used immediately! Enjoy tipping on the Superhero platform, or starting polls. By choosing currency, you can tip in Æ token, your token, token you bought...unlimited possibilities.{hr}An accessible tokenization platform opens up an entire universe of micro-economies where everyone, not just big companies, can thrive.{hr}Note: This feature will slowly be rolled out before going fully public. In the long term, these tokenized words can represent any asset, whether real-world or digital.{hr}Learn more:{link}"}
+      ],
+      "Link": "http://wordbazaar.superhero.com/"
     }
   },
   "Networking": {

@@ -63,7 +63,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
-import { createDeepLinkUrl, shiftDecimalPlaces } from '../../../utils';
+import { createDeepLinkUrl, shiftDecimalPlaces, validateTipUrl } from '../../../utils';
 import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
@@ -106,12 +106,11 @@ export default {
       return this.inputToken !== null || (this.sendTipForm.amount > this.minTipAmount);
     },
     isSendTipDataValid() {
-      const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
       return this.isTipAmountValid
           && this.sendTipForm.url.length > 0
           && this.sendTipForm.title.length > 0
-          && urlRegex.test(this.sendTipForm.url)
+          && validateTipUrl(this.sendTipForm.url)
           && !this.isBlacklistedUrl;
     },
   },

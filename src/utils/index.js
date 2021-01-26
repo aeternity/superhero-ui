@@ -1,5 +1,6 @@
 import { get } from 'lodash-es';
 import BigNumber from 'bignumber.js';
+import isFQDN from 'is-fqdn';
 import i18n from './i18nHelper';
 
 export const topicsRegex = /(#[a-zA-Z]+\b)(?!;)/g;
@@ -50,6 +51,17 @@ export const createDeepLinkUrl = ({ type, ...params }) => {
   return url;
 };
 
+export const toURL = (url) => new URL(url.includes('://') ? url : `https://${url}`);
+
+export const validateTipUrl = (urlAsString) => {
+  try {
+    const url = toURL(urlAsString);
+    return ['http:', 'https:'].includes(url.protocol) && isFQDN(url.hostname);
+  } catch (e) {
+    return false;
+  }
+};
+
 const getTwitterAccountUrl = (url) => {
   const match = url.match(/https:\/\/twitter.com\/[a-zA-Z0-9_]+/g);
   return match ? match[0] : false;
@@ -61,8 +73,8 @@ export const urlStatus = (tipUrl, verifiedUrls, blacklistedUrls) => {
   const url = twitterProfile || tipUrl;
 
   if (blacklistedUrls.some((u) => url.includes(u))) return 'blacklisted';
-  if (url.startsWith('http') && !url.startsWith('https:')) return 'not-secure';
   if (verifiedUrls.includes(url)) return 'verified';
+  if (validateTipUrl(url) && url.startsWith('http:')) return 'not-secure';
   return 'not-verified';
 };
 

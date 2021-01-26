@@ -2,7 +2,7 @@
   <div class="word-bazaar">
     <BackButtonRibbon hide-back>
       <template v-slot:title>
-        <span>{{ $t('components.WordBazaar.Title') }}</span>
+        <span>{{ ribbonTabs.find((a) => a.activity === activity).header }}</span>
       </template>
     </BackButtonRibbon>
 
@@ -112,10 +112,18 @@ export default {
     direction: 'desc',
     search: '',
     ribbonTabs: [
-      { icon: IconTokens, text: 'Assets', activity: 'assets' },
-      { icon: IconPlus, text: 'Create token', activity: 'create' },
-      { icon: IconAe, text: 'Get AE', activity: 'getae' },
-      { icon: IconHelp2, text: 'How it works', activity: 'how' },
+      {
+        icon: IconTokens, text: 'Assets', activity: 'assets', header: 'WordBazaar Assets',
+      },
+      {
+        icon: IconPlus, text: 'Create token', activity: 'create', header: 'Create Token',
+      },
+      {
+        icon: IconAe, text: 'Get AE', activity: 'getae', header: 'Get AE Tokens',
+      },
+      {
+        icon: IconHelp2, text: 'How it works', activity: 'how', header: 'How It Works?',
+      },
     ],
     tabs: [
       { text: 'All tokens', tab: 'all' },
@@ -159,6 +167,16 @@ export default {
 
 <style lang="scss" scoped>
 .word-bazaar {
+  .actions-ribbon {
+    background-color: $actions_ribbon_background_color;
+    color: $standard_font_color;
+  }
+
+  .activity-ribbon,
+  .tab-bar {
+    background-color: $buttons_background;
+  }
+
   ::v-deep .search-input {
     border-radius: 0.5rem;
 

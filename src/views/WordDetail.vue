@@ -23,7 +23,7 @@
           class="asset_details__info"
         >
           <div class="info-item">
-            <h3>{{ $t('views.WordDetail.Ticker') }}</h3>
+            <h3>{{ $t('views.WordDetail.Abbreviation') }}</h3>
             <div>{{ selectedWord }}</div>
           </div>
           <div class="info-item">

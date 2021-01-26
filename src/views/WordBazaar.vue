@@ -66,6 +66,7 @@
       :navigate-assets="() => activity = 'assets'"
     />
     <GetAe v-if="activity === 'getae'" />
+    <HowItWorks v-if="activity === 'how'" />
   </div>
 </template>
 
@@ -79,6 +80,7 @@ import ActivityRibbon from '../components/ActivityRibbon.vue';
 import TabBar from '../components/TabBar.vue';
 import CreateToken from '../components/CreateToken.vue';
 import GetAe from '../components/GetAe.vue';
+import HowItWorks from '../components/HowItWorks.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
 import IconHelp2 from '../assets/iconHelp2.svg?icon-component';
 import IconTokens from '../assets/iconTokens.svg?icon-component';
@@ -97,6 +99,7 @@ export default {
     TabBar,
     CreateToken,
     GetAe,
+    HowItWorks,
     IconPlus,
     IconSearch,
     SearchInput,

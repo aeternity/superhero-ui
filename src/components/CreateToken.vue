@@ -17,8 +17,8 @@
           tag="p"
           class="step-description"
         >
-          <template #ticker>
-            <span class="abbreviation">{{ ticker }}</span>
+          <template #abbreviation>
+            <span class="abbreviation">{{ abbreviation }}</span>
           </template>
           <template #step>
             {{ $t(`components.CreateToken.Steps[${step}]`) }}
@@ -85,18 +85,18 @@
           >{{ `${description.length} / 500` }}</span>
         </div>
         <div>
-          <label for="ticker">
+          <label for="abbreviation">
             {{ loadingState ?
               $t('components.CreateToken.Abbreviation') :
               $t('components.CreateToken.AbbreviationLong') }}
           </label>
-          <div class="ticker">
+          <div class="abbreviation">
             <div>
               <input
                 v-if="!loadingState"
-                id="ticker"
-                v-model="ticker"
-                placeholder="Enter token ticker *"
+                id="abbreviation"
+                v-model="abbreviation"
+                placeholder="Enter token abbreviation *"
                 class="form-control"
                 minlength="1"
                 maxlength="6"
@@ -106,12 +106,12 @@
                 v-else
                 class="abbreviation"
               >
-                {{ ticker }}
+                {{ abbreviation }}
               </span>
               <span
                 v-if="!loadingState"
                 class="right"
-              >{{ `${ticker.length} / 6` }}</span>
+              >{{ `${abbreviation.length} / 6` }}</span>
             </div>
             <AeButton
               v-if="success"
@@ -124,7 +124,8 @@
             </AeButton>
             <AeButton
               v-else
-              :disabled="loadingState || !name.length || !description.length || !ticker.length"
+              :disabled="loadingState ||
+                !name.length || !description.length || !abbreviation.length"
               @click="createWordSale"
             >
               <RightArrow />
@@ -162,7 +163,7 @@ export default {
   data: () => ({
     name: '',
     description: '',
-    ticker: '',
+    abbreviation: '',
     loadingState: false,
     step: 0,
     success: false,
@@ -196,7 +197,7 @@ export default {
           {
             name: this.name,
             decimals,
-            symbol: this.ticker,
+            symbol: this.abbreviation,
             tokenSaleAddress: tokenSaleAddress.replace('ct_', 'ak_'),
           });
         await Backend.addToken(fungibleTokenAddress);
@@ -229,14 +230,14 @@ export default {
               index: this.step + 1,
               step: this.$t(`components.CreateToken.Steps[${this.step}]`),
             }),
-            this.$t('components.CreateToken.Error[1]', { ticker: this.ticker }),
+            this.$t('components.CreateToken.Error[1]', { abbreviation: this.abbreviation }),
           ],
           hideIcon: true,
           primaryButtonText: 'OK',
         });
         this.name = '';
         this.description = '';
-        this.ticker = '';
+        this.abbreviation = '';
         this.loadingState = false;
         this.step = 0;
         this.success = false;
@@ -389,7 +390,7 @@ export default {
       word-break: break-word;
     }
 
-    .ticker {
+    .abbreviation {
       display: flex;
       justify-content: space-between;
 

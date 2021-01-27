@@ -52,6 +52,8 @@ export default {
       this.initWallet(),
       this.reloadData(),
     ]);
+
+    EventBus.$on('maintenance', () => this.$router.push({ name: 'maintenance' }));
   },
   methods: {
     ...mapMutations([

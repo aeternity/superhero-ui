@@ -1,22 +1,21 @@
 // eslint-disable-next-line import/no-cycle
-import store from '../store';
+import { EventBus } from './eventBus';
 
 const wrapTry = async (promise) => {
   try {
     return promise.then((res) => {
       if (!res) {
-        store.commit('setBackendStatus', false);
+        EventBus.$emit('maintenance');
         return null;
       }
-      store.commit('setBackendStatus', true);
-      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
+      if (!res.ok) EventBus.$emit('maintenance');
       return res.json();
-    }).catch((error) => {
-      console.error(error);
+    }).catch(() => {
+      EventBus.$emit('maintenance');
       return null;
     });
   } catch (err) {
-    store.commit('setBackendStatus', false);
+    EventBus.$emit('maintenance');
     return null;
   }
 };

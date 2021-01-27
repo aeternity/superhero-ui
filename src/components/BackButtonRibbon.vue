@@ -45,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 .actions-ribbon {
   padding: 0.6rem 1.05rem;
-  background-color: $article_content_color;
+  background-color: $actions_ribbon_background_color;
   position: sticky;
   top: 0;
   line-height: 1.2rem;

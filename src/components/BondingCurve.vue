@@ -1,5 +1,6 @@
 <script>
 import { Scatter } from 'vue-chartjs';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'BondingCurve',
@@ -14,11 +15,12 @@ export default {
     this.renderChart(this.chartData, this.chartOptions);
   },
   computed: {
+    ...mapGetters(['roundedTokenAmount']),
     chartData() {
-      const sellPrice = this.data.sellPrice / 1000000000000000000;
-      const buyPrice = this.data.buyPrice / 1000000000000000000;
-      const supply = this.data.totalSupply / 1000000000000000000;
-      const borderDash = [4];
+      const token = this.data.tokenAddress;
+      const sellPrice = this.roundedTokenAmount(this.data.sellPrice, token, 2, true);
+      const buyPrice = this.roundedTokenAmount(this.data.buyPrice, token, 2, true);
+      const supply = this.roundedTokenAmount(this.data.totalSupply, token, 2, true);
       return {
         showLines: true,
         datasets: [
@@ -47,7 +49,7 @@ export default {
               { x: supply, y: 0 },
             ],
             borderColor: '#1161fe',
-            borderDash,
+            borderDash: [4],
           },
           {
             order: 4,
@@ -78,7 +80,7 @@ export default {
             ],
             pointBorderColor: '#ff4746',
             borderColor: '#ff4746',
-            borderDash,
+            borderDash: [4],
           },
           {
             order: 2,
@@ -88,7 +90,7 @@ export default {
             ],
             pointBorderColor: '#00ff9d',
             borderColor: '#00ff9d',
-            borderDash,
+            borderDash: [4],
           },
         ],
       };

@@ -523,7 +523,7 @@ h3 {
 }
 
 .asset_details__section {
-  background-color: $light_color;
+  background-color: $actions_ribbon_background_color;
   font-weight: 500;
   font-size: 0.75rem;
 
@@ -678,10 +678,16 @@ h3 {
   }
 }
 
+.asset-details__chart {
+  background-color: $super_dark;
+  padding: 1.2rem 1rem 1rem 0.5rem;
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;
-  margin-left: 1.2rem;
+  margin-left: 0.7rem;
+  margin-top: 1.2rem;
 }
 
 .legend-item {

@@ -538,7 +538,7 @@ h3 {
   }
 
   .asset_details__info {
-    background-color: $thumbnail_background_color;
+    background-color: $actions_ribbon_background_color;
   }
 
   .asset_details__section-content {

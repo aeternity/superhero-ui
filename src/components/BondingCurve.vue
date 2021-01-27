@@ -29,7 +29,6 @@ export default {
               { x: 0, y: 0 },
               { x: supply, y: buyPrice },
             ],
-            pointBackgroundColor: '#0f0f0f',
             backgroundColor: '#1161fe3f',
           },
           {
@@ -39,7 +38,6 @@ export default {
               { x: 0, y: 0 },
               { x: supply, y: sellPrice },
             ],
-            pointBackgroundColor: '#0f0f0f',
             backgroundColor: '#6224c75f',
           },
           {
@@ -57,6 +55,7 @@ export default {
               { x: 0, y: 0 },
               { x: 3 * supply, y: 3 * sellPrice },
             ],
+            borderWidth: 1.5,
             pointBorderColor: ['#ffaa29', 'transparent'],
             borderColor: '#ff4746',
           },
@@ -66,6 +65,7 @@ export default {
               { x: 0, y: 0 },
               { x: 3 * supply, y: 3 * buyPrice },
             ],
+            borderWidth: 1.5,
             pointBorderColor: ['#ffaa29', 'transparent'],
             borderColor: '#00ff9d',
           },
@@ -112,6 +112,7 @@ export default {
           line: {
             tension: 0,
             borderWidth: 1,
+            backgroundColor: 'transparent',
           },
         },
         tooltips: {
@@ -120,13 +121,31 @@ export default {
         },
         scales: {
           yAxes: [{
+            gridLines: {
+              color: '#babac01a',
+              zeroLineColor: '#babac0',
+              lineWidth: 1.5,
+            },
+            beginAtZero: true,
+            min: 0,
+            suggestedMin: 0,
             scaleLabel: {
+              padding: 0,
               display: true,
               labelString: this.$t('components.BondingCurve.GraphPrice'),
             },
           }],
           xAxes: [{
+            gridLines: {
+              color: '#babac00a',
+              zeroLineColor: '#babac0',
+              lineWidth: 1.5,
+            },
+            beginAtZero: false,
+            min: 0,
+            suggestedMin: 0,
             scaleLabel: {
+              padding: 0,
               display: true,
               labelString: this.$t('components.BondingCurve.GraphSupply'),
             },

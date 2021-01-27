@@ -159,12 +159,12 @@ export default {
         dispatch('reloadStats'),
       ]);
     },
-    async setCookies({ dispatch, commit }, { scope, status }) {
+    async setCookies({ dispatch, commit }, { payload, status }) {
       await dispatch('callWithAuth', {
         method: 'setCookiesConsent',
-        arg: { scope, status },
+        arg: { payload, status },
       });
-      commit('setCookiesConsent', { scope, status }, { root: true });
+      commit('setCookiesConsent', { payload, status }, { root: true });
     },
     async wrapTry({ commit }, promise) {
       try {
@@ -292,9 +292,15 @@ export default {
       'backendFetch',
       `consent/${address}${query ? `?challenge=${query.challenge}&signature=${query.signature}` : ''}`,
     ),
-    setCookiesConsent: async ({ dispatch }, address, { scope, status }) => dispatch(
+    setCookiesConsent: async ({
+      dispatch,
+    },
+      address, {
+        payload: { challenge },
+        status,
+      }) => dispatch(
       'backendFetch',
-      `consent/${address}/${scope}`, {
+      `consent/${address}/${challenge}`, {
         method: 'post',
         body: JSON.stringify({ status: status ? 'ALLOWED' : 'REJECTED' }),
         headers: { 'Content-Type': 'application/json' },

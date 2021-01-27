@@ -70,7 +70,7 @@ export default {
   setBackendStatus(state, isBackendLive) {
     state.isBackendLive = isBackendLive;
   },
-  setCookiesConsent(state, { scope, status }) {
-    Vue.set(state.cookiesConsent, scope, status);
+  setCookiesConsent(state, { payload, status }) {
+    Vue.set(state.cookiesConsent, payload, status);
   },
 };

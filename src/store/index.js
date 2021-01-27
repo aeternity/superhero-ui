@@ -42,8 +42,8 @@ export default new Vuex.Store({
       commit('setPinnedItems', await dispatch('backend/getPinnedItems', address));
     },
     async updateCookiesConsent({ commit, dispatch }) {
-      dispatch('backend/callWithAuth', { method: 'getCookiesConsent' })
-        .then((list) => list.forEach(({ scope, status }) => commit('setCookiesConsent', { scope, status: status === 'ALLOWED' })));
+      const payload = await dispatch('backend/callWithAuth', { method: 'getCookiesConsent' });
+      commit('setCookiesConsent', { payload, status: true });
     },
     async getTokenBalance({ state: { address, aeternity: { sdk } } }, contractAddress) {
       const tokenContract = await sdk

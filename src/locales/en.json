@@ -465,6 +465,13 @@
       "Supply": "Circulating Supply",
       "Asset": "Asset",
       "Description": "Description",
+      "BondingCurve": "Bonding Curve",
+      "LegendBuyPrice": "Current Buy Price",
+      "LegendSellPrice": "Current Sell Price",
+      "LegendSupply": "Current Supply",
+      "LegendInitialPrice": "Initial Price",
+      "LegendSpread": "Spread",
+      "LegendReserve": "Reserve",
       "Release": "Release {0} spread for transfer to",
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
@@ -630,6 +637,10 @@
         "Selling tokens... (step 1 of 2)",
         "Selling tokens... (step 2 of 2)"
       ]
+    },
+    "BondingCurve": {
+      "GraphPrice": "Price",
+      "GraphSupply": "Supply"
     },
     "VoteCard": {
       "ReleasedTo": " released for transfer to",

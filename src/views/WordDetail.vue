@@ -137,7 +137,7 @@
                   <h3>{{ $t('views.WordDetail.LegendReserve') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="data.sellPrice * data.totalSupply / 2000000000000000000"
+                      :amount="tokenReserve"
                       aettos
                     />
                   </div>
@@ -359,6 +359,14 @@ export default {
         default:
           return [];
       }
+    },
+    tokenReserve() {
+      const { decimals } = this.tokenInfo[this.data.tokenAddress];
+      const sellPrice = new BigNumber(this.data.sellPrice);
+      const totalSupply = new BigNumber(this.data.totalSupply);
+      const reserve = new BigNumber((sellPrice * totalSupply) / 2);
+
+      return new BigNumber(shiftDecimalPlaces(reserve, -decimals)).toFixed(2);
     },
     maxAmount() {
       const tokenBalance = this.tokenBalances && this.data

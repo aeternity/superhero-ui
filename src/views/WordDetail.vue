@@ -67,6 +67,84 @@
           >
             {{ data.description }}
           </div>
+          <h3>{{ $t('views.WordDetail.BondingCurve') }}</h3>
+          <div
+            v-if="data"
+            class="asset-details__chart"
+          >
+            <figure>
+              <BondingCurve :data="data" />
+              <figcaption class="legend">
+                <div class="legend-item">
+                  <h3>{{ $t('views.WordDetail.LegendBuyPrice') }}</h3>
+                  <div>
+                    <AeAmount
+                      :amount="data.buyPrice"
+                      aettos
+                    />
+                    <FiatValue
+                      :amount="data.buyPrice"
+                      aettos
+                    />
+                  </div>
+                </div>
+                <div class="legend-item">
+                  <h3>{{ $t('views.WordDetail.LegendSellPrice') }}</h3>
+                  <div>
+                    <AeAmount
+                      :amount="data.sellPrice"
+                      aettos
+                    />
+                    <FiatValue
+                      :amount="data.sellPrice"
+                      aettos
+                    />
+                  </div>
+                </div>
+                <div class="legend-item">
+                  <h3>{{ $t('views.WordDetail.LegendSupply') }}</h3>
+                  <div>
+                    <AeAmount
+                      :token="data.tokenAddress"
+                      :amount="data.totalSupply"
+                      aettos
+                    />
+                  </div>
+                </div>
+                <div class="legend-item">
+                  <h3>{{ $t('views.WordDetail.LegendInitialPrice') }}</h3>
+                  <div>
+                    <AeAmount
+                      :amount="0"
+                      aettos
+                    />
+                    <FiatValue
+                      :amount="0"
+                      aettos
+                    />
+                  </div>
+                </div>
+                <div class="legend-item">
+                  <h3>{{ $t('views.WordDetail.LegendSpread') }}</h3>
+                  <div>
+                    <AeAmount
+                      :amount="data.spread"
+                      aettos
+                    />
+                  </div>
+                </div>
+                <div class="legend-item">
+                  <h3>{{ $t('views.WordDetail.LegendReserve') }}</h3>
+                  <div>
+                    <AeAmount
+                      :amount="data.sellPrice * data.totalSupply / 2000000000000000000"
+                      aettos
+                    />
+                  </div>
+                </div>
+              </figcaption>
+            </figure>
+          </div>
         </div>
       </div>
     </div>
@@ -217,6 +295,7 @@ import BigNumber from 'bignumber.js';
 import { EventBus } from '../utils/eventBus';
 import Backend from '../utils/backend';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
+import BondingCurve from '../components/BondingCurve.vue';
 import WordBuySellButtons from '../components/WordBuySellButtons.vue';
 import IconPie from '../assets/iconPie.svg?icon-component';
 import IconInfo from '../assets/iconInfo.svg?icon-component';
@@ -241,6 +320,7 @@ export default {
     FiatValue,
     WordBuySellButtons,
     BackButtonRibbon,
+    BondingCurve,
     AeButton,
     IconCheckmarkCircle,
     IconPlus,
@@ -595,6 +675,65 @@ h3 {
 
   &.rotate {
     transform: rotate(45deg);
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 1.2rem;
+}
+
+.legend-item {
+  flex: 33% 1 0;
+  margin-bottom: 1.2rem;
+
+  h3 {
+    font-size: 0.75rem;
+
+    &::before {
+      border: 1.5px solid;
+      border-radius: 100%;
+      content: '';
+      display: inline-block;
+      height: 0.5rem;
+      width: 0.5rem;
+      margin-right: 0.5rem;
+    }
+
+    & + div {
+      margin-left: 1rem;
+
+      .ae-amount {
+        margin-right: 0.1rem;
+      }
+    }
+  }
+
+  &:nth-child(1) h3::before {
+    border-color: #00ff9d;
+  }
+
+  &:nth-child(2) h3::before {
+    border-color: #ff4746;
+  }
+
+  &:nth-child(3) h3::before {
+    border-color: #1161fe;
+  }
+
+  &:nth-child(4) h3::before {
+    border-color: #ffaa29;
+  }
+
+  &:nth-child(5) h3::before {
+    background-color: #1161fe;
+    border-color: #1161fe;
+  }
+
+  &:nth-child(6) h3::before {
+    border-color: #6224c7;
+    background-color: #6224c7;
   }
 }
 </style>

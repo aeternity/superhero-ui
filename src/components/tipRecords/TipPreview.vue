@@ -176,11 +176,6 @@ export default {
   data: () => ({
     tipPreviewImage: '',
   }),
-  async created() {
-    this.tipPreviewImage = this.isPreviewToBeVisualized
-      && this.tip.preview.image !== null
-      ? await this.$store.dispatch('backend/getTipPreviewUrl', this.tip.preview.image) : '';
-  },
   computed: {
     sourceUrl() {
       try {
@@ -210,6 +205,11 @@ export default {
         component: SoundCloudEmbed,
       }].find(({ regex }) => regex.test(this.tip.url))?.component;
     },
+  },
+  async created() {
+    this.tipPreviewImage = this.isPreviewToBeVisualized
+      && this.tip.preview.image !== null
+      ? await this.$store.dispatch('backend/getTipPreviewUrl', this.tip.preview.image) : '';
   },
 };
 </script>

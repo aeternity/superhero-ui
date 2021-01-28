@@ -46,7 +46,6 @@ export default {
       this.reloadData();
     });
     setInterval(() => this.reloadData(), 120 * 1000);
-
     await this.$store.dispatch('aeternity/initSdk');
     await Promise.all([
       this.initWallet(),
@@ -54,6 +53,11 @@ export default {
     ]);
 
     EventBus.$on('maintenance', () => this.$router.push({ name: 'maintenance' }));
+    EventBus.$on('backToFeed', () => {
+      if (this.$route.name === 'maintenance') {
+        this.$router.push({ name: 'feed' });
+      }
+    });
   },
   methods: {
     ...mapMutations([

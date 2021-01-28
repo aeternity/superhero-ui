@@ -9,10 +9,8 @@ const wrapTry = async (promise) => {
         return null;
       }
       if (!res.ok) EventBus.$emit('maintenance');
+      EventBus.$emit('backToFeed');
       return res.json();
-    }).catch(() => {
-      EventBus.$emit('maintenance');
-      return null;
     });
   } catch (err) {
     EventBus.$emit('maintenance');

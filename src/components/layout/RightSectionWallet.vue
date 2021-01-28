@@ -26,10 +26,10 @@
           :method="selectToken"
           :selected="aeternityTokenData.token"
         >
-          <template #displayValue="{ displayValue }">
+          <template #displayValue>
             <AeAmount
-              :amount="displayValue.balance"
-              :token="displayValue.token"
+              :amount="(selectedToken || aeternityTokenData).balance"
+              :token="(selectedToken || aeternityTokenData).token"
             />
           </template>
           <template v-slot="{ option }">
@@ -129,6 +129,22 @@ export default {
         this.aeternityTokenData,
         ...this.tokenBalances,
       ];
+    },
+  },
+  watch: {
+    '$route.params.word': {
+      handler(word) {
+        if (word) {
+          const wordAddress = Object.keys(this.tokenInfo)
+            .find((key) => this.tokenInfo[key].symbol === word);
+          const option = this.tokenBalancesOptions.find((t) => t.token === wordAddress);
+          if (option) {
+            this.selectToken(option);
+          }
+        } else {
+          this.selectToken(this.aeternityTokenData);
+        }
+      },
     },
   },
   methods: {

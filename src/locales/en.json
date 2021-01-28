@@ -469,6 +469,10 @@
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
       "Stake": "Majority Stake"
+    },
+    "WordBazaar": {
+      "Title": "WordBazaar",
+      "Placeholder": "Search for assets"
     }
   },
   "components": {
@@ -642,10 +646,6 @@
       "Withdraw": "Withdrawing stake...",
       "Payout": "Payout sending...",
       "RevokeVote": "Revoking your vote..."
-    },
-    "WordBazaar": {
-      "Title": "WordBazaar",
-      "Placeholder": "Search for assets"
     },
     "HowItWorks": {
       "Title": "How it works",

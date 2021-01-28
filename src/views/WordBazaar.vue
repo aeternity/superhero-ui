@@ -42,6 +42,7 @@
       <WordListing
         heading
         @order="order"
+        @show-buy="showBuyValue = $event"
       />
 
       <Loader
@@ -56,6 +57,7 @@
         >
           <WordListing
             :data="data"
+            :show-buy-value="showBuyValue"
           />
         </div>
       </div>
@@ -131,6 +133,7 @@ export default {
       { text: 'Recent', tab: 'recent' },
     ],
     showSearch: false,
+    showBuyValue: true,
     loading: true,
   }),
   computed: {

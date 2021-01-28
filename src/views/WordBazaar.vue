@@ -19,7 +19,7 @@
         <SearchInput
           v-if="showSearch"
           v-model="search"
-          :placeholder="$t('components.WordBazaar.Placeholder')"
+          :placeholder="$t('views.WordBazaar.Placeholder')"
           class="desktop"
           @input="reloadData"
           @close="showSearch = false"
@@ -33,7 +33,7 @@
       <SearchInput
         v-if="showSearch"
         v-model="search"
-        :placeholder="$t('components.WordBazaar.Placeholder')"
+        :placeholder="$t('views.WordBazaar.Placeholder')"
         class="mobile"
         @input="reloadData"
         @close="showSearch = false"
@@ -160,7 +160,7 @@ export default {
     },
   },
   metaInfo() {
-    return { title: this.$t('components.WordBazaar.Title') };
+    return { title: this.$t('views.WordBazaar.Title') };
   },
 };
 </script>

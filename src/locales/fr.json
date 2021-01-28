@@ -593,6 +593,7 @@
     "WordListing": {
       "Asset": "Asset",
       "BuyPrice": "Buy Price",
+      "SellPrice": "Sell Price",
       "Supply": "Supply",
       "Market": "Market"
     },

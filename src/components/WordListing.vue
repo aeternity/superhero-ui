@@ -21,12 +21,13 @@
       <div class="word-listing-column">
         <span
           class="heading-text"
-          @click="order('buyprice', 'desc')"
+          :class="{ green: showBuy, red: !showBuy }"
+          @click="switchBuySell"
         >
-          {{ $t('components.WordListing.BuyPrice') }}
+          {{ $t(`components.WordListing.${showBuy ? 'BuyPrice' : 'SellPrice'}`) }}
         </span>
         <IconSort
-          v-if="ordering === 'buyprice'"
+          v-if="ordering === 'buyprice' || ordering === 'sellprice'"
           :class="{ asc: direction === 'asc' }"
           @click="order(ordering, direction === 'asc' ? 'desc' : 'asc')"
         />
@@ -65,7 +66,7 @@
       </div>
       <div class="word-listing-column">
         <AeAmountFiat
-          :amount="data.buyPrice"
+          :amount="showBuyValue ? data.buyPrice : data.sellPrice"
           aettos
         />
       </div>
@@ -101,10 +102,12 @@ export default {
   props: {
     data: { type: Object, default: null },
     heading: { type: Boolean },
+    showBuyValue: { type: Boolean },
   },
   data: () => ({
     ordering: 'buyprice',
     direction: 'desc',
+    showBuy: true,
   }),
   computed: {
     ...mapState(['address', 'balance', 'tokenBalances']),
@@ -116,6 +119,11 @@ export default {
     },
   },
   methods: {
+    switchBuySell() {
+      this.showBuy = !this.showBuy;
+      this.ordering = this.showBuy ? 'buyprice' : 'sellprice';
+      this.$emit('show-buy', this.showBuy);
+    },
     order(ordering, direction) {
       this.ordering = ordering;
       this.direction = direction;
@@ -144,8 +152,14 @@ export default {
   background-color: $light_color;
   display: flex;
 
-  .heading-text.active {
-    color: $custom_links_color;
+  .heading-text {
+    &.green {
+      color: $custom_links_color;
+    }
+
+    &.red {
+      color: $red_color;
+    }
   }
 
   .asset-column {

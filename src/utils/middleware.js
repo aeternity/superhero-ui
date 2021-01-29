@@ -20,5 +20,5 @@ const backendFetch = (path, ...args) => wrapTry(
 );
 
 export default class Middleware {
-  static getAex9Balance = async (token, account) => backendFetch(`aex9/balance/${token}/${account}`);
+  static getAex9Balance = async (token, account) => backendFetch(`aex9/balance/${token}/${account}?top=true`);
 }

@@ -304,6 +304,7 @@ export default {
           amount,
           forAccount: this.sale.replace('ct_', 'ak_'),
         }).catch(() => { throw new Error('Insufficient Account Balance'); });
+        this.progressMessage = this.$t('components.WordBuySellButtons.Selling[1]');
         await this.$store.dispatch('aeternity/tokenSaleMethod',
           {
             contractAddress: this.sale,

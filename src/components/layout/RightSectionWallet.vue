@@ -133,6 +133,7 @@ export default {
   },
   watch: {
     '$route.params.word': {
+      immediate: true,
       handler(word) {
         if (word) {
           const wordAddress = Object.keys(this.tokenInfo)

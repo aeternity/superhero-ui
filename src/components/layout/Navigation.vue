@@ -15,6 +15,13 @@
       <IconTips />
       {{ $t('components.layout.Navigation.feed') }}
     </RouterLink>
+    <RouterLink
+      v-if="showWordBazaar"
+      :to="{ name: 'wordbazaar' }"
+    >
+      <IconSmile />
+      {{ $t('components.layout.Navigation.WordBazaar') }}
+    </RouterLink>
     <RouterLink :to="{ name: 'voting' }">
       <IconGovernance />
       {{ $t('components.layout.Navigation.Governance') }}
@@ -29,10 +36,6 @@
     >
       <IconUser />
       {{ $t('components.layout.Navigation.MyProfile') }}
-    </RouterLink>
-    <RouterLink :to="{ name: 'wordbazaar' }">
-      <IconDiamond />
-      {{ $t('components.layout.Navigation.WordBazaar') }}
     </RouterLink>
     <RouterLink :to="{ name: 'league' }">
       <IconDiamond />
@@ -53,6 +56,7 @@ import IconHelp from '../../assets/iconHelp.svg?icon-component';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
 import IconGovernance from '../../assets/iconGovernance.svg?icon-component';
 import IconMeet from '../../assets/iconMeet.svg?icon-component';
+import IconSmile from '../../assets/iconSmile.svg?icon-component';
 
 export default {
   components: {
@@ -62,6 +66,7 @@ export default {
     IconDiamond,
     IconGovernance,
     IconMeet,
+    IconSmile,
   },
   props: {
     mobile: Boolean,

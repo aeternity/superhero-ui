@@ -54,16 +54,15 @@
 
     <div
       v-else
-      class="word-listing"
+      class="word-listing word-row"
     >
-      <div class="word-listing-column asset-column">
-        <RouterLink
-          class="link"
-          :to="{ name: 'word-detail', params: { word: data.word } }"
-        >
-          {{ data.word }}
-        </RouterLink>
-      </div>
+      <RouterLink
+        class="word-listing-column asset-column link"
+        tag="div"
+        :to="{ name: 'word-detail', params: { word: data.word } }"
+      >
+        {{ data.word }}
+      </RouterLink>
       <div class="word-listing-column">
         <AeAmountFiat
           :amount="showBuyValue ? data.buyPrice : data.sellPrice"
@@ -136,29 +135,49 @@ export default {
 <style lang="scss" scoped>
 .word-listing {
   color: $light_font_color;
-
-  .iconSort {
-    margin-top: -0.2rem;
-
-    &.asc {
-      margin-top: 0.2rem;
-      transform: rotate(180deg);
-    }
-  }
-
+  align-items: center;
   font-size: 0.75rem;
   padding: 0.4rem 0;
   margin-bottom: 0.05rem;
+  transition: background-color 0.3s ease-in-out;
   background-color: $light_color;
   display: flex;
 
+  &.word-row {
+    &:hover {
+      background-color: $buttons_background;
+    }
+  }
+
+  .iconSort {
+    margin-top: -0.2rem;
+    height: 17px;
+    width: auto;
+    color: $standard_font_color;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+
+    &.asc {
+      margin-top: 0;
+      transform: rotate(180deg);
+    }
+
+    &:hover {
+      color: $custom_links_color;
+    }
+  }
+
   .heading-text {
+    transition: color 0.3s ease-in-out;
+
     &.green {
       color: $custom_links_color;
+      cursor: pointer;
     }
 
     &.red {
       color: $red_color;
+      cursor: pointer;
     }
   }
 
@@ -174,6 +193,11 @@ export default {
     .supply {
       color: $tip_note_color;
     }
+
+    svg {
+      height: 21px;
+      width: auto;
+    }
   }
 
   &.word-listing-heading {
@@ -184,6 +208,7 @@ export default {
   .link {
     color: $secondary_color;
     text-decoration: none;
+    cursor: pointer;
   }
 
   .word-listinglabel {

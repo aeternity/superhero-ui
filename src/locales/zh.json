@@ -361,11 +361,19 @@
       "Release": "Release {0} spread for transfer to",
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
-      "Stake": "Majority Stake"
+      "Stake": "Majority Stake",
+      "RibbonTabs": ["Token Info", "Funds release vote"],
+      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"]
     },
     "WordBazaar": {
       "Title": "WordBazaar",
-      "Placeholder": "Search for assets"
+      "Placeholder": "Search for assets",
+      "RibbonTabs": [
+        { "Text": "Assets", "Header": "WordBazaar Assets" },
+        { "Text": "Create token", "Header": "Create token" },
+        { "Text": "Get AE", "Header": "Get AE Tokens" },
+        { "Text": "How it works", "Header": "How it works" }
+      ]
     }
   },
   "components": {
@@ -482,20 +490,22 @@
       ]
     },
     "WordListing": {
-      "Asset": "Asset",
+      "Asset": "Token",
       "BuyPrice": "Buy Price",
       "SellPrice": "Sell Price",
-      "Supply": "Supply",
+      "Supply": "Current supply",
       "Market": "Market"
     },
     "WordBuySellButtons": {
       "Buy": "Buy",
       "Sell": "Sell",
-      "AccountBalance": "Account Balance:",
-      "AmountBuying": "Amount buying:",
-      "AmountSelling": "Amount selling:",
-      "TotalPay": "Total you pay:",
-      "TotalGet": "Total you get:",
+      "BuyPrice": "Buy Price",
+      "SellPrice": "Sell Price",
+      "AccountBalance": "Account Balance",
+      "AmountBuying": "Amount buying",
+      "AmountSelling": "Amount selling",
+      "TotalPay": "Total you pay",
+      "TotalGet": "Total you get",
       "ConfirmMessage": "Please confirm the transaction!",
       "Buying": "Buying tokens...",
       "Selling": [

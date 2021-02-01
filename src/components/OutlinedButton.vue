@@ -25,6 +25,7 @@ export default {
   font-weight: 600;
   padding: 0.6rem;
   min-width: 8rem;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
 
   &.unpadded {
     padding: 0.2rem;

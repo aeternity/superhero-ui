@@ -11,6 +11,11 @@ export default {
       default: null,
     },
   },
+  watch: {
+    data() {
+      this.renderChart(this.chartData, this.chartOptions);
+    },
+  },
   mounted() {
     this.renderChart(this.chartData, this.chartOptions);
   },
@@ -103,6 +108,9 @@ export default {
     },
     chartOptions() {
       return {
+        animation: {
+          duration: 0,
+        },
         legend: {
           display: false,
         },

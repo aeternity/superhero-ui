@@ -113,7 +113,7 @@ export default {
     ...mapGetters(['isLoggedIn']),
     ...mapState('backend', ['prices']),
     ...mapState(['balance', 'address', 'selectedCurrency', 'tokenBalances',
-      'tokenPrices', 'tokenInfo']),
+      'tokenPrices', 'tokenInfo', 'wordRegistry']),
     ...mapState('aeternity', ['useIframeWallet']),
     currencyDropdownOptions() {
       return Object.entries(this.prices).map(([currency]) => ({ currency }));
@@ -136,8 +136,7 @@ export default {
       immediate: true,
       handler(word) {
         if (word) {
-          const wordAddress = Object.keys(this.tokenInfo)
-            .find((key) => this.tokenInfo[key].symbol === word);
+          const wordAddress = this.wordRegistry.find((w) => w.word === word).tokenAddress;
           const option = this.tokenBalancesOptions.find((t) => t.token === wordAddress);
           if (option) {
             this.selectToken(option);

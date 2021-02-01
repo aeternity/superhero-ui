@@ -30,6 +30,7 @@ export default new Vuex.Store({
     tokenInfo: {},
     tokenBalances: [],
     tokenPrices: {},
+    wordRegistry: [],
     isHiddenContent: true,
     isBackendLive: true,
     cookiesConsent: {},
@@ -77,7 +78,8 @@ export default new Vuex.Store({
     persistState(
       (state) => state,
       ({
-        selectedCurrency, address, balance, tokenInfo, tokenBalances, tokenPrices, cookiesConsent,
+        selectedCurrency, address, balance, tokenInfo, tokenBalances,
+        tokenPrices, wordRegistry, cookiesConsent,
       }) => ({
         selectedCurrency,
         address,
@@ -85,6 +87,7 @@ export default new Vuex.Store({
         tokenInfo,
         tokenBalances,
         tokenPrices,
+        wordRegistry,
         cookiesConsent,
       }),
     ),

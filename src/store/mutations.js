@@ -36,6 +36,9 @@ export default {
   setTokenInfo(state, payload) {
     state.tokenInfo = payload;
   },
+  setWordRegistry(state, payload) {
+    state.wordRegistry = payload;
+  },
   setVerifiedUrls(state, payload) {
     state.verifiedUrls = payload;
   },

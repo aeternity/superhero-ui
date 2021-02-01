@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="word-detail">
     <BackButtonRibbon>
       <template v-slot:title>
         <span class="abbreviation">{{ selectedWord }}</span>
@@ -73,17 +73,19 @@
             class="asset-details__chart"
           >
             <figure>
-              <BondingCurve :data="data" />
+              <BondingCurve
+                :data="chartData"
+              />
               <figcaption class="legend">
                 <div class="legend-item">
                   <h3>{{ $t('views.WordDetail.LegendBuyPrice') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="data.buyPrice"
+                      :amount="chartData.bondingBuyPrice.toNumber()"
                       aettos
                     />
                     <FiatValue
-                      :amount="data.buyPrice"
+                      :amount="chartData.bondingBuyPrice.toNumber()"
                       aettos
                     />
                   </div>
@@ -92,11 +94,11 @@
                   <h3>{{ $t('views.WordDetail.LegendSellPrice') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="data.sellPrice"
+                      :amount="chartData.bondingSellPrice.toNumber()"
                       aettos
                     />
                     <FiatValue
-                      :amount="data.sellPrice"
+                      :amount="chartData.bondingSellPrice.toNumber()"
                       aettos
                     />
                   </div>
@@ -105,8 +107,8 @@
                   <h3>{{ $t('views.WordDetail.LegendSupply') }}</h3>
                   <div>
                     <AeAmount
-                      :token="data.tokenAddress"
-                      :amount="data.totalSupply"
+                      :token="chartData.tokenAddress"
+                      :amount="chartData.totalSupply.toNumber()"
                       aettos
                     />
                   </div>
@@ -115,11 +117,11 @@
                   <h3>{{ $t('views.WordDetail.LegendInitialPrice') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="0"
+                      :amount="chartData.initialPrice.toNumber()"
                       aettos
                     />
                     <FiatValue
-                      :amount="0"
+                      :amount="chartData.initialPrice.toNumber()"
                       aettos
                     />
                   </div>
@@ -128,7 +130,7 @@
                   <h3>{{ $t('views.WordDetail.LegendSpread') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="data.spread"
+                      :amount="chartData.tokenSpread.toNumber()"
                       aettos
                     />
                   </div>
@@ -137,7 +139,7 @@
                   <h3>{{ $t('views.WordDetail.LegendReserve') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="tokenReserve"
+                      :amount="chartData.tokenReserve.toNumber()"
                       aettos
                     />
                   </div>
@@ -309,10 +311,10 @@ import AeButton from '../components/AeButton.vue';
 import Loader from '../components/Loader.vue';
 import VoteCard from '../components/VoteCard.vue';
 import MessageInput from '../components/MessageInput.vue';
-import { shiftDecimalPlaces, blockToDate } from '../utils';
+import { shiftDecimalPlaces, blockToDate, aeToAtoms } from '../utils';
 
 export default {
-  name: 'WordBazaar',
+  name: 'WordDetail',
   components: {
     TabBar,
     ActivityRibbon,
@@ -328,24 +330,28 @@ export default {
     VoteCard,
     MessageInput,
   },
-  data: () => ({
-    wordRegistryState: null,
-    selectedWord: null,
-    saleContractAddress: null,
-    ongoingVotes: [],
-    pastVotes: [],
-    myVotes: [],
-    data: null,
-    newVotePayout: '',
-    activity: 'info',
-    activeTab: 'ongoing',
-    ribbonTabs: [{ icon: IconInfo, text: 'Token Info', activity: 'info' }, { icon: IconPie, text: 'Funds release vote', activity: 'voting' }],
-    tabs: [{ text: 'Ongoing Votes', tab: 'ongoing' }, { text: 'Past Votes', tab: 'past' }, { text: 'My Votes', tab: 'my' }],
-    loading: false,
-    progressMessage: '',
-    showInitiate: false,
-    description: '',
-  }),
+  data() {
+    return {
+      wordRegistryState: null,
+      selectedWord: null,
+      saleContractAddress: null,
+      ongoingVotes: [],
+      pastVotes: [],
+      myVotes: [],
+      data: null,
+      newVotePayout: '',
+      activity: 'info',
+      activeTab: 'ongoing',
+      ribbonTabs: [{ icon: IconInfo, activity: 'info' }, { icon: IconPie, activity: 'voting' }]
+        .map((t, i) => ({ text: this.$t(`views.WordDetail.RibbonTabs[${i}]`), ...t })),
+      tabs: [{ tab: 'ongoing' }, { tab: 'past' }, { tab: 'my' }]
+        .map((t, i) => ({ text: this.$t(`views.WordDetail.Tabs[${i}]`), ...t })),
+      loading: false,
+      progressMessage: '',
+      showInitiate: false,
+      description: '',
+    };
+  },
   computed: {
     ...mapState(['address', 'tokenInfo', 'tokenBalances']),
     votes() {
@@ -360,13 +366,30 @@ export default {
           return [];
       }
     },
-    tokenReserve() {
-      const { decimals } = this.tokenInfo[this.data.tokenAddress];
+    chartData() {
+      const decimals = this.tokenInfo[this.data.tokenAddress]?.decimals ?? 18;
+      const initialPrice = new BigNumber(aeToAtoms(1)); // currently supports only hardcoded 1AE
       const sellPrice = new BigNumber(this.data.sellPrice);
+      const buyPrice = new BigNumber(this.data.buyPrice);
       const totalSupply = new BigNumber(this.data.totalSupply);
-      const reserve = new BigNumber((sellPrice * totalSupply) / 2);
+      const bondingBuyPrice = new BigNumber(totalSupply.toNumber() + initialPrice.toNumber());
+      const bondingSellPrice = totalSupply;
+      const reserve = new BigNumber((bondingSellPrice * totalSupply) / 2);
+      const spread = new BigNumber((bondingBuyPrice - bondingSellPrice) * totalSupply);
 
-      return new BigNumber(shiftDecimalPlaces(reserve, -decimals)).toFixed(2);
+      return {
+        totalSupply,
+        initialPrice,
+        decimals,
+        buyPrice,
+        sellPrice,
+        bondingBuyPrice,
+        bondingSellPrice,
+        accumulatedSpread: this.data.spread,
+        tokenAddress: this.data.tokenAddress,
+        tokenSpread: new BigNumber(shiftDecimalPlaces(spread, -decimals)),
+        tokenReserve: new BigNumber(shiftDecimalPlaces(reserve, -decimals)),
+      };
     },
     maxAmount() {
       const tokenBalance = this.tokenBalances && this.data
@@ -523,231 +546,252 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h3 {
-  color: $small_heading_color;
-  font-weight: 500;
-  font-size: 0.9rem;
-  line-height: 1.2rem;
-}
-
-.asset_details__section {
-  background-color: $actions_ribbon_background_color;
-  font-weight: 500;
-  font-size: 0.75rem;
-
-  .asset-details__asset {
-    color: $pure_white;
-    padding-bottom: 1rem;
-  }
-
-  .asset-details__description {
-    color: $tip_note_color;
-    padding-bottom: 1rem;
-  }
-
-  .asset_details__info {
-    background-color: $actions_ribbon_background_color;
-  }
-
-  .asset_details__section-content {
-    padding: 1.5rem;
-
-    .no-content {
-      display: flex;
-      flex-direction: column;
-
-      h3 {
-        color: $pure_white;
-      }
-
-      button {
-        width: 154px;
-        margin: 0 auto;
-      }
-    }
-  }
-}
-
-.asset_details__info {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: row;
-
-  @include mobile {
-    flex-wrap: wrap;
-  }
-
-  .info-item {
-    flex-shrink: 1;
-    font-size: 0.9rem;
-    display: flex;
-    flex-direction: column;
-    background: $super_dark;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
-    margin-right: 16px;
-    padding: 16px;
-
-    &:hover {
-      background: #141414;
-
-      h3 {
-        color: #babac0;
-      }
-    }
-
-    @include mobile {
-      font-size: 0.6rem;
-      width: 40%;
-      margin: 8px;
-
-      h3 {
-        font-size: 0.8rem;
-        line-height: 1rem;
-      }
-    }
-  }
-}
-
-.asset_voting__section {
-  .asset_details__info {
-    background-color: $light_color;
-  }
-}
-
-.initiate-vote {
-  margin-bottom: 0.1rem;
-  padding: 1.2rem;
-
-  &.fade-enter-active,
-  &.fade-leave-active {
-    transition: all 0.5s ease;
-  }
-
-  &.fade-enter,
-  &.fade-leave-to {
-    opacity: 0;
-    transform: height(0);
-  }
-
-  .message-input {
-    margin-bottom: 16px;
-  }
-
-  .initiate-vote-inputs {
-    display: flex;
-    flex-direction: row;
-    margin-top: 0.4rem;
-
-    input {
-      background-color: $buttons_background;
-      color: $standard_font_color;
-      border: 0.05rem solid $buttons_background;
-      border-radius: 0.25rem;
-      flex: 1;
-      margin-right: 1.2rem;
-      font-size: 0.7rem;
-      height: 2rem;
-
-      &:focus,
-      &:active {
-        border: 0.05rem solid $secondary_color;
-        box-shadow: none;
-      }
-    }
-
-    .ae-button {
-      font-size: 0.8rem;
-      height: 2rem;
+.word-detail {
+  ::v-deep .activity-ribbon {
+    svg {
+      height: 20px;
+      width: auto;
     }
   }
 
-  .loading {
-    text-align: center;
+  ::v-deep .ae-button {
+    font-size: 0.8rem;
+    height: 2rem;
 
-    img {
-      height: 56px;
+    svg {
+      height: 24px;
+      width: auto;
     }
   }
-}
 
-::v-deep .stake-label {
-  color: $small_heading_color;
-  font-weight: 500;
-  font-size: 0.75rem;
-  padding-left: 0.1rem;
-}
-
-.plus {
-  transition: transform 0.5s;
-
-  &.rotate {
-    transform: rotate(45deg);
+  ::v-deep .tab-bar {
+    svg {
+      height: 20px;
+      width: auto;
+    }
   }
-}
-
-.asset-details__chart {
-  background-color: $super_dark;
-  padding: 1.2rem 1rem 1rem 0.5rem;
-}
-
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 0.7rem;
-  margin-top: 1.2rem;
-}
-
-.legend-item {
-  flex: 33% 1 0;
-  margin-bottom: 1.2rem;
 
   h3 {
+    color: $small_heading_color;
+    font-weight: 500;
+    font-size: 0.9rem;
+    line-height: 1.2rem;
+  }
+
+  .asset_details__section {
+    background-color: $actions_ribbon_background_color;
+    font-weight: 500;
     font-size: 0.75rem;
 
-    &::before {
-      border: 1.5px solid;
-      border-radius: 100%;
-      content: '';
-      display: inline-block;
-      height: 0.5rem;
-      width: 0.5rem;
-      margin-right: 0.5rem;
+    .asset-details__asset {
+      color: $pure_white;
+      padding-bottom: 1rem;
     }
 
-    & + div {
-      margin-left: 1rem;
+    .asset-details__description {
+      color: $tip_note_color;
+      padding-bottom: 1rem;
+    }
 
-      .ae-amount {
-        margin-right: 0.1rem;
+    .asset_details__info {
+      background-color: $actions_ribbon_background_color;
+    }
+
+    .asset_details__section-content {
+      padding: 1.5rem;
+
+      .no-content {
+        display: flex;
+        flex-direction: column;
+
+        h3 {
+          color: $pure_white;
+        }
+
+        button {
+          width: 154px;
+          margin: 0 auto;
+        }
       }
     }
   }
 
-  &:nth-child(1) h3::before {
-    border-color: #00ff9d;
+  .asset_details__info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: row;
+
+    @include mobile {
+      flex-wrap: wrap;
+    }
+
+    .info-item {
+      flex-shrink: 1;
+      font-size: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      background: $super_dark;
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      margin-right: 16px;
+      padding: 16px;
+
+      &:hover {
+        background: #141414;
+
+        h3 {
+          color: #babac0;
+        }
+      }
+
+      @include mobile {
+        font-size: 0.6rem;
+        width: 40%;
+        margin: 8px;
+
+        h3 {
+          font-size: 0.8rem;
+          line-height: 1rem;
+        }
+      }
+    }
   }
 
-  &:nth-child(2) h3::before {
-    border-color: #ff4746;
+  .asset_voting__section {
+    .asset_details__info {
+      background-color: $light_color;
+    }
   }
 
-  &:nth-child(3) h3::before {
-    border-color: #1161fe;
+  .initiate-vote {
+    margin-bottom: 0.1rem;
+    padding: 1.2rem;
+
+    &.fade-enter-active,
+    &.fade-leave-active {
+      transition: all 0.5s ease;
+    }
+
+    &.fade-enter,
+    &.fade-leave-to {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+
+    .message-input {
+      margin-bottom: 16px;
+    }
+
+    .initiate-vote-inputs {
+      display: flex;
+      flex-direction: row;
+      margin-top: 0.4rem;
+
+      input {
+        background-color: $buttons_background;
+        color: $standard_font_color;
+        border: 0.05rem solid $buttons_background;
+        border-radius: 0.25rem;
+        flex: 1;
+        margin-right: 1.2rem;
+        font-size: 0.7rem;
+        height: 2rem;
+
+        &:focus,
+        &:active {
+          border: 0.05rem solid $secondary_color;
+          box-shadow: none;
+        }
+      }
+    }
+
+    .loading {
+      text-align: center;
+
+      img {
+        height: 56px;
+      }
+    }
   }
 
-  &:nth-child(4) h3::before {
-    border-color: #ffaa29;
+  ::v-deep .stake-label {
+    color: $small_heading_color;
+    font-weight: 500;
+    font-size: 0.75rem;
+    padding-left: 0.1rem;
   }
 
-  &:nth-child(5) h3::before {
-    background-color: #1161fe;
-    border-color: #1161fe;
+  .plus {
+    transition: transform 0.5s;
+
+    &.rotate {
+      transform: rotate(45deg);
+    }
   }
 
-  &:nth-child(6) h3::before {
-    border-color: #6224c7;
-    background-color: #6224c7;
+  .asset-details__chart {
+    background-color: $super_dark;
+    padding: 1.2rem 1rem 1rem 0.5rem;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 0.7rem;
+    margin-top: 1.2rem;
+  }
+
+  .legend-item {
+    flex: 33% 1 0;
+    margin-bottom: 1.2rem;
+
+    h3 {
+      font-size: 0.75rem;
+
+      &::before {
+        border: 1.5px solid;
+        border-radius: 100%;
+        content: '';
+        display: inline-block;
+        height: 0.5rem;
+        width: 0.5rem;
+        margin-right: 0.5rem;
+      }
+
+      & + div {
+        margin-left: 1rem;
+
+        .ae-amount {
+          margin-right: 0.1rem;
+        }
+      }
+    }
+
+    &:nth-child(1) h3::before {
+      border-color: $custom_links_color;
+    }
+
+    &:nth-child(2) h3::before {
+      border-color: $red_color;
+    }
+
+    &:nth-child(3) h3::before {
+      border-color: $secondary_color;
+    }
+
+    &:nth-child(4) h3::before {
+      border-color: $sunshade;
+    }
+
+    &:nth-child(5) h3::before {
+      background-color: $secondary_color;
+      border-color: $secondary_color;
+    }
+
+    &:nth-child(6) h3::before {
+      background-color: $purple_heart;
+      border-color: $purple_heart;
+    }
   }
 }
 </style>

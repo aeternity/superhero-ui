@@ -18,9 +18,15 @@ export default {
     ...mapGetters(['roundedTokenAmount']),
     chartData() {
       const token = this.data.tokenAddress;
-      const sellPrice = this.roundedTokenAmount(this.data.sellPrice, token, 2, true);
-      const buyPrice = this.roundedTokenAmount(this.data.buyPrice, token, 2, true);
+      const initialBuy = this.roundedTokenAmount(this.data.initialPrice, null, 2, true);
+      const currentSell = this.roundedTokenAmount(this.data.bondingSellPrice, null, 2, true);
+      const currentBuy = this.roundedTokenAmount(this.data.bondingBuyPrice, null, 2, true);
       const supply = this.roundedTokenAmount(this.data.totalSupply, token, 2, true);
+      const coef = 2; // coefficient to extend the chart for future supply
+      const futureSupply = supply > 1 ? supply * coef : coef;
+      const futureSell = (supply > 1 ? currentSell : 1) * coef;
+      const futureBuy = (supply > 1 ? (currentBuy - initialBuy) : 1) * coef - (-initialBuy);
+
       return {
         showLines: true,
         datasets: [
@@ -28,8 +34,8 @@ export default {
             order: 6,
             fill: '+1',
             data: [
-              { x: 0, y: 0 },
-              { x: supply, y: buyPrice },
+              { x: 0, y: initialBuy },
+              { x: supply, y: currentBuy },
             ],
             backgroundColor: '#1161fe3f',
           },
@@ -38,14 +44,14 @@ export default {
             fill: true,
             data: [
               { x: 0, y: 0 },
-              { x: supply, y: sellPrice },
+              { x: supply, y: currentSell },
             ],
             backgroundColor: '#6224c75f',
           },
           {
             order: 3,
             data: [
-              { x: supply, y: buyPrice },
+              { x: supply, y: currentBuy },
               { x: supply, y: 0 },
             ],
             borderColor: '#1161fe',
@@ -55,7 +61,7 @@ export default {
             order: 4,
             data: [
               { x: 0, y: 0 },
-              { x: 3 * supply, y: 3 * sellPrice },
+              { x: futureSupply, y: futureSell },
             ],
             borderWidth: 1.5,
             pointBorderColor: ['#ffaa29', 'transparent'],
@@ -64,8 +70,8 @@ export default {
           {
             order: 5,
             data: [
-              { x: 0, y: 0 },
-              { x: 3 * supply, y: 3 * buyPrice },
+              { x: 0, y: initialBuy },
+              { x: futureSupply, y: futureBuy },
             ],
             borderWidth: 1.5,
             pointBorderColor: ['#ffaa29', 'transparent'],
@@ -75,8 +81,8 @@ export default {
             order: 1,
             fill: true,
             data: [
-              { x: 0, y: sellPrice },
-              { x: supply, y: sellPrice },
+              { x: 0, y: currentSell },
+              { x: supply, y: currentSell },
             ],
             pointBorderColor: '#ff4746',
             borderColor: '#ff4746',
@@ -85,8 +91,8 @@ export default {
           {
             order: 2,
             data: [
-              { x: 0, y: buyPrice },
-              { x: supply, y: buyPrice },
+              { x: 0, y: currentBuy },
+              { x: supply, y: currentBuy },
             ],
             pointBorderColor: '#00ff9d',
             borderColor: '#00ff9d',
@@ -143,7 +149,7 @@ export default {
               zeroLineColor: '#babac0',
               lineWidth: 1.5,
             },
-            beginAtZero: false,
+            beginAtZero: true,
             min: 0,
             suggestedMin: 0,
             scaleLabel: {

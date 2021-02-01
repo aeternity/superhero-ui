@@ -180,6 +180,10 @@ export default {
     background-color: $buttons_background;
   }
 
+  .activity-ribbon {
+    margin-bottom: 1px;
+  }
+
   ::v-deep .search-input {
     border-radius: 0.5rem;
 
@@ -210,6 +214,7 @@ export default {
   .iconSearch {
     height: 18px;
     width: 18px;
+    margin-right: 20px;
   }
 }
 

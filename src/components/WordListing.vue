@@ -56,14 +56,13 @@
       v-else
       class="word-listing"
     >
-      <div class="word-listing-column asset-column">
-        <RouterLink
-          class="link"
-          :to="{ name: 'word-detail', params: { word: data.word } }"
-        >
-          {{ data.word }}
-        </RouterLink>
-      </div>
+      <RouterLink
+        class="word-listing-column asset-column link"
+        tag="div"
+        :to="{ name: 'word-detail', params: { word: data.word } }"
+      >
+        {{ data.word }}
+      </RouterLink>
       <div class="word-listing-column">
         <AeAmountFiat
           :amount="showBuyValue ? data.buyPrice : data.sellPrice"
@@ -136,6 +135,17 @@ export default {
 <style lang="scss" scoped>
 .word-listing {
   color: $light_font_color;
+  align-items: center;
+  font-size: 0.75rem;
+  padding: 0.4rem 0;
+  margin-bottom: 0.05rem;
+  transition: background-color 0.3s ease-in-out;
+  background-color: $light_color;
+  display: flex;
+
+  &:hover {
+    background-color: $buttons_background;
+  }
 
   .iconSort {
     margin-top: -0.2rem;
@@ -145,12 +155,6 @@ export default {
       transform: rotate(180deg);
     }
   }
-
-  font-size: 0.75rem;
-  padding: 0.4rem 0;
-  margin-bottom: 0.05rem;
-  background-color: $light_color;
-  display: flex;
 
   .heading-text {
     &.green {
@@ -184,6 +188,7 @@ export default {
   .link {
     color: $secondary_color;
     text-decoration: none;
+    cursor: pointer;
   }
 
   .word-listinglabel {

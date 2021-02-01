@@ -491,11 +491,13 @@
     "WordBuySellButtons": {
       "Buy": "Buy",
       "Sell": "Sell",
-      "AccountBalance": "Account Balance:",
-      "AmountBuying": "Amount buying:",
-      "AmountSelling": "Amount selling:",
-      "TotalPay": "Total you pay:",
-      "TotalGet": "Total you get:",
+      "BuyPrice": "Buy Price",
+      "SellPrice": "Sell Price",
+      "AccountBalance": "Account Balance",
+      "AmountBuying": "Amount buying",
+      "AmountSelling": "Amount selling",
+      "TotalPay": "Total you pay",
+      "TotalGet": "Total you get",
       "ConfirmMessage": "Please confirm the transaction!",
       "Buying": "Buying tokens...",
       "Selling": [

@@ -34,6 +34,19 @@
     font-style: italic;
   }
 
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4 {
+    font-size: 0.9rem;
+  }
+
+  p {
+    font-size: 0.75rem;
+    color: $standard_font_color;
+  }
+
   a {
     color: $secondary_color;
   }

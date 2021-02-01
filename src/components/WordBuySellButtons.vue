@@ -52,6 +52,15 @@
           />
         </div>
         <div class="mt-3 label">
+          {{ $t('components.WordBuySellButtons.BuyPrice') }}
+        </div>
+        <div class="return-amount">
+          <AeAmountFiat
+            :amount="buyPrice"
+            aettos
+          />
+        </div>
+        <div class="mt-3 label">
           {{ $t('components.WordBuySellButtons.TotalPay') }}
         </div>
         <div class="return-amount">
@@ -70,15 +79,10 @@
         <div class="mt-3 text-center">
           <OutlinedButton
             :disabled="buyAeAmount <= 0"
-            class="green"
+            class="green buy-sell"
             @click="buy"
           >
-            <Loading
-              v-if="loading"
-              small
-              class="p-0"
-            />
-            <span v-else>
+            <span>
               {{ $t('components.WordBuySellButtons.Buy') }}
             </span>
           </OutlinedButton>
@@ -117,6 +121,15 @@
           />
         </div>
         <div class="mt-3 label">
+          {{ $t('components.WordBuySellButtons.SellPrice') }}
+        </div>
+        <div class="return-amount">
+          <AeAmountFiat
+            :amount="sellPrice"
+            aettos
+          />
+        </div>
+        <div class="mt-3 label">
           {{ $t('components.WordBuySellButtons.TotalGet') }}
         </div>
         <div class="return-amount">
@@ -135,15 +148,10 @@
         <div class="mt-3 text-center">
           <OutlinedButton
             :disabled="sellAeAmount <= 0"
-            class="red"
+            class="red buy-sell"
             @click="sell"
           >
-            <Loading
-              v-if="loading"
-              small
-              class="p-0"
-            />
-            <span v-else>{{ $t('components.WordBuySellButtons.Sell') }}</span>
+            <span>{{ $t('components.WordBuySellButtons.Sell') }}</span>
           </OutlinedButton>
         </div>
       </template>
@@ -359,5 +367,10 @@ export default {
     width: auto;
     opacity: 0.6;
   }
+}
+
+.buy-sell {
+  padding: 4px;
+  min-width: 80px;
 }
 </style>

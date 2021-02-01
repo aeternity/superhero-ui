@@ -1,5 +1,8 @@
 <template>
-  <div class="vote-card">
+  <div
+    class="vote-card"
+    :class="{ won: vote.showApplyPayout }"
+  >
     <Loader
       v-if="loading"
       :progress-message="progressMessage"
@@ -364,7 +367,11 @@ export default {
 
   &:active,
   &:hover {
-    border: 1px solid $custom_links_color;
+    background-color: $card_hover_color;
+
+    ::v-deep .form-control {
+      background-color: $super_dark;
+    }
   }
 
   .vote-progress-bar {
@@ -455,6 +462,10 @@ export default {
     .form-control {
       height: 100%;
     }
+  }
+
+  &.won {
+    border: 1px solid $custom_links_color;
   }
 }
 </style>

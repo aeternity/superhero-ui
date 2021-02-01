@@ -76,7 +76,10 @@
             maxlength="500"
             :disabled="loadingState"
           />
-          <p v-else>
+          <p
+            v-else
+            class="description"
+          >
             {{ description }}
           </p>
           <span
@@ -257,6 +260,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.create-token {
+  background-color: $actions_ribbon_background_color;
+  color: $light_font_color;
+}
+
 .create-header {
   position: relative;
 
@@ -380,7 +388,7 @@ export default {
 
     input,
     textarea {
-      background: #141414;
+      background: $buttons_background;
       resize: none;
       height: 100%;
     }
@@ -388,6 +396,10 @@ export default {
     p {
       color: $standard_font_color;
       word-break: break-word;
+
+      &.description {
+        color: $light_font_color;
+      }
     }
 
     .abbreviation {
@@ -400,7 +412,6 @@ export default {
 
       .ae-button {
         font-weight: 700;
-        width: 45%;
 
         @include mobile {
           width: 100%;

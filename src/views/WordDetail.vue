@@ -73,17 +73,19 @@
             class="asset-details__chart"
           >
             <figure>
-              <BondingCurve :data="data" />
+              <BondingCurve
+                :data="chartData"
+              />
               <figcaption class="legend">
                 <div class="legend-item">
                   <h3>{{ $t('views.WordDetail.LegendBuyPrice') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="data.buyPrice"
+                      :amount="chartData.bondingBuyPrice.toNumber()"
                       aettos
                     />
                     <FiatValue
-                      :amount="data.buyPrice"
+                      :amount="chartData.bondingBuyPrice.toNumber()"
                       aettos
                     />
                   </div>
@@ -92,11 +94,11 @@
                   <h3>{{ $t('views.WordDetail.LegendSellPrice') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="data.sellPrice"
+                      :amount="chartData.bondingSellPrice.toNumber()"
                       aettos
                     />
                     <FiatValue
-                      :amount="data.sellPrice"
+                      :amount="chartData.bondingSellPrice.toNumber()"
                       aettos
                     />
                   </div>
@@ -105,8 +107,8 @@
                   <h3>{{ $t('views.WordDetail.LegendSupply') }}</h3>
                   <div>
                     <AeAmount
-                      :token="data.tokenAddress"
-                      :amount="data.totalSupply"
+                      :token="chartData.tokenAddress"
+                      :amount="chartData.totalSupply.toNumber()"
                       aettos
                     />
                   </div>
@@ -115,11 +117,11 @@
                   <h3>{{ $t('views.WordDetail.LegendInitialPrice') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="0"
+                      :amount="chartData.initialPrice.toNumber()"
                       aettos
                     />
                     <FiatValue
-                      :amount="0"
+                      :amount="chartData.initialPrice.toNumber()"
                       aettos
                     />
                   </div>
@@ -128,7 +130,7 @@
                   <h3>{{ $t('views.WordDetail.LegendSpread') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="data.spread"
+                      :amount="chartData.tokenSpread.toNumber()"
                       aettos
                     />
                   </div>
@@ -137,7 +139,7 @@
                   <h3>{{ $t('views.WordDetail.LegendReserve') }}</h3>
                   <div>
                     <AeAmount
-                      :amount="tokenReserve"
+                      :amount="chartData.tokenReserve.toNumber()"
                       aettos
                     />
                   </div>
@@ -309,10 +311,10 @@ import AeButton from '../components/AeButton.vue';
 import Loader from '../components/Loader.vue';
 import VoteCard from '../components/VoteCard.vue';
 import MessageInput from '../components/MessageInput.vue';
-import { shiftDecimalPlaces, blockToDate } from '../utils';
+import { shiftDecimalPlaces, blockToDate, aeToAtoms } from '../utils';
 
 export default {
-  name: 'WordBazaar',
+  name: 'WordDetail',
   components: {
     TabBar,
     ActivityRibbon,
@@ -360,13 +362,30 @@ export default {
           return [];
       }
     },
-    tokenReserve() {
-      const { decimals } = this.tokenInfo[this.data.tokenAddress];
+    chartData() {
+      const decimals = this.tokenInfo[this.data.tokenAddress]?.decimals ?? 18;
+      const initialPrice = new BigNumber(aeToAtoms(1)); // currently supports only hardcoded 1AE
       const sellPrice = new BigNumber(this.data.sellPrice);
+      const buyPrice = new BigNumber(this.data.buyPrice);
       const totalSupply = new BigNumber(this.data.totalSupply);
-      const reserve = new BigNumber((sellPrice * totalSupply) / 2);
+      const bondingBuyPrice = new BigNumber(totalSupply.toNumber() + initialPrice.toNumber());
+      const bondingSellPrice = totalSupply;
+      const reserve = new BigNumber((bondingSellPrice * totalSupply) / 2);
+      const spread = new BigNumber((bondingBuyPrice - bondingSellPrice) * totalSupply);
 
-      return new BigNumber(shiftDecimalPlaces(reserve, -decimals)).toFixed(2);
+      return {
+        totalSupply,
+        initialPrice,
+        decimals,
+        buyPrice,
+        sellPrice,
+        bondingBuyPrice,
+        bondingSellPrice,
+        accumulatedSpread: this.data.spread,
+        tokenAddress: this.data.tokenAddress,
+        tokenSpread: new BigNumber(shiftDecimalPlaces(spread, -decimals)),
+        tokenReserve: new BigNumber(shiftDecimalPlaces(reserve, -decimals)),
+      };
     },
     maxAmount() {
       const tokenBalance = this.tokenBalances && this.data
@@ -627,7 +646,7 @@ h3 {
   &.fade-enter,
   &.fade-leave-to {
     opacity: 0;
-    transform: height(0);
+    transform: scaleY(0);
   }
 
   .message-input {
@@ -725,10 +744,12 @@ h3 {
   }
 
   &:nth-child(1) h3::before {
+    //background-color: #1161fe;
     border-color: #00ff9d;
   }
 
   &:nth-child(2) h3::before {
+    //background-color: #6224c7;
     border-color: #ff4746;
   }
 
@@ -746,8 +767,8 @@ h3 {
   }
 
   &:nth-child(6) h3::before {
-    border-color: #6224c7;
     background-color: #6224c7;
+    border-color: #6224c7;
   }
 }
 </style>

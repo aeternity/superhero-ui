@@ -49,6 +49,7 @@
             v-model="name"
             placeholder="Enter any combination of characters *"
             class="form-control"
+            :class="{ multiline: name.split('\n').length > 1 }"
             :rows="name.split('\n').length || 1"
             minlength="1"
             maxlength="333"
@@ -71,12 +72,16 @@
             v-model="description"
             placeholder="Enter additional information about your token *"
             class="form-control"
+            :class="{ multiline: description.split('\n').length > 1 }"
             :rows="description.split('\n').length || 1"
             minlength="1"
             maxlength="500"
             :disabled="loadingState"
           />
-          <p v-else>
+          <p
+            v-else
+            class="description"
+          >
             {{ description }}
           </p>
           <span
@@ -257,6 +262,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.create-token {
+  background-color: $actions_ribbon_background_color;
+  color: $light_font_color;
+}
+
 .create-header {
   position: relative;
 
@@ -310,12 +320,12 @@ export default {
     height: 0;
     border-left: 0.5rem solid transparent;
     border-right: 0.5rem solid transparent;
-    border-bottom: 0.5rem solid #2f2f2f;
+    border-bottom: 0.5rem solid $card_border_color;
   }
 }
 
 .steps-wrapper {
-  border: 1.5px solid #2f2f2f;
+  border: 1.5px solid $card_border_color;
   border-radius: 10px;
   margin: 0 0.5rem;
   padding: 1rem 0.5rem;
@@ -380,19 +390,36 @@ export default {
 
     input,
     textarea {
-      background: #141414;
+      background: $buttons_background;
       resize: none;
-      height: 100%;
+      padding-bottom: 8px;
+      padding-top: 8px;
+
+      &.multiline {
+        height: 100%;
+      }
     }
 
     p {
       color: $standard_font_color;
       word-break: break-word;
+
+      &.description {
+        color: $light_font_color;
+      }
     }
 
     .abbreviation {
       display: flex;
       justify-content: space-between;
+
+      input {
+        width: 220px;
+
+        @include mobile {
+          width: 100%;
+        }
+      }
 
       @include mobile {
         flex-direction: column;
@@ -400,7 +427,7 @@ export default {
 
       .ae-button {
         font-weight: 700;
-        width: 45%;
+        height: 40px;
 
         @include mobile {
           width: 100%;
@@ -412,6 +439,7 @@ export default {
           background-color: rgba(255, 255, 255, 0.44);
           padding: 0.2rem;
           margin-bottom: 0.1rem;
+          margin-right: 3px;
         }
       }
     }

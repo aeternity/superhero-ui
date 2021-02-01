@@ -36,7 +36,7 @@ export default {
 
 <style lang="scss" scoped>
 .tab-bar {
-  padding: 0 1.5rem;
+  padding: 0 1.125rem;
   background-color: $actions_ribbon_background_color;
   display: flex;
 
@@ -44,9 +44,10 @@ export default {
     color: $light_font_color;
     display: inline-block;
     font-size: 0.8rem;
-    font-weight: 600;
-    margin-right: 0.5rem;
-    padding: 0.5rem;
+    font-weight: 500;
+    margin-right: 24px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out;
 
     &:last-child {
       margin-right: 0;
@@ -58,7 +59,7 @@ export default {
     }
 
     &.active {
-      border-bottom: 2px solid $custom_links_color;
+      border-color: $custom_links_color;
       color: $custom_links_color;
     }
   }

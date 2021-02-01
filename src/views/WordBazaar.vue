@@ -28,7 +28,6 @@
           v-else
           @click="showSearch = true"
         />
-        <IconPlus @click="activity = 'create'" />
       </TabBar>
       <SearchInput
         v-if="showSearch"
@@ -102,40 +101,37 @@ export default {
     CreateToken,
     GetAe,
     HowItWorks,
-    IconPlus,
     IconSearch,
     SearchInput,
   },
-  data: () => ({
-    wordRegistryState: null,
-    activity: 'assets',
-    activeTab: 'all',
-    ordering: 'buyprice',
-    direction: 'desc',
-    search: '',
-    ribbonTabs: [
-      {
-        icon: IconTokens, text: 'Assets', activity: 'assets', header: 'WordBazaar Assets',
-      },
-      {
-        icon: IconPlus, text: 'Create token', activity: 'create', header: 'Create Token',
-      },
-      {
-        icon: IconAe, text: 'Get AE', activity: 'getae', header: 'Get AE Tokens',
-      },
-      {
-        icon: IconHelp2, text: 'How it works', activity: 'how', header: 'How It Works?',
-      },
-    ],
-    tabs: [
-      { text: 'All tokens', tab: 'all' },
-      { text: 'Trending', tab: 'trending' },
-      { text: 'Recent', tab: 'recent' },
-    ],
-    showSearch: false,
-    showBuyValue: true,
-    loading: true,
-  }),
+  data() {
+    return {
+      wordRegistryState: null,
+      activity: 'assets',
+      activeTab: 'all',
+      ordering: 'buyprice',
+      direction: 'desc',
+      search: '',
+      ribbonTabs: [
+        { icon: IconTokens, activity: 'assets' },
+        { icon: IconPlus, activity: 'create' },
+        { icon: IconAe, activity: 'getae' },
+        { icon: IconHelp2, activity: 'how' },
+      ].map((t, i) => ({
+        text: this.$t(`views.WordBazaar.RibbonTabs[${i}].Text`),
+        header: this.$t(`views.WordBazaar.RibbonTabs[${i}].Text`),
+        ...t,
+      })),
+      tabs: [
+        { text: 'All tokens', tab: 'all' },
+        { text: 'Trending', tab: 'trending' },
+        { text: 'Recent', tab: 'recent' },
+      ],
+      showSearch: false,
+      showBuyValue: true,
+      loading: true,
+    };
+  },
   computed: {
     ...mapState(['address']),
   },
@@ -180,6 +176,15 @@ export default {
     background-color: $buttons_background;
   }
 
+  .activity-ribbon {
+    margin-bottom: 1px;
+
+    ::v-deep svg {
+      height: 24px;
+      width: auto;
+    }
+  }
+
   ::v-deep .search-input {
     border-radius: 0.5rem;
 
@@ -210,6 +215,13 @@ export default {
   .iconSearch {
     height: 18px;
     width: 18px;
+    margin-right: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: $custom_links_color;
+    }
   }
 }
 

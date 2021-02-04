@@ -44,7 +44,7 @@
     "vue-timeago": "^5.1.2",
     "vuex": "^3.6.0",
     "vuex-router-sync": "^5.0.0",
-    "wordbazaar-contracts": "github:aeternity/wordbazaar-contracts#v0.0.1-alpha1"
+    "wordbazaar-contracts": "github:aeternity/wordbazaar-contracts#v0.0.2-alpha1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",

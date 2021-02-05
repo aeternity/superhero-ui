@@ -80,6 +80,9 @@ export default {
         : this.record.comments.filter(({ parentId }) => !parentId);
     },
   },
+  async prefetch() {
+    await this.$store.dispatch(this.id ? 'backend/reloadComment' : 'backend/reloadTip', this.id || this.tipId);
+  },
   async mounted() {
     const handler = () => this.reloadData();
     this.$watch(({ id }) => id, handler, { immediate: true });

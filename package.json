@@ -3,6 +3,7 @@
   "version": "0.3.1",
   "scripts": {
     "serve": "vue-cli-service serve",
+    "serve:tnet": "vue-cli-service serve --mode tnet",
     "build": "vue-cli-service build",
     "build:stats": "vue-cli-service build --report-json",
     "test:unit": "vue-cli-service test:unit",

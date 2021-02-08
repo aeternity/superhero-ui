@@ -194,6 +194,8 @@ export default {
       return tokenSaleContracts[contractAddress];
     },
     async deployBondingCurve({ state: { sdk } }, decimals) {
+      // alters bonding curve contract to change the dependency default 1 alpha to 18
+      // as we use 18 decimals and thus need to adjust the curve to match that
       const BONDING_CURVE_DECIMALS = BONDING_CURVE.replace(
         'function alpha() : Frac.frac = Frac.make_frac(1, 1)',
         `function alpha() : Frac.frac = Frac.make_frac(1, ${shiftDecimalPlaces(1, decimals)})`,
@@ -212,6 +214,8 @@ export default {
         description,
       },
     ) {
+      // alters token sale contract to change the dependency default 1 decimals to 18
+      // as we want that as default for use with wordbazaar
       const TOKEN_SALE_CONTRACT_DECIMALS = TOKEN_SALE_CONTRACT.replace(
         'let decimals = 1',
         `let decimals = ${shiftDecimalPlaces(1, decimals)}`,

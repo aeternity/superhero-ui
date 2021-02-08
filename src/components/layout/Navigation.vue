@@ -71,6 +71,7 @@ export default {
   props: {
     mobile: Boolean,
   },
+  data: () => ({ showWordBazaar: process.env.VUE_APP_WORDBAZAAR_ENABLED }),
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState(['address']),

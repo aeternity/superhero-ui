@@ -57,6 +57,10 @@ const routes = [
       title: 'WordBazaar',
     },
     props: true,
+    beforeEnter(to, from, next) {
+      if (process.env.VUE_APP_WORDBAZAAR_ENABLED) next();
+      else next({ name: 'feed' });
+    },
   },
   {
     path: '/word/:word',
@@ -66,6 +70,10 @@ const routes = [
       title: 'Word Detail',
     },
     props: true,
+    beforeEnter(to, from, next) {
+      if (process.env.VUE_APP_WORDBAZAAR_ENABLED) next();
+      else next({ name: 'feed' });
+    },
   },
   {
     path: '/user-profile/:address',

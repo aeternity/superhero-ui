@@ -236,7 +236,8 @@ export default {
       },
     ) {
       const contract = await sdk.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
-      await contract.methods.init(name, decimals, symbol, tokenSaleAddress);
+      await contract.methods
+        .init(name, decimals, symbol, tokenSaleAddress, process.env.VUE_APP_WORD_REGISTRY_ADDRESS);
       commit('setFungibleTokenContract', contract.deployInfo.address, contract);
       return contract.deployInfo.address;
     },

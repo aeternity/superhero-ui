@@ -185,7 +185,7 @@ export default {
 
         this.step = 1;
 
-        const bondingCurveAddress = await this.$store.dispatch('aeternity/deployBondingCurve', decimals);
+        const bondingCurveAddress = process.env.VUE_APP_BONDING_CURVE_18_DECIMALS_ADDRESS;
 
         this.step = 2;
         const timeout = 20;
@@ -203,22 +203,13 @@ export default {
             name: this.name,
             decimals,
             symbol: this.abbreviation,
-            tokenSaleAddress: tokenSaleAddress.replace('ct_', 'ak_'),
+            tokenSaleAddress,
           });
-        await Backend.addToken(fungibleTokenAddress);
-        EventBus.$emit('reloadData');
 
         this.step = 4;
-        await this.$store.dispatch('aeternity/tokenSaleMethod',
-          {
-            contractAddress: tokenSaleAddress,
-            method: 'set_token',
-            args: [fungibleTokenAddress],
-          });
 
-        this.step = 5;
-        await this.$store.dispatch('aeternity/wordRegistryAddToken', tokenSaleAddress)
-          .catch(() => { throw new Error(this.$t('components.CreateToken.ExistWarning')); });
+        await Backend.addToken(fungibleTokenAddress);
+        EventBus.$emit('reloadData');
         await Backend.invalidateWordRegistryCache();
 
         this.step = 6;

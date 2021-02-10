@@ -30,13 +30,13 @@
     <div class="steps-wrapper">
       <div class="steps">
         <div
-          v-for="(n,i) in 6"
+          v-for="(n,i) in 4"
           :key="i"
           class="step"
         >
           <div
             class="step-box"
-            :class="{ active: step >= i, pulse: ((step === i && step !== 0) || step >= 6) }"
+            :class="{ active: step >= i, pulse: ((step === i && step !== 0) || step >= 4) }"
           />
         </div>
       </div>
@@ -116,7 +116,7 @@
               <span
                 v-if="!loadingState"
                 class="right"
-              >{{ `${abbreviation.length} / 6` }}</span>
+              >{{ `${abbreviation.length} / 4` }}</span>
             </div>
             <AeButton
               v-if="success"
@@ -182,13 +182,11 @@ export default {
       try {
         this.loadingState = true;
         const decimals = 18;
+        const bondingCurveAddress = process.env.VUE_APP_BONDING_CURVE_18_DECIMALS_ADDRESS;
+        const timeout = 20;
 
         this.step = 1;
 
-        const bondingCurveAddress = process.env.VUE_APP_BONDING_CURVE_18_DECIMALS_ADDRESS;
-
-        this.step = 2;
-        const timeout = 20;
         const tokenSaleAddress = await this.$store.dispatch('aeternity/deployTokenSaleContract',
           {
             decimals,
@@ -197,7 +195,7 @@ export default {
             description: this.description,
           });
 
-        this.step = 3;
+        this.step = 2;
         const fungibleTokenAddress = await this.$store.dispatch('aeternity/deployFungibleTokenContract',
           {
             name: this.name,
@@ -206,13 +204,13 @@ export default {
             tokenSaleAddress,
           });
 
-        this.step = 4;
+        this.step = 3;
 
         await Backend.addToken(fungibleTokenAddress);
         EventBus.$emit('reloadData');
         await Backend.invalidateWordRegistryCache();
 
-        this.step = 6;
+        this.step = 4;
         EventBus.$emit('reloadData');
 
         this.success = true;

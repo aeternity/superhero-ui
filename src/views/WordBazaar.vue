@@ -66,18 +66,28 @@ export default {
 
 <style lang="scss" scoped>
 .word-bazaar {
+  width: 624px;
+  background: $actions_ribbon_background_color;
+
   .actions-ribbon {
+    height: 56px;
     background-color: $actions_ribbon_background_color;
     color: $standard_font_color;
   }
 
   .activity-ribbon {
     background-color: $buttons_background;
+    height: 64px;
     margin-bottom: 1px;
 
-    svg {
-      height: 24px;
-      margin-right: 0.15rem;
+    ::v-deep .filter-button {
+      height: 40px;
+      border-radius: 20px;
+
+      svg {
+        height: 24px;
+        margin-right: 0.15rem;
+      }
     }
   }
 

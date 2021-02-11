@@ -385,7 +385,7 @@ export default {
     width: 9rem;
     border-radius: 0.3rem;
     overflow: hidden;
-    height: 2.3rem;
+    height: 40px;
 
     @include mobile {
       width: 100%;

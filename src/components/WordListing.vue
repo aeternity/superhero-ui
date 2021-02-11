@@ -52,21 +52,22 @@
       </div>
     </div>
 
-    <div
+    <RouterLink
       v-else
       class="word-listing word-row"
+      tag="div"
+      :to="{ name: 'word-detail', params: { word: data.word } }"
     >
-      <RouterLink
+      <div
         class="word-listing-column asset-column link"
-        tag="div"
-        :to="{ name: 'word-detail', params: { word: data.word } }"
       >
         {{ data.word }}
-      </RouterLink>
+      </div>
       <div class="word-listing-column">
         <AeAmountFiat
           :amount="showBuyValue ? data.buyPrice : data.sellPrice"
           aettos
+          @click.native.stop
         />
       </div>
       <div class="word-listing-column">
@@ -75,11 +76,15 @@
           :token="data.tokenAddress"
           no-symbol
           class="supply"
+          @click.native.stop
         />
       </div>
 
-      <WordBuySellButtons :sale="data.sale" />
-    </div>
+      <WordBuySellButtons
+        :sale="data.sale"
+        @click.native.stop
+      />
+    </RouterLink>
   </div>
 </template>
 
@@ -142,10 +147,12 @@ export default {
   transition: background-color 0.3s ease-in-out;
   background-color: $light_color;
   display: flex;
+  height: 48px;
 
   &.word-row {
     &:hover {
       background-color: $buttons_background;
+      cursor: pointer;
     }
   }
 
@@ -181,11 +188,6 @@ export default {
     }
   }
 
-  .asset-column {
-    font-weight: 500;
-    padding-left: 1.2rem;
-  }
-
   .word-listing-column {
     flex: 0 0 25%;
     width: 25%;
@@ -201,14 +203,20 @@ export default {
   }
 
   &.word-listing-heading {
+    height: 56px;
     font-size: 0.8rem;
     font-weight: 500;
+  }
+
+  .asset-column {
+    font-weight: 500;
+    padding-left: 24px;
+    width: 122px;
   }
 
   .link {
     color: $secondary_color;
     text-decoration: none;
-    cursor: pointer;
   }
 
   .word-listinglabel {

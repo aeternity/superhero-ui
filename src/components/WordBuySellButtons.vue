@@ -12,6 +12,7 @@
 
       <OutlinedButton
         class="red unpadded"
+        :class="{ disabled: tokenBalance === 0 }"
         :disabled="tokenBalance === 0"
         @click="() => {
           showSellModal = true; sellValue()
@@ -335,8 +336,20 @@ export default {
 <style lang="scss" scoped>
 .buttons {
   button {
-    @include smallest {
-      margin-bottom: 0.25rem;
+    height: 32px;
+    max-width: 59px;
+    opacity: 0.8;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 18px;
+
+    &:hover:not(.disabled) {
+      opacity: 1;
+    }
+
+    &:not(:last-child) {
+      margin-right: 16px !important;
     }
   }
 }

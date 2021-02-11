@@ -444,8 +444,9 @@
       ]
     },
     "WordDetail": {
-      "NoVotes": "There are no current votes for this asset.",
+      "NoVotes": "There are no current votes for this token.",
       "VoteText": "As a holder of {balance} tokens you are eligible to initiate a blockchain vote in order to release the accumulated spread amount of {spread} tokens held by the smart contract and transfer it to another æternity blockchain address.",
+      "VoteTextZero": "You need to be {token} holder to initiate a blockchain vote for releasing the accumulated spread amount of {spread} tokens held by the smart contract and transfering it to æternity blockchain address by your choice.",
       "ConfirmMessage": "Please confirm the transaction!",
       "CreateVote": {
         "Placeholder": "Tell the community why you need the funds to be released",
@@ -459,8 +460,15 @@
       "CurrentPrice": "Current Price",
       "SellPrice": "Sell Price",
       "Supply": "Circulating Supply",
-      "Asset": "Asset",
+      "Asset": "Token",
       "Description": "Description",
+      "BondingCurve": "Bonding Curve",
+      "LegendBuyPrice": "Bonding Buy Price",
+      "LegendSellPrice": "Bonding Sell Price",
+      "LegendSupply": "Current Supply",
+      "LegendInitialPrice": "Initial Buy Price",
+      "LegendSpread": "Spread",
+      "LegendReserve": "Reserve",
       "Release": "Release {0} spread for transfer to",
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
@@ -470,9 +478,9 @@
     },
     "WordBazaar": {
       "Title": "WordBazaar",
-      "Placeholder": "Search for assets",
+      "Placeholder": "Search for tokens",
       "RibbonTabs": [
-        { "Text": "Assets", "Header": "WordBazaar Assets" },
+        { "Text": "Tokens", "Header": "WordBazaar Tokens" },
         { "Text": "Create token", "Header": "Create token" },
         { "Text": "Get AE", "Header": "Get AE Tokens" },
         { "Text": "How it works", "Header": "How it works" }
@@ -559,9 +567,9 @@
     "CreateToken": {
       "NewToken": "New Token Created ✨",
       "CreateToken": "Create Your Token",
-      "Proceed": "Proceed To Assets",
+      "Proceed": "Proceed To Tokens",
       "FiveMinutes": "In Less Than 5 Minutes",
-      "TokenAsset": "Token asset",
+      "TokenAsset": "Token",
       "TokenDescription": "Token description",
       "Abbreviation": "Abbreviation",
       "AbbreviationLong": "Abbreviation (token short name)",
@@ -658,7 +666,7 @@
         },
         {
           "Header": "Token profile",
-          "Paragraph": "By clicking on the token name – the token profile will appear with additional information (Ticker, Current Price, Sell Price, Circulating Supply, Asset name, description) and option to start Voting (but also see your votes, and past votes)."
+          "Paragraph": "By clicking on the token name – the token profile will appear with additional information (Ticker, Current Price, Sell Price, Circulating Supply, Token name, description) and option to start Voting (but also see your votes, and past votes)."
         },
         {
           "Header": "Powered by bonding curve",

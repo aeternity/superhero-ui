@@ -166,22 +166,33 @@ export default {
 
 <style lang="scss" scoped>
 .word-bazaar {
+  width: 624px;
+  background: $actions_ribbon_background_color;
+
   .actions-ribbon {
+    height: 56px;
     background-color: $actions_ribbon_background_color;
     color: $standard_font_color;
   }
 
-  .activity-ribbon,
   .tab-bar {
+    height: 40px;
     background-color: $buttons_background;
   }
 
   .activity-ribbon {
+    background-color: $buttons_background;
+    height: 64px;
     margin-bottom: 1px;
 
-    ::v-deep svg {
-      height: 24px;
-      width: auto;
+    ::v-deep .filter-button {
+      height: 40px;
+      border-radius: 20px;
+
+      svg {
+        height: 24px;
+        width: auto;
+      }
     }
   }
 
@@ -232,10 +243,5 @@ a {
 
 h2 {
   margin-top: 1rem;
-}
-
-::v-deep .abbreviation {
-  font-weight: 500;
-  color: $secondary_color;
 }
 </style>

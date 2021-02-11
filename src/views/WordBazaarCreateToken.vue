@@ -163,7 +163,6 @@ export default {
     word: { type: String, default: null },
     sale: { type: String, default: null },
     heading: { type: Boolean },
-    navigateAssets: { type: Function, required: true },
   },
   data: () => ({
     name: '',
@@ -178,6 +177,9 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
+    navigateAssets() {
+      this.$router.push({ name: 'word-bazaar-assets' });
+    },
     async createWordSale() {
       try {
         this.loadingState = true;

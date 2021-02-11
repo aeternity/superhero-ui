@@ -268,13 +268,36 @@
                   />
                 </template>
               </i18n>
-              <AeButton
-                v-if="maxAmount > 0"
-                @click="showInitiate = !showInitiate"
+              <i18n
+                v-else
+                path="views.WordDetail.VoteTextZero"
+                tag="p"
               >
-                <IconCheckmarkCircle />
-                {{ $t('views.WordDetail.Initiate') }}
-              </AeButton>
+                <template v-slot:token>
+                  <span class="abbreviation">{{ selectedWord }}</span>
+                </template>
+                <template v-slot:spread>
+                  <AeAmount
+                    :amount="data.spread"
+                    aettos
+                  />
+                </template>
+              </i18n>
+              <div class="buttons">
+                <OutlinedButton
+                  v-if="maxAmount <= 0"
+                  class="green unpadded"
+                >
+                  {{ $t('Buy Tokens') }}
+                </OutlinedButton>
+                <AeButton
+                  :disabled="maxAmount <= 0"
+                  @click="showInitiate = !showInitiate"
+                >
+                  <IconCheckmarkCircle />
+                  {{ $t('views.WordDetail.Initiate') }}
+                </AeButton>
+              </div>
             </div>
             <VoteCard
               v-for="vote in votes"
@@ -311,6 +334,7 @@ import AeButton from '../components/AeButton.vue';
 import Loader from '../components/Loader.vue';
 import VoteCard from '../components/VoteCard.vue';
 import MessageInput from '../components/MessageInput.vue';
+import OutlinedButton from '../components/OutlinedButton.vue';
 import { shiftDecimalPlaces, blockToDate, aeToAtoms } from '../utils';
 
 export default {
@@ -329,6 +353,7 @@ export default {
     Loader,
     VoteCard,
     MessageInput,
+    OutlinedButton,
   },
   data() {
     return {
@@ -547,6 +572,9 @@ export default {
 
 <style lang="scss" scoped>
 .word-detail {
+  width: 624px;
+  background: $actions_ribbon_background_color;
+
   ::v-deep .activity-ribbon {
     svg {
       height: 20px;
@@ -554,13 +582,15 @@ export default {
     }
   }
 
-  ::v-deep .ae-button {
-    font-size: 0.8rem;
-    height: 2rem;
+  ::v-deep .ae-button,
+  .outlined-button {
+    font-size: 16px;
+    height: 40px;
 
     svg {
       height: 24px;
       width: auto;
+      margin-bottom: 2px;
     }
   }
 
@@ -608,9 +638,19 @@ export default {
           color: $pure_white;
         }
 
-        button {
-          width: 154px;
-          margin: 0 auto;
+        .buttons {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          button {
+            width: 154px;
+            height: 40px;
+
+            &.outlined-button {
+              margin-right: 32px;
+            }
+          }
         }
       }
     }

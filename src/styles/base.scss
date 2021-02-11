@@ -74,6 +74,11 @@ img.fail {
   visibility: hidden;
 }
 
+.abbreviation {
+  font-weight: 500;
+  color: $secondary_color;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

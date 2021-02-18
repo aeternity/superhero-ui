@@ -41,7 +41,7 @@ export default {
     ...mapState(['address']),
     ...mapState('aeternity', ['sdk']),
   },
-  async created() {
+  async mounted() {
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });

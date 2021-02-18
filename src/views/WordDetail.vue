@@ -403,7 +403,7 @@ export default {
       this.loadVotes();
     },
   },
-  async created() {
+  async mounted() {
     this.selectedWord = this.$route.params.word;
     this.loading = true;
     await this.reloadData();

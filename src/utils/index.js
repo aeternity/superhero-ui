@@ -91,22 +91,16 @@ export const blockToDate = (goalBlock, height) => {
   return new Date(diff * 180000 + Date.now());
 };
 
-export const wrapTry = async (promise, store) => {
+export const wrapTry = async (promise) => {
   try {
     return promise.then((res) => {
-      if (!res) {
-        if (store) { store.commit('setBackendStatus', false); }
-        return null;
+      if (!res || res.status !== 200) {
+        throw new Error(4000);
       }
-      if (store) { store.commit('setBackendStatus', true); }
-      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
+      if (!res.ok) throw new Error(4000);
       return res.json();
-    }).catch((error) => {
-      console.error(error);
-      return null;
     });
   } catch (err) {
-    if (store) { store.commit('setBackendStatus', false); }
-    return null;
+    throw new Error(5000);
   }
 };

@@ -52,6 +52,12 @@ export default {
       this.initWallet(),
       this.reloadData(),
     ]);
+
+    window.addEventListener('unhandledrejection', (code) => {
+      if (code !== 200 && this.$route.name !== 'maintenance') {
+        this.$router.push({ name: 'maintenance' });
+      }
+    });
   },
   methods: {
     ...mapMutations([

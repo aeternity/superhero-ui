@@ -183,7 +183,7 @@ export default {
   computed: {
     ...mapState(['tokenInfo']),
   },
-  async created() {
+  async mounted() {
     const metadata = await this.$store.dispatch('aeternity/tokenVotingMethod', {
       contractAddress: this.vote.voteAddress, method: 'metadata',
     });

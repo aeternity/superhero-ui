@@ -211,7 +211,7 @@ export default {
       return new BigNumber(balance ? balance.balance : '0').toNumber();
     },
   },
-  created() {
+  mounted() {
     this.reloadData();
     EventBus.$on('reloadData', () => {
       this.reloadData();

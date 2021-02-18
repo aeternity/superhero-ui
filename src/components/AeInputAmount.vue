@@ -109,7 +109,7 @@ export default {
         : 'AE';
     },
   },
-  created() {
+  mounted() {
     this.selectToken(this.selectTokenOptions.find((t) => t.token === this.token));
   },
   methods: {

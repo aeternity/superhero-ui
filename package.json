@@ -36,7 +36,7 @@
     "lodash-es": "^4.17.20",
     "sophia-bonding-curve": "github:aeternity/BondingCurve#1.0.0-alpha",
     "soundcloud-widget": "^0.2.1",
-    "tipping-contract": "github:aeternity/tipping-contract#v3.0.0-alpha1",
+    "tipping-contract": "github:aeternity/tipping-contract#v3.0.1-alpha1",
     "vue": "^2.6.12",
     "vue-chartjs": "^3.5.1",
     "vue-i18n": "^8.22.2",

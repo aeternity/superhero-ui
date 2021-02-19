@@ -44,7 +44,7 @@
         @click.stop
       >
         <TipInput
-          v-if="tip.type === 'PostWithoutTip'"
+          v-if="tip.type === 'POST_WITHOUT_TIP'"
           :tip="{ ...tip, url: `https://superhero.com/tip/${tip.id}` }"
         />
         <div class="actions-wrapper">

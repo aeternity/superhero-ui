@@ -399,8 +399,8 @@ export default {
     max-width: 100%;
     width: 100%;
     border: none;
-    height: 319px; //?
-    object-fit: cover/contain;
+    height: 319px;
+    object-fit: cover;
     cursor: pointer;
     transition: 0.4s all;
   }

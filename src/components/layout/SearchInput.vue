@@ -4,6 +4,7 @@
     :class="{ sided, focused }"
   >
     <input
+      ref="search"
       :value="value"
       type="text"
       :placeholder="placeholder"
@@ -12,7 +13,7 @@
       @input="search($event.target.value)"
     >
     <ButtonPlain
-      v-if="value.length"
+      v-if="value.length && !hideEraser"
       :title="$t('views.TipList.Clear')"
       @click="$emit('input', '')"
     >
@@ -47,11 +48,16 @@ export default {
     sided: { type: Boolean },
     placeholder: { type: String, default: '' },
     value: { type: String, default: '' },
+    hideEraser: Boolean,
+    setFocused: Boolean,
   },
   data() {
     return {
       focused: false,
     };
+  },
+  mounted() {
+    if (this.setFocused) { this.$refs.search.focus(); }
   },
   methods: {
     search: debounce(function set(value) {
@@ -66,6 +72,7 @@ export default {
   background-color: $buttons_background;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -93,9 +100,25 @@ export default {
     }
   }
 
-  svg {
-    height: 20px;
+  ::v-deep svg {
+    height: 24px;
     width: auto;
+    opacity: 0.44;
+    color: $standard_font_color;
+    transition: opacity 0.3s ease-in-out;
+    cursor: pointer;
+
+    .background {
+      opacity: 0;
+    }
+
+    &:hover {
+      opacity: 1;
+
+      .background {
+        opacity: 1;
+      }
+    }
   }
 
   &.sided {

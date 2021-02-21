@@ -197,7 +197,9 @@ export default {
   }
 
   ::v-deep .search-input {
-    border-radius: 0.5rem;
+    height: 38px;
+    width: 100%;
+    color: $standard_font_color;
 
     &.mobile {
       margin: 4px;

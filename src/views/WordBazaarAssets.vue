@@ -9,6 +9,7 @@
         v-model="search"
         :placeholder="$t('views.WordBazaar.Placeholder')"
         class="desktop"
+        set-focused
         @input="reloadData"
         @close="showSearch = false"
       />
@@ -21,6 +22,7 @@
       v-if="showSearch"
       v-model="search"
       :placeholder="$t('views.WordBazaar.Placeholder')"
+      set-focused
       class="mobile"
       @input="reloadData"
       @close="showSearch = false"
@@ -124,7 +126,9 @@ export default {
   }
 
   ::v-deep .search-input {
-    border-radius: 0.5rem;
+    height: 38px;
+    width: 100%;
+    color: $standard_font_color;
 
     &.mobile {
       margin: 4px;

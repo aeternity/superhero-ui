@@ -484,8 +484,8 @@
     },
     "CreateToken": {
       "NewToken": "New Token Created ✨",
-      "CreateToken": "Create Your Token",
-      "Proceed": "Proceed To Tokens",
+      "CreateToken": "Create your token",
+      "Proceed": "Proceed to Tokens",
       "FiveMinutes": "In Less Than 5 Minutes",
       "TokenAsset": "Token",
       "TokenDescription": "Token description",

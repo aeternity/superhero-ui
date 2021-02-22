@@ -104,7 +104,7 @@
               $t('components.CreateToken.Abbreviation') :
               $t('components.CreateToken.AbbreviationLong') }}
           </label>
-          <div class="abbreviation">
+          <div class="abbreviation-input">
             <div>
               <input
                 v-if="!loadingState"
@@ -271,6 +271,7 @@ export default {
 .create-token {
   background-color: $actions_ribbon_background_color;
   color: $light_font_color;
+  height: 100%;
 }
 
 .create-header {
@@ -431,7 +432,7 @@ export default {
       }
     }
 
-    .abbreviation {
+    .abbreviation-input {
       display: flex;
       justify-content: space-between;
 

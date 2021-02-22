@@ -4,10 +4,7 @@
       class="back-button"
       @click="back"
     >
-      <img
-        v-if="!hideBack"
-        src="../assets/backArrow.svg"
-      >
+      <BackArrow v-if="!hideBack" />
     </ButtonPlain>
 
     <div class="title">
@@ -22,10 +19,12 @@
 
 <script>
 import ButtonPlain from './ButtonPlain.vue';
+import BackArrow from '../assets/backArrow.svg?icon-component';
 
 export default {
   components: {
     ButtonPlain,
+    BackArrow,
   },
   props: {
     hideBack: { type: Boolean },
@@ -49,7 +48,7 @@ export default {
   position: sticky;
   top: 0;
   line-height: 1.2rem;
-  height: 2.8rem;
+  height: 56px;
   z-index: 21;
   display: flex;
 
@@ -58,10 +57,19 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-  }
 
-  img:hover {
-    cursor: pointer;
+    svg {
+      color: $standard_font_color;
+      width: 24px;
+      height: auto;
+      opacity: 0.7;
+      transition: opacity 0.3s ease-in-out;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 1;
+      }
+    }
   }
 
   .title {

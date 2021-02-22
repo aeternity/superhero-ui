@@ -589,10 +589,13 @@ export default {
   background: $actions_ribbon_background_color;
 
   ::v-deep .activity-ribbon {
+    box-sizing: border-box;
     position: sticky;
     top: 56px;
-    height: 64px;
-    margin-bottom: 1px;
+    height: 65px;
+    border-bottom: 1px solid $actions_ribbon_background_color;
+    margin: 0;
+    z-index: 1;
   }
 
   ::v-deep .ae-button,
@@ -613,6 +616,9 @@ export default {
     height: 40px;
     font-size: 15px;
     background-color: $buttons_background;
+    position: sticky;
+    top: 121px;
+    z-index: 1;
 
     .button-plain {
       .plus {
@@ -729,22 +735,16 @@ export default {
       }
 
       &:hover {
-        background: #141414;
+        background: $buttons_background;
 
         h3 {
-          color: #babac0;
+          color: $tip_note_color;
         }
       }
 
       @include mobile {
-        font-size: 0.6rem;
         width: 40%;
         margin: 8px;
-
-        h3 {
-          font-size: 0.8rem;
-          line-height: 1rem;
-        }
       }
     }
   }

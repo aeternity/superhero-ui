@@ -396,7 +396,7 @@ export default {
     width: 100%;
     border: none;
     height: 319px;
-    object-fit: cover;
+    object-fit: contain;
     cursor: pointer;
     transition: 0.4s all;
   }

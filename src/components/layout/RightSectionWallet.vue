@@ -7,7 +7,6 @@
       v-bind="$attrs"
       :closed="closed"
     >
-      <img src="../../assets/iconWallet.svg">
       {{ $t('components.layout.RightSection.Wallet') }}
     </RightSectionTitle>
 
@@ -21,25 +20,60 @@
         {{ address }}
       </div>
       <div class="not-bootstrap-row">
-        <AeAmount :amount="balance" />
         <Dropdown
-          v-if="currencyDropdownOptions.length"
-          :options="currencyDropdownOptions"
-          :method="updateCurrency"
-          :selected="selectedCurrency"
-          rounded
-        />
-      </div>
-
-      <template v-if="hasContractV2Address">
+          v-if="hasContractV2Address"
+          :options="tokenBalancesOptions"
+          :method="selectToken"
+          :selected="aeternityTokenData.token"
+        >
+          <template #displayValue>
+            <AeAmount
+              :amount="(selectedToken || aeternityTokenData).balance"
+              :token="(selectedToken || aeternityTokenData).token"
+            />
+          </template>
+          <template v-slot="{ option }">
+            <TokenAvatarAndSymbol :address="option.token" />
+          </template>
+        </Dropdown>
         <AeAmount
-          v-for="tokenBalance in tokenBalances"
-          :key="tokenBalance.token"
-          class="not-bootstrap-row"
-          :amount="tokenBalance.balance"
-          :token="tokenBalance.token"
+          v-else
+          :amount="balance"
         />
-      </template>
+        <Dropdown
+          v-if="currencyDropdownOptions.length && showCurrencyDropdown"
+          :options="currencyDropdownOptions"
+          :method="({ currency }) => updateCurrency(currency)"
+          :selected="selectedCurrency"
+          show-right
+        >
+          <template #displayValue>
+            <span class="currency-value spaced">
+              <FiatValue
+                :amount="(selectedToken || aeternityTokenData).balance"
+                :token="(selectedToken || aeternityTokenData).token"
+                no-parentheses
+                no-symbol
+                :aettos="selectedToken && !!selectedToken.token"
+              />
+            </span>
+            {{ selectedCurrency.toUpperCase() }}
+          </template>
+          <template v-slot="{ option }">
+            <span class="currency-value">
+              <FiatValue
+                :amount="(selectedToken || aeternityTokenData).balance"
+                :token="(selectedToken || aeternityTokenData).token"
+                :currency="option.currency"
+                no-parentheses
+                no-symbol
+                :aettos="(selectedToken || aeternityTokenData).token"
+              />
+            </span>
+            {{ option.currency.toUpperCase() }}
+          </template>
+        </Dropdown>
+      </div>
     </template>
     <OutlinedButton
       v-else
@@ -52,44 +86,82 @@
 
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
-import BigNumber from 'bignumber.js';
 import AeAmount from '../AeAmount.vue';
 import Dropdown from '../Dropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
 import OutlinedButton from '../OutlinedButton.vue';
+import TokenAvatarAndSymbol from '../fungibleTokens/TokenAvatarAndSymbol.vue';
+import FiatValue from '../FiatValue.vue';
 
 export default {
   components: {
-    RightSectionTitle, AeAmount, Dropdown, OutlinedButton,
+    FiatValue,
+    RightSectionTitle,
+    AeAmount,
+    Dropdown,
+    OutlinedButton,
+    TokenAvatarAndSymbol,
   },
   props: { closed: Boolean },
   data: () => ({
     walletUrl: process.env.VUE_APP_WALLET_URL,
     hasContractV2Address: !!process.env.VUE_APP_CONTRACT_V2_ADDRESS,
+    showCurrencyDropdown: true,
+    selectedToken: null,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState(['balance', 'address', 'useIframeWallet', 'selectedCurrency', 'tokenBalances']),
-    ...mapState({
-      currencyDropdownOptions({ backend: { prices }, balance }) {
-        return Object.entries(prices).map(([currency, price]) => ({
-          text: [
-            new BigNumber(balance).multipliedBy(price).toFixed(2),
-            currency.toUpperCase(),
-          ].join(' '),
-          value: currency,
-        }));
-      },
-    }),
+    ...mapState('backend', ['prices']),
+    ...mapState(['balance', 'address', 'selectedCurrency', 'tokenBalances',
+      'tokenPrices', 'tokenInfo', 'wordRegistry']),
+    ...mapState('aeternity', ['useIframeWallet']),
+    currencyDropdownOptions() {
+      return Object.entries(this.prices).map(([currency]) => ({ currency }));
+    },
+    aeternityTokenData() {
+      return {
+        balance: this.balance,
+        token: null,
+      };
+    },
+    tokenBalancesOptions() {
+      return [
+        this.aeternityTokenData,
+        ...this.tokenBalances,
+      ];
+    },
   },
-  methods: mapMutations(['updateCurrency', 'enableIframeWallet']),
+  watch: {
+    '$route.params.word': {
+      immediate: true,
+      handler(word) {
+        if (word) {
+          const wordAddress = this.wordRegistry.find((w) => w.word === word).tokenAddress;
+          const option = this.tokenBalancesOptions.find((t) => t.token === wordAddress);
+          if (option) {
+            this.selectToken(option);
+          }
+        } else {
+          this.selectToken(this.aeternityTokenData);
+        }
+      },
+    },
+  },
+  methods: {
+    ...mapMutations(['updateCurrency']),
+    ...mapMutations('aeternity', ['enableIframeWallet']),
+    selectToken(option) {
+      this.selectedToken = option;
+      this.showCurrencyDropdown = option.token === null
+        || (!!this.tokenPrices[option.token] && !!this.tokenInfo[option.token]);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .right-section-wallet {
   padding: 0.8rem 1rem;
-  overflow: hidden;
 
   &.iframe {
     padding: 0;
@@ -122,9 +194,18 @@ export default {
     display: flex;
     align-items: center;
 
-    .ae-amount {
+    .ae-amount,
+    .dropdown:first-child {
       flex-grow: 1;
-      font-size: 1.3rem;
+      font-size: 1rem;
+    }
+  }
+
+  .currency-value {
+    color: $tip_note_color;
+
+    &.spaced {
+      margin-right: 0.2rem;
     }
   }
 }

@@ -4,100 +4,105 @@
     :class="{ sided, focused }"
   >
     <input
-      v-model="query"
+      :value="value"
       type="text"
-      :placeholder="$t('views.TipList.SearchPlaceholder')"
+      :placeholder="placeholder"
       @focus="focused = true"
       @blur="focused = false"
+      @input="search($event.target.value)"
     >
-
-    <RouterLink
-      v-if="query.length"
+    <ButtonPlain
+      v-if="value.length"
       :title="$t('views.TipList.Clear')"
-      :to="{ name: 'tips' }"
+      @click="$emit('input', '')"
     >
-      <img src="../../assets/iconEraser.svg">
-    </RouterLink>
-    <img
-      v-else-if="sided && !focused"
-      src="../../assets/iconSearch.svg"
-    >
-
-    <button
+      <IconEraser />
+    </ButtonPlain>
+    <IconSearch v-else-if="sided && !focused" />
+    <ButtonPlain
       v-if="!sided"
       :title="$t('views.TipList.CloseSearch')"
       @click="$emit('close')"
     >
-      <!--eslint-disable-line vue-i18n/no-raw-text-->
-      &#x2715;
-    </button>
+      <IconClose />
+    </ButtonPlain>
   </div>
 </template>
 
 <script>
 import { debounce } from 'lodash-es';
+import IconSearch from '../../assets/iconSearch.svg?icon-component';
+import IconEraser from '../../assets/iconEraser.svg?icon-component';
+import IconClose from '../../assets/iconClose.svg?icon-component';
+import ButtonPlain from '../ButtonPlain.vue';
 
 export default {
+  components: {
+    IconSearch,
+    IconEraser,
+    IconClose,
+    ButtonPlain,
+  },
   props: {
     sided: { type: Boolean },
+    placeholder: { type: String, default: '' },
+    value: { type: String, default: '' },
   },
-  data: () => ({ focused: false }),
-  computed: {
-    query: {
-      get() {
-        return this.$route.params.query || '';
-      },
-      set: debounce(function set(query) {
-        this.$router[this.$route.name.startsWith('tips') ? 'replace' : 'push']({
-          name: query ? 'tips-search' : 'tips', params: { query },
-        });
-      }, 300),
-    },
+  data() {
+    return {
+      focused: false,
+    };
+  },
+  methods: {
+    search: debounce(function set(value) {
+      this.$emit('input', value);
+    }, 300),
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .search-input {
-  background-color: $article_content_color;
-  border: 0.05rem solid transparent;
+  background-color: $buttons_background;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 14px;
 
   &.focused {
     border-color: $secondary_color;
   }
 
-  input,
-  button {
+  input {
     background: none;
     border: none;
-    padding: 0;
     outline: none;
-    color: #fff;
-  }
-
-  input {
     flex-grow: 1;
-    font-size: 0.75rem;
+    font-size: 14px;
+    line-height: 22.65px;
     color: $standard_font_color;
-    padding: 1.05rem 1rem;
+    padding: 8.5px 16px;
 
     ~ * {
-      margin-right: 0.5rem;
+      margin-right: 10px;
+    }
+
+    &:focus {
+      background-color: $background_color;
     }
   }
 
-  img {
-    width: 1rem;
+  svg {
+    height: 20px;
+    width: auto;
   }
 
   &.sided {
-    height: 2.2rem;
+    height: 44px;
 
     input ~ * {
-      margin-right: 1rem;
+      margin-right: 20px;
     }
   }
 }

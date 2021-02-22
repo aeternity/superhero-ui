@@ -19,7 +19,7 @@
     <div>
       <ButtonPlain
         class="cookies-button"
-        @click="allow"
+        @click="setCookies({ scope, status: true })"
       >
         Allow {{ scope }}
       </ButtonPlain>
@@ -35,31 +35,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import backendAuthMixin from '../utils/backendAuthMixin';
+import { mapState, mapActions } from 'vuex';
 import ButtonPlain from './ButtonPlain.vue';
 import CookieImg from '../assets/cookieImg.svg?icon-component';
 import IconCancel from '../assets/iconCancel.svg?icon-component';
 
 export default {
   components: { ButtonPlain, CookieImg, IconCancel },
-  mixins: [backendAuthMixin()],
   props: { scope: { type: String, required: true } },
   computed: mapState(['address']),
-  methods: {
-    async allow() {
-      if (this.address) {
-        await this.backendAuth(`setCookies${this.scope}`, {
-          scope: this.scope,
-          status: true,
-        });
-      }
-      this.$store.commit('setCookiesConsent', {
-        scope: this.scope,
-        status: true,
-      });
-    },
-  },
+  methods: mapActions('backend', ['setCookies']),
 };
 </script>
 
@@ -70,7 +55,7 @@ export default {
   left: -4%;
   background-color: $buttons_background;
   border: 1px solid $article_content_color;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   width: 108%;
   padding: 1rem;
   cursor: default;
@@ -103,7 +88,7 @@ export default {
 
   .cookies-button {
     border: 1px solid $secondary_color;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     font-weight: 500;
     color: $secondary_color;
     padding: 0.35rem 0.7rem;
@@ -111,7 +96,7 @@ export default {
     margin: 0.5rem 0.5rem 0.5rem 0;
 
     &:hover {
-      background-color: #2a9cff50;
+      background-color: #1161fe50;
     }
   }
 }

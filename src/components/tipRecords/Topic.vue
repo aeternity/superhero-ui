@@ -1,7 +1,7 @@
 <template>
   <RouterLink
     class="topic"
-    :to="{ name: 'tips-search', params: { query: topic } }"
+    :to="{ name: 'feed-search', params: { query: topic } }"
   >
     <template>{{ topic }}</template>
   </RouterLink>

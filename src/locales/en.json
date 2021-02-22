@@ -5,7 +5,7 @@
   "done": "Done",
   "tip": "Tip",
   "retip": "Retip",
-  "tips": "Tips",
+  "tips": "Feed",
   "amount": "Amount",
   "addMessage": "What do you appreciate?",
   "comments": "Comments",
@@ -14,6 +14,10 @@
   "Balance": "Balance:",
   "aeternityBlockchain": "aeternity blockchain",
   "views": {
+    "FeedList": {
+      "main": "Main",
+      "posts": "Posts"
+    },
     "CreateProfile": {
       "header1": "HOW TO USE SUPERHERO.COM",
       "header2": "Social platform with no hidden agenda.",
@@ -299,7 +303,7 @@
       "Location": "Location",
       "noPinnedItems": "There are no pinned items to display."
     },
-     "Wallet": {
+    "Wallet": {
       "header": "WALLET: Fully P2P, instant tipping with no third-party leeches.",
       "sections": [
         {
@@ -442,6 +446,48 @@
           "text": "Subscribe to get early updates about tokens and other upcoming features on Superhero.com!"
         }
       ]
+    },
+    "WordDetail": {
+      "NoVotes": "There are no current votes for this asset.",
+      "VoteText": "As a holder of {balance} tokens you are eligible to initiate a blockchain vote in order to release the accumulated spread amount of {spread} tokens held by the smart contract and transfer it to another æternity blockchain address.",
+      "ConfirmMessage": "Please confirm the transaction!",
+      "CreateVote": {
+        "Placeholder": "Tell the community why you need the funds to be released",
+        "ProgressMessage": [
+          "Creating voting contract... (step 1 of 2)",
+          "Adding your vote to WordBazaar... (step 2 of 2)"
+        ]
+      },
+      "Title": "{word}: Word Details",
+      "Abbreviation": "Abbreviation",
+      "CurrentPrice": "Current Price",
+      "SellPrice": "Sell Price",
+      "Supply": "Circulating Supply",
+      "Asset": "Asset",
+      "Description": "Description",
+      "BondingCurve": "Bonding Curve",
+      "LegendBuyPrice": "Bonding Buy Price",
+      "LegendSellPrice": "Bonding Sell Price",
+      "LegendSupply": "Current Supply",
+      "LegendInitialPrice": "Initial Buy Price",
+      "LegendSpread": "Spread",
+      "LegendReserve": "Reserve",
+      "Release": "Release {0} spread for transfer to",
+      "Initiate": "Initiate Vote",
+      "Spread": "Accumulated Spread",
+      "Stake": "Majority Stake",
+      "RibbonTabs": ["Token Info", "Funds release vote"],
+      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"]
+    },
+    "WordBazaar": {
+      "Title": "WordBazaar",
+      "Placeholder": "Search for assets",
+      "RibbonTabs": [
+        { "Text": "Assets", "Header": "WordBazaar Assets" },
+        { "Text": "Create token", "Header": "Create token" },
+        { "Text": "Get AE", "Header": "Get AE Tokens" },
+        { "Text": "How it works", "Header": "How it works" }
+      ]
     }
   },
   "components": {
@@ -457,8 +503,10 @@
         "LoginWithWallet": "Login with Web Wallet"
       },
       "Navigation": {
+        "feed": "Feed",
         "MyProfile": "My Profile",
         "League": "League",
+        "WordBazaar": "WordBazaar",
         "Governance": "Voting"
       },
       "Overview": {
@@ -506,7 +554,8 @@
       "tipUser": "Tip User",
       "totalTipsWithYou": "Total tips (you tipped too)",
       "totalTips": "Total tips (click to retip the same URL)",
-      "tipComment": "Tip Comment"
+      "tipComment": "Tip Comment",
+      "v1TipWarning": "This post could not receive fungible tokens"
     },
     "TipsPagination": {
       "NoResultsMsg": "There are no results found"
@@ -514,13 +563,138 @@
     "UrlStatus": {
       "verifiedTitle": "",
       "notverifiedTitle": "",
-      "blacklisted": ""
+      "blacklisted": "",
+      "notSecure": ""
     },
     "ListOfTipsAndComments": {
       "Channel": "Channel",
       "Activity": "Activity",
       "NoPinnedItems": "There are no pinned items to display.",
       "NoActivity": "There is no activity to display."
+    },
+    "CreateToken": {
+      "NewToken": "New Token Created ✨",
+      "CreateToken": "Create Your Token",
+      "Proceed": "Proceed To Assets",
+      "FiveMinutes": "In Less Than 5 Minutes",
+      "TokenAsset": "Token asset",
+      "TokenDescription": "Token description",
+      "Abbreviation": "Abbreviation",
+      "AbbreviationLong": "Abbreviation (token short name)",
+      "Steps": [
+        "",
+        "Token Sale Contract",
+        "Token Contract",
+        "Token to index",
+        ""
+      ],
+      "StepsDescription": [
+        "Please fill in the fields below with your token details.",
+        "Creating {abbreviation} {step}... Please confirm the transaction!",
+        "Creating {abbreviation} {step}... Please confirm the transaction!",
+        "Adding {abbreviation} {step}... Please confirm the transaction!",
+        "🎉 Congratulations! {abbreviation} token has been added to WordBazaar."
+      ],
+      "ExistWarning": "Symbol Already Existent!",
+      "Error": [
+        "{step} creation was not confirmed for your token (step {index} of 4).",
+        "{abbreviation} token was not added to WordBazaar."
+      ]
+    },
+    "GetAe": {
+      "Platforms": [
+        { "Text": "BTC/{ae} ETH/{ae}", "Link": "https://jelly.market/" },
+        {
+          "Text": "Discover more {ae} exchanges",
+          "Link": "https://coinmarketcap.com/en/currencies/aeternity/"
+        },
+        { "Text": "Testnet {ae} tokens", "Link": "https://faucet.aepps.com/" }
+      ]
+    },
+    "WordListing": {
+      "Asset": "Token",
+      "BuyPrice": "Buy Price",
+      "SellPrice": "Sell Price",
+      "Supply": "Current supply",
+      "Market": "Market"
+    },
+    "WordBuySellButtons": {
+      "Buy": "Buy",
+      "Sell": "Sell",
+      "BuyPrice": "Buy Price",
+      "SellPrice": "Sell Price",
+      "AccountBalance": "Account Balance",
+      "AmountBuying": "Amount buying",
+      "AmountSelling": "Amount selling",
+      "TotalPay": "Total you pay",
+      "TotalGet": "Total you get",
+      "ConfirmMessage": "Please confirm the transaction!",
+      "Buying": "Buying tokens...",
+      "Selling": [
+        "Selling tokens... (step 1 of 2)",
+        "Selling tokens... (step 2 of 2)"
+      ]
+    },
+    "BondingCurve": {
+      "GraphPrice": "Price",
+      "GraphSupply": "Supply"
+    },
+    "VoteCard": {
+      "ReleasedTo": " released for transfer to",
+      "SpreadTo": " spread was transferred to",
+      "ToBeReleasedTo": " to be released for transfer to",
+      "NotTransferred": " spread was not transferred to",
+      "ClosingIn": "Closing in ",
+      "Closed": "Closed ",
+      "Ago": " ago",
+      "Left": " left to send funds",
+      "Send": "Send",
+      "Amount": "Enter stake amount",
+      "Staked": "You staked",
+      "NotParticipate": "You didn't participate in staking",
+      "Revoke": "Revoke",
+      "Vote": "Vote",
+      "ClaimBack": "Claim Back",
+      "TimedOut": "Timed out 👎",
+      "Unsuccessful": "Unsuccessful 👎",
+      "Transfered": "Funds transferred 👍",
+      "VoteOption": [
+        "Freezing voting stake... (step 1 of 2)",
+        "Adding your stake to WordBazaar votes... (step 2 of 2)"
+      ],
+      "Withdraw": "Withdrawing stake...",
+      "Payout": "Payout sending...",
+      "RevokeVote": "Revoking your vote..."
+    },
+    "HowItWorks": {
+      "Title": "How it works",
+      "Subtitle": "The WordBazaar would enable anyone—even with absolutely zero development skills—to create and issue tokens.",
+      "Text": [
+        {
+          "Paragraph": "Launching tokens on æternity will no longer be exclusive to those who can afford developer teams or to those with development skills themselves. Anyone can launch and issue tokens within a few clicks, and in less than 5 minutes."
+        },
+        {
+          "Header": "Token profile",
+          "Paragraph": "By clicking on the token name – the token profile will appear with additional information (Ticker, Current Price, Sell Price, Circulating Supply, Asset name, description) and option to start Voting (but also see your votes, and past votes)."
+        },
+        {
+          "Header": "Powered by bonding curve",
+          "Paragraph": "A bonding curve is a mathematical formula used to set a relationship between a token’s price and its supply. Launching a token in this way entails a bonding curve smart contract. Once this contract is launched, users can buy or sell into the curve. Buying pushes the token price up along the curve, while selling pushes the token price down along the curve."
+        },
+        {
+          "Header": "Voting on Payout spread",
+          "Paragraph": "Payout spread of the token is the difference between the token's buy price and sell price - in a similar vein to how fiat currency exchange rates work. Users that have bought any amount of the token can then vote on the payout spread to be paid out to the creator of the smart contract, . If  the creator has earned the communities trust, they can then vote on, essentially, releasing a portion of the tokens to be used by the creator of the smart contract."
+        },
+        {
+          "Header": "Token buy/sell options",
+          "Paragraph": "Initial price of the created token will be fixed at 1.5Æ along with a BUY token option. The SELL token option will not be available, as there is no supply yet (not possible to sell without buying first). For each activity you must confirm the transaction (pop-up windows approved)."
+        },
+        {
+          "Header": "Tip and vote options",
+          "Paragraph": "Your just created, custom, token can be used immediately! Enjoy tipping on the Superhero platform, or starting polls. By choosing currency, you can tip in Æ token, your token, token you bought...unlimited possibilities.{hr}An accessible tokenization platform opens up an entire universe of micro-economies where everyone, not just big companies, can thrive.{hr}Note: This feature will slowly be rolled out before going fully public. In the long term, these tokenized words can represent any asset, whether real-world or digital.{hr}Learn more:{link}"
+        }
+      ],
+      "Link": "http://wordbazaar.superhero.com/"
     }
   },
   "Networking": {

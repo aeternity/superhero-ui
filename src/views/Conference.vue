@@ -63,6 +63,9 @@ export default {
       });
     },
   },
+  metaInfo: {
+    title: 'Conference',
+  },
 };
 </script>
 <style lang="scss" scoped>

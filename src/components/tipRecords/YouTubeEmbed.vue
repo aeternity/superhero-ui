@@ -5,7 +5,7 @@
       scope="YouTube"
       @close="showCookiesDialog = false"
     />
-    <div class="tip__cover-preview">
+    <div class="tip-cover-preview">
       <iframe
         v-if="isPlaying && isAllowed"
         :src="`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`"
@@ -24,7 +24,7 @@
           class="play-button"
           @click.stop="isAllowed ? isPlaying = true : showCookiesDialog = true"
         />
-        <div class="tip__info">
+        <div class="tip-info">
           <div class="source">
             {{ sourceUrl }}
           </div>

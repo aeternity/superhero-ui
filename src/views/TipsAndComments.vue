@@ -11,9 +11,9 @@
 
     <div
       v-if="record"
-      class="comment__section"
+      class="comment-section"
     >
-      <p class="latest__comments">
+      <p class="latest-comments">
         {{ $t('views.TipCommentsView.LatestReplies') }}
       </p>
       <SendComment
@@ -21,7 +21,7 @@
         v-bind="id && { parentId: id }"
       />
     </div>
-    <div class="comments__section">
+    <div class="comments-section">
       <Loading
         v-if="showLoading"
         :above-content="!!(record && nestedComments.length)"
@@ -119,6 +119,13 @@ export default {
       }
     },
   },
+  metaInfo() {
+    const title = {
+      tip: 'Comments for a Tip',
+      comment: 'Comment View',
+    }[this.$route.name];
+    return { title };
+  },
 };
 </script>
 
@@ -128,21 +135,21 @@ export default {
   font-size: 0.75rem;
 
   .record {
-    &.tip__record {
+    &.tip-record {
       margin-bottom: 0;
       background-color: $thumbnail_background_color;
 
-      ::v-deep .tip__body .tip__article {
+      ::v-deep .tip-body .tip-article {
         background-color: $thumbnail_background_color_alt;
 
-        .preview__image {
+        .preview-image {
           background-color: $thumbnail_background_color_alt;
         }
 
         &:hover {
           background-color: #373843;
 
-          .preview__image {
+          .preview-image {
             background-color: #373843;
           }
         }
@@ -156,7 +163,7 @@ export default {
     }
   }
 
-  .comments__section {
+  .comments-section {
     background-color: $thumbnail_background_color;
     padding: 1rem;
     position: relative;
@@ -172,7 +179,7 @@ export default {
     }
   }
 
-  .comment__section {
+  .comment-section {
     background-color: $thumbnail_background_color;
     padding: 0.75rem 1rem 0 1rem;
 

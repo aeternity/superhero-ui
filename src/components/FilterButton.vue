@@ -11,16 +11,21 @@
 .filter-button {
   border-radius: 1rem;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   color: $light_font_color;
   display: inline-block;
   padding: 0.35rem 0.7rem;
   border: none;
   background-color: transparent;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+
+  &:hover {
+    color: $tip_note_color;
+  }
 
   &.active {
     color: $custom_links_color;
-    background-color: $thumbnail_background_color;
+    background-color: rgba(0, 255, 157, 0.1);
   }
 
   &:focus {

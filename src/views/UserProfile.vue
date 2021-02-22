@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import backendAuthMixin from '../utils/backendAuthMixin';
 import ListOfTipsAndComments from '../components/ListOfTipsAndComments.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
@@ -24,6 +25,14 @@ export default {
   mixins: [backendAuthMixin()],
   props: {
     address: { type: String, required: true },
+  },
+  computed: mapState({
+    name({ chainNames }) {
+      return chainNames[this.address] || this.$t('FellowSuperhero');
+    },
+  }),
+  metaInfo() {
+    return { title: this.name };
   },
 };
 </script>

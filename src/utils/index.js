@@ -1,5 +1,6 @@
 import { get } from 'lodash-es';
 import BigNumber from 'bignumber.js';
+import isFQDN from 'is-fqdn';
 import i18n from './i18nHelper';
 
 export const topicsRegex = /(#[a-zA-Z]+\b)(?!;)/g;
@@ -27,7 +28,7 @@ export const IDENTICON_CONFIG = {
     color: 1.0,
     grayscale: 1.0,
   },
-  backColor: '#12121bff',
+  backColor: '#0F0F0Fff',
 };
 
 export const AVATAR_CONFIG = {
@@ -50,6 +51,17 @@ export const createDeepLinkUrl = ({ type, ...params }) => {
   return url;
 };
 
+export const toURL = (url) => new URL(url.includes('://') ? url : `https://${url}`);
+
+export const validateTipUrl = (urlAsString) => {
+  try {
+    const url = toURL(urlAsString);
+    return ['http:', 'https:'].includes(url.protocol) && isFQDN(url.hostname);
+  } catch (e) {
+    return false;
+  }
+};
+
 const getTwitterAccountUrl = (url) => {
   const match = url.match(/https:\/\/twitter.com\/[a-zA-Z0-9_]+/g);
   return match ? match[0] : false;
@@ -62,6 +74,7 @@ export const urlStatus = (tipUrl, verifiedUrls, blacklistedUrls) => {
 
   if (blacklistedUrls.some((u) => url.includes(u))) return 'blacklisted';
   if (verifiedUrls.includes(url)) return 'verified';
+  if (validateTipUrl(url) && url.startsWith('http:')) return 'not-secure';
   return 'not-verified';
 };
 
@@ -72,3 +85,28 @@ export const getI18nPath = (index, page) => (isTitle(index, page)
   : `views.${page}.sections[${index}].text`);
 
 export const handleUnknownError = (error) => console.warn('Unknown rejection', error);
+
+export const blockToDate = (goalBlock, height) => {
+  const diff = goalBlock - height;
+  return new Date(diff * 180000 + Date.now());
+};
+
+export const wrapTry = async (promise, store) => {
+  try {
+    return promise.then((res) => {
+      if (!res) {
+        if (store) { store.commit('setBackendStatus', false); }
+        return null;
+      }
+      if (store) { store.commit('setBackendStatus', true); }
+      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
+      return res.json();
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+  } catch (err) {
+    if (store) { store.commit('setBackendStatus', false); }
+    return null;
+  }
+};

@@ -1,18 +1,39 @@
 <template>
   <div class="actions-ribbon">
-    <img
-      src="../assets/backArrow.svg"
+    <ButtonPlain
+      class="back-button"
       @click="back"
     >
+      <img
+        v-if="!hideBack"
+        src="../assets/backArrow.svg"
+      >
+    </ButtonPlain>
+
+    <div class="title">
+      <slot name="title" />
+    </div>
+
+    <div class="buttons">
+      <slot name="buttons" />
+    </div>
   </div>
 </template>
 
 <script>
+import ButtonPlain from './ButtonPlain.vue';
+
 export default {
+  components: {
+    ButtonPlain,
+  },
+  props: {
+    hideBack: { type: Boolean },
+  },
   methods: {
     back() {
       if (!this.$store.state.route.from.name) {
-        this.$router.push({ name: 'tips' });
+        this.$router.push({ name: 'feed' });
         return;
       }
       this.$router.go(-1);
@@ -23,20 +44,39 @@ export default {
 
 <style lang="scss" scoped>
 .actions-ribbon {
-  padding: 1.05rem 2.5rem 1.05rem 1rem;
-  background-color: $article_content_color;
+  padding: 0.6rem 1.05rem;
+  background-color: $actions_ribbon_background_color;
   position: sticky;
   top: 0;
-  line-height: 0.75rem;
+  line-height: 1.2rem;
+  height: 2.8rem;
   z-index: 21;
+  display: flex;
 
-  img {
-    width: 1rem;
-    height: 1rem;
+  .back-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
 
-    &:hover {
-      cursor: pointer;
-    }
+  img:hover {
+    cursor: pointer;
+  }
+
+  .title {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+  }
+
+  .buttons {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 }
 

@@ -3,7 +3,7 @@ import Backend from './backend';
 
 export default (ignoreCallInQuery) => ({
   computed: mapState({
-    useSdkWallet: 'useSdkWallet',
+    useSdkWallet: ({ aeternity: { useSdkWallet } }) => useSdkWallet,
     currentAddress: 'address',
   }),
   ...!ignoreCallInQuery && {

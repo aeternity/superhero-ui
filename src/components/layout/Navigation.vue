@@ -11,9 +11,16 @@
       <img src="../../assets/headerLogo.svg">
     </RouterLink>
 
-    <RouterLink :to="{ name: 'tips' }">
+    <RouterLink :to="{ name: 'feed' }">
       <IconTips />
-      {{ $t('tips') }}
+      {{ $t('components.layout.Navigation.feed') }}
+    </RouterLink>
+    <RouterLink
+      v-if="showWordBazaar"
+      :to="{ name: 'wordbazaar' }"
+    >
+      <IconSmile />
+      {{ $t('components.layout.Navigation.WordBazaar') }}
     </RouterLink>
     <RouterLink :to="{ name: 'voting' }">
       <IconGovernance />
@@ -49,6 +56,7 @@ import IconHelp from '../../assets/iconHelp.svg?icon-component';
 import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
 import IconGovernance from '../../assets/iconGovernance.svg?icon-component';
 import IconMeet from '../../assets/iconMeet.svg?icon-component';
+import IconSmile from '../../assets/iconSmile.svg?icon-component';
 
 export default {
   components: {
@@ -58,10 +66,12 @@ export default {
     IconDiamond,
     IconGovernance,
     IconMeet,
+    IconSmile,
   },
   props: {
     mobile: Boolean,
   },
+  data: () => ({ showWordBazaar: process.env.VUE_APP_WORDBAZAAR_ENABLED }),
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState(['address']),
@@ -76,13 +86,12 @@ export default {
   }
 
   a.logo {
-    margin-bottom: 0.75rem;
+    margin-bottom: 2.5rem;
   }
 
   a:not(.logo) {
     color: #fff;
     text-decoration: none;
-    font-weight: 500;
     display: flex;
     align-items: center;
     font-size: 0.93rem;

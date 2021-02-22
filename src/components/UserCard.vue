@@ -24,22 +24,22 @@ export default {
 <style lang="scss" scoped>
 .user-card {
   border: 1px solid $card_border_color;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   overflow: hidden;
   cursor: default;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
   background-color: $thumbnail_background_color;
 
-  ::v-deep .profile__stats {
+  ::v-deep .profile-stats {
     display: grid;
     grid-template-columns: 8rem auto;
 
-    .tip_stats {
+    .tip-stats {
       grid-auto-flow: row;
       order: 2;
     }
 
-    .tips_stats_block {
+    .tips-stats-block {
       border: 0;
       border-bottom: 1px solid $light_color;
       padding-top: 0.25rem;
@@ -53,16 +53,14 @@ export default {
       justify-content: space-around;
     }
 
-    .stat_block {
+    .stat-block {
       margin: 0;
     }
   }
 
-  ::v-deep .profile__image {
-    .avatar {
-      width: 3.5rem;
-      height: 3.5rem;
-    }
+  ::v-deep .profile-image .avatar {
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
   @include mobile {

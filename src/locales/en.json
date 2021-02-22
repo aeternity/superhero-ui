@@ -657,8 +657,8 @@
     },
     "WordListing": {
       "Asset": "Name",
-      "BuyPrice": "Buy Price",
-      "SellPrice": "Sell Price",
+      "BuyPrice": "Buy price",
+      "SellPrice": "Sell price",
       "Supply": "Current supply",
       "Market": "Market"
     },

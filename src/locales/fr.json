@@ -639,9 +639,9 @@
       ]
     },
     "WordListing": {
-      "Asset": "Token",
-      "BuyPrice": "Buy Price",
-      "SellPrice": "Sell Price",
+      "Asset": "Name",
+      "BuyPrice": "Buy price",
+      "SellPrice": "Sell price",
       "Supply": "Current supply",
       "Market": "Market"
     },

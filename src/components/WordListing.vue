@@ -218,6 +218,10 @@ export default {
 
     .symbol {
       font-size: 15px;
+
+      @include desktop {
+        margin-left: 0;
+      }
     }
   }
 
@@ -232,5 +236,4 @@ export default {
     }
   }
 }
-
 </style>

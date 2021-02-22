@@ -12,7 +12,7 @@
   border-radius: 1rem;
   font-size: 0.8rem;
   font-weight: 700;
-  color: $light_font_color;
+  color: $tip_note_color;
   display: inline-block;
   padding: 0.35rem 0.7rem;
   border: none;
@@ -20,7 +20,7 @@
   transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
 
   &:hover {
-    color: $tip_note_color;
+    color: $pure_white;
   }
 
   &.active {

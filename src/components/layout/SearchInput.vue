@@ -79,6 +79,7 @@ export default {
 
   &.focused {
     border-color: $secondary_color;
+    background-color: $actions_ribbon_background_color;
   }
 
   input {
@@ -96,7 +97,7 @@ export default {
     }
 
     &:focus {
-      background-color: $background_color;
+      background-color: $actions_ribbon_background_color;
     }
   }
 

@@ -452,6 +452,7 @@
       ]
     },
     "WordDetail": {
+      "NewVote": "New vote",
       "NoVotes": "There are no current votes for this token.",
       "VoteText": "As a holder of {balance} tokens you are eligible to initiate a blockchain vote in order to release the accumulated spread amount of {spread} tokens held by the smart contract and transfer it to another æternity blockchain address.",
       "VoteTextZero": "You need to be {token} holder to initiate a blockchain vote for releasing the accumulated spread amount of {spread} tokens held by the smart contract and transfering it to æternity blockchain address by your choice.",
@@ -464,10 +465,10 @@
         ]
       },
       "Title": "{word}: Word Details",
-      "Abbreviation": "Abbreviation",
-      "CurrentPrice": "Current Price",
-      "SellPrice": "Sell Price",
-      "Supply": "Circulating Supply",
+      "Abbreviation": "Short name",
+      "CurrentPrice": "Buy price",
+      "SellPrice": "Sell price",
+      "Supply": "Current supply",
       "Asset": "Token",
       "Description": "Description",
       "BondingCurve": "Bonding Curve",
@@ -479,8 +480,8 @@
       "LegendReserve": "Reserve",
       "Release": "Release {0} spread for transfer to",
       "Initiate": "Initiate Vote",
-      "Spread": "Accumulated Spread",
-      "Stake": "Majority Stake",
+      "Spread": "Accumulated spread",
+      "Stake": "Majority stake",
       "RibbonTabs": ["Token Info", "Funds release vote"],
       "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"]
     },
@@ -677,9 +678,9 @@
     "WordBuySellButtons": {
       "Buy": "Buy",
       "Sell": "Sell",
-      "BuyPrice": "Buy Price",
-      "SellPrice": "Sell Price",
-      "AccountBalance": "Account Balance",
+      "BuyPrice": "Buy price",
+      "SellPrice": "Sell price",
+      "AccountBalance": "Account balance",
       "AmountBuying": "Amount buying",
       "AmountSelling": "Amount selling",
       "TotalPay": "Total you pay",

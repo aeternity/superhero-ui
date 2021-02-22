@@ -24,7 +24,9 @@
         >
           <div class="info-item">
             <h3>{{ $t('views.WordDetail.Abbreviation') }}</h3>
-            <div>{{ selectedWord }}</div>
+            <div class="abbreviation">
+              {{ selectedWord }}
+            </div>
           </div>
           <div class="info-item">
             <h3>{{ $t('views.WordDetail.CurrentPrice') }}</h3>
@@ -157,12 +159,16 @@
           v-model="activeTab"
           :tabs="tabs"
         >
-          <IconPlus
+          <ButtonPlain
             v-if="activeTab === 'ongoing' && maxAmount > 0"
-            class="plus"
-            :class="{ rotate: showInitiate }"
             @click="showInitiate = !showInitiate"
-          />
+          >
+            <span v-if="!showInitiate">{{ $t('views.WordDetail.NewVote') }}</span>
+            <IconPlus
+              class="plus"
+              :class="{ rotate: showInitiate }"
+            />
+          </ButtonPlain>
         </TabBar>
 
         <Transition name="fade">
@@ -177,6 +183,9 @@
               :message="$t('views.WordDetail.ConfirmMessage')"
             />
             <template v-else>
+              <div class="stake-label">
+                {{ $t('views.WordDetail.CreateVote.YourMessage') }}
+              </div>
               <MessageInput
                 v-model="description"
                 :placeholder="$t('views.WordDetail.CreateVote.Placeholder')"
@@ -196,7 +205,7 @@
                 <input
                   v-model.trim="newVotePayout"
                   class="form-control"
-                  placeholder="Enter aeternity address"
+                  :placeholder="$t('views.WordDetail.CreateVote.AddressPlaceholder')"
                 >
 
                 <AeButton
@@ -223,6 +232,7 @@
             <FiatValue
               :amount="data.spread"
               aettos
+              no-parentheses
             />
           </div>
           <div class="info-item">
@@ -335,6 +345,7 @@ import Loader from '../components/Loader.vue';
 import VoteCard from '../components/VoteCard.vue';
 import MessageInput from '../components/MessageInput.vue';
 import OutlinedButton from '../components/OutlinedButton.vue';
+import ButtonPlain from '../components/ButtonPlain.vue';
 import { shiftDecimalPlaces, blockToDate, aeToAtoms } from '../utils';
 
 export default {
@@ -354,6 +365,7 @@ export default {
     VoteCard,
     MessageInput,
     OutlinedButton,
+    ButtonPlain,
   },
   data() {
     return {
@@ -554,6 +566,7 @@ export default {
           name: 'failure',
           title: error.message,
           body: 'Vote was not created!',
+          hideIcon: true,
           primaryButtonText: 'OK',
         });
       } finally {
@@ -576,15 +589,17 @@ export default {
   background: $actions_ribbon_background_color;
 
   ::v-deep .activity-ribbon {
-    svg {
-      height: 20px;
-      width: auto;
-    }
+    position: sticky;
+    top: 56px;
+    height: 64px;
+    margin-bottom: 1px;
   }
 
   ::v-deep .ae-button,
   .outlined-button {
     font-size: 16px;
+    line-height: 18px;
+    font-weight: 700;
     height: 40px;
 
     svg {
@@ -595,9 +610,31 @@ export default {
   }
 
   ::v-deep .tab-bar {
-    svg {
-      height: 20px;
-      width: auto;
+    height: 40px;
+    font-size: 15px;
+    background-color: $buttons_background;
+
+    .button-plain {
+      .plus {
+        margin-bottom: 1px;
+        transition: transform 0.5s;
+        height: 20px;
+        width: auto;
+
+        &.rotate {
+          transform: rotate(45deg);
+        }
+      }
+
+      &:hover {
+        .plus {
+          color: $custom_links_color;
+
+          &.rotate {
+            color: $red_color;
+          }
+        }
+      }
     }
   }
 
@@ -615,20 +652,22 @@ export default {
 
     .asset-details__asset {
       color: $pure_white;
-      padding-bottom: 1rem;
+      padding-bottom: 16px;
     }
 
     .asset-details__description {
       color: $tip_note_color;
-      padding-bottom: 1rem;
-    }
-
-    .asset_details__info {
-      background-color: $actions_ribbon_background_color;
+      padding-bottom: 16px;
     }
 
     .asset_details__section-content {
-      padding: 1.5rem;
+      padding: 8px 24px;
+      font-size: 15px;
+      font-weight: 400;
+
+      h3 {
+        margin-bottom: 8px;
+      }
 
       .no-content {
         display: flex;
@@ -636,6 +675,8 @@ export default {
 
         h3 {
           color: $pure_white;
+          font-size: 15px;
+          font-weight: 500;
         }
 
         .buttons {
@@ -667,7 +708,8 @@ export default {
 
     .info-item {
       flex-shrink: 1;
-      font-size: 0.9rem;
+      font-size: 15px;
+      line-height: 19px;
       display: flex;
       flex-direction: column;
       background: $super_dark;
@@ -675,6 +717,16 @@ export default {
       border-radius: 6px;
       margin-right: 16px;
       padding: 16px;
+      transition: backgroun 0.3s ease-in-out;
+      height: 112px;
+
+      h3 {
+        font-size: 15px;
+        font-weight: 700;
+        transition: color 0.3s ease-in-out;
+        color: $light_font_color;
+        margin-bottom: 9px;
+      }
 
       &:hover {
         background: #141414;
@@ -697,15 +749,11 @@ export default {
     }
   }
 
-  .asset_voting__section {
-    .asset_details__info {
-      background-color: $light_color;
-    }
-  }
-
   .initiate-vote {
     margin-bottom: 0.1rem;
     padding: 1.2rem;
+    font-size: 15px;
+    font-weight: 500;
 
     &.fade-enter-active,
     &.fade-leave-active {
@@ -734,8 +782,8 @@ export default {
         border-radius: 0.25rem;
         flex: 1;
         margin-right: 1.2rem;
-        font-size: 0.7rem;
-        height: 2rem;
+        font-size: 14px;
+        height: 40px;
 
         &:focus,
         &:active {
@@ -759,14 +807,6 @@ export default {
     font-weight: 500;
     font-size: 0.75rem;
     padding-left: 0.1rem;
-  }
-
-  .plus {
-    transition: transform 0.5s;
-
-    &.rotate {
-      transform: rotate(45deg);
-    }
   }
 
   .asset-details__chart {

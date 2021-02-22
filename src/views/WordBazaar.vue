@@ -2,7 +2,16 @@
   <div class="word-bazaar">
     <BackButtonRibbon hide-back>
       <template v-slot:title>
-        <span>{{ ribbonTabs.find((a) => a.activity === activity).header }}</span>
+        <span class="activity">
+          {{ ribbonTabs.find((a) => a.activity === activity).header }}
+        </span>
+        <span class="activity-bubble">
+          <BubbleArrow />
+          <Component
+            :is="ribbonTabs.find((a) => a.activity === activity).icon"
+            class="activity-icon"
+          />
+        </span>
       </template>
     </BackButtonRibbon>
 
@@ -19,24 +28,17 @@
         <SearchInput
           v-if="showSearch"
           v-model="search"
+          hide-eraser
+          set-focused
           :placeholder="$t('views.WordBazaar.Placeholder')"
-          class="desktop"
           @input="reloadData"
-          @close="showSearch = false"
+          @close="closeSearch"
         />
         <IconSearch
           v-else
           @click="showSearch = true"
         />
       </TabBar>
-      <SearchInput
-        v-if="showSearch"
-        v-model="search"
-        :placeholder="$t('views.WordBazaar.Placeholder')"
-        class="mobile"
-        @input="reloadData"
-        @close="showSearch = false"
-      />
 
       <WordListing
         heading
@@ -88,6 +90,7 @@ import IconTokens from '../assets/iconTokens.svg?icon-component';
 import IconPlus from '../assets/iconPlus.svg?icon-component';
 import IconAe from '../assets/iconAe.svg?icon-component';
 import IconSearch from '../assets/iconSearch.svg?icon-component';
+import BubbleArrow from '../assets/bubbleArrow.svg?icon-component';
 import { EventBus } from '../utils/eventBus';
 
 export default {
@@ -103,6 +106,7 @@ export default {
     HowItWorks,
     IconSearch,
     SearchInput,
+    BubbleArrow,
   },
   data() {
     return {
@@ -139,7 +143,9 @@ export default {
     this.reloadData();
   },
   created() {
+    this.loading = true;
     this.reloadData();
+    this.loading = false;
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
@@ -152,10 +158,13 @@ export default {
       await this.reloadData();
     },
     async reloadData() {
-      this.loading = true;
       this.wordRegistryState = await Backend
         .getWordRegistry(this.ordering, this.direction, this.search);
-      this.loading = false;
+    },
+    async closeSearch() {
+      this.showSearch = false;
+      this.search = '';
+      await this.reloadData();
     },
   },
   metaInfo() {
@@ -169,10 +178,36 @@ export default {
   width: 624px;
   background: $actions_ribbon_background_color;
 
-  .actions-ribbon {
+  ::v-deep .actions-ribbon {
     height: 56px;
     background-color: $actions_ribbon_background_color;
     color: $standard_font_color;
+
+    .activity {
+      white-space: nowrap;
+      font-size: 17px;
+      line-height: 22px;
+      margin-right: 4px;
+    }
+
+    .activity-bubble {
+      position: relative;
+    }
+
+    .bubbleArrow {
+      height: 40px;
+      width: auto;
+      color: $secondary_color;
+    }
+
+    .activity-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      height: 24px;
+      width: 24px;
+      color: $secondary_color;
+    }
   }
 
   .tab-bar {
@@ -188,10 +223,12 @@ export default {
     ::v-deep .filter-button {
       height: 40px;
       border-radius: 20px;
+      font-size: 16px;
 
       svg {
         height: 24px;
         width: auto;
+        margin-bottom: 2px;
       }
     }
   }
@@ -204,36 +241,33 @@ export default {
     &.mobile {
       margin: 4px;
 
-      @include desktop-only {
-        display: none;
-      }
-    }
-
-    &.desktop {
-      @include desktop {
-        display: none;
-      }
-    }
-
     input {
-      padding: 0 0.5rem;
+      padding: 0 16px;
+      color: $secondary_color;
+
+      &::placeholder {
+        color: $standard_font_color;
+        opacity: 1;
+      }
     }
 
-    svg {
-      height: 0.75rem;
+    .iconClose {
+      height: 24px;
       width: auto;
     }
   }
 
   .iconSearch {
-    height: 18px;
-    width: 18px;
-    margin-right: 20px;
+    height: 24px;
+    width: auto;
+    margin-right: 5px;
     cursor: pointer;
-    transition: color 0.3s ease-in-out;
+    transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0.7;
 
     &:hover {
       color: $custom_links_color;
+      opacity: 1;
     }
   }
 }

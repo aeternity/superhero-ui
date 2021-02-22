@@ -58,11 +58,10 @@
       tag="div"
       :to="{ name: 'word-detail', params: { word: data.word } }"
     >
-      <div
-        class="word-listing-column asset-column link"
-      >
-        {{ data.word }}
-      </div>
+      <TokenAvatarAndSymbol
+        :address="data.tokenAddress"
+        class="word-listing-column asset-column"
+      />
       <div class="word-listing-column">
         <AeAmountFiat
           :amount="showBuyValue ? data.buyPrice : data.sellPrice"
@@ -94,6 +93,7 @@ import AeAmountFiat from './AeAmountFiat.vue';
 import AeAmount from './AeAmount.vue';
 import WordBuySellButtons from './WordBuySellButtons.vue';
 import IconSort from '../assets/iconSort.svg?icon-component';
+import TokenAvatarAndSymbol from './fungibleTokens/TokenAvatarAndSymbol.vue';
 
 export default {
   name: 'WordListing',
@@ -102,6 +102,7 @@ export default {
     AeAmountFiat,
     AeAmount,
     IconSort,
+    TokenAvatarAndSymbol,
   },
   props: {
     data: { type: Object, default: null },
@@ -141,7 +142,7 @@ export default {
 .word-listing {
   color: $light_font_color;
   align-items: center;
-  font-size: 0.75rem;
+  font-size: 15px;
   padding: 0.4rem 0;
   margin-bottom: 0.05rem;
   transition: background-color 0.3s ease-in-out;
@@ -158,14 +159,13 @@ export default {
 
   .iconSort {
     margin-top: -0.2rem;
-    height: 17px;
+    height: 24px;
     width: auto;
     color: $standard_font_color;
     cursor: pointer;
     transition: color 0.3s ease-in-out;
 
     &.asc {
-      margin-top: 0;
       transform: rotate(180deg);
     }
 
@@ -176,6 +176,7 @@ export default {
 
   .heading-text {
     transition: color 0.3s ease-in-out;
+    font-size: 16px;
 
     &.green {
       color: $custom_links_color;
@@ -195,11 +196,6 @@ export default {
     .supply {
       color: $tip_note_color;
     }
-
-    svg {
-      height: 21px;
-      width: auto;
-    }
   }
 
   &.word-listing-heading {
@@ -214,9 +210,15 @@ export default {
     width: 122px;
   }
 
-  .link {
-    color: $secondary_color;
-    text-decoration: none;
+  ::v-deep .token-avatar-and-symbol {
+    .avatar {
+      width: 32px;
+      height: 32px;
+    }
+
+    .symbol {
+      font-size: 15px;
+    }
   }
 
   .word-listinglabel {

@@ -21,14 +21,14 @@ export default {
   border-radius: 1rem;
   font-size: 0.8rem;
   font-weight: 700;
-  color: $light_font_color;
+  color: $tip_note_color;
   display: inline-block;
   padding: 0.35rem 0.7rem;
   transition: 0.3s;
   transition-property: color, background-color;
 
   &:hover {
-    color: $tip_note_color;
+    color: $pure_white;
   }
 
   &.active,

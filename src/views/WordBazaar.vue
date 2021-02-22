@@ -1,8 +1,14 @@
 <template>
   <div class="word-bazaar">
     <BackButtonRibbon hide-back>
-      <template v-slot:title>
-        {{ title }}
+      <template #title>
+        <span class="activity">
+          {{ title }}
+        </span>
+        <span class="activity-bubble">
+          <BubbleArrow />
+          <IconTokens class="activity-icon" />
+        </span>
       </template>
     </BackButtonRibbon>
 
@@ -42,6 +48,7 @@ import IconHelp2 from '../assets/iconHelp2.svg?icon-component';
 import IconTokens from '../assets/iconTokens.svg?icon-component';
 import IconPlus from '../assets/iconPlus.svg?icon-component';
 import IconAe from '../assets/iconAe.svg?icon-component';
+import BubbleArrow from '../assets/bubbleArrow.svg?icon-component';
 
 export default {
   components: {
@@ -52,6 +59,7 @@ export default {
     IconPlus,
     IconAe,
     IconHelp2,
+    BubbleArrow,
   },
   computed: {
     title() {
@@ -69,10 +77,36 @@ export default {
   width: 624px;
   background: $actions_ribbon_background_color;
 
-  .actions-ribbon {
+  ::v-deep .actions-ribbon {
     height: 56px;
     background-color: $actions_ribbon_background_color;
     color: $standard_font_color;
+
+    .activity {
+      white-space: nowrap;
+      font-size: 17px;
+      line-height: 22px;
+      margin-right: 4px;
+    }
+
+    .activity-bubble {
+      position: relative;
+    }
+
+    .bubbleArrow {
+      height: 40px;
+      width: auto;
+      color: $secondary_color;
+    }
+
+    .activity-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      height: 24px;
+      width: 24px;
+      color: $secondary_color;
+    }
   }
 
   .activity-ribbon {
@@ -83,10 +117,12 @@ export default {
     ::v-deep .filter-button {
       height: 40px;
       border-radius: 20px;
+      font-size: 16px;
 
       svg {
         height: 24px;
-        margin-right: 0.15rem;
+        width: auto;
+        margin-bottom: 2px;
       }
     }
   }

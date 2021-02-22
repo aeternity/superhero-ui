@@ -1,10 +1,6 @@
 <template>
   <div class="how-it-works">
-    <h3>
-      {{ $t('components.HowItWorks.Title') }}
-    </h3>
-
-    <p class="italic">
+    <p class="subtitle">
       {{ $t('components.HowItWorks.Subtitle') }}
     </p>
 
@@ -38,26 +34,31 @@ export default {
 
 <style lang="scss" scoped>
 .how-it-works {
-  .italic {
-    font-style: italic;
+  font-size: 15px;
+  color: $tip_note_color;
+  margin-top: 32px;
+  padding-left: 24px;
+  padding-right: 16px;
+
+  p {
+    margin-bottom: 32px;
   }
 
-  h3 {
-    font-size: 1.1rem;
-    padding-top: 1.1rem;
+  .subtitle {
+    color: $standard_font_color;
+    margin-bottom: 18px;
+    font-weight: 500;
   }
 
   h4 {
-    font-size: 0.9rem;
-  }
-
-  p {
-    font-size: 0.75rem;
+    font-size: 20px;
+    font-weight: 500;
     color: $standard_font_color;
+    margin-bottom: 12px;
   }
 
   a {
-    color: $secondary_color;
+    color: $custom_links_color;
   }
 }
 </style>

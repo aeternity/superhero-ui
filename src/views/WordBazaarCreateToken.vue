@@ -1,5 +1,8 @@
 <template>
-  <div class="create-token">
+  <div
+    class="create-token"
+    :class="{ wait: loadingState }"
+  >
     <div class="create-header">
       <div class="create-header-content">
         <h2>
@@ -36,12 +39,12 @@
         >
           <div
             class="step-box"
-            :class="{ active: step >= i, pulse: ((step === i && step !== 0) || step >= 4) }"
+            :class="{ active: step >= i, pulse: ((step === i) || step >= 4) }"
           />
         </div>
       </div>
       <div class="create-inputs input-group">
-        <div>
+        <div class="input-block">
           <label for="name">{{ $t('components.CreateToken.TokenAsset') }}</label>
           <textarea
             v-if="!loadingState"
@@ -58,13 +61,16 @@
           <p v-else>
             {{ name }}
           </p>
-          <span
+          <div
             v-if="!loadingState"
-            class="right"
-          >{{ `${name.length} / 333` }}</span>
+            class="input-info"
+          >
+            <span />
+            <span>{{ `${name.length} / 333` }}</span>
+          </div>
         </div>
 
-        <div>
+        <div class="input-block">
           <label for="description">{{ $t('components.CreateToken.TokenDescription') }}</label>
           <textarea
             v-if="!loadingState"
@@ -84,12 +90,15 @@
           >
             {{ description }}
           </p>
-          <span
+          <div
             v-if="!loadingState"
-            class="right"
-          >{{ `${description.length} / 500` }}</span>
+            class="input-info"
+          >
+            <span />
+            <span>{{ `${description.length} / 500` }}</span>
+          </div>
         </div>
-        <div>
+        <div class="input-block">
           <label for="abbreviation">
             {{ loadingState ?
               $t('components.CreateToken.Abbreviation') :
@@ -107,16 +116,19 @@
                 maxlength="6"
                 :disabled="loadingState"
               >
-              <span
+              <div
                 v-else
                 class="abbreviation"
               >
                 {{ abbreviation }}
-              </span>
-              <span
+              </div>
+              <div
                 v-if="!loadingState"
-                class="right"
-              >{{ `${abbreviation.length} / 4` }}</span>
+                class="input-info"
+              >
+                <span />
+                <span>{{ `${abbreviation.length} / 6` }}</span>
+              </div>
             </div>
             <AeButton
               v-if="success"
@@ -321,8 +333,8 @@ export default {
 .steps-wrapper {
   border: 1.5px solid $card_border_color;
   border-radius: 10px;
-  margin: 0 0.5rem;
-  padding: 1rem 0.5rem;
+  margin: 0 16px;
+  padding: 16px;
 
   .steps {
     display: flex;
@@ -331,7 +343,7 @@ export default {
 
     .step {
       flex-grow: 1;
-      margin: 0 0.4rem 1.6rem 0.4rem;
+      margin: 0 0.4rem;
       position: relative;
 
       .step-box {
@@ -377,35 +389,57 @@ export default {
     flex-direction: column;
     height: 100%;
 
+    .input-block {
+      margin-top: 32px;
+    }
+
     label {
-      margin-top: 0.5rem;
-      margin-bottom: 0;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 19px;
     }
 
     input,
     textarea {
       background: $buttons_background;
       resize: none;
-      padding-bottom: 8px;
-      padding-top: 8px;
+      padding: 8px 16px;
+      height: 40px;
+      border: 1px solid transparent;
+      transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
 
       &.multiline {
         height: 100%;
+      }
+
+      &:focus {
+        background-color: $actions_ribbon_background_color;
+        border-color: $secondary_color;
       }
     }
 
     p {
       color: $standard_font_color;
       word-break: break-word;
+      font-size: 15px;
+      line-height: 24px;
+      margin-top: 8px;
+      margin-bottom: 0;
 
       &.description {
-        color: $light_font_color;
+        color: $tip_note_color;
       }
     }
 
     .abbreviation {
       display: flex;
       justify-content: space-between;
+
+      .abbreviation {
+        font-size: 20px;
+        line-height: 26px;
+        margin-top: 11px;
+      }
 
       input {
         width: 220px;
@@ -440,11 +474,20 @@ export default {
   }
 }
 
-.right {
-  font-size: 0.65rem;
+.input-info {
+  font-size: 12px;
+  line-height: 16px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.wait {
+  cursor: wait;
+
+  button,
+  label {
+    cursor: wait;
+  }
 }
 </style>

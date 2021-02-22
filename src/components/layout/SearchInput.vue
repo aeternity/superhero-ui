@@ -79,6 +79,7 @@ export default {
 
   &.focused {
     border-color: $secondary_color;
+    background-color: $actions_ribbon_background_color;
   }
 
   input {
@@ -96,20 +97,20 @@ export default {
     }
 
     &:focus {
-      background-color: $background_color;
+      background-color: $actions_ribbon_background_color;
     }
   }
 
   ::v-deep svg {
     height: 24px;
-    width: auto;
     opacity: 0.44;
     color: $standard_font_color;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s;
     cursor: pointer;
 
     .background {
       opacity: 0;
+      fill: $buttons_background;
     }
 
     &:hover {

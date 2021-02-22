@@ -37,6 +37,7 @@
     "chart.js": "^2.9.4",
     "core-js": "^3.8.2",
     "date-fns": "^2.16.1",
+    "detect-browser": "^5.2.0",
     "fontsource-ibm-plex-sans": "^3.1.5",
     "i18n": "^0.13.2",
     "is-fqdn": "^2.0.1",

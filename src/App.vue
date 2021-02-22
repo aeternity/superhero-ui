@@ -22,20 +22,40 @@
       :key="key"
       v-bind="props"
     />
+    <Modal
+      v-if="showMaintenanceModal"
+      @close="showMaintenanceModal = false"
+    >
+      <div>Maintenance</div>
+      <button>Close</button>
+      <textarea v-model="report"></textarea>
+      <button @click="sendReport(report)">Send Report</button>
+    </Modal>
   </div>
 </template>
 
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
+import { detect } from 'detect-browser';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import { atomsToAe } from './utils';
 import MobileNavigation from './components/layout/MobileNavigation.vue';
 import LeftSection from './components/layout/LeftSection.vue';
 import RightSection from './components/layout/RightSection.vue';
+import Modal from './components/Modal.vue';
 
 export default {
-  components: { MobileNavigation, LeftSection, RightSection },
+  components: {
+    MobileNavigation,
+    LeftSection,
+    RightSection,
+    Modal,
+  },
+  data: () => ({
+    showMaintenanceModal: false,
+    report: '',
+  }),
   computed: {
     ...mapGetters('modals', ['opened']),
     ...mapState(['address']),
@@ -52,10 +72,9 @@ export default {
       this.reloadData(),
     ]);
 
-    EventBus.$on('maintenance', () => this.$router.push({ name: 'maintenance' }));
-    EventBus.$on('backToFeed', () => {
-      if (this.$route.name === 'maintenance') {
-        this.$router.push({ name: 'feed' });
+    window.addEventListener('unhandledrejection', (code) => {
+      if (code !== 200) {
+        this.showMaintenanceModal = true;
       }
     });
   },
@@ -114,6 +133,20 @@ export default {
         this.setAddress(address);
       }
       await this.reloadUserData();
+    },
+    async sendReport(text) {
+      const data = {
+        id: 0,
+        appVersion: process.env.npm_package_version, // ?
+        browser: detect(),
+        error: 'error',
+        platform: process.env.PLATFORM, // ?
+        description: text,
+        time: 'string',
+        createdAt: new Date().toISOString(),
+        updatedAt: '',
+      };
+      await fetch(`${VUE_APP_BACKEND_URL}/errorreport`, data);
     },
   },
   metaInfo: {

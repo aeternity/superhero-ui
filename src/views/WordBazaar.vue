@@ -110,9 +110,14 @@ export default {
   }
 
   .activity-ribbon {
+    box-sizing: border-box;
     background-color: $buttons_background;
-    height: 64px;
-    margin-bottom: 1px;
+    height: 65px;
+    border-bottom: 1px solid $actions_ribbon_background_color;
+    position: sticky;
+    margin: 0;
+    top: 56px;
+    z-index: 1;
 
     ::v-deep .filter-button {
       height: 40px;

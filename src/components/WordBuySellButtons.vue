@@ -350,10 +350,6 @@ export default {
     font-size: 16px;
     line-height: 18px;
 
-    &:hover:not(.disabled) {
-      opacity: 1;
-    }
-
     &:not(:last-child) {
       margin-right: 16px !important;
     }

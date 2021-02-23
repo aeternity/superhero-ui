@@ -33,7 +33,8 @@ export default {
     min-width: 3rem;
   }
 
-  &:hover {
+  &:hover,
+  &.active {
     border-color: $custom_links_color;
     color: $custom_links_color;
     opacity: 1;
@@ -53,7 +54,8 @@ export default {
     color: $custom_links_color;
     border-color: $custom_links_color;
 
-    &:hover {
+    &:hover,
+    &.active {
       background-color: rgba(0, 255, 157, 0.1);
     }
   }
@@ -62,7 +64,8 @@ export default {
     color: $red_color;
     border-color: $red_color;
 
-    &:hover {
+    &:hover,
+    &.active {
       background-color: rgba(255, 71, 70, 0.1);
     }
   }

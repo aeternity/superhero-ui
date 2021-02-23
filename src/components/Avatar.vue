@@ -9,7 +9,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import jdenticon from 'jdenticon';
+import jdenticon from 'jdenticon/standalone';
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-avataaars-sprites';
 import Backend from '../utils/backend';

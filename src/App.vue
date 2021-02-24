@@ -1,5 +1,16 @@
 <template>
   <div id="app">
+    <button @click="openPopup">openPopup</button>
+    <Modal
+      v-if="showModal"
+    >
+      <template>
+        <div>Maintenance</div>
+        <button @click="showModal = false">Close</button>
+        <textarea v-model="report"></textarea>
+        <button @click="sendReport(report)">Send Report</button>
+      </template>
+    </Modal>
     <MobileNavigation v-if="!$route.meta.fullScreen" />
     <div class="not-bootstrap-row">
       <div
@@ -22,15 +33,6 @@
       :key="key"
       v-bind="props"
     />
-    <Modal
-      v-if="showMaintenanceModal"
-      @close="showMaintenanceModal = false"
-    >
-      <div>Maintenance</div>
-      <button>Close</button>
-      <textarea v-model="report"></textarea>
-      <button @click="sendReport(report)">Send Report</button>
-    </Modal>
   </div>
 </template>
 
@@ -53,7 +55,7 @@ export default {
     Modal,
   },
   data: () => ({
-    showMaintenanceModal: false,
+    showModal: false,
     report: '',
   }),
   computed: {
@@ -74,7 +76,7 @@ export default {
 
     window.addEventListener('unhandledrejection', (code) => {
       if (code !== 200) {
-        this.showMaintenanceModal = true;
+        this.showModal = true;
       }
     });
   },
@@ -142,11 +144,15 @@ export default {
         error: 'error',
         platform: process.env.PLATFORM, // ?
         description: text,
-        time: 'string',
-        createdAt: new Date().toISOString(),
-        updatedAt: '',
+        time: Date.now(),
       };
       await fetch(`${VUE_APP_BACKEND_URL}/errorreport`, data);
+    },
+    openPopup() {
+      this.showModal = true;
+    },
+    closePopup() {
+      this.showModal = false;
     },
   },
   metaInfo: {

@@ -3,6 +3,7 @@
     <button @click="openPopup">openPopup</button>
     <Modal
       v-if="showModal"
+      @close="showModal = false"
     >
       <template>
         <div>Maintenance</div>
@@ -233,6 +234,21 @@ export default {
     .router-view {
       flex-grow: 1;
       min-width: 0; // https://css-tricks.com/flexbox-truncated-text/
+    }
+  }
+  .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
+    background-color: $article_content_color;
+    border-radius: 0.5rem;
+    margin: 0 -6.3rem;
+    padding: 1rem;
+    width: 192px;
+    min-height: 248px;
+    font-size: 0.75rem;
+    left: 50%;
+    z-index: 10001;
+    top: 30%;
+    @include smallest {
+      padding: 0.5rem;
     }
   }
 }

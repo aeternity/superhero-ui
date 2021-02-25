@@ -6,7 +6,8 @@
       :class="{ active: value === tab.tab }"
       @click="updateValue(tab.tab)"
     >
-      {{ tab.text }}
+      <span> {{ tab.text }}</span>
+      <Component :is="tab.icon" />
     </ButtonPlain>
     <div class="right">
       <slot />
@@ -36,7 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 .tab-bar {
-  padding: 0 1.125rem;
+  padding: 0 24px;
   background-color: $actions_ribbon_background_color;
   display: flex;
 
@@ -47,7 +48,8 @@ export default {
     font-weight: 500;
     margin-right: 24px;
     border-bottom: 2px solid transparent;
-    transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+    transition: 0.3s;
+    transition-property: color, border-color;
 
     &:last-child {
       margin-right: 0;

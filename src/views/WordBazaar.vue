@@ -15,6 +15,31 @@
     <ActivityRibbon
       value=""
       :tabs="[]"
+      class="mobile"
+    >
+      <template slot="left">
+        <FilterButton :to="{ name: 'word-bazaar-assets' }">
+          <IconTokens />
+          {{ $t('views.WordBazaar.RibbonTabs.0.Text') }}
+        </FilterButton>
+        <FilterButton :to="{ name: 'word-bazaar-create-token' }">
+          <IconPlus />
+          {{ $t('views.WordBazaar.RibbonTabs.1.Text') }}
+        </FilterButton>
+        <FilterButton :to="{ name: 'word-bazaar-get-ae' }">
+          <IconAe />
+          {{ $t('views.WordBazaar.RibbonTabs.2.Text') }}
+        </FilterButton>
+        <FilterButton :to="{ name: 'word-bazaar-how-it-works' }">
+          <IconHelp2 />
+          {{ $t('views.WordBazaar.RibbonTabs.3.Text') }}
+        </FilterButton>
+      </template>
+    </ActivityRibbon>
+    <ActivityRibbon
+      value=""
+      :tabs="[]"
+      class="desktop"
     >
       <template slot="left">
         <FilterButton :to="{ name: 'word-bazaar-assets' }">
@@ -109,7 +134,7 @@ export default {
     }
   }
 
-  .activity-ribbon {
+  ::v-deep .activity-ribbon {
     box-sizing: border-box;
     background-color: $buttons_background;
     height: 65px;
@@ -119,7 +144,11 @@ export default {
     top: 56px;
     z-index: 1;
 
-    ::v-deep .filter-button {
+    &.mobile {
+      display: none;
+    }
+
+    .filter-button {
       height: 40px;
       border-radius: 20px;
       font-size: 16px;
@@ -128,13 +157,50 @@ export default {
         height: 24px;
         width: auto;
         margin-bottom: 2px;
+        flex-shrink: 0;
       }
+
+      @include desktop {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 15px;
+        font-weight: 500;
+        height: 56px;
+        margin: 0;
+
+        &.router-link-active,
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+
+    @include desktop {
+      &.mobile { display: flex; }
+      &.desktop { display: none; }
+    }
+
+    @include mobile {
+      height: 72px;
+      background:
+        linear-gradient(
+          180deg,
+          $actions_ribbon_background_color 0%,
+          $background_color 100%
+        );
+      border-radius: 0 0 10px 10px;
+      top: 48px;
     }
   }
 
   ::v-deep .abbreviation {
     font-weight: 500;
     color: $secondary_color;
+  }
+
+  @include mobile {
+    width: 360px;
   }
 }
 </style>

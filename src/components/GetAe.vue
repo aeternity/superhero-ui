@@ -45,7 +45,6 @@ export default {
   justify-content: center;
   margin: 36px 0;
   background-color: $actions_ribbon_background_color;
-  height: 100%;
 
   .card {
     display: flex;

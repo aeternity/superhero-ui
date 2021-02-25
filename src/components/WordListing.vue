@@ -5,46 +5,69 @@
       class="word-listing word-listing-heading"
     >
       <div class="word-listing-column asset-column">
-        <span
-          class="heading-text"
+        <ButtonPlain
           @click="order('asset', 'desc')"
         >
-          {{ $t('components.WordListing.Asset') }}
-        </span>
-        <IconSort
-          v-if="ordering === 'asset'"
-          :class="{ asc: direction === 'asc' }"
-          @click="order(ordering, direction === 'asc' ? 'desc' : 'asc')"
-        />
+          <span class="heading-text mobile">
+            {{ $t('components.WordListing.AssetMobile') }}
+          </span>
+          <span class="heading-text desktop">
+            {{ $t('components.WordListing.Asset') }}
+          </span>
+        </ButtonPlain>
+        <ButtonPlain @click="order(ordering, direction === 'asc' ? 'desc' : 'asc')">
+          <IconSort
+            v-if="ordering === 'asset'"
+            :class="{ asc: direction === 'asc' }"
+          />
+        </ButtonPlain>
       </div>
 
       <div class="word-listing-column">
-        <span
-          class="heading-text"
+        <ButtonPlain
           :class="{ green: showBuy, red: !showBuy }"
           @click="switchBuySell"
         >
-          {{ $t(`components.WordListing.${showBuy ? 'BuyPrice' : 'SellPrice'}`) }}
-        </span>
-        <IconSort
-          v-if="ordering === 'buyprice' || ordering === 'sellprice'"
-          :class="{ asc: direction === 'asc' }"
-          @click="order(ordering, direction === 'asc' ? 'desc' : 'asc')"
-        />
+          <template v-if="showBuy">
+            <span class="heading-text mobile">
+              {{ $t('components.WordListing.BuyPriceMobile') }}
+            </span>
+            <span class="heading-text desktop">
+              {{ $t('components.WordListing.BuyPrice') }}
+            </span>
+          </template>
+          <template v-else>
+            <span class="heading-text mobile">
+              {{ $t('components.WordListing.SellPriceMobile') }}
+            </span>
+            <span class="heading-text desktop">
+              {{ $t('components.WordListing.SellPrice') }}
+            </span>
+          </template>
+        </ButtonPlain>
+        <ButtonPlain @click="order(ordering, direction === 'asc' ? 'desc' : 'asc')">
+          <IconSort
+            v-if="ordering === 'buyprice' || ordering === 'sellprice'"
+            :class="{ asc: direction === 'asc' }"
+          />
+        </ButtonPlain>
       </div>
 
       <div class="word-listing-column">
-        <span
-          class="heading-text"
-          @click="order('supply', 'desc')"
-        >
-          {{ $t('components.WordListing.Supply') }}
-        </span>
-        <IconSort
-          v-if="ordering === 'supply'"
-          :class="{ asc: direction === 'asc' }"
-          @click="order(ordering, direction === 'asc' ? 'desc' : 'asc')"
-        />
+        <ButtonPlain @click="order('supply', 'desc')">
+          <span class="heading-text mobile">
+            {{ $t('components.WordListing.SupplyMobile') }}
+          </span>
+          <span class="heading-text desktop">
+            {{ $t('components.WordListing.Supply') }}
+          </span>
+        </ButtonPlain>
+        <ButtonPlain @click="order(ordering, direction === 'asc' ? 'desc' : 'asc')">
+          <IconSort
+            v-if="ordering === 'supply'"
+            :class="{ asc: direction === 'asc' }"
+          />
+        </ButtonPlain>
       </div>
 
       <div class="word-listing-column">
@@ -66,6 +89,7 @@
         <AeAmountFiat
           :amount="showBuyValue ? data.buyPrice : data.sellPrice"
           aettos
+          no-parentheses
           @click.native.stop
         />
       </div>
@@ -80,6 +104,7 @@
       </div>
 
       <WordBuySellButtons
+        class="word-listing-column"
         :sale="data.sale"
         @click.native.stop
       />
@@ -94,6 +119,7 @@ import AeAmount from './AeAmount.vue';
 import WordBuySellButtons from './WordBuySellButtons.vue';
 import IconSort from '../assets/iconSort.svg?icon-component';
 import TokenAvatarAndSymbol from './fungibleTokens/TokenAvatarAndSymbol.vue';
+import ButtonPlain from './ButtonPlain.vue';
 
 export default {
   name: 'WordListing',
@@ -103,6 +129,7 @@ export default {
     AeAmount,
     IconSort,
     TokenAvatarAndSymbol,
+    ButtonPlain,
   },
   props: {
     data: { type: Object, default: null },
@@ -162,7 +189,6 @@ export default {
     height: 24px;
     width: auto;
     color: $standard_font_color;
-    cursor: pointer;
     transition: color 0.3s ease-in-out;
 
     &.asc {
@@ -174,18 +200,28 @@ export default {
     }
   }
 
-  .heading-text {
-    transition: color 0.3s ease-in-out;
-    font-size: 16px;
-
+  .button-plain {
     &.green {
       color: $custom_links_color;
-      cursor: pointer;
     }
 
     &.red {
       color: $red_color;
-      cursor: pointer;
+      margin-right: 1px;
+    }
+  }
+
+  .heading-text {
+    transition: color 0.3s ease-in-out;
+    font-size: 16px;
+
+    &.mobile {
+      display: none;
+    }
+
+    @include desktop {
+      &.mobile { display: inline-block; }
+      &.desktop { display: none; }
     }
   }
 
@@ -196,18 +232,86 @@ export default {
     .supply {
       color: $tip_note_color;
     }
+
+    @include desktop {
+      &:last-of-type {
+        padding-right: 16px;
+        display: flex;
+        justify-content: flex-end;
+
+        ::v-deep .buttons {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+
+          .outlined-button {
+            margin-right: 0;
+            height: 24px;
+            width: 43px;
+            font-size: 15px;
+            line-height: 19px;
+
+            &:not(:last-child) {
+              margin-bottom: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include desktop {
+    height: 72px;
+    border-radius: 4px;
+    font-size: 14px;
+    align-items: flex-start;
+
+    ::v-deep .token-avatar-and-symbol {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+
+      .symbol {
+        font-size: 14px;
+      }
+    }
+
+    .ae-amount-fiat {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   &.word-listing-heading {
     height: 56px;
-    font-size: 0.8rem;
+    font-size: 16px;
     font-weight: 500;
+
+    @include desktop {
+      height: 40px;
+      border: 1px solid $background_color;
+      box-sizing: border-box;
+      border-radius: 0 0 4px 4px;
+
+      .heading-text {
+        font-size: 15px;
+        line-height: 24px;
+      }
+
+      svg {
+        height: 16px;
+        width: auto;
+      }
+    }
   }
 
   .asset-column {
     font-weight: 500;
     padding-left: 24px;
     width: 122px;
+
+    @include desktop {
+      padding-left: 16px;
+    }
   }
 
   ::v-deep .token-avatar-and-symbol {

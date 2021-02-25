@@ -2,18 +2,10 @@
   <button
     class="filter-button"
     @click="$emit('click', $event)"
-    @mouseover="hover = true"
-    @mouseleave="hover = false"
   >
     <slot />
   </button>
 </template>
-
-<script>
-export default {
-  data() { return { hover: false }; },
-};
-</script>
 
 <style lang="scss" scoped>
 .filter-button {

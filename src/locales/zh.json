@@ -347,7 +347,9 @@
       "VoteTextZero": "You need to be {token} holder to initiate a blockchain vote for releasing the accumulated spread amount of {spread} tokens held by the smart contract and transfering it to æternity blockchain address by your choice.",
       "ConfirmMessage": "Please confirm the transaction!",
       "CreateVote": {
+        "YourMessage": "Your message to the community",
         "Placeholder": "Tell the community why you need the funds to be released",
+        "AddressPlaceholder": "Enter blockchain address or .chain name",
         "ProgressMessage": [
           "Creating voting contract... (step 1 of 2)",
           "Adding your vote to WordBazaar... (step 2 of 2)"
@@ -368,20 +370,73 @@
       "LegendSpread": "Spread",
       "LegendReserve": "Reserve",
       "Release": "Release {0} spread for transfer to",
+      "BuyMobile": "Buy",
+      "Buy": "Buy tokens",
+      "BuyMore": "Buy more tokens",
       "Initiate": "Initiate Vote",
+      "InitiateMobile": "Initiate",
       "Spread": "Accumulated spread",
       "Stake": "Majority stake",
-      "RibbonTabs": ["Token Info", "Funds release vote"],
-      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"]
+      "RibbonTabs": [
+        {
+          "activity": "info",
+          "text": "Token info",
+          "textMobile": "Info"
+        },
+        {
+          "activity": "voting",
+          "text": "Funds release vote",
+          "textMobile": "Vote"
+        }
+      ],
+      "Tabs": [
+        {
+          "tab": "ongoing",
+          "text": "Ongoing Votes"
+        },
+        {
+          "tab": "past",
+          "text": "Past Votes"
+        },
+        {
+          "tab": "my",
+          "text": "My Votes"
+        }
+      ]
     },
     "WordBazaar": {
       "Title": "WordBazaar",
       "Placeholder": "Search for tokens",
       "RibbonTabs": [
-        { "Text": "Tokens", "Header": "WordBazaar Tokens" },
-        { "Text": "Create token", "Header": "Create token" },
-        { "Text": "Get AE", "Header": "Get AE Tokens" },
-        { "Text": "How it works", "Header": "How it works" }
+        {
+          "text": "Tokens",
+          "textMobile": "Tokens",
+          "header": "WordBazaar Tokens",
+          "activity": "assets"
+        },
+        {
+          "text": "Create token",
+          "textMobile": "Create",
+          "header": "Create token",
+          "activity": "create"
+        },
+        {
+          "text": "Get AE",
+          "textMobile": "Get AE",
+          "header": "Get AE Tokens",
+          "activity": "getae"
+        },
+        {
+          "text": "How it works",
+          "textMobile": "How-to",
+          "header": "How it works",
+          "activity": "how"
+        }
+      ],
+      "Tabs": [
+        { "text": "All tokens", "tab": "all", "textMobile": "All" },
+        { "text": "Trending", "tab": "trending", "textMobile": "Trending" },
+        { "text": "Recent", "tab": "recent", "textMobile": "Recent" }
       ]
     }
   },
@@ -500,9 +555,13 @@
     },
     "WordListing": {
       "Asset": "Name",
+      "AssetMobile": "Token",
       "BuyPrice": "Buy price",
+      "BuyPriceMobile": "Buy",
       "SellPrice": "Sell price",
+      "SellPriceMobile": "Sell",
       "Supply": "Current supply",
+      "SupplyMobile": "Supply",
       "Market": "Market"
     },
     "WordBuySellButtons": {

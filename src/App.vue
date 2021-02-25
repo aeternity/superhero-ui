@@ -123,7 +123,7 @@ export default {
 
 @include mobile {
   :root {
-    --container-width: 25rem;
+    --container-width: 360px;
   }
 }
 

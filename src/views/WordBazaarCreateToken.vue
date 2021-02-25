@@ -166,7 +166,7 @@ import AeButton from '../components/AeButton.vue';
 import RightArrow from '../assets/rightArrow.svg?icon-component';
 
 export default {
-  name: 'WordListing',
+  name: 'CreateToken',
   components: {
     AeButton,
     RightArrow,

@@ -57,18 +57,16 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    color: $standard_font_color;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 1;
+    }
 
     svg {
-      color: $standard_font_color;
       width: 24px;
-      height: auto;
-      opacity: 0.7;
-      transition: opacity 0.3s ease-in-out;
-
-      &:hover {
-        cursor: pointer;
-        opacity: 1;
-      }
     }
   }
 

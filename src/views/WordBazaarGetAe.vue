@@ -11,7 +11,7 @@
         :path="`components.GetAe.Platforms[${index}].Text`"
         tag="p"
       >
-        <template v-slot:ae>
+        <template #ae>
           <span class="abbreviation">{{ $t('AE') }}</span>
         </template>
       </i18n>
@@ -36,7 +36,7 @@ export default {
     goTo(link) { window.open(link); },
   },
   metaInfo() {
-    return { title: this.$t('views.WordBazaar.RibbonTabs.2.Text') };
+    return { title: this.$t('views.WordBazaar.RibbonTabs.2.Header') };
   },
 };
 </script>
@@ -48,7 +48,6 @@ export default {
   justify-content: center;
   margin: 36px 0;
   background-color: $actions_ribbon_background_color;
-  height: 100%;
 
   .card {
     display: flex;
@@ -61,8 +60,8 @@ export default {
     background: $super_dark;
     border: 0;
     border-radius: 6px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
-    transition: background-color 0.3s ease-in-out;
+    box-shadow: 4px 4px 10px rgba($background_color, 0.25);
+    transition: background-color 0.3s;
 
     &:hover {
       background-color: $buttons_background;

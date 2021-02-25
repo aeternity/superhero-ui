@@ -2,6 +2,7 @@
   <div class="word-bazaar-assets">
     <TabBar
       v-model="activeTab"
+      class="desktop"
       :tabs="tabs"
     >
       <SearchInput
@@ -10,7 +11,6 @@
         hide-eraser
         set-focused
         :placeholder="$t('views.WordBazaar.Placeholder')"
-        class="desktop"
         @input="reloadData"
         @close="closeSearch"
       />
@@ -19,16 +19,26 @@
         @click="showSearch = true"
       />
     </TabBar>
-    <SearchInput
-      v-if="showSearch"
-      v-model="search"
-      :placeholder="$t('views.WordBazaar.Placeholder')"
-      hide-eraser
-      set-focused
+
+    <TabBar
+      v-model="activeTab"
       class="mobile"
-      @input="reloadData"
-      @close="closeSearch"
-    />
+      :tabs="tabsMobile"
+    >
+      <SearchInput
+        v-if="showSearch"
+        v-model="search"
+        hide-eraser
+        set-focused
+        :placeholder="$t('views.WordBazaar.Placeholder')"
+        @input="reloadData"
+        @close="closeSearch"
+      />
+      <IconSearch
+        v-else
+        @click="showSearch = true"
+      />
+    </TabBar>
 
     <WordListing
       heading
@@ -63,6 +73,7 @@ import Loader from '../components/Loader.vue';
 import TabBar from '../components/TabBar.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
 import IconSearch from '../assets/iconSearch.svg?icon-component';
+import IconFilter from '../assets/iconFilter.svg?icon-component';
 import { EventBus } from '../utils/eventBus';
 
 export default {
@@ -81,11 +92,6 @@ export default {
       ordering: 'buyprice',
       direction: 'desc',
       search: '',
-      tabs: [
-        { text: 'All tokens', tab: 'all' },
-        { text: 'Trending', tab: 'trending' },
-        { text: 'Recent', tab: 'recent' },
-      ],
       showSearch: false,
       showBuyValue: true,
       loading: true,
@@ -93,6 +99,12 @@ export default {
   },
   computed: {
     ...mapState(['address']),
+    tabs() {
+      return this.$t('views.WordBazaar.Tabs');
+    },
+    tabsMobile() {
+      return this.tabs.map((t) => ({ ...t, text: t.textMobile, icon: IconFilter }));
+    },
   },
   mounted() {
     this.reloadData();
@@ -127,32 +139,51 @@ export default {
 
 <style lang="scss" scoped>
 .word-bazaar-assets {
-  .tab-bar {
+  ::v-deep .tab-bar {
     height: 40px;
     background-color: $buttons_background;
     position: sticky;
     top: 121px;
     z-index: 1;
+
+    &.mobile {
+      display: none;
+    }
+
+    button {
+      @include desktop {
+        font-size: 15px;
+        transition: border-color 0s;
+        border: none;
+        margin-right: 18px;
+
+        svg {
+          height: 16px;
+          width: auto;
+          margin-bottom: 3px;
+          margin-left: 4px;
+        }
+      }
+    }
+
+    .active {
+      @include desktop {
+        border: none;
+      }
+    }
+
+    @include desktop {
+      padding: 0 16px;
+
+      &.mobile { display: flex; }
+      &.desktop { display: none; }
+    }
   }
 
   ::v-deep .search-input {
     height: 38px;
     width: 100%;
     color: $standard_font_color;
-
-    &.mobile {
-      margin: 4px;
-
-      @include desktop-only {
-        display: none;
-      }
-    }
-
-    &.desktop {
-      @include desktop {
-        display: none;
-      }
-    }
 
     input {
       padding: 0 16px;
@@ -166,17 +197,21 @@ export default {
 
     .iconClose {
       height: 24px;
+      width: auto;
     }
 
-    svg {
-      height: 0.75rem;
+    @include desktop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
     }
   }
 
   .iconSearch {
     height: 24px;
     width: auto;
-    margin-right: 5px;
+    margin-right: 8px;
     cursor: pointer;
     transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
     opacity: 0.7;
@@ -184,6 +219,10 @@ export default {
     &:hover {
       color: $custom_links_color;
       opacity: 1;
+    }
+
+    @include desktop {
+      margin-right: 0;
     }
   }
 }

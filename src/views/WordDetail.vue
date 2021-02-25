@@ -1,7 +1,7 @@
 <template>
   <div class="word-detail">
     <BackButtonRibbon>
-      <template v-slot:title>
+      <template #title>
         <span class="abbreviation">{{ selectedWord }}</span>
       </template>
     </BackButtonRibbon>
@@ -9,6 +9,18 @@
     <ActivityRibbon
       v-model="activity"
       :tabs="ribbonTabs"
+      class="desktop"
+    >
+      <WordBuySellButtons
+        v-if="saleContractAddress && activity === 'info'"
+        :sale="saleContractAddress"
+      />
+    </ActivityRibbon>
+
+    <ActivityRibbon
+      v-model="activity"
+      :tabs="ribbonTabsMobile"
+      class="mobile"
     >
       <WordBuySellButtons
         v-if="saleContractAddress && activity === 'info'"
@@ -163,7 +175,10 @@
             v-if="activeTab === 'ongoing' && maxAmount > 0"
             @click="showInitiate = !showInitiate"
           >
-            <span v-if="!showInitiate">{{ $t('views.WordDetail.NewVote') }}</span>
+            <span
+              v-if="!showInitiate"
+              class="desktop"
+            >{{ $t('views.WordDetail.NewVote') }}</span>
             <IconPlus
               class="plus"
               :class="{ rotate: showInitiate }"
@@ -265,13 +280,13 @@
                 path="views.WordDetail.VoteText"
                 tag="p"
               >
-                <template v-slot:balance>
+                <template #balance>
                   <AeAmount
                     :token="data.tokenAddress"
                     :amount="maxAmount"
                   />
                 </template>
-                <template v-slot:spread>
+                <template #spread>
                   <AeAmount
                     :amount="data.spread"
                     aettos
@@ -283,10 +298,10 @@
                 path="views.WordDetail.VoteTextZero"
                 tag="p"
               >
-                <template v-slot:token>
+                <template #token>
                   <span class="abbreviation">{{ selectedWord }}</span>
                 </template>
-                <template v-slot:spread>
+                <template #spread>
                   <AeAmount
                     :amount="data.spread"
                     aettos
@@ -295,17 +310,27 @@
               </i18n>
               <div class="buttons">
                 <OutlinedButton
-                  v-if="maxAmount <= 0"
                   class="green unpadded"
+                  :style="{ width: maxAmount > 0 ? '186px' : '154px' }"
                 >
-                  {{ $t('Buy Tokens') }}
+                  <IconTokensBuySell />
+                  <span class="mobile">{{ $t('views.WordDetail.BuyMobile') }}</span>
+                  <span
+                    v-if="maxAmount > 0"
+                    class="desktop"
+                  >{{ $t('views.WordDetail.BuyMore') }}</span>
+                  <span
+                    v-else
+                    class="desktop"
+                  >{{ $t('views.WordDetail.Buy') }}</span>
                 </OutlinedButton>
                 <AeButton
                   :disabled="maxAmount <= 0"
                   @click="showInitiate = !showInitiate"
                 >
                   <IconCheckmarkCircle />
-                  {{ $t('views.WordDetail.Initiate') }}
+                  <span class="desktop">{{ $t('views.WordDetail.Initiate') }}</span>
+                  <span class="mobile">{{ $t('views.WordDetail.InitiateMobile') }}</span>
                 </AeButton>
               </div>
             </div>
@@ -336,6 +361,7 @@ import IconPie from '../assets/iconPie.svg?icon-component';
 import IconInfo from '../assets/iconInfo.svg?icon-component';
 import IconCheckmarkCircle from '../assets/iconCheckmarkCircle.svg?icon-component';
 import IconPlus from '../assets/iconPlus.svg?icon-component';
+import IconTokensBuySell from '../assets/iconTokensBuySell.svg?icon-component';
 import AeAmount from '../components/AeAmount.vue';
 import FiatValue from '../components/FiatValue.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
@@ -361,6 +387,7 @@ export default {
     AeButton,
     IconCheckmarkCircle,
     IconPlus,
+    IconTokensBuySell,
     Loader,
     VoteCard,
     MessageInput,
@@ -379,10 +406,7 @@ export default {
       newVotePayout: '',
       activity: 'info',
       activeTab: 'ongoing',
-      ribbonTabs: [{ icon: IconInfo, activity: 'info' }, { icon: IconPie, activity: 'voting' }]
-        .map((t, i) => ({ text: this.$t(`views.WordDetail.RibbonTabs[${i}]`), ...t })),
-      tabs: [{ tab: 'ongoing' }, { tab: 'past' }, { tab: 'my' }]
-        .map((t, i) => ({ text: this.$t(`views.WordDetail.Tabs[${i}]`), ...t })),
+      tabs: this.$t('views.WordDetail.Tabs'),
       loading: false,
       progressMessage: '',
       showInitiate: false,
@@ -391,6 +415,17 @@ export default {
   },
   computed: {
     ...mapState(['address', 'tokenInfo', 'tokenBalances']),
+    ribbonTabs() {
+      const icons = [IconInfo, IconPie];
+      return this.$t('views.WordDetail.RibbonTabs')
+        .map((t, i) => ({ ...t, icon: icons[i] }));
+    },
+    ribbonTabsMobile() {
+      return this.ribbonTabs.map((t, i) => ({
+        ...t,
+        text: this.$t(`views.WordDetail.RibbonTabs[${i}].textMobile`),
+      }));
+    },
     votes() {
       switch (this.activeTab) {
         case 'ongoing':
@@ -576,6 +611,9 @@ export default {
         });
       }
     },
+    resizeHandler() {
+      this.isMobile = window.innerWidth <= 1280;
+    },
   },
   metaInfo() {
     return { title: this.$t('views.WordDetail.Title', { word: this.selectedWord }) };
@@ -596,6 +634,43 @@ export default {
     border-bottom: 1px solid $actions_ribbon_background_color;
     margin: 0;
     z-index: 1;
+
+    &.mobile {
+      display: none;
+    }
+
+    .filter-button {
+      height: 40px;
+      border-radius: 20px;
+      font-size: 16px;
+
+      svg {
+        height: 24px;
+        width: auto;
+        margin-bottom: 2px;
+        flex-shrink: 0;
+      }
+
+      @include desktop {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 15px;
+        font-weight: 500;
+        height: 56px;
+        margin: 0;
+
+        &.active,
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+
+    @include desktop {
+      &.mobile { display: flex; }
+      &.desktop { display: none; }
+    }
   }
 
   ::v-deep .ae-button,
@@ -609,6 +684,20 @@ export default {
       height: 24px;
       width: auto;
       margin-bottom: 2px;
+    }
+
+    .mobile {
+      display: none;
+    }
+
+    @include desktop {
+      .mobile {
+        display: inline-block;
+      }
+
+      .desktop {
+        display: none;
+      }
     }
   }
 
@@ -629,6 +718,12 @@ export default {
 
         &.rotate {
           transform: rotate(45deg);
+        }
+      }
+
+      .desktop {
+        @include desktop {
+          display: none;
         }
       }
 
@@ -696,6 +791,11 @@ export default {
 
             &.outlined-button {
               margin-right: 32px;
+
+              svg {
+                height: 24px;
+                width: auto;
+              }
             }
           }
         }

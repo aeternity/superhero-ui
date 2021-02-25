@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="word-buy-sell-buttons">
     <div class="buttons">
       <OutlinedButton
-        class="green unpadded mr-1"
+        class="green unpadded"
         :class="{ active: showBuyModal }"
         @click="() => {
           showBuyModal = true; buyValue()
@@ -46,13 +46,12 @@
         <div class="label">
           {{ $t('components.WordBuySellButtons.AmountBuying') }}
         </div>
-        <div class="input-group">
+        <div>
           <AeInputAmount
             v-model="buyAmount"
             :token="tokenAddress"
             no-dropdown
             no-fiatvalue
-            class="input-amount"
             @keyup="buyValue"
           />
         </div>
@@ -118,13 +117,12 @@
         <div class="label">
           {{ $t('components.WordBuySellButtons.AmountSelling') }}
         </div>
-        <div class="input-group">
+        <div>
           <AeInputAmount
             v-model="sellAmount"
             :token="tokenAddress"
             no-dropdown
             no-fiatvalue
-            class="input-amount"
             @keyup="sellValue"
           />
         </div>
@@ -351,7 +349,7 @@ export default {
     line-height: 18px;
 
     &:not(:last-child) {
-      margin-right: 16px !important;
+      margin-right: 16px;
     }
   }
 }
@@ -393,7 +391,7 @@ export default {
   }
 }
 
-.input-amount {
+.input-group {
   width: 228px;
   margin-bottom: 24px;
 }

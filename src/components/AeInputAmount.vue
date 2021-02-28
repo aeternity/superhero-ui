@@ -146,11 +146,6 @@ export default {
     opacity: 0.44;
   }
 
-  &:focus-within {
-    border-top: 0.05rem solid $secondary_color;
-    border-bottom: 0.05rem solid $secondary_color;
-  }
-
   input,
   input ~ .input-group-append > span.append-ae {
     border: 0;
@@ -167,6 +162,16 @@ export default {
 
     .symbol {
       color: $secondary_color;
+    }
+  }
+
+  &:focus-within {
+    border-top: 0.05rem solid $secondary_color;
+    border-bottom: 0.05rem solid $secondary_color;
+
+    .input-group-append,
+    .input-group-append > span.append-ae {
+      background-color: $background_color;
     }
   }
 

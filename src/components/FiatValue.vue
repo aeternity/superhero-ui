@@ -4,10 +4,10 @@
     class="fiat-value"
   >
     <!--eslint-disable-next-line vue-i18n/no-raw-text-->
-    <template v-if="noParentheses">~ {{ fiatValue }}</template>
+    <template v-if="noParentheses">≈ {{ fiatValue }}</template>
 
     <!--eslint-disable-next-line vue-i18n/no-raw-text-->
-    <template v-else>(~ {{ fiatValue }})</template>
+    <template v-else>(≈ {{ fiatValue }})</template>
   </span>
 </template>
 

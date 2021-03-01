@@ -359,7 +359,6 @@ export default {
       await this.backendAuth('sendProfileData', {
         biography: this.profile.biography,
         location: this.profile.location,
-        author: this.currentAddress,
       });
       await this.resetEditedValues();
     },

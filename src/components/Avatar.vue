@@ -34,7 +34,7 @@ export default {
     },
     profileImageUrl({ address, profile }) {
       const key = address === this.address && profile?.signature?.slice(0, 5);
-      return `${Backend.getProfileImageUrl(this.address)}?${key || ''}`;
+      return `${Backend.getProfileImageUrl(this.address)}${key ? `?cacheBust=${key}` : ''}`;
     },
   }),
   watch: {

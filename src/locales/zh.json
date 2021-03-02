@@ -516,30 +516,42 @@
       "CreateToken": "Create your token",
       "Proceed": "Proceed to Tokens",
       "FiveMinutes": "In Less Than 5 Minutes",
-      "TokenAsset": "Token",
-      "TokenDescription": "Token description",
-      "Abbreviation": "Abbreviation",
-      "AbbreviationLong": "Abbreviation (token short name)",
+      "Name": {
+        "Title": "Token",
+        "Placeholder": "Enter any combination of characters *",
+        "Counter": " / 333",
+        "Error": "Maximum number of characters allowed is 333"
+      },
+      "Description": {
+        "Title": "Token description",
+        "Placeholder": "Enter additional information about your token *",
+        "Counter": " / 500",
+        "Error": "Maximum number of characters allowed is 500"
+      },
+      "Abbreviation": {
+        "Title": "Abbreviation",
+        "TitleLong": "Abbreviation (token short name)",
+        "Placeholder": "Enter token abbreviation *",
+        "Counter": " / 6",
+        "Error": "Maximum 6 characters"
+      },
       "Steps": [
         "",
-        "Bonding Curve Contract",
         "Token Sale Contract",
         "Token Contract",
-        "Token for sale",
-        "Sale to Word Bazaar"
+        "Token to index",
+        ""
       ],
       "StepsDescription": [
         "Please fill in the fields below with your token details.",
         "Creating {abbreviation} {step}... Please confirm the transaction!",
         "Creating {abbreviation} {step}... Please confirm the transaction!",
-        "Creating {abbreviation} {step}... Please confirm the transaction!",
-        "Registering {abbreviation} {step}... Please confirm the transaction!",
         "Adding {abbreviation} {step}... Please confirm the transaction!",
-        "🎉 Congratulations! {abbreviation} token has beend added to WordBazaar."
+        "🎉 Congratulations! {abbreviation} token has been added to WordBazaar."
       ],
       "ExistWarning": "Symbol Already Existent!",
       "Error": [
-        "{step} creation was not confirmed for your token (step {index} of 6).",
+        "{step} creation was not confirmed for your token (step {index} of 4).",
         "{abbreviation} token was not added to WordBazaar."
       ]
     },

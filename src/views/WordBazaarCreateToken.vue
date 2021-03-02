@@ -45,17 +45,17 @@
       </div>
       <div class="create-inputs input-group">
         <div class="input-block">
-          <label for="name">{{ $t('components.CreateToken.TokenAsset') }}</label>
+          <label for="name">{{ $t('components.CreateToken.Name.Title') }}</label>
           <textarea
             v-if="!loadingState"
             id="name"
             v-model="name"
-            placeholder="Enter any combination of characters *"
+            :placeholder="$t('components.CreateToken.Name.Placeholder')"
             class="form-control"
-            :class="{ multiline: name.split('\n').length > 1 }"
+            :class="{ multiline: name.split('\n').length > 1,
+                      error: error.name }"
             :rows="name.split('\n').length || 1"
             minlength="1"
-            maxlength="333"
             :disabled="loadingState"
           />
           <p v-else>
@@ -65,23 +65,25 @@
             v-if="!loadingState"
             class="input-info"
           >
-            <span />
-            <span>{{ `${name.length} / 333` }}</span>
+            <span class="error">{{ error.name || '' }}</span>
+            <div>
+              <span :class="{ error: error.name }">{{ name.length }}</span>
+              <span>{{ $t('components.CreateToken.Name.Counter') }}</span>
+            </div>
           </div>
         </div>
-
         <div class="input-block">
-          <label for="description">{{ $t('components.CreateToken.TokenDescription') }}</label>
+          <label for="description">{{ $t('components.CreateToken.Description.Title') }}</label>
           <textarea
             v-if="!loadingState"
             id="description"
             v-model="description"
-            placeholder="Enter additional information about your token *"
+            :placeholder="$t('components.CreateToken.Description.Placeholder')"
             class="form-control"
-            :class="{ multiline: description.split('\n').length > 1 }"
+            :class="{ multiline: description.split('\n').length > 1,
+                      error: error.description }"
             :rows="description.split('\n').length || 1"
             minlength="1"
-            maxlength="500"
             :disabled="loadingState"
           />
           <p
@@ -94,15 +96,16 @@
             v-if="!loadingState"
             class="input-info"
           >
-            <span />
-            <span>{{ `${description.length} / 500` }}</span>
+            <span class="error">{{ error.description || '' }}</span>
+            <div>
+              <span :class="{ error: error.description }">{{ description.length }}</span>
+              <span>{{ $t('components.CreateToken.Description.Counter') }}</span>
+            </div>
           </div>
         </div>
         <div class="input-block">
           <label for="abbreviation">
-            {{ loadingState ?
-              $t('components.CreateToken.Abbreviation') :
-              $t('components.CreateToken.AbbreviationLong') }}
+            {{ $t(`components.CreateToken.Abbreviation.Title${loadingState ? '' : 'Long'}`) }}
           </label>
           <div class="abbreviation-input">
             <div>
@@ -110,10 +113,10 @@
                 v-if="!loadingState"
                 id="abbreviation"
                 v-model="abbreviation"
-                placeholder="Enter token abbreviation *"
+                :placeholder="$t('components.CreateToken.Abbreviation.Placeholder')"
                 class="form-control"
+                :class="{ error: error.abbreviation }"
                 minlength="1"
-                maxlength="6"
                 :disabled="loadingState"
               >
               <div
@@ -126,8 +129,11 @@
                 v-if="!loadingState"
                 class="input-info"
               >
-                <span />
-                <span>{{ `${abbreviation.length} / 6` }}</span>
+                <span class="error">{{ error.abbreviation || '' }}</span>
+                <div>
+                  <span :class="{ error: error.abbreviation }">{{ abbreviation.length }}</span>
+                  <span>{{ $t('components.CreateToken.Abbreviation.Counter') }}</span>
+                </div>
               </div>
             </div>
             <AeButton
@@ -185,6 +191,20 @@ export default {
     success: false,
     seconds: 10,
   }),
+  computed: {
+    invalidInputs() {
+      return this.loadingState
+      || !this.name.length || !this.description.length || !this.abbreviation.length
+      || Object.values(this.error).includes((e) => e !== null);
+    },
+    error() {
+      return {
+        name: this.name.length > 333 ? this.$t('components.CreateToken.Name.Error') : null,
+        description: this.description.length > 500 ? this.$t('components.CreateToken.Description.Error') : null,
+        abbreviation: this.abbreviation.length > 6 ? this.$t('components.CreateToken.Abbreviation.Error') : null,
+      };
+    },
+  },
   beforeDestroy() {
     clearInterval(this.interval);
   },
@@ -417,6 +437,10 @@ export default {
         background-color: $actions_ribbon_background_color;
         border-color: $secondary_color;
       }
+
+      &.error {
+        border-color: $red_color;
+      }
     }
 
     p {
@@ -481,6 +505,14 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-top: 8px;
+
+  span {
+    transition: color 0.3s ease-in-out;
+
+    &.error {
+      color: $red_color;
+    }
+  }
 }
 
 .wait {

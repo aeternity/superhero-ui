@@ -113,9 +113,9 @@ export default class Backend {
 
   static getWordRegistry = async (ordering, direction, search) => {
     const queryParams = new URLSearchParams();
-    if(ordering) queryParams.set('ordering', ordering);
-    if(direction) queryParams.set('direction', direction);
-    if(search) queryParams.set('search', search);
+    if (ordering) queryParams.set('ordering', ordering);
+    if (direction) queryParams.set('direction', direction);
+    if (search) queryParams.set('search', search);
     return backendFetch(`tokenCache/wordRegistry?${queryParams.toString()}`);
   }
 

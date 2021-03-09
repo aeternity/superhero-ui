@@ -49,6 +49,8 @@ export default {
         min: this.daysAgo === 0 ? 0 : start,
       };
 
+      const maxYTick = Math.max(...this.formatedData('Buy').map(({ y }) => y)) * 1.1;
+
       return {
         animation: {
           duration: 0,
@@ -115,6 +117,9 @@ export default {
               display: true,
               fontColor: '#FFFFFF',
               labelString: this.$t('components.PriceHistory.Price'),
+            },
+            ticks: {
+              max: Math.ceil(maxYTick),
             },
           }],
         },

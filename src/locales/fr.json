@@ -466,8 +466,11 @@
       "Asset": "Token",
       "Description": "Description",
       "BondingCurve": "Bonding Curve",
-      "LegendBuyPrice": "Bonding Buy Price",
-      "LegendSellPrice": "Bonding Sell Price",
+      "PriceHistory": "Price History",
+      "LegendBuyPrice": "Buy price",
+      "LegendSellPrice": "Sell price",
+      "LegendBondingBuyPrice": "Bonding Buy Price",
+      "LegendBondingSellPrice": "Bonding Sell Price",
       "LegendSupply": "Current Supply",
       "LegendInitialPrice": "Initial Buy Price",
       "LegendSpread": "Spread",
@@ -505,6 +508,14 @@
           "tab": "my",
           "text": "My Votes"
         }
+      ],
+      "TimeScopeTabs": [
+        { "text": "Day", "tab": "1" },
+        { "text": "Week", "tab": "7" },
+        { "text": "Month", "tab": "30" },
+        { "text": "3 Months", "tab": "90" },
+        { "text": "Year", "tab": "365" },
+        { "text": "All", "tab": "0" }
       ]
     },
     "WordBazaar": {
@@ -701,6 +712,14 @@
         "Selling tokens... (step 1 of 2)",
         "Selling tokens... (step 2 of 2)"
       ]
+    },
+    "BondingCurve": {
+      "GraphPrice": "Price",
+      "GraphSupply": "Supply"
+    },
+    "PriceHistory": {
+      "Price": "Price",
+      "Time": "Time"
     },
     "VoteCard": {
       "ReleasedTo": " released for transfer to",

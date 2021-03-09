@@ -11,14 +11,6 @@ export default {
       default: null,
     },
   },
-  watch: {
-    data() {
-      this.renderChart(this.chartData, this.chartOptions);
-    },
-  },
-  mounted() {
-    this.renderChart(this.chartData, this.chartOptions);
-  },
   computed: {
     ...mapGetters(['roundedTokenAmount']),
     chartData() {
@@ -169,6 +161,14 @@ export default {
         },
       };
     },
+  },
+  watch: {
+    data() {
+      this.renderChart(this.chartData, this.chartOptions);
+    },
+  },
+  mounted() {
+    this.renderChart(this.chartData, this.chartOptions);
   },
 };
 </script>

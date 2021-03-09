@@ -21,7 +21,7 @@
         v-else-if="showSubmitButton"
         :title="submitButtonTitle"
       >
-        <img src="../assets/backArrow.svg">
+        <BackArrow />
       </button>
     </div>
   </div>
@@ -31,9 +31,10 @@
 import { mapState } from 'vuex';
 import autosize from 'autosize';
 import Avatar from './Avatar.vue';
+import BackArrow from '../assets/backArrow.svg?icon-component';
 
 export default {
-  components: { Avatar },
+  components: { Avatar, BackArrow },
   props: {
     showSubmitButton: Boolean,
     submitButtonTitle: { type: String, default: '' },
@@ -109,8 +110,17 @@ export default {
     button {
       padding-right: 5px;
 
-      img {
+      svg {
         transform: rotate(180deg);
+        color: $standard_font_color;
+        height: 24px;
+        width: auto;
+        opacity: 0.7;
+        transition: opacity 0.3s ease-in-out;
+
+        &:hover {
+          opacity: 1;
+        }
       }
     }
 

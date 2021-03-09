@@ -40,6 +40,7 @@ export default {
   color: $standard_font_color;
   background-color: $secondary_color;
   border: none;
+  transition: background-color 0.3s ease-in-out;
 
   .loading {
     transform: scale(0.6);
@@ -56,6 +57,12 @@ export default {
 
   &.green {
     background-color: $custom_links_color;
+  }
+
+  &:hover {
+    &:not(.green) {
+      background-color: $button_hover_color;
+    }
   }
 }
 </style>

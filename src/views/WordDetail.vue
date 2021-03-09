@@ -1,7 +1,7 @@
 <template>
   <div class="word-detail">
     <BackButtonRibbon>
-      <template v-slot:title>
+      <template #title>
         <span class="abbreviation">{{ selectedWord }}</span>
       </template>
     </BackButtonRibbon>
@@ -9,6 +9,18 @@
     <ActivityRibbon
       v-model="activity"
       :tabs="ribbonTabs"
+      class="desktop"
+    >
+      <WordBuySellButtons
+        v-if="saleContractAddress && activity === 'info'"
+        :sale="saleContractAddress"
+      />
+    </ActivityRibbon>
+
+    <ActivityRibbon
+      v-model="activity"
+      :tabs="ribbonTabsMobile"
+      class="mobile"
     >
       <WordBuySellButtons
         v-if="saleContractAddress && activity === 'info'"
@@ -24,7 +36,9 @@
         >
           <div class="info-item">
             <h3>{{ $t('views.WordDetail.Abbreviation') }}</h3>
-            <div>{{ selectedWord }}</div>
+            <div class="abbreviation">
+              {{ selectedWord }}
+            </div>
           </div>
           <div class="info-item">
             <h3>{{ $t('views.WordDetail.CurrentPrice') }}</h3>
@@ -157,12 +171,19 @@
           v-model="activeTab"
           :tabs="tabs"
         >
-          <IconPlus
+          <ButtonPlain
             v-if="activeTab === 'ongoing' && maxAmount > 0"
-            class="plus"
-            :class="{ rotate: showInitiate }"
             @click="showInitiate = !showInitiate"
-          />
+          >
+            <span
+              v-if="!showInitiate"
+              class="desktop"
+            >{{ $t('views.WordDetail.NewVote') }}</span>
+            <IconPlus
+              class="plus"
+              :class="{ rotate: showInitiate }"
+            />
+          </ButtonPlain>
         </TabBar>
 
         <Transition name="fade">
@@ -177,6 +198,9 @@
               :message="$t('views.WordDetail.ConfirmMessage')"
             />
             <template v-else>
+              <div class="stake-label">
+                {{ $t('views.WordDetail.CreateVote.YourMessage') }}
+              </div>
               <MessageInput
                 v-model="description"
                 :placeholder="$t('views.WordDetail.CreateVote.Placeholder')"
@@ -196,7 +220,7 @@
                 <input
                   v-model.trim="newVotePayout"
                   class="form-control"
-                  placeholder="Enter aeternity address"
+                  :placeholder="$t('views.WordDetail.CreateVote.AddressPlaceholder')"
                 >
 
                 <AeButton
@@ -223,6 +247,7 @@
             <FiatValue
               :amount="data.spread"
               aettos
+              no-parentheses
             />
           </div>
           <div class="info-item">
@@ -255,13 +280,13 @@
                 path="views.WordDetail.VoteText"
                 tag="p"
               >
-                <template v-slot:balance>
+                <template #balance>
                   <AeAmount
                     :token="data.tokenAddress"
                     :amount="maxAmount"
                   />
                 </template>
-                <template v-slot:spread>
+                <template #spread>
                   <AeAmount
                     :amount="data.spread"
                     aettos
@@ -273,10 +298,10 @@
                 path="views.WordDetail.VoteTextZero"
                 tag="p"
               >
-                <template v-slot:token>
+                <template #token>
                   <span class="abbreviation">{{ selectedWord }}</span>
                 </template>
-                <template v-slot:spread>
+                <template #spread>
                   <AeAmount
                     :amount="data.spread"
                     aettos
@@ -285,17 +310,27 @@
               </i18n>
               <div class="buttons">
                 <OutlinedButton
-                  v-if="maxAmount <= 0"
                   class="green unpadded"
+                  :style="{ width: maxAmount > 0 ? '186px' : '154px' }"
                 >
-                  {{ $t('Buy Tokens') }}
+                  <IconTokensBuySell />
+                  <span class="mobile">{{ $t('views.WordDetail.BuyMobile') }}</span>
+                  <span
+                    v-if="maxAmount > 0"
+                    class="desktop"
+                  >{{ $t('views.WordDetail.BuyMore') }}</span>
+                  <span
+                    v-else
+                    class="desktop"
+                  >{{ $t('views.WordDetail.Buy') }}</span>
                 </OutlinedButton>
                 <AeButton
                   :disabled="maxAmount <= 0"
                   @click="showInitiate = !showInitiate"
                 >
                   <IconCheckmarkCircle />
-                  {{ $t('views.WordDetail.Initiate') }}
+                  <span class="desktop">{{ $t('views.WordDetail.Initiate') }}</span>
+                  <span class="mobile">{{ $t('views.WordDetail.InitiateMobile') }}</span>
                 </AeButton>
               </div>
             </div>
@@ -326,6 +361,7 @@ import IconPie from '../assets/iconPie.svg?icon-component';
 import IconInfo from '../assets/iconInfo.svg?icon-component';
 import IconCheckmarkCircle from '../assets/iconCheckmarkCircle.svg?icon-component';
 import IconPlus from '../assets/iconPlus.svg?icon-component';
+import IconTokensBuySell from '../assets/iconTokensBuySell.svg?icon-component';
 import AeAmount from '../components/AeAmount.vue';
 import FiatValue from '../components/FiatValue.vue';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
@@ -335,6 +371,7 @@ import Loader from '../components/Loader.vue';
 import VoteCard from '../components/VoteCard.vue';
 import MessageInput from '../components/MessageInput.vue';
 import OutlinedButton from '../components/OutlinedButton.vue';
+import ButtonPlain from '../components/ButtonPlain.vue';
 import { shiftDecimalPlaces, blockToDate, aeToAtoms } from '../utils';
 
 export default {
@@ -350,10 +387,12 @@ export default {
     AeButton,
     IconCheckmarkCircle,
     IconPlus,
+    IconTokensBuySell,
     Loader,
     VoteCard,
     MessageInput,
     OutlinedButton,
+    ButtonPlain,
   },
   data() {
     return {
@@ -367,10 +406,7 @@ export default {
       newVotePayout: '',
       activity: 'info',
       activeTab: 'ongoing',
-      ribbonTabs: [{ icon: IconInfo, activity: 'info' }, { icon: IconPie, activity: 'voting' }]
-        .map((t, i) => ({ text: this.$t(`views.WordDetail.RibbonTabs[${i}]`), ...t })),
-      tabs: [{ tab: 'ongoing' }, { tab: 'past' }, { tab: 'my' }]
-        .map((t, i) => ({ text: this.$t(`views.WordDetail.Tabs[${i}]`), ...t })),
+      tabs: this.$t('views.WordDetail.Tabs'),
       loading: false,
       progressMessage: '',
       showInitiate: false,
@@ -379,6 +415,17 @@ export default {
   },
   computed: {
     ...mapState(['address', 'tokenInfo', 'tokenBalances']),
+    ribbonTabs() {
+      const icons = [IconInfo, IconPie];
+      return this.$t('views.WordDetail.RibbonTabs')
+        .map((t, i) => ({ ...t, icon: icons[i] }));
+    },
+    ribbonTabsMobile() {
+      return this.ribbonTabs.map((t, i) => ({
+        ...t,
+        text: this.$t(`views.WordDetail.RibbonTabs[${i}].textMobile`),
+      }));
+    },
     votes() {
       switch (this.activeTab) {
         case 'ongoing':
@@ -427,6 +474,12 @@ export default {
     maxAmount() {
       this.loadVotes();
     },
+  },
+  mounted() {
+    window.addEventListener('resize', this.resizeHandler);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.resizeHandler);
   },
   async created() {
     this.selectedWord = this.$route.params.word;
@@ -554,6 +607,7 @@ export default {
           name: 'failure',
           title: error.message,
           body: 'Vote was not created!',
+          hideIcon: true,
           primaryButtonText: 'OK',
         });
       } finally {
@@ -562,6 +616,9 @@ export default {
           this.progressMessage = '';
         });
       }
+    },
+    resizeHandler() {
+      this.isMobile = window.innerWidth <= 1280;
     },
   },
   metaInfo() {
@@ -576,15 +633,57 @@ export default {
   background: $actions_ribbon_background_color;
 
   ::v-deep .activity-ribbon {
-    svg {
-      height: 20px;
-      width: auto;
+    box-sizing: border-box;
+    position: sticky;
+    top: 56px;
+    height: 65px;
+    border-bottom: 1px solid $actions_ribbon_background_color;
+    margin: 0;
+    z-index: 1;
+
+    &.mobile {
+      display: none;
+    }
+
+    .filter-button {
+      height: 40px;
+      border-radius: 20px;
+      font-size: 16px;
+
+      svg {
+        height: 24px;
+        width: auto;
+        margin-bottom: 2px;
+        flex-shrink: 0;
+      }
+
+      @include desktop {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 15px;
+        font-weight: 500;
+        height: 56px;
+        margin: 0;
+
+        &.active,
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+
+    @include desktop {
+      &.mobile { display: flex; }
+      &.desktop { display: none; }
     }
   }
 
   ::v-deep .ae-button,
   .outlined-button {
     font-size: 16px;
+    line-height: 18px;
+    font-weight: 700;
     height: 40px;
 
     svg {
@@ -592,12 +691,57 @@ export default {
       width: auto;
       margin-bottom: 2px;
     }
+
+    .mobile {
+      display: none;
+    }
+
+    @include desktop {
+      .mobile {
+        display: inline-block;
+      }
+
+      .desktop {
+        display: none;
+      }
+    }
   }
 
   ::v-deep .tab-bar {
-    svg {
-      height: 20px;
-      width: auto;
+    height: 40px;
+    font-size: 15px;
+    background-color: $buttons_background;
+    position: sticky;
+    top: 121px;
+    z-index: 1;
+
+    .button-plain {
+      .plus {
+        margin-bottom: 1px;
+        transition: transform 0.5s;
+        height: 20px;
+        width: auto;
+
+        &.rotate {
+          transform: rotate(45deg);
+        }
+      }
+
+      .desktop {
+        @include desktop {
+          display: none;
+        }
+      }
+
+      &:hover {
+        .plus {
+          color: $custom_links_color;
+
+          &.rotate {
+            color: $red_color;
+          }
+        }
+      }
     }
   }
 
@@ -615,20 +759,22 @@ export default {
 
     .asset-details__asset {
       color: $pure_white;
-      padding-bottom: 1rem;
+      padding-bottom: 16px;
     }
 
     .asset-details__description {
       color: $tip_note_color;
-      padding-bottom: 1rem;
-    }
-
-    .asset_details__info {
-      background-color: $actions_ribbon_background_color;
+      padding-bottom: 16px;
     }
 
     .asset_details__section-content {
-      padding: 1.5rem;
+      padding: 8px 24px;
+      font-size: 15px;
+      font-weight: 400;
+
+      h3 {
+        margin-bottom: 8px;
+      }
 
       .no-content {
         display: flex;
@@ -636,6 +782,8 @@ export default {
 
         h3 {
           color: $pure_white;
+          font-size: 15px;
+          font-weight: 500;
         }
 
         .buttons {
@@ -649,6 +797,11 @@ export default {
 
             &.outlined-button {
               margin-right: 32px;
+
+              svg {
+                height: 24px;
+                width: auto;
+              }
             }
           }
         }
@@ -667,7 +820,8 @@ export default {
 
     .info-item {
       flex-shrink: 1;
-      font-size: 0.9rem;
+      font-size: 15px;
+      line-height: 19px;
       display: flex;
       flex-direction: column;
       background: $super_dark;
@@ -675,37 +829,37 @@ export default {
       border-radius: 6px;
       margin-right: 16px;
       padding: 16px;
+      transition: backgroun 0.3s ease-in-out;
+      height: 112px;
+
+      h3 {
+        font-size: 15px;
+        font-weight: 700;
+        transition: color 0.3s ease-in-out;
+        color: $light_font_color;
+        margin-bottom: 9px;
+      }
 
       &:hover {
-        background: #141414;
+        background: $buttons_background;
 
         h3 {
-          color: #babac0;
+          color: $tip_note_color;
         }
       }
 
       @include mobile {
-        font-size: 0.6rem;
         width: 40%;
         margin: 8px;
-
-        h3 {
-          font-size: 0.8rem;
-          line-height: 1rem;
-        }
       }
-    }
-  }
-
-  .asset_voting__section {
-    .asset_details__info {
-      background-color: $light_color;
     }
   }
 
   .initiate-vote {
     margin-bottom: 0.1rem;
     padding: 1.2rem;
+    font-size: 15px;
+    font-weight: 500;
 
     &.fade-enter-active,
     &.fade-leave-active {
@@ -734,8 +888,8 @@ export default {
         border-radius: 0.25rem;
         flex: 1;
         margin-right: 1.2rem;
-        font-size: 0.7rem;
-        height: 2rem;
+        font-size: 14px;
+        height: 40px;
 
         &:focus,
         &:active {
@@ -759,14 +913,6 @@ export default {
     font-weight: 500;
     font-size: 0.75rem;
     padding-left: 0.1rem;
-  }
-
-  .plus {
-    transition: transform 0.5s;
-
-    &.rotate {
-      transform: rotate(45deg);
-    }
   }
 
   .asset-details__chart {

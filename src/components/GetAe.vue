@@ -44,6 +44,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   margin: 36px 0;
+  background-color: $actions_ribbon_background_color;
 
   .card {
     display: flex;
@@ -57,6 +58,7 @@ export default {
     border: 0;
     border-radius: 6px;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.3s ease-in-out;
 
     &:hover {
       background-color: $buttons_background;

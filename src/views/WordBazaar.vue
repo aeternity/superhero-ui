@@ -1,42 +1,72 @@
 <template>
   <div class="word-bazaar">
     <BackButtonRibbon hide-back>
-      <template v-slot:title>
-        <span>{{ ribbonTabs.find((a) => a.activity === activity).header }}</span>
+      <template #title>
+        <span class="activity">
+          {{ ribbonTabs.find((a) => a.activity === activity).header }}
+        </span>
+        <span class="activity-bubble">
+          <BubbleArrow />
+          <Component
+            :is="ribbonTabs.find((a) => a.activity === activity).icon"
+            class="activity-icon"
+          />
+        </span>
       </template>
     </BackButtonRibbon>
 
     <ActivityRibbon
       v-model="activity"
+      class="mobile"
+      :tabs="ribbonTabsMobile"
+    />
+
+    <ActivityRibbon
+      v-model="activity"
+      class="desktop"
       :tabs="ribbonTabs"
     />
 
     <template v-if="activity === 'assets'">
       <TabBar
         v-model="activeTab"
+        class="desktop"
         :tabs="tabs"
       >
         <SearchInput
           v-if="showSearch"
           v-model="search"
+          hide-eraser
+          set-focused
           :placeholder="$t('views.WordBazaar.Placeholder')"
-          class="desktop"
           @input="reloadData"
-          @close="showSearch = false"
+          @close="closeSearch"
         />
         <IconSearch
           v-else
           @click="showSearch = true"
         />
       </TabBar>
-      <SearchInput
-        v-if="showSearch"
-        v-model="search"
-        :placeholder="$t('views.WordBazaar.Placeholder')"
+
+      <TabBar
+        v-model="activeTab"
         class="mobile"
-        @input="reloadData"
-        @close="showSearch = false"
-      />
+        :tabs="tabsMobile"
+      >
+        <SearchInput
+          v-if="showSearch"
+          v-model="search"
+          hide-eraser
+          set-focused
+          :placeholder="$t('views.WordBazaar.Placeholder')"
+          @input="reloadData"
+          @close="closeSearch"
+        />
+        <IconSearch
+          v-else
+          @click="showSearch = true"
+        />
+      </TabBar>
 
       <WordListing
         heading
@@ -88,6 +118,8 @@ import IconTokens from '../assets/iconTokens.svg?icon-component';
 import IconPlus from '../assets/iconPlus.svg?icon-component';
 import IconAe from '../assets/iconAe.svg?icon-component';
 import IconSearch from '../assets/iconSearch.svg?icon-component';
+import IconFilter from '../assets/iconFilter.svg?icon-component';
+import BubbleArrow from '../assets/bubbleArrow.svg?icon-component';
 import { EventBus } from '../utils/eventBus';
 
 export default {
@@ -102,7 +134,9 @@ export default {
     GetAe,
     HowItWorks,
     IconSearch,
+    IconFilter,
     SearchInput,
+    BubbleArrow,
   },
   data() {
     return {
@@ -112,21 +146,6 @@ export default {
       ordering: 'buyprice',
       direction: 'desc',
       search: '',
-      ribbonTabs: [
-        { icon: IconTokens, activity: 'assets' },
-        { icon: IconPlus, activity: 'create' },
-        { icon: IconAe, activity: 'getae' },
-        { icon: IconHelp2, activity: 'how' },
-      ].map((t, i) => ({
-        text: this.$t(`views.WordBazaar.RibbonTabs[${i}].Text`),
-        header: this.$t(`views.WordBazaar.RibbonTabs[${i}].Text`),
-        ...t,
-      })),
-      tabs: [
-        { text: 'All tokens', tab: 'all' },
-        { text: 'Trending', tab: 'trending' },
-        { text: 'Recent', tab: 'recent' },
-      ],
       showSearch: false,
       showBuyValue: true,
       loading: true,
@@ -134,12 +153,31 @@ export default {
   },
   computed: {
     ...mapState(['address']),
+    ribbonTabs() {
+      const icons = [IconTokens, IconPlus, IconAe, IconHelp2];
+      return this.$t('views.WordBazaar.RibbonTabs')
+        .map((t, i) => ({ ...t, icon: icons[i] }));
+    },
+    ribbonTabsMobile() {
+      return this.ribbonTabs.map((t, i) => ({
+        ...t,
+        text: this.$t(`views.WordBazaar.RibbonTabs[${i}].textMobile`),
+      }));
+    },
+    tabs() {
+      return this.$t('views.WordBazaar.Tabs');
+    },
+    tabsMobile() {
+      return this.tabs.map((t) => ({ ...t, text: t.textMobile, icon: IconFilter }));
+    },
   },
   mounted() {
     this.reloadData();
   },
   created() {
+    this.loading = true;
     this.reloadData();
+    this.loading = false;
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
@@ -152,10 +190,13 @@ export default {
       await this.reloadData();
     },
     async reloadData() {
-      this.loading = true;
       this.wordRegistryState = await Backend
         .getWordRegistry(this.ordering, this.direction, this.search);
-      this.loading = false;
+    },
+    async closeSearch() {
+      this.showSearch = false;
+      this.search = '';
+      await this.reloadData();
     },
   },
   metaInfo() {
@@ -169,70 +210,187 @@ export default {
   width: 624px;
   background: $actions_ribbon_background_color;
 
-  .actions-ribbon {
+  ::v-deep .actions-ribbon {
     height: 56px;
     background-color: $actions_ribbon_background_color;
     color: $standard_font_color;
+
+    .activity {
+      white-space: nowrap;
+      font-size: 17px;
+      line-height: 22px;
+      margin-right: 4px;
+    }
+
+    .activity-bubble {
+      position: relative;
+    }
+
+    .bubbleArrow {
+      height: 40px;
+      width: auto;
+      color: $secondary_color;
+    }
+
+    .activity-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      height: 24px;
+      width: 24px;
+      color: $secondary_color;
+    }
   }
 
-  .tab-bar {
+  ::v-deep .tab-bar {
     height: 40px;
     background-color: $buttons_background;
+    position: sticky;
+    top: 121px;
+    z-index: 1;
+
+    &.mobile {
+      display: none;
+    }
+
+    button {
+      @include desktop {
+        font-size: 15px;
+        transition: border-color 0s;
+        border: none;
+        margin-right: 18px;
+
+        svg {
+          height: 16px;
+          width: auto;
+          margin-bottom: 3px;
+          margin-left: 4px;
+        }
+      }
+    }
+
+    .active {
+      @include desktop {
+        border: none;
+      }
+    }
+
+    @include desktop {
+      padding: 0 16px;
+
+      &.mobile { display: flex; }
+      &.desktop { display: none; }
+    }
   }
 
-  .activity-ribbon {
+  ::v-deep .activity-ribbon {
+    box-sizing: border-box;
     background-color: $buttons_background;
-    height: 64px;
-    margin-bottom: 1px;
+    height: 65px;
+    border-bottom: 1px solid $actions_ribbon_background_color;
+    position: sticky;
+    margin: 0;
+    top: 56px;
+    z-index: 1;
 
-    ::v-deep .filter-button {
+    &.mobile {
+      display: none;
+    }
+
+    .filter-button {
       height: 40px;
       border-radius: 20px;
+      font-size: 16px;
 
       svg {
         height: 24px;
         width: auto;
+        margin-bottom: 2px;
+        flex-shrink: 0;
       }
+
+      @include desktop {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 15px;
+        font-weight: 500;
+        height: 56px;
+        margin: 0;
+
+        &.active,
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+
+    @include desktop {
+      &.mobile { display: flex; }
+      &.desktop { display: none; }
+    }
+
+    @include mobile {
+      height: 72px;
+      background:
+        linear-gradient(
+          180deg,
+          $actions_ribbon_background_color 0%,
+          $background_color 100%
+        );
+      border-radius: 0 0 10px 10px;
+      top: 48px;
     }
   }
 
   ::v-deep .search-input {
-    border-radius: 0.5rem;
-
-    &.mobile {
-      margin: 4px;
-
-      @include desktop-only {
-        display: none;
-      }
-    }
-
-    &.desktop {
-      @include desktop {
-        display: none;
-      }
-    }
+    height: 38px;
+    width: 100%;
+    color: $standard_font_color;
 
     input {
-      padding: 0 0.5rem;
+      padding: 0 16px;
+      color: $secondary_color;
+
+      &::placeholder {
+        color: $standard_font_color;
+        opacity: 1;
+      }
     }
 
-    svg {
-      height: 0.75rem;
+    .iconClose {
+      height: 24px;
       width: auto;
+    }
+
+    @include desktop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
     }
   }
 
   .iconSearch {
-    height: 18px;
-    width: 18px;
-    margin-right: 20px;
+    height: 24px;
+    width: auto;
+    margin-right: 8px;
     cursor: pointer;
-    transition: color 0.3s ease-in-out;
+    transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0.7;
 
     &:hover {
       color: $custom_links_color;
+      opacity: 1;
     }
+
+    @include desktop {
+      margin-right: 0;
+    }
+  }
+
+  @include mobile {
+    width: 360px;
   }
 }
 

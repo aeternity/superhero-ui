@@ -81,18 +81,104 @@
           >
             {{ data.description }}
           </div>
-          <h3>{{ $t('views.WordDetail.BondingCurve') }}</h3>
+          <div v-if="!loading" class="chart-buttons">
+            <ButtonPlain
+              :class="{ active: chart === 'history' }"
+              @click="chart = 'history'"
+            >
+              {{ $t('views.WordDetail.PriceHistory') }}
+            </ButtonPlain>
+            <ButtonPlain
+              :class="{ active: chart === 'curve' }"
+              @click="chart = 'curve'"
+            >
+              {{ $t('views.WordDetail.BondingCurve') }}
+            </ButtonPlain>
+          </div>
+          <Loader v-if="loading" />
           <div
-            v-if="data"
+            v-else-if="data"
             class="asset-details__chart"
           >
-            <figure>
+            <div
+              v-if="chart === 'history'"
+              class="price-history"
+            >
+              <TabBar
+                v-model="timeScope"
+                class="time-scope"
+                :tabs="timeScopeTabs"
+              />
+              <Dropdown
+                :options="timeScopeTabs"
+                :selected="timeScope"
+                :method="selectTimeScope"
+                show-right
+              >
+                <template #displayValue>
+                  {{ timeScopeText }}
+                </template>
+              </Dropdown>
+            </div>
+            <figure v-if="chart === 'history'">
+              <PriceHistory
+                :chartdata="priceHistory"
+                :days-ago="+timeScope"
+              />
+              <figcaption class="legend">
+                <div class="legend-item history">
+                  <h3 class="buy-price">{{ $t('views.WordDetail.LegendBuyPrice') }}</h3>
+                  <div>
+                    <AeAmount
+                      :amount="data.buyPrice"
+                      aettos
+                    />
+                    <FiatValue
+                      :amount="data.buyPrice"
+                      aettos
+                    />
+                  </div>
+                </div>
+                <div class="legend-item history">
+                  <h3 class="sell-price">{{ $t('views.WordDetail.LegendSellPrice') }}</h3>
+                  <div>
+                    <AeAmount
+                      :amount="data.sellPrice"
+                      aettos
+                    />
+                    <FiatValue
+                      :amount="data.sellPrice"
+                      aettos
+                    />
+                  </div>
+                </div>
+                <div class="legend-item history">
+                  <h3 class="spread">{{ $t('views.WordDetail.LegendSpread') }}</h3>
+                  <div>
+                    <AeAmount
+                      :amount="chartData.tokenSpread.toNumber()"
+                      aettos
+                    />
+                  </div>
+                </div>
+                <div class="legend-item history">
+                  <h3 class="reserve">{{ $t('views.WordDetail.LegendReserve') }}</h3>
+                  <div>
+                    <AeAmount
+                      :amount="chartData.tokenReserve.toNumber()"
+                      aettos
+                    />
+                  </div>
+                </div>
+              </figcaption>
+            </figure>
+            <figure v-if="chart === 'curve'">
               <BondingCurve
                 :data="chartData"
               />
               <figcaption class="legend">
                 <div class="legend-item">
-                  <h3>{{ $t('views.WordDetail.LegendBuyPrice') }}</h3>
+                  <h3 class="buy-price">{{ $t('views.WordDetail.LegendBondingBuyPrice') }}</h3>
                   <div>
                     <AeAmount
                       :amount="chartData.bondingBuyPrice.toNumber()"
@@ -105,7 +191,7 @@
                   </div>
                 </div>
                 <div class="legend-item">
-                  <h3>{{ $t('views.WordDetail.LegendSellPrice') }}</h3>
+                  <h3 class="sell-price">{{ $t('views.WordDetail.LegendBondingSellPrice') }}</h3>
                   <div>
                     <AeAmount
                       :amount="chartData.bondingSellPrice.toNumber()"
@@ -118,7 +204,7 @@
                   </div>
                 </div>
                 <div class="legend-item">
-                  <h3>{{ $t('views.WordDetail.LegendSupply') }}</h3>
+                  <h3 class="supply">{{ $t('views.WordDetail.LegendSupply') }}</h3>
                   <div>
                     <AeAmount
                       :token="chartData.tokenAddress"
@@ -128,7 +214,7 @@
                   </div>
                 </div>
                 <div class="legend-item">
-                  <h3>{{ $t('views.WordDetail.LegendInitialPrice') }}</h3>
+                  <h3 class="initial-price">{{ $t('views.WordDetail.LegendInitialPrice') }}</h3>
                   <div>
                     <AeAmount
                       :amount="chartData.initialPrice.toNumber()"
@@ -141,7 +227,7 @@
                   </div>
                 </div>
                 <div class="legend-item">
-                  <h3>{{ $t('views.WordDetail.LegendSpread') }}</h3>
+                  <h3 class="spread">{{ $t('views.WordDetail.LegendSpread') }}</h3>
                   <div>
                     <AeAmount
                       :amount="chartData.tokenSpread.toNumber()"
@@ -150,7 +236,7 @@
                   </div>
                 </div>
                 <div class="legend-item">
-                  <h3>{{ $t('views.WordDetail.LegendReserve') }}</h3>
+                  <h3 class="reserve">{{ $t('views.WordDetail.LegendReserve') }}</h3>
                   <div>
                     <AeAmount
                       :amount="chartData.tokenReserve.toNumber()"
@@ -350,12 +436,14 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import BigNumber from 'bignumber.js';
 import { EventBus } from '../utils/eventBus';
 import Backend from '../utils/backend';
+import ButtonPlain from '../components/ButtonPlain.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import BondingCurve from '../components/BondingCurve.vue';
+import PriceHistory from '../components/PriceHistory.vue';
 import WordBuySellButtons from '../components/WordBuySellButtons.vue';
 import IconPie from '../assets/iconPie.svg?icon-component';
 import IconInfo from '../assets/iconInfo.svg?icon-component';
@@ -371,7 +459,7 @@ import Loader from '../components/Loader.vue';
 import VoteCard from '../components/VoteCard.vue';
 import MessageInput from '../components/MessageInput.vue';
 import OutlinedButton from '../components/OutlinedButton.vue';
-import ButtonPlain from '../components/ButtonPlain.vue';
+import Dropdown from '../components/Dropdown.vue';
 import { shiftDecimalPlaces, blockToDate, aeToAtoms } from '../utils';
 
 export default {
@@ -383,7 +471,9 @@ export default {
     FiatValue,
     WordBuySellButtons,
     BackButtonRibbon,
+    ButtonPlain,
     BondingCurve,
+    PriceHistory,
     AeButton,
     IconCheckmarkCircle,
     IconPlus,
@@ -392,7 +482,7 @@ export default {
     VoteCard,
     MessageInput,
     OutlinedButton,
-    ButtonPlain,
+    Dropdown,
   },
   data() {
     return {
@@ -411,6 +501,11 @@ export default {
       progressMessage: '',
       showInitiate: false,
       description: '',
+      priceHistory: [],
+      timeScope: '0',
+      timeScopeText: 'All',
+      chart: 'history',
+      timeScopeTabs: this.$t('views.WordDetail.TimeScopeTabs'),
     };
   },
   computed: {
@@ -426,6 +521,7 @@ export default {
         text: this.$t(`views.WordDetail.RibbonTabs[${i}].textMobile`),
       }));
     },
+    ...mapGetters(['roundedTokenAmount']),
     votes() {
       switch (this.activeTab) {
         case 'ongoing':
@@ -499,6 +595,29 @@ export default {
         .find(({ word }) => word === this.selectedWord).sale;
       await this.loadSpread();
       await this.loadVotes();
+      await this.loadPriceHistory();
+    },
+    async loadPriceHistory() {
+      const timestampNow = Math.round(new Date().getTime());
+      const price = await Backend.getPriceHistory(this.saleContractAddress);
+      this.priceHistory = [
+        ...price
+          .map(({ timestamp, event, perToken }) => ({ timestamp, event, price: +perToken }))];
+      this.priceHistory.push({
+        timestamp: Math.min(...this.priceHistory.map((p) => p.timestamp)),
+        event: 'Sell',
+        price: 0,
+      },
+      {
+        timestamp: timestampNow,
+        event: 'Buy',
+        price: +this.roundedTokenAmount(this.data.buyPrice, null, 2, true),
+      },
+      {
+        timestamp: timestampNow,
+        event: 'Sell',
+        price: +this.roundedTokenAmount(this.data.sellPrice, null, 2, true),
+      });
     },
     async loadSpread() {
       this.data = await Backend.getWordSale(this.saleContractAddress);
@@ -617,8 +736,9 @@ export default {
         });
       }
     },
-    resizeHandler() {
-      this.isMobile = window.innerWidth <= 1280;
+    selectTimeScope(option) {
+      this.timeScope = option.tab;
+      this.timeScopeText = option.text;
     },
   },
   metaInfo() {
@@ -630,7 +750,7 @@ export default {
 <style lang="scss" scoped>
 .word-detail {
   width: 624px;
-  background: $actions_ribbon_background_color;
+  background-color: $actions_ribbon_background_color;
 
   ::v-deep .activity-ribbon {
     box-sizing: border-box;
@@ -806,6 +926,39 @@ export default {
           }
         }
       }
+
+      .chart-buttons {
+        .button-plain {
+          padding: 8px 16px;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 21px;
+          color: $light_font_color;
+          background-color: $light_color;
+          opacity: 0.66;
+          transition:
+            color 0.3s ease-in-out,
+            background-color 0.3s ease-in-out,
+            opacity 0.3s ease-in-out;
+          height: 40px;
+          border: 1px solid $actions_ribbon_background_color;
+          border-radius: 6px 6px 0 0;
+          box-sizing: border-box;
+          border-bottom: 0;
+
+          &:hover:not(.active) {
+            color: $tip_note_color;
+            background-color: $tab_hover_color;
+          }
+
+          &.active {
+            background-color: $chart_background_color;
+            border-color: transparent;
+            opacity: 1;
+            cursor: default;
+          }
+        }
+      }
     }
   }
 
@@ -916,8 +1069,61 @@ export default {
   }
 
   .asset-details__chart {
-    background-color: $super_dark;
+    background-color: $chart_background_color;
     padding: 1.2rem 1rem 1rem 0.5rem;
+
+    .price-history {
+      display: flex;
+      justify-content: flex-end;
+      position: relative;
+
+      ::v-deep .time-scope {
+        background-color: transparent;
+        height: 36px;
+        width: 100%;
+        justify-content: flex-end;
+        z-index: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        .right {
+          display: none;
+        }
+
+        button {
+          margin: 6px 4px;
+          font-size: 14px;
+          line-height: 23px;
+          color: $light_font_color;
+          padding: 0 16px;
+          background-color: $tab_hover_color;
+          border-radius: 6px;
+          border: 0;
+          white-space: nowrap;
+
+          &:hover:not(.active) {
+            background-color: $actions_ribbon_background_color;
+            color: $tip_note_color;
+          }
+
+          &.active {
+            background-color: rgba(0, 255, 157, 0.1);
+            color: $custom_links_color;
+          }
+        }
+
+        @include desktop {
+          display: none;
+        }
+      }
+
+      .dropdown {
+        @include desktop-only {
+          display: none;
+        }
+      }
+    }
   }
 
   .legend {
@@ -930,6 +1136,10 @@ export default {
   .legend-item {
     flex: 33% 1 0;
     margin-bottom: 1.2rem;
+
+    &.history {
+      flex: 50% 1 0;
+    }
 
     h3 {
       font-size: 0.75rem;
@@ -951,32 +1161,32 @@ export default {
           margin-right: 0.1rem;
         }
       }
-    }
 
-    &:nth-child(1) h3::before {
-      border-color: $custom_links_color;
-    }
+      &.buy-price::before {
+        border-color: $custom_links_color;
+      }
 
-    &:nth-child(2) h3::before {
-      border-color: $red_color;
-    }
+      &.sell-price::before {
+        border-color: $red_color;
+      }
 
-    &:nth-child(3) h3::before {
-      border-color: $secondary_color;
-    }
+      &.supply::before {
+        border-color: $secondary_color;
+      }
 
-    &:nth-child(4) h3::before {
-      border-color: $sunshade;
-    }
+      &.initial-price::before {
+        border-color: $sunshade;
+      }
 
-    &:nth-child(5) h3::before {
-      background-color: $secondary_color;
-      border-color: $secondary_color;
-    }
+      &.spread::before {
+        background-color: $secondary_color;
+        border-color: $secondary_color;
+      }
 
-    &:nth-child(6) h3::before {
-      background-color: $purple_heart;
-      border-color: $purple_heart;
+      &.reserve::before {
+        background-color: $purple_heart;
+        border-color: $purple_heart;
+      }
     }
   }
 }

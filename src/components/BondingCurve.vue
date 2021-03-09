@@ -162,13 +162,10 @@ export default {
       };
     },
   },
-  watch: {
-    data() {
-      this.renderChart(this.chartData, this.chartOptions);
-    },
-  },
   mounted() {
-    this.renderChart(this.chartData, this.chartOptions);
+    this.$watch('data',
+      () => this.renderChart(this.chartData, this.chartOptions),
+      { immediate: true });
   },
 };
 </script>

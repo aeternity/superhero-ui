@@ -16,12 +16,8 @@ export default {
             label: 'Sell price',
             data: this.formatedData('Sell'),
             borderColor: '#FF4746',
-            backgroundColor: 'rgba(98,36,199,0.22)',
+            backgroundColor: 'rgba(98,36,199,0.44)',
             showLine: true,
-          },
-          {
-            data: this.formatedData('Sell'),
-            backgroundColor: '#090909',
           },
           {
             label: 'Buy price',
@@ -49,6 +45,8 @@ export default {
         min: this.daysAgo === 0 ? 0 : start,
       };
 
+      const maxYTick = Math.max(...this.formatedData('Buy').map(({ y }) => y)) * 1.1;
+
       return {
         animation: {
           duration: 0,
@@ -58,9 +56,6 @@ export default {
         },
         tooltips: {
           mode: 'point',
-          filter(tooltipItem) {
-            return tooltipItem.datasetIndex !== 1;
-          },
           callbacks: {
             label(tooltipItem, data) {
               let label = data.datasets[tooltipItem.datasetIndex].label || '';
@@ -116,6 +111,9 @@ export default {
               fontColor: '#FFFFFF',
               labelString: this.$t('components.PriceHistory.Price'),
             },
+            ticks: {
+              max: Math.ceil(maxYTick),
+            },
           }],
         },
         annotation: {
@@ -135,16 +133,12 @@ export default {
       };
     },
   },
-  watch: {
-    data() {
-      this.renderChart(this.data, this.options);
-    },
-    daysAgo() {
-      this.renderChart(this.data, this.options);
-    },
-  },
   mounted() {
-    this.renderChart(this.data, this.options);
+    this.$watch(
+      ({ data, options }) => [data, options],
+      () => this.renderChart(this.data, this.options),
+      { immediate: true },
+    );
   },
   methods: {
     formatedData(event) {

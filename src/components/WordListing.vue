@@ -226,7 +226,7 @@ export default {
   }
 
   .word-listing-column {
-    flex: 0 0 25%;
+    flex: 0 1 25%;
     width: 25%;
 
     .supply {
@@ -307,10 +307,11 @@ export default {
   .asset-column {
     font-weight: 500;
     padding-left: 24px;
-    width: 122px;
+    min-width: 200px;
 
     @include desktop {
       padding-left: 16px;
+      min-width: 150px;
     }
   }
 

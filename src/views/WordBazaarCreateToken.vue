@@ -21,7 +21,7 @@
           class="step-description"
         >
           <template #abbreviation>
-            <span class="abbreviation">{{ abbreviation }}</span>
+            <span class="abbreviation">{{ name }}</span>
           </template>
           <template #step>
             {{ $t(`components.CreateToken.Steps[${step}]`) }}
@@ -46,19 +46,20 @@
       <div class="create-inputs input-group">
         <div class="input-block">
           <label for="name">{{ $t('components.CreateToken.Name.Title') }}</label>
-          <textarea
+          <input
             v-if="!loadingState"
             id="name"
             v-model="name"
             :placeholder="$t('components.CreateToken.Name.Placeholder')"
             class="form-control"
-            :class="{ multiline: name.split('\n').length > 1,
-                      error: error.name }"
-            :rows="name.split('\n').length || 1"
+            :class="{ error: error.name }"
             minlength="1"
             :disabled="loadingState"
-          />
-          <p v-else>
+          >
+          <p
+            v-else
+            class="abbreviation"
+          >
             {{ name }}
           </p>
           <div
@@ -68,7 +69,7 @@
             <span class="error">{{ error.name || '' }}</span>
             <div>
               <span :class="{ error: error.name }">{{ name.length }}</span>
-              <span>{{ $t('components.CreateToken.Name.Counter') }}</span>
+              <span>{{ ` / ${maxNameLength}` }}</span>
             </div>
           </div>
         </div>
@@ -99,43 +100,12 @@
             <span class="error">{{ error.description || '' }}</span>
             <div>
               <span :class="{ error: error.description }">{{ description.length }}</span>
-              <span>{{ $t('components.CreateToken.Description.Counter') }}</span>
+              <span>{{ ` / ${maxDescriptionLength}` }}</span>
             </div>
           </div>
         </div>
         <div class="input-block">
-          <label for="abbreviation">
-            {{ $t(`components.CreateToken.Abbreviation.Title${loadingState ? '' : 'Long'}`) }}
-          </label>
-          <div class="abbreviation-input">
-            <div>
-              <input
-                v-if="!loadingState"
-                id="abbreviation"
-                v-model="abbreviation"
-                :placeholder="$t('components.CreateToken.Abbreviation.Placeholder')"
-                class="form-control"
-                :class="{ error: error.abbreviation }"
-                minlength="1"
-                :disabled="loadingState"
-              >
-              <div
-                v-else
-                class="abbreviation"
-              >
-                {{ abbreviation }}
-              </div>
-              <div
-                v-if="!loadingState"
-                class="input-info"
-              >
-                <span class="error">{{ error.abbreviation || '' }}</span>
-                <div>
-                  <span :class="{ error: error.abbreviation }">{{ abbreviation.length }}</span>
-                  <span>{{ $t('components.CreateToken.Abbreviation.Counter') }}</span>
-                </div>
-              </div>
-            </div>
+          <div class="button">
             <AeButton
               v-if="success"
               @click="navigateAssets"
@@ -148,7 +118,7 @@
             <AeButton
               v-else
               :disabled="loadingState ||
-                !name.length || !description.length || !abbreviation.length"
+                !name.length || !description.length || !!error.name || !!error.description"
               @click="createWordSale"
             >
               <RightArrow />
@@ -185,23 +155,25 @@ export default {
   data: () => ({
     name: '',
     description: '',
-    abbreviation: '',
     loadingState: false,
     step: 0,
     success: false,
     seconds: 10,
+    maxNameLength: 14,
+    maxDescriptionLength: 500,
   }),
   computed: {
     invalidInputs() {
       return this.loadingState
-      || !this.name.length || !this.description.length || !this.abbreviation.length
+      || !this.name.length || !this.description.length
       || Object.values(this.error).includes((e) => e !== null);
     },
     error() {
       return {
-        name: this.name.length > 333 ? this.$t('components.CreateToken.Name.Error') : null,
-        description: this.description.length > 500 ? this.$t('components.CreateToken.Description.Error') : null,
-        abbreviation: this.abbreviation.length > 6 ? this.$t('components.CreateToken.Abbreviation.Error') : null,
+        name: this.name.length > this.maxNameLength
+          ? this.$t('components.CreateToken.Name.Error', { maxLength: this.maxNameLength }) : null,
+        description: this.description.length > this.maxDescriptionLength
+          ? this.$t('components.CreateToken.Description.Error', { maxLength: this.maxDescriptionLength }) : null,
       };
     },
   },
@@ -234,7 +206,7 @@ export default {
           {
             name: this.name,
             decimals,
-            symbol: this.abbreviation,
+            symbol: this.name,
             tokenSaleAddress,
           });
 
@@ -258,14 +230,13 @@ export default {
               index: this.step + 1,
               step: this.$t(`components.CreateToken.Steps[${this.step}]`),
             }),
-            this.$t('components.CreateToken.Error[1]', { abbreviation: this.abbreviation }),
+            this.$t('components.CreateToken.Error[1]', { abbreviation: this.name }),
           ],
           hideIcon: true,
           primaryButtonText: 'OK',
         });
         this.name = '';
         this.description = '';
-        this.abbreviation = '';
         this.loadingState = false;
         this.step = 0;
         this.success = false;
@@ -335,6 +306,9 @@ export default {
       font-weight: 500;
       color: $pure_white;
       margin-top: 1rem;
+      margin-left: 16px;
+      margin-right: 16px;
+      text-align: center;
     }
   }
 
@@ -372,7 +346,7 @@ export default {
         background: $super_dark;
         border: 1px solid $super_dark;
         box-sizing: border-box;
-        box-shadow: inset -0.1rem 0.15rem 0.3rem rgba(0, 0, 0, 0.25);
+        box-shadow: inset -0.1rem 0.15rem 0.3rem rgba($background_color, 0.25);
         border-radius: 0.3rem;
 
         &.active {
@@ -427,7 +401,8 @@ export default {
       padding: 8px 16px;
       height: 40px;
       border: 1px solid transparent;
-      transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+      transition: 0.3s;
+      transition-property: background-color, border-color;
 
       &.multiline {
         height: 100%;
@@ -444,7 +419,6 @@ export default {
     }
 
     p {
-      color: $standard_font_color;
       word-break: break-word;
       font-size: 15px;
       line-height: 24px;
@@ -456,27 +430,9 @@ export default {
       }
     }
 
-    .abbreviation-input {
+    .button {
       display: flex;
-      justify-content: space-between;
-
-      .abbreviation {
-        font-size: 20px;
-        line-height: 26px;
-        margin-top: 11px;
-      }
-
-      input {
-        width: 220px;
-
-        @include mobile {
-          width: 100%;
-        }
-      }
-
-      @include mobile {
-        flex-direction: column;
-      }
+      justify-content: flex-end;
 
       .ae-button {
         font-weight: 700;
@@ -489,7 +445,7 @@ export default {
         svg {
           height: 1.2rem;
           border-radius: 100%;
-          background-color: rgba(255, 255, 255, 0.44);
+          background-color: rgba($standard_font_color, 0.44);
           padding: 0.2rem;
           margin-bottom: 0.1rem;
           margin-right: 3px;
@@ -507,7 +463,7 @@ export default {
   margin-top: 8px;
 
   span {
-    transition: color 0.3s ease-in-out;
+    transition: color 0.3s;
 
     &.error {
       color: $red_color;

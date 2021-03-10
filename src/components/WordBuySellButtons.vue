@@ -40,6 +40,7 @@
         </div>
         <div class="return-amount">
           <AeAmountFiat
+            class="token-balance"
             :amount="tokenBalance"
             :token="tokenAddress"
             aettos
@@ -111,6 +112,7 @@
         </div>
         <div class="return-amount">
           <AeAmountFiat
+            class="token-balance"
             :amount="tokenBalance"
             :token="tokenAddress"
             aettos
@@ -364,6 +366,12 @@ export default {
   }
 }
 
+// .ae-amount-fiat {
+//   border: 1px solid red;
+//   display: flex;
+//   flex-direction: column;
+// }
+
 .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
   background-color: $actions_ribbon_background_color;
   border: 1px solid $background_color;
@@ -372,7 +380,7 @@ export default {
   margin: 0 -6.3rem;
   padding: 1rem;
   width: 260px;
-  height: 392px;
+  min-height: 392px;
   font-weight: 500;
   font-size: 16px;
   line-height: 21px;
@@ -410,6 +418,17 @@ export default {
   display: flex;
   flex-direction: row;
   margin-bottom: 24px;
+
+  .ae-amount-fiat {
+    max-width: 226px;
+    white-space: initial;
+    word-wrap: break-word;
+  }
+
+  .token-balance {
+    display: flex;
+    flex-direction: column;
+  }
 
   .update-loading {
     margin-left: 0.5rem;

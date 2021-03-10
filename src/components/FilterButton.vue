@@ -24,19 +24,16 @@ export default {
   line-height: 18px;
   padding: 8px 16px;
   color: $tip_note_color;
-  display: inline-block;
-  padding: 0.35rem 0.7rem;
   height: 40px;
-  background-color: transparent;
-  transition: 0.3s;
-  transition-property: color, background-color;
+  transition: color 0.3s, background-color 0.3s;
+  margin-right: 8px;
+  white-space: nowrap;
 
   svg {
     color: $pure_white;
     opacity: 0.7;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s;
     height: 24px;
-    width: auto;
     margin-bottom: 2px;
   }
 
@@ -51,14 +48,9 @@ export default {
     }
   }
 
-  &:focus {
-    outline: none;
-  }
-
-  &:hover:not(.router-link-active):not(.active) {
+  &:hover:not(.router-link-exact-active):not(.active) {
     color: $pure_white;
     background-color: $thumbnail_hover_color;
-    cursor: pointer;
 
     svg {
       opacity: 1;

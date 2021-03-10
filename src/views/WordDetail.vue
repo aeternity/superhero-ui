@@ -35,12 +35,6 @@
           class="asset_details__info"
         >
           <div class="info-item">
-            <h3>{{ $t('views.WordDetail.Abbreviation') }}</h3>
-            <div class="abbreviation">
-              {{ selectedWord }}
-            </div>
-          </div>
-          <div class="info-item">
             <h3>{{ $t('views.WordDetail.CurrentPrice') }}</h3>
             <div>
               <AeAmount
@@ -70,9 +64,9 @@
           <h3>{{ $t('views.WordDetail.Asset') }}</h3>
           <div
             v-if="data && tokenInfo"
-            class="asset-details__asset"
+            class="asset-details__asset abbreviation"
           >
-            {{ tokenInfo[data.tokenAddress] && tokenInfo[data.tokenAddress].name }}
+            {{ selectedWord }}
           </div>
           <h3>{{ $t('views.WordDetail.Description') }}</h3>
           <div
@@ -364,16 +358,22 @@
             <AeAmount
               :token="data.tokenAddress"
               :amount="data.totalSupply"
+              no-symbol
             />
+            <span class="abbreviation">
+              {{ selectedWord }}
+            </span>
           </div>
           <div class="info-item">
             <h3>{{ $t('views.WordDetail.Stake') }}</h3>
-            <div>
-              <AeAmount
-                :token="data.tokenAddress"
-                :amount="data.totalSupply / 2"
-              />
-            </div>
+            <AeAmount
+              :token="data.tokenAddress"
+              :amount="data.totalSupply / 2"
+              no-symbol
+            />
+            <span class="abbreviation">
+              {{ selectedWord }}
+            </span>
           </div>
         </div>
 
@@ -901,7 +901,6 @@ export default {
     font-size: 0.75rem;
 
     .asset-details__asset {
-      color: $pure_white;
       padding-bottom: 16px;
     }
 
@@ -996,7 +995,7 @@ export default {
     display: flex;
     flex-direction: row;
 
-    @include mobile {
+    @include desktop {
       flex-wrap: wrap;
     }
 
@@ -1011,8 +1010,8 @@ export default {
       border-radius: 6px;
       margin-right: 16px;
       padding: 16px;
-      transition: backgroun 0.3s ease-in-out;
-      height: 112px;
+      transition: background 0.3s ease-in-out;
+      min-height: 112px;
 
       h3 {
         font-size: 15px;
@@ -1030,8 +1029,14 @@ export default {
         }
       }
 
-      @include mobile {
-        width: 40%;
+      .abbreviation {
+        display: block;
+        width: 100%;
+        word-wrap: break-word;
+      }
+
+      @include desktop {
+        width: 44%;
         margin: 8px;
       }
     }

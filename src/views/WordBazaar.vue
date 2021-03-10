@@ -244,7 +244,6 @@ export default {
 
   ::v-deep .tab-bar {
     height: 40px;
-    background-color: $buttons_background;
     position: sticky;
     top: 121px;
     z-index: 1;

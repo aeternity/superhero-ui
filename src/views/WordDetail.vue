@@ -127,7 +127,9 @@
               />
               <figcaption class="legend">
                 <div class="legend-item history">
-                  <h3 class="buy-price">{{ $t('views.WordDetail.LegendBuyPrice') }}</h3>
+                  <h3 class="buy-price">
+                    {{ $t('views.WordDetail.LegendBuyPrice') }}
+                  </h3>
                   <div>
                     <AeAmount
                       :amount="data.buyPrice"
@@ -140,7 +142,9 @@
                   </div>
                 </div>
                 <div class="legend-item history">
-                  <h3 class="sell-price">{{ $t('views.WordDetail.LegendSellPrice') }}</h3>
+                  <h3 class="sell-price">
+                    {{ $t('views.WordDetail.LegendSellPrice') }}
+                  </h3>
                   <div>
                     <AeAmount
                       :amount="data.sellPrice"
@@ -153,7 +157,9 @@
                   </div>
                 </div>
                 <div class="legend-item history">
-                  <h3 class="spread">{{ $t('views.WordDetail.LegendSpread') }}</h3>
+                  <h3 class="spread">
+                    {{ $t('views.WordDetail.LegendSpread') }}
+                  </h3>
                   <div>
                     <AeAmount
                       :amount="chartData.tokenSpread.toNumber()"
@@ -162,7 +168,9 @@
                   </div>
                 </div>
                 <div class="legend-item history">
-                  <h3 class="reserve">{{ $t('views.WordDetail.LegendReserve') }}</h3>
+                  <h3 class="reserve">
+                    {{ $t('views.WordDetail.LegendReserve') }}
+                  </h3>
                   <div>
                     <AeAmount
                       :amount="chartData.tokenReserve.toNumber()"
@@ -178,7 +186,9 @@
               />
               <figcaption class="legend">
                 <div class="legend-item">
-                  <h3 class="buy-price">{{ $t('views.WordDetail.LegendBondingBuyPrice') }}</h3>
+                  <h3 class="buy-price">
+                    {{ $t('views.WordDetail.LegendBondingBuyPrice') }}
+                  </h3>
                   <div>
                     <AeAmount
                       :amount="chartData.bondingBuyPrice.toNumber()"
@@ -191,7 +201,9 @@
                   </div>
                 </div>
                 <div class="legend-item">
-                  <h3 class="sell-price">{{ $t('views.WordDetail.LegendBondingSellPrice') }}</h3>
+                  <h3 class="sell-price">
+                    {{ $t('views.WordDetail.LegendBondingSellPrice') }}
+                  </h3>
                   <div>
                     <AeAmount
                       :amount="chartData.bondingSellPrice.toNumber()"
@@ -204,7 +216,9 @@
                   </div>
                 </div>
                 <div class="legend-item">
-                  <h3 class="supply">{{ $t('views.WordDetail.LegendSupply') }}</h3>
+                  <h3 class="supply">
+                    {{ $t('views.WordDetail.LegendSupply') }}
+                  </h3>
                   <div>
                     <AeAmount
                       :token="chartData.tokenAddress"
@@ -214,7 +228,9 @@
                   </div>
                 </div>
                 <div class="legend-item">
-                  <h3 class="initial-price">{{ $t('views.WordDetail.LegendInitialPrice') }}</h3>
+                  <h3 class="initial-price">
+                    {{ $t('views.WordDetail.LegendInitialPrice') }}
+                  </h3>
                   <div>
                     <AeAmount
                       :amount="chartData.initialPrice.toNumber()"
@@ -227,7 +243,9 @@
                   </div>
                 </div>
                 <div class="legend-item">
-                  <h3 class="spread">{{ $t('views.WordDetail.LegendSpread') }}</h3>
+                  <h3 class="spread">
+                    {{ $t('views.WordDetail.LegendSpread') }}
+                  </h3>
                   <div>
                     <AeAmount
                       :amount="chartData.tokenSpread.toNumber()"
@@ -236,7 +254,9 @@
                   </div>
                 </div>
                 <div class="legend-item">
-                  <h3 class="reserve">{{ $t('views.WordDetail.LegendReserve') }}</h3>
+                  <h3 class="reserve">
+                    {{ $t('views.WordDetail.LegendReserve') }}
+                  </h3>
                   <div>
                     <AeAmount
                       :amount="chartData.tokenReserve.toNumber()"
@@ -830,7 +850,6 @@ export default {
   ::v-deep .tab-bar {
     height: 40px;
     font-size: 15px;
-    background-color: $buttons_background;
     position: sticky;
     top: 121px;
     z-index: 1;
@@ -1075,7 +1094,6 @@ export default {
       justify-content: flex-end;
 
       ::v-deep .time-scope {
-        background-color: $buttons_background;
         height: 36px;
         width: 100%;
         justify-content: flex-end;

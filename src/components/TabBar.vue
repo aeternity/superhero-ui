@@ -38,7 +38,6 @@ export default {
 <style lang="scss" scoped>
 .tab-bar {
   padding: 0 24px;
-  background-color: $actions_ribbon_background_color;
   display: flex;
 
   button {

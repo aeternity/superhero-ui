@@ -356,7 +356,6 @@
         ]
       },
       "Title": "{word}: Word Details",
-      "Abbreviation": "Short name",
       "CurrentPrice": "Buy price",
       "SellPrice": "Sell price",
       "Supply": "Current supply",
@@ -530,21 +529,12 @@
       "Name": {
         "Title": "Token",
         "Placeholder": "Enter any combination of characters *",
-        "Counter": " / 333",
-        "Error": "Maximum number of characters allowed is 333"
+        "Error": "Maximum number of characters allowed is {maxLength}"
       },
       "Description": {
         "Title": "Token description",
-        "Placeholder": "Enter additional information about your token *",
-        "Counter": " / 500",
-        "Error": "Maximum number of characters allowed is 500"
-      },
-      "Abbreviation": {
-        "Title": "Abbreviation",
-        "TitleLong": "Abbreviation (token short name)",
-        "Placeholder": "Enter token abbreviation *",
-        "Counter": " / 6",
-        "Error": "Maximum 6 characters"
+        "Placeholder": "Enter information about your token *",
+        "Error": "Maximum number of characters allowed is {maxLength}"
       },
       "Steps": [
         "",

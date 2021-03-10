@@ -21,6 +21,7 @@
   background-color: transparent;
   transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
   margin-right: 8px;
+  white-space: nowrap;
 
   svg {
     color: $pure_white;

@@ -20,7 +20,7 @@
     >
     <div class="input-group-append">
       <span
-        class="input-group-text append-ae text-ellipsis"
+        class="input-group-text append-ae"
         :title="value"
       >
         <!-- eslint-disable vue-i18n/no-raw-text -->
@@ -41,7 +41,7 @@
         :method="selectToken"
         show-right
       >
-        <template v-slot="{ option }">
+        <template #default="{ option }">
           <div class="token-option">
             <TokenAvatarAndSymbol :address="option.token" />
             <span class="tokens-amount">{{

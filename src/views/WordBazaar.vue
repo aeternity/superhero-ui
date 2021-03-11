@@ -278,7 +278,10 @@ export default {
     @include desktop {
       padding: 0 16px;
 
-      &.mobile { display: flex; }
+      &.mobile {
+        display: flex;
+        top: 120px;
+      }
       &.desktop { display: none; }
     }
   }

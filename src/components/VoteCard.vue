@@ -391,16 +391,12 @@ export default {
 
   .vote-progress-bar {
     background-color: $buttons_background;
-    width: 180px;
+    width: 100%;
+    margin-top: 8px;
     border-radius: 6px;
     overflow: hidden;
     height: 40px;
     font-size: 20px;
-
-    @include mobile {
-      width: 100%;
-      margin-top: 8px;
-    }
   }
 
   .vote-progress {
@@ -437,16 +433,6 @@ export default {
     }
   }
 
-  ::v-deep .ae-button {
-    font-weight: bold;
-    font-size: 0.8rem;
-
-    svg {
-      height: 24px;
-      width: auto;
-    }
-  }
-
   .input-bar {
     margin-top: -0.4rem;
     display: flex;
@@ -473,8 +459,7 @@ export default {
   }
 
   .input-group {
-    width: auto;
-    max-width: 8rem;
+    width: 50%;
     height: 100%;
 
     .input-group-append > span.append__ae {
@@ -483,6 +468,26 @@ export default {
 
     .form-control {
       height: 100%;
+    }
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
+  ::v-deep .ae-button {
+    font-weight: bold;
+    font-size: 0.8rem;
+
+    svg {
+      height: 24px;
+      width: auto;
+    }
+
+    @include mobile {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 8px;
     }
   }
 

@@ -824,7 +824,10 @@ export default {
     }
 
     @include desktop {
-      &.mobile { display: flex; }
+      &.mobile {
+        display: flex;
+        top: 48px;
+      }
       &.desktop { display: none; }
     }
   }
@@ -892,6 +895,10 @@ export default {
         }
       }
     }
+
+    @include mobile {
+      top: 113px;
+    }
   }
 
   h3 {
@@ -938,6 +945,12 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
+
+          ::v-deep.not-bootstrap-modal-content {
+            @include mobile {
+              margin-left: 0;
+            }
+          }
 
           button {
             width: 154px;

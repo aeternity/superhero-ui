@@ -1,12 +1,16 @@
 <template>
   <div class="word-buy-sell-buttons">
-    <div class="buttons">
+    <div v-if="!!$scopedSlots.default">
+      <slot :open="openBuy" />
+    </div>
+    <div
+      v-else
+      class="buttons"
+    >
       <OutlinedButton
         class="green unpadded"
         :class="{ active: showBuyModal }"
-        @click="() => {
-          showBuyModal = true; buyValue()
-        }"
+        @click="openBuy"
       >
         {{ $t('components.WordBuySellButtons.Buy') }}
       </OutlinedButton>
@@ -15,9 +19,7 @@
         class="red unpadded"
         :class="{ disabled: tokenBalance === 0, active: showSellModal }"
         :disabled="tokenBalance === 0"
-        @click="() => {
-          showSellModal = true; sellValue()
-        }"
+        @click="openSell"
       >
         {{ $t('components.WordBuySellButtons.Sell') }}
       </OutlinedButton>
@@ -223,6 +225,14 @@ export default {
     setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
+    openBuy() {
+      this.showBuyModal = true;
+      this.buyValue();
+    },
+    openSell() {
+      this.showSellModal = true;
+      this.sellValue();
+    },
     async reloadData() {
       this.totalSupply = null;
       this.buyPrice = null;

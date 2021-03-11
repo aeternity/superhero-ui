@@ -81,7 +81,10 @@
           >
             {{ data.description }}
           </div>
-          <div v-if="!loading" class="chart-buttons">
+          <div
+            v-if="!loading"
+            class="chart-buttons"
+          >
             <ButtonPlain
               :class="{ active: chart === 'history' }"
               @click="chart = 'history'"
@@ -415,21 +418,28 @@
                 </template>
               </i18n>
               <div class="buttons">
-                <OutlinedButton
-                  class="green unpadded"
-                  :style="{ width: maxAmount > 0 ? '186px' : '154px' }"
+                <WordBuySellButtons
+                  v-if="saleContractAddress"
+                  :sale="saleContractAddress"
                 >
-                  <IconTokensBuySell />
-                  <span class="mobile">{{ $t('views.WordDetail.BuyMobile') }}</span>
-                  <span
-                    v-if="maxAmount > 0"
-                    class="desktop"
-                  >{{ $t('views.WordDetail.BuyMore') }}</span>
-                  <span
-                    v-else
-                    class="desktop"
-                  >{{ $t('views.WordDetail.Buy') }}</span>
-                </OutlinedButton>
+                  <OutlinedButton
+                    slot-scope="{ open }"
+                    class="green unpadded"
+                    :class="{ wide: maxAmount > 0 }"
+                    @click="open"
+                  >
+                    <IconTokensBuySell />
+                    <span class="mobile">{{ $t('views.WordDetail.BuyMobile') }}</span>
+                    <span
+                      v-if="maxAmount > 0"
+                      class="desktop"
+                    >{{ $t('views.WordDetail.BuyMore') }}</span>
+                    <span
+                      v-else
+                      class="desktop"
+                    >{{ $t('views.WordDetail.Buy') }}</span>
+                  </OutlinedButton>
+                </WordBuySellButtons>
                 <AeButton
                   :disabled="maxAmount <= 0"
                   @click="showInitiate = !showInitiate"
@@ -934,6 +944,12 @@ export default {
               svg {
                 height: 24px;
                 width: auto;
+              }
+
+              @include desktop-only {
+                &.wide {
+                  width: 186px;
+                }
               }
             }
           }

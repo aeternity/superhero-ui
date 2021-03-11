@@ -301,14 +301,14 @@ export default {
 <style lang="scss" scoped>
 .vote-card {
   box-sizing: border-box;
-  box-shadow: 0.1rem 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0.1rem 0.2rem 0.4rem rgba($background_color, 0.2);
   border-radius: 0.3rem;
   background-color: $thumbnail_background_color;
   padding: 0.8rem;
   border: 1px solid $thumbnail_background_color;
   margin-bottom: 1.2rem;
   color: $small_heading_color;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s;
 
   .vote-row {
     display: flex;
@@ -391,16 +391,12 @@ export default {
 
   .vote-progress-bar {
     background-color: $buttons_background;
-    width: 180px;
+    width: 100%;
+    margin-top: 8px;
     border-radius: 6px;
     overflow: hidden;
     height: 40px;
     font-size: 20px;
-
-    @include mobile {
-      width: 100%;
-      margin-top: 8px;
-    }
   }
 
   .vote-progress {
@@ -413,7 +409,7 @@ export default {
     vertical-align: middle;
 
     &.ongoing {
-      background-color: rgba(0, 255, 157, 0.5);
+      background-color: rgba($custom_links_color, 0.5);
       font-size: 20px;
       padding: 10px 0;
 
@@ -434,16 +430,6 @@ export default {
       text-align: center;
       color: $custom_links_color;
       padding: 9px 0;
-    }
-  }
-
-  ::v-deep .ae-button {
-    font-weight: bold;
-    font-size: 0.8rem;
-
-    svg {
-      height: 24px;
-      width: auto;
     }
   }
 
@@ -473,8 +459,7 @@ export default {
   }
 
   .input-group {
-    width: auto;
-    max-width: 8rem;
+    width: 50%;
     height: 100%;
 
     .input-group-append > span.append__ae {
@@ -483,6 +468,26 @@ export default {
 
     .form-control {
       height: 100%;
+    }
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
+  ::v-deep .ae-button {
+    font-weight: bold;
+    font-size: 0.8rem;
+
+    svg {
+      height: 24px;
+      width: auto;
+    }
+
+    @include mobile {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 8px;
     }
   }
 

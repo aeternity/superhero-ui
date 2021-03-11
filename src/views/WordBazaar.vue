@@ -120,7 +120,6 @@ export default {
 
     .bubbleArrow {
       height: 40px;
-      width: auto;
       color: $secondary_color;
     }
 
@@ -155,7 +154,6 @@ export default {
 
       svg {
         height: 24px;
-        width: auto;
         margin-bottom: 2px;
         flex-shrink: 0;
       }

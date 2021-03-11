@@ -159,7 +159,6 @@ export default {
 
         svg {
           height: 16px;
-          width: auto;
           margin-bottom: 3px;
           margin-left: 4px;
         }
@@ -175,7 +174,10 @@ export default {
     @include desktop {
       padding: 0 16px;
 
-      &.mobile { display: flex; }
+      &.mobile {
+        display: flex;
+        top: 120px;
+      }
       &.desktop { display: none; }
     }
   }
@@ -197,7 +199,6 @@ export default {
 
     .iconClose {
       height: 24px;
-      width: auto;
     }
 
     @include desktop {
@@ -210,10 +211,10 @@ export default {
 
   .iconSearch {
     height: 24px;
-    width: auto;
     margin-right: 8px;
     cursor: pointer;
-    transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transition: 0.3s;
+    transition-property: color, opacity;
     opacity: 0.7;
 
     &:hover {

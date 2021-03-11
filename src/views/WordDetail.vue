@@ -526,7 +526,6 @@ export default {
       newVotePayout: '',
       activity: 'info',
       activeTab: 'ongoing',
-      tabs: this.$t('views.WordDetail.Tabs'),
       loading: false,
       progressMessage: '',
       showInitiate: false,
@@ -535,15 +534,25 @@ export default {
       timeScope: '0',
       timeScopeText: 'All',
       chart: 'history',
-      timeScopeTabs: this.$t('views.WordDetail.TimeScopeTabs'),
     };
   },
   computed: {
     ...mapState(['address', 'tokenInfo', 'tokenBalances']),
+    tabs() {
+      const activities = ['ongoing', 'past', 'my'];
+      return this.$t('views.WordDetail.Tabs')
+        .map((t, i) => ({ text: t, tab: activities[i] }));
+    },
+    timeScopeTabs() {
+      const activities = ['1', '3', '7', '30', '90', '365', '0'];
+      return this.$t('views.WordDetail.TimeScopeTabs')
+        .map((t, i) => ({ text: t, tab: activities[i] }));
+    },
     ribbonTabs() {
       const icons = [IconInfo, IconPie];
+      const activities = ['info', 'voting'];
       return this.$t('views.WordDetail.RibbonTabs')
-        .map((t, i) => ({ ...t, icon: icons[i] }));
+        .map(({ text }, i) => ({ text, icon: icons[i], activity: activities[i] }));
     },
     ribbonTabsMobile() {
       return this.ribbonTabs.map((t, i) => ({
@@ -796,7 +805,6 @@ export default {
 
       svg {
         height: 24px;
-        width: auto;
         margin-bottom: 2px;
         flex-shrink: 0;
       }
@@ -818,7 +826,10 @@ export default {
     }
 
     @include desktop {
-      &.mobile { display: flex; }
+      &.mobile {
+        display: flex;
+        top: 48px;
+      }
       &.desktop { display: none; }
     }
   }
@@ -832,7 +843,6 @@ export default {
 
     svg {
       height: 24px;
-      width: auto;
       margin-bottom: 2px;
     }
 
@@ -863,7 +873,6 @@ export default {
         margin-bottom: 1px;
         transition: transform 0.5s;
         height: 20px;
-        width: auto;
 
         &.rotate {
           transform: rotate(45deg);
@@ -885,6 +894,10 @@ export default {
           }
         }
       }
+    }
+
+    @include mobile {
+      top: 113px;
     }
   }
 
@@ -933,6 +946,12 @@ export default {
           justify-content: center;
           align-items: center;
 
+          ::v-deep.not-bootstrap-modal-content {
+            @include mobile {
+              margin-left: 0;
+            }
+          }
+
           button {
             width: 154px;
             height: 40px;
@@ -942,7 +961,6 @@ export default {
 
               svg {
                 height: 24px;
-                width: auto;
               }
 
               @include desktop-only {
@@ -964,10 +982,8 @@ export default {
           color: $light_font_color;
           background-color: $light_color;
           opacity: 0.66;
-          transition:
-            color 0.3s ease-in-out,
-            background-color 0.3s ease-in-out,
-            opacity 0.3s ease-in-out;
+          transition: 0.3s;
+          transition-property: color, background-color, opacity;
           height: 40px;
           border: 1px solid $actions_ribbon_background_color;
           border-radius: 6px 6px 0 0;
@@ -1006,17 +1022,17 @@ export default {
       display: flex;
       flex-direction: column;
       background: $super_dark;
-      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 4px 4px 10px rgba($background_color, 0.2);
       border-radius: 6px;
       margin-right: 16px;
       padding: 16px;
-      transition: background 0.3s ease-in-out;
+      transition: background 0.3s;
       min-height: 112px;
 
       h3 {
         font-size: 15px;
         font-weight: 700;
-        transition: color 0.3s ease-in-out;
+        transition: color 0.3s;
         color: $light_font_color;
         margin-bottom: 9px;
       }
@@ -1142,7 +1158,7 @@ export default {
           }
 
           &.active {
-            background-color: rgba(0, 255, 157, 0.1);
+            background-color: rgba($custom_links_color, 0.1);
             color: $custom_links_color;
           }
         }

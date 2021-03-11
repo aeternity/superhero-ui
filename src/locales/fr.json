@@ -510,66 +510,36 @@
       "Stake": "Majority stake",
       "RibbonTabs": [
         {
-          "activity": "info",
           "text": "Token info",
           "textMobile": "Info"
         },
         {
-          "activity": "voting",
           "text": "Funds release vote",
           "textMobile": "Vote"
         }
       ],
-      "Tabs": [
-        {
-          "tab": "ongoing",
-          "text": "Ongoing Votes"
-        },
-        {
-          "tab": "past",
-          "text": "Past Votes"
-        },
-        {
-          "tab": "my",
-          "text": "My Votes"
-        }
-      ],
-      "TimeScopeTabs": [
-        { "text": "Day", "tab": "1" },
-        { "text": "Week", "tab": "7" },
-        { "text": "Month", "tab": "30" },
-        { "text": "3 Months", "tab": "90" },
-        { "text": "Year", "tab": "365" },
-        { "text": "All", "tab": "0" }
-      ]
+      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"],
+      "TimeScopeTabs": ["Day", "Week", "Month", "3 Months", "Year", "All"]
     },
     "WordBazaar": {
       "Title": "WordBazaar",
       "Placeholder": "Search for tokens",
       "RibbonTabs": [
         {
-          "text": "Tokens",
-          "textMobile": "Tokens",
-          "header": "WordBazaar Tokens",
-          "activity": "assets"
+          "Text": "Tokens",
+          "Header": "WordBazaar Tokens"
         },
         {
-          "text": "Create token",
-          "textMobile": "Create",
-          "header": "Create token",
-          "activity": "create"
+          "Text": "Create token",
+          "TextMobile": "Create"
         },
         {
-          "text": "Get AE",
-          "textMobile": "Get AE",
-          "header": "Get AE Tokens",
-          "activity": "getae"
+          "Text": "Get AE",
+          "Header": "Get AE Tokens"
         },
         {
-          "text": "How it works",
-          "textMobile": "How-to",
-          "header": "How it works",
-          "activity": "how"
+          "Text": "How it works",
+          "TextMobile": "How-to"
         }
       ],
       "Tabs": [
@@ -714,8 +684,7 @@
       "BuyPriceMobile": "Buy",
       "SellPrice": "Sell price",
       "SellPriceMobile": "Sell",
-      "Supply": "Current supply",
-      "SupplyMobile": "Supply",
+      "Supply": "Supply",
       "Market": "Market"
     },
     "WordBuySellButtons": {

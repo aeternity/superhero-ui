@@ -366,12 +366,6 @@ export default {
   }
 }
 
-// .ae-amount-fiat {
-//   border: 1px solid red;
-//   display: flex;
-//   flex-direction: column;
-// }
-
 .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
   background-color: $actions_ribbon_background_color;
   border: 1px solid $background_color;

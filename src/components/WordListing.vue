@@ -55,10 +55,7 @@
 
       <div class="word-listing-column">
         <ButtonPlain @click="order('supply', 'desc')">
-          <span class="heading-text mobile">
-            {{ $t('components.WordListing.SupplyMobile') }}
-          </span>
-          <span class="heading-text desktop">
+          <span class="heading-text">
             {{ $t('components.WordListing.Supply') }}
           </span>
         </ButtonPlain>
@@ -70,7 +67,7 @@
         </ButtonPlain>
       </div>
 
-      <div class="word-listing-column">
+      <div class="word-listing-column market-column">
         <span class="heading-text">{{ $t('components.WordListing.Market') }}</span>
       </div>
     </div>
@@ -104,7 +101,7 @@
       </div>
 
       <WordBuySellButtons
-        class="word-listing-column"
+        class="word-listing-column market-column"
         :sale="data.sale"
         @click.native.stop
       />
@@ -170,9 +167,9 @@ export default {
   color: $light_font_color;
   align-items: center;
   font-size: 15px;
-  padding: 0.4rem 0;
-  margin-bottom: 0.05rem;
-  transition: background-color 0.3s ease-in-out;
+  padding: 8px 0;
+  margin-bottom: 1px;
+  transition: background-color 0.3s;
   background-color: $light_color;
   display: flex;
   height: 48px;
@@ -187,9 +184,8 @@ export default {
   .iconSort {
     margin-top: -0.2rem;
     height: 24px;
-    width: auto;
     color: $standard_font_color;
-    transition: color 0.3s ease-in-out;
+    transition: color 0.3s;
 
     &.asc {
       transform: rotate(180deg);
@@ -212,7 +208,7 @@ export default {
   }
 
   .heading-text {
-    transition: color 0.3s ease-in-out;
+    transition: color 0.3s;
     font-size: 16px;
 
     &.mobile {
@@ -226,8 +222,8 @@ export default {
   }
 
   .word-listing-column {
-    flex: 0 1 25%;
-    width: 25%;
+    flex: 0 1 20%;
+    width: 20%;
 
     .supply {
       color: $tip_note_color;
@@ -235,9 +231,7 @@ export default {
 
     @include desktop {
       &:last-of-type {
-        padding-right: 16px;
         display: flex;
-        justify-content: flex-end;
 
         ::v-deep .buttons {
           display: flex;
@@ -250,12 +244,19 @@ export default {
             width: 43px;
             font-size: 15px;
             line-height: 19px;
+            padding: 0;
 
             &:not(:last-child) {
               margin-bottom: 8px;
             }
           }
         }
+      }
+    }
+
+    @include desktop-only {
+      &:last-of-type {
+        min-width: 140px;
       }
     }
   }
@@ -286,6 +287,10 @@ export default {
     font-size: 16px;
     font-weight: 500;
 
+    svg {
+      height: 16px;
+    }
+
     @include desktop {
       height: 40px;
       border: 1px solid $background_color;
@@ -296,22 +301,16 @@ export default {
         font-size: 15px;
         line-height: 24px;
       }
-
-      svg {
-        height: 16px;
-        width: auto;
-      }
     }
   }
 
   .asset-column {
     font-weight: 500;
-    padding-left: 24px;
-    min-width: 200px;
+    min-width: 220px;
+    padding-left: 4px;
 
-    @include desktop {
-      padding-left: 16px;
-      min-width: 150px;
+    @include mobile {
+      min-width: 160px;
     }
   }
 
@@ -323,6 +322,9 @@ export default {
 
     .symbol {
       font-size: 15px;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       @include desktop {
         margin-left: 0;
@@ -342,10 +344,23 @@ export default {
   }
 
   ::v-deep .word-buy-sell-buttons {
-    .not-bootstrap-modal-content {
-      @include desktop {
-        margin-left: -260px;
-        margin-top: 56px;
+    .buy-modal {
+      .not-bootstrap-modal-content {
+        margin-left: -204px;
+
+        @include desktop {
+          margin-left: -260px;
+          margin-top: 24px;
+        }
+      }
+    }
+
+    .sell-modal {
+      .not-bootstrap-modal-content {
+        @include desktop {
+          margin-left: -260px;
+          margin-top: 56px;
+        }
       }
     }
   }

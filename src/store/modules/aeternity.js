@@ -198,7 +198,7 @@ export default {
       // as we use 18 decimals and thus need to adjust the curve to match that
       const BONDING_CURVE_DECIMALS = BONDING_CURVE.replace(
         'function alpha() : Frac.frac = Frac.make_frac(1, 1)',
-        `function alpha() : Frac.frac = Frac.make_frac(1, ${shiftDecimalPlaces(1, decimals - 2)})`,
+        `function alpha() : Frac.frac = Frac.make_frac(1, ${shiftDecimalPlaces(1, decimals)})`,
       );
       const contract = await sdk.getContractInstance(BONDING_CURVE_DECIMALS);
       await contract.methods.init();

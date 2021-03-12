@@ -182,7 +182,7 @@ export default {
       try {
         this.loadingState = true;
         const decimals = 18;
-        const bondingCurveAddress = process.env.VUE_APP_BONDING_CURVE_18_DECIMALS_ADDRESS;
+        const bondingCurveAddress = process.env.VUE_APP_BONDING_CURVE_20_DECIMALS_ADDRESS;
         const timeout = 20;
 
         this.step = 1;

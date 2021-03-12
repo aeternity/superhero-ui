@@ -42,6 +42,7 @@
 
     <WordListing
       heading
+      class="heading"
       @order="order"
       @show-buy="showBuyValue = $event"
     />
@@ -132,7 +133,7 @@ export default {
     },
   },
   metaInfo() {
-    return { title: this.$t('views.WordBazaar.RibbonTabs.0.Text') };
+    return { title: this.$t('views.WordBazaar.RibbonTabs.0.Header') };
   },
 };
 </script>
@@ -144,7 +145,7 @@ export default {
     background-color: $buttons_background;
     position: sticky;
     top: 121px;
-    z-index: 1;
+    z-index: 2;
 
     &.mobile {
       display: none;
@@ -176,7 +177,10 @@ export default {
 
       &.mobile {
         display: flex;
-        top: 120px;
+
+        @include mobile {
+          top: 120px;
+        }
       }
       &.desktop { display: none; }
     }
@@ -224,6 +228,16 @@ export default {
 
     @include desktop {
       margin-right: 0;
+    }
+  }
+
+  .heading {
+    position: sticky;
+    top: 161px;
+    z-index: 2;
+
+    @include mobile {
+      top: 160px;
     }
   }
 }

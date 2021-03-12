@@ -7,7 +7,10 @@
         </span>
         <span class="activity-bubble">
           <BubbleArrow />
-          <IconTokens class="activity-icon" />
+          <Component
+            :is="headerIcon"
+            class="activity-icon"
+          />
         </span>
       </template>
     </BackButtonRibbon>
@@ -15,48 +18,25 @@
     <ActivityRibbon
       value=""
       :tabs="[]"
-      class="mobile"
     >
       <template slot="left">
         <FilterButton :to="{ name: 'word-bazaar-assets' }">
           <IconTokens />
-          {{ $t('views.WordBazaar.RibbonTabs.0.Text') }}
+          <span>{{ $t('views.WordBazaar.RibbonTabs.0.Text') }}</span>
         </FilterButton>
         <FilterButton :to="{ name: 'word-bazaar-create-token' }">
           <IconPlus />
-          {{ $t('views.WordBazaar.RibbonTabs.1.Text') }}
+          <span class="desktop">{{ $t('views.WordBazaar.RibbonTabs.1.Text') }}</span>
+          <span class="mobile">{{ $t('views.WordBazaar.RibbonTabs.1.TextMobile') }}</span>
         </FilterButton>
         <FilterButton :to="{ name: 'word-bazaar-get-ae' }">
           <IconAe />
-          {{ $t('views.WordBazaar.RibbonTabs.2.Text') }}
+          <span>{{ $t('views.WordBazaar.RibbonTabs.2.Text') }}</span>
         </FilterButton>
         <FilterButton :to="{ name: 'word-bazaar-how-it-works' }">
           <IconHelp2 />
-          {{ $t('views.WordBazaar.RibbonTabs.3.Text') }}
-        </FilterButton>
-      </template>
-    </ActivityRibbon>
-    <ActivityRibbon
-      value=""
-      :tabs="[]"
-      class="desktop"
-    >
-      <template slot="left">
-        <FilterButton :to="{ name: 'word-bazaar-assets' }">
-          <IconTokens />
-          {{ $t('views.WordBazaar.RibbonTabs.0.Text') }}
-        </FilterButton>
-        <FilterButton :to="{ name: 'word-bazaar-create-token' }">
-          <IconPlus />
-          {{ $t('views.WordBazaar.RibbonTabs.1.Text') }}
-        </FilterButton>
-        <FilterButton :to="{ name: 'word-bazaar-get-ae' }">
-          <IconAe />
-          {{ $t('views.WordBazaar.RibbonTabs.2.Text') }}
-        </FilterButton>
-        <FilterButton :to="{ name: 'word-bazaar-how-it-works' }">
-          <IconHelp2 />
-          {{ $t('views.WordBazaar.RibbonTabs.3.Text') }}
+          <span class="desktop">{{ $t('views.WordBazaar.RibbonTabs.3.Text') }}</span>
+          <span class="mobile">{{ $t('views.WordBazaar.RibbonTabs.3.TextMobile') }}</span>
         </FilterButton>
       </template>
     </ActivityRibbon>
@@ -89,6 +69,19 @@ export default {
   computed: {
     title() {
       return this.$route.matched[1].components.default.metaInfo.call(this).title;
+    },
+    headerIcon() {
+      switch (this.$route.matched[1].name) {
+        case 'word-bazaar-assets':
+          return IconTokens;
+        case 'word-bazaar-create-token':
+          return IconPlus;
+        case 'word-bazaar-get-ae':
+          return IconAe;
+        case 'word-bazaar-how-it-works':
+          return IconHelp2;
+        default: return null;
+      }
     },
   },
   metaInfo: {
@@ -141,11 +134,7 @@ export default {
     position: sticky;
     margin: 0;
     top: 56px;
-    z-index: 1;
-
-    &.mobile {
-      display: none;
-    }
+    z-index: 2;
 
     .filter-button {
       height: 40px;
@@ -157,6 +146,9 @@ export default {
         margin-bottom: 2px;
         flex-shrink: 0;
       }
+
+      .desktop { margin-left: 2px; }
+      .mobile { display: none; }
 
       @include desktop {
         display: flex;
@@ -171,12 +163,10 @@ export default {
         &:hover {
           background-color: transparent;
         }
-      }
-    }
 
-    @include desktop {
-      &.mobile { display: flex; }
-      &.desktop { display: none; }
+        .mobile { display: inline; }
+        .desktop { display: none; }
+      }
     }
 
     @include mobile {

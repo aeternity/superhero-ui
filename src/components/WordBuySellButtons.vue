@@ -366,40 +366,47 @@ export default {
   }
 }
 
-.not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
-  background-color: $actions_ribbon_background_color;
-  border: 1px solid $background_color;
-  box-sizing: border-box;
-  border-radius: 6px;
-  margin: 0 -6.3rem;
-  padding: 1rem;
-  width: 260px;
-  min-height: 392px;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 21px;
-
-  .label {
-    margin-bottom: 8px;
+::v-deep.not-bootstrap-modal {
+  .overlay {
+    z-index: 1;
   }
 
-  .modal-row {
-    margin-bottom: 24px;
-  }
-
-  .buy-sell {
-    padding: 4px;
-    min-width: 109px;
-    height: 32px;
+  .not-bootstrap-modal-content {
+    background-color: $actions_ribbon_background_color;
+    border: 1px solid $background_color;
+    box-sizing: border-box;
+    border-radius: 6px;
+    margin: 0 -6.3rem;
+    padding: 1rem;
+    width: 260px;
+    min-height: 392px;
+    font-weight: 500;
     font-size: 16px;
-  }
+    line-height: 21px;
+    z-index: 1;
 
-  @include smallest {
-    padding: 0.5rem;
-  }
+    .label {
+      margin-bottom: 8px;
+    }
 
-  .loader {
-    margin-top: 96px;
+    .modal-row {
+      margin-bottom: 24px;
+    }
+
+    .buy-sell {
+      padding: 4px;
+      min-width: 109px;
+      height: 32px;
+      font-size: 16px;
+    }
+
+    @include smallest {
+      padding: 0.5rem;
+    }
+
+    .loader {
+      margin-top: 96px;
+    }
   }
 }
 

@@ -247,7 +247,7 @@ export default {
     background-color: $buttons_background;
     position: sticky;
     top: 121px;
-    z-index: 1;
+    z-index: 2;
 
     &.mobile {
       display: none;
@@ -280,7 +280,10 @@ export default {
 
       &.mobile {
         display: flex;
-        top: 120px;
+
+        @include mobile {
+          top: 120px;
+        }
       }
       &.desktop { display: none; }
     }
@@ -294,7 +297,7 @@ export default {
     position: sticky;
     margin: 0;
     top: 56px;
-    z-index: 1;
+    z-index: 2;
 
     &.mobile {
       display: none;

@@ -12,6 +12,7 @@
         {{ tab.text }}
       </span>
     </FilterButton>
+    <slot name="left" />
     <div class="separator" />
     <slot />
   </div>

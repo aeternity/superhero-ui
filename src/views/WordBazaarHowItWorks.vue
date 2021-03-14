@@ -28,6 +28,14 @@
   </div>
 </template>
 
+<script>
+export default {
+  metaInfo() {
+    return { title: this.$t('views.WordBazaar.RibbonTabs.3.Text') };
+  },
+};
+</script>
+
 <style lang="scss" scoped>
 .how-it-works {
   .italic {

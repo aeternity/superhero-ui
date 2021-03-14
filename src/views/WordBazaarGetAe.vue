@@ -35,6 +35,9 @@ export default {
   methods: {
     goTo(link) { window.open(link); },
   },
+  metaInfo() {
+    return { title: this.$t('views.WordBazaar.RibbonTabs.2.Text') };
+  },
 };
 </script>
 

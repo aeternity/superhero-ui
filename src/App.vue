@@ -1,17 +1,5 @@
 <template>
   <div id="app">
-    <button @click="openPopup">openPopup</button>
-    <Modal
-      v-if="showModal"
-      @close="showModal = false"
-    >
-      <template>
-        <div>Maintenance</div>
-        <button @click="showModal = false">Close</button>
-        <textarea v-model="report"></textarea>
-        <button @click="sendReport(report)">Send Report</button>
-      </template>
-    </Modal>
     <MobileNavigation v-if="!$route.meta.fullScreen" />
     <div class="not-bootstrap-row">
       <div
@@ -39,7 +27,6 @@
 
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
-import { detect } from 'detect-browser';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import { atomsToAe } from './utils';
@@ -55,10 +42,6 @@ export default {
     RightSection,
     Modal,
   },
-  data: () => ({
-    showModal: false,
-    report: '',
-  }),
   computed: {
     ...mapGetters('modals', ['opened']),
     ...mapState(['address']),
@@ -136,24 +119,6 @@ export default {
         this.setAddress(address);
       }
       await this.reloadUserData();
-    },
-    async sendReport(text) {
-      const data = {
-        id: 0,
-        appVersion: process.env.npm_package_version, // ?
-        browser: detect(),
-        error: 'error',
-        platform: process.env.PLATFORM, // ?
-        description: text,
-        time: Date.now(),
-      };
-      await fetch(`${VUE_APP_BACKEND_URL}/errorreport`, data);
-    },
-    openPopup() {
-      this.showModal = true;
-    },
-    closePopup() {
-      this.showModal = false;
     },
   },
   metaInfo: {

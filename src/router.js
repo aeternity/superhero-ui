@@ -18,6 +18,10 @@ import TutorialWallet from './views/tutorial/Wallet.vue';
 import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
 import WordBazaar from './views/WordBazaar.vue';
+import WordBazaarAssets from './views/WordBazaarAssets.vue';
+import WordBazaarCreateToken from './views/WordBazaarCreateToken.vue';
+import WordBazaarGetAe from './views/WordBazaarGetAe.vue';
+import WordBazaarHowItWorks from './views/WordBazaarHowItWorks.vue';
 import WordDetail from './views/WordDetail.vue';
 
 const routes = [
@@ -25,7 +29,6 @@ const routes = [
     path: '/',
     name: 'feed',
     component: FeedList,
-    meta: { title: 'Feed' },
     beforeEnter(to, from, next) {
       next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
     },
@@ -34,7 +37,6 @@ const routes = [
     path: '/search/:query',
     name: 'feed-search',
     component: FeedList,
-    meta: { title: 'Feed' },
     props: true,
   },
   {
@@ -49,32 +51,32 @@ const routes = [
     component: TipsAndComments,
     props: true,
   },
-  {
+  ...process.env.VUE_APP_WORDBAZAAR_ENABLED ? [{
     path: '/wordbazaar',
-    name: 'wordbazaar',
     component: WordBazaar,
-    meta: {
-      title: 'WordBazaar',
-    },
-    props: true,
-    beforeEnter(to, from, next) {
-      if (process.env.VUE_APP_WORDBAZAAR_ENABLED) next();
-      else next({ name: 'feed' });
-    },
-  },
-  {
+    children: [{
+      path: '',
+      name: 'word-bazaar-assets',
+      component: WordBazaarAssets,
+    }, {
+      path: 'create-token',
+      name: 'word-bazaar-create-token',
+      component: WordBazaarCreateToken,
+    }, {
+      path: 'get-ae',
+      name: 'word-bazaar-get-ae',
+      component: WordBazaarGetAe,
+    }, {
+      path: 'how-it-works',
+      name: 'word-bazaar-how-it-works',
+      component: WordBazaarHowItWorks,
+    }],
+  }, {
     path: '/word/:word',
     name: 'word-detail',
     component: WordDetail,
-    meta: {
-      title: 'Word Detail',
-    },
     props: true,
-    beforeEnter(to, from, next) {
-      if (process.env.VUE_APP_WORDBAZAAR_ENABLED) next();
-      else next({ name: 'feed' });
-    },
-  },
+  }] : [],
   {
     path: '/user-profile/:address',
     redirect: '/users/:address',

@@ -11,13 +11,16 @@
       <img src="../../assets/headerLogo.svg">
     </RouterLink>
 
-    <RouterLink :to="{ name: 'feed' }">
+    <RouterLink
+      exact
+      :to="{ name: 'feed' }"
+    >
       <IconTips />
       {{ $t('components.layout.Navigation.feed') }}
     </RouterLink>
     <RouterLink
       v-if="showWordBazaar"
-      :to="{ name: 'wordbazaar' }"
+      :to="{ name: 'word-bazaar-assets' }"
     >
       <IconSmile />
       {{ $t('components.layout.Navigation.WordBazaar') }}
@@ -101,7 +104,7 @@ export default {
     margin-bottom: 0.65rem;
 
     &:hover,
-    &.router-link-exact-active {
+    &.router-link-active {
       color: $custom_links_color;
     }
 

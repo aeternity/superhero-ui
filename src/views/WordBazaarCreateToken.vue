@@ -150,7 +150,7 @@
 <script>
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import AeButton from './AeButton.vue';
+import AeButton from '../components/AeButton.vue';
 import RightArrow from '../assets/rightArrow.svg?icon-component';
 
 export default {
@@ -246,6 +246,9 @@ export default {
         }
       }, 1000);
     },
+  },
+  metaInfo() {
+    return { title: this.$t('views.WordBazaar.RibbonTabs.1.Text') };
   },
 };
 </script>

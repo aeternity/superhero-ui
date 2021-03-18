@@ -28,7 +28,7 @@ export default {
       const key = address === this.address && profile?.signature?.slice(0, 5);
       return `${Backend.getProfileImageUrl(this.address)}${key ? `?cacheBust=${key}` : ''}`;
     },
-  }),
+  },
   watch: {
     profileImageUrl() {
       this.error = false;

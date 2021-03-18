@@ -16,7 +16,6 @@ export default {
   props: {
     amount: { type: [String, Number], default: 0 },
     round: { type: Number, default: 2 },
-    aettos: { type: Boolean, required: false },
     token: { type: String, default: null },
     noSymbol: { type: Boolean },
   },
@@ -31,7 +30,7 @@ export default {
       return this.amountTokenInfo ? this.amountTokenInfo.symbol : null;
     },
     roundedAmount() {
-      return this.roundedTokenAmount(this.amount || 0, this.token, this.round, this.aettos);
+      return this.roundedTokenAmount(this.amount || 0, this.token, this.round, true);
     },
   },
 };

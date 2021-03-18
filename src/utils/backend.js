@@ -91,7 +91,7 @@ export default class Backend {
     if (search) query += `&search=${encodeURIComponent(search)}`;
     query += `&blacklist=${blacklist}`;
     // soon change 'tips' to 'feed'
-    return backendFetch(`cache/tips${query}`);
+    return backendFetch(`tips${query}`);
   };
 
   static addToken = async (address) => backendFetchNoTimeout('tokenCache/addToken', {

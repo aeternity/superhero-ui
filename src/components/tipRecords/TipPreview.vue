@@ -112,7 +112,7 @@
             <Avatar :address="tip.receiver" />
             <div class="tip-author_name">
               <span class="chain-name">
-                {{ tip.chainName }}
+                {{ tip.ChainName.name }}
               </span>
               <span class="address">{{ tip.receiver }}</span>
             </div>

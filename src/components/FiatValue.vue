@@ -19,7 +19,6 @@ import { shiftDecimalPlaces } from '../utils';
 export default {
   props: {
     amount: { type: [String, Number], default: 0 },
-    aettos: { type: Boolean },
     token: { type: String, default: null },
     noParentheses: { type: Boolean },
     noSymbol: { type: Boolean },
@@ -39,12 +38,11 @@ export default {
       }
 
       const decimals = this.token ? -this.tokenData.decimals : -18;
-      const shiftBy = this.aettos ? decimals : 0;
       const price = this.token
         ? shiftDecimalPlaces(this.tokenData.price, -this.tokenData.decimals)
         : 1;
 
-      const fiatValue = new BigNumber(shiftDecimalPlaces(this.amount, shiftBy))
+      const fiatValue = new BigNumber(shiftDecimalPlaces(this.amount, decimals))
         .multipliedBy(price).multipliedBy(this.rate)
         .toNumber() || 0;
 

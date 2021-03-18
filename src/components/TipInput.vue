@@ -25,7 +25,6 @@
         :key="option.token"
         :amount="option.amount"
         :token="option.token"
-        :aettos="!!option.token"
       />
     </Dropdown>
     <Modal
@@ -131,9 +130,9 @@ export default {
         : null;
     },
     tipAmount() {
-      return +this.tipUrlStats.totalAmountAe !== 0
+      return +this.tip.Aggregation.totalurlamount !== 0
         ? {
-          value: this.tipUrlStats.totalAmountAe,
+          value: this.tip.Aggregation.totalurlamount,
           token: null,
         }
         : {

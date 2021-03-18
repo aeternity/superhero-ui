@@ -122,10 +122,10 @@ export default {
       },
     }),
     largestFtTipAmount() {
-      return this.tipUrlStats.tokenTotalAmount.length
-        ? this.tipUrlStats.tokenTotalAmount.reduce(
+      return this.tip.Aggregation.totaltokenamount.length
+        ? this.tip.Aggregation.totaltokenamount.reduce(
           (a, b) => (a.amount > b.amount ? a : b),
-          this.tipUrlStats.tokenTotalAmount[0],
+          this.tip.Aggregation.totaltokenamount[0],
         )
         : null;
     },

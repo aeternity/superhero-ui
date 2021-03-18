@@ -183,16 +183,17 @@ export default {
       }
     },
     tipPreviewDescription() {
-      return this.tip?.preview?.description || '';
+      return this.tip?.LinkPreview?.description || '';
     },
     tipPreviewTitle() {
-      return this.tip?.preview?.title || '';
+      return this.tip?.LinkPreview?.title || '';
     },
     tipPreviewImage() {
-      return this.isPreviewToBeVisualized && this.tip.preview.image !== null ? Backend.getTipPreviewUrl(this.tip.preview.image) : '';
+      return this.isPreviewToBeVisualized && this.tip.LinkPreview.image !== null ? Backend.getTipPreviewUrl(this.tip.LinkPreview.image) : '';
     },
     isPreviewToBeVisualized() {
-      return this.tip.preview && (this.tip.preview.description || this.tip.preview.title);
+      return this.tip.LinkPreview
+        && (this.tip.LinkPreview.description || this.tip.LinkPreview.title);
     },
     richPreviewComponent() {
       return [{

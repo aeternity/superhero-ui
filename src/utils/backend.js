@@ -71,7 +71,7 @@ export default class Backend {
 
   static getStats = async () => backendFetch('static/stats/');
 
-  static getCacheTipById = async (id) => backendFetch(`cache/tip?id=${id}`);
+  static getCacheTipById = async (id) => backendFetch(`tips/single?id=${id}`);
 
   static getCacheUserStats = async (address) => backendFetch(`cache/userStats?address=${address}`);
 

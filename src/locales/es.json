@@ -1,25 +1,28 @@
 {
+  "AE": "AE",
   "loading": "Cargando..",
   "cancel": "Cancelar",
   "close": "Cerrar",
   "done": "Hecho",
   "tip": "Propina",
+  "retip": "Retip",
   "tips": "Propinas",
   "amount": "Cantidad",
   "addMessage": "¿Qué es lo que te gusta?",
   "comments": "Comentarios",
   "FAQ": "Preguntas frecuentes",
   "FellowSuperhero": "Querido Superhero",
+  "Balance": "Balance:",
+  "aeternityBlockchain": "aeternity blockchain",
   "views": {
+    "FeedList": {
+      "main": "Main",
+      "posts": "Posts"
+    },
     "CreateProfile": {
       "header1": "CÓMO USAR SUPERHERO.COM",
       "header2": "Plataforma social sin una agenda oculta.",
       "header3": "Sin censura, sin rastreo, sin ingresos indebidos.",
-      "click": "Click",
-      "add": "Añadir",
-      "here": "aquí",
-      "names": "Nombres",
-      "feedbackForm": "Formulario de sugerencias",
       "sections": [
         {
           "title": "CREAR UNA CUENTA",
@@ -83,7 +86,6 @@
     "FAQ": {
       "header": "Preguntas Frecuentes",
       "subheader": "SOBRE SUPERHERO.com",
-      "info": "Para obtener información detallada sobre características específicas, hay tutoriales disponibles para cada una de las características. Desplázate hacia abajo en la sección de Características a continuación. ",
       "questions": [
         {
           "title": "SUPERHERO.com: Una red social sin agenda oculta",
@@ -113,19 +115,11 @@
           "title": "¿Puedo obtener ayuda? Mi pregunta no encuentra respuesta aquí…",
           "text": "¿Necesita ayuda? ¿Desea informar problemas técnicos, hacer comentarios y sugerencias? Utilice el botón FEEDBACK o SUPPORT en la parte inferior derecha de Superhero.com."
         }
-      ],
-      "forum": "Fórum",
-      "tutorialPage": "Página Tutorial",
-      "tutorial": "tutorial",
-      "feedbackForm": "formulario de comentarios",
-      "ourTutorial": "Nuestro tutorial",
-      "aeternityBlockchain": "aeternity blockchain"
+      ]
     },
     "Maintenance": {
       "RechargeTitle": "Estamos recargando nuestros poderes.",
-      "RechargeSubTitle": "Volaremos alto y lejos en poco tiempo.",
-      "CleaningTitle": "Limpiando el Cuartel General.",
-      "CleaningSubTitle": "Estaremos volando de nuevo en pocos minutos."
+      "RechargeSubTitle": "Volaremos alto y lejos en poco tiempo."
     },
     "Privacy": {
       "title": "POLÍTICA DE PRIVACIDAD",
@@ -302,10 +296,13 @@
       "ClaimedUrls": "URLs reclamadas",
       "ClaimedAmount": "Cantidad reclamada",
       "UnclaimedAmount": "Cantidad sin reclamar",
-      "NoActivity": "No hay actividad para mostrar.",
       "Joined": "Unido",
       "Comments": "Comentarios",
-      "EditBiography": "Editar Biografía"
+      "EditBiography": "Editar Biografía",
+      "ChangeCoverPhoto": "Change Cover Photo",
+      "LocationPlaceholder": "Edit Location",
+      "Location": "Location",
+      "noPinnedItems": "There are no pinned items to display."
     },
     "Wallet": {
       "header": "WALLET: Totalmente P2P, propinas instantáneas sin comisiones de terceros.",
@@ -469,6 +466,13 @@
       "Supply": "Circulating Supply",
       "Asset": "Asset",
       "Description": "Description",
+      "BondingCurve": "Bonding Curve",
+      "LegendBuyPrice": "Bonding Buy Price",
+      "LegendSellPrice": "Bonding Sell Price",
+      "LegendSupply": "Current Supply",
+      "LegendInitialPrice": "Initial Buy Price",
+      "LegendSpread": "Spread",
+      "LegendReserve": "Reserve",
       "Release": "Release {0} spread for transfer to",
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
@@ -500,9 +504,11 @@
         "LoginWithWallet": "Inicie sesión con Web Wallet"
       },
       "Navigation": {
-        "MyProfile": "Mi Perfil",
+        "feed": "Feed",
+        "MyProfile": "My Profile",
         "League": "League",
-        "Governance": "Votar"
+        "WordBazaar": "WordBazaar",
+        "Governance": "Voting"
       },
       "Overview": {
         "TipsAggregated": "Propinas agregadas",
@@ -528,66 +534,6 @@
         "SendNewTip": "Enviar nueva propina"
       }
     },
-    "onboarding": {
-      "steps": {
-        "next": "Siguiente",
-        "step1": {
-          "header": "Presentando Superhero:",
-          "socialPlatform": "Una plataforma social sin una agenda oculta.",
-          "subheader": "El primer Superpoder de Superhero es lanzar una",
-          "P2Ptool": "Una herramienta P2P para recibir o enviar propinas a una URL",
-          "with": "con...",
-          "zeroTxFees": " Tarifas de transacción casi zero.",
-          "cutOurIntermediaries": "Quitar intermediarios,",
-          "SendingorReceiving": "aprovechando el envío o recepción de apoyo.",
-          "noWaitTime": "Sin tiempo de espera.",
-          "Transfers": "Transacciones",
-          "instant": "son instantáneas.",
-          "noCensorship": "Sin censura.",
-          "No3rdParty": "No hay terceros que controlen la",
-          "keepIP": "aprobación o publicación de propinas. Mantenga la propiedad de su IP.",
-          "welcome": "Bienvenido a una web donde puedes realizar transacciones a tu antojo.!",
-          "button": "Comienza tu aventura Superhero"
-        },
-        "step2": {
-          "header": "Instalar Superhero Wallet {br} Una herramienta para el bien común creada en {a}",
-          "subheader": "Superhero empodera a {personasApoyándoapersonas} {br}, incluida la capacidad de transferir criptomonedas AE P2P. {br} {sendTips} directamente a tus creadores favoritos, causas, proyectos... {br} {receiveTips} directamente de. {br} {consigueoDaAyuda} a cualquier URL en la web que te apetezca. {br}",
-          "peopleSupportingPeople": "genteapoyandoagente,",
-          "sendTips": "Enviar propinas",
-          "receiveTips": "Recibir propinas",
-          "getOrGiveHelp": "Consigue o da ayuda",
-          "bolder": "Para empezar, necesitarás una billetera. Es gratis. Es fácil. {br} {click} {br} de instalar la billetera Superhero:",
-          "click": "Elige la extensión del navegador o la aplicación móvil",
-          "learnMore": "Aprende:",
-          "tutorial": "Tutorial",
-          "aeternityBlockchain": "aeternity blockchain"
-        },
-        "step3": {
-          "header": "Recibir propinas: {br} Haciendo de Internet un lugar mas justo",
-          "info": "Una vez que tu billetera Superhero esté instalada:{br} {pasteYourWallet} a tu URL.{br} {openYourURL} tu billetera puede recoger instantáneamente las propinas que recibas.",
-          "pasteYourWallet": "1. Pega la dirección de tu billetera",
-          "openYourURL": "2. Carga tu URL",
-          "peopleCanDirectlySupport": "Las personas pueden apoyar directamente su contenido, causa, proyecto (o a ti simplemente por ser tu mismo) sin intermediarios."
-        },
-        "step4": {
-          "header": "Enviar: {br} Haciendo de Internet un lugar mejor",
-          "info": "Una vez que tu billetera Superhero esté instalada{br} {visitaLAURL} a la que quieres apoyar. {br} {clickEnviarpropina} en tu billetera. {br} {ingresa cuanto quieres dar de propina} y opcionalmente un mensaje.",
-          "visitTheURL": "1. Visita la URL",
-          "clickSendTips": "2. Click Enviar propina",
-          "enterTipAmount": "3. ingresa de cuanto quieres dar de propina",
-          "youCanDirectlySupport": "Puedes apoyar directamente el contenido, la causa y el proyecto de cualquier persona en cualquier URL pública sin intermediario."
-        },
-        "step5": {
-          "header": "Bienvenido a Superhero!",
-          "info": "Puedes entrar en acción creando tu {br} perfil personalizado y tus preferencias para {superherocom}",
-          "installWallet": "Crear perfil",
-          "setUpProfile": "Crear tu propio perfil"
-        }
-      },
-      "wizard": {
-        "title": "Únete Superhero"
-      }
-    },
     "tipRecords": {
       "TipComment": {
         "Replies": "Respuestas"
@@ -596,17 +542,21 @@
         "reportPost": "Responder Post",
         "reportPostTitle": "Gracias por hacérnoslo saber",
         "reportPostBody": "Nuestro equipo de soporte lo investigará",
-        "claim": "Reclamación"
+        "claim": "Reclamación",
+        "claimTitle": "Claiming attempt",
+        "claimBodySuccess": "was successfully sent",
+        "claimBodyFailure": "failed to be send",
+        "Pin": "Pin to Channel",
+        "UnPin": "Unpin from Channel"
       }
     },
     "TipInput": {
       "error": "Ocurrió un error mientras se enviaba la propina. Por favor pruébalo de nuevo más tarde.",
-      "retip": "Volver a dar propina",
       "tipUser": "Usuario de propina",
       "totalTipsWithYou": "Total de propinas (tambíen tu)",
       "totalTips": "Total de propinas (click para volver a dar propina a la misma URL)",
-      "totalRetips": "Total monto de re-propinas",
-      "tipComment": "Da propina por contenido"
+      "tipComment": "Da propina por contenido",
+      "v1TipWarning": "This post could not receive fungible tokens"
     },
     "TipsPagination": {
       "NoResultsMsg": "No se han encontrado resultados"
@@ -616,6 +566,12 @@
       "notverifiedTitle": "",
       "blacklisted": "",
       "notSecure": ""
+    },
+    "ListOfTipsAndComments": {
+      "Channel": "Channel",
+      "Activity": "Activity",
+      "NoPinnedItems": "There are no pinned items to display.",
+      "NoActivity": "There is no activity to display."
     },
     "CreateToken": {
       "NewToken": "New Token Created ✨",
@@ -628,18 +584,15 @@
       "AbbreviationLong": "Abbreviation (token short name)",
       "Steps": [
         "",
-        "Bonding Curve Contract",
         "Token Sale Contract",
         "Token Contract",
-        "Token for sale",
-        "Sale to Word Bazaar"
+        "Token to index",
+        ""
       ],
       "StepsDescription": [
         "Please fill in the fields below with your token details.",
         "Creating {abbreviation} {step}... Please confirm the transaction!",
         "Creating {abbreviation} {step}... Please confirm the transaction!",
-        "Creating {abbreviation} {step}... Please confirm the transaction!",
-        "Registering {abbreviation} {step}... Please confirm the transaction!",
         "Adding {abbreviation} {step}... Please confirm the transaction!",
         "🎉 Congratulations! {abbreviation} token has beend added to WordBazaar."
       ],
@@ -682,6 +635,10 @@
         "Selling tokens... (step 1 of 2)",
         "Selling tokens... (step 2 of 2)"
       ]
+    },
+    "BondingCurve": {
+      "GraphPrice": "Price",
+      "GraphSupply": "Supply"
     },
     "VoteCard": {
       "ReleasedTo": " released for transfer to",

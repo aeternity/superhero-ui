@@ -11,7 +11,7 @@
         :path="`components.GetAe.Platforms[${index}].Text`"
         tag="p"
       >
-        <template v-slot:ae>
+        <template #ae>
           <span class="abbreviation">{{ $t('AE') }}</span>
         </template>
       </i18n>

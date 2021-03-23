@@ -201,6 +201,7 @@ export default {
       min-width: 0; // https://css-tricks.com/flexbox-truncated-text/
     }
   }
+
   .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
     background-color: $article_content_color;
     border-radius: 0.5rem;
@@ -212,6 +213,7 @@ export default {
     left: 50%;
     z-index: 10001;
     top: 30%;
+
     @include smallest {
       padding: 0.5rem;
     }

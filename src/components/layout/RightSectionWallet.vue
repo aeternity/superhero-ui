@@ -32,7 +32,7 @@
               :token="(selectedToken || aeternityTokenData).token"
             />
           </template>
-          <template v-slot="{ option }">
+          <template #default="{ option }">
             <TokenAvatarAndSymbol :address="option.token" />
           </template>
         </Dropdown>
@@ -59,7 +59,7 @@
             </span>
             {{ selectedCurrency.toUpperCase() }}
           </template>
-          <template v-slot="{ option }">
+          <template #default="{ option }">
             <span class="currency-value">
               <FiatValue
                 :amount="(selectedToken || aeternityTokenData).balance"

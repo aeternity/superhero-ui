@@ -1,14 +1,14 @@
 <template>
   <div class="word-bazaar">
     <BackButtonRibbon hide-back>
-      <template v-slot:title>
+      <template #title>
         {{ title }}
       </template>
     </BackButtonRibbon>
 
     <ActivityRibbon
-      value=""
       :tabs="[]"
+      value=""
     >
       <template slot="left">
         <FilterButton :to="{ name: 'word-bazaar-assets' }">
@@ -37,6 +37,7 @@
 <script>
 import { mapState } from 'vuex';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
+import Backend from '../utils/backend';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import FilterButton from '../components/FilterButton.vue';
 import IconHelp2 from '../assets/iconHelp2.svg?icon-component';

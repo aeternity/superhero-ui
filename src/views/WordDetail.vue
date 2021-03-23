@@ -1,7 +1,7 @@
 <template>
   <div class="word-detail">
     <BackButtonRibbon>
-      <template v-slot:title>
+      <template #title>
         <span class="abbreviation">{{ selectedWord }}</span>
       </template>
     </BackButtonRibbon>
@@ -255,13 +255,13 @@
                 path="views.WordDetail.VoteText"
                 tag="p"
               >
-                <template v-slot:balance>
+                <template #balance>
                   <AeAmount
                     :token="data.tokenAddress"
                     :amount="maxAmount"
                   />
                 </template>
-                <template v-slot:spread>
+                <template #spread>
                   <AeAmount
                     :amount="data.spread"
                     aettos

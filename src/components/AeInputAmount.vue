@@ -41,7 +41,7 @@
         :method="selectToken"
         show-right
       >
-        <template v-slot="{ option }">
+        <template #default="{ option }">
           <div class="token-option">
             <TokenAvatarAndSymbol :address="option.token" />
             <span class="tokens-amount">{{

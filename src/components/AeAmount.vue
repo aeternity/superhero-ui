@@ -1,6 +1,6 @@
 <template>
   <span class="ae-amount">
-    <template>{{ roundedAmount }}</template>
+    <span>{{ roundedAmount }}</span>
     <span
       v-if="!noSymbol"
       class="ae"

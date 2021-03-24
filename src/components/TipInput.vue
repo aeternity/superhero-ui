@@ -7,7 +7,12 @@
       :title="title"
       @click="useSdkWallet && (showModal = true)"
     >
-      <img :src="iconTip">
+      <template v-if="userAddress">
+        <IconTipUser />
+      </template>
+      <template v-else>
+        <IconTip :class="{ tipped: tipUrlStats.isTipped }" />
+      </template>
       <AeAmountFiat
         v-if="!userAddress && tipAmount.value"
         :amount="tipAmount.value"
@@ -59,7 +64,7 @@
           <div class="not-bootstrap-row">
             <AeInputAmount
               v-model="inputValue"
-              :select-token-f="(token) => inputToken = token"
+              :select-token-f="token => (inputToken = token)"
             />
             <AeButton :disabled="!isValid || v1TipWarning">
               {{ tip ? $t('retip') : $t('tip') }}
@@ -73,9 +78,8 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import iconTip from '../assets/iconTip.svg';
-import iconTipUser from '../assets/iconTipUser.svg';
-import iconTipped from '../assets/iconTipped.svg';
+import IconTipUser from '../assets/iconTipUser.svg?icon-component';
+import IconTip from '../assets/iconTipRebranded.svg?icon-component';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl, shiftDecimalPlaces } from '../utils';
@@ -94,6 +98,8 @@ export default {
     AeAmountFiat,
     Modal,
     Dropdown,
+    IconTip,
+    IconTipUser,
   },
   props: {
     tip: { type: Object, default: null },
@@ -142,29 +148,37 @@ export default {
         };
     },
     v1TipWarning() {
-      return this.tip && this.tip.id.split('_')[1] === 'v1' && this.inputToken !== null;
+      return (
+        this.tip
+        && this.tip.id.split('_')[1] === 'v1'
+        && this.inputToken !== null
+      );
     },
     tipUrl() {
       if (this.comment) {
         return `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
       }
       if (this.userAddress) {
-        const { href } = this.$router.resolve({ name: 'user-profile', params: { address: this.userAddress } });
+        const { href } = this.$router.resolve({
+          name: 'user-profile',
+          params: { address: this.userAddress },
+        });
         return `https://superhero.com${href}`;
       }
       return this.tip.url;
     },
     deepLink() {
-      return createDeepLinkUrl(this.tip
-        ? { type: 'retip', id: this.tip.id } : { type: 'tip', url: this.tipUrl });
+      return createDeepLinkUrl(
+        this.tip
+          ? { type: 'retip', id: this.tip.id }
+          : { type: 'tip', url: this.tipUrl },
+      );
     },
     isValid() {
-      return (this.tip || this.message.trim().length > 0)
-        && (this.inputToken !== null || this.inputValue > this.minTipAmount);
-    },
-    iconTip() {
-      if (this.userAddress) return iconTipUser;
-      return this.tipUrlStats.isTipped ? iconTipped : iconTip;
+      return (
+        (this.tip || this.message.trim().length > 0)
+        && (this.inputToken !== null || this.inputValue > this.minTipAmount)
+      );
     },
     title() {
       if (this.userAddress) return this.$t('components.TipInput.tipUser');
@@ -179,8 +193,12 @@ export default {
       if (!this.isValid) return;
       this.showLoading = true;
       try {
-        const amount = shiftDecimalPlaces(this.inputValue,
-          this.inputToken !== null ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
+        const amount = shiftDecimalPlaces(
+          this.inputValue,
+          this.inputToken !== null
+            ? this.tokenInfo[this.inputToken].decimals
+            : 18,
+        ).toFixed();
 
         if (!this.tip) {
           await this.$store.dispatch('aeternity/tip', {
@@ -281,6 +299,32 @@ export default {
 
       .ae-button {
         margin-left: 0.5rem;
+      }
+    }
+  }
+
+  .iconTipRebranded {
+    width: 24px;
+    height: 24px;
+    opacity: 0.44;
+
+    path.inner {
+      opacity: 0.44;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &.tipped {
+      opacity: 1;
+
+      &:hover path {
+        fill: #0e52d8;
+      }
+
+      path {
+        fill: $secondary_color;
       }
     }
   }

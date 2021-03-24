@@ -16,7 +16,7 @@
         :path="`views.CreateProfile.sections[${index}].text`"
         tag="p"
       >
-        <template v-slot:br>
+        <template #br>
           <br>
         </template>
       </i18n>

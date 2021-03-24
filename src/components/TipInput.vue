@@ -112,7 +112,7 @@ export default {
     ...mapState('aeternity', ['useSdkWallet']),
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
-      tipUrlStats({ stats }) {
+      tipUrlStats() {
         // const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);
         const urlStats = null; // TODO url stats
         return {

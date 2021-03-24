@@ -75,7 +75,7 @@ export default class Backend {
 
   static getCacheUserStats = async (address) => backendFetch(`cache/userStats?address=${address}`);
 
-  static getCacheFeed = async (
+  static getFeed = async (
     page,
     ordering,
     address = null,
@@ -100,13 +100,13 @@ export default class Backend {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  static getCacheStats = async () => backendFetch('cache/stats');
+  static getTipStats = async () => backendFetch('stats');
 
   static getCacheChainNames = async () => backendFetch('cache/chainnames');
 
   static getPrice = async () => backendFetch('cache/price');
 
-  static getTopicsCache = async () => backendFetch('cache/topics');
+  static getTopics = async () => backendFetch('tips/topics');
 
   static getTokenInfo = async () => backendFetch('tokenCache/tokenInfo');
 

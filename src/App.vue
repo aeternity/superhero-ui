@@ -73,7 +73,7 @@ export default {
         chainNames, topics, verifiedUrls, graylistedUrls, tokenInfo, wordRegistry,
       ] = await Promise.all([
         Backend.getCacheChainNames(),
-        Backend.getTopicsCache(),
+        Backend.getTopics(),
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
         Backend.getTokenInfo(),

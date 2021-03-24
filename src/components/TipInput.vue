@@ -113,7 +113,8 @@ export default {
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
-        const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);
+        // const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);
+        const urlStats = null; // TODO url stats
         return {
           isTipped: urlStats ? urlStats.senders.includes(this.address) : false,
           totalAmountAe: urlStats ? urlStats.total_amount_ae : '0',
@@ -122,7 +123,7 @@ export default {
       },
     }),
     largestFtTipAmount() {
-      return this.tip.Aggregation.totaltokenamount.length
+      return this.tip && this.tip.Aggregation.totaltokenamount.length
         ? this.tip.Aggregation.totaltokenamount.reduce(
           (a, b) => (a.amount > b.amount ? a : b),
           this.tip.Aggregation.totaltokenamount[0],
@@ -130,7 +131,7 @@ export default {
         : null;
     },
     tipAmount() {
-      return +this.tip.Aggregation.totalurlamount !== 0
+      return this.tip && this.tip.Aggregation.totalurlamount !== 0
         ? {
           value: this.tip.Aggregation.totalurlamount,
           token: null,

@@ -73,7 +73,7 @@ export default class Backend {
 
   static getCacheTipById = async (id) => backendFetch(`tips/single?id=${id}`);
 
-  static getCacheUserStats = async (address) => backendFetch(`cache/userStats?address=${address}`);
+  static getCacheUserStats = async (address) => backendFetch(`cache/userStats?address=${address}`); // TODO new endpoint
 
   static getFeed = async (
     page,

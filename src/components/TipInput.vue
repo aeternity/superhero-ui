@@ -137,8 +137,8 @@ export default {
           token: null,
         }
         : {
-          value: this.largestFtTipAmount ? this.largestFtTipAmount.amount : null,
-          token: this.largestFtTipAmount ? this.largestFtTipAmount.token : null,
+          value: this.largestFtTipAmount?.amount,
+          token: this.largestFtTipAmount?.token,
         };
     },
     v1TipWarning() {

@@ -216,7 +216,6 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import Backend from '../utils/backend';
-import { atomsToAe } from '../utils';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Avatar from './Avatar.vue';
 import { EventBus } from '../utils/eventBus';

@@ -32,7 +32,6 @@
 import { mapMutations, mapState, mapGetters } from 'vuex';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
-import { atomsToAe } from './utils';
 import MobileNavigation from './components/layout/MobileNavigation.vue';
 import LeftSection from './components/layout/LeftSection.vue';
 import RightSection from './components/layout/RightSection.vue';

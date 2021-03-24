@@ -349,7 +349,7 @@ export default {
     ...mapActions('backend', ['setCookies']),
     async reloadBalance() {
       await this.$watchUntilTruly(() => this.sdk);
-      this.balance = atomsToAe(await this.sdk.balance(this.address).catch(() => 0)).toFixed(2);
+      this.balance = await this.sdk.balance(this.address).catch(() => 0);
     },
     async resetEditedValues() {
       this.editMode = false;

@@ -96,7 +96,7 @@ export default {
         this.$store.dispatch('updateUserProfile'),
         (async () => {
           const balance = await this.sdk.balance(this.address).catch(() => 0);
-          this.updateBalance(atomsToAe(balance).toFixed(2));
+          this.updateBalance(balance);
         })(),
         this.$store.dispatch('updateTokensBalanceAndPrice'),
       ]);

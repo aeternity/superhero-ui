@@ -9,7 +9,7 @@
       :path="`views.Mission.sections[${index}].text`"
       tag="p"
     >
-      <template v-slot:aeternityBlockchain>
+      <template #aeternityBlockchain>
         <a
           href="https://aeternity.com/"
           target="_blank"

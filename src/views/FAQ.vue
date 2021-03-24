@@ -6,7 +6,7 @@
       path="views.FAQ.subheader"
       tag="p"
     >
-      <template v-slot:tutorialPage>
+      <template #tutorialPage>
         <RouterLink to="/tutorial">
           {{ $t('views.FAQ.tutorialPage') }}
         </RouterLink>
@@ -22,7 +22,7 @@
         :path="`views.FAQ.questions[${index}].text`"
         tag="p"
       >
-        <template v-slot:br>
+        <template #br>
           <br>
         </template>
       </i18n>

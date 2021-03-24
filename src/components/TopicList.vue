@@ -9,7 +9,7 @@
         class="text-ellipsis"
         :topic="topic"
       />
-      <AeAmountFiat :amount="data.amount_ae" />
+      <AeAmountFiat :amount="data.amount" />
     </div>
   </div>
 </template>

@@ -56,6 +56,7 @@ export default {
     setInterval(() => this.reloadData(), 120 * 1000);
 
     await this.$store.dispatch('aeternity/initSdk');
+    await this.$store.dispatch('aeternity/initUniversal');
     await Promise.all([
       this.initWallet(),
       this.reloadData(),

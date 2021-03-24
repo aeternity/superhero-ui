@@ -17,7 +17,7 @@ import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
 import BONDING_CURVE from 'sophia-bonding-curve/BondCurveLinear.aes';
 
 import { BigNumber } from 'bignumber.js';
-import { IS_MOBILE_DEVICE, shiftDecimalPlaces } from '../../utils';
+import { IS_MOBILE_DEVICE, shiftDecimalPlaces, createDeepLinkUrl } from '../../utils';
 
 export default {
   namespaced: true,
@@ -260,33 +260,77 @@ export default {
       const { decodedResult } = await contract.methods.add_token(addTokenAddress);
       return decodedResult;
     },
+    async decodeHash({ state: { universal } }, { contract, txHash, method }) {
+      const result = await universal.getTxInfo(txHash);
+      const data = universal
+        .contractDecodeData(contract, method, result.returnValue, result.returnType);
+      return data;
+    },
     async tokenSaleMethod(
-      { dispatch },
+      { dispatch, state: { useSdkWallet, universal }, rootState: { address } },
       {
         contractAddress,
         method,
         args = [],
         options = {},
+        dryRun = false,
       },
     ) {
-      const contract = await dispatch('initTokenSaleContractIfNeeded', contractAddress);
+      if (useSdkWallet || dryRun) {
+        const contract = await dispatch('initTokenSaleContractIfNeeded', contractAddress);
+        const { decodedResult } = await contract.methods[method](...args, options);
+        return decodedResult;
+      }
 
-      const { decodedResult } = await contract.methods[method](...args, options);
-      return decodedResult;
+      const contract = await universal
+        .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress });
+      const onAccount = {
+        address: () => address,
+        sign: () => { throw new Error('Private key is not available'); },
+      };
+      const { tx } = await contract.methods[method].get(...args, { onAccount, ...options });
+      window.location = createDeepLinkUrl({
+        type: 'sign-transaction',
+        transaction: tx.encodedTx,
+        networkId: 'ae_uat',
+        broadcast: true,
+        'x-success': window.location.href.split('?')[0],
+        'x-cancel': window.location.href.split('?')[0],
+      });
+      return null;
     },
     async tokenVotingMethod(
-      { dispatch },
+      { dispatch, state: { useSdkWallet, universal }, rootState: { address } },
       {
         contractAddress,
         method,
         args = [],
         options = {},
+        dryRun = false,
       },
     ) {
-      const contract = await dispatch('initTokenVotingContractIfNeeded', contractAddress);
+      if (useSdkWallet || dryRun) {
+        const contract = await dispatch('initTokenVotingContractIfNeeded', contractAddress);
+        const { decodedResult } = await contract.methods[method](...args, options);
+        return decodedResult;
+      }
 
-      const { decodedResult } = await contract.methods[method](...args, options);
-      return decodedResult;
+      const contract = await universal
+        .getContractInstance(TOKEN_VOTING_CONTRACT, { contractAddress });
+      const onAccount = {
+        address: () => address,
+        sign: () => { throw new Error('Private key is not available'); },
+      };
+      const { tx } = await contract.methods[method].get(...args, { onAccount, ...options });
+      window.location = createDeepLinkUrl({
+        type: 'sign-transaction',
+        transaction: tx.encodedTx,
+        networkId: 'ae_uat',
+        broadcast: true,
+        'x-success': window.location.href.split('?')[0],
+        'x-cancel': window.location.href.split('?')[0],
+      });
+      return null;
     },
     async tokenBalance({ dispatch }, { contractAddress, address }) {
       const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);

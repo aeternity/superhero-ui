@@ -263,6 +263,7 @@ export default {
           contractAddress: this.sale,
           method: 'calculate_buy_price',
           args: [amount],
+          dryRun: true,
         });
 
       this.buyAeAmount = value;
@@ -278,6 +279,7 @@ export default {
           contractAddress: this.sale,
           method: 'calculate_sell_return',
           args: [amount],
+          dryRun: true,
         }).catch(() => 0);
       this.updatingValue = false;
     },

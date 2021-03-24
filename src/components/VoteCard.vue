@@ -184,7 +184,7 @@ export default {
   },
   async mounted() {
     const metadata = await this.$store.dispatch('aeternity/tokenVotingMethod', {
-      contractAddress: this.vote.voteAddress, method: 'metadata',
+      contractAddress: this.vote.voteAddress, method: 'metadata', dryRun: true,
     });
     this.description = metadata.description;
   },

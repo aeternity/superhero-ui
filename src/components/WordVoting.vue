@@ -387,6 +387,7 @@ export default {
           {
             contractAddress: this.saleContractAddress,
             method: 'get_token',
+            dryRun: true,
           });
         const address = await this.$store.dispatch('aeternity/deployTokenVotingContract', {
           metadata,
@@ -401,6 +402,7 @@ export default {
             contractAddress: this.saleContractAddress,
             method: 'add_vote',
             args: [address],
+            dryRun: true,
           });
         await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
         this.description = '';

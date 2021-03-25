@@ -297,25 +297,20 @@ export default {
     tipStats() {
       return [
         {
-          value: this.userStats.tipsLength + this.userStats.retipsLength,
+          value: this.userStats.totaltipslength,
           title: this.$t('views.UserProfileView.TipsSent'),
-          amount: this.userStats.totalTipAmountAe,
+          amount: this.userStats.totalamount,
         },
         {
-          title: this.$t('views.UserProfileView.ClaimedAmount'),
-          amount: this.userStats.claimedAmountAe,
+          value: this.userStats.urlStats?.totaltipslength,
+          title: this.$t('views.UserProfileView.TipsReceived'),
+          amount: this.userStats.urlStats?.totalamount,
         },
-        ...this.currentAddress === this.address ? [{
-          title: this.$t('views.UserProfileView.UnclaimedAmount'),
-          amount: this.userStats.unclaimedAmountAe,
-        }] : [],
       ];
     },
     showedStats() {
       return [
-        { value: this.userStats.userComments, title: this.$t('views.UserProfileView.Comments') },
-        { value: this.userStats.tipsLength, title: this.$t('views.UserProfileView.TipsReceived') },
-        { value: this.userStats.retipsLength, title: this.$t('views.UserProfileView.RetipsSent') },
+        { value: this.userStats.commentCount, title: this.$t('views.UserProfileView.Comments') },
         {
           value: this.userStats.claimedUrlsLength,
           image: SuccessIcon,
@@ -373,17 +368,11 @@ export default {
     },
     reloadData() {
       this.getProfile();
-      Backend.getCacheUserStats(this.address).then((stats) => {
+      Backend.getSenderStats(this.address).then((stats) => {
         this.userStats = stats;
       });
     },
     async getProfile() {
-      Backend.getCommentCountForAddress(this.address)
-        .then((userComment) => {
-          this.userCommentCount = userComment.count;
-        })
-        .catch(console.error);
-
       Backend.getProfile(this.address)
         .then((profile) => {
           if (!profile) {

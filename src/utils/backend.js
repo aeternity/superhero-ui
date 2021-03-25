@@ -73,7 +73,7 @@ export default class Backend {
 
   static getCacheTipById = async (id) => backendFetch(`tips/single?id=${id}`);
 
-  static getCacheUserStats = async (address) => backendFetch(`cache/userStats?address=${address}`); // TODO new endpoint
+  static getSenderStats = async (address) => backendFetch(`stats/sender?address=${address}`)
 
   static getFeed = async (
     page,
@@ -139,8 +139,6 @@ export default class Backend {
   static invalidateWordSaleVotesCache = async (wordSale) => backendFetch(`cache/invalidate/wordSaleVotes/${wordSale}`);
 
   static invalidateWordSaleVoteStateCache = async (vote) => backendFetch(`cache/invalidate/wordSaleVoteState/${vote}`);
-
-  static getCommentCountForAddress = async (address) => backendFetch(`comment/count/author/${address}`);
 
   static getTipPreviewUrl = (previewLink) => `${process.env.VUE_APP_BACKEND_URL}${previewLink}`;
 

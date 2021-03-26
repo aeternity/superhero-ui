@@ -1,43 +1,47 @@
 <template>
   <div class="word-bazaar-assets">
-    <TabBar
-      v-model="activeTab"
-      class="desktop"
-      :tabs="tabs"
-    >
-      <SearchInput
-        v-if="showSearch"
-        v-model="search"
-        hide-eraser
-        set-focused
-        :placeholder="$t('views.WordBazaar.Placeholder')"
-        @input="reloadData"
-        @close="closeSearch"
-      />
-      <IconSearch
-        v-else
-        @click="showSearch = true"
-      />
-    </TabBar>
-
-    <TabBar
-      v-model="activeTab"
-      class="mobile"
-      :tabs="tabsMobile"
-    >
-      <SearchInput
-        v-if="showSearch"
-        v-model="search"
-        hide-eraser
-        set-focused
-        :placeholder="$t('views.WordBazaar.Placeholder')"
-        @input="reloadData"
-        @close="closeSearch"
-      />
-      <IconSearch
-        v-else
-        @click="showSearch = true"
-      />
+    <TabBar>
+      <template slot="left">
+        <TabBarButton
+          :class="{ active: activeTab === 'all' }"
+          @click="activeTab = 'all'"
+        >
+          <span class="desktop">{{ $t('views.WordBazaar.Tabs[0].text') }}</span>
+          <span class="mobile">{{ $t('views.WordBazaar.Tabs[0].textMobile') }}</span>
+          <IconFilter class="mobile" />
+        </TabBarButton>
+        <TabBarButton
+          :class="{ active: activeTab === 'trending' }"
+          @click="activeTab = 'trending'"
+        >
+          <span class="desktop">{{ $t('views.WordBazaar.Tabs[1].text') }}</span>
+          <span class="mobile">{{ $t('views.WordBazaar.Tabs[1].textMobile') }}</span>
+          <IconFilter class="mobile" />
+        </TabBarButton>
+        <TabBarButton
+          :class="{ active: activeTab === 'recent' }"
+          @click="activeTab = 'recent'"
+        >
+          <span class="desktop">{{ $t('views.WordBazaar.Tabs[2].text') }}</span>
+          <span class="mobile">{{ $t('views.WordBazaar.Tabs[2].textMobile') }}</span>
+          <IconFilter class="mobile" />
+        </TabBarButton>
+      </template>
+      <template slot="right">
+        <SearchInput
+          v-if="showSearch"
+          v-model="search"
+          hide-eraser
+          set-focused
+          :placeholder="$t('views.WordBazaar.Placeholder')"
+          @input="reloadData"
+          @close="closeSearch"
+        />
+        <IconSearch
+          v-else
+          @click="showSearch = true"
+        />
+      </template>
     </TabBar>
 
     <WordListing
@@ -67,11 +71,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import Backend from '../utils/backend';
 import WordListing from '../components/WordListing.vue';
 import Loader from '../components/Loader.vue';
 import TabBar from '../components/TabBar.vue';
+import TabBarButton from '../components/TabBarButton.vue';
 import SearchInput from '../components/layout/SearchInput.vue';
 import IconSearch from '../assets/iconSearch.svg?icon-component';
 import IconFilter from '../assets/iconFilter.svg?icon-component';
@@ -82,7 +86,9 @@ export default {
     WordListing,
     Loader,
     TabBar,
+    TabBarButton,
     IconSearch,
+    IconFilter,
     SearchInput,
   },
   data() {
@@ -97,15 +103,6 @@ export default {
       showBuyValue: true,
       loading: true,
     };
-  },
-  computed: {
-    ...mapState(['address']),
-    tabs() {
-      return this.$t('views.WordBazaar.Tabs');
-    },
-    tabsMobile() {
-      return this.tabs.map((t) => ({ ...t, text: t.textMobile, icon: IconFilter }));
-    },
   },
   mounted() {
     this.reloadData();
@@ -147,16 +144,19 @@ export default {
     top: 121px;
     z-index: 2;
 
-    &.mobile {
-      display: none;
-    }
-
     button {
+      .mobile {
+        display: none;
+      }
+
       @include desktop {
         font-size: 15px;
         transition: border-color 0s;
         border: none;
         margin-right: 18px;
+
+        .desktop { display: none; }
+        .mobile { display: inline; }
 
         svg {
           height: 16px;
@@ -174,15 +174,11 @@ export default {
 
     @include desktop {
       padding: 0 16px;
+      display: flex;
 
-      &.mobile {
-        display: flex;
-
-        @include mobile {
-          top: 120px;
-        }
+      @include mobile {
+        top: 120px;
       }
-      &.desktop { display: none; }
     }
   }
 

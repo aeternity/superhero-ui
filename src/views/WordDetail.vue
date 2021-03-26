@@ -7,23 +7,30 @@
     </BackButtonRibbon>
 
     <ActivityRibbon
-      v-model="activity"
-      :tabs="ribbonTabs"
-      class="desktop"
+      value=""
+      :tabs="[]"
     >
+      <template slot="left">
+        <FilterButton
+          :class="{ active: activity === 'info' }"
+          @click="activity = 'info'"
+        >
+          <IconInfo />
+          <span class="desktop">{{ $t('views.WordDetail.RibbonTabs[0].text') }}</span>
+          <span class="mobile">{{ $t('views.WordDetail.RibbonTabs[0].textMobile') }}</span>
+        </FilterButton>
+        <FilterButton
+          :class="{ active: activity === 'voting' }"
+          @click="activity = 'voting'"
+        >
+          <IconPie />
+          <span class="desktop">{{ $t('views.WordDetail.RibbonTabs[1].text') }}</span>
+          <span class="mobile">{{ $t('views.WordDetail.RibbonTabs[1].textMobile') }}</span>
+        </FilterButton>
+      </template>
       <WordBuySellButtons
         v-if="saleContractAddress && activity === 'info'"
-        :sale="saleContractAddress"
-      />
-    </ActivityRibbon>
-
-    <ActivityRibbon
-      v-model="activity"
-      :tabs="ribbonTabsMobile"
-      class="mobile"
-    >
-      <WordBuySellButtons
-        v-if="saleContractAddress && activity === 'info'"
+        slot="right"
         :sale="saleContractAddress"
       />
     </ActivityRibbon>
@@ -51,6 +58,7 @@ import WordBuySellButtons from '../components/WordBuySellButtons.vue';
 import IconPie from '../assets/iconPie.svg?icon-component';
 import IconInfo from '../assets/iconInfo.svg?icon-component';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
+import FilterButton from '../components/FilterButton.vue';
 import WordVoting from '../components/WordVoting.vue';
 import WordInfo from '../components/WordInfo.vue';
 
@@ -58,6 +66,9 @@ export default {
   name: 'WordDetail',
   components: {
     ActivityRibbon,
+    FilterButton,
+    IconInfo,
+    IconPie,
     WordBuySellButtons,
     BackButtonRibbon,
     WordVoting,
@@ -71,20 +82,6 @@ export default {
       data: {},
       activity: 'info',
     };
-  },
-  computed: {
-    ribbonTabs() {
-      const icons = [IconInfo, IconPie];
-      const activities = ['info', 'voting'];
-      return this.$t('views.WordDetail.RibbonTabs')
-        .map(({ text }, i) => ({ text, icon: icons[i], activity: activities[i] }));
-    },
-    ribbonTabsMobile() {
-      return this.ribbonTabs.map((t, i) => ({
-        ...t,
-        text: this.$t(`views.WordDetail.RibbonTabs[${i}].textMobile`),
-      }));
-    },
   },
   async mounted() {
     this.selectedWord = this.$route.params.word;
@@ -120,10 +117,6 @@ export default {
     margin: 0;
     z-index: 2;
 
-    &.mobile {
-      display: none;
-    }
-
     .filter-button {
       height: 40px;
       border-radius: 20px;
@@ -135,6 +128,9 @@ export default {
         flex-shrink: 0;
       }
 
+      .desktop { margin-left: 2px; }
+      .mobile { display: none; }
+
       @include desktop {
         display: flex;
         flex-direction: column;
@@ -143,6 +139,9 @@ export default {
         font-weight: 500;
         height: 56px;
         margin: 0;
+
+        .mobile { display: inline; }
+        .desktop { display: none; }
 
         &.active,
         &:hover {
@@ -172,14 +171,11 @@ export default {
     }
 
     @include desktop {
-      &.mobile {
-        display: flex;
+      display: flex;
 
-        @include mobile {
-          top: 48px;
-        }
+      @include mobile {
+        top: 48px;
       }
-      &.desktop { display: none; }
     }
   }
 
@@ -244,48 +240,6 @@ export default {
 
       h3 {
         margin-bottom: 8px;
-      }
-
-      .no-content {
-        display: flex;
-        flex-direction: column;
-
-        h3 {
-          color: $pure_white;
-          font-size: 15px;
-          font-weight: 500;
-        }
-
-        .buttons {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          ::v-deep.not-bootstrap-modal-content {
-            @include mobile {
-              margin-left: 0;
-            }
-          }
-
-          button {
-            width: 154px;
-            height: 40px;
-
-            &.outlined-button {
-              margin-right: 32px;
-
-              svg {
-                height: 24px;
-              }
-
-              @include desktop-only {
-                &.wide {
-                  width: 186px;
-                }
-              }
-            }
-          }
-        }
       }
 
       .chart-buttons {

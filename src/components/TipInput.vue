@@ -16,7 +16,7 @@
       />
     </Component>
     <Dropdown
-      v-if="!userAddress && tip && tip.UrlStats.totaltokenamount.length > 1"
+      v-if="!userAddress && tip && tip.UrlStats && tip.UrlStats.totaltokenamount.length > 1"
       v-slot="{ option }"
       :options="tip.UrlStats.totaltokenamount"
       show-right
@@ -123,9 +123,9 @@ export default {
         : null;
     },
     tipAmount() {
-      return this.tip && this.tip.UrlStats.totalamount !== '0'
+      return this.tip && this.tip.UrlStats?.totalamount !== '0'
         ? {
-          value: this.tip.UrlStats.totalamount,
+          value: this.tip.UrlStats?.totalamount,
           token: null,
         }
         : {

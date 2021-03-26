@@ -4,7 +4,7 @@
     class="overview"
   >
     <div class="value">
-      {{ stats.tipslength }}
+      {{ stats.totaltipslength }}
     </div>
     <div class="label">
       {{ $t('components.layout.Overview.TipsAggregated') }}

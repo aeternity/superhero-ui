@@ -4,7 +4,7 @@
       :is="useSdkWallet ? 'button' : 'a'"
       :href="useSdkWallet ? undefined : deepLink"
       class="button"
-      :class="{ tipped: tipUrlStats.isTipped }"
+      :class="{ tipped: isTipped }"
       :title="title"
       @click="useSdkWallet && (showModal = true)"
     >
@@ -16,9 +16,9 @@
       />
     </Component>
     <Dropdown
-      v-if="!userAddress && tipUrlStats && tipUrlStats.tokenTotalAmount.length"
+      v-if="!userAddress && tip && tip.UrlStats.totaltokenamount.length > 1"
       v-slot="{ option }"
-      :options="tipUrlStats.tokenTotalAmount"
+      :options="tip.UrlStats.totaltokenamount"
       show-right
     >
       <AeAmountFiat
@@ -111,29 +111,21 @@ export default {
     ...mapState(['address', 'tokenInfo']),
     ...mapState('aeternity', ['useSdkWallet']),
     ...mapGetters('backend', ['minTipAmount']),
-    ...mapState('backend', {
-      tipUrlStats() {
-        // const urlStats = stats && stats.by_url.find(({ url }) => url === this.tipUrl);
-        const urlStats = null; // TODO url stats
-        return {
-          isTipped: urlStats ? urlStats.senders.includes(this.address) : false,
-          totalAmountAe: urlStats ? urlStats.total_amount_ae : '0',
-          tokenTotalAmount: urlStats ? urlStats.token_total_amount : [],
-        };
-      },
-    }),
+    isTipped() {
+      return this.tip?.UrlStats ? this.tip.UrlStats.senders.includes(this.address) : false;
+    },
     largestFtTipAmount() {
-      return this.tip && this.tip.Aggregation.totaltokenamount.length
-        ? this.tip.Aggregation.totaltokenamount.reduce(
+      return this.tip && this.tip.UrlStats.totaltokenamount.length
+        ? this.tip.UrlStats.totaltokenamount.reduce(
           (a, b) => (a.amount > b.amount ? a : b),
-          this.tip.Aggregation.totaltokenamount[0],
+          this.tip.UrlStats.totaltokenamount[0],
         )
         : null;
     },
     tipAmount() {
-      return this.tip && this.tip.Aggregation.totalurlamount !== 0
+      return this.tip && this.tip.UrlStats.totalamount !== '0'
         ? {
-          value: this.tip.Aggregation.totalurlamount,
+          value: this.tip.UrlStats.totalamount,
           token: null,
         }
         : {
@@ -177,7 +169,7 @@ export default {
     title() {
       if (this.userAddress) return this.$t('components.TipInput.tipUser');
       if (this.comment) return this.$t('components.TipInput.tipComment');
-      return this.tipUrlStats.isTipped
+      return this.isTipped
         ? this.$t('components.TipInput.totalTipsWithYou')
         : this.$t('components.TipInput.totalTips');
     },

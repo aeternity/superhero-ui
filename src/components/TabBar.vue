@@ -1,6 +1,6 @@
 <template>
   <div class="tab-bar">
-    <ButtonPlain
+    <TabBarButton
       v-for="tab in tabs"
       :key="tab.text"
       :class="{ active: value === tab.tab }"
@@ -8,24 +8,25 @@
     >
       <span> {{ tab.text }}</span>
       <Component :is="tab.icon" />
-    </ButtonPlain>
+    </TabBarButton>
+    <slot name="left" />
     <div class="right">
-      <slot />
+      <slot name="right" />
     </div>
   </div>
 </template>
 
 <script>
 
-import ButtonPlain from './ButtonPlain.vue';
+import TabBarButton from './TabBarButton.vue';
 
 export default {
   components: {
-    ButtonPlain,
+    TabBarButton,
   },
   props: {
-    tabs: { type: Array, required: true },
-    value: { type: String, required: true },
+    tabs: { type: Array, default: () => [] },
+    value: { type: String, default: '' },
   },
   methods: {
     updateValue(value) {
@@ -41,29 +42,8 @@ export default {
   background-color: $actions_ribbon_background_color;
   display: flex;
 
-  button {
-    color: $light_font_color;
-    display: inline-block;
-    font-size: 0.8rem;
-    font-weight: 500;
-    margin-right: 24px;
-    border-bottom: 2px solid transparent;
-    transition: 0.3s;
-    transition-property: color, border-color;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &:hover {
-      color: $primary_color;
-      cursor: pointer;
-    }
-
-    &.active {
-      border-color: $custom_links_color;
-      color: $custom_links_color;
-    }
+  .tab-bar-button:last-of-type {
+    margin-right: 0;
   }
 
   .right {
@@ -71,6 +51,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-left: 2px;
   }
 }
 </style>

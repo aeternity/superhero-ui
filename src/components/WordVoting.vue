@@ -1,22 +1,42 @@
 <template>
   <div class="word-voting">
-    <TabBar
-      v-model="activeTab"
-      :tabs="tabs"
-    >
-      <ButtonPlain
-        v-if="activeTab === 'ongoing' && maxAmount > 0"
-        @click="showInitiate = !showInitiate"
-      >
-        <span
-          v-if="!showInitiate"
-          class="desktop"
-        >{{ $t('views.WordDetail.NewVote') }}</span>
-        <IconPlus
-          class="plus"
-          :class="{ rotate: showInitiate }"
-        />
-      </ButtonPlain>
+    <TabBar>
+      <template slot="left">
+        <TabBarButton
+          :class="{ active: activeTab === 'ongoing' }"
+          @click="activeTab = 'ongoing'"
+        >
+          {{ $t('views.WordDetail.Tabs[0]') }}
+        </TabBarButton>
+        <TabBarButton
+          :class="{ active: activeTab === 'past' }"
+          @click="activeTab = 'past'"
+        >
+          {{ $t('views.WordDetail.Tabs[1]') }}
+        </TabBarButton>
+        <TabBarButton
+          :class="{ active: activeTab === 'my' }"
+          @click="activeTab = 'my'"
+        >
+          {{ $t('views.WordDetail.Tabs[2]') }}
+        </TabBarButton>
+      </template>
+      <template slot="right">
+        <ButtonPlain
+          v-if="activeTab === 'ongoing' && maxAmount > 0"
+          slot="right"
+          @click="showInitiate = !showInitiate"
+        >
+          <span
+            v-if="!showInitiate"
+            class="desktop"
+          >{{ $t('views.WordDetail.NewVote') }}</span>
+          <IconPlus
+            class="plus"
+            :class="{ rotate: showInitiate }"
+          />
+        </ButtonPlain>
+      </template>
     </TabBar>
 
     <Transition name="fade">
@@ -209,6 +229,7 @@ import VoteCard from './VoteCard.vue';
 import MessageInput from './MessageInput.vue';
 import OutlinedButton from './OutlinedButton.vue';
 import TabBar from './TabBar.vue';
+import TabBarButton from './TabBarButton.vue';
 import ButtonPlain from './ButtonPlain.vue';
 import Loader from './Loader.vue';
 import { shiftDecimalPlaces, blockToDate } from '../utils';
@@ -226,6 +247,7 @@ export default {
     MessageInput,
     OutlinedButton,
     TabBar,
+    TabBarButton,
     ButtonPlain,
     WordBuySellButtons,
     Loader,
@@ -250,11 +272,6 @@ export default {
   },
   computed: {
     ...mapState(['address', 'tokenInfo', 'tokenBalances']),
-    tabs() {
-      const activities = ['ongoing', 'past', 'my'];
-      return this.$t('views.WordDetail.Tabs')
-        .map((t, i) => ({ text: t, tab: activities[i] }));
-    },
     votes() {
       switch (this.activeTab) {
         case 'ongoing':
@@ -495,6 +512,48 @@ export default {
     font-weight: 500;
     font-size: 0.75rem;
     padding-left: 0.1rem;
+  }
+
+  .no-content {
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      color: $pure_white;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      ::v-deep .not-bootstrap-modal-content {
+        @include mobile {
+          margin-left: 0;
+        }
+      }
+
+      button {
+        width: 154px;
+        height: 40px;
+
+        &.outlined-button {
+          margin-right: 32px;
+
+          svg {
+            height: 24px;
+          }
+
+          @include desktop-only {
+            &.wide {
+              width: 186px;
+            }
+          }
+        }
+      }
+    }
   }
 }
 </style>

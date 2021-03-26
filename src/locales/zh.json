@@ -440,9 +440,9 @@
         }
       ],
       "Tabs": [
-        { "text": "All tokens", "tab": "all", "textMobile": "All" },
-        { "text": "Trending", "tab": "trending", "textMobile": "Trending" },
-        { "text": "Recent", "tab": "recent", "textMobile": "Recent" }
+        { "text": "All tokens", "textMobile": "All" },
+        { "text": "Trending", "textMobile": "Trending" },
+        { "text": "Recent", "textMobile": "Recent" }
       ]
     }
   },

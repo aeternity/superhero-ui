@@ -43,15 +43,6 @@ Vue.prototype.$watchUntilTruly = function watchUntilTruly(getter) {
 registerModals();
 sync(store, router);
 
-store.watch(
-  ({ isBackendLive }) => isBackendLive,
-  async (isBackendLive) => {
-    const targetRouteName = isBackendLive ? 'feed' : 'maintenance';
-    if (router.currentRoute.name === targetRouteName) return;
-    await router.push({ name: targetRouteName });
-  },
-);
-
 export default new Vue({
   el: '#app',
   store,

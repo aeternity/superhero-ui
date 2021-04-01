@@ -1,10 +1,24 @@
-// eslint-disable-next-line import/no-cycle
-import store from '../store';
-import { wrapTry } from './index';
+export const wrapTry = async (promise) => {
+  try {
+    return promise.then((res) => {
+      if (!res) {
+        console.error(new Error('Response is undefined'));
+        return null;
+      }
+      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
+      return res.json();
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
 
 const backendFetch = (path, ...args) => wrapTry(
   fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err)),
-  store,
 );
 
 const backendFetchNoTimeout = (path, ...args) => fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args)

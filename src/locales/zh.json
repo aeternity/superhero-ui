@@ -136,12 +136,6 @@
         }
       ]
     },
-    "Maintenance": {
-      "RechargeTitle": "我们正在维护.",
-      "RechargeSubTitle": "维护很快就会完成.",
-      "CleaningTitle": "清除HQ.",
-      "CleaningSubTitle": "几分钟后我们将再次起飞."
-    },
     "Privacy": {
       "title": "隐私政策",
       "subtitle": "目前的法律标记创建于2020年2月13日.",

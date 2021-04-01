@@ -5,6 +5,13 @@
     @click.self="$emit('close')"
   >
     <div class="content">
+      <ButtonPlain
+        class="close"
+        @click="$emit('close')"
+      >
+        <IconCancel />
+      </ButtonPlain>
+
       <div
         v-if="$slots.icon"
         class="icon"
@@ -12,15 +19,23 @@
         <slot name="icon" />
       </div>
       <h1>{{ title }}</h1>
+      <h2 v-if="subtitle">
+        {{ subtitle }}
+      </h2>
       <slot />
     </div>
   </div>
 </template>
 
 <script>
+import ButtonPlain from './ButtonPlain.vue';
+import IconCancel from '../assets/iconCancel.svg?icon-component';
+
 export default {
+  components: { ButtonPlain, IconCancel },
   props: {
     title: { type: String, required: true },
+    subtitle: { type: String, default: '' },
   },
 };
 </script>
@@ -40,28 +55,62 @@ export default {
     text-align: center;
     width: 25rem;
     margin: auto;
-    padding: 2.5rem;
+    padding: 40px 32px;
     background-color: $actions_ribbon_background_color;
     border-radius: 0.25rem;
     border: 1px solid $card_border_color;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
+    font-size: 15px;
+    line-height: 24px;
+    color: $tip_note_color;
+    position: relative;
 
     @include smallest {
       width: 100%;
       padding: 1rem;
     }
 
-    .icon {
-      img, svg {
-        height: 2rem;
-        margin-bottom: 0.85rem;
+    .close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      color: $light_font_color;
+
+      &:hover {
+        color: #fff;
+      }
+
+      svg {
+        height: 32px;
       }
     }
 
-    h1 {
+    .icon {
+      img,
+      svg {
+        display: block;
+        margin: 0 auto 8px auto;
+        height: 48px;
+      }
+    }
+
+    h1,
+    h2 {
+      margin-top: 0;
       color: $standard_font_color;
-      font-size: 1rem;
       font-weight: 500;
+    }
+
+    h1 {
+      font-size: 19px;
+      line-height: 22px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      font-size: 15px;
+      line-height: 24px;
+      margin-bottom: 8px;
     }
   }
 }

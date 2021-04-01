@@ -203,7 +203,7 @@ export default {
         }
 
         if (!this.userAddress) {
-          await Backend.cacheInvalidateTips();
+          await Backend.awaitTips();
           EventBus.$emit('reloadData');
         }
         this.hideModal();

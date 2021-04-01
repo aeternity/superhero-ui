@@ -84,7 +84,7 @@ export default {
     },
     async reloadTip({ commit, rootState: { chainNames } }, id) {
       const [tip, comments] = await Promise.all([
-        Backend.getCacheTipById(id),
+        Backend.getTipById(id),
         Backend.getTipComments(id),
       ]);
       commit('setTip', {

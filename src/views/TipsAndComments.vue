@@ -49,6 +49,7 @@ import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import Loading from '../components/Loading.vue';
 import backendAuthMixin from '../utils/backendAuthMixin';
 import SendComment from '../components/SendComment.vue';
+import { EventBus } from '../utils/eventBus';
 import Backend from '../utils/backend';
 
 export default {
@@ -82,6 +83,10 @@ export default {
     },
   },
   async mounted() {
+    EventBus.$on('reloadData', () => {
+      this.reloadData();
+    });
+
     const handler = () => this.reloadData();
     this.$watch(({ id }) => id, handler, { immediate: true });
     const interval = setInterval(handler, 120 * 1000);

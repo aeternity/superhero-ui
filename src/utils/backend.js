@@ -71,7 +71,7 @@ export default class Backend {
 
   static getStats = async () => backendFetch('static/stats/');
 
-  static getCacheTipById = async (id) => backendFetch(`tips/single?id=${id}`);
+  static getTipById = async (id) => backendFetch(`tips/single?id=${id}`);
 
   static getSenderStats = async (address) => backendFetch(`stats/sender?address=${address}`)
 
@@ -128,7 +128,7 @@ export default class Backend {
 
   static getTokenBalances = async (address) => backendFetch(`tokenCache/balances?address=${address}`);
 
-  static cacheInvalidateTips = async () => backendFetch('cache/invalidate/tips');
+  static awaitTips = async () => backendFetch('tips/await');
 
   static invalidateTokenCache = async (token) => backendFetch(`cache/invalidate/token/${token}`);
 

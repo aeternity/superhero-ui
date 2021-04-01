@@ -127,7 +127,7 @@ export default {
         tokenAddress: this.inputToken,
       })
         .then(async () => {
-          await Backend.cacheInvalidateTips().catch(console.error);
+          await Backend.awaitTips().catch(console.error);
           this.clearTipForm();
           this.$store.dispatch('modals/open', {
             name: 'success',

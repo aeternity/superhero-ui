@@ -7,9 +7,6 @@ export const topicsRegex = /(#[a-zA-Z]+\b)(?!;)/g;
 
 export const shiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(decimals);
 
-export const atomsToAe = (atoms) => shiftDecimalPlaces(atoms, -18);
-export const aeToAtoms = (ae) => shiftDecimalPlaces(ae, 18);
-
 export const currencySigns = {
   eur: '€',
   usd: '$',

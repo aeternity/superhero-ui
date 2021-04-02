@@ -128,7 +128,9 @@ export default class Backend {
 
   static getTokenBalances = async (address) => backendFetch(`tokenCache/balances?address=${address}`);
 
-  static awaitTips = async () => backendFetch('tips/await');
+  static awaitTip = async (id) => backendFetch(`tips/await/tip?id=${id}`);
+
+  static awaitRetip = async (id) => backendFetch(`tips/await/retip?id=${id}`);
 
   static invalidateTokenCache = async (token) => backendFetch(`cache/invalidate/token/${token}`);
 

@@ -74,7 +74,6 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import IconTip from '../assets/iconTip.svg?icon-component';
-import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl, shiftDecimalPlaces } from '../utils';
 import AeInputAmount from './AeInputAmount.vue';
@@ -203,7 +202,6 @@ export default {
         }
 
         if (!this.userAddress) {
-          await Backend.awaitTips();
           EventBus.$emit('reloadData');
         }
         this.hideModal();

@@ -101,6 +101,12 @@ export default {
     async reloadComment({ commit }, id) {
       commit('setComment', { id, value: await Backend.getCommentById(id) });
     },
+    async awaitTip(_, id) {
+      await Backend.awaitTip(id);
+    },
+    async awaitRetip(_, id) {
+      await Backend.awaitRetip(id);
+    },
     async reloadStats({ commit, rootState: { aeternity: { sdk } } }) {
       const [stats1, stats2, height] = await Promise.all([
         Backend.getTipStats(),

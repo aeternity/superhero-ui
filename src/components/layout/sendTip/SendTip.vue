@@ -65,7 +65,6 @@ import { mapState, mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
 import { createDeepLinkUrl, shiftDecimalPlaces, validateTipUrl } from '../../../utils';
 import { EventBus } from '../../../utils/eventBus';
-import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg?icon-component';
 import IconClose from '../../../assets/iconClose.svg?icon-component';
@@ -125,28 +124,26 @@ export default {
         title: this.sendTipForm.title,
         amount,
         tokenAddress: this.inputToken,
-      })
-        .then(async () => {
-          await Backend.awaitTips().catch(console.error);
-          this.clearTipForm();
-          this.$store.dispatch('modals/open', {
-            name: 'success',
-            title: this.$t('components.layout.SendTip.SuccessHeader'),
-            body: this.$t('components.layout.SendTip.SuccessText'),
-          });
-          setTimeout(() => EventBus.$emit('reloadData'), 5000);
-        }).catch((e) => {
-          this.sendingTip = false;
-          if (e.code && e.code === 4) {
-            return;
-          }
-          console.error(e);
-          this.$store.dispatch('modals/open', {
-            name: 'failure',
-            title: this.$t('components.layout.SendTip.ErrorHeader'),
-            body: this.$t('components.layout.SendTip.ErrorText'),
-          });
+      }).then(async () => {
+        this.clearTipForm();
+        this.$store.dispatch('modals/open', {
+          name: 'success',
+          title: this.$t('components.layout.SendTip.SuccessHeader'),
+          body: this.$t('components.layout.SendTip.SuccessText'),
         });
+        EventBus.$emit('reloadData');
+      }).catch((e) => {
+        this.sendingTip = false;
+        if (e.code && e.code === 4) {
+          return;
+        }
+        console.error(e);
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: this.$t('components.layout.SendTip.ErrorHeader'),
+          body: this.$t('components.layout.SendTip.ErrorText'),
+        });
+      });
     },
     clearTipForm() {
       this.sendTipForm = { amount: 0, url: '', title: '' };

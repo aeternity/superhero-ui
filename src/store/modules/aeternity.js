@@ -335,12 +335,19 @@ export default {
 
       if (tokenAddress && tokenAddress !== 'native') {
         await dispatch('createOrChangeAllowance', { contractAddress: tokenAddress, amount });
-        return contractV2.methods.tip_token(url, title, tokenAddress, amount);
+
+        const { decodedResult } = await contractV2.methods
+          .tip_token(url, title, tokenAddress, amount);
+        return dispatch('backend/awaitTip', `${decodedResult}_v2`, { root: true });
       }
 
-      return contractV2
-        ? contractV2.methods.tip(url, title, { amount })
-        : contractV1.methods.tip(url, title, { amount });
+      if (contractV2) {
+        const { decodedResult } = await contractV2.methods.tip(url, title, { amount });
+        return dispatch('backend/awaitTip', `${decodedResult}_v2`, { root: true });
+      }
+
+      await contractV1.methods.tip(url, title, { amount });
+      return dispatch('backend/awaitTip', null, { root: true });
     },
     async retip({
       dispatch,
@@ -358,15 +365,22 @@ export default {
 
       if (tokenAddress && tokenAddress !== 'native') {
         await dispatch('createOrChangeAllowance', { contractAddress: tokenAddress, amount });
-        return contractV2.methods.retip_token(Number(id.split('_')[0]), tokenAddress, amount);
+
+        const [tipId, contractVersion] = id.split('_');
+        const { decodedResult } = await contractV2.methods
+          .retip_token(Number(tipId), tokenAddress, amount);
+        return dispatch('backend/awaitRetip', `${decodedResult}_${contractVersion}`, { root: true });
       }
 
       if (contractAddress === process.env.VUE_APP_CONTRACT_V1_ADDRESS) {
-        return contractV1.methods.retip(Number(id.split('_')[0]), { amount });
+        await contractV1.methods.retip(Number(id.split('_')[0]), { amount });
+        return dispatch('backend/awaitRetip', null, { root: true });
       }
 
       if (contractAddress === process.env.VUE_APP_CONTRACT_V2_ADDRESS) {
-        return contractV2.methods.retip(Number(id.split('_')[0]), { amount });
+        const [tipId, contractVersion] = id.split('_');
+        const { decodedResult } = await contractV2.methods.retip(Number(tipId), { amount });
+        return dispatch('backend/awaitRetip', `${decodedResult}_${contractVersion}`, { root: true });
       }
 
       return null;

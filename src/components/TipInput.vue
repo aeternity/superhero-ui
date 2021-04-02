@@ -4,15 +4,11 @@
       :is="useSdkWallet ? 'button' : 'a'"
       :href="useSdkWallet ? undefined : deepLink"
       class="button"
+      :class="{ tipped: tipUrlStats.isTipped }"
       :title="title"
       @click="useSdkWallet && (showModal = true)"
     >
-      <template v-if="userAddress">
-        <IconTipUser />
-      </template>
-      <template v-else>
-        <IconTip :class="{ tipped: tipUrlStats.isTipped }" />
-      </template>
+      <IconTip />
       <AeAmountFiat
         v-if="!userAddress && tipAmount.value"
         :amount="tipAmount.value"
@@ -78,8 +74,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import IconTipUser from '../assets/iconTipUser.svg?icon-component';
-import IconTip from '../assets/iconTipRebranded.svg?icon-component';
+import IconTip from '../assets/iconTip.svg?icon-component';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl, shiftDecimalPlaces } from '../utils';
@@ -99,7 +94,6 @@ export default {
     Modal,
     Dropdown,
     IconTip,
-    IconTipUser,
   },
   props: {
     tip: { type: Object, default: null },
@@ -246,14 +240,22 @@ export default {
     background: none;
     outline: none;
     padding: 0;
+    color: $search_nav_border_color;
 
-    &:hover img {
-      filter: brightness(1.3);
+    &:hover {
+      color: #fff;
     }
 
-    img {
-      height: 1em;
-      margin-right: 0.2rem;
+    &.tipped {
+      color: $secondary_color;
+
+      &:hover {
+        color: #0e52d8;
+      }
+    }
+
+    .iconTip {
+      height: 24px;
     }
 
     .ae-amount-fiat {
@@ -299,32 +301,6 @@ export default {
 
       .ae-button {
         margin-left: 0.5rem;
-      }
-    }
-  }
-
-  .iconTipRebranded {
-    width: 24px;
-    height: 24px;
-    opacity: 0.44;
-
-    path.inner {
-      opacity: 0.44;
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-
-    &.tipped {
-      opacity: 1;
-
-      &:hover path {
-        fill: #0e52d8;
-      }
-
-      path {
-        fill: $secondary_color;
       }
     }
   }

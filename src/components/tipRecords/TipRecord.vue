@@ -224,10 +224,6 @@ export default {
   flex-wrap: wrap;
   cursor: default;
 
-  ::v-deep .tip-input .button img {
-    height: 0.9rem;
-  }
-
   .actions-wrapper {
     display: flex;
     justify-content: space-evenly;

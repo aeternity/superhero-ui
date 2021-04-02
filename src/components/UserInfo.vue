@@ -462,17 +462,6 @@ input[type="file"] {
     }
   }
 
-  .avatar__button {
-    background: #1161fea8;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-
-    &:hover {
-      background: #1161fecc;
-    }
-  }
-
   .delete-avatar-button {
     background: #ff49521e;
     display: none;
@@ -703,11 +692,6 @@ input[type="file"] {
       font-weight: 500;
     }
   }
-}
-
-::v-deep .tip-input .button img {
-  height: 100%;
-  width: 100%;
 }
 
 @media screen and (max-width: 1024px) {

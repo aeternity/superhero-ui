@@ -192,8 +192,7 @@ export default {
       return this.isPreviewToBeVisualized && this.tip.LinkPreview.image !== null ? Backend.getTipPreviewUrl(this.tip.LinkPreview.image) : '';
     },
     isPreviewToBeVisualized() {
-      return this.tip.LinkPreview
-        && (this.tip.LinkPreview.description || this.tip.LinkPreview.title);
+      return this.tip.LinkPreview?.description || this.tip.LinkPreview?.title;
     },
     richPreviewComponent() {
       return [{

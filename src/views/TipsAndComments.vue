@@ -49,7 +49,7 @@ import BackButtonRibbon from '../components/BackButtonRibbon.vue';
 import Loading from '../components/Loading.vue';
 import backendAuthMixin from '../utils/backendAuthMixin';
 import SendComment from '../components/SendComment.vue';
-import {EventBus} from "../utils/eventBus";
+import { EventBus } from '../utils/eventBus';
 
 export default {
   components: {

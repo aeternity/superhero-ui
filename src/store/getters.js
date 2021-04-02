@@ -1,15 +1,10 @@
 import BigNumber from 'bignumber.js';
-import { atomsToAe, shiftDecimalPlaces } from '../utils';
+import { shiftDecimalPlaces } from '../utils';
 
 export default {
-  roundedTokenAmount: ({ tokenInfo }) => (amount, token, round = 2, aettos = false) => {
-    let tokenAmount;
-    if (token) {
-      tokenAmount = tokenInfo[token] ? shiftDecimalPlaces(amount, -tokenInfo[token].decimals) : 0;
-    } else {
-      tokenAmount = aettos ? atomsToAe(amount) : amount;
-    }
-    return new BigNumber(tokenAmount).toFixed(round);
+  roundedTokenAmount: ({ tokenInfo }) => (amount, token, round = 2) => {
+    const shiftedAmount = shiftDecimalPlaces(amount, -(tokenInfo[token] ? tokenInfo[token].decimals : 18));
+    return new BigNumber(shiftedAmount).toFixed(round);
   },
   isLoggedIn: (state) => !!state.address,
 };

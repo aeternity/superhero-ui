@@ -175,7 +175,7 @@ export default {
     display: block;
     border: none;
     width: 100%;
-    height: 470px;
+    height: 600px;
     transition: height 0.25s;
 
     &.half-closed {

@@ -19,6 +19,13 @@
       {{ $t('components.layout.Navigation.feed') }}
     </RouterLink>
     <RouterLink
+      v-if="isLoggedIn"
+      :to="{ name: 'user-profile', params: { address } }"
+    >
+      <IconUser />
+      {{ $t('components.layout.Navigation.MyProfile') }}
+    </RouterLink>
+    <RouterLink
       v-if="showWordBazaar"
       :to="{ name: 'word-bazaar-assets' }"
     >
@@ -32,13 +39,6 @@
     <RouterLink :to="{ name: 'conference' }">
       <IconMeet />
       {{ $t('Networking.MenuLink') }}
-    </RouterLink>
-    <RouterLink
-      v-if="isLoggedIn"
-      :to="{ name: 'user-profile', params: { address } }"
-    >
-      <IconUser />
-      {{ $t('components.layout.Navigation.MyProfile') }}
     </RouterLink>
     <RouterLink :to="{ name: 'league' }">
       <IconDiamond />

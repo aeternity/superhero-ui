@@ -1,7 +1,7 @@
 <template>
   <div class="tips-list">
     <div class="actions">
-      <SendTip :post="feed === 'posts'" />
+      <SendTip :post="feed !== 'tips'" />
       <div class="feed-category-row">
         <FilterButton
           :class="{ active: feed === 'main' }"

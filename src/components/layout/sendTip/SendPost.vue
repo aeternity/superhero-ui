@@ -32,15 +32,17 @@
         <ButtonPlain @click="showGifs = !showGifs">
           <IconGif :class="{ active: showGifs }" />
         </ButtonPlain>
-        <!-- <ButtonPlain disabled>
-          <IconEmoji />
-        </ButtonPlain>
-        <ButtonPlain disabled>
-          <IconPoll />
-        </ButtonPlain>
-        <ButtonPlain disabled>
-          <IconThreeDots />
-        </ButtonPlain> -->
+        <template v-if="UNFINISHED_FEATURES">
+          <ButtonPlain disabled>
+            <IconEmoji />
+          </ButtonPlain>
+          <ButtonPlain disabled>
+            <IconPoll />
+          </ButtonPlain>
+          <ButtonPlain disabled>
+            <IconThreeDots />
+          </ButtonPlain>
+        </template>
       </div>
       <ButtonPlain
         class="btn btn-primary post-submit text-nowrap"
@@ -62,9 +64,9 @@ import MessageInput from '../../MessageInput.vue';
 import ButtonPlain from '../../ButtonPlain.vue';
 import IconPictures from '../../../assets/iconPictures.svg?icon-component';
 import IconGif from '../../../assets/iconGif.svg?icon-component';
-// import IconEmoji from '../../../assets/iconEmoji.svg?icon-component';
-// import IconPoll from '../../../assets/iconPoll.svg?icon-component';
-// import IconThreeDots from '../../../assets/iconThreeDots.svg?icon-component';
+import IconEmoji from '../../../assets/iconEmoji.svg?icon-component';
+import IconPoll from '../../../assets/iconPoll.svg?icon-component';
+import IconThreeDots from '../../../assets/iconThreeDots.svg?icon-component';
 import IconPosts from '../../../assets/iconPosts.svg?icon-component';
 import GiphySearch from './GiphySearch.vue';
 import MediaRow from '../../MediaRow.vue';
@@ -75,9 +77,9 @@ export default {
     ButtonPlain,
     IconPictures,
     IconGif,
-    // IconEmoji,
-    // IconPoll,
-    // IconThreeDots,
+    IconEmoji,
+    IconPoll,
+    IconThreeDots,
     IconPosts,
     GiphySearch,
     MediaRow,
@@ -89,6 +91,7 @@ export default {
       sendingPost: false,
       uploadingMedia: false,
       showGifs: false,
+      UNFINISHED_FEATURES: process.env.UNFINISHED_FEATURES,
     };
   },
   computed: mapState(['address', 'balance']),

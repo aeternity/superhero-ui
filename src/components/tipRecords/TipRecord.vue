@@ -64,9 +64,12 @@
             <IconComments />
             <span>{{ tip.commentCount }}</span>
           </ButtonPlain>
-          <!-- <ButtonPlain class="action">
+          <ButtonPlain
+            v-if="UNFINISHED_FEATURES"
+            class="action"
+          >
             <IconShare />
-          </ButtonPlain> -->
+          </ButtonPlain>
         </div>
       </div>
     </div>
@@ -87,7 +90,7 @@ import ButtonPlain from '../ButtonPlain.vue';
 import IconComments from '../../assets/iconComments.svg?icon-component';
 import IconStar from '../../assets/iconStar.svg?icon-component';
 import IconStarFilled from '../../assets/iconStarFilled.svg?icon-component';
-// import IconShare from '../../assets/iconShare.svg?icon-component';
+import IconShare from '../../assets/iconShare.svg?icon-component';
 
 export default {
   components: {
@@ -100,13 +103,16 @@ export default {
     IconComments,
     IconStar,
     IconStarFilled,
-    // IconShare,
+    IconShare,
     TipInput,
   },
   mixins: [backendAuthMixin(true)],
   props: {
     tip: { type: Object, required: true },
   },
+  data: () => ({
+    UNFINISHED_FEATURES: process.env.UNFINISHED_FEATURES,
+  }),
   computed: {
     ...mapState(['address']),
     ...mapState('aeternity', ['useSdkWallet']),

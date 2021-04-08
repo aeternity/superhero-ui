@@ -296,7 +296,7 @@ export default {
       this.loadVotes();
     },
   },
-  async created() {
+  async mounted() {
     this.loading = true;
     await this.loadVotes();
     this.loading = false;

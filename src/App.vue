@@ -165,14 +165,10 @@ export default {
         display: none;
       }
 
-      .left-section,
-      .right-section {
-        padding-top: 1rem;
-      }
-
       .left-section {
         width: 9.2rem;
         margin-right: 15px;
+        padding-top: 1rem;
 
         @media (min-width: 1440px) {
           margin-right: calc(15px + 1rem); // TODO: Replace with a rem value
@@ -180,7 +176,8 @@ export default {
       }
 
       .right-section {
-        width: 17.5rem;
+        padding-top: 8px;
+        width: 360px;
         margin-left: calc(15px + 0.8rem); // TODO: Replace with a rem value
       }
     }

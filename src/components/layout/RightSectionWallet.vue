@@ -161,13 +161,13 @@ export default {
 
 <style lang="scss" scoped>
 .right-section-wallet {
-  padding: 0.8rem 1rem;
+  padding: 8px 16px;
 
   &.iframe {
     padding: 0;
 
     .right-section-title {
-      padding: 0.8rem 1rem;
+      padding: 8px 16px;
     }
   }
 
@@ -179,7 +179,7 @@ export default {
     transition: height 0.25s;
 
     &.half-closed {
-      height: 150px;
+      height: 190px;
     }
   }
 

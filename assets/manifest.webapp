@@ -1,7 +1,7 @@
 {
-  "version": "0.3.1",
-  "name": "You Do Not Need A Cape To Be A Hero",
-  "description": "You Do Not Need A Cape To Be A Hero",
+  "version": "0.4.0",
+  "name": "Superhero",
+  "description": "Social platform with a mission",
   "icons": {
     "60": "/assets/firefox_app_60x60.png",
     "128": "/assets/firefox_app_128x128.png",
@@ -9,6 +9,6 @@
   },
   "developer": {
     "name": "Aeternity Developers",
-    "url": "https://github.com/kenodressel/aepp-boilerplate"
+    "url": "https://github.com/aeternity/superhero-ui"
   }
 }

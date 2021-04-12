@@ -1,14 +1,14 @@
 {
-  "name": "You Do Not Need A Cape To Be A Hero",
-  "short_name": "You Do Not Need A Cape To Be A Hero",
-  "description": "You Do Not Need A Cape To Be A Hero",
+  "name": "Superhero",
+  "short_name": "Superhero",
+  "description": "Social platform with a mission",
   "dir": "auto",
   "lang": "en-US",
   "display": "standalone",
   "orientation": "any",
   "start_url": "/",
-  "background_color": "#ff0d6a",
-  "theme_color": "#ff0d6a",
+  "background_color": "#1c1c24",
+  "theme_color": "#1c1c24",
   "icons": [
     {
       "src": "/assets/android-chrome-36x36.png",

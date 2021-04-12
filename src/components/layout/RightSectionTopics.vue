@@ -43,7 +43,7 @@ export default {
 
 <style lang="scss" scoped>
 .right-section-topics {
-  padding: 0.8rem 1rem;
+  padding: 8px 16px;
 
   &.closed {
     .right-section-title {
@@ -67,8 +67,8 @@ export default {
       display: none;
     }
 
-    @media (max-height: 800px) {
-      max-height: 10rem;
+    @media (max-height: 900px) {
+      max-height: 160px;
     }
 
     .not-bootstrap-row {

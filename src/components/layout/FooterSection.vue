@@ -107,7 +107,7 @@ export default {
     }
 
     .footer-btns {
-      margin-bottom: 0.85rem;
+      margin-bottom: 8px;
     }
 
     .venture {
@@ -130,7 +130,7 @@ export default {
     }
 
     .terms-links {
-      margin-top: 0.85rem;
+      margin-top: 8px;
     }
 
     .gh-link {
@@ -171,6 +171,10 @@ export default {
         }
       }
     }
+  }
+
+  p {
+    margin-bottom: 8px;
   }
 
   @media (max-width: 1024px) {

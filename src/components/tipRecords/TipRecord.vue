@@ -64,7 +64,10 @@
             <IconComments />
             <span>{{ tip.commentCount }}</span>
           </ButtonPlain>
-          <ButtonPlain class="action">
+          <ButtonPlain
+            v-if="UNFINISHED_FEATURES"
+            class="action"
+          >
             <IconShare />
           </ButtonPlain>
         </div>
@@ -107,6 +110,9 @@ export default {
   props: {
     tip: { type: Object, required: true },
   },
+  data: () => ({
+    UNFINISHED_FEATURES: process.env.UNFINISHED_FEATURES,
+  }),
   computed: {
     ...mapState(['address']),
     ...mapState('aeternity', ['useSdkWallet']),

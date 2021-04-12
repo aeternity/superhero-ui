@@ -32,15 +32,17 @@
         <ButtonPlain @click="showGifs = !showGifs">
           <IconGif :class="{ active: showGifs }" />
         </ButtonPlain>
-        <ButtonPlain disabled>
-          <IconEmoji />
-        </ButtonPlain>
-        <ButtonPlain disabled>
-          <IconPoll />
-        </ButtonPlain>
-        <ButtonPlain disabled>
-          <IconThreeDots />
-        </ButtonPlain>
+        <template v-if="UNFINISHED_FEATURES">
+          <ButtonPlain disabled>
+            <IconEmoji />
+          </ButtonPlain>
+          <ButtonPlain disabled>
+            <IconPoll />
+          </ButtonPlain>
+          <ButtonPlain disabled>
+            <IconThreeDots />
+          </ButtonPlain>
+        </template>
       </div>
       <ButtonPlain
         class="btn btn-primary post-submit text-nowrap"
@@ -89,6 +91,7 @@ export default {
       sendingPost: false,
       uploadingMedia: false,
       showGifs: false,
+      UNFINISHED_FEATURES: process.env.UNFINISHED_FEATURES,
     };
   },
   computed: mapState(['address', 'balance']),

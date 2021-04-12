@@ -28,7 +28,7 @@ export default {
 .right-section-title {
   color: $standard_font_color;
   font-weight: 600;
-  padding-bottom: 0.65rem;
+  padding-bottom: 8px;
   display: flex;
   justify-content: space-between;
 
@@ -39,9 +39,10 @@ export default {
 
   .button-plain {
     color: $light_font_color;
+    transition: color 0.3s;
 
     &:hover {
-      color: $lighter_font_color;
+      color: $primary_color;
     }
 
     svg {

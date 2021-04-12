@@ -4,23 +4,30 @@
       :is="useSdkWallet ? 'button' : 'a'"
       :href="useSdkWallet ? undefined : deepLink"
       class="button"
+      :class="{ tipped: tipUrlStats.isTipped }"
       :title="title"
       @click="useSdkWallet && (showModal = true)"
     >
-      <img :src="iconTip">
-      <template v-if="!userAddress">
-        <AeAmountFiat
-          v-if="!tipUrlStats.tokenTotalAmount.length || +tipUrlStats.totalAmountAe !== 0"
-          :amount="tipUrlStats.totalAmountAe"
-        />
-        <AeAmountFiat
-          v-for="tokenTip in tipUrlStats.tokenTotalAmount"
-          :key="tokenTip.token"
-          :amount="tokenTip.amount"
-          :token="tokenTip.token"
-        />
-      </template>
+      <IconTip />
+      <AeAmountFiat
+        v-if="!userAddress && tipAmount.value"
+        :amount="tipAmount.value"
+        :token="tipAmount.token"
+      />
     </Component>
+    <Dropdown
+      v-if="!userAddress && tipUrlStats && tipUrlStats.tokenTotalAmount.length"
+      v-slot="{ option }"
+      :options="tipUrlStats.tokenTotalAmount"
+      show-right
+    >
+      <AeAmountFiat
+        :key="option.token"
+        :amount="option.amount"
+        :token="option.token"
+        :aettos="!!option.token"
+      />
+    </Dropdown>
     <Modal
       v-if="showModal"
       @close="hideModal"
@@ -32,6 +39,12 @@
           class="error"
         >
           {{ $t('components.TipInput.error') }}
+        </div>
+        <div
+          v-if="v1TipWarning"
+          class="error"
+        >
+          {{ $t('components.TipInput.v1TipWarning') }}
         </div>
         <form @submit.prevent="sendTip">
           <div class="input-group">
@@ -47,9 +60,9 @@
           <div class="not-bootstrap-row">
             <AeInputAmount
               v-model="inputValue"
-              :select-token-f="(token) => inputToken = token"
+              :select-token-f="token => (inputToken = token)"
             />
-            <AeButton :disabled="!isValid">
+            <AeButton :disabled="!isValid || v1TipWarning">
               {{ tip ? $t('retip') : $t('tip') }}
             </AeButton>
           </div>
@@ -61,10 +74,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import iconTip from '../assets/iconTip.svg';
-import iconTipUser from '../assets/iconTipUser.svg';
-import iconTipped from '../assets/iconTipped.svg';
-import { tip, retip } from '../utils/aeternity';
+import IconTip from '../assets/iconTip.svg?icon-component';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl, shiftDecimalPlaces } from '../utils';
@@ -72,6 +82,7 @@ import AeInputAmount from './AeInputAmount.vue';
 import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
+import Dropdown from './Dropdown.vue';
 import Modal from './Modal.vue';
 
 export default {
@@ -81,6 +92,8 @@ export default {
     AeButton,
     AeAmountFiat,
     Modal,
+    Dropdown,
+    IconTip,
   },
   props: {
     tip: { type: Object, default: null },
@@ -89,14 +102,15 @@ export default {
   },
   data: () => ({
     inputValue: 0,
-    inputToken: 'native',
+    inputToken: null,
     showModal: false,
     showLoading: false,
     error: false,
     message: '',
   }),
   computed: {
-    ...mapState(['useSdkWallet', 'address', 'tokenInfo']),
+    ...mapState(['address', 'tokenInfo']),
+    ...mapState('aeternity', ['useSdkWallet']),
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
@@ -108,28 +122,57 @@ export default {
         };
       },
     }),
-    isTokenTipable() {
-      return this.tip.id.split('_')[1] === 'v2';
+    largestFtTipAmount() {
+      return this.tipUrlStats.tokenTotalAmount.length
+        ? this.tipUrlStats.tokenTotalAmount.reduce(
+          (a, b) => (a.amount > b.amount ? a : b),
+          this.tipUrlStats.tokenTotalAmount[0],
+        )
+        : null;
+    },
+    tipAmount() {
+      return +this.tipUrlStats.totalAmountAe !== 0
+        ? {
+          value: this.tipUrlStats.totalAmountAe,
+          token: null,
+        }
+        : {
+          value: this.largestFtTipAmount?.amount,
+          token: this.largestFtTipAmount?.token,
+        };
+    },
+    v1TipWarning() {
+      return (
+        this.tip
+        && this.tip.id.split('_')[1] === 'v1'
+        && this.inputToken !== null
+      );
     },
     tipUrl() {
       if (this.comment) {
         return `https://superhero.com/tip/${this.comment.tipId}/comment/${this.comment.id}`;
       }
       if (this.userAddress) {
-        return `https://superhero.com/user-profile/${this.userAddress}`;
+        const { href } = this.$router.resolve({
+          name: 'user-profile',
+          params: { address: this.userAddress },
+        });
+        return `https://superhero.com${href}`;
       }
       return this.tip.url;
     },
     deepLink() {
-      return createDeepLinkUrl(this.tip
-        ? { type: 'retip', id: this.tip.id } : { type: 'tip', url: this.tipUrl });
+      return createDeepLinkUrl(
+        this.tip
+          ? { type: 'retip', id: this.tip.id }
+          : { type: 'tip', url: this.tipUrl },
+      );
     },
     isValid() {
-      return (this.tip || this.message.trim().length > 0) && this.inputValue > this.minTipAmount;
-    },
-    iconTip() {
-      if (this.userAddress) return iconTipUser;
-      return this.tipUrlStats.isTipped ? iconTipped : iconTip;
+      return (
+        (this.tip || this.message.trim().length > 0)
+        && (this.inputToken !== null || this.inputValue > this.minTipAmount)
+      );
     },
     title() {
       if (this.userAddress) return this.$t('components.TipInput.tipUser');
@@ -144,11 +187,28 @@ export default {
       if (!this.isValid) return;
       this.showLoading = true;
       try {
-        const amount = shiftDecimalPlaces(this.inputValue,
-          this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
+        const amount = shiftDecimalPlaces(
+          this.inputValue,
+          this.inputToken !== null
+            ? this.tokenInfo[this.inputToken].decimals
+            : 18,
+        ).toFixed();
 
-        if (!this.tip) await tip(this.tipUrl, this.message, amount, this.inputToken);
-        else await retip(this.tip.contractId, this.tip.id, amount, this.inputToken);
+        if (!this.tip) {
+          await this.$store.dispatch('aeternity/tip', {
+            url: this.tipUrl,
+            title: this.message,
+            amount,
+            tokenAddress: this.inputToken,
+          });
+        } else {
+          await this.$store.dispatch('aeternity/retip', {
+            contractAddress: this.tip.contractId,
+            id: this.tip.id,
+            amount,
+            tokenAddress: this.inputToken,
+          });
+        }
 
         if (!this.userAddress) {
           await Backend.cacheInvalidateTips();
@@ -167,7 +227,7 @@ export default {
       this.message = '';
       this.inputValue = 0;
       this.error = false;
-      this.inputToken = 'native';
+      this.inputToken = null;
     },
   },
 };
@@ -180,14 +240,22 @@ export default {
     background: none;
     outline: none;
     padding: 0;
+    color: $search_nav_border_color;
 
-    &:hover img {
-      filter: brightness(1.3);
+    &:hover {
+      color: #fff;
     }
 
-    img {
-      height: 1em;
-      margin-right: 0.2rem;
+    &.tipped {
+      color: $secondary_color;
+
+      &:hover {
+        color: #0e52d8;
+      }
+    }
+
+    .iconTip {
+      height: 24px;
     }
 
     .ae-amount-fiat {
@@ -206,9 +274,9 @@ export default {
     }
   }
 
-  .not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
+  .not-bootstrap-modal > ::v-deep .not-bootstrap-modal-content {
     background-color: $article_content_color;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     margin-top: 0.25rem;
     min-width: 19rem;
     padding: 1rem;

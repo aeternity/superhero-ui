@@ -3,7 +3,7 @@
     <div class="footer-btns">
       <OutlinedButton
         :to="'https://form.jotform.com/201075183408046'"
-        class="green feedback"
+        class="blue feedback"
       >
         {{ $t('components.layout.FooterSection.Feedback') }}
       </OutlinedButton>
@@ -26,6 +26,15 @@
           <img src="../../assets/ghLogo.svg">
         </a>
       </p>
+      <div class="powered-by">
+        {{ $t('components.layout.Overview.PoweredBy') }}
+        <a
+          href="https://aeternity.com/"
+          target="_blank"
+        >
+          <img src="../../assets/aeternityLogo.svg">
+        </a>
+      </div>
     </div>
     <span>
       <a :href="`https://github.com/aeternity/superhero-ui/commit/${commitHash}`">
@@ -51,7 +60,8 @@
         target="_blank"
         href="https://venture.com/"
       >
-        <img src="../../assets/iconVenture.svg">
+        <!--eslint-disable-next-line vue-i18n/no-raw-text-->
+        <IconVenture /> <span>Branded by Venture</span>
       </a>
     </div>
     <div
@@ -69,10 +79,11 @@
 import { mapGetters } from 'vuex';
 import { createDeepLinkUrl } from '../../utils';
 import OutlinedButton from '../OutlinedButton.vue';
+import IconVenture from '../../assets/iconVenture.svg?icon-component';
 
 export default {
   components: {
-    OutlinedButton,
+    OutlinedButton, IconVenture,
   },
   data: () => ({
     version: process.env.npm_package_version,
@@ -96,14 +107,21 @@ export default {
     }
 
     .footer-btns {
-      margin-bottom: 0.85rem;
+      margin-bottom: 8px;
     }
 
     .venture {
       margin-left: 0.35rem;
+      color: #cda564;
+      letter-spacing: -0.045em;
 
-      img {
-        height: 0.65rem;
+      svg {
+        height: 0.5rem;
+      }
+
+      svg,
+      span {
+        vertical-align: middle;
       }
 
       &:hover {
@@ -112,7 +130,7 @@ export default {
     }
 
     .terms-links {
-      margin-top: 0.85rem;
+      margin-top: 8px;
     }
 
     .gh-link {
@@ -138,6 +156,25 @@ export default {
         padding: 0.625rem 1rem 0.625rem 1rem;
       }
     }
+
+    .powered-by {
+      color: $standard_font_color;
+      font-size: 0.7rem;
+
+      a {
+        &:hover {
+          filter: brightness(1.3);
+        }
+
+        img {
+          height: 0.55rem;
+        }
+      }
+    }
+  }
+
+  p {
+    margin-bottom: 8px;
   }
 
   @media (max-width: 1024px) {

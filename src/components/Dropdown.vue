@@ -1,50 +1,76 @@
 <template>
-  <div class="dropdown">
-    <div
-      class="display"
-      :class="{ rounded }"
+  <div
+    class="dropdown"
+    :class="{ right: showRight, 'read-only': !method }"
+  >
+    <ButtonPlain
+      :class="{ active: showMenu }"
+      @click.prevent="showMenu = true"
     >
-      <div
-        class="text-ellipsis"
-        :title="displayValue"
+      <slot
+        name="displayValue"
+        :displayValue="currentValue"
+      />
+      <span v-if="!$slots.displayValue">{{ displayValue }}</span>
+      <img src="../assets/caretDown.svg">
+    </ButtonPlain>
+    <Modal
+      v-if="showMenu"
+      @close="showMenu = false"
+    >
+      <Component
+        :is="method ? ButtonPlain : 'div'"
+        v-for="option in options"
+        :key="option.value"
+        class="dropdown-item"
+        @click="selectItem(option)"
       >
-        {{ displayValue }}
-      </div>
-      <img src="../assets/carretDown.svg">
-      <select
-        v-model="selectedVal"
-        @change="method(selectedVal)"
-      >
-        <option
-          v-for="(option, idx) in optionsVal"
-          :key="idx"
-          :value="option.value"
-        >
+        <slot :option="option">
           {{ option.text }}
-        </option>
-      </select>
-    </div>
+        </slot>
+      </Component>
+    </Modal>
   </div>
 </template>
 
 <script>
+import Modal from './Modal.vue';
+import ButtonPlain from './ButtonPlain.vue';
+
 export default {
+  components: {
+    Modal,
+    ButtonPlain,
+  },
   props: {
     options: { type: Array, default: null },
-    selected: { type: String, default: '' },
-    method: { type: Function, required: true },
-    rounded: Boolean,
+    selected: { type: [String, Number] },
+    method: { type: Function },
+    showRight: { type: Boolean },
   },
   data() {
     return {
-      selectedVal: this.selected,
-      optionsVal: this.options,
+      showMenu: false,
+      currentValue: this.options[0],
+      ButtonPlain,
     };
   },
   computed: {
     displayValue() {
-      const selectedOption = this.optionsVal.find((option) => option.value === this.selectedVal);
+      if (!this.selected) {
+        return this.options[0].text || '';
+      }
+      const selectedOption = this.options.find((option) => option.value === this.selected);
       return selectedOption ? selectedOption.text : '';
+    },
+  },
+  methods: {
+    selectItem(option) {
+      if (this.method) {
+        this.currentValue = option;
+        this.method(option);
+      }
+      this.showMenu = false;
     },
   },
 };
@@ -52,50 +78,68 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown {
-  display: inline-block;
   position: relative;
+  display: inline-block;
+  vertical-align: middle;
 
-  .display {
-    text-align: center;
-    position: relative;
-    color: $standard_font_color;
-    font-size: 0.75rem;
-    background-color: $light_color;
-    padding: 0.6rem 2.2rem 0.6rem 0.85rem;
-    line-height: 0.9rem;
-    min-height: 2.2rem;
+  > button {
     display: flex;
     align-items: center;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.75rem;
+    color: $standard_font_color;
+    border-radius: 2.5rem;
 
-    .rounded {
-      border-radius: 0.25rem;
-    }
-
-    img {
-      position: absolute;
-      right: 0.85rem;
-    }
-
-    & > div {
-      display: inline-block;
+    &.active {
+      background-color: $article_content_color;
     }
   }
 
-  select {
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
+  .dropdown-item {
+    font-size: 0.75rem;
+    min-width: 6.5rem;
+    padding: 0.4rem 0.8rem;
+    background-color: $actions_ribbon_background_color;
+    color: $standard_font_color;
+    box-shadow: inset 0 0 0.1rem $article_content_color;
+    border-radius: unset;
 
-    &:hover {
-      cursor: pointer;
+    &:first-child {
+      border-radius: 0.15rem 0.15rem 0 0;
     }
 
-    option {
-      font-size: 1rem;
+    &:last-child {
+      border-radius: 0 0 0.15rem 0.15rem;
+    }
+
+    &:hover {
+      background-color: $background_color;
+    }
+  }
+
+  ::v-deep button {
+    padding: 0;
+  }
+
+  &::v-deep .not-bootstrap-modal-content {
+    max-height: 10rem;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      scrollbar-width: none;
+      display: none;
+    }
+  }
+
+  &.right::v-deep .not-bootstrap-modal-content {
+    right: 0;
+  }
+
+  &.read-only .dropdown-item {
+    cursor: initial;
+
+    &:hover {
+      background-color: $actions_ribbon_background_color;
     }
   }
 }

@@ -168,6 +168,9 @@ export default {
       this.blockchainTrace = await Backend.getTipTraceBlockchain(id);
     },
   },
+  metaInfo: {
+    title: 'Tip Tracing',
+  },
 };
 </script>
 

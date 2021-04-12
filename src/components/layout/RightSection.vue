@@ -1,6 +1,6 @@
 <template>
   <div class="right-section">
-    <SearchInput
+    <SearchFeed
       class="section"
       sided
     />
@@ -28,13 +28,13 @@
 <script>
 import { mapState } from 'vuex';
 import FooterSection from './FooterSection.vue';
-import SearchInput from './SearchInput.vue';
+import SearchFeed from './SearchFeed.vue';
 import RightSectionWallet from './RightSectionWallet.vue';
 import RightSectionTopics from './RightSectionTopics.vue';
 
 export default {
   components: {
-    SearchInput,
+    SearchFeed,
     RightSectionWallet,
     RightSectionTopics,
     FooterSection,
@@ -42,14 +42,14 @@ export default {
   data: () => ({
     showTopics: false,
   }),
-  computed: mapState({ toggleable: 'useIframeWallet' }),
+  computed: mapState({ toggleable: ({ aeternity: { useIframeWallet } }) => useIframeWallet }),
 };
 </script>
 
 <style lang="scss" scoped>
 .right-section .section {
   background-color: $article_content_color;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   margin-bottom: 0.5rem;
 }
 </style>

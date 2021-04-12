@@ -1,10 +1,10 @@
 <template>
   <div
-    class="tip__record row"
+    class="tip-record row"
     @click="goToTip"
   >
-    <div class="tip__body">
-      <div class="tip__description">
+    <div class="tip-body">
+      <div class="tip-description">
         <AuthorAndDate
           :date="tip.timestamp"
           :address="tip.sender"
@@ -26,26 +26,50 @@
           </ThreeDotsMenu>
         </AuthorAndDate>
       </div>
-      <div class="tip__note pr-2">
+      <div class="tip-note pr-2">
         <TipTitle :tip-title="tip.title" />
+        <TipMedia
+          v-if="tip.media && tip.media.length"
+          :media="tip.media"
+        />
       </div>
       <TipPreview
+        v-if="tipUrl"
         :tip="tip"
         :go-to-tip="goToTip"
         :tip-url="tipUrl"
       />
-      <div class="tip__footer">
-        <div class="tip__footer_wrapper">
-          <div
-            class="tip__comments"
-            :class="[{ 'tip__comments--hascomments': tip.commentCount }]"
+      <div
+        class="tip-footer"
+        @click.stop
+      >
+        <TipInput
+          v-if="tip.type === 'POST_WITHOUT_TIP'"
+          :tip="{ ...tip, url: `https://superhero.com/tip/${tip.id}` }"
+        />
+        <div class="actions-wrapper">
+          <ButtonPlain
+            class="action"
+            :class="{ active: isTipPinned }"
+            @click="pinOrUnPinTip"
           >
-            <img
-              class="comment__icon"
-              src="../../assets/commentsIcon.svg"
-            >
+            <IconStarFilled v-if="isTipPinned" />
+            <IconStar v-else />
+          </ButtonPlain>
+          <ButtonPlain
+            class="action"
+            :class="{ active: tip.commentCount, disabled: $route.name === 'tip' }"
+            @click.stop="$route.name === 'tip' ? null : $router.push(toTip)"
+          >
+            <IconComments />
             <span>{{ tip.commentCount }}</span>
-          </div>
+          </ButtonPlain>
+          <ButtonPlain
+            v-if="UNFINISHED_FEATURES"
+            class="action"
+          >
+            <IconShare />
+          </ButtonPlain>
         </div>
       </div>
     </div>
@@ -57,23 +81,41 @@ import { mapState } from 'vuex';
 import Backend from '../../utils/backend';
 import backendAuthMixin from '../../utils/backendAuthMixin';
 import TipTitle from './TipTitle.vue';
+import TipMedia from './TipMedia.vue';
 import TipPreview from './TipPreview.vue';
+import TipInput from '../TipInput.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import AuthorAndDate from './AuthorAndDate.vue';
+import ButtonPlain from '../ButtonPlain.vue';
+import IconComments from '../../assets/iconComments.svg?icon-component';
+import IconStar from '../../assets/iconStar.svg?icon-component';
+import IconStarFilled from '../../assets/iconStarFilled.svg?icon-component';
+import IconShare from '../../assets/iconShare.svg?icon-component';
 
 export default {
   components: {
     TipTitle,
+    TipMedia,
     TipPreview,
     ThreeDotsMenu,
     AuthorAndDate,
+    ButtonPlain,
+    IconComments,
+    IconStar,
+    IconStarFilled,
+    IconShare,
+    TipInput,
   },
   mixins: [backendAuthMixin(true)],
   props: {
     tip: { type: Object, required: true },
   },
+  data: () => ({
+    UNFINISHED_FEATURES: process.env.UNFINISHED_FEATURES,
+  }),
   computed: {
-    ...mapState(['address', 'useSdkWallet']),
+    ...mapState(['address']),
+    ...mapState('aeternity', ['useSdkWallet']),
     ...mapState({
       isTipPinned({ pinnedItems }) {
         return pinnedItems.some(({ id }) => id === this.tip.id);
@@ -83,6 +125,7 @@ export default {
       return { name: 'tip', params: { tipId: this.tip.id } };
     },
     tipUrl() {
+      if (!this.tip?.url) return null;
       return this.tip.url.startsWith('http://') || this.tip.url.startsWith('https://') ? this.tip.url : `http://${this.tip.url}`;
     },
   },
@@ -125,16 +168,17 @@ export default {
       await this.$store.dispatch('updatePinnedItems');
     },
     goToTip() {
-      return this.$route.params.tipId === this.tip.id
-        ? window.open(this.tipUrl)
-        : this.$router.push(this.toTip);
+      if (this.$route.params.tipId === this.tip.id) {
+        return this.tipUrl ? window.open(this.tipUrl) : null;
+      }
+      return this.$router.push(this.toTip);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.tip__record {
+.tip-record {
   background-color: $light_color;
   margin: 0 0 0.15rem 0;
 
@@ -143,11 +187,11 @@ export default {
   }
 }
 
-.tip__body {
+.tip-body {
   padding-top: 1rem;
   width: 100%;
 
-  .tip__description .author-and-date {
+  .tip-description .author-and-date {
     padding-left: 1rem;
     padding-right: 1rem;
 
@@ -158,7 +202,7 @@ export default {
   }
 }
 
-.tip__note {
+.tip-note {
   @include truncate-overflow-mx(4);
 
   color: $tip_note_color;
@@ -176,78 +220,66 @@ export default {
   }
 }
 
-.retip__icon {
-  height: 1rem;
-  margin-right: 0.2rem;
-  vertical-align: top;
-  padding: 0.1rem 0;
-  width: 1rem;
-}
-
-.comment__icon {
-  margin-right: 0.2rem;
-  vertical-align: top;
-}
-
-.tip__footer {
+.tip-footer {
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
   color: $light_font_color;
-  font-size: 0.8rem;
-  padding: 1.4rem 1rem 0.75rem;
-}
-
-.tip__footer_wrapper {
+  font-size: 1rem;
+  padding: 0.75rem 1rem 0.75rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-}
+  cursor: default;
 
-.tip__comments {
-  align-items: center;
-  display: flex;
-  flex: 0 0 auto;
-  height: 1rem;
-  cursor: pointer;
-  position: relative;
-  width: max-content;
+  .actions-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    flex-grow: 1;
+    padding: 0 2.3rem;
 
-  &.tip__comments--hascomments {
-    color: #fff;
+    .action {
+      svg {
+        margin-bottom: 0.3rem;
+        height: 0.9rem;
+      }
+
+      span {
+        margin-left: 0.5rem;
+      }
+
+      &.active {
+        color: #fff;
+      }
+
+      &.disabled {
+        cursor: default;
+      }
+    }
   }
 }
 
-.tip__comments:hover img {
-  filter: brightness(1.3);
-}
-
 @media only screen and (max-width: 1024px) {
-  .tip__record {
+  .tip-record {
     position: relative;
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .tip__note {
+  .tip-note {
     font-size: 0.75rem;
-  }
-
-  .tip__footer .tip__amount img {
-    width: 0.7rem;
   }
 }
 
 @include smallest {
-  .tip__body {
+  .tip-body {
     padding: 0;
   }
 
-  .tip__record {
+  .tip-record {
     margin-bottom: 0.5rem;
     padding: 0.5rem;
     position: relative;
 
-    .tip__body .tip__description .author-and-date ::v-deep {
+    .tip-body .tip-description .author-and-date ::v-deep {
       font-size: 0.6rem;
       padding-left: 0;
       padding-right: 0;
@@ -263,17 +295,13 @@ export default {
     }
   }
 
-  .tip__note {
+  .tip-note {
     padding: 0;
   }
 
-  .tip__footer {
+  .tip-footer {
     font-size: 0.65rem;
     padding: 0.85rem 0 0 0;
-
-    .tip__amount img {
-      width: 1rem;
-    }
   }
 }
 </style>

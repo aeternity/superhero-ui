@@ -1,29 +1,13 @@
 // eslint-disable-next-line import/no-cycle
 import store from '../store';
-
-const wrapTry = async (promise) => {
-  try {
-    return promise.then((res) => {
-      if (!res) {
-        store.commit('setBackendStatus', false);
-        return null;
-      }
-      store.commit('setBackendStatus', true);
-      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
-      return res.json();
-    }).catch((error) => {
-      console.error(error);
-      return null;
-    });
-  } catch (err) {
-    store.commit('setBackendStatus', false);
-    return null;
-  }
-};
+import { wrapTry } from './index';
 
 const backendFetch = (path, ...args) => wrapTry(
-  fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err)),
+  fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args).catch((err) => console.error(err), store),
 );
+
+const backendFetchNoTimeout = (path, ...args) => fetch(`${process.env.VUE_APP_BACKEND_URL}/${path}`, ...args)
+  .catch((err) => console.error(err));
 
 export default class Backend {
   static getTipComments = async (tipId) => backendFetch(`comment/api/tip/${encodeURIComponent(tipId)}`);
@@ -90,20 +74,30 @@ export default class Backend {
 
   static getCacheUserStats = async (address) => backendFetch(`cache/userStats?address=${address}`);
 
-  static getCacheTips = async (
+  static getCacheFeed = async (
     page,
     ordering,
     address = null,
     search = null,
     blacklist = true,
+    tips = true,
+    posts = true,
   ) => {
     let query = `?ordering=${ordering}&page=${page}`;
+    if (tips) query += '&contractVersion=v1&contractVersion=v2';
+    if (posts) query += '&contractVersion=v3';
     if (address) query += `&address=${address}`;
     if (search) query += `&search=${encodeURIComponent(search)}`;
     query += `&blacklist=${blacklist}`;
-
+    // soon change 'tips' to 'feed'
     return backendFetch(`cache/tips${query}`);
   };
+
+  static addToken = async (address) => backendFetchNoTimeout('tokenCache/addToken', {
+    method: 'post',
+    body: JSON.stringify({ address }),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   static getCacheStats = async () => backendFetch('cache/stats');
 
@@ -117,9 +111,35 @@ export default class Backend {
 
   static getTokenInfo = async () => backendFetch('tokenCache/tokenInfo');
 
+  static getWordRegistry = async (ordering, direction, search) => {
+    const queryParams = new URLSearchParams();
+    if (ordering) queryParams.set('ordering', ordering);
+    if (direction) queryParams.set('direction', direction);
+    if (search) queryParams.set('search', search);
+    return backendFetch(`tokenCache/wordRegistry?${queryParams.toString()}`);
+  }
+
+  static getWordSaleVotesDetails = async (address) => backendFetch(`tokenCache/wordSaleVotesDetails/${address}`);
+
+  static getWordSaleDetailsByToken = async (address) => backendFetch(`tokenCache/wordSaleByToken/${address}`);
+
+  static getWordSale = async (address) => backendFetch(`tokenCache/wordSale/${address}`);
+
+  static getPriceHistory = async (address) => backendFetch(`tokenCache/priceHistory/${address}`);
+
   static getTokenBalances = async (address) => backendFetch(`tokenCache/balances?address=${address}`);
 
   static cacheInvalidateTips = async () => backendFetch('cache/invalidate/tips');
+
+  static invalidateTokenCache = async (token) => backendFetch(`cache/invalidate/token/${token}`);
+
+  static invalidateWordSaleCache = async (wordSale) => backendFetch(`cache/invalidate/wordSale/${wordSale}`);
+
+  static invalidateWordRegistryCache = async () => backendFetch('cache/invalidate/wordRegistry');
+
+  static invalidateWordSaleVotesCache = async (wordSale) => backendFetch(`cache/invalidate/wordSaleVotes/${wordSale}`);
+
+  static invalidateWordSaleVoteStateCache = async (vote) => backendFetch(`cache/invalidate/wordSaleVoteState/${vote}`);
 
   static getCommentCountForAddress = async (address) => backendFetch(`comment/count/author/${address}`);
 
@@ -137,15 +157,15 @@ export default class Backend {
 
   static getCookiesConsent = async (address, query) => backendFetch(`consent/${address}${query ? `?challenge=${query.challenge}&signature=${query.signature}` : ''}`);
 
-  static setCookiesYouTube = async (address, postParam) => backendFetch(`consent/${address}/YouTube`, {
+  static setCookiesConsent = async (address, { scope, status }) => backendFetch(`consent/${address}/${scope}`, {
     method: 'post',
-    body: JSON.stringify({ ...postParam, status: postParam.status ? 'ALLOWED' : 'REJECTED' }),
+    body: JSON.stringify({ status: status ? 'ALLOWED' : 'REJECTED' }),
     headers: { 'Content-Type': 'application/json' },
   });
 
-  static setCookiesSoundCloud = async (address, postParam) => backendFetch(`consent/${address}/SoundCloud`, {
+  static sendPostWithoutTip = async (postParam) => backendFetch('payfortx/post', {
     method: 'post',
-    body: JSON.stringify({ ...postParam, status: postParam.status ? 'ALLOWED' : 'REJECTED' }),
+    body: JSON.stringify(postParam),
     headers: { 'Content-Type': 'application/json' },
-  })
+  });
 }

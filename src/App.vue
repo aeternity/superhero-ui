@@ -27,7 +27,6 @@
 
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
-import { initSdk, scanForWallets, tokenBalance } from './utils/aeternity';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
 import { atomsToAe } from './utils';
@@ -39,15 +38,16 @@ export default {
   components: { MobileNavigation, LeftSection, RightSection },
   computed: {
     ...mapGetters('modals', ['opened']),
-    ...mapState(['address', 'sdk']),
+    ...mapState(['address']),
+    ...mapState('aeternity', ['sdk']),
   },
-  async created() {
+  async mounted() {
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
     setInterval(() => this.reloadData(), 120 * 1000);
 
-    await initSdk();
+    await this.$store.dispatch('aeternity/initSdk');
     await Promise.all([
       this.initWallet(),
       this.reloadData(),
@@ -55,14 +55,14 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setAddress', 'updateTopics', 'updateCurrencyRates',
+      'setAddress', 'updateTopics',
       'setOracleState', 'setChainNames', 'updateBalance',
-      'setGraylistedUrls', 'setTokenInfo', 'setVerifiedUrls', 'useSdkWallet', 'addTokenBalance',
-      'setPinnedItems',
+      'setGraylistedUrls', 'setTokenInfo', 'setWordRegistry', 'setVerifiedUrls',
     ]),
+    ...mapMutations('aeternity', ['useSdkWallet']),
     async reloadData() {
       const [
-        chainNames, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo,
+        chainNames, oracleState, topics, verifiedUrls, graylistedUrls, tokenInfo, wordRegistry,
       ] = await Promise.all([
         Backend.getCacheChainNames(),
         Backend.getOracleCache(),
@@ -70,6 +70,7 @@ export default {
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
         Backend.getTokenInfo(),
+        Backend.getWordRegistry(),
         this.$store.dispatch('backend/reloadStats'),
         this.$store.dispatch('backend/reloadPrices'),
         this.reloadUserData(),
@@ -81,6 +82,7 @@ export default {
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
       this.setTokenInfo(tokenInfo);
+      this.setWordRegistry(wordRegistry);
     },
     async reloadUserData() {
       if (!this.address) return;
@@ -91,24 +93,25 @@ export default {
           const balance = await this.sdk.balance(this.address).catch(() => 0);
           this.updateBalance(atomsToAe(balance).toFixed(2));
         })(),
-        (async () => {
-          const tokens = await Backend.getTokenBalances(this.address);
-          await Promise.all(Object.entries(tokens).map(async ([token]) => this
-            .addTokenBalance({ token, balance: await tokenBalance(token, this.address) })));
-        })(),
+        this.$store.dispatch('updateTokensBalanceAndPrice'),
       ]);
     },
     async initWallet() {
       let { address } = this.$route.query;
       if (!address) {
-        address = await scanForWallets();
+        address = await this.$store.dispatch('aeternity/scanForWallets');
         console.log('found wallet');
         this.useSdkWallet();
-        this.$store.dispatch('updateCookiesConsent', address);
+        this.setAddress(address);
+        this.$store.dispatch('updateCookiesConsent');
+      } else {
+        this.setAddress(address);
       }
-      this.setAddress(address);
       await this.reloadUserData();
     },
+  },
+  metaInfo: {
+    titleTemplate: '%s - Superhero.com',
   },
 };
 </script>
@@ -139,7 +142,6 @@ export default {
 
 <style lang="scss" scoped>
 #app {
-  font-family: Roboto, Helvetica, Arial, sans-serif;
   margin: 0 auto;
   min-height: 100vh;
   max-width: var(--container-width);
@@ -163,14 +165,10 @@ export default {
         display: none;
       }
 
-      .left-section,
-      .right-section {
-        padding-top: 1rem;
-      }
-
       .left-section {
         width: 9.2rem;
         margin-right: 15px;
+        padding-top: 1rem;
 
         @media (min-width: 1440px) {
           margin-right: calc(15px + 1rem); // TODO: Replace with a rem value
@@ -178,7 +176,8 @@ export default {
       }
 
       .right-section {
-        width: 17.5rem;
+        padding-top: 8px;
+        width: 360px;
         margin-left: calc(15px + 0.8rem); // TODO: Replace with a rem value
       }
     }

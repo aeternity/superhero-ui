@@ -44,7 +44,7 @@ export default {
 <style lang="scss" scoped>
 .tip-comment-list .tree {
   background-color: $light_color;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   margin-bottom: 0.5rem;
   padding: 1rem;
 

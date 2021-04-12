@@ -1,7 +1,7 @@
 <template>
   <img
     class="avatar"
-    :src="error ? profileIdenticonUrl : profileImageUrl"
+    :src="showIdenticonOnly || error ? profileIdenticonUrl : profileImageUrl"
     loading="lazy"
     @error="error = true"
   >
@@ -9,7 +9,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import jdenticon from 'jdenticon';
+import jdenticon from 'jdenticon/standalone';
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-avataaars-sprites';
 import Backend from '../utils/backend';
@@ -20,6 +20,7 @@ jdenticon.config = IDENTICON_CONFIG;
 export default {
   props: {
     address: { type: String, default: '' },
+    showIdenticonOnly: { type: Boolean },
   },
   data: () => ({
     error: false,
@@ -33,7 +34,7 @@ export default {
     },
     profileImageUrl({ address, profile }) {
       const key = address === this.address && profile?.signature?.slice(0, 5);
-      return `${Backend.getProfileImageUrl(this.address)}?${key || ''}`;
+      return `${Backend.getProfileImageUrl(this.address)}${key ? `?cacheBust=${key}` : ''}`;
     },
   }),
   watch: {

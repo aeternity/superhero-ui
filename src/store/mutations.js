@@ -6,7 +6,7 @@ export default {
     state.address = address;
   },
   resetState(state) {
-    state.useSdkWallet = false;
+    state.aeternity.useSdkWallet = false;
     state.address = null;
     state.balance = 0;
     state.profile = {};
@@ -36,17 +36,14 @@ export default {
   setTokenInfo(state, payload) {
     state.tokenInfo = payload;
   },
+  setWordRegistry(state, payload) {
+    state.wordRegistry = payload;
+  },
   setVerifiedUrls(state, payload) {
     state.verifiedUrls = payload;
   },
   setIsHiddenContent(state, payload) {
     state.isHiddenContent = payload;
-  },
-  useSdkWallet(state) {
-    state.useSdkWallet = true;
-  },
-  enableIframeWallet(state) {
-    state.useIframeWallet = true;
   },
   setUserProfile(state, profile) {
     state.profile = profile;
@@ -55,6 +52,9 @@ export default {
     state.tokenBalances = [payload, ...state.tokenBalances]
       .filter((bal, idx, arr) => !arr.slice(0, idx).some((b) => b.token === bal.token))
       .sort((a, b) => a.token.localeCompare(b.token));
+  },
+  addTokenPrice({ tokenPrices }, payload) {
+    Vue.set(tokenPrices, payload.token, payload.price);
   },
   setPinnedItems(state, pinnedItems) {
     state.pinnedItems = pinnedItems;
@@ -69,9 +69,6 @@ export default {
     };
     Object.entries(mergeWith({}, state, remoteState, customizer))
       .forEach(([name, value]) => Vue.set(state, name, value));
-  },
-  setSdk(state, sdk) {
-    state.sdk = sdk;
   },
   setBackendStatus(state, isBackendLive) {
     state.isBackendLive = isBackendLive;

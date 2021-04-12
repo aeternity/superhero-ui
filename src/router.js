@@ -11,144 +11,136 @@ import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
 import TipsAndComments from './views/TipsAndComments.vue';
-import TipsList from './views/TipsList.vue';
+import FeedList from './views/FeedList.vue';
 import TutorialMeet from './views/tutorial/Meet.vue';
 import TutorialVoting from './views/tutorial/Voting.vue';
 import TutorialWallet from './views/tutorial/Wallet.vue';
 import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
+import WordBazaar from './views/WordBazaar.vue';
+import WordBazaarAssets from './views/WordBazaarAssets.vue';
+import WordBazaarCreateToken from './views/WordBazaarCreateToken.vue';
+import WordBazaarGetAe from './views/WordBazaarGetAe.vue';
+import WordBazaarHowItWorks from './views/WordBazaarHowItWorks.vue';
+import WordDetail from './views/WordDetail.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'tips',
-    component: TipsList,
-    meta: { title: 'Tips' },
+    name: 'feed',
+    component: FeedList,
     beforeEnter(to, from, next) {
       next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
     },
   },
   {
     path: '/search/:query',
-    name: 'tips-search',
-    component: TipsList,
-    meta: { title: 'Tips' },
+    name: 'feed-search',
+    component: FeedList,
     props: true,
   },
   {
     path: '/tip/:tipId/comment/:id',
     name: 'comment',
     component: TipsAndComments,
-    meta: {
-      title: 'Comment View',
-    },
     props: true,
   },
   {
     path: '/tip/:tipId',
     name: 'tip',
     component: TipsAndComments,
-    meta: {
-      title: 'Comments for a Tip',
-    },
     props: true,
   },
+  ...process.env.VUE_APP_WORDBAZAAR_ENABLED ? [{
+    path: '/wordbazaar',
+    component: WordBazaar,
+    children: [{
+      path: '',
+      name: 'word-bazaar-assets',
+      component: WordBazaarAssets,
+    }, {
+      path: 'create-token',
+      name: 'word-bazaar-create-token',
+      component: WordBazaarCreateToken,
+    }, {
+      path: 'get-ae',
+      name: 'word-bazaar-get-ae',
+      component: WordBazaarGetAe,
+    }, {
+      path: 'how-it-works',
+      name: 'word-bazaar-how-it-works',
+      component: WordBazaarHowItWorks,
+    }],
+  }, {
+    path: '/word/:word',
+    name: 'word-detail',
+    component: WordDetail,
+    props: true,
+  }] : [],
   {
     path: '/user-profile/:address',
+    redirect: '/users/:address',
+  },
+  {
+    path: '/users/:address',
     name: 'user-profile',
     component: UserProfile,
-    meta: {
-      title: 'User Profile',
-    },
     props: true,
   },
   {
     path: '/terms',
     name: 'terms',
     component: Terms,
-    meta: {
-      title: 'Terms of service',
-    },
   },
   {
     path: '/privacy',
     name: 'privacy',
     component: Privacy,
-    meta: {
-      title: 'Privacy policy',
-    },
   },
   {
     path: '/tutorial',
     name: 'tutorial',
     component: CreateProfile,
-    meta: {
-      title: 'Tutorial Page',
-    },
   },
   {
     path: '/league',
     name: 'league',
     component: League,
-    meta: {
-      title: 'Superhero League',
-    },
   },
   {
     path: '/voting',
     name: 'voting',
     component: Governance,
-    meta: {
-      title: 'Superhero Voting',
-    },
   },
   {
     path: '/mission',
     name: 'mission',
     component: Mission,
-    meta: {
-      title: 'Mission Page',
-    },
   },
   {
     path: '/tutorial/widget',
     name: 'tutorial-widget',
     component: TutorialWidget,
-    meta: {
-      title: 'Tutorial Widget Page',
-    },
   },
   {
     path: '/tutorial/voting',
     name: 'tutorial-voting',
     component: TutorialVoting,
-    meta: {
-      title: 'Tutorial Voting Page',
-    },
   },
   {
     path: '/tutorial/wallet',
     name: 'tutorial-wallet',
     component: TutorialWallet,
-    meta: {
-      title: 'Tutorial Wallet Page',
-    },
   },
   {
     path: '/tutorial/meet',
     name: 'tutorial-meet',
     component: TutorialMeet,
-    meta: {
-      title: 'Tutorial Meet Page',
-    },
   },
   {
     path: '/faq',
     name: 'faq',
     component: FAQ,
-    meta: {
-      title: 'FAQ Page',
-    },
   },
   {
     path: '/maintenance',
@@ -156,7 +148,6 @@ const routes = [
     props: true,
     component: Maintenance,
     meta: {
-      title: 'Maintenance',
       fullScreen: true,
     },
   },
@@ -165,18 +156,12 @@ const routes = [
     name: 'tracing',
     props: true,
     component: Tracing,
-    meta: {
-      title: 'Tip Tracing',
-    },
   },
   {
     path: '/meet/:room?',
     name: 'conference',
     component: Conference,
     props: true,
-    meta: {
-      title: 'Conference',
-    },
     beforeEnter(to, from, next) {
       if (IS_MOBILE_DEVICE) window.location = `https://${process.env.VUE_APP_JITSI_HOST}/${to.params.room || ''}`;
       else next();
@@ -188,11 +173,4 @@ const routes = [
   },
 ];
 
-const router = new Router({ mode: 'history', routes });
-
-router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} - Superhero.com`;
-  next();
-});
-
-export default router;
+export default new Router({ mode: 'history', routes });

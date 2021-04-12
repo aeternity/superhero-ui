@@ -2,14 +2,15 @@
   <span class="ae-amount">
     <template>{{ roundedAmount }}</template>
     <!--eslint-disable-next-line vue-i18n/no-raw-text-->
-    <span class="ae">{{ tokenSymbol || 'AE' }}</span>
+    <span
+      v-if="!noSymbol"
+      class="ae"
+    >{{ tokenSymbol || 'AE' }}</span>
   </span>
 </template>
 
 <script>
-import BigNumber from 'bignumber.js';
-import { mapState } from 'vuex';
-import { atomsToAe, shiftDecimalPlaces } from '../utils';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -17,8 +18,10 @@ export default {
     round: { type: Number, default: 2 },
     aettos: { type: Boolean, required: false },
     token: { type: String, default: null },
+    noSymbol: { type: Boolean },
   },
   computed: {
+    ...mapGetters(['roundedTokenAmount']),
     ...mapState({
       amountTokenInfo({ tokenInfo }) {
         return this.token ? tokenInfo[this.token] : null;
@@ -28,12 +31,7 @@ export default {
       return this.amountTokenInfo ? this.amountTokenInfo.symbol : null;
     },
     roundedAmount() {
-      const aeOrAettos = this.aettos ? atomsToAe(this.amount) : this.amount;
-      const aeTokenAmount = this.amountTokenInfo
-        ? shiftDecimalPlaces(this.amount, -this.amountTokenInfo.decimals)
-        : aeOrAettos;
-
-      return new BigNumber(aeTokenAmount).toFixed(this.round);
+      return this.roundedTokenAmount(this.amount || 0, this.token, this.round, this.aettos);
     },
   },
 };

@@ -1,15 +1,18 @@
 <template>
-  <div class="send-tip tip__post">
+  <div class="send-tip tip-post">
     <div v-if="showForm">
-      <div class="tip__post__label clearfix">
-        <img
+      <div class="tip-post-label clearfix">
+        <IconClose
           :title="$t('close')"
           class="close-sendform"
-          src="../../../assets/iconClose.svg"
           @click="toggleForm"
-        >
+        />
       </div>
-      <form @submit.prevent="sendTip">
+      <SendPost v-if="post" />
+      <form
+        v-else
+        @submit.prevent="sendTip"
+      >
         <MessageInput
           v-model="sendTipForm.title"
           maxlength="280"
@@ -38,10 +41,9 @@
             <AeButton
               :disabled="!isSendTipDataValid"
               :loading="sendingTip"
+              class="text-nowrap"
             >
-              <span class="text-nowrap">
-                <IconDiamond /> {{ $t('tip') }}
-              </span>
+              <IconDiamond /> {{ $t('tip') }}
             </AeButton>
           </div>
         </div>
@@ -50,7 +52,9 @@
     <MessageInput
       v-else
       class="closed-view"
-      :placeholder="$t('components.layout.SendTip.SendNewTip')"
+      :placeholder="post ?
+        'Create New Post' :
+        $t('components.layout.SendTip.SendNewTip')"
       @focus="useSdkWallet ? toggleForm() : openTipDeeplink()"
     />
   </div>
@@ -59,14 +63,15 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import AeInputAmount from '../../AeInputAmount.vue';
-import { createDeepLinkUrl, shiftDecimalPlaces } from '../../../utils';
-import { tip } from '../../../utils/aeternity';
+import { createDeepLinkUrl, shiftDecimalPlaces, validateTipUrl } from '../../../utils';
 import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import AeButton from '../../AeButton.vue';
 import IconDiamond from '../../../assets/iconDiamond.svg?icon-component';
+import IconClose from '../../../assets/iconClose.svg?icon-component';
 import MessageInput from '../../MessageInput.vue';
 import UrlStatus from './UrlStatus.vue';
+import SendPost from './SendPost.vue';
 
 export default {
   components: {
@@ -75,10 +80,13 @@ export default {
     MessageInput,
     UrlStatus,
     IconDiamond,
+    IconClose,
+    SendPost,
   },
+  props: { post: Boolean },
   data() {
     return {
-      inputToken: 'native',
+      inputToken: null,
       sendTipForm: {
         amount: 0,
         url: '',
@@ -91,14 +99,18 @@ export default {
   },
   computed: {
     ...mapGetters('backend', ['minTipAmount']),
-    ...mapState(['useSdkWallet', 'tokenInfo']),
+    ...mapState(['tokenInfo']),
+    ...mapState('aeternity', ['useSdkWallet']),
+
+    isTipAmountValid() {
+      return this.inputToken !== null || (this.sendTipForm.amount > this.minTipAmount);
+    },
     isSendTipDataValid() {
-      const urlRegex = /(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/g;
       // TODO: better validation
-      return this.sendTipForm.amount > this.minTipAmount
+      return this.isTipAmountValid
           && this.sendTipForm.url.length > 0
           && this.sendTipForm.title.length > 0
-          && urlRegex.test(this.sendTipForm.url)
+          && validateTipUrl(this.sendTipForm.url)
           && !this.isBlacklistedUrl;
     },
   },
@@ -106,9 +118,14 @@ export default {
     async sendTip() {
       this.sendingTip = true;
       const amount = shiftDecimalPlaces(this.sendTipForm.amount,
-        this.inputToken !== 'native' ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
+        this.inputToken !== null ? this.tokenInfo[this.inputToken].decimals : 18).toFixed();
 
-      tip(this.sendTipForm.url, this.sendTipForm.title, amount, this.inputToken)
+      this.$store.dispatch('aeternity/tip', {
+        url: this.sendTipForm.url,
+        title: this.sendTipForm.title,
+        amount,
+        tokenAddress: this.inputToken,
+      })
         .then(async () => {
           await Backend.cacheInvalidateTips().catch(console.error);
           this.clearTipForm();
@@ -147,43 +164,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .tip__post {
-    background-color: $actions_ribbon_background_color;
-    max-height: 400px;
+.tip-post {
+  background-color: $actions_ribbon_background_color;
 
-    form {
-      padding: 0.6rem 1rem 0 1rem;
-    }
+  form {
+    padding: 12px 20px 0 20px;
+  }
 
-    .form-row {
-      margin-top: 1rem;
+  .form-row {
+    margin-top: 20px;
 
-      .form-group {
-        border: 0.05rem solid $buttons_background;
-        border-radius: 0.25rem;
-        padding: 0;
-
-        input,
-        input:focus {
-          border: 0;
-        }
-
-        &:focus-within {
-          border-color: $secondary_color;
-        }
-      }
-
-      .col-md-4 {
-        padding-right: 0;
-      }
-    }
-
-    .send-url {
-      position: relative;
-      background-color: $buttons_background;
-      color: $standard_font_color;
-      border: 0.05rem solid $buttons_background;
-      border-radius: 0.25rem;
+    .form-group {
+      border: 1px solid $buttons_background;
+      border-radius: 6px;
       padding: 0;
 
       input,
@@ -194,117 +187,150 @@ export default {
       &:focus-within {
         border-color: $secondary_color;
       }
-
-      input {
-        background-color: $buttons_background;
-        color: $standard_font_color;
-        font-size: 0.75rem;
-      }
     }
 
-    .form-group {
-      margin-bottom: 0;
-
-      input {
-        &.comment {
-          display: inline-block;
-          width: calc(100% - 3.01rem);
-        }
-
-        background-color: $buttons_background;
-        color: $standard_font_color;
-        font-size: 0.75rem;
-        height: 2.2rem;
-      }
-    }
-
-    .send-url,
-    .send-amount {
-      margin-bottom: 1rem;
-    }
-
-    .tip__post__balance span {
-      font-size: 0.75rem;
-      color: $standard_font_color;
-    }
-
-    .tip__post__label {
-      font-weight: 600;
-      font-size: 0.8rem;
-      color: $standard_font_color;
-      padding: 0.375rem 0.5rem;
-      background-color: $light_color;
-
-      label {
-        margin-bottom: 0;
-      }
-    }
-
-    .url-status {
-      position: absolute;
-      left: 0.55rem;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .url-input {
-      padding-left: 2.1rem;
-
-      &:focus {
-        box-shadow: none;
-      }
-    }
-
-    .closed-view.message-input {
-      padding: 1rem;
-
-      textarea::placeholder {
-        color: $standard_font_color;
-      }
-    }
-
-    .close-sendform {
-      width: 0.65rem;
-      float: right;
-
-      &:hover {
-        cursor: pointer;
-        opacity: 0.6;
-      }
-    }
-
-    .ae-button {
-      width: 100%;
-      height: 2.2rem;
-      margin-top: 0.05rem;
-      margin-bottom: 1rem;
-
-      svg {
-        height: 1.1em;
-      }
-    }
-
-    .message-box {
-      position: relative;
-    }
-
-    @media (min-width: 576px) {
-      .send-url,
-      .send-amount,
-      .col-md-2 {
-        padding: 0;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .send-url,
-      .send-amount {
-        padding: 0 0.25rem;
-      }
-
-      .col-md-2 {
-        padding: 0;
-      }
+    .col-md-4 {
+      padding-right: 0;
     }
   }
+
+  .send-url {
+    position: relative;
+    background-color: $buttons_background;
+    color: $standard_font_color;
+    border-top: 1px solid $buttons_background;
+    border-bottom: 1px solid $buttons_background;
+    border-radius: 6px;
+    padding: 0;
+
+    input,
+    input:focus {
+      border: 0;
+    }
+
+    &:focus-within {
+      border-color: $secondary_color;
+      background-color: $background_color;
+    }
+
+    input {
+      background-color: $buttons_background;
+      color: $standard_font_color;
+      font-size: 14px;
+      padding: 8.5px 16px;
+    }
+
+    input:focus {
+      background-color: $background_color;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 0;
+
+    input {
+      &.comment {
+        display: inline-block;
+        width: calc(100% - 60px);
+      }
+
+      background-color: $buttons_background;
+      color: $standard_font_color;
+      font-size: 14px;
+      height: 40px;
+    }
+  }
+
+  .send-url,
+  .send-amount {
+    margin-bottom: 1rem;
+  }
+
+  .tip-post-balance span {
+    font-size: 0.75rem;
+    color: $standard_font_color;
+  }
+
+  .tip-post-label {
+    font-weight: 600;
+    font-size: 16px;
+    color: $standard_font_color;
+    padding: 7.5px 10px;
+    background-color: $light_color;
+
+    label {
+      margin-bottom: 0;
+    }
+  }
+
+  .url-status {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  input.url-input {
+    padding-left: 42px;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .closed-view.message-input {
+    padding: 20px;
+
+    textarea::placeholder {
+      color: $standard_font_color;
+    }
+  }
+
+  .close-sendform {
+    width: 17px;
+    height: 17px;
+    float: right;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.6;
+    }
+  }
+
+  .ae-button {
+    width: 100%;
+    height: 40px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+
+    svg {
+      height: 22px;
+    }
+  }
+
+  .message-box {
+    position: relative;
+  }
+
+  @media (min-width: 576px) {
+    .send-url,
+    .send-amount,
+    .col-md-2 {
+      padding: 0;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .send-url,
+    .send-amount {
+      padding: 0 0.25rem;
+    }
+
+    .col-md-2 {
+      padding: 0;
+    }
+  }
+}
 </style>

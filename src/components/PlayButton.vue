@@ -45,7 +45,7 @@ export default {
     padding: 0.8rem;
 
     &.margin-fix {
-      margin-left: 0.15rem !important;
+      margin-left: 0.15rem;
     }
   }
 }

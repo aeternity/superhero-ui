@@ -167,7 +167,7 @@
               <div class="sh-col-6 left-tips">
                 <div class="top-title">
                   <VueAos animation-class="animate__animated animate__delay-1s animate__zoomIn">
-                    <h4>TIPPING</h4>
+                    <h3>TIPPING</h3>
                   </VueAos>
                   <p><b>Sending crypto</b> has never been <b>easier</b></p>
                 </div>
@@ -503,23 +503,6 @@ export default {
     vertical-align: top;
   }
 
-  .sh-container-fluid {
-    margin: 0 auto;
-    max-width: 1660px;
-    padding-left: 15px;
-    padding-right: 15px;
-    width: 100%;
-  }
-
-  .sh-container {
-    margin: 0 auto;
-    max-width: 1180px;
-    overflow: hidden;
-    padding-left: 15px;
-    padding-right: 15px;
-    width: 100%;
-  }
-
   .sh-btn-blue {
     background-color: #1161fe;
     border-radius: 4px;
@@ -531,6 +514,23 @@ export default {
     padding: 12px 32px;
     text-decoration: none;
   }
+}
+
+.sh-container-fluid {
+  margin: 0 auto;
+  max-width: 1660px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+}
+
+.sh-container {
+  margin: 0 auto;
+  max-width: 1180px;
+  overflow: hidden;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
 }
 
 .sh-row {
@@ -684,6 +684,7 @@ section.main-banner {
 
 .superhero-cta {
   background-color: #000;
+  padding: 40px;
 
   .sh-container {
     text-align: center;
@@ -820,6 +821,7 @@ section.superhero-story,
 
 .left-share {
   margin-bottom: 50px;
+  padding: 0 25px 0;
 }
 
 .sm-text-box {
@@ -1083,159 +1085,173 @@ button.subscribe-button {
 }
 
 @media (max-width: 1150px) {
-  .sh-container {
-    max-width: 95%;
-  }
+  .landing-page-container {
+    .sh-container {
+      max-width: 95%;
+    }
 
-  .left-voting-box {
-    min-width: 290px;
-  }
+    .left-voting-box {
+      min-width: 290px;
+    }
 
-  .inner-left-voting-box {
-    padding: 0 25px 0;
-  }
+    .inner-left-voting-box {
+      padding: 0 25px 0;
+    }
 
-  .inner-left-voting-box .bullets {
-    top: 30px;
-  }
+    .inner-left-voting-box .bullets {
+      top: 30px;
+    }
 
-  .top-title h2 {
-    font-size: 30px;
-  }
+    .custom-title h2,
+    .top-title h2 {
+      font-size: 30px;
+    }
 
-  .right-share-text {
-    font-size: 15px;
-    line-height: 32px;
-    top: 0;
-  }
+    .right-share-text {
+      font-size: 15px;
+      line-height: 32px;
+      top: 0;
+    }
 
-  .sm-text-box p {
-    font-size: 15px;
-  }
+    .sm-text-box p {
+      font-size: 15px;
+    }
 
-  .desc p {
-    font-size: 15px;
-    line-height: 27px;
-  }
+    .desc p {
+      font-size: 15px;
+      line-height: 27px;
+    }
 
-  .desc-hero p {
-    font-size: 14px;
-  }
+    .desc-hero p {
+      font-size: 14px;
+    }
 
-  .top-title p,
-  .desc p {
-    font-size: 20px;
-    line-height: 30px;
-  }
+    .top-title p {
+      font-size: 20px;
+      line-height: 30px;
+    }
 
-  .superhero-tokenization .top-title h2 {
-    font-size: 26px;
-  }
+    section.superhero-tokenization .top-title h2 {
+      font-size: 26px;
+    }
 
-  ul.custom-list li {
-    font-size: 15px;
-  }
+    ul.custom-list li {
+      font-size: 15px;
+    }
 
-  .crypto-box p {
-    font-size: 16px;
-    line-height: 27px;
-    padding: 0 20px 0 0;
-  }
+    .crypto-box p {
+      font-size: 16px;
+      line-height: 27px;
+      padding: 0 20px 0 0;
+    }
 
-  .superhero-sendTrips {
-    background-size: 530px 100%;
-    padding: 40px 0;
+    .superhero-sendTrips {
+      background-size: 530px 100%;
+      padding: 40px 0;
+    }
+
+    .superhero-cta .sh-btn-blue {
+      top: 0;
+    }
+
+    .share-history {
+      background-size: 95px;
+    }
   }
 }
 
 @media (max-width: 991px) {
-  .sh-col-3 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-
-  .sh-col-4 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-
-  .sh-col-6 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-
-  .sh-col-9 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-
-  .sh-col-12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-
-  .sm-text-box,
-  .crypto-box {
-    text-align: center;
-  }
-
-  .superhero-sendTrips .left-tips {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 50px 30px;
-
-    p {
-      font-size: 20px;
-      line-height: 40px;
+  .landing-page-container {
+    .sh-col-3 {
+      flex: 0 0 100%;
+      max-width: 100%;
     }
-  }
 
-  .left-foot p br {
-    display: none;
-  }
+    .sh-col-4 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
 
-  .left-foot p {
-    margin: 0 0 15px 0;
-  }
+    .sh-col-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
 
-  .bottom-footer {
-    text-align: center;
-  }
+    .sh-col-9 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
 
-  .right-sh-foot {
-    text-align: center;
-  }
+    .sh-col-12 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
 
-  .center-sh-foot p {
-    margin: 15px 0 10px 0;
-  }
+    .sm-text-box,
+    .crypto-box {
+      text-align: center;
+    }
 
-  .banner-caption h1 {
-    font-size: 38px;
+    .superhero-sendTrips .left-tips {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 50px 30px;
+
+      p {
+        font-size: 20px;
+        line-height: 40px;
+      }
+    }
+
+    .left-foot p br {
+      display: none;
+    }
+
+    .left-foot p {
+      margin: 0 0 15px 0;
+    }
+
+    .bottom-footer {
+      text-align: center;
+    }
+
+    .right-sh-foot {
+      text-align: center;
+    }
+
+    .center-sh-foot p {
+      margin: 15px 0 10px 0;
+    }
+
+    section.main-banner .banner-caption h1 {
+      font-size: 38px;
+    }
   }
 }
 
 @media (max-width: 767px) {
-  .main-navbar {
-    flex-wrap: wrap;
-  }
+  .landing-page-container {
+    .main-navbar {
+      flex-wrap: wrap;
+    }
 
-  .header-logo {
-    justify-content: center;
-    margin: 0 0 10px 0;
-    width: 100%;
-  }
+    .header-logo {
+      justify-content: center;
+      margin: 0 0 10px 0;
+      width: 100%;
+    }
 
-  .sh-navbar {
-    justify-content: center;
-    margin-left: 0;
-    text-align: center;
-    width: 100%;
-  }
+    .sh-navbar {
+      justify-content: center;
+      margin-left: 0;
+      text-align: center;
+      width: 100%;
+    }
 
-  .sh-navbar ul {
-    align-items: center;
-    justify-content: center;
-    margin: 10px 0 0;
+    .sh-navbar ul {
+      align-items: center;
+      justify-content: center;
+      margin: 10px 0 0;
+    }
   }
 }
 

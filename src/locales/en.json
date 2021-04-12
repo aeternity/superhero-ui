@@ -57,6 +57,27 @@
         }
       ]
     },
+    "Landing": {
+      "topNavigation": {
+        "Contribute": "Contribute",
+        "GetStarted": "Get started"
+      },
+      "section1": {
+        "linkFeed": "Become a Superhero Today"
+      },
+      "footer": {
+        "Copyright": "© 2021 Superhero.com",
+        "Form": {
+          "inputEmail": "Get started",
+          "inputSubmit": "Subscribe now"
+        },
+        "Navigation": {
+          "About": "About",
+          "Blog": "Blog",
+          "Contact": "Contact"
+        }
+      }
+    },
     "Mission": {
       "header": "SUPERHERO: AN ORIGIN STORY WITH A MISSION",
       "sections": [
@@ -87,32 +108,40 @@
       "subheader": "ABOUT SUPERHERO.com",
       "questions": [
         {
-          "title": "SUPERHERO.com: Social platform with no hidden agenda.",
-          "text": "SUPERHERO.com is social media done right. No censorship, no tracking, no revenue leeches."
+          "title": "What is Superhero?",
+          "text": "Superhero is a user-centric, open source, decentralized - P2P social platform that elevates the impact of communities and  user generated content with the help of blockchain technology;  the way it was always meant to be.{br}{br}The Superhero platform empowers people from every industry to support others without intermediaries through the Superhero decentralized application powered by æternity blockchain – a next generation, open-source, permissionless blockchain. {br}{br}Superhero is fully decentralized and peer to peer.{br}{br} There is absolutely no third party meddling in any way, shape, or form possible – and never will be. All there is are the users interacting among themselves and deciding in which direction the platform heads.{br}{br} Superhero, differing from traditional social media platforms, is completely open-source. {br}{br}  Anybody is free– and, indeed, invited – to take a peek under the hood and use the source code, fork it, or run and operate it locally. Superhero relies on its community to ensure the utmost security while developing cool new features and moving the ecosystem forward.{br}{br} Currently, Superhero social application platform offers few superpowers: Tip, Crowdfund, Meet, Vote or simply earn while posting good content or causes. Users can receive tips directly from supporters while supporters can send tips directly to their favorite creators, causes and/or projects–– all without third-party data sharing or costly transaction fees.{br}{br Join the global collaborative platform today and be a part of the change.{br}{br}Because, Superhero lets the community decide in which direction it goes. There is no control, just providing tools to the people to create a better world and support those with value."
         },
         {
-          "title": "NO HIDDEN AGENDA.",
-          "text": "Superhero is FREE FOR ALL to use and does not take commissions from tips sent or received through the platform—and never will. {br} The fees for transfers (usually not going beyond $0.01) go directly to an ecosystem of miners who dedicate their processing power to secure transactions. {br}{br}{br} Superhero does not track, collect, or sell anyone’s data—and never will. {br} Other social media platforms rely on ad revenue, for which they collect, use, share, and ultimately sell user data. Superhero is a non-profit platform and was built to end this malpractice. {br}{br}{br} So what’s in it for us? {br} Superhero was created by community members to deliver the benefits of æternity technology to the mainstream public. Thus, strengthening the æternity ecosystem and making the blockchain’s powerful features accessible to average Joe’s and Jane’s."
+          "title": "How does Superhero Work?",
+          "text": "Anchored to the powerful, open-source æternity blockchain, Superhero is defined by the user’s basic right to be fully in control of their online identity, data, and personal information. Retaining your uncensorable freedom of speech and expression, through completely peer-to-peer-based interactions with other users, secured by top-notch cryptographic algorithms, stay in control of your content and data in the public environment of a new social media platform for the modern world. {br}{br} Superhero is decentralized and fully P2P. This means that no third party involvement will ever be permitted within the Superhero platform. All interactions are between the users themselves. This implies that there is no entity controlling activities, or pushing content on users, or that has the right to do anything against users wish."
         },
         {
-          "title": "SUPERHERO IS FOR EVERYONE, BY EVERYONE.",
-          "text": "Superhero is open source and free for all to use. Anyone can use the platform, tools, and add the widget to their website. {br}{br} At the same time, anyone can tweak the code to fit their needs, or improve the tools simply as a contribution to making Superhero an even more awesome platform."
+          "title": "What is a Superhero Wallet and how do I create one?",
+          "text": "Dedicated Superhero Wallet extension connects you to the Superhero community. {br}{br}  The Superhero Wallet allows storage and withdrawal of AE tokens, receiving tips and sending them to valuable creators, and participation in the community voting process to have your voice heard and counted. You can tip everybody, everywhere online and around the world without any fees, commissions, or third party interference - with Superhero powers! Driven by the mighty public open-source aeternity blockchain, Superhero rehabilitates the value transfer.{br}{br} You can create your Superhero Wallet in a few clicks – it gets on great with Android, iOS, and various browsers! With it, you can send and receive tips, create and claim your unique username via the Aeternity Naming System, buy more tokens on Superhero, or transfer your AE tokens to a variety of exchanges to convert it to other currencies. {br}{br} Head on over to Superhero, slide on to Tips and follow the instructions to set up your wallet within minutes. There is a Wizard available as well, that gives you a quick tutorial about all of the functionalities of the Wallet, after you set it up."
         },
         {
-          "title": "CENSORSHIP-FREE.",
-          "text": "While the Superhero front-end will be filtered to keep things safe for the general audience, all tips sent and received, along with the messages sent with them, are recorded and immortalized on æternity blockchain. These records are public and accessible to all. {br}{br} Forks of the platform may be created to cater to adult content or any other content that can be considered NSFW. {br}{br} Anyone is free to fork the platform to create their own pages—whether for non-profit or for commercial purposes."
+          "title": "How to set-up (claim) and bid your .chain name?",
+          "text": ".chain names are a unique system (æternity Naming System, or ÆNS for short) that replace long wallet addresses with short names chosen by users for themselves. Want to know more about this technology? Visit the ÆNS page in the æternity Documentation Hub. {br}{br}  You can Claim a .chain name now – by visiting Superhero Wallet – Register Name section.  {br}{br}  Once registered, your .chain name can be set by default and automatically extended. Moreover, You can see the names that are already taken (currently in use) and place your bid to use the name once the registration expires."
         },
         {
-          "title": "NO THIRD-PARTY CUSTODIANS TO TELL YOU OR YOUR FOLLOWERS 'NO.'",
-          "text": "It doesn’t matter whether we like you or not. So long as your website is public and live, it can be tipped. And so long as you have access to your wallet, your tips are all yours."
+          "title": "What is a Tip and how do I send or claim it?",
+          "text": "Rather than force creators, causes, or influencers to create a profile on a specific platform, Superhero allows anybody to collect tips anywhere online — for anything. A tip is an appreciation or sum of money sent by a user to URL / content creator, as an expression of gratitude and support for the value derived from it – be it directly or indirectly.{br}{br}It could be your favorite musician, content creator, meme designer, or maybe an NGO that promotes good causes and furthers betterment on the world. Any cause you deem worthy.{br}{br}You can tip virtually anybody and everybody online, who has a Superhero Wallet! It takes a few seconds and could be a significant push for those you value. {br}{br} To claim your tips, please make sure the public address of your Superhero wallet is added anywhere on the website/blog, or simply add your .chain name. As an example, you can place your public address or .chain name in the Twitter bio – click the Claim Tips button (on your Superhero Wallet), copy/paste link to the tip you want to claim – and, that’s it!"
         },
         {
-          "title": "SOCIAL MEDIA MEETS THE POWER OF BLOCKCHAIN.",
-          "text": "Superhero is a social media platform powered by blockchain under the hood, created to support social sharing with a mission."
+          "title": "Where can I create and vote for community Polls?",
+          "text": "Be heard. {br}{br}Simply head to the Voting section from the navigation menu on the Superhero website. You can peruse existing polls or create new. On the bottom of the Vote section, you can click on the “plus” button to create your own poll!{br}{br}You can name it, describe it, provide additional material via links, and decide if it is to be a public poll or an unlisted one. Add a few polling options and define its duration – and you’re all set! {br}{br} On-chain governance voting is a way for community members to signal their preferences, opinions, and insights on issues as well as make decisions on topics within and beyond the æternity network."
+        },
+        {
+          "title": "What is the Superhero Button?",
+          "text": "The Superhero Button is how Superhero can spread its superpowers onto any platform! It is a seamlessly integrating button that can be placed onto YouTube, Twitch, your blog, or any URL! With it, anybody with a Superhero wallet can send tips to the content creator at the URL of whom the Superhero button is located, providing that they have a Superhero Wallet as well!{br}{br}All you need to do is simply copy/paste the code of the Button (here: https://github.com/aeternity/superhero-utils, which you can customize!) to your website or blog – and start crowdfunding for a good cause! Here’s an example: https://kryptokrauts.com/log/superhero-a-truly-decentralized-social-tipping-platform "
+        },
+        {
+          "title": "How do I access my Profile?",
+          "text": "Simply use the navigation menu on the Superhero website and choose “My Profile” and there you are! From here, you can get an overview of your sent and claimed tips as well as those that you are yet to claim.{br}{br}You can also peruse through all of the comments you’ve made, channels you’ve pinned, and other social interactions that you’ve experienced on Superhero!{br}{br}Do I need to provide any personal details?{br}{br}None! You will be given a unique public address for the Wallet, and it cannot be directly linked to you or any of your personal data. (Unless you share it with someone, of course.){br}{br}No bank accounts, no passwords, no email, and no IDs required."
         },
         {
           "title": "Can I get support? My question isn’t answered here…",
-          "text": "Need assistance? Want to report technical issues, give feedback and suggestions? Please use the FEEDBACK or SUPPORT button on the bottom right of Superhero.com."
+          "text": "Need assistance? Want to report technical issues, give feedback and suggestions? Please use the FEEDBACK or SUPPORT button on the bottom right of Superhero.com, or join the official community group: https://t.me/superherocom"
         }
       ]
     },
@@ -476,17 +505,36 @@
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
       "Stake": "Majority Stake",
-      "RibbonTabs": ["Token Info", "Funds release vote"],
-      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"]
+      "RibbonTabs": [
+        "Token Info",
+        "Funds release vote"
+      ],
+      "Tabs": [
+        "Ongoing Votes",
+        "Past Votes",
+        "My Votes"
+      ]
     },
     "WordBazaar": {
       "Title": "WordBazaar",
       "Placeholder": "Search for assets",
       "RibbonTabs": [
-        { "Text": "Assets", "Header": "WordBazaar Assets" },
-        { "Text": "Create token", "Header": "Create token" },
-        { "Text": "Get AE", "Header": "Get AE Tokens" },
-        { "Text": "How it works", "Header": "How it works" }
+        {
+          "Text": "Assets",
+          "Header": "WordBazaar Assets"
+        },
+        {
+          "Text": "Create token",
+          "Header": "Create token"
+        },
+        {
+          "Text": "Get AE",
+          "Header": "Get AE Tokens"
+        },
+        {
+          "Text": "How it works",
+          "Header": "How it works"
+        }
       ]
     }
   },
@@ -603,12 +651,18 @@
     },
     "GetAe": {
       "Platforms": [
-        { "Text": "BTC/{ae} ETH/{ae}", "Link": "https://jelly.market/" },
+        {
+          "Text": "BTC/{ae} ETH/{ae}",
+          "Link": "https://jelly.market/"
+        },
         {
           "Text": "Discover more {ae} exchanges",
           "Link": "https://coinmarketcap.com/en/currencies/aeternity/"
         },
-        { "Text": "Testnet {ae} tokens", "Link": "https://faucet.aepps.com/" }
+        {
+          "Text": "Testnet {ae} tokens",
+          "Link": "https://faucet.aepps.com/"
+        }
       ]
     },
     "WordListing": {

@@ -5,6 +5,7 @@ import Conference from './views/Conference.vue';
 import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
 import Governance from './views/Governance.vue';
+import Landing from './views/Landing.vue';
 import League from './views/League.vue';
 import Maintenance from './views/Maintenance.vue';
 import Mission from './views/Mission.vue';
@@ -31,6 +32,15 @@ const routes = [
     component: FeedList,
     beforeEnter(to, from, next) {
       next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
+    },
+  },
+  {
+    path: '/landing',
+    name: 'landing',
+    component: Landing,
+    meta: {
+      fullScreen: true,
+      layoutClass: 'landing-page',
     },
   },
   {

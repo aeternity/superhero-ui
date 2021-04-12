@@ -1,6 +1,6 @@
 {
   "name": "superhero-ui",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:tnet": "vue-cli-service serve --mode tnet",
@@ -20,7 +20,9 @@
     "@aeternity/aepp-sdk": "^7.7.0",
     "@dicebear/avatars": "^4.5.2",
     "@dicebear/avatars-avataaars-sprites": "^4.5.2",
+    "@fontsource/oxygen": "^4.2.1",
     "aeternity-fungible-token": "github:aeternity/aeternity-fungible-token#v1.0.0",
+    "animate.css": "^4.1.1",
     "autosize": "^4.0.2",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",
@@ -38,6 +40,7 @@
     "soundcloud-widget": "^0.2.1",
     "tipping-contract": "github:aeternity/tipping-contract#v3.0.1-alpha1",
     "vue": "^2.6.12",
+    "vue-aos": "^1.1.0",
     "vue-chartjs": "^3.5.1",
     "vue-i18n": "^8.22.3",
     "vue-meta": "^2.4.0",

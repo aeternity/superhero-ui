@@ -43,7 +43,7 @@
 
 <script>
 import { debounce } from 'lodash-es';
-import { mapState } from 'vuex';
+import Backend from '../../utils/backend';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 import UserCard from '../UserCard.vue';
@@ -57,7 +57,7 @@ export default {
   props: {
     address: { type: String, required: true },
   },
-  data: () => ({ hover: false }),
+  data: () => ({ hover: false, name: null }),
   computed: {
     hoverDebounced: {
       get() {
@@ -67,11 +67,10 @@ export default {
         this.hover = hover;
       }, 500),
     },
-    ...mapState({
-      name({ chainNames }) {
-        return chainNames[this.address] || '';
-      },
-    }),
+  },
+  async mounted() {
+    const { preferredChainName } = await Backend.getProfile(this.address);
+    this.name = preferredChainName;
   },
 };
 </script>

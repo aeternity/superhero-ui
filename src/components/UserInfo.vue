@@ -268,7 +268,7 @@ export default {
     ...mapState('aeternity', ['sdk']),
     ...mapState({ currentAddress: 'address' }),
     userChainName() {
-      return this.chainNames[this.address];
+      return this.profile.preferredChainName;
     },
     hasCreationDate() {
       return this.profile.createdAt.length > 0;

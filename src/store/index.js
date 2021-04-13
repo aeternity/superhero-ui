@@ -11,6 +11,7 @@ import aeternity from './modules/aeternity';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import Middleware from '../utils/middleware';
+import { handleUnknownError } from '../utils';
 
 Vue.use(Vuex);
 
@@ -53,7 +54,13 @@ export default new Vuex.Store({
     },
     async updateTokensBalanceAndPrice({ state: { address }, commit, dispatch }) {
       const tokens = await Backend.getTokenBalances(address);
-      const knownTokens = (await Backend.getWordRegistry()).map((item) => item.tokenAddress);
+      let knownTokens;
+      try {
+        knownTokens = (await Backend.getWordRegistry()).map((item) => item.tokenAddress);
+      } catch (error) {
+        handleUnknownError(error);
+        return;
+      }
       await Promise.all(Object.entries(tokens).map(async ([token]) => {
         commit('addTokenBalance', {
           token,

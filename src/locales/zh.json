@@ -12,6 +12,11 @@
   "FellowSuperhero": "超级英雄",
   "aeternityBlockchain": "AEternity区块链",
   "views": {
+    "FeedList": {
+      "main": "Feed",
+      "tips": "Tips",
+      "posts": "Posts"
+    },
     "CreateProfile": {
       "header1": "如何使用 SUPERHERO.COM",
       "header2": "没有隐藏协议的社交平台.",
@@ -383,15 +388,8 @@
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
       "Stake": "Majority Stake",
-      "RibbonTabs": [
-        "Token Info",
-        "Funds release vote"
-      ],
-      "Tabs": [
-        "Ongoing Votes",
-        "Past Votes",
-        "My Votes"
-      ]
+      "RibbonTabs": ["Token Info", "Funds release vote"],
+      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"]
     },
     "WordBazaar": {
       "Title": "WordBazaar",

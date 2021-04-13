@@ -15,7 +15,8 @@
   "aeternityBlockchain": "aeternity blockchain",
   "views": {
     "FeedList": {
-      "main": "Main",
+      "main": "Feed",
+      "tips": "Tips",
       "posts": "Posts"
     },
     "CreateProfile": {

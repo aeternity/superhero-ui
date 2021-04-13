@@ -14,6 +14,11 @@
   "Balance": "Balance:",
   "aeternityBlockchain": "aeternity blockchain",
   "views": {
+    "FeedList": {
+      "main": "Feed",
+      "tips": "Tips",
+      "posts": "Posts"
+    },
     "CreateProfile": {
       "header1": "COMMENT UTILISER SUPERHERO.COM",
       "header2": "Plateforme sociale qui respecte votre liberté d'expression.",
@@ -486,15 +491,8 @@
       "Initiate": "Initiate Vote",
       "Spread": "Accumulated Spread",
       "Stake": "Majority Stake",
-      "RibbonTabs": [
-        "Token Info",
-        "Funds release vote"
-      ],
-      "Tabs": [
-        "Ongoing Votes",
-        "Past Votes",
-        "My Votes"
-      ]
+      "RibbonTabs": ["Token Info", "Funds release vote"],
+      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"]
     },
     "WordBazaar": {
       "Title": "WordBazaar",

@@ -47,6 +47,7 @@ export default {
   width: 100%;
   max-width: 100%;
   border-radius: 0.5rem;
+  height: 0;
 
   .media-container {
     max-width: 100%;
@@ -60,23 +61,23 @@ export default {
     display: grid;
 
     &.template1 {
-      grid-template-areas: 'pos0';
+      grid-template: 'pos0' 100%;
     }
 
     &.template2 {
-      grid-template-areas: 'pos0 pos1';
+      grid-template: 'pos0 pos1' 100%;
     }
 
     &.template3 {
-      grid-template-areas:
-        'pos0 pos1'
-        'pos0 pos2';
+      grid-template:
+        'pos0 pos1' 50%
+        'pos0 pos2' 50%;
     }
 
     &.template4 {
-      grid-template-areas:
-        'pos0 pos0 pos1 pos1'
-        'pos0 pos0 pos2 pos3';
+      grid-template:
+        'pos0 pos0 pos1 pos1' 50%
+        'pos0 pos0 pos2 pos3' 50%;
     }
 
     img {

@@ -18,7 +18,7 @@
         >
           <IconDiamond />
           <span>
-            {{ $t('tips') }}
+            {{ $t('views.FeedList.tips')}}
           </span>
         </FilterButton>
         <FilterButton

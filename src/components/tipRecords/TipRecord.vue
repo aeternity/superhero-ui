@@ -50,14 +50,6 @@
         <div class="actions-wrapper">
           <ButtonPlain
             class="action"
-            :class="{ active: isTipPinned }"
-            @click="pinOrUnPinTip"
-          >
-            <IconStarFilled v-if="isTipPinned" />
-            <IconStar v-else />
-          </ButtonPlain>
-          <ButtonPlain
-            class="action"
             :class="{ active: tip.commentCount, disabled: $route.name === 'tip' }"
             @click.stop="$route.name === 'tip' ? null : $router.push(toTip)"
           >
@@ -88,8 +80,6 @@ import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import AuthorAndDate from './AuthorAndDate.vue';
 import ButtonPlain from '../ButtonPlain.vue';
 import IconComments from '../../assets/iconComments.svg?icon-component';
-import IconStar from '../../assets/iconStar.svg?icon-component';
-import IconStarFilled from '../../assets/iconStarFilled.svg?icon-component';
 import IconShare from '../../assets/iconShare.svg?icon-component';
 
 export default {
@@ -101,8 +91,6 @@ export default {
     AuthorAndDate,
     ButtonPlain,
     IconComments,
-    IconStar,
-    IconStarFilled,
     IconShare,
     TipInput,
   },

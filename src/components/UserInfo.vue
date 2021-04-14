@@ -466,8 +466,8 @@ input[type="file"] {
     background: #ff49521e;
     display: none;
     position: absolute;
-    right: -0.25rem;
-    top: -0.25rem;
+    left: -0.25rem;
+    top: 0;
     color: #fff;
 
     &:hover {
@@ -489,7 +489,7 @@ input[type="file"] {
     }
   }
 
-  .save__button {
+  .save-button {
     background: #00ff9da8;
 
     &:hover {

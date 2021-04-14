@@ -11,11 +11,11 @@
         },
       }"
       class="router-link"
+      @mouseover.native="hoverDebounced = true"
+      @mouseleave.native="hoverDebounced = false"
     >
       <div
         class="avatar-wrapper"
-        @mouseover="hoverDebounced = true"
-        @mouseleave="hoverDebounced = false"
       >
         <Avatar :address="address" />
         <Transition name="fade">
@@ -69,8 +69,8 @@ export default {
     },
   },
   async mounted() {
-    const { preferredChainName } = await Backend.getProfile(this.address);
-    this.name = preferredChainName;
+    const profile = await Backend.getProfile(this.address);
+    this.name = profile ? profile.preferredChainName : null;
   },
 };
 </script>

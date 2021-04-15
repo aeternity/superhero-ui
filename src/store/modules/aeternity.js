@@ -1,6 +1,6 @@
 /* globals Cypress */
 import {
-  MemoryAccount, Node, Universal, RpcAepp,
+  MemoryAccount, Node, Universal, RpcAepp, Crypto,
 } from '@aeternity/aepp-sdk/es';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
@@ -382,7 +382,9 @@ export default {
     },
     async postWithoutTip({ dispatch, state: { contractV3 } }, { title, media }) {
       await dispatch('initTippingContractIfNeeded');
-      return contractV3.methods.post_without_tip(title, media);
+
+      const { decodedResult } = await contractV3.methods.post_without_tip(title, media);
+      return dispatch('backend/awaitTip', `${decodedResult}_v3`, { root: true });
     },
     async postWithoutTipSignature({ state: { sdk } }, { title, media }) {
       const message = tippingContractUtil.postWithoutTippingString(title, media);

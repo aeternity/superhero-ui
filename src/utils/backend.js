@@ -105,8 +105,6 @@ export default class Backend {
 
   static getPrice = async () => backendFetch('cache/price');
 
-  static getOracleCache = async () => backendFetch('cache/oracle');
-
   static getTopicsCache = async () => backendFetch('cache/topics');
 
   static getTokenInfo = async () => backendFetch('tokenCache/tokenInfo');

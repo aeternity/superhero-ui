@@ -24,7 +24,6 @@ export default new Vuex.Store({
     selectedCurrency: 'eur',
     topics: [],
     tipSortBy: 'hot',
-    oracleState: {},
     chainNames: [],
     verifiedUrls: [],
     graylistedUrls: [],

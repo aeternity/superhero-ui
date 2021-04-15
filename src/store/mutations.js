@@ -18,9 +18,6 @@ export default {
   setTipSortBy(state, payload) {
     state.tipSortBy = payload;
   },
-  setOracleState(state, payload) {
-    state.oracleState = payload;
-  },
   setChainNames(state, payload) {
     state.chainNames = payload;
   },

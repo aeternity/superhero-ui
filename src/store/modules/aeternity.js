@@ -387,7 +387,9 @@ export default {
     },
     async postWithoutTip({ dispatch, state: { contractV3 } }, { title, media }) {
       await dispatch('initTippingContractIfNeeded');
-      return contractV3.methods.post_without_tip(title, media);
+
+      const { decodedResult } = await contractV3.methods.post_without_tip(title, media);
+      return dispatch('backend/awaitTip', `${decodedResult}_v3`, { root: true });
     },
     async postWithoutTipSignature({ state: { sdk } }, { title, media }) {
       const message = tippingContractUtil.postWithoutTippingString(title, media);

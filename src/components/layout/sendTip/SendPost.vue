@@ -115,7 +115,7 @@ export default {
           title: this.$t('components.layout.SendTip.SuccessHeader'),
           body: 'Post sent!',
         });
-        setTimeout(() => EventBus.$emit('reloadData'), 5000);
+        EventBus.$emit('reloadData');
       } catch (error) {
         console.error(error);
         this.$store.dispatch('modals/open', {

@@ -9,13 +9,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import jdenticon from 'jdenticon/standalone';
-import Avatars from '@dicebear/avatars';
-import sprites from '@dicebear/avatars-avataaars-sprites';
 import Backend from '../utils/backend';
-import { IDENTICON_CONFIG, AVATAR_CONFIG } from '../utils';
-
-jdenticon.config = IDENTICON_CONFIG;
 
 export default {
   props: {
@@ -28,9 +22,7 @@ export default {
   computed: mapState({
     profileIdenticonUrl({ chainNames }) {
       const name = chainNames[this.address];
-      return name
-        ? new Avatars(sprites, AVATAR_CONFIG).create(name)
-        : `data:image/svg+xml;base64,${btoa(jdenticon.toSvg(this.address, 32))}`;
+      return `https://avatars.z52da5wt.xyz/${name || this.address}`;
     },
     profileImageUrl({ address, profile }) {
       const key = address === this.address && profile?.signature?.slice(0, 5);

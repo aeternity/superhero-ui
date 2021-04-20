@@ -18,8 +18,6 @@
   "license": "ISC",
   "dependencies": {
     "@aeternity/aepp-sdk": "^7.7.0",
-    "@dicebear/avatars": "^4.5.2",
-    "@dicebear/avatars-avataaars-sprites": "^4.5.2",
     "@fontsource/oxygen": "^4.2.1",
     "aeternity-fungible-token": "github:aeternity/aeternity-fungible-token#v1.0.0",
     "animate.css": "^4.1.1",
@@ -33,7 +31,6 @@
     "fontsource-ibm-plex-sans": "^3.1.5",
     "i18n": "^0.13.2",
     "is-fqdn": "^2.0.1",
-    "jdenticon": "^3.1.0",
     "jitsi-iframe-api": "^1.0.0",
     "lodash-es": "^4.17.20",
     "sophia-bonding-curve": "github:aeternity/BondingCurve#1.0.0-alpha",

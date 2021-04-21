@@ -92,7 +92,7 @@
             :href="explorerTransactionsUrl"
           >
             <div class="chain">
-              {{ userChainName && userChainName.length ? userChainName[0] : $t('FellowSuperhero') }}
+              {{ userChainName ? userChainName : $t('FellowSuperhero') }}
             </div>
             <div class="text-ellipsis">{{ address }}</div>
           </a>

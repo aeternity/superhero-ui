@@ -87,7 +87,7 @@ export default {
       this.setChainNames(chainNames);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
-      this.setTokenInfo(tokenInfo);
+      this.setTokenInfo(tokenInfo || {});
       this.setWordRegistry(wordRegistry);
     },
     async initWallet() {

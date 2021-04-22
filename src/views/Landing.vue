@@ -131,14 +131,14 @@
           >
             <VueAos animation-class="animate__animated animate__delay-1s animate__fadeInUp">
               <div class="sh-col-3 sm-text-box">
-                <h4>{{ stats.totaltipslength }}</h4>
+                <h4>{{ stats.totalTipsLength }}</h4>
                 <p>Tips aggregated</p>
               </div>
             </VueAos>
             <VueAos animation-class="animate__animated animate__delay-2s animate__fadeInUp">
               <div class="sh-col-3 sm-text-box">
                 <h4>
-                  <AeAmount :amount="stats.totalamount" />
+                  <AeAmount :amount="stats.totalAmount" />
                 </h4>
                 <p>Total Tips Value</p>
               </div>
@@ -146,14 +146,14 @@
             <VueAos animation-class="animate__animated animate__delay-3s animate__fadeInUp">
               <div class="sh-col-3 sm-text-box">
                 <h4>
-                  <AeAmount :amount="stats.totalclaimedamount" />
+                  <AeAmount :amount="stats.totalClaimedAmount" />
                 </h4>
                 <p>Total Tips Claimed</p>
               </div>
             </VueAos>
             <VueAos animation-class="animate__animated animate__delay-4s animate__fadeInUp">
               <div class="sh-col-3 sm-text-box">
-                <h4>{{ stats.senderslength }}</h4>
+                <h4>{{ stats.sendersLength }}</h4>
                 <p>Unique Tip Senders</p>
               </div>
             </VueAos>

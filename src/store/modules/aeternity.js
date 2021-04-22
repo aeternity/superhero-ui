@@ -23,6 +23,7 @@ export default {
   namespaced: true,
   state: {
     sdk: null,
+    universal: null,
     useSdkWallet: false,
     useIframeWallet: false,
     contractV1: null,
@@ -44,6 +45,9 @@ export default {
     },
     setSdk(state, { instance }) {
       state.sdk = instance;
+    },
+    setUniversal(state, instance) {
+      state.universal = instance;
     },
     useSdkWallet(state) {
       state.useSdkWallet = true;
@@ -119,6 +123,15 @@ export default {
         return;
       }
       commit('setBackendStatus', true, { root: true });
+    },
+    async initUniversal({ commit }) {
+      const instance = await Universal({
+        nodes: [
+          { name: 'ae_uat', instance: await Node({ url: process.env.VUE_APP_NODE_URL }) },
+        ],
+        compilerUrl: process.env.VUE_APP_COMPILER_URL,
+      });
+      commit('setUniversal', instance);
     },
     async scanForWallets({ commit, state: { sdk } }) {
       const scannerConnection = await BrowserWindowMessageConnection({

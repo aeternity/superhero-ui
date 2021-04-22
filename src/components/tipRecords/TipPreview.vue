@@ -112,7 +112,7 @@
             <Avatar :address="tip.receiver" />
             <div class="tip-author_name">
               <span class="chain-name">
-                {{ tip.ChainName.name }}
+                {{ tip.chainName.name }}
               </span>
               <span class="address">{{ tip.receiver }}</span>
             </div>
@@ -183,16 +183,16 @@ export default {
       }
     },
     tipPreviewDescription() {
-      return this.tip?.LinkPreview?.description || '';
+      return this.tip?.linkPreview?.description || '';
     },
     tipPreviewTitle() {
-      return this.tip?.LinkPreview?.title || '';
+      return this.tip?.linkPreview?.title || '';
     },
     tipPreviewImage() {
-      return this.isPreviewToBeVisualized && this.tip.LinkPreview.image !== null ? Backend.getTipPreviewUrl(this.tip.LinkPreview.image) : '';
+      return this.isPreviewToBeVisualized && this.tip.linkPreview.image !== null ? Backend.getTipPreviewUrl(this.tip.linkPreview.image) : '';
     },
     isPreviewToBeVisualized() {
-      return this.tip.LinkPreview?.description || this.tip.LinkPreview?.title;
+      return this.tip.linkPreview?.description || this.tip.linkPreview?.title;
     },
     richPreviewComponent() {
       return [{

@@ -16,7 +16,7 @@
       />
     </Component>
     <Dropdown
-      v-if="!userAddress && tipUrlStats && tipUrlStats.tokenTotalAmount.length"
+      v-if="showTokenDropdown"
       v-slot="{ option }"
       :options="tipUrlStats.tokenTotalAmount"
       show-right
@@ -115,11 +115,16 @@ export default {
         const urlStats = stats && stats.urlStats.find(({ url }) => url === this.tipUrl);
         return {
           isTipped: urlStats ? urlStats.senders.includes(this.address) : false,
-          totalAmount: urlStats ? urlStats.totalamount : '0',
-          tokenTotalAmount: urlStats ? urlStats.totaltokenamount : [],
+          totalAmount: urlStats ? urlStats.totalAmount : '0',
+          tokenTotalAmount: urlStats ? urlStats.totalTokenAmount : [],
         };
       },
     }),
+    showTokenDropdown() {
+      return !this.userAddress
+        && this.tipUrlStats
+        && this.tipUrlStats.tokenTotalAmount.length > (this.tipAmount.token ? 1 : 0);
+    },
     largestFtTipAmount() {
       return this.tipUrlStats.tokenTotalAmount.length
         ? this.tipUrlStats.tokenTotalAmount.reduce(

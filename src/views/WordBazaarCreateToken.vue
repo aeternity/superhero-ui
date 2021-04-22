@@ -161,6 +161,7 @@ export default {
     seconds: 10,
     maxNameLength: 14,
     maxDescriptionLength: 500,
+    decimals: 18,
   }),
   computed: {
     invalidInputs() {
@@ -180,6 +181,39 @@ export default {
   beforeDestroy() {
     clearInterval(this.interval);
   },
+  async mounted() {
+    try {
+      await this.$watchUntilTruly(() => this.$store.state.aeternity.universal);
+      this.step = +this.$route.query.step;
+      this.name = this.$route.query.name || '';
+      const txHash = this.$route.query['transaction-hash'];
+      if (this.step === 2) {
+        const { contractId } = await this.$store.state.aeternity.universal.getTxInfo(txHash);
+        await this.$store.dispatch('aeternity/deployFungibleTokenContract',
+          {
+            name: this.name,
+            decimals: this.decimals,
+            symbol: this.name,
+            tokenSaleAddress: contractId,
+            query: `&step=3&name=${this.name}`,
+          });
+      }
+      if (this.step === 3) {
+        const { contractId } = await this.$store.state.aeternity.universal.getTxInfo(txHash);
+        await Backend.addToken(contractId);
+        EventBus.$emit('reloadData');
+        await Backend.invalidateWordRegistryCache();
+
+        this.step = 4;
+        EventBus.$emit('reloadData');
+
+        this.success = true;
+        this.countdown();
+      } else this.step = 0;
+    } catch (error) {
+      this.handleError(error);
+    }
+  },
   methods: {
     navigateAssets() {
       this.$router.push({ name: 'word-bazaar-assets' });
@@ -187,7 +221,6 @@ export default {
     async createWordSale() {
       try {
         this.loadingState = true;
-        const decimals = 18;
         const bondingCurveAddress = process.env.VUE_APP_BONDING_CURVE_18_DECIMALS_ADDRESS;
         const timeout = 20;
 
@@ -195,19 +228,21 @@ export default {
 
         const tokenSaleAddress = await this.$store.dispatch('aeternity/deployTokenSaleContract',
           {
-            decimals,
+            decimals: this.decimals,
             timeout,
             bondingCurveAddress,
             description: this.description,
+            query: `?transaction-hash={transaction-hash}&step=2&name=${this.name}`,
           });
 
         this.step = 2;
         const fungibleTokenAddress = await this.$store.dispatch('aeternity/deployFungibleTokenContract',
           {
             name: this.name,
-            decimals,
+            decimals: this.decimals,
             symbol: this.name,
             tokenSaleAddress,
+            query: `&step=3&name=${this.name}`,
           });
 
         this.step = 3;
@@ -222,25 +257,28 @@ export default {
         this.success = true;
         this.countdown();
       } catch (error) {
-        this.$store.dispatch('modals/open', {
-          name: 'failure',
-          title: error.message,
-          body: [
-            this.$t('components.CreateToken.Error[0]', {
-              index: this.step + 1,
-              step: this.$t(`components.CreateToken.Steps[${this.step}]`),
-            }),
-            this.$t('components.CreateToken.Error[1]', { abbreviation: this.name }),
-          ],
-          hideIcon: true,
-          primaryButtonText: 'OK',
-        });
-        this.name = '';
-        this.description = '';
-        this.loadingState = false;
-        this.step = 0;
-        this.success = false;
+        this.handleError(error);
       }
+    },
+    handleError(error) {
+      this.$store.dispatch('modals/open', {
+        name: 'failure',
+        title: error.message,
+        body: [
+          this.$t('components.CreateToken.Error[0]', {
+            index: this.step + 1,
+            step: this.$t(`components.CreateToken.Steps[${this.step}]`),
+          }),
+          this.$t('components.CreateToken.Error[1]', { abbreviation: this.name }),
+        ],
+        hideIcon: true,
+        primaryButtonText: 'OK',
+      });
+      this.name = '';
+      this.description = '';
+      this.loadingState = false;
+      this.step = 0;
+      this.success = false;
     },
     countdown() {
       this.interval = setInterval(() => {

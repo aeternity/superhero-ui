@@ -219,12 +219,14 @@ export default {
       return contract.deployInfo.address;
     },
     async deployTokenSaleContract(
-      { commit, state: { sdk } },
+      { commit, state: { sdk, universal, useSdkWallet }, rootState: { address } },
       {
         decimals,
         timeout,
         bondingCurveAddress,
         description,
+        name,
+        symbol,
       },
     ) {
       // alters token sale contract to change the dependency default 1 decimals to 18
@@ -234,13 +236,32 @@ export default {
         `let decimals = ${shiftDecimalPlaces(1, decimals)}`,
       );
 
-      const contract = await sdk.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS);
-      await contract.methods.init(timeout, bondingCurveAddress, description);
-      commit('setTokenSaleContract', contract.deployInfo.address, contract);
-      return contract.deployInfo.address;
+      if (useSdkWallet) {
+        const contract = await sdk.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS);
+        await contract.methods.init(timeout, bondingCurveAddress, description);
+        commit('setTokenSaleContract', contract.deployInfo.address, contract);
+        return contract.deployInfo.address;
+      }
+
+      const contract = await universal.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS);
+      const onAccount = {
+        address: () => address,
+        sign: () => { throw new Error('Private key is not available'); },
+      };
+      const { tx } = await contract.methods.init
+        .get(timeout, bondingCurveAddress, description, { onAccount });
+      window.location = createDeepLinkUrl({
+        type: 'sign-transaction',
+        transaction: tx.encodedTx,
+        networkId: 'ae_uat',
+        broadcast: true,
+        'x-success': `${window.location.href.split('?')[0]}?transaction-hash={transaction-hash}&step=2&symbol=${symbol}&name=${name}`,
+        'x-cancel': window.location.href.split('?')[0],
+      });
+      return null;
     },
     async deployFungibleTokenContract(
-      { commit, state: { sdk } },
+      { commit, state: { sdk, universal, useSdkWallet }, rootState: { address } },
       {
         name,
         decimals,
@@ -248,11 +269,31 @@ export default {
         tokenSaleAddress,
       },
     ) {
-      const contract = await sdk.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
-      await contract.methods
-        .init(name, decimals, symbol, tokenSaleAddress, process.env.VUE_APP_WORD_REGISTRY_ADDRESS);
-      commit('setFungibleTokenContract', contract.deployInfo.address, contract);
-      return contract.deployInfo.address;
+      if (useSdkWallet) {
+        const contract = await sdk.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
+        await contract.methods.init(name,
+          decimals, symbol, tokenSaleAddress, process.env.VUE_APP_WORD_REGISTRY_ADDRESS);
+        commit('setFungibleTokenContract', contract.deployInfo.address, contract);
+        return contract.deployInfo.address;
+      }
+
+      const contract = await universal.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
+      const onAccount = {
+        address: () => address,
+        sign: () => { throw new Error('Private key is not available'); },
+      };
+      const { tx } = await contract.methods.init.get(name,
+        decimals, symbol, tokenSaleAddress,
+        process.env.VUE_APP_WORD_REGISTRY_ADDRESS, { onAccount });
+      window.location = createDeepLinkUrl({
+        type: 'sign-transaction',
+        transaction: tx.encodedTx,
+        networkId: 'ae_uat',
+        broadcast: true,
+        'x-success': `${window.location.href.split('?')[0]}?transaction-hash={transaction-hash}&step=3&symbol=${symbol}`,
+        'x-cancel': window.location.href.split('?')[0],
+      });
+      return null;
     },
     async deployTokenVotingContract(
       { commit, state: { sdk } },

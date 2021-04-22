@@ -4,7 +4,7 @@
       :is="useSdkWallet ? 'button' : 'a'"
       :href="useSdkWallet ? undefined : deepLink"
       class="button"
-      :class="{ tipped: isTipped }"
+      :class="{ tipped: tipUrlStats.isTipped }"
       :title="title"
       @click="useSdkWallet && (showModal = true)"
     >
@@ -16,9 +16,9 @@
       />
     </Component>
     <Dropdown
-      v-if="!userAddress && tip && tip.UrlStats && tip.UrlStats.totaltokenamount.length > 1"
+      v-if="!userAddress && tipUrlStats && tipUrlStats.tokenTotalAmount.length"
       v-slot="{ option }"
-      :options="tip.UrlStats.totaltokenamount"
+      :options="tipUrlStats.tokenTotalAmount"
       show-right
     >
       <AeAmountFiat
@@ -110,21 +110,28 @@ export default {
     ...mapState(['address', 'tokenInfo']),
     ...mapState('aeternity', ['useSdkWallet']),
     ...mapGetters('backend', ['minTipAmount']),
-    isTipped() {
-      return this.tip?.UrlStats ? this.tip.UrlStats.senders.includes(this.address) : false;
-    },
+    ...mapState('backend', {
+      tipUrlStats({ stats }) {
+        const urlStats = stats && stats.urlStats.find(({ url }) => url === this.tipUrl);
+        return {
+          isTipped: urlStats ? urlStats.senders.includes(this.address) : false,
+          totalAmount: urlStats ? urlStats.totalamount : '0',
+          tokenTotalAmount: urlStats ? urlStats.totaltokenamount : [],
+        };
+      },
+    }),
     largestFtTipAmount() {
-      return this.tip && this.tip.UrlStats.totaltokenamount.length
-        ? this.tip.UrlStats.totaltokenamount.reduce(
+      return this.tipUrlStats.tokenTotalAmount.length
+        ? this.tipUrlStats.tokenTotalAmount.reduce(
           (a, b) => (a.amount > b.amount ? a : b),
-          this.tip.UrlStats.totaltokenamount[0],
+          this.tipUrlStats.tokenTotalAmount[0],
         )
         : null;
     },
     tipAmount() {
-      return this.tip && this.tip.UrlStats?.totalamount !== '0'
+      return +this.tipUrlStats.totalAmount !== 0
         ? {
-          value: this.tip.UrlStats?.totalamount,
+          value: this.tipUrlStats.totalAmount,
           token: null,
         }
         : {
@@ -168,7 +175,7 @@ export default {
     title() {
       if (this.userAddress) return this.$t('components.TipInput.tipUser');
       if (this.comment) return this.$t('components.TipInput.tipComment');
-      return this.isTipped
+      return this.tipUrlStats.isTipped
         ? this.$t('components.TipInput.totalTipsWithYou')
         : this.$t('components.TipInput.totalTips');
     },

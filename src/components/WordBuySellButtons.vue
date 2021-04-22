@@ -221,12 +221,42 @@ export default {
       return new BigNumber(balance ? balance.balance : '0').toNumber();
     },
   },
-  mounted() {
-    this.reloadData();
+  async mounted() {
+    await this.reloadData();
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
     setInterval(() => this.reloadData(), 120 * 1000);
+
+    if (this.$route.query.contract === this.tokenAddress) {
+      try {
+        const amount = +this.$route.query.amount;
+        this.showSellModal = true;
+        this.loading = true;
+        this.progressMessage = this.$t('components.WordBuySellButtons.Selling[1]');
+        await this.$watchUntilTruly(() => this.$store.state.aeternity.universal);
+        await Backend.invalidateTokenCache(this.tokenAddress);
+        await Backend.invalidateWordSaleCache(this.sale);
+        await this.$store.dispatch('aeternity/tokenSaleMethod',
+          {
+            contractAddress: this.sale,
+            method: 'sell',
+            args: [amount],
+          });
+      } catch (error) {
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Transaction was not made!',
+          primaryButtonText: 'OK',
+        });
+      } finally {
+        EventBus.$emit('reloadData', () => {
+          this.loading = false;
+          this.progressMessage = '';
+        });
+      }
+    }
   },
   methods: {
     openBuy() {
@@ -324,6 +354,7 @@ export default {
           contractAddress: this.tokenAddress,
           amount,
           forAccount: this.sale.replace('ct_', 'ak_'),
+          query: `?amount=${amount}&contract=${this.tokenAddress}`,
         }).catch(() => { throw new Error('Insufficient Account Balance'); });
         this.progressMessage = this.$t('components.WordBuySellButtons.Selling[1]');
         await this.$store.dispatch('aeternity/tokenSaleMethod',

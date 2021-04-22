@@ -17,7 +17,9 @@ import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
 import BONDING_CURVE from 'sophia-bonding-curve/BondCurveLinear.aes';
 
 import { BigNumber } from 'bignumber.js';
-import { IS_MOBILE_DEVICE, shiftDecimalPlaces, createDeepLinkUrl } from '../../utils';
+import {
+  IS_MOBILE_DEVICE, shiftDecimalPlaces, createDeepLinkUrl, createOnAccountObject,
+} from '../../utils';
 
 export default {
   namespaced: true,
@@ -225,8 +227,7 @@ export default {
         timeout,
         bondingCurveAddress,
         description,
-        name,
-        symbol,
+        query = '',
       },
     ) {
       // alters token sale contract to change the dependency default 1 decimals to 18
@@ -244,10 +245,7 @@ export default {
       }
 
       const contract = await universal.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS);
-      const onAccount = {
-        address: () => address,
-        sign: () => { throw new Error('Private key is not available'); },
-      };
+      const onAccount = createOnAccountObject(address);
       const { tx } = await contract.methods.init
         .get(timeout, bondingCurveAddress, description, { onAccount });
       window.location = createDeepLinkUrl({
@@ -255,7 +253,7 @@ export default {
         transaction: tx.encodedTx,
         networkId: 'ae_uat',
         broadcast: true,
-        'x-success': `${window.location.href.split('?')[0]}?transaction-hash={transaction-hash}&step=2&symbol=${symbol}&name=${name}`,
+        'x-success': window.location.href.split('?')[0] + query,
         'x-cancel': window.location.href.split('?')[0],
       });
       return null;
@@ -267,6 +265,7 @@ export default {
         decimals,
         symbol,
         tokenSaleAddress,
+        query = '',
       },
     ) {
       if (useSdkWallet) {
@@ -278,10 +277,7 @@ export default {
       }
 
       const contract = await universal.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
-      const onAccount = {
-        address: () => address,
-        sign: () => { throw new Error('Private key is not available'); },
-      };
+      const onAccount = createOnAccountObject(address);
       const { tx } = await contract.methods.init.get(name,
         decimals, symbol, tokenSaleAddress,
         process.env.VUE_APP_WORD_REGISTRY_ADDRESS, { onAccount });
@@ -290,35 +286,45 @@ export default {
         transaction: tx.encodedTx,
         networkId: 'ae_uat',
         broadcast: true,
-        'x-success': `${window.location.href.split('?')[0]}?transaction-hash={transaction-hash}&step=3&symbol=${symbol}`,
+        'x-success': `${window.location.href.split('?')[0]}?transaction-hash={transaction-hash}${query}`,
         'x-cancel': window.location.href.split('?')[0],
       });
       return null;
     },
     async deployTokenVotingContract(
-      { commit, state: { sdk } },
+      { commit, state: { sdk, useSdkWallet, universal }, rootState: { address } },
       {
         metadata,
         closeHeight,
         token,
+        query = '',
       },
     ) {
-      const contract = await sdk.getContractInstance(TOKEN_VOTING_CONTRACT);
-      await contract.methods.init(metadata, closeHeight, token);
-      commit('setTokenVotingContract', contract.deployInfo.address, contract);
-      return contract.deployInfo.address;
+      if (useSdkWallet) {
+        const contract = await sdk.getContractInstance(TOKEN_VOTING_CONTRACT);
+        await contract.methods.init(metadata, closeHeight, token);
+        commit('setTokenVotingContract', contract.deployInfo.address, contract);
+        return contract.deployInfo.address;
+      }
+
+      const contract = await universal.getContractInstance(TOKEN_VOTING_CONTRACT);
+      const onAccount = createOnAccountObject(address);
+      const { tx } = await contract.methods.init.get(metadata, closeHeight, token, { onAccount });
+      window.location = createDeepLinkUrl({
+        type: 'sign-transaction',
+        transaction: tx.encodedTx,
+        networkId: 'ae_uat',
+        broadcast: true,
+        'x-success': `${window.location.href.split('?')[0]}?transaction-hash={transaction-hash}${query}`,
+        'x-cancel': window.location.href.split('?')[0],
+      });
+      return null;
     },
     async wordRegistryAddToken({ dispatch }, addTokenAddress) {
       const contract = await dispatch('initWordRegistryContractIfNeeded');
 
       const { decodedResult } = await contract.methods.add_token(addTokenAddress);
       return decodedResult;
-    },
-    async decodeHash({ state: { universal } }, { contract, txHash, method }) {
-      const result = await universal.getTxInfo(txHash);
-      const data = universal
-        .contractDecodeData(contract, method, result.returnValue, result.returnType);
-      return data;
     },
     async tokenSaleMethod(
       { dispatch, state: { useSdkWallet, universal }, rootState: { address } },
@@ -338,10 +344,7 @@ export default {
 
       const contract = await universal
         .getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress });
-      const onAccount = {
-        address: () => address,
-        sign: () => { throw new Error('Private key is not available'); },
-      };
+      const onAccount = createOnAccountObject(address);
       const { tx } = await contract.methods[method].get(...args, { onAccount, ...options });
       window.location = createDeepLinkUrl({
         type: 'sign-transaction',
@@ -371,10 +374,7 @@ export default {
 
       const contract = await universal
         .getContractInstance(TOKEN_VOTING_CONTRACT, { contractAddress });
-      const onAccount = {
-        address: () => address,
-        sign: () => { throw new Error('Private key is not available'); },
-      };
+      const onAccount = createOnAccountObject(address);
       const { tx } = await contract.methods[method].get(...args, { onAccount, ...options });
       window.location = createDeepLinkUrl({
         type: 'sign-transaction',
@@ -399,13 +399,35 @@ export default {
       return new BigNumber(decodedResult || 0).toFixed();
     },
     async createOrChangeAllowance(
-      { dispatch, state: { sdk } },
-      { contractAddress, amount, forAccount = null },
+      { dispatch, state: { sdk, useSdkWallet, universal }, rootState: { address } },
+      {
+        contractAddress, amount, forAccount = null, query = '',
+      },
     ) {
-      const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
+      if (useSdkWallet) {
+        const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
+
+        const { decodedResult } = await contract.methods.allowance({
+          from_account: await sdk.address(),
+          for_account: forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+        });
+
+        const allowanceAmount = decodedResult !== undefined
+          ? new BigNumber(decodedResult).multipliedBy(-1).plus(amount).toNumber()
+          : amount;
+
+        return contract.methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
+          forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+          allowanceAmount,
+        );
+      }
+
+      const contract = await universal
+        .getContractInstance(FUNGIBLE_TOKEN_CONTRACT_INTERFACE, { contractAddress });
+      const onAccount = createOnAccountObject(address);
 
       const { decodedResult } = await contract.methods.allowance({
-        from_account: await sdk.address(),
+        from_account: address,
         for_account: forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
       });
 
@@ -413,10 +435,19 @@ export default {
         ? new BigNumber(decodedResult).multipliedBy(-1).plus(amount).toNumber()
         : amount;
 
-      return contract.methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
-        forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
-        allowanceAmount,
-      );
+      const { tx } = await contract.methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance']
+        .get(forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
+          allowanceAmount,
+          { onAccount });
+      window.location = createDeepLinkUrl({
+        type: 'sign-transaction',
+        transaction: tx.encodedTx,
+        networkId: 'ae_uat',
+        broadcast: true,
+        'x-success': window.location.href.split('?')[0] + query,
+        'x-cancel': window.location.href.split('?')[0],
+      });
+      return null;
     },
     async tip({ dispatch, state: { contractV2, contractV1 } }, {
       url,

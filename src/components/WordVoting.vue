@@ -393,6 +393,7 @@ export default {
           metadata,
           closeHeight,
           token,
+          query: '&activity=voting',
         });
 
         this.progressMessage = this.$t('views.WordDetail.CreateVote.ProgressMessage[1]');

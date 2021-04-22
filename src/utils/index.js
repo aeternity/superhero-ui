@@ -28,6 +28,11 @@ export const createDeepLinkUrl = ({ type, ...params }) => {
   return url;
 };
 
+export const createOnAccountObject = (address) => ({
+  address: () => address,
+  sign: () => { throw new Error('Private key is not available'); },
+});
+
 export const toURL = (url) => new URL(url.includes('://') ? url : `https://${url}`);
 
 export const validateTipUrl = (urlAsString) => {

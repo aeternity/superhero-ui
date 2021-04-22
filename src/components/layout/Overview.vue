@@ -4,7 +4,7 @@
     class="overview"
   >
     <div class="value">
-      {{ stats.totaltipslength }}
+      {{ stats.totalTipsLength }}
     </div>
     <div class="label">
       {{ $t('components.layout.Overview.TipsAggregated') }}
@@ -18,14 +18,14 @@
     </div>
 
     <div class="value">
-      {{ stats.senderslength }}
+      {{ stats.sendersLength }}
     </div>
     <div class="label">
       {{ $t('components.layout.Overview.UniqueTipSenders') }}
     </div>
 
     <AeAmountFiat
-      :amount="stats.totalamount"
+      :amount="stats.totalAmount"
       class="value"
     />
     <div class="label">
@@ -33,7 +33,7 @@
     </div>
 
     <AeAmountFiat
-      :amount="stats.totalclaimedamount"
+      :amount="stats.totalClaimedAmount"
       class="value"
     />
     <div class="label">

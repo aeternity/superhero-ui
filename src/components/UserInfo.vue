@@ -297,14 +297,14 @@ export default {
     tipStats() {
       return [
         {
-          value: this.userStats.totaltipslength,
+          value: this.userStats.totalTipsLength,
           title: this.$t('views.UserProfileView.TipsSent'),
-          amount: this.userStats.totalamount,
+          amount: this.userStats.totalAmount,
         },
         {
           value: this.userStats.urlStats?.totaltipslength,
           title: this.$t('views.UserProfileView.TipsReceived'),
-          amount: this.userStats.urlStats?.totalamount,
+          amount: this.userStats.urlStats?.totalAmount,
         },
       ];
     },

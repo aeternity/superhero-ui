@@ -187,6 +187,26 @@ export default {
       contractAddress: this.vote.voteAddress, method: 'metadata', dryRun: true,
     });
     this.description = metadata.description;
+
+    if (+this.$route.query['vote-id'] === this.vote.id) {
+      try {
+        this.loading = true;
+        const amount = +this.$route.query.amount;
+        this.progressMessage = this.$t('components.VoteCard.VoteOption[1]');
+        await Backend.invalidateWordSaleVoteStateCache(this.vote.voteAddress);
+        await this.$store.dispatch('aeternity/tokenVotingMethod', {
+          contractAddress: this.vote.voteAddress, method: 'vote', args: [true, amount],
+        });
+      } catch (error) {
+        this.loading = false;
+        this.$store.dispatch('modals/open', {
+          name: 'failure',
+          title: error.message,
+          body: 'Vote failed!',
+          primaryButtonText: 'OK',
+        });
+      }
+    }
   },
   methods: {
     isZero(number) {
@@ -272,6 +292,7 @@ export default {
           contractAddress: this.data.tokenAddress,
           amount: shiftedAmount,
           forAccount: address.replace('ct_', 'ak_'),
+          query: `?activity=voting&vote-id=${this.vote.id}&amount=${shiftedAmount}`,
         });
 
         this.progressMessage = this.$t('components.VoteCard.VoteOption[1]');

@@ -86,8 +86,36 @@ export default {
   async mounted() {
     this.selectedWord = this.$route.params.word;
     await this.reloadData();
+    this.loading = false;
     const interval = setInterval(() => this.reloadData(), 120 * 1000);
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
+
+    const { activity } = this.$route.query;
+    if (activity === 'voting') {
+      this.activity = activity;
+      const txHash = this.$route.query['transaction-hash'];
+      if (txHash) {
+        try {
+          await this.$watchUntilTruly(() => this.$store.state.aeternity.universal);
+          const { contractId } = await this.$store.state.aeternity.universal.getTxInfo(txHash);
+          await Backend.invalidateWordSaleVotesCache(this.saleContractAddress);
+
+          await this.$store.dispatch('aeternity/tokenSaleMethod',
+            {
+              contractAddress: this.saleContractAddress,
+              method: 'add_vote',
+              args: [contractId],
+            });
+        } catch (error) {
+          this.$store.dispatch('modals/open', {
+            name: 'failure',
+            title: error.message,
+            body: 'Vote was not created!',
+            primaryButtonText: 'OK',
+          });
+        }
+      }
+    }
   },
   methods: {
     async reloadData() {

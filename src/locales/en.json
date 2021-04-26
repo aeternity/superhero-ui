@@ -576,14 +576,6 @@
         "WordBazaar": "WordBazaar",
         "Governance": "Voting"
       },
-      "Overview": {
-        "TipsAggregated": "Tips Aggregated",
-        "UniqueTipSenders": "Unique Tip Senders",
-        "TotalTipsValue": "Total Tips Value",
-        "TotalTipsClaimed": "Total Tips Claimed",
-        "LatestBlock": "Latest Block",
-        "PoweredBy": "Powered by"
-      },
       "RightSection": {
         "Wallet": "Wallet",
         "LoginWithWallet": "Login with Web Wallet",

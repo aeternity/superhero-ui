@@ -464,14 +464,6 @@
         "WordBazaar": "词义卖市场",
         "Governance": "治理"
       },
-      "Overview": {
-        "TipsAggregated": "小费汇总",
-        "UniqueTipSenders": "特别的小费发送者",
-        "TotalTipsValue": "小费总额",
-        "TotalTipsClaimed": "认领的小费总数",
-        "LatestBlock": "最新块",
-        "PoweredBy": "技术支持"
-      },
       "RightSection": {
         "Wallet": "钱包",
         "LoginWithWallet": "登录网页钱包",

@@ -567,14 +567,6 @@
         "WordBazaar": "MotBazar",
         "Governance": "Voter"
       },
-      "Overview": {
-        "TipsAggregated": "Montant des pourboires cumulés",
-        "UniqueTipSenders": "Expéditeurs de pourboires",
-        "TotalTipsValue": "Valeur totale des pourboires",
-        "TotalTipsClaimed": "Montant total des pourboires réclamés",
-        "LatestBlock": "Dernier bloc",
-        "PoweredBy": "Produit par"
-      },
       "RightSection": {
         "Wallet": "Portefeuille",
         "LoginWithWallet": "S'identifier avec le portefeuille Web",

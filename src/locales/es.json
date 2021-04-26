@@ -574,14 +574,6 @@
         "League": "League",
         "Governance": "Votar"
       },
-      "Overview": {
-        "TipsAggregated": "Propinas agregadas",
-        "UniqueTipSenders": "Remitentes únicos de propinas",
-        "TotalTipsValue": "Valor total de las propinas",
-        "TotalTipsClaimed": "Propinas reclamadas en total",
-        "LatestBlock": "Último bloque",
-        "PoweredBy": "Respaldado por"
-      },
       "RightSection": {
         "Wallet": "Billetera",
         "LoginWithWallet": "Inicie sesión con Web Wallet",

@@ -22,21 +22,19 @@
       <template slot="left">
         <FilterButton :to="{ name: 'word-bazaar-assets' }">
           <IconTokens />
-          <span>{{ $t('views.WordBazaar.RibbonTabs.0.Text') }}</span>
+          {{ $t('views.WordBazaar.RibbonTabs.Assets.Text') }}
         </FilterButton>
         <FilterButton :to="{ name: 'word-bazaar-create-token' }">
           <IconPlus />
-          <span class="desktop">{{ $t('views.WordBazaar.RibbonTabs.1.Text') }}</span>
-          <span class="mobile">{{ $t('views.WordBazaar.RibbonTabs.1.TextMobile') }}</span>
+          {{ $t('views.WordBazaar.RibbonTabs.Create.Text') }}
         </FilterButton>
         <FilterButton :to="{ name: 'word-bazaar-get-ae' }">
           <IconAe />
-          <span>{{ $t('views.WordBazaar.RibbonTabs.2.Text') }}</span>
+          {{ $t('views.WordBazaar.RibbonTabs.Get.Text') }}
         </FilterButton>
         <FilterButton :to="{ name: 'word-bazaar-how-it-works' }">
           <IconHelp2 />
-          <span class="desktop">{{ $t('views.WordBazaar.RibbonTabs.3.Text') }}</span>
-          <span class="mobile">{{ $t('views.WordBazaar.RibbonTabs.3.TextMobile') }}</span>
+          {{ $t('views.WordBazaar.RibbonTabs.How.Text') }}
         </FilterButton>
       </template>
     </ActivityRibbon>

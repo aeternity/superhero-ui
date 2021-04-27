@@ -130,7 +130,7 @@ export default {
     },
   },
   metaInfo() {
-    return { title: this.$t('views.WordBazaar.RibbonTabs.0.Header') };
+    return { title: this.$t('views.WordBazaar.RibbonTabs.Assets.Text') };
   },
 };
 </script>

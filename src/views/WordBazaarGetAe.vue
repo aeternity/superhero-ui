@@ -36,7 +36,7 @@ export default {
     goTo(link) { window.open(link); },
   },
   metaInfo() {
-    return { title: this.$t('views.WordBazaar.RibbonTabs.2.Header') };
+    return { title: this.$t('views.WordBazaar.RibbonTabs.Get.Text') };
   },
 };
 </script>

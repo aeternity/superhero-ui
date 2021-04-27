@@ -523,30 +523,25 @@
     },
     "WordBazaar": {
       "Title": "WordBazaar",
-      "Placeholder": "Search for tokens",
-      "RibbonTabs": [
-        {
-          "Text": "Tokens",
-          "Header": "WordBazaar Tokens"
+      "Placeholder": "Search for assets",
+      "RibbonTabs": {
+        "Assets": {
+          "Text": "Assets",
+          "Header": "WordBazaar Assets"
         },
-        {
+        "Create": {
           "Text": "Create token",
           "TextMobile": "Create"
         },
-        {
+        "Get": {
           "Text": "Get AE",
           "Header": "Get AE Tokens"
         },
-        {
+        "How": {
           "Text": "How it works",
           "TextMobile": "How-to"
         }
-      ],
-      "Tabs": [
-        { "text": "All tokens", "textMobile": "All" },
-        { "text": "Trending", "textMobile": "Trending" },
-        { "text": "Recent", "textMobile": "Recent" }
-      ]
+      }
     }
   },
   "components": {

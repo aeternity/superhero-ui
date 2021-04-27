@@ -80,7 +80,7 @@
       <div class="input-bar">
         <AeInputAmount
           v-if="vote.showVoteOption || vote.accountHasVoted"
-          v-model="vote.stakeAmount"
+          v-model="stakeAmount"
           :disabled="!vote.showVoteOption || isZero(vote.initialStakeAmount)"
           :token="data.tokenAddress"
           no-dropdown
@@ -97,8 +97,8 @@
 
         <AeButton
           v-if="vote.showVoteOption"
-          :disabled="isZero(vote.initialStakeAmount)"
-          @click="voteOption(vote.voteAddress, true, vote.stakeAmount)"
+          :disabled="isZero(vote.initialStakeAmount) || !stakeAmount || isZero(stakeAmount)"
+          @click="voteOption(vote.voteAddress, true, stakeAmount)"
         >
           <IconCheckmarkCircle />
           {{ $t('components.VoteCard.Vote') }}
@@ -178,11 +178,13 @@ export default {
     loading: false,
     progressMessage: '',
     description: '',
+    stakeAmount: '',
   }),
   computed: {
     ...mapState(['tokenInfo']),
   },
   async mounted() {
+    this.stakeAmount = this.vote.stakeAmount;
     const metadata = await this.$store.dispatch('aeternity/tokenVotingMethod', {
       contractAddress: this.vote.voteAddress, method: 'metadata',
     });

@@ -43,7 +43,6 @@
 
 <script>
 import { debounce } from 'lodash-es';
-import Backend from '../../utils/backend';
 import FormatDate from './FormatDate.vue';
 import Avatar from '../Avatar.vue';
 import UserCard from '../UserCard.vue';
@@ -69,8 +68,7 @@ export default {
     },
   },
   async mounted() {
-    const profile = await Backend.getProfile(this.address);
-    this.name = profile ? profile.preferredChainName : null;
+    this.name = await this.$store.dispatch('getPreferredChainName', this.address);
   },
 };
 </script>

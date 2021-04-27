@@ -64,15 +64,14 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setAddress', 'updateTopics', 'setChainNames', 'updateBalance',
+      'setAddress', 'updateTopics', 'updateBalance',
       'setGraylistedUrls', 'setTokenInfo', 'setWordRegistry', 'setVerifiedUrls',
     ]),
     ...mapMutations('aeternity', ['useSdkWallet']),
     async reloadData() {
       const [
-        chainNames, topics, verifiedUrls, graylistedUrls, tokenInfo, wordRegistry,
+        topics, verifiedUrls, graylistedUrls, tokenInfo, wordRegistry,
       ] = await Promise.all([
-        Backend.getCacheChainNames(),
         Backend.getTopicsCache(),
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
@@ -84,7 +83,6 @@ export default {
       ]);
 
       this.updateTopics(topics);
-      this.setChainNames(chainNames);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
       this.setTokenInfo(tokenInfo);

@@ -18,8 +18,8 @@ export default {
   setTipSortBy(state, payload) {
     state.tipSortBy = payload;
   },
-  setChainNames(state, payload) {
-    state.chainNames = payload;
+  setChainName({ chainNames }, payload) {
+    Vue.set(chainNames, payload.address, payload.preferredChainName);
   },
   updateCurrency(state, payload) {
     state.selectedCurrency = payload;

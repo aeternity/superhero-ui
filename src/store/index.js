@@ -25,8 +25,8 @@ export default new Vuex.Store({
     pinnedItems: [],
     selectedCurrency: 'eur',
     topics: [],
-    tipSortBy: 'latest',
-    chainNames: [],
+    tipSortBy: 'hot',
+    chainNames: {},
     verifiedUrls: [],
     graylistedUrls: [],
     tokenInfo: {},
@@ -53,6 +53,14 @@ export default new Vuex.Store({
     async getTokenBalance({ state: { address, middleware } }, contractAddress) {
       const result = await middleware.getAex9Balance(contractAddress, address);
       return new BigNumber(result.amount || 0).toFixed();
+    },
+    async getPreferredChainName({ commit, state: { chainNames } }, address) {
+      if (!chainNames[address]) {
+        const { preferredChainName } = await Backend.getProfile(address);
+        commit('setChainName', { address, preferredChainName });
+        return preferredChainName;
+      }
+      return chainNames[address];
     },
     async updateTokensBalanceAndPrice({ state: { address }, commit, dispatch }) {
       const tokens = await Backend.getTokenBalances(address);

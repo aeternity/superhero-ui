@@ -102,8 +102,6 @@ export default class Backend {
 
   static getCacheStats = async () => backendFetch('cache/stats');
 
-  static getCacheChainNames = async () => backendFetch('cache/chainnames');
-
   static getPrice = async () => backendFetch('cache/price');
 
   static getTopicsCache = async () => backendFetch('cache/topics');

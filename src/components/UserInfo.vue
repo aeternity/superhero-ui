@@ -259,17 +259,15 @@ export default {
         location: '',
         coverImage: '',
       },
+      userChainName: null,
       balance: '',
       BACKEND_URL: process.env.VUE_APP_BACKEND_URL,
     };
   },
   computed: {
-    ...mapState(['cookiesConsent', 'chainNames']),
+    ...mapState(['cookiesConsent']),
     ...mapState('aeternity', ['sdk']),
     ...mapState({ currentAddress: 'address' }),
-    userChainName() {
-      return this.profile.preferredChainName;
-    },
     hasCreationDate() {
       return this.profile.createdAt.length > 0;
     },
@@ -328,7 +326,8 @@ export default {
       return `${process.env.VUE_APP_EXPLORER_URL}/account/transactions/${this.address}`;
     },
   },
-  mounted() {
+  async mounted() {
+    this.userChainName = await this.$store.dispatch('getPreferredChainName', this.address);
     this.$watch(
       () => this.address,
       () => {

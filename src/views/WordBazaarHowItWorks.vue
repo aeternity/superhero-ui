@@ -27,7 +27,7 @@
 <script>
 export default {
   metaInfo() {
-    return { title: this.$t('views.WordBazaar.RibbonTabs.3.Text') };
+    return { title: this.$t('views.WordBazaar.RibbonTabs.How.Text') };
   },
 };
 </script>

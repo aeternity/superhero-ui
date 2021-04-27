@@ -253,7 +253,7 @@ export default {
     },
   },
   metaInfo() {
-    return { title: this.$t('views.WordBazaar.RibbonTabs.1.Text') };
+    return { title: this.$t('views.WordBazaar.RibbonTabs.Create.Text') };
   },
 };
 </script>

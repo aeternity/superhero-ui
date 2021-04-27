@@ -514,47 +514,32 @@
       "BuyMore": "Buy more tokens",
       "Initiate": "Initiate Vote",
       "InitiateMobile": "Initiate",
-      "Spread": "Accumulated spread",
-      "Stake": "Majority stake",
-      "RibbonTabs": [
-        {
-          "text": "Token info",
-          "textMobile": "Info"
-        },
-        {
-          "text": "Funds release vote",
-          "textMobile": "Vote"
-        }
-      ],
-      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"],
-      "TimeScopeTabs": ["Day", "Week", "Month", "3 Months", "Year", "All"]
+      "Spread": "Accumulated Spread",
+      "Stake": "Majority Stake",
+      "RibbonTabs": ["Token Info", "Funds release vote"],
+      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"]
     },
     "WordBazaar": {
       "Title": "WordBazaar",
-      "Placeholder": "Search for tokens",
-      "RibbonTabs": [
-        {
-          "Text": "Tokens",
-          "Header": "WordBazaar Tokens"
+      "Placeholder": "Search for assets",
+      "RibbonTabs": {
+        "Assets": {
+          "Text": "Assets",
+          "Header": "WordBazaar Assets"
         },
-        {
+        "Create": {
           "Text": "Create token",
           "TextMobile": "Create"
         },
-        {
+        "Get": {
           "Text": "Get AE",
           "Header": "Get AE Tokens"
         },
-        {
+        "How": {
           "Text": "How it works",
           "TextMobile": "How-to"
         }
-      ],
-      "Tabs": [
-        { "text": "All tokens", "textMobile": "All" },
-        { "text": "Trending", "textMobile": "Trending" },
-        { "text": "Recent", "textMobile": "Recent" }
-      ]
+      }
     }
   },
   "components": {

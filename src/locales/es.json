@@ -718,20 +718,11 @@
       ]
     },
     "GetAe": {
-      "Platforms": [
-        {
-          "Text": "BTC/{ae} ETH/{ae}",
-          "Link": "https://jelly.market/"
-        },
-        {
-          "Text": "Discover more {ae} exchanges",
-          "Link": "https://coinmarketcap.com/en/currencies/aeternity/"
-        },
-        {
-          "Text": "Testnet {ae} tokens",
-          "Link": "https://faucet.aepps.com/"
-        }
-      ]
+      "Platforms": {
+        "Jelly": "BTC/{ae} ETH/{ae}",
+        "CoinMarketCap": "Discover more {ae} exchanges",
+        "Faucet": "Testnet {ae} tokens"
+      }
     },
     "WordListing": {
       "Asset": "Name",

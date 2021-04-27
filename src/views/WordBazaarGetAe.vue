@@ -1,14 +1,40 @@
 <template>
   <div class="get-ae">
     <div
-      v-for="(vendor,index) in platforms"
-      :key="index"
       class="card"
-      @click="goTo($t(`components.GetAe.Platforms[${index}].Link`))"
+      @click="goTo('https://jelly.market/')"
     >
-      <Component :is="vendor.logo" />
+      <LogoJellySwap />
       <i18n
-        :path="`components.GetAe.Platforms[${index}].Text`"
+        path="components.GetAe.Platforms.Jelly"
+        tag="p"
+      >
+        <template #ae>
+          <span class="abbreviation">{{ $t('AE') }}</span>
+        </template>
+      </i18n>
+    </div>
+    <div
+      class="card"
+      @click="goTo('https://coinmarketcap.com/en/currencies/aeternity/')"
+    >
+      <LogoCoinMarketCap />
+      <i18n
+        path="components.GetAe.Platforms.CoinMarketCap"
+        tag="p"
+      >
+        <template #ae>
+          <span class="abbreviation">{{ $t('AE') }}</span>
+        </template>
+      </i18n>
+    </div>
+    <div
+      class="card"
+      @click="goTo('https://faucet.aepps.com/')"
+    >
+      <LogoFaucet />
+      <i18n
+        path="components.GetAe.Platforms.Faucet"
         tag="p"
       >
         <template #ae>
@@ -25,13 +51,11 @@ import LogoCoinMarketCap from '../assets/logoCoinMarketCap.svg?icon-component';
 import LogoFaucet from '../assets/logoFaucet.svg?icon-component';
 
 export default {
-  data: () => ({
-    platforms: [
-      { logo: LogoJellySwap },
-      { logo: LogoCoinMarketCap },
-      { logo: LogoFaucet },
-    ],
-  }),
+  components: {
+    LogoJellySwap,
+    LogoCoinMarketCap,
+    LogoFaucet,
+  },
   methods: {
     goTo(link) { window.open(link); },
   },

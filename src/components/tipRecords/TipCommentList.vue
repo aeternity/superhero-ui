@@ -5,16 +5,23 @@
       :key="comment.id"
       class="tree"
     >
-      <TipComment v-bind="comment" />
+      <TipComment
+        v-bind="comment"
+        @reply="openReply = comment.id"
+      />
       <TipComment
         v-for="childComment in sort(comment.children || [], true)"
         :key="childComment.id"
         v-bind="childComment"
+        @reply="openReply = comment.id"
       />
-      <SendComment
-        :tip-id="comment.tipId"
-        :parent-id="comment.id"
-      />
+      <Transition name="fade">
+        <SendComment
+          v-if="openReply === comment.id"
+          :tip-id="comment.tipId"
+          :parent-id="comment.id"
+        />
+      </Transition>
     </div>
   </div>
 </template>
@@ -31,6 +38,7 @@ export default {
   props: {
     comments: { type: Array, required: true },
   },
+  data: () => ({ openReply: null }),
   methods: {
     sort: (array, isAsc) => array.slice().sort((a, b) => {
       const values = [a, b].map((e) => Date.parse(e.createdAt));
@@ -66,13 +74,25 @@ export default {
       border-radius: 0;
     }
 
-    + .tip-comment,
-    + .tip-comment + .send-comment {
+    + .tip-comment {
       padding-left: 3rem;
 
       @include smallest {
         padding-left: 1.5rem;
       }
+    }
+  }
+
+  .send-comment {
+    &.fade-enter-active,
+    &.fade-leave-active {
+      transition: all 0.3s ease;
+    }
+
+    &.fade-enter,
+    &.fade-leave-to {
+      opacity: 0;
+      transform: scaleY(0);
     }
   }
 }

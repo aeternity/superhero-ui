@@ -19,13 +19,15 @@
         :comment="{ tipId, id }"
         @click.native.stop
       />
-      <span
+      <div
         class="comments-count"
         :title="$t('components.tipRecords.TipComment.Replies')"
       >
-        <img src="../../assets/iconReply.svg">
-        &nbsp;<span>{{ children.length }}</span>
-      </span>
+        <ButtonPlain @click.stop="$emit('reply')">
+          <IconReply />
+        </ButtonPlain>
+        <span>&nbsp;{{ children.length }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -33,11 +35,15 @@
 <script>
 import TipInput from '../TipInput.vue';
 import AuthorAndDate from './AuthorAndDate.vue';
+import ButtonPlain from '../ButtonPlain.vue';
+import IconReply from '../../assets/iconReply.svg?icon-component';
 
 export default {
   components: {
     TipInput,
     AuthorAndDate,
+    ButtonPlain,
+    IconReply,
   },
   inheritAttrs: false,
   props: {
@@ -102,8 +108,23 @@ export default {
       padding-top: 0.5rem;
     }
 
-    .comments-count > * {
-      vertical-align: middle;
+    .comments-count {
+      span {
+        vertical-align: middle;
+      }
+
+      .button-plain {
+        color: $search_nav_border_color;
+        transition: color 0.3s;
+
+        &:hover {
+          color: $standard_font_color;
+        }
+
+        svg {
+          height: 14px;
+        }
+      }
     }
 
     > :not(:first-child) {

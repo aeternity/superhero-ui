@@ -110,6 +110,11 @@ export default {
             onDisconnect() {
               commit('resetState');
             },
+            async onAddressChange(accounts) {
+              const address = Object.keys(accounts.current)[0];
+              commit('setAddress', address, { root: true });
+              await dispatch('fetchUserInfo', null, { root: true });
+            },
           });
           commit('setSdk', { instance });
           await dispatch('initTippingContractIfNeeded');

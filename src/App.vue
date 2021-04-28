@@ -32,7 +32,6 @@
 import { mapMutations, mapState, mapGetters } from 'vuex';
 import Backend from './utils/backend';
 import { EventBus } from './utils/eventBus';
-import { atomsToAe } from './utils';
 import MobileNavigation from './components/layout/MobileNavigation.vue';
 import LeftSection from './components/layout/LeftSection.vue';
 import RightSection from './components/layout/RightSection.vue';
@@ -81,7 +80,7 @@ export default {
         Backend.getWordRegistry(),
         this.$store.dispatch('backend/reloadStats'),
         this.$store.dispatch('backend/reloadPrices'),
-        this.reloadUserData(),
+        this.$store.dispatch('fetchUserInfo'),
       ]);
 
       this.updateTopics(topics);
@@ -90,18 +89,6 @@ export default {
       this.setVerifiedUrls(verifiedUrls);
       this.setTokenInfo(tokenInfo);
       this.setWordRegistry(wordRegistry);
-    },
-    async reloadUserData() {
-      if (!this.address) return;
-      await Promise.all([
-        this.$store.dispatch('updatePinnedItems'),
-        this.$store.dispatch('updateUserProfile'),
-        (async () => {
-          const balance = await this.sdk.balance(this.address).catch(() => 0);
-          this.updateBalance(atomsToAe(balance).toFixed(2));
-        })(),
-        this.$store.dispatch('updateTokensBalanceAndPrice'),
-      ]);
     },
     async initWallet() {
       let { address } = this.$route.query;
@@ -115,7 +102,7 @@ export default {
         this.setAddress(address);
       }
       await this.$store.dispatch('initMiddleware');
-      await this.reloadUserData();
+      await this.$store.dispatch('fetchUserInfo');
     },
   },
   metaInfo: {

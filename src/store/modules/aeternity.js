@@ -1,7 +1,7 @@
 /* globals Cypress */
 import {
   MemoryAccount, Node, Universal, RpcAepp, Crypto,
-} from '@aeternity/aepp-sdk/es';
+} from '@aeternity/aepp-sdk';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import TIPPING_INTERFACE_V1 from 'tipping-contract/Tipping_v1_Interface.aes';

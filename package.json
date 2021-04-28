@@ -17,7 +17,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@aeternity/aepp-sdk": "^7.7.0",
+    "@aeternity/aepp-sdk": "^8.0.0-beta.2",
     "@fontsource/oxygen": "^4.2.1",
     "aeternity-fungible-token": "github:aeternity/aeternity-fungible-token#v1.0.0",
     "animate.css": "^4.1.1",
@@ -58,6 +58,7 @@
     "@vue/test-utils": "1.1.2",
     "babel-eslint": "^10.1.0",
     "cache-loader": "^4.1.0",
+    "empty-module": "0.0.2",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-vue": "^7.4.1",

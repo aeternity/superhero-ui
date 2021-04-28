@@ -13,7 +13,7 @@ import backend from './modules/backend';
 import aeternity from './modules/aeternity';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
-import { handleUnknownError } from '../utils';
+import { handleUnknownError, atomsToAe } from '../utils';
 
 Vue.use(Vuex);
 
@@ -111,6 +111,18 @@ export default new Vuex.Store({
         ([k, v]) => [camelCase(k), v],
       );
       commit('setMiddleware', middleware);
+    },
+    async fetchUserInfo({ dispatch, commit, state: { address, aeternity: { sdk } } }) {
+      if (!address) return;
+      await Promise.all([
+        dispatch('updatePinnedItems'),
+        dispatch('updateUserProfile'),
+        (async () => {
+          const balance = await sdk.balance(address).catch(() => 0);
+          commit('updateBalance', atomsToAe(balance).toFixed(2));
+        })(),
+        dispatch('updateTokensBalanceAndPrice'),
+      ]);
     },
   },
   getters,

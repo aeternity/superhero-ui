@@ -8,7 +8,6 @@
         <AuthorAndDate
           :date="tip.timestamp"
           :address="tip.sender"
-          :chain-name="tip.chainName ? tip.chainName.name : null"
         >
           <ThreeDotsMenu v-if="address">
             <div @click="sendReport">

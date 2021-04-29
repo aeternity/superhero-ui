@@ -107,7 +107,6 @@
           :title="tip.receiver"
           @click.stop
         >
-          <TipInput :tip="tip" />
           <RouterLink :to="{ name: 'user-profile', params: { address: tip.receiver } }">
             <Avatar :address="tip.receiver" />
             <div class="tip-author_name">
@@ -177,6 +176,9 @@ export default {
   },
   computed: {
     ...mapState(['chainNames']),
+    isRetippable() {
+      return !this.tip.receiver;
+    },
     sourceUrl() {
       try {
         return new URL(this.tip.url).hostname;

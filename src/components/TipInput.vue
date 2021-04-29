@@ -6,6 +6,7 @@
       class="button"
       :class="{ tipped: tipUrlStats.isTipped }"
       :title="title"
+      :disabled="!tipUrl"
       @click="useSdkWallet && (showModal = true)"
     >
       <IconTip />
@@ -112,11 +113,16 @@ export default {
     ...mapGetters('backend', ['minTipAmount']),
     ...mapState('backend', {
       tipUrlStats({ stats }) {
-        const urlStats = stats && stats.urlStats.find(({ url }) => url === this.tipUrl);
+        const urlStats = stats && this.tipUrl
+          && stats.urlStats.find(({ url }) => url === this.tipUrl);
+
+        const tipTokenAmount = this.tip.token
+          ? [{ token: this.tip.token, amount: this.tip.tokenAmount }] : [];
+
         return {
           isTipped: urlStats ? urlStats.senders.includes(this.address) : false,
-          totalAmount: urlStats ? urlStats.totalAmount : '0',
-          tokenTotalAmount: urlStats ? urlStats.totalTokenAmount : [],
+          totalAmount: urlStats ? urlStats.totalAmount : this.tip.amount || '0',
+          tokenTotalAmount: urlStats ? urlStats.totalTokenAmount : tipTokenAmount,
         };
       },
     }),

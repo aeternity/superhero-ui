@@ -112,7 +112,7 @@
             <Avatar :address="tip.receiver" />
             <div class="tip-author_name">
               <span class="chain-name">
-                {{ tip.chainName.name }}
+                {{ chainNames[tip.receiver] }}
               </span>
               <span class="address">{{ tip.receiver }}</span>
             </div>
@@ -152,6 +152,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Backend from '../../utils/backend';
 import YouTubeEmbed from './YouTubeEmbed.vue';
 import TwitterEmbed from './TwitterEmbed.vue';
@@ -175,6 +176,7 @@ export default {
     tipUrl: { type: String, default: '' },
   },
   computed: {
+    ...mapState(['chainNames']),
     sourceUrl() {
       try {
         return new URL(this.tip.url).hostname;

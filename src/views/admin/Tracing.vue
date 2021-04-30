@@ -19,17 +19,16 @@
         Total Claimed:
         <AeAmount
           class="mx-2"
-          :amount="blockchainTrace.tip.total_claimed_amount_ae"
+          :amount="blockchainTrace.tip.totalClaimedAmount"
         />
         Total Unclaimed:
         <AeAmount
           class="mx-2"
-          :amount="blockchainTrace.tip.total_unclaimed_amount_ae"
+          :amount="blockchainTrace.tip.totalUnclaimedAmount"
         />
         Retips:
         <span class="mx-2">
           {{ blockchainTrace.tip.retips.length }}
-          (<AeAmount :amount="blockchainTrace.tip.retip_amount_ae" />)
         </span>
       </div>
       <div class="row">
@@ -37,26 +36,26 @@
         Total Claimed:
         <AeAmount
           class="mx-2"
-          :amount="blockchainTrace.url_stats.total_claimed_amount_ae"
+          :amount="blockchainTrace.urlStats.totalClaimedAmount"
         />
         Total Unclaimed:
         <AeAmount
           class="mx-2"
-          :amount="blockchainTrace.url_stats.total_unclaimed_amount_ae"
+          :amount="blockchainTrace.urlStats.totalUnclaimedAmount"
         />
         Total Tips:
         <span class="mx-2">
-          {{ blockchainTrace.url_stats.tips_length }}
-          (+ {{ blockchainTrace.url_stats.retips_length }} Retips)
+          {{ blockchainTrace.urlStats.tipsLength }}
+          (+ {{ blockchainTrace.urlStats.retipsLength }} Retips)
         </span>
       </div>
       <div
-        v-if="blockchainTrace.url_oracle_claim"
+        v-if="blockchainTrace.urlOracleClaim"
         class="row"
-        :class="[blockchainTrace.url_oracle_claim.success ? 'success' : 'error']"
+        :class="[blockchainTrace.urlOracleClaim.success ? 'success' : 'error']"
       >
-        Oracle Response: {{ blockchainTrace.url_oracle_claim.account }}
-        ({{ blockchainTrace.url_oracle_claim.percentage }}%)
+        Oracle Response: {{ blockchainTrace.urlOracleClaim.account }}
+        ({{ blockchainTrace.urlOracleClaim.percentage }}%)
       </div>
       <div
         v-else
@@ -76,11 +75,11 @@
         :key="i"
         class="row"
       >
-        <FormatDate :date="event.time" />
-        <span class="mx-1 font-weight-bold">{{ event.event }}</span>
-        ({{ event.address }}
-        <span v-if="event.event === 'CheckPersistClaim'">, {{ event.amount }}%</span>
-        <span v-if="event.event === 'TipWithdrawn' || event.event === 'TipReceived'">
+        <FormatDate :date="parseInt(event.time)" />
+        <span class="mx-1 font-weight-bold">{{ event.name }}</span>
+        ({{ event.addresses.join(', ') }}
+        <span v-if="event.name === 'CheckPersistClaim'">, {{ event.amount }}%</span>
+        <span v-if="event.name === 'TipWithdrawn' || event.name === 'TipReceived'">
           , <AeAmount
             aettos
             :amount="event.amount"
@@ -146,7 +145,7 @@ export default {
   computed: {
     sortedEvents() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      return this.blockchainTrace.url_events.sort((a, b) => a.time - b.time);
+      return this.blockchainTrace.urlEvents.sort((a, b) => a.time - b.time);
     },
     sortedTraces() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties

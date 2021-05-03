@@ -194,13 +194,15 @@
                       alt=""
                       src="../assets/landing/appstore.svg"
                     ></a>
-                    <a
+                    <Anpm
                       href="https://play.google.com/store/apps/details?id=com.superhero.cordova"
                       target="_blank"
-                    ><img
-                      alt=""
-                      src="../assets/landing/googleplay.svg"
-                    ></a>
+                    >
+                      <img
+                        alt=""
+                        src="../assets/landing/googleplay.svg"
+                      ></a>
+                    </anpm>
                   </div>
                 </div>
               </div>

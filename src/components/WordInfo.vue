@@ -250,7 +250,7 @@ import FiatValue from './FiatValue.vue';
 import TabBar from './TabBar.vue';
 import Loader from './Loader.vue';
 import Dropdown from './Dropdown.vue';
-import { shiftDecimalPlaces, aeToAtoms } from '../utils';
+import { shiftDecimalPlaces } from '../utils';
 
 export default {
   name: 'WordInfo',
@@ -288,7 +288,7 @@ export default {
     },
     chartData() {
       const decimals = this.tokenInfo[this.data.tokenAddress]?.decimals ?? 18;
-      const initialPrice = new BigNumber(aeToAtoms(1)); // currently supports only hardcoded 1AE
+      const initialPrice = new BigNumber(shiftDecimalPlaces(1, -18));
       const sellPrice = new BigNumber(this.data.sellPrice);
       const buyPrice = new BigNumber(this.data.buyPrice);
       const totalSupply = new BigNumber(this.data.totalSupply);

@@ -115,7 +115,7 @@ export default class Backend {
     if (ordering) queryParams.set('ordering', ordering);
     if (direction) queryParams.set('direction', direction);
     if (search) queryParams.set('search', search);
-    return backendFetch(`tokenCache/wordRegistry?${queryParams.toString()}`);
+    return process.env.VUE_APP_CONTRACT_V2_ADDRESS ? backendFetch(`tokenCache/wordRegistry?${queryParams.toString()}`) : Promise.resolve({});
   }
 
   static getWordSaleVotesDetails = async (address) => backendFetch(`tokenCache/wordSaleVotesDetails/${address}`);

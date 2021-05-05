@@ -50,7 +50,7 @@
           <div class="input-group">
             <!-- TODO: Remove this wrapper after removing bootstrap -->
             <input
-              v-if="!tip"
+              v-if="!isRetippable"
               v-model="message"
               maxlength="280"
               class="message form-control"
@@ -63,7 +63,7 @@
               :select-token-f="token => (inputToken = token)"
             />
             <AeButton :disabled="!isValid || v1TipWarning">
-              {{ tip ? $t('retip') : $t('tip') }}
+              {{ isRetippable ? $t('retip') : $t('tip') }}
             </AeButton>
           </div>
         </form>
@@ -116,12 +116,12 @@ export default {
         const urlStats = stats && this.tipUrl
           && stats.urlStats.find(({ url }) => url === this.tipUrl);
 
-        const tipTokenAmount = this.tip.token
+        const tipTokenAmount = this.tip?.token
           ? [{ token: this.tip.token, amount: this.tip.tokenAmount }] : [];
 
         return {
           isTipped: urlStats ? urlStats.senders.includes(this.address) : false,
-          totalAmount: urlStats ? urlStats.totalAmount : this.tip.amount || '0',
+          totalAmount: urlStats ? urlStats.totalAmount : this.tip?.amount || '0',
           tokenTotalAmount: urlStats ? urlStats.totalTokenAmount : tipTokenAmount,
         };
       },
@@ -140,7 +140,7 @@ export default {
         : null;
     },
     tipAmount() {
-      return +this.tipUrlStats.totalAmount !== 0
+      return +this.tipUrlStats.totalAmount !== '0'
         ? {
           value: this.tipUrlStats.totalAmount,
           token: null,
@@ -156,6 +156,9 @@ export default {
         && this.tip.id.split('_')[1] === 'v1'
         && this.inputToken !== null
       );
+    },
+    isRetippable() {
+      return this.tip && this.tip.type !== 'POST_WITHOUT_TIP';
     },
     tipUrl() {
       if (this.comment) {
@@ -203,7 +206,7 @@ export default {
             : 18,
         ).toFixed();
 
-        if (!this.tip) {
+        if (!this.isRetippable) {
           await this.$store.dispatch('aeternity/tip', {
             url: this.tipUrl,
             title: this.message,

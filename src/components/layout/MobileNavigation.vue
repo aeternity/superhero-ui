@@ -79,7 +79,7 @@ export default {
   data: () => ({
     showOverlay: false,
     showSearchFeed: false,
-    tipDeepLink: createDeepLinkUrl({ type: 'tip' }),
+    tipDeepLink: createDeepLinkUrl({ type: 'tips' }),
   }),
   computed: {
     ...mapState('aeternity', ['useSdkWallet']),

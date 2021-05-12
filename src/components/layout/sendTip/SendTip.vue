@@ -154,7 +154,7 @@ export default {
       this.clearTipForm();
     },
     openTipDeeplink() {
-      window.location = createDeepLinkUrl({ type: 'tip' });
+      window.location = createDeepLinkUrl({ type: 'tips' });
     },
   },
 };

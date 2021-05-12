@@ -177,7 +177,7 @@ export default {
       return createDeepLinkUrl(
         this.tip
           ? { type: 'retip', id: this.tip.id }
-          : { type: 'tip', url: this.tipUrl },
+          : { type: 'tips', url: this.tipUrl },
       );
     },
     isValid() {

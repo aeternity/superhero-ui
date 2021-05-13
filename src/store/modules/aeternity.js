@@ -1,6 +1,6 @@
 /* globals Cypress */
 import {
-  MemoryAccount, Node, Universal, RpcAepp,
+  MemoryAccount, Node, Universal, RpcAepp, Crypto,
 } from '@aeternity/aepp-sdk/es';
 import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
 import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';

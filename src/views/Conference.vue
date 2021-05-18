@@ -78,6 +78,7 @@ export default {
 
   .jitsi-container {
     flex-grow: 1;
+    scrollbar-width: none;
   }
 }
 </style>

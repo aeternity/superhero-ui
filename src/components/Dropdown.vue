@@ -124,6 +124,7 @@ export default {
   &::v-deep .not-bootstrap-modal-content {
     max-height: 10rem;
     overflow-y: auto;
+    scrollbar-width: none;
 
     &::-webkit-scrollbar {
       scrollbar-width: none;

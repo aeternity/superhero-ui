@@ -60,7 +60,6 @@ import IconInfo from '../assets/iconInfo.svg?icon-component';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import FilterButton from '../components/FilterButton.vue';
 import WordVoting from '../components/WordVoting.vue';
-import WordInfo from '../components/WordInfo.vue';
 
 export default {
   name: 'WordDetail',
@@ -72,7 +71,7 @@ export default {
     WordBuySellButtons,
     BackButtonRibbon,
     WordVoting,
-    WordInfo,
+    WordInfo: () => import(/* webpackChunkName: "WordInfo" */ '../components/WordInfo.vue'),
   },
   data() {
     return {

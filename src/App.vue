@@ -114,6 +114,7 @@ export default {
       } else {
         this.setAddress(address);
       }
+      await this.$store.dispatch('initMiddleware');
       await this.reloadUserData();
     },
   },

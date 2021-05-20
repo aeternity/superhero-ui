@@ -55,7 +55,6 @@ export default new Vuex.Store({
       return new BigNumber(result.amount || 0).toFixed();
     },
     async updateTokensBalanceAndPrice({ state: { address }, commit, dispatch }) {
-      await dispatch('initMiddleware');
       const tokens = await Backend.getTokenBalances(address);
       let knownTokens;
       try {

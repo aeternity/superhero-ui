@@ -142,7 +142,7 @@ export default {
             this.selectToken(option);
           }
         } else {
-          this.selectToken(this.aeternityTokenData);
+          this.selectToken(null);
         }
       },
     },
@@ -152,8 +152,8 @@ export default {
     ...mapMutations('aeternity', ['enableIframeWallet']),
     selectToken(option) {
       this.selectedToken = option;
-      this.showCurrencyDropdown = option.token === null
-        || (!!this.tokenPrices[option.token] && !!this.tokenInfo[option.token]);
+      this.showCurrencyDropdown = option === null
+        || (!!this.tokenPrices[option?.token] && !!this.tokenInfo[option?.token]);
     },
   },
 };

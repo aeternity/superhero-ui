@@ -3,7 +3,7 @@ import { mergeWith } from 'lodash-es';
 
 export default {
   setAddress(state, address) {
-    state.address = address;
+    Vue.set(state, 'address', address);
   },
   resetState(state) {
     state.aeternity.useSdkWallet = false;
@@ -25,7 +25,7 @@ export default {
     state.selectedCurrency = payload;
   },
   updateBalance(state, payload) {
-    state.balance = payload;
+    Vue.set(state, 'balance', payload);
   },
   setGraylistedUrls(state, payload) {
     state.graylistedUrls = payload;

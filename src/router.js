@@ -34,7 +34,7 @@ const routes = [
       next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
     },
   },
-  {
+  ...process.env.LANDING_ENABLED ? [{
     path: '/landing',
     name: 'landing',
     component: Landing,
@@ -42,7 +42,7 @@ const routes = [
       fullScreen: true,
       layoutClass: 'landing-page',
     },
-  },
+  }] : [],
   {
     path: '/search/:query',
     name: 'feed-search',

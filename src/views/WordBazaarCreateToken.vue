@@ -1,5 +1,8 @@
 <template>
-  <div class="create-token">
+  <div
+    class="create-token"
+    :class="{ wait: loadingState }"
+  >
     <div class="create-header">
       <div class="create-header-content">
         <h2>
@@ -18,7 +21,7 @@
           class="step-description"
         >
           <template #abbreviation>
-            <span class="abbreviation">{{ abbreviation }}</span>
+            <span class="abbreviation">{{ name }}</span>
           </template>
           <template #step>
             {{ $t(`components.CreateToken.Steps[${step}]`) }}
@@ -36,46 +39,52 @@
         >
           <div
             class="step-box"
-            :class="{ active: step >= i, pulse: ((step === i && step !== 0) || step >= 4) }"
+            :class="{ active: step >= i, pulse: ((step === i) || step >= 4) }"
           />
         </div>
       </div>
       <div class="create-inputs input-group">
-        <div>
-          <label for="name">{{ $t('components.CreateToken.TokenAsset') }}</label>
-          <textarea
+        <div class="input-block">
+          <label for="name">{{ $t('components.CreateToken.Name.Title') }}</label>
+          <input
             v-if="!loadingState"
             id="name"
             v-model="name"
-            placeholder="Enter any combination of characters *"
+            :placeholder="$t('components.CreateToken.Name.Placeholder')"
             class="form-control"
-            :class="{ multiline: name.split('\n').length > 1 }"
-            :rows="name.split('\n').length || 1"
+            :class="{ error: error.name }"
             minlength="1"
-            maxlength="333"
             :disabled="loadingState"
-          />
-          <p v-else>
+          >
+          <p
+            v-else
+            class="abbreviation"
+          >
             {{ name }}
           </p>
-          <span
+          <div
             v-if="!loadingState"
-            class="right"
-          >{{ `${name.length} / 333` }}</span>
+            class="input-info"
+          >
+            <span class="error">{{ error.name || '' }}</span>
+            <div>
+              <span :class="{ error: error.name }">{{ name.length }}</span>
+              <span>{{ ` / ${maxNameLength}` }}</span>
+            </div>
+          </div>
         </div>
-
-        <div>
-          <label for="description">{{ $t('components.CreateToken.TokenDescription') }}</label>
+        <div class="input-block">
+          <label for="description">{{ $t('components.CreateToken.Description.Title') }}</label>
           <textarea
             v-if="!loadingState"
             id="description"
             v-model="description"
-            placeholder="Enter additional information about your token *"
+            :placeholder="$t('components.CreateToken.Description.Placeholder')"
             class="form-control"
-            :class="{ multiline: description.split('\n').length > 1 }"
+            :class="{ multiline: description.split('\n').length > 1,
+                      error: error.description }"
             :rows="description.split('\n').length || 1"
             minlength="1"
-            maxlength="500"
             :disabled="loadingState"
           />
           <p
@@ -84,40 +93,19 @@
           >
             {{ description }}
           </p>
-          <span
+          <div
             v-if="!loadingState"
-            class="right"
-          >{{ `${description.length} / 500` }}</span>
-        </div>
-        <div>
-          <label for="abbreviation">
-            {{ loadingState ?
-              $t('components.CreateToken.Abbreviation') :
-              $t('components.CreateToken.AbbreviationLong') }}
-          </label>
-          <div class="abbreviation">
+            class="input-info"
+          >
+            <span class="error">{{ error.description || '' }}</span>
             <div>
-              <input
-                v-if="!loadingState"
-                id="abbreviation"
-                v-model="abbreviation"
-                placeholder="Enter token abbreviation *"
-                class="form-control"
-                minlength="1"
-                maxlength="6"
-                :disabled="loadingState"
-              >
-              <span
-                v-else
-                class="abbreviation"
-              >
-                {{ abbreviation }}
-              </span>
-              <span
-                v-if="!loadingState"
-                class="right"
-              >{{ `${abbreviation.length} / 4` }}</span>
+              <span :class="{ error: error.description }">{{ description.length }}</span>
+              <span>{{ ` / ${maxDescriptionLength}` }}</span>
             </div>
+          </div>
+        </div>
+        <div class="input-block">
+          <div class="button">
             <AeButton
               v-if="success"
               @click="navigateAssets"
@@ -130,7 +118,7 @@
             <AeButton
               v-else
               :disabled="loadingState ||
-                !name.length || !description.length || !abbreviation.length"
+                !name.length || !description.length || !!error.name || !!error.description"
               @click="createWordSale"
             >
               <RightArrow />
@@ -154,7 +142,7 @@ import AeButton from '../components/AeButton.vue';
 import RightArrow from '../assets/rightArrow.svg?icon-component';
 
 export default {
-  name: 'WordListing',
+  name: 'CreateToken',
   components: {
     AeButton,
     RightArrow,
@@ -163,21 +151,39 @@ export default {
     word: { type: String, default: null },
     sale: { type: String, default: null },
     heading: { type: Boolean },
-    navigateAssets: { type: Function, required: true },
   },
   data: () => ({
     name: '',
     description: '',
-    abbreviation: '',
     loadingState: false,
     step: 0,
     success: false,
     seconds: 10,
+    maxNameLength: 14,
+    maxDescriptionLength: 500,
   }),
+  computed: {
+    invalidInputs() {
+      return this.loadingState
+      || !this.name.length || !this.description.length
+      || Object.values(this.error).includes((e) => e !== null);
+    },
+    error() {
+      return {
+        name: this.name.length > this.maxNameLength
+          ? this.$t('components.CreateToken.Name.Error', { maxLength: this.maxNameLength }) : null,
+        description: this.description.length > this.maxDescriptionLength
+          ? this.$t('components.CreateToken.Description.Error', { maxLength: this.maxDescriptionLength }) : null,
+      };
+    },
+  },
   beforeDestroy() {
     clearInterval(this.interval);
   },
   methods: {
+    navigateAssets() {
+      this.$router.push({ name: 'word-bazaar-assets' });
+    },
     async createWordSale() {
       try {
         this.loadingState = true;
@@ -200,7 +206,7 @@ export default {
           {
             name: this.name,
             decimals,
-            symbol: this.abbreviation,
+            symbol: this.name,
             tokenSaleAddress,
           });
 
@@ -224,14 +230,13 @@ export default {
               index: this.step + 1,
               step: this.$t(`components.CreateToken.Steps[${this.step}]`),
             }),
-            this.$t('components.CreateToken.Error[1]', { abbreviation: this.abbreviation }),
+            this.$t('components.CreateToken.Error[1]', { abbreviation: this.name }),
           ],
           hideIcon: true,
           primaryButtonText: 'OK',
         });
         this.name = '';
         this.description = '';
-        this.abbreviation = '';
         this.loadingState = false;
         this.step = 0;
         this.success = false;
@@ -257,6 +262,7 @@ export default {
 .create-token {
   background-color: $actions_ribbon_background_color;
   color: $light_font_color;
+  height: 100%;
 }
 
 .create-header {
@@ -300,6 +306,9 @@ export default {
       font-weight: 500;
       color: $pure_white;
       margin-top: 1rem;
+      margin-left: 16px;
+      margin-right: 16px;
+      text-align: center;
     }
   }
 
@@ -319,8 +328,8 @@ export default {
 .steps-wrapper {
   border: 1.5px solid $card_border_color;
   border-radius: 10px;
-  margin: 0 0.5rem;
-  padding: 1rem 0.5rem;
+  margin: 0 16px;
+  padding: 16px;
 
   .steps {
     display: flex;
@@ -329,7 +338,7 @@ export default {
 
     .step {
       flex-grow: 1;
-      margin: 0 0.4rem 1.6rem 0.4rem;
+      margin: 0 0.4rem;
       position: relative;
 
       .step-box {
@@ -337,7 +346,7 @@ export default {
         background: $super_dark;
         border: 1px solid $super_dark;
         box-sizing: border-box;
-        box-shadow: inset -0.1rem 0.15rem 0.3rem rgba(0, 0, 0, 0.25);
+        box-shadow: inset -0.1rem 0.15rem 0.3rem rgba($background_color, 0.25);
         border-radius: 0.3rem;
 
         &.active {
@@ -375,47 +384,55 @@ export default {
     flex-direction: column;
     height: 100%;
 
+    .input-block {
+      margin-top: 32px;
+    }
+
     label {
-      margin-top: 0.5rem;
-      margin-bottom: 0;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 19px;
     }
 
     input,
     textarea {
       background: $buttons_background;
       resize: none;
-      padding-bottom: 8px;
-      padding-top: 8px;
+      padding: 8px 16px;
+      height: 40px;
+      border: 1px solid transparent;
+      transition: 0.3s;
+      transition-property: background-color, border-color;
 
       &.multiline {
         height: 100%;
       }
+
+      &:focus {
+        background-color: $actions_ribbon_background_color;
+        border-color: $secondary_color;
+      }
+
+      &.error {
+        border-color: $red_color;
+      }
     }
 
     p {
-      color: $standard_font_color;
       word-break: break-word;
+      font-size: 15px;
+      line-height: 24px;
+      margin-top: 8px;
+      margin-bottom: 0;
 
       &.description {
-        color: $light_font_color;
+        color: $tip_note_color;
       }
     }
 
-    .abbreviation {
+    .button {
       display: flex;
-      justify-content: space-between;
-
-      input {
-        width: 220px;
-
-        @include mobile {
-          width: 100%;
-        }
-      }
-
-      @include mobile {
-        flex-direction: column;
-      }
+      justify-content: flex-end;
 
       .ae-button {
         font-weight: 700;
@@ -428,7 +445,7 @@ export default {
         svg {
           height: 1.2rem;
           border-radius: 100%;
-          background-color: rgba(255, 255, 255, 0.44);
+          background-color: rgba($standard_font_color, 0.44);
           padding: 0.2rem;
           margin-bottom: 0.1rem;
           margin-right: 3px;
@@ -438,11 +455,28 @@ export default {
   }
 }
 
-.right {
-  font-size: 0.65rem;
+.input-info {
+  font-size: 12px;
+  line-height: 16px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
+  justify-content: space-between;
+  margin-top: 8px;
+
+  span {
+    transition: color 0.3s;
+
+    &.error {
+      color: $red_color;
+    }
+  }
+}
+
+.wait {
+  cursor: wait;
+
+  button,
+  label {
+    cursor: wait;
+  }
 }
 </style>

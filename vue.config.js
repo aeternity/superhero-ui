@@ -52,7 +52,12 @@ module.exports = {
         return [definitions];
       })
       .end()
-      .resolve.alias.delete('@').parent.parent
+      .resolve.alias
+      .delete('@')
+      .set('core-js-pure', 'core-js')
+      .set('lodash', 'lodash-es')
+      .set('js-yaml', 'empty-module')
+      .parent.parent
       .module
       .rule('aes')
       .test(/\.aes$/)

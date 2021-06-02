@@ -1,21 +1,25 @@
 <template>
-  <div>
-    <div class="buttons">
+  <div class="word-buy-sell-buttons">
+    <div v-if="!!$scopedSlots.default">
+      <slot :open="openBuy" />
+    </div>
+    <div
+      v-else
+      class="buttons"
+    >
       <OutlinedButton
-        class="green unpadded mr-1"
-        @click="() => {
-          showBuyModal = true; buyValue()
-        }"
+        class="green unpadded"
+        :class="{ active: showBuyModal }"
+        @click="openBuy"
       >
         {{ $t('components.WordBuySellButtons.Buy') }}
       </OutlinedButton>
 
       <OutlinedButton
         class="red unpadded"
+        :class="{ disabled: tokenBalance === 0, active: showSellModal }"
         :disabled="tokenBalance === 0"
-        @click="() => {
-          showSellModal = true; sellValue()
-        }"
+        @click="openSell"
       >
         {{ $t('components.WordBuySellButtons.Sell') }}
       </OutlinedButton>
@@ -23,6 +27,7 @@
 
     <Modal
       v-if="showBuyModal"
+      class="buy-modal"
       @close="showBuyModal = false"
     >
       <Loader
@@ -34,24 +39,27 @@
         <div class="label">
           {{ $t('components.WordBuySellButtons.AccountBalance') }}
         </div>
-        <AeAmount
-          :amount="tokenBalance"
-          :token="tokenAddress"
-        />
-        <div class="mt-3 label">
+        <div class="return-amount">
+          <AeAmountFiat
+            class="token-balance"
+            :amount="tokenBalance"
+            :token="tokenAddress"
+            aettos
+          />
+        </div>
+        <div class="label">
           {{ $t('components.WordBuySellButtons.AmountBuying') }}
         </div>
-        <div class="input-group mb-2">
+        <div>
           <AeInputAmount
             v-model="buyAmount"
             :token="tokenAddress"
             no-dropdown
             no-fiatvalue
-            class="input-amount"
             @keyup="buyValue"
           />
         </div>
-        <div class="mt-3 label">
+        <div class="label">
           {{ $t('components.WordBuySellButtons.BuyPrice') }}
         </div>
         <div class="return-amount">
@@ -60,7 +68,7 @@
             aettos
           />
         </div>
-        <div class="mt-3 label">
+        <div class="label">
           {{ $t('components.WordBuySellButtons.TotalPay') }}
         </div>
         <div class="return-amount">
@@ -76,7 +84,7 @@
             class="p-0"
           />
         </div>
-        <div class="mt-3 text-center">
+        <div class="text-center">
           <OutlinedButton
             :disabled="buyAeAmount <= 0"
             class="green buy-sell"
@@ -92,6 +100,7 @@
 
     <Modal
       v-if="showSellModal"
+      class="sell-modal"
       @close="showSellModal = false"
     >
       <Loader
@@ -103,24 +112,27 @@
         <div class="label">
           {{ $t('components.WordBuySellButtons.AccountBalance') }}
         </div>
-        <AeAmount
-          :amount="tokenBalance"
-          :token="tokenAddress"
-        />
-        <div class="mt-3 label">
+        <div class="return-amount">
+          <AeAmountFiat
+            class="token-balance"
+            :amount="tokenBalance"
+            :token="tokenAddress"
+            aettos
+          />
+        </div>
+        <div class="label">
           {{ $t('components.WordBuySellButtons.AmountSelling') }}
         </div>
-        <div class="input-group mb-2">
+        <div>
           <AeInputAmount
             v-model="sellAmount"
             :token="tokenAddress"
             no-dropdown
             no-fiatvalue
-            class="input-amount"
             @keyup="sellValue"
           />
         </div>
-        <div class="mt-3 label">
+        <div class="label">
           {{ $t('components.WordBuySellButtons.SellPrice') }}
         </div>
         <div class="return-amount">
@@ -129,7 +141,7 @@
             aettos
           />
         </div>
-        <div class="mt-3 label">
+        <div class="label">
           {{ $t('components.WordBuySellButtons.TotalGet') }}
         </div>
         <div class="return-amount">
@@ -145,7 +157,7 @@
             class="p-0"
           />
         </div>
-        <div class="mt-3 text-center">
+        <div class="text-center">
           <OutlinedButton
             :disabled="sellAeAmount <= 0"
             class="red buy-sell"
@@ -164,7 +176,6 @@ import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import AeAmount from './AeAmount.vue';
 import Loading from './Loading.vue';
 import OutlinedButton from './OutlinedButton.vue';
 import Modal from './Modal.vue';
@@ -178,7 +189,6 @@ export default {
   components: {
     AeInputAmount,
     AeAmountFiat,
-    AeAmount,
     Loading,
     OutlinedButton,
     Modal,
@@ -219,6 +229,14 @@ export default {
     setInterval(() => this.reloadData(), 120 * 1000);
   },
   methods: {
+    openBuy() {
+      this.showBuyModal = true;
+      this.buyValue();
+    },
+    openSell() {
+      this.showSellModal = true;
+      this.sellValue();
+    },
     async reloadData() {
       this.totalSupply = null;
       this.buyPrice = null;
@@ -284,6 +302,7 @@ export default {
           name: 'failure',
           title: error.message,
           body: 'Transaction was not made!',
+          hideIcon: true,
           primaryButtonText: 'OK',
         });
       } finally {
@@ -319,6 +338,7 @@ export default {
           name: 'failure',
           title: error.message,
           body: 'Transaction was not made!',
+          hideIcon: true,
           primaryButtonText: 'OK',
         });
       } finally {
@@ -335,43 +355,88 @@ export default {
 <style lang="scss" scoped>
 .buttons {
   button {
-    @include smallest {
-      margin-bottom: 0.25rem;
+    height: 32px;
+    width: 61px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 18px;
+
+    &:not(:last-child) {
+      margin-right: 16px;
     }
   }
 }
 
-.not-bootstrap-modal ::v-deep .not-bootstrap-modal-content {
-  background-color: $article_content_color;
-  border-radius: 0.5rem;
-  margin: 0 -6.3rem;
-  padding: 1rem;
-  width: 192px;
-  min-height: 248px;
-  font-size: 0.75rem;
+::v-deep.not-bootstrap-modal {
+  .overlay {
+    z-index: 1;
+  }
 
-  @include smallest {
-    padding: 0.5rem;
+  .not-bootstrap-modal-content {
+    background-color: $actions_ribbon_background_color;
+    border: 1px solid $background_color;
+    box-sizing: border-box;
+    border-radius: 6px;
+    margin: 0 -6.3rem;
+    padding: 1rem;
+    width: 260px;
+    min-height: 392px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    z-index: 1;
+
+    .label {
+      margin-bottom: 8px;
+    }
+
+    .modal-row {
+      margin-bottom: 24px;
+    }
+
+    .buy-sell {
+      padding: 4px;
+      min-width: 109px;
+      height: 32px;
+      font-size: 16px;
+    }
+
+    @include smallest {
+      padding: 0.5rem;
+    }
+
+    .loader {
+      margin-top: 96px;
+    }
   }
 }
 
-.input-amount {
-  max-width: 10rem;
+.input-group {
+  width: 228px;
+  margin-bottom: 24px;
 }
 
 .return-amount {
   display: flex;
   flex-direction: row;
+  margin-bottom: 24px;
+
+  .ae-amount-fiat {
+    max-width: 226px;
+    white-space: initial;
+    word-wrap: break-word;
+  }
+
+  .token-balance {
+    display: flex;
+    flex-direction: column;
+  }
 
   .update-loading {
     margin-left: 0.5rem;
     width: auto;
     opacity: 0.6;
   }
-}
-
-.buy-sell {
-  padding: 4px;
-  min-width: 80px;
 }
 </style>

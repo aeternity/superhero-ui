@@ -44,14 +44,10 @@
           <span
             v-if="vote.statusTimeouted || vote.statusClosedAndUnsuccessful"
           >{{ $t('components.VoteCard.NotTransferred') }}</span>
+          <div class="payout-address">
+            {{ vote.subject.VotePayout[0] }}
+          </div>
         </div>
-      </div>
-
-      <div class="vote-row">
-        <div class="vote-row-start payout-address">
-          {{ vote.subject.VotePayout[0] }}
-        </div>
-
         <OutlinedButton
           v-if="vote.showApplyPayout"
           class="vote-row-end green unpadded send"
@@ -95,7 +91,7 @@
           v-if="vote.showRevoke"
           @click="revokeVote(vote.voteAddress)"
         >
-          <IconCloseCircle />
+          <IconClose />
           {{ $t('components.VoteCard.Revoke') }}
         </AeButton>
 
@@ -122,10 +118,13 @@
             :class="{
               timeouted: vote.statusTimeouted || vote.statusClosedAndUnsuccessful,
               applied: vote.statusApplied,
+              ongoing: vote.statusOngoing,
             }"
-            :style="{ width: vote.stakePercent + '%' }"
+            :style="{ width: vote.statusOngoing ? vote.stakePercent : '100' + '%' }"
           >
-            <span v-if="vote.statusOngoing">{{ `${vote.stakePercent}%` }}</span>
+            <span v-if="vote.statusOngoing">
+              {{ `${vote.stakePercent}%${vote.showApplyPayout ? ' 🎉' : ''}` }}
+            </span>
             <span v-if="vote.statusTimeouted">{{ $t('components.VoteCard.TimedOut') }}</span>
             <span v-if="vote.statusClosedAndUnsuccessful">
               {{ $t('components.VoteCard.Unsuccessful') }}
@@ -146,7 +145,7 @@ import { EventBus } from '../utils/eventBus';
 import Backend from '../utils/backend';
 import { shiftDecimalPlaces } from '../utils';
 import IconClaimBack from '../assets/iconClaimBack.svg?icon-component';
-import IconCloseCircle from '../assets/iconCloseCircle.svg?icon-component';
+import IconClose from '../assets/iconClose.svg?icon-component';
 import IconCheckmarkCircle from '../assets/iconCheckmarkCircle.svg?icon-component';
 import IconHourglass from '../assets/iconHourglass.svg?icon-component';
 import AeInputAmount from './AeInputAmount.vue';
@@ -159,7 +158,7 @@ import Avatar from './Avatar.vue';
 export default {
   components: {
     IconClaimBack,
-    IconCloseCircle,
+    IconClose,
     IconCheckmarkCircle,
     IconHourglass,
     AeInputAmount,
@@ -302,13 +301,14 @@ export default {
 <style lang="scss" scoped>
 .vote-card {
   box-sizing: border-box;
-  box-shadow: 0.1rem 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0.1rem 0.2rem 0.4rem rgba($background_color, 0.2);
   border-radius: 0.3rem;
   background-color: $thumbnail_background_color;
   padding: 0.8rem;
   border: 1px solid $thumbnail_background_color;
   margin-bottom: 1.2rem;
   color: $small_heading_color;
+  transition: background-color 0.3s;
 
   .vote-row {
     display: flex;
@@ -359,7 +359,16 @@ export default {
       }
 
       &.send {
-        font-weight: bold;
+        font-weight: 700;
+        height: 40px;
+        width: 100px;
+        font-size: 16px;
+        line-height: 18px;
+
+        svg {
+          height: 20px;
+          width: auto;
+        }
       }
     }
   }
@@ -381,58 +390,46 @@ export default {
   }
 
   .vote-progress-bar {
-    background-color: $bg_hover;
-    width: 9rem;
-    border-radius: 0.3rem;
+    background-color: $buttons_background;
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 6px;
     overflow: hidden;
-    height: 2.3rem;
-
-    @include mobile {
-      width: 100%;
-      margin-top: 8px;
-    }
+    height: 40px;
+    font-size: 20px;
   }
 
   .vote-progress {
-    background-color:
-      rgba(
-        red($custom_links_color),
-        green($custom_links_color),
-        blue($custom_links_color),
-        0.5
-      );
     font-weight: normal;
-    height: 100%;
+    height: 40px;
     color: $pure_white;
-    line-height: 2.3rem;
-    font-size: 1rem;
+    line-height: 19px;
+    font-size: 16px;
     padding-left: 0.7rem;
     vertical-align: middle;
 
+    &.ongoing {
+      background-color: rgba($custom_links_color, 0.5);
+      font-size: 20px;
+      padding: 10px 0;
+
+      span {
+        margin-left: 14px;
+      }
+    }
+
     &.timeouted {
+      width: 100%;
       text-align: center;
-      background-color: $bg_hover;
       color: $red_color;
-      font-size: 0.75rem;
-      width: 100% !important;
+      padding: 9px 0;
     }
 
     &.applied {
+      width: 100%;
       text-align: center;
-      background-color: $bg_hover;
       color: $custom_links_color;
-      font-size: 0.75rem;
-      width: 100% !important;
-    }
-  }
-
-  ::v-deep .ae-button {
-    font-weight: bold;
-    font-size: 0.8rem;
-
-    svg {
-      height: 24px;
-      width: auto;
+      padding: 9px 0;
     }
   }
 
@@ -462,8 +459,7 @@ export default {
   }
 
   .input-group {
-    width: auto;
-    max-width: 8rem;
+    width: 50%;
     height: 100%;
 
     .input-group-append > span.append__ae {
@@ -472,6 +468,26 @@ export default {
 
     .form-control {
       height: 100%;
+    }
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
+  ::v-deep .ae-button {
+    font-weight: bold;
+    font-size: 0.8rem;
+
+    svg {
+      height: 24px;
+      width: auto;
+    }
+
+    @include mobile {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 8px;
     }
   }
 

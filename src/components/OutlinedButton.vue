@@ -25,16 +25,20 @@ export default {
   font-weight: 600;
   padding: 0.6rem;
   min-width: 8rem;
-  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  transition: 0.3s;
+  transition-property: color, background-color, opacity;
+  opacity: 0.7;
 
   &.unpadded {
     padding: 0.2rem;
     min-width: 3rem;
   }
 
-  &:hover {
+  &:hover,
+  &.active {
     border-color: $custom_links_color;
     color: $custom_links_color;
+    opacity: 1;
   }
 
   &.blue {
@@ -42,6 +46,7 @@ export default {
     border-color: $secondary_color;
 
     &:hover {
+      color: $standard_font_color;
       background-color: $secondary_color;
     }
   }
@@ -50,8 +55,9 @@ export default {
     color: $custom_links_color;
     border-color: $custom_links_color;
 
-    &:hover {
-      background-color: $custom_links_color;
+    &:hover,
+    &.active {
+      background-color: rgba($custom_links_color, 0.1);
     }
   }
 
@@ -59,15 +65,10 @@ export default {
     color: $red_color;
     border-color: $red_color;
 
-    &:hover {
-      background-color: $red_color;
+    &:hover,
+    &.active {
+      background-color: rgba($red_color, 0.1);
     }
-  }
-
-  &.blue:hover,
-  &.red:hover,
-  &.green:hover {
-    color: $standard_font_color;
   }
 
   &.fullwidth {

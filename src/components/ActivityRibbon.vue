@@ -14,7 +14,7 @@
     </FilterButton>
     <slot name="left" />
     <div class="separator" />
-    <slot />
+    <slot name="right" />
   </div>
 </template>
 

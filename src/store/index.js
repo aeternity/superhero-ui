@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import BigNumber from 'bignumber.js';
-import Swagger from '@aeternity/aepp-sdk/es/utils/swagger';
+import { genSwaggerClient } from '@aeternity/aepp-sdk';
+import { mapObject } from '@aeternity/aepp-sdk/es/utils/other';
 import { camelCase } from 'lodash-es';
 import mutations from './mutations';
 import getters from './getters';
@@ -78,11 +79,12 @@ export default new Vuex.Store({
       }));
     },
     async initMiddleware({ commit }) {
-      const res = await fetch(`${process.env.VUE_APP_MIDDLEWARE_URL}/swagger/swagger.json`);
-      const swag = await res.json();
+      const specUrl = `${process.env.VUE_APP_MIDDLEWARE_URL}/swagger/swagger.json`;
+      const res = await fetch(specUrl);
+      const spec = await res.json();
 
-      swag.paths = {
-        ...swag.paths,
+      spec.paths = {
+        ...spec.paths,
         'aex9/balance/{token}/{account}?top=true': {
           get: {
             operationId: 'getAex9Balance',
@@ -103,14 +105,13 @@ export default new Vuex.Store({
           },
         },
       };
+      spec.basePath = '/mdw//';
 
-      const { api: middleware } = await Swagger.compose({
-        methods: {
-          urlFor: (path) => `${process.env.VUE_APP_MIDDLEWARE_URL}/${path}`,
-          axiosError: () => '',
-        },
-      })({ swag });
-      commit('setMiddleware', Object.entries(middleware).reduce((m, [k, v]) => ({ ...m, [camelCase(k)]: v }), {}));
+      const middleware = mapObject(
+        (await genSwaggerClient(specUrl, { spec })).api,
+        ([k, v]) => [camelCase(k), v],
+      );
+      commit('setMiddleware', middleware);
     },
   },
   getters,

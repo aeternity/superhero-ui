@@ -46,7 +46,9 @@ export default {
     ...mapState('aeternity', ['sdk']),
   },
   async mounted() {
-    if (!this.isLoggedIn && this.$route.name === 'feed') {
+    if (process.env.VUE_APP_LANDING_ENABLED
+     && !this.isLoggedIn
+     && this.$route.name === 'feed') {
       this.$router.push({ name: 'landing' });
     }
 

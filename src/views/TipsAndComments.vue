@@ -50,6 +50,7 @@ import Loading from '../components/Loading.vue';
 import backendAuthMixin from '../utils/backendAuthMixin';
 import SendComment from '../components/SendComment.vue';
 import { EventBus } from '../utils/eventBus';
+import Backend from '../utils/backend';
 
 export default {
   components: {
@@ -126,10 +127,29 @@ export default {
   },
   metaInfo() {
     const title = {
-      tip: 'Comments for a Tip',
+      tip: `Tip ${this.tipId}`,
       comment: 'Comment View',
     }[this.$route.name];
-    return { title };
+    const author = this.id ? this.record?.author : this.record?.sender;
+    const avatar = Backend.getProfileImageUrl(author);
+
+    const ogImage = this.record?.media?.length ? this.record.media[0] : avatar;
+    const ogUrl = window.location.href.split('?')[0];
+    const ogTitle = `Superhero ${this.id ? 'Comment' : `Tip ${this.tipId.split('_')[1]}`}`;
+    const ogDescription = this.id ? this.record?.text : this.record?.title;
+
+    const meta = [
+      { property: 'og:image', content: ogImage },
+      { property: 'og:url', content: ogUrl },
+      { property: 'og:title', content: ogTitle },
+      { property: 'og:description', content: ogDescription },
+      { property: 'og:site_name', content: 'Superhero' },
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:site', content: '@superhero_chain' },
+      { name: 'twitter:creator', content: '@superhero_chain' },
+      { name: 'twitter:image:alt', content: 'Superhero post' },
+    ];
+    return { title, meta };
   },
 };
 </script>

@@ -142,6 +142,10 @@ export default {
       span {
         vertical-align: middle;
       }
+
+      @include smallest {
+        font-size: 14px;
+      }
     }
   }
 
@@ -154,6 +158,7 @@ export default {
     @include smallest {
       background-color: $background_color;
       border-bottom: 0.075rem solid $search_nav_border_color;
+      padding: 0 8px;
     }
 
     .button-plain {
@@ -164,6 +169,7 @@ export default {
       border-bottom: 0.1rem solid transparent;
 
       @include smallest {
+        font-size: 14px;
         margin-left: 0;
         flex-grow: 1;
         flex-basis: 0;

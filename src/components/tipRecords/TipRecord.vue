@@ -251,12 +251,6 @@ export default {
   }
 }
 
-@media only screen and (max-width: 600px) {
-  .tip-note {
-    font-size: 0.75rem;
-  }
-}
-
 @include smallest {
   .tip-body {
     padding: 0;
@@ -268,17 +262,12 @@ export default {
     position: relative;
 
     .tip-body .tip-description .author-and-date ::v-deep {
-      font-size: 0.6rem;
       padding-left: 0;
       padding-right: 0;
 
       img {
         height: 1.5rem;
         width: 1.5rem;
-      }
-
-      .address {
-        font-size: 0.55rem;
       }
     }
   }
@@ -288,7 +277,6 @@ export default {
   }
 
   .tip-footer {
-    font-size: 0.65rem;
     padding: 0.85rem 0 0 0;
   }
 }

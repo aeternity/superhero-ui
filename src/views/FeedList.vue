@@ -18,7 +18,7 @@
         >
           <IconDiamond />
           <span>
-            {{ $t('views.FeedList.tips')}}
+            {{ $t('views.FeedList.tips') }}
           </span>
         </FilterButton>
         <FilterButton
@@ -33,17 +33,17 @@
       </div>
       <div class="not-bootstrap-row">
         <ButtonPlain
-          :class="{ active: tipSortBy === 'hot' }"
-          @click="setTipSortBy('hot')"
-        >
-          {{ $t('views.TipList.SortingMostPopular') }}
-        </ButtonPlain>
-        <ButtonPlain
           id="sort-latest"
           :class="{ active: tipSortBy === 'latest' }"
           @click="setTipSortBy('latest')"
         >
           {{ $t('views.TipList.SortingLatest') }}
+        </ButtonPlain>
+        <ButtonPlain
+          :class="{ active: tipSortBy === 'hot' }"
+          @click="setTipSortBy('hot')"
+        >
+          {{ $t('views.TipList.SortingMostPopular') }}
         </ButtonPlain>
         <ButtonPlain
           :class="{ active: tipSortBy === 'highest' }"

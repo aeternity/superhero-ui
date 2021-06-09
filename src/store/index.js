@@ -25,7 +25,7 @@ export default new Vuex.Store({
     pinnedItems: [],
     selectedCurrency: 'eur',
     topics: [],
-    tipSortBy: 'hot',
+    tipSortBy: 'latest',
     chainNames: [],
     verifiedUrls: [],
     graylistedUrls: [],

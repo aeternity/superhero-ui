@@ -339,16 +339,6 @@ export default {
     left: -50%;
     right: -50%;
   }
-
-  .tip-article .tip-article-content {
-    font-size: 0.75rem;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .tip-article .tip-article-content {
-    font-size: 0.65rem;
-  }
 }
 
 @include smallest {

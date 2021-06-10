@@ -36,7 +36,7 @@
       v-if="!useSdkWallet && isTipsRoute"
       :href="tipDeepLink"
     >
-      <IconDiamond />
+      <IconWallet />
     </a>
     <ButtonPlain
       v-if="isTipsRoute"
@@ -56,7 +56,7 @@ import Navigation from './Navigation.vue';
 import FooterSection from './FooterSection.vue';
 import SearchFeed from './SearchFeed.vue';
 import { createDeepLinkUrl } from '../../utils';
-import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
+import IconWallet from '../../assets/iconWallet.svg?icon-component';
 import IconSearch from '../../assets/iconSearch.svg?icon-component';
 import IconMobileMenu from '../../assets/iconMobileMenu.svg?icon-component';
 import ButtonPlain from '../ButtonPlain.vue';
@@ -66,7 +66,7 @@ export default {
     Navigation,
     FooterSection,
     SearchFeed,
-    IconDiamond,
+    IconWallet,
     IconSearch,
     IconMobileMenu,
     ButtonPlain,

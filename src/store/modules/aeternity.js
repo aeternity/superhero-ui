@@ -7,6 +7,7 @@ import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wal
 import TIPPING_INTERFACE_V1 from 'tipping-contract/Tipping_v1_Interface.aes';
 import TIPPING_INTERFACE_V2 from 'tipping-contract/Tipping_v2_Interface.aes';
 import TIPPING_INTERFACE_V3 from 'tipping-contract/Tipping_v3_Interface.aes';
+import TIPPING_INTERFACE_V4 from 'tipping-contract/Tipping_v4_Interface.aes';
 import tippingContractUtil from 'tipping-contract/util/tippingContractUtil';
 
 import FUNGIBLE_TOKEN_CONTRACT_INTERFACE from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
@@ -28,6 +29,7 @@ export default {
     contractV1: null,
     contractV2: null,
     contractV3: null,
+    contractV4: null,
     wordRegistryContract: null,
     fungibleTokenContracts: {},
     tokenVotingContracts: {},
@@ -36,10 +38,11 @@ export default {
   },
   mutations: {
     setContracts(state, contracts) {
-      const [contractV1, contractV2, contractV3] = contracts;
+      const [contractV1, contractV2, contractV3, contractV4] = contracts;
       state.contractV1 = contractV1;
       state.contractV2 = contractV2;
       state.contractV3 = contractV3;
+      state.contractV4 = contractV4;
       state.isTippingContractsInitialised = true;
     },
     setSdk(state, { instance }) {
@@ -78,6 +81,7 @@ export default {
         [TIPPING_INTERFACE_V1, process.env.VUE_APP_CONTRACT_V1_ADDRESS],
         [TIPPING_INTERFACE_V2, process.env.VUE_APP_CONTRACT_V2_ADDRESS],
         [TIPPING_INTERFACE_V3, process.env.VUE_APP_CONTRACT_V3_ADDRESS],
+        [TIPPING_INTERFACE_V4, process.env.VUE_APP_CONTRACT_V4_ADDRESS],
       ].map(([tippingInterface, contractAddress]) => (contractAddress
         ? sdk.getContractInstance(tippingInterface, { contractAddress })
         : null)));
@@ -324,6 +328,19 @@ export default {
         forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
         allowanceAmount,
       );
+    },
+    async postViaBurn({ dispatch, state: { contractV4 } }, {
+      title,
+      media,
+      tokenAmount,
+      tokenAddress,
+    }) {
+      await dispatch('initTippingContractIfNeeded');
+      await dispatch('createOrChangeAllowance', { contractAddress: tokenAddress, amount: tokenAmount, forAccount: process.env.VUE_APP_CONTRACT_V4_ADDRESS.replace('ct_', 'ak_') });
+
+      const { decodedResult } = await contractV4.methods
+        .post_via_burn(title, media, tokenAddress, tokenAmount);
+      return dispatch('backend/awaitTip', `${decodedResult}_v4`, { root: true });
     },
     async tip({ dispatch, state: { contractV2, contractV1 } }, {
       url,

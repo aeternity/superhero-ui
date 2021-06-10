@@ -107,7 +107,7 @@ export default {
         if (+this.balance === 0) {
           await this.postWithZeroBalance(data.title, data.media);
         } else {
-          await this.$store.dispatch('aeternity/postWithoutTip', { title: data.title, media: data.media });
+          await this.$store.dispatch('aeternity/postViaBurn', { title: data.title, media: data.media, tokenAmount: 100000000000000000, tokenAddress: 'ct_BxckqeNbTYH7ayohwsnyq8JeU6G49zDrZuLoVXjE4fKwzcyna' });
         }
         this.clearPostForm();
         this.$store.dispatch('modals/open', {

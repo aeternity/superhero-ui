@@ -10,30 +10,19 @@
       {{ $t('components.layout.RightSection.Trending') }}
     </RightSectionTitle>
 
-    <div class="topic-list">
-      <div
-        v-for="[topic, data] in topics"
-        :key="topic"
-        class="not-bootstrap-row"
-      >
-        <Topic
-          class="text-ellipsis"
-          :topic="topic"
-        />
-        <AeAmountFiat :amount="data.amount_ae" />
-      </div>
-    </div>
+    <TopicList />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import RightSectionTitle from './RightSectionTitle.vue';
-import Topic from '../tipRecords/Topic.vue';
-import AeAmountFiat from '../AeAmountFiat.vue';
+import TopicList from '../TopicList.vue';
 
 export default {
-  components: { RightSectionTitle, Topic, AeAmountFiat },
+  components: {
+    RightSectionTitle, TopicList,
+  },
   props: { closed: Boolean },
   computed: mapState({
     topics: ({ topics }) => topics.filter(([t]) => t !== '#test'),
@@ -69,20 +58,6 @@ export default {
 
     @media (max-height: 900px) {
       max-height: 160px;
-    }
-
-    .not-bootstrap-row {
-      display: flex;
-      align-items: center;
-      margin: 0.5rem 0;
-
-      .topic {
-        flex-grow: 1;
-      }
-
-      .ae-amount-fiat {
-        flex-shrink: 0;
-      }
     }
   }
 }

@@ -1,52 +1,55 @@
 <template>
   <!-- TODO: Extract overlay to a separate component -->
-  <div
-    v-if="showOverlay"
-    class="mobile-navigation-overlay"
-  >
-    <ButtonPlain
-      class="close-button"
-      @click="showOverlay = false"
-    >
-      <!--eslint-disable-line vue-i18n/no-raw-text-->
-      &#x2715;
-    </ButtonPlain>
-    <Navigation mobile />
-    <FooterSection />
-  </div>
-  <SearchFeed
-    v-else-if="isTipsRoute && showSearchFeed"
-    class="mobile-navigation-sticky"
-    @close="showSearchFeed = false"
-  />
-  <div
-    v-else
-    class="mobile-navigation-sticky mobile-navigation"
-  >
-    <RouterLink
-      class="logo"
-      to="/"
-    >
-      <img src="../../assets/headerLogo.svg">
-    </RouterLink>
+  <div class="mobile-navigation-sticky mobile-navigation">
+    <Transition name="slide">
+      <Modal
+        v-if="showOverlay"
+        @close="showOverlay = false"
+      >
+        <div class="mobile-navigation-overlay">
+          <ButtonPlain
+            class="close-button"
+            @click="showOverlay = false"
+          >
+            <!--eslint-disable-line vue-i18n/no-raw-text-->
+            &#x2715;
+          </ButtonPlain>
+          <Navigation mobile />
+          <FooterSection />
+        </div>
+      </Modal>
+    </Transition>
+    <SearchFeed
+      v-if="isTipsRoute && showSearchFeed"
+      class="mobile-navigation-sticky"
+      @close="showSearchFeed = false"
+    />
+    <template v-else>
+      <RouterLink
+        class="logo"
+        to="/"
+      >
+        <img src="../../assets/headerLogo.svg">
+      </RouterLink>
 
-    <div class="separator" />
+      <div class="separator" />
 
-    <a
-      v-if="!useSdkWallet && isTipsRoute"
-      :href="tipDeepLink"
-    >
-      <IconWallet />
-    </a>
-    <ButtonPlain
-      v-if="isTipsRoute"
-      @click="showSearchFeed = true"
-    >
-      <IconSearch />
-    </ButtonPlain>
-    <ButtonPlain @click="showOverlay = true">
-      <IconMobileMenu />
-    </ButtonPlain>
+      <a
+        v-if="!useSdkWallet && isTipsRoute"
+        :href="tipDeepLink"
+      >
+        <IconWallet />
+      </a>
+      <ButtonPlain
+        v-if="isTipsRoute"
+        @click="showSearchFeed = true"
+      >
+        <IconSearch />
+      </ButtonPlain>
+      <ButtonPlain @click="showOverlay = true">
+        <IconMobileMenu />
+      </ButtonPlain>
+    </template>
   </div>
 </template>
 
@@ -60,6 +63,7 @@ import IconWallet from '../../assets/iconWallet.svg?icon-component';
 import IconSearch from '../../assets/iconSearch.svg?icon-component';
 import IconMobileMenu from '../../assets/iconMobileMenu.svg?icon-component';
 import ButtonPlain from '../ButtonPlain.vue';
+import Modal from '../Modal.vue';
 
 export default {
   components: {
@@ -70,6 +74,7 @@ export default {
     IconSearch,
     IconMobileMenu,
     ButtonPlain,
+    Modal,
   },
   data: () => ({
     showOverlay: false,
@@ -101,9 +106,9 @@ export default {
   color: $light_font_color;
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
+  left: 50%;
   padding: 1rem;
 
   .close-button {
@@ -117,8 +122,8 @@ export default {
 }
 
 .mobile-navigation {
-  padding-right: 0.6rem;
-  padding-left: 1rem;
+  padding-right: 8px;
+  padding-left: 8px;
   display: flex;
   align-items: center;
 
@@ -157,6 +162,35 @@ export default {
 
   @include smallest {
     width: 100%;
+  }
+}
+
+::v-deep .not-bootstrap-modal {
+  .overlay {
+    background-color: rgba($background_color, 0.6);
+  }
+
+  &.slide-enter-active,
+  &.slide-enter-active .mobile-navigation-overlay,
+  &.slide-enter-active .mobile-navigation-overlay .navi,
+  &.slide-leave-active,
+  &.slide-leave-active .mobile-navigation-overlay {
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+  }
+
+  &.slide-leave-active,
+  &.slide-leave-active .mobile-navigation-overlay {
+    transition-duration: 0.2s;
+  }
+
+  &.slide-enter .mobile-navigation-overlay,
+  &.slide-leave-to .mobile-navigation-overlay {
+    transform: translateX(100%);
+  }
+
+  &.slide-leave-to .mobile-navigation-overlay {
+    opacity: 0;
   }
 }
 </style>

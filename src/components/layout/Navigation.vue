@@ -121,8 +121,8 @@ export default {
   }
 
   &.mobile a:not(.logo) {
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
+    font-size: 14px;
+    margin-bottom: 8px;
   }
 }
 </style>

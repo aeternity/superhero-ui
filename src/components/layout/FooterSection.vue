@@ -108,6 +108,16 @@ export default {
 
     .footer-btns {
       margin-bottom: 8px;
+
+      @include mobile {
+        display: flex;
+        flex-direction: column;
+
+        .outlined-button {
+          width: 100%;
+          margin-bottom: 8px;
+        }
+      }
     }
 
     .venture {
@@ -169,6 +179,12 @@ export default {
         img {
           height: 0.55rem;
         }
+      }
+    }
+
+    a {
+      @include mobile {
+        display: block;
       }
     }
   }

@@ -6,7 +6,7 @@
       class="button"
       :class="{ tipped: tipUrlStats.isTipped }"
       :title="title"
-      :disabled="!tipUrl"
+      :disabled="!tipUrl || tip.type === 'POST_VIA_BURN'"
       @click="useSdkWallet && (showModal = true)"
     >
       <IconTip />
@@ -140,7 +140,7 @@ export default {
         : null;
     },
     tipAmount() {
-      return +this.tipUrlStats.totalAmount !== '0'
+      return this.tipUrlStats.totalAmount !== '0' || this.largestFtTipAmount === null
         ? {
           value: this.tipUrlStats.totalAmount,
           token: null,

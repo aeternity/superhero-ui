@@ -23,11 +23,9 @@
         class="input-group-text append-ae"
         :title="value"
       >
-        <!-- eslint-disable vue-i18n/no-raw-text -->
         <span class="symbol">
           {{ symbol }}
         </span>
-        <!-- eslint-enable vue-i18n/no-raw-text -->
         <FiatValue
           v-if="!noFiatvalue"
           :amount="value"

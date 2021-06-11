@@ -83,10 +83,12 @@ export default class Backend {
     blacklist = true,
     tips = true,
     posts = true,
+    postviaburn = true,
   ) => {
     let query = `?ordering=${ordering}&page=${page}`;
     if (tips) query += '&contractVersion=v1&contractVersion=v2';
     if (posts) query += '&contractVersion=v3';
+    if (postviaburn) query += '&contractVersion=v4';
     if (address) query += `&address=${address}`;
     if (search) query += `&search=${encodeURIComponent(search)}`;
     query += `&blacklist=${blacklist}`;

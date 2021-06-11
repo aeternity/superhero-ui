@@ -24,6 +24,7 @@ import WordBazaarCreateToken from './views/WordBazaarCreateToken.vue';
 import WordBazaarGetAe from './views/WordBazaarGetAe.vue';
 import WordBazaarHowItWorks from './views/WordBazaarHowItWorks.vue';
 import WordDetail from './views/WordDetail.vue';
+import Trending from './views/Trending.vue';
 
 const routes = [
   {
@@ -176,6 +177,11 @@ const routes = [
       if (IS_MOBILE_DEVICE) window.location = `https://${process.env.VUE_APP_JITSI_HOST}/${to.params.room || ''}`;
       else next();
     },
+  },
+  {
+    path: '/trending',
+    name: 'trending',
+    component: Trending,
   },
   {
     path: '*',

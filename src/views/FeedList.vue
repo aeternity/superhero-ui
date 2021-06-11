@@ -30,6 +30,12 @@
             {{ $t('views.FeedList.posts') }}
           </span>
         </FilterButton>
+        <FilterButton
+          class="trending"
+          to="/trending"
+        >
+          <IconHashtag />
+        </FilterButton>
       </div>
       <div class="not-bootstrap-row">
         <ButtonPlain
@@ -84,6 +90,7 @@ import FilterButton from '../components/FilterButton.vue';
 import IconFeed from '../assets/iconFeed.svg?icon-component';
 import IconDiamond from '../assets/iconDiamond.svg?icon-component';
 import IconPosts from '../assets/iconPosts.svg?icon-component';
+import IconHashtag from '../assets/iconHashtag.svg?icon-component';
 
 export default {
   components: {
@@ -96,6 +103,7 @@ export default {
     IconFeed,
     IconDiamond,
     IconPosts,
+    IconHashtag,
   },
   props: {
     query: { type: String, default: '' },
@@ -145,6 +153,14 @@ export default {
 
       @include smallest {
         font-size: 14px;
+      }
+
+      &.trending {
+        display: none;
+
+        @include mobile {
+          display: inline-block;
+        }
       }
     }
   }

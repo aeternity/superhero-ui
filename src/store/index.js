@@ -13,7 +13,7 @@ import backend from './modules/backend';
 import aeternity from './modules/aeternity';
 // eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
-import { handleUnknownError, atomsToAe } from '../utils';
+import { handleUnknownError } from '../utils';
 
 Vue.use(Vuex);
 
@@ -54,7 +54,7 @@ export default new Vuex.Store({
       const result = await middleware.getAex9Balance(contractAddress, address);
       return new BigNumber(result.amount || 0).toFixed();
     },
-    async updateTokensBalanceAndPrice({ state: { address }, commit, dispatch }) {
+    async updateTokensBalanceAndPrice({ state: { address, middleware }, commit, dispatch }) {
       const tokens = await Backend.getTokenBalances(address);
       let knownTokens;
       try {
@@ -63,6 +63,7 @@ export default new Vuex.Store({
         handleUnknownError(error);
         return;
       }
+      if (!middleware) await dispatch('initMiddleware');
       await Promise.all(Object.entries(tokens).map(async ([token]) => {
         commit('addTokenBalance', {
           token,
@@ -119,7 +120,7 @@ export default new Vuex.Store({
         dispatch('updateUserProfile'),
         (async () => {
           const balance = await sdk.balance(address).catch(() => 0);
-          commit('updateBalance', atomsToAe(balance).toFixed(2));
+          commit('updateBalance', balance);
         })(),
         dispatch('updateTokensBalanceAndPrice'),
       ]);

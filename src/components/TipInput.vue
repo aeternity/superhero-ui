@@ -301,6 +301,8 @@ export default {
   .not-bootstrap-modal .not-bootstrap-modal-content {
     .error {
       text-align: center;
+      font-size: 12px;
+      color: $red_color;
     }
 
     .message {

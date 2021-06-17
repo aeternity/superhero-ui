@@ -1,6 +1,6 @@
 {
   "name": "superhero-ui",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:tnet": "vue-cli-service serve --mode tnet",

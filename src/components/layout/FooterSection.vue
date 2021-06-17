@@ -27,7 +27,7 @@
         </a>
       </p>
       <div class="powered-by">
-        {{ $t('components.layout.Overview.PoweredBy') }}
+        {{ $t('components.layout.FooterSection.PoweredBy') }}
         <a
           href="https://aeternity.com/"
           target="_blank"

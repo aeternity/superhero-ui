@@ -179,7 +179,7 @@ export default {
     transition: height 0.25s;
 
     &.half-closed {
-      height: 190px;
+      height: 245px;
     }
   }
 

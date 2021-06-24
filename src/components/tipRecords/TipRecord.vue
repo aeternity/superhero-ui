@@ -13,7 +13,10 @@
             <div @click="sendReport">
               {{ $t('components.tipRecords.TipRecord.reportPost') }}
             </div>
-            <div @click="claim">
+            <div
+              v-if="tip.type === 'AE_TIP'"
+              @click="claim"
+            >
               {{ $t('components.tipRecords.TipRecord.claim') }}
             </div>
             <div @click="pinOrUnPinTip">

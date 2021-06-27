@@ -1,9 +1,7 @@
 /* globals Cypress */
 import {
-  MemoryAccount, Node, Universal, RpcAepp, Crypto,
+  MemoryAccount, Node, Universal, RpcAepp, Crypto, WalletDetector, BrowserWindowMessageConnection,
 } from '@aeternity/aepp-sdk';
-import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
-import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import TIPPING_INTERFACE_V1 from 'tipping-contract/Tipping_v1_Interface.aes';
 import TIPPING_INTERFACE_V2 from 'tipping-contract/Tipping_v2_Interface.aes';
 import TIPPING_INTERFACE_V3 from 'tipping-contract/Tipping_v3_Interface.aes';
@@ -129,7 +127,7 @@ export default {
       const scannerConnection = await BrowserWindowMessageConnection({
         connectionInfo: { id: 'spy' },
       });
-      const detector = await Detector({ connection: scannerConnection });
+      const detector = await WalletDetector({ connection: scannerConnection });
       const webWalletTimeout = setTimeout(() => !IS_MOBILE_DEVICE && commit('enableIframeWallet'), 10000);
 
       return new Promise((resolve) => {

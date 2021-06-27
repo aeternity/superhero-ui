@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
+import { BrowserWindowMessageConnection } from '@aeternity/aepp-sdk';
 import JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import { IS_MOBILE_DEVICE } from '../utils';
 import Loading from '../components/Loading.vue';

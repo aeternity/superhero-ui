@@ -17,7 +17,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@aeternity/aepp-sdk": "^8.1.0",
+    "@aeternity/aepp-sdk": "^8.2.1",
     "@fontsource/oxygen": "^4.3.0",
     "aeternity-fungible-token": "github:aeternity/aeternity-fungible-token#v2.0.0",
     "animate.css": "^4.1.1",

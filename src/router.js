@@ -35,7 +35,7 @@ const routes = [
       next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
     },
   },
-  ...process.env.LANDING_ENABLED ? [{
+  ...process.env.VUE_APP_LANDING_ENABLED ? [{
     path: '/landing',
     name: 'landing',
     component: Landing,

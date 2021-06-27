@@ -13,7 +13,7 @@ module.exports = {
     loaderOptions: {
       sass: {
         // Global includes - will be prepended in every scss file (including components)
-        prependData: `
+        additionalData: `
           @import "${path.resolve(__dirname, 'src/styles/_variables.scss')}";
           @import "${path.resolve(__dirname, 'src/styles/_mixins.scss')}";
         `,

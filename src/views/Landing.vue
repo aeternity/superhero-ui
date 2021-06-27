@@ -430,7 +430,7 @@
   </div>
 </template>
 <script>
-import VueAos from 'vue-aos';
+import VueAos from 'vue-aos/src/components/VueAos';
 import { mapState } from 'vuex';
 import AeAmount from '../components/AeAmount.vue';
 

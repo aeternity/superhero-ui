@@ -48,6 +48,10 @@
     "vuex-router-sync": "^5.0.0",
     "wordbazaar-contracts": "github:aeternity/wordbazaar-contracts#v0.0.4-alpha2"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aeternity/superhero-ui"
+  },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-e2e-cypress": "^4.5.13",

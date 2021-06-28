@@ -64,12 +64,11 @@
               {{ $t('views.Landing.section1.linkFeed') }}
             </RouterLink>
             <div class="banner-img">
-              <VueAos animation-class="animate__animated animate__fadeInUp">
-                <img
-                  alt=""
-                  src="../assets/landing/banner-img.png"
-                >
-              </VueAos>
+              <img
+                data-class-if-visible="animate__animated animate__fadeInUp"
+                alt=""
+                src="../assets/landing/banner-img.png"
+              >
             </div>
           </div>
         </div>
@@ -80,148 +79,153 @@
             <div class="sh-col-6 left-share">
               <div class="share-history">
                 <div class="top-title">
-                  <VueAos animation-class="animate__animated animate__delay-1s animate__zoomIn">
-                    <span>Privacy First</span>
-                  </VueAos>
+                  <span
+                    data-class-if-visible="animate__animated animate__delay-1s animate__zoomIn"
+                  >
+                    Privacy First
+                  </span>
                   <h2>Share your story — </h2>
                   <p>not your data</p>
                 </div>
               </div>
             </div>
             <div class="sh-col-6 right-share-text">
-              <VueAos animation-class="animate__animated animate__delay-2s animate__fadeIn">
-                <p>
-                  Anchored on the powerful, open-source æternity blockchain, Superhero is defined by
-                  the user’s basic right to be fully in control of their online identity, data, and
-                  personal information.
-                </p>
-              </VueAos>
+              <p data-class-if-visible="animate__animated animate__delay-2s animate__fadeIn">
+                Anchored on the powerful, open-source æternity blockchain, Superhero is defined by
+                the user’s basic right to be fully in control of their online identity, data, and
+                personal information.
+              </p>
             </div>
           </div>
-          <VueAos animation-class="animate__animated animate__fadeIn">
-            <div class="sh-row">
-              <div class="sh-col-3 left-voting-box">
-                <div class="inner-left-voting-box">
-                  <img
-                    alt=""
-                    src="../assets/landing/voting.svg"
-                  >
-                  <h4>
-                    Fully decentralized
-                  </h4>
-                  <p>
-                    Superhero is decentralized. This means that no third party involvement will ever
-                    be permitted within the Superhero platform. All interactions are between the
-                    users themselves. This implies that there is no entity controlling the
-                    activities or pushing content on users.
-                  </p>
-                </div>
-              </div>
-              <div class="sh-col-9 voting-img">
+          <div
+            data-class-if-visible="animate__animated animate__fadeIn"
+            class="sh-row"
+          >
+            <div class="sh-col-3 left-voting-box">
+              <div class="inner-left-voting-box">
                 <img
                   alt=""
-                  src="../assets/landing/post.png"
+                  src="../assets/landing/voting.svg"
                 >
+                <h4>
+                  Fully decentralized
+                </h4>
+                <p>
+                  Superhero is decentralized. This means that no third party involvement will ever
+                  be permitted within the Superhero platform. All interactions are between the
+                  users themselves. This implies that there is no entity controlling the
+                  activities or pushing content on users.
+                </p>
               </div>
             </div>
-          </VueAos>
+            <div class="sh-col-9 voting-img">
+              <img
+                alt=""
+                src="../assets/landing/post.png"
+              >
+            </div>
+          </div>
           <div
             v-if="stats"
             class="sh-row"
           >
-            <VueAos animation-class="animate__animated animate__delay-1s animate__fadeInUp">
-              <div class="sh-col-3 sm-text-box">
-                <h4>{{ stats.totalTipsLength }}</h4>
-                <p>Tips aggregated</p>
-              </div>
-            </VueAos>
-            <VueAos animation-class="animate__animated animate__delay-2s animate__fadeInUp">
-              <div class="sh-col-3 sm-text-box">
-                <h4>
-                  <AeAmount :amount="stats.totalAmount" />
-                </h4>
-                <p>Total Tips Value</p>
-              </div>
-            </VueAos>
-            <VueAos animation-class="animate__animated animate__delay-3s animate__fadeInUp">
-              <div class="sh-col-3 sm-text-box">
-                <h4>
-                  <AeAmount :amount="stats.totalClaimedAmount" />
-                </h4>
-                <p>Total Tips Claimed</p>
-              </div>
-            </VueAos>
-            <VueAos animation-class="animate__animated animate__delay-4s animate__fadeInUp">
-              <div class="sh-col-3 sm-text-box">
-                <h4>{{ stats.sendersLength }}</h4>
-                <p>Unique Tip Senders</p>
-              </div>
-            </VueAos>
+            <div
+              data-class-if-visible="animate__animated animate__delay-1s animate__fadeInUp"
+              class="sh-col-3 sm-text-box"
+            >
+              <h4>{{ stats.totalTipsLength }}</h4>
+              <p>Tips aggregated</p>
+            </div>
+            <div
+              data-class-if-visible="animate__animated animate__delay-2s animate__fadeInUp"
+              class="sh-col-3 sm-text-box"
+            >
+              <h4>
+                <AeAmount :amount="stats.totalAmount" />
+              </h4>
+              <p>Total Tips Value</p>
+            </div>
+            <div
+              data-class-if-visible="animate__animated animate__delay-3s animate__fadeInUp"
+              class="sh-col-3 sm-text-box"
+            >
+              <h4>
+                <AeAmount :amount="stats.totalClaimedAmount" />
+              </h4>
+              <p>Total Tips Claimed</p>
+            </div>
+            <div
+              data-class-if-visible="animate__animated animate__delay-4s animate__fadeInUp"
+              class="sh-col-3 sm-text-box"
+            >
+              <h4>{{ stats.sendersLength }}</h4>
+              <p>Unique Tip Senders</p>
+            </div>
           </div>
         </div>
       </section>
       <section class="superhero-tips">
         <div class="sh-container">
-          <VueAos animation-class="animate__animated animate__fadeInUp">
-            <div class="sh-row">
-              <div class="sh-col-6 left-tips">
-                <div class="top-title">
-                  <VueAos animation-class="animate__animated animate__delay-1s animate__zoomIn">
-                    <h3>TIPPING</h3>
-                  </VueAos>
-                  <p><b>Sending crypto</b> has never been <b>easier</b></p>
-                </div>
-                <div class="desc">
-                  <p>
-                    Superhero’s native wallet application, compatible with most platforms and
-                    browsers, seamlessly integrates into your daily life and allows you to send
-                    crypto instantaneously - at virtually no cost! There is no fee, except a small
-                    compensation for miners that keep the network running safely. <br>A true
-                    peer-to-peer platform, Superhero has no intermediaries and allows for no
-                    third-party interference, by design.
-                  </p>
-                  <p>
-                    Superhero wallet isn’t just an ordinary cryptocurrency wallet.<br> Through the
-                    Superhero wallet each user can create
-                    invitation links, follow transaction history or claim tips they have received
-                    through the Superhero tipping option, and much more.
-                  </p>
-                  <div class="desc-hero">
-                    <a
-                      href="https://apps.apple.com/app/superhero-wallet/id1502786641"
-                      target="_blank"
-                    ><img
-                      alt=""
-                      src="../assets/landing/appstore.svg"
-                    ></a>
-                    <a
-                      href="https://play.google.com/store/apps/details?id=com.superhero.cordova"
-                      target="_blank"
-                    ><img
-                      alt=""
-                      src="../assets/landing/googleplay.svg"
-                    ></a>
-                  </div>
-                </div>
+          <div
+            data-class-if-visible="animate__animated animate__fadeInUp"
+            class="sh-row"
+          >
+            <div class="sh-col-6 left-tips">
+              <div class="top-title">
+                <h3 data-class-if-visible="animate__animated animate__delay-1s animate__zoomIn">
+                  TIPPING
+                </h3>
+                <p><b>Sending crypto</b> has never been <b>easier</b></p>
               </div>
-              <div class="sh-col-6 left-tips-img">
-                <VueAos animation-class="animate__animated animate__delay-4s animate__fadeIn">
-                  <img
+              <div class="desc">
+                <p>
+                  Superhero’s native wallet application, compatible with most platforms and
+                  browsers, seamlessly integrates into your daily life and allows you to send
+                  crypto instantaneously - at virtually no cost! There is no fee, except a small
+                  compensation for miners that keep the network running safely. <br>A true
+                  peer-to-peer platform, Superhero has no intermediaries and allows for no
+                  third-party interference, by design.
+                </p>
+                <p>
+                  Superhero wallet isn’t just an ordinary cryptocurrency wallet.<br> Through the
+                  Superhero wallet each user can create
+                  invitation links, follow transaction history or claim tips they have received
+                  through the Superhero tipping option, and much more.
+                </p>
+                <div class="desc-hero">
+                  <a
+                    href="https://apps.apple.com/app/superhero-wallet/id1502786641"
+                    target="_blank"
+                  ><img
                     alt=""
-                    src="../assets/landing/mockup.png"
-                  >
-                </VueAos>
+                    src="../assets/landing/appstore.svg"
+                  ></a>
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.superhero.cordova"
+                    target="_blank"
+                  ><img
+                    alt=""
+                    src="../assets/landing/googleplay.svg"
+                  ></a>
+                </div>
               </div>
             </div>
-          </VueAos>
+            <div class="sh-col-6 left-tips-img">
+              <img
+                data-class-if-visible="animate__animated animate__delay-4s animate__fadeIn"
+                alt=""
+                src="../assets/landing/mockup.png"
+              >
+            </div>
+          </div>
         </div>
       </section>
       <section class="superhero-tokenization">
         <div class="sh-container">
           <div class="top-title">
-            <VueAos animation-class="animate__animated animate__delay-1s animate__zoomIn">
-              <span>CENTRALIZED SOCIAL MEDIA VS SUPERHERO</span>
-            </VueAos>
+            <span data-class-if-visible="animate__animated animate__delay-1s animate__zoomIn">
+              CENTRALIZED SOCIAL MEDIA VS SUPERHERO
+            </span>
             <h2>
               Centralized social media platforms have made their <b>profits</b> on extracting
               <b>data</b> from
@@ -230,20 +234,18 @@
             </h2>
           </div>
           <ul class="custom-list">
-            <VueAos animation-class="animate__animated animate__delay-1s animate__fadeInRight">
-              <li>
-                Superhero will never track you
-              </li>
-            </VueAos>
-            <VueAos animation-class="animate__animated animate__delay-2s animate__fadeInRight">
-              <li>Superhero will never sell your data</li>
-            </VueAos>
-            <VueAos animation-class="animate__animated animate__delay-3s animate__fadeInRight">
-              <li>Superhero will never cooperate with intelligence agencies</li>
-            </VueAos>
-            <VueAos animation-class="animate__animated animate__delay-4s animate__fadeInRight">
-              <li>Superhero is 100% open source</li>
-            </VueAos>
+            <li data-class-if-visible="animate__animated animate__delay-1s animate__fadeInRight">
+              Superhero will never track you
+            </li>
+            <li data-class-if-visible="animate__animated animate__delay-2s animate__fadeInRight">
+              Superhero will never sell your data
+            </li>
+            <li data-class-if-visible="animate__animated animate__delay-3s animate__fadeInRight">
+              Superhero will never cooperate with intelligence agencies
+            </li>
+            <li data-class-if-visible="animate__animated animate__delay-4s animate__fadeInRight">
+              Superhero is 100% open source
+            </li>
           </ul>
         </div>
       </section>
@@ -261,60 +263,63 @@
             </p>
           </div>
           <div class="sh-row">
-            <VueAos animation-class="animate__animated animate__delay-1s animate__fadeInUp">
-              <div class="sh-col-4 crypto-box">
-                <img
-                  alt=""
-                  src="../assets/landing/superhero-meet-icon.png"
-                >
-                <h4>Superhero Meet</h4>
-                <p>
-                  Superhero Meet is using superpowers to bring you and your friends or collaborators
-                  closer together! Set up a conference room easily and quickly – no account or
-                  personal details needed – and gather up with fellow Superheroes to launch
-                  missions, work on projects, and add value to the world! With an option to
-                  live-stream a Meet Session on YouTube, Superhero Meet allows real-time
-                  decentralized tipping as well!
-                </p>
-              </div>
-            </VueAos>
-            <VueAos animation-class="animate__animated animate__delay-2s animate__fadeInUp">
-              <div class="sh-col-4 crypto-box">
-                <img
-                  alt=""
-                  src="../assets/landing/superhero-voting-icon.png"
-                >
-                <h4>Superhero Voting</h4>
-                <p>
-                  All Superhero community members can – and are invited to – vote and have their
-                  voices heard by others. The Superhero governance æpp enables everybody to create
-                  polls on any topic or issue, vote, delegate votes to other members, or collect
-                  voting power from the Superhero community. Every vote is important and every vote
-                  counts – especially as important decisions approach!
-                </p>
-              </div>
-            </VueAos>
-            <VueAos animation-class="animate__animated animate__delay-3s animate__fadeInUp">
-              <div class="sh-col-4 crypto-box">
-                <img
-                  alt=""
-                  src="../assets/landing/superhero-league-icon.png"
-                >
-                <h4>Superhero Button</h4>
-                <p>
-                  If you run a website or a blog, you can collect Superhero tips with a simple,
-                  customizable, easy-to-integrate Tip button. The Superhero Tip button size, shape,
-                  and look can be customized so it seamlessly integrates with your blog or website –
-                  looking like it’s always been there. Add the Superhero button and let people
-                  reward your work – today!
-                </p>
-                <a
-                  class="sh-btn-blue"
-                  href="https://github.com/aeternity/superhero-utils"
-                  target="_blank"
-                >Learn More</a>
-              </div>
-            </VueAos>
+            <div
+              data-class-if-visible="animate__animated animate__delay-1s animate__fadeInUp"
+              class="sh-col-4 crypto-box"
+            >
+              <img
+                alt=""
+                src="../assets/landing/superhero-meet-icon.png"
+              >
+              <h4>Superhero Meet</h4>
+              <p>
+                Superhero Meet is using superpowers to bring you and your friends or collaborators
+                closer together! Set up a conference room easily and quickly – no account or
+                personal details needed – and gather up with fellow Superheroes to launch
+                missions, work on projects, and add value to the world! With an option to
+                live-stream a Meet Session on YouTube, Superhero Meet allows real-time
+                decentralized tipping as well!
+              </p>
+            </div>
+            <div
+              data-class-if-visible="animate__animated animate__delay-2s animate__fadeInUp"
+              class="sh-col-4 crypto-box"
+            >
+              <img
+                alt=""
+                src="../assets/landing/superhero-voting-icon.png"
+              >
+              <h4>Superhero Voting</h4>
+              <p>
+                All Superhero community members can – and are invited to – vote and have their
+                voices heard by others. The Superhero governance æpp enables everybody to create
+                polls on any topic or issue, vote, delegate votes to other members, or collect
+                voting power from the Superhero community. Every vote is important and every vote
+                counts – especially as important decisions approach!
+              </p>
+            </div>
+            <div
+              data-class-if-visible="animate__animated animate__delay-3s animate__fadeInUp"
+              class="sh-col-4 crypto-box"
+            >
+              <img
+                alt=""
+                src="../assets/landing/superhero-league-icon.png"
+              >
+              <h4>Superhero Button</h4>
+              <p>
+                If you run a website or a blog, you can collect Superhero tips with a simple,
+                customizable, easy-to-integrate Tip button. The Superhero Tip button size, shape,
+                and look can be customized so it seamlessly integrates with your blog or website –
+                looking like it’s always been there. Add the Superhero button and let people
+                reward your work – today!
+              </p>
+              <a
+                class="sh-btn-blue"
+                href="https://github.com/aeternity/superhero-utils"
+                target="_blank"
+              >Learn More</a>
+            </div>
           </div>
         </div>
       </section>
@@ -429,22 +434,52 @@
     </main>
   </div>
 </template>
+
 <script>
-import VueAos from 'vue-aos/src/components/VueAos';
 import { mapState } from 'vuex';
 import AeAmount from '../components/AeAmount.vue';
 
 export default {
-  components: {
-    VueAos,
-    AeAmount,
-  },
+  components: { AeAmount },
+  data: () => ({
+    intersectionObserver: new IntersectionObserver((entries, observer) => entries
+      .filter((e) => e.isIntersecting)
+      .forEach((entry) => {
+        /* eslint-disable no-param-reassign */
+        entry.target.style.visibility = 'visible';
+        entry.target.className += ` ${entry.target.dataset.classIfVisible}`;
+        delete entry.target.dataset.classIfVisible;
+        /* eslint-enable no-param-reassign */
+        observer.unobserve(entry.target);
+      }), {
+      threshold: 0.5,
+    }),
+  }),
   computed: mapState('backend', ['stats']),
   metaInfo: {
     title: 'Welcome',
   },
+  mounted() {
+    this.observeAnimatedNodes();
+  },
+  updated() {
+    this.observeAnimatedNodes();
+  },
+  beforeDestroy() {
+    this.intersectionObserver.disconnect();
+  },
+  methods: {
+    observeAnimatedNodes() {
+      this.$el.querySelectorAll('[data-class-if-visible]')
+        .forEach((el) => {
+          el.style.visibility = 'hidden'; // eslint-disable-line no-param-reassign
+          this.intersectionObserver.observe(el);
+        });
+    },
+  },
 };
 </script>
+
 <style lang="scss">
 :root {
   --animate-delay: 0.1s;

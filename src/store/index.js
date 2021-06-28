@@ -106,6 +106,7 @@ export default new Vuex.Store({
         },
       };
       spec.basePath = '/mdw//';
+      spec.schemes = ['https']; // TODO: Remove after solving https://github.com/aeternity/ae_mdw/issues/160
 
       const middleware = mapObject(
         (await genSwaggerClient(specUrl, { spec })).api,

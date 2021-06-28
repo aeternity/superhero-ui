@@ -7,13 +7,7 @@
     @click="$emit('click', $event)"
   >
     <Loading v-if="loading" />
-    <template v-else>
-      <img
-        v-if="src"
-        :src="src"
-      >
-      <span><slot /></span>
-    </template>
+    <slot v-else />
   </button>
 </template>
 
@@ -26,7 +20,6 @@ export default {
   },
   props: {
     disabled: Boolean,
-    src: { type: String, default: '' },
     loading: { type: Boolean },
     green: { type: Boolean },
   },
@@ -49,10 +42,6 @@ export default {
 
   &[disabled] {
     opacity: 0.4;
-  }
-
-  span {
-    vertical-align: inherit;
   }
 
   &.green {

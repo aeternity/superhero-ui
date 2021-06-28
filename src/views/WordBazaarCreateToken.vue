@@ -108,7 +108,7 @@
           <div class="button">
             <AeButton
               v-if="success"
-              @click="navigateAssets"
+              :to="{ name: 'word-bazaar-assets' }"
             >
               <RightArrow />
               <span>

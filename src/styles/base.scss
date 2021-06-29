@@ -1,11 +1,5 @@
-//Bootstrap customizations go here:
-$theme-colors: (
-  "primary": $primary_color,
-  "light": $light_color
-);
-
 @import "fonts";
-@import "node_modules/bootstrap/scss/bootstrap";
+@import "~normalize.css";
 
 /* Global Styles */
 body {

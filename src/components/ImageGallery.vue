@@ -1,34 +1,31 @@
 <template>
-  <div
-    class="image-gallery"
-    @click.stop
-  >
+  <div class="image-gallery">
     <ButtonPlain
       class="close"
-      @click="$emit('close')"
+      @click="resolve"
     >
       <IconClose />
     </ButtonPlain>
     <ButtonPlain
       class="arrow left"
-      @click="imageIndex = (media.length + imageIndex - 1) % media.length"
+      @click="currentIndex = (media.length + currentIndex - 1) % media.length"
     >
-      <ButtonLeftArrow />
+      <IconLeftArrow />
     </ButtonPlain>
     <ButtonPlain
       class="arrow right"
-      @click="imageIndex = (imageIndex + 1) % media.length"
+      @click="currentIndex = (currentIndex + 1) % media.length"
     >
-      <ButtonRightArrow />
+      <IconRightArrow />
     </ButtonPlain>
     <div class="image-wrapper">
-      <img :src="media[imageIndex]">
+      <img :src="media[currentIndex]">
     </div>
     <div class="bottom-row">
       <MediaRow
+        :active="currentIndex"
         :media="media"
-        :active="imageIndex"
-        @get-index="imageIndex = $event"
+        @get-index="currentIndex = $event"
       />
     </div>
   </div>
@@ -38,23 +35,25 @@
 import ButtonPlain from './ButtonPlain.vue';
 import MediaRow from './MediaRow.vue';
 import IconClose from '../assets/iconClose.svg?icon-component';
-import ButtonLeftArrow from '../assets/buttonLeftArrow.svg?icon-component';
-import ButtonRightArrow from '../assets/buttonRightArrow.svg?icon-component';
+import IconLeftArrow from '../assets/iconLeftArrow.svg?icon-component';
+import IconRightArrow from '../assets/iconRightArrow.svg?icon-component';
 
 export default {
   components: {
     ButtonPlain,
     IconClose,
-    ButtonLeftArrow,
-    ButtonRightArrow,
+    IconLeftArrow,
+    IconRightArrow,
     MediaRow,
   },
   props: {
+    resolve: { type: Function, required: true },
+    imageIndex: { type: [Number, null], required: true },
     media: { type: Array, required: true },
   },
-  data: () => ({
-    imageIndex: 0,
-  }),
+  data() {
+    return { currentIndex: this.imageIndex };
+  },
 };
 </script>
 
@@ -67,10 +66,8 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  cursor: default;
   display: flex;
   flex-direction: column;
-  max-height: 100vh;
 
   .close {
     position: absolute;

@@ -14,8 +14,8 @@ module.exports = {
       sass: {
         // Global includes - will be prepended in every scss file (including components)
         additionalData: `
-          @import "${path.resolve(__dirname, 'src/styles/_variables.scss')}";
-          @import "${path.resolve(__dirname, 'src/styles/_mixins.scss')}";
+          @import "${path.resolve(__dirname, 'src/styles/variables.scss')}";
+          @import "${path.resolve(__dirname, 'src/styles/mixins.scss')}";
         `,
       },
     },

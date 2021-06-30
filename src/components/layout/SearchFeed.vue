@@ -18,13 +18,13 @@ export default {
   },
   data() {
     return {
-      query: this.$route.params.query || '',
+      query: this.$route.query.search || '',
     };
   },
   methods: {
     search() {
-      this.$router[this.$route.name.startsWith('feed') ? 'replace' : 'push']({
-        name: this.query ? 'feed-search' : 'feed', params: { query: this.query },
+      this.$router[this.$route.name === 'feed' ? 'replace' : 'push']({
+        name: 'feed', query: { search: this.query },
       });
     },
   },

@@ -20,7 +20,7 @@
       </Modal>
     </Transition>
     <SearchFeed
-      v-if="isTipsRoute && showSearchFeed"
+      v-if="isOnFeed && showSearchFeed"
       class="mobile-navigation-sticky"
       @close="showSearchFeed = false"
     />
@@ -35,13 +35,13 @@
       <div class="separator" />
 
       <a
-        v-if="!useSdkWallet && isTipsRoute"
+        v-if="!useSdkWallet && isOnFeed"
         :href="tipDeepLink"
       >
         <IconWallet />
       </a>
       <ButtonPlain
-        v-if="isTipsRoute"
+        v-if="isOnFeed"
         @click="showSearchFeed = true"
       >
         <IconSearch />
@@ -83,8 +83,8 @@ export default {
   }),
   computed: {
     ...mapState('aeternity', ['useSdkWallet']),
-    isTipsRoute() {
-      return ['feed', 'feed-search'].includes(this.$route.name);
+    isOnFeed() {
+      return this.$route.name === 'feed';
     },
   },
   watch: {

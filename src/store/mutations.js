@@ -15,9 +15,6 @@ export default {
   updateTopics(state, payload) {
     state.topics = payload;
   },
-  setTipSortBy(state, payload) {
-    state.tipSortBy = payload;
-  },
   setChainNames(state, payload) {
     state.chainNames = payload;
   },

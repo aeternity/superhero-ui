@@ -7,7 +7,7 @@ describe('Tips.vue', () => {
         .visit('/');
     });
 
-    it('creates new tip, navigates to home, sorts by latest, new tip is visible', () => {
+    it('creates new tip, navigates to home, new tip is visible', () => {
       cy
         .get('.tips > a')
         .should('have.class', 'router-link-exact-active')
@@ -37,11 +37,6 @@ describe('Tips.vue', () => {
         .should('not.have.value', randomString)
         .get('.spinner-border', { timeout: 50000 })
         .should('not.be.visible')
-
-        .get('#sort-latest')
-        .click()
-        .get('a.active')
-        .should('contain', 'Latest')
 
         .get('.spinner-border', { timeout: 50000 })
         .should('not.be.visible')

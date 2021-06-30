@@ -23,7 +23,6 @@ export default new Vuex.Store({
     pinnedItems: [],
     selectedCurrency: 'eur',
     topics: [],
-    tipSortBy: 'latest',
     chainNames: [],
     verifiedUrls: [],
     graylistedUrls: [],

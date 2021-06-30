@@ -3,32 +3,14 @@
     <div class="actions">
       <SendTip :post="feed !== 'tips'" />
       <div class="feed-category-row">
-        <FilterButton
-          :class="{ active: feed === 'main' }"
-          @click="feed = 'main'"
-        >
-          <IconFeed />
-          <span>
-            {{ $t('views.FeedList.main') }}
-          </span>
+        <FilterButton :to="genLocation({ feed: null })">
+          <IconFeed /> <span>{{ $t('views.FeedList.main') }}</span>
         </FilterButton>
-        <FilterButton
-          :class="{ active: feed === 'tips' }"
-          @click="feed = 'tips'"
-        >
-          <IconDiamond />
-          <span>
-            {{ $t('views.FeedList.tips') }}
-          </span>
+        <FilterButton :to="genLocation({ feed: 'tips' })">
+          <IconDiamond /> <span>{{ $t('views.FeedList.tips') }}</span>
         </FilterButton>
-        <FilterButton
-          :class="{ active: feed === 'posts' }"
-          @click="feed = 'posts'"
-        >
-          <IconPosts />
-          <span>
-            {{ $t('views.FeedList.posts') }}
-          </span>
+        <FilterButton :to="genLocation({ feed: 'posts' })">
+          <IconPosts /> <span>{{ $t('views.FeedList.posts') }}</span>
         </FilterButton>
         <FilterButton
           class="trending"
@@ -38,23 +20,13 @@
         </FilterButton>
       </div>
       <div class="not-bootstrap-row">
-        <ButtonPlain
-          id="sort-latest"
-          :class="{ active: tipSortBy === 'latest' }"
-          @click="setTipSortBy('latest')"
-        >
+        <ButtonPlain :to="genLocation({ sortBy: null })">
           {{ $t('views.TipList.SortingLatest') }}
         </ButtonPlain>
-        <ButtonPlain
-          :class="{ active: tipSortBy === 'hot' }"
-          @click="setTipSortBy('hot')"
-        >
+        <ButtonPlain :to="genLocation({ sortBy: 'hot' })">
           {{ $t('views.TipList.SortingMostPopular') }}
         </ButtonPlain>
-        <ButtonPlain
-          :class="{ active: tipSortBy === 'highest' }"
-          @click="setTipSortBy('highest')"
-        >
+        <ButtonPlain :to="genLocation({ sortBy: 'highest' })">
           {{ $t('views.TipList.SortingHighestRated') }}
         </ButtonPlain>
         <div class="separator" />
@@ -70,8 +42,8 @@
     </div>
 
     <FeedPagination
-      :tip-sort-by="tipSortBy"
-      :search="query"
+      :tip-sort-by="$route.query.sortBy || 'latest'"
+      :search="$route.query.search"
       :blacklist="isHiddenContent"
       :show-tips="['main', 'tips'].includes(feed)"
       :show-posts="['main', 'posts'].includes(feed)"
@@ -81,6 +53,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import { pickBy } from 'lodash-es';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import FeedPagination from '../components/FeedPagination.vue';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
@@ -108,9 +81,21 @@ export default {
   props: {
     query: { type: String, default: '' },
   },
-  data: () => ({ feed: 'main' }),
-  computed: mapState(['tipSortBy', 'isHiddenContent']),
-  methods: mapMutations(['setTipSortBy', 'setIsHiddenContent']),
+  computed: {
+    ...mapState(['isHiddenContent']),
+    feed() {
+      return this.$route.query.feed || 'main';
+    },
+  },
+  methods: {
+    ...mapMutations(['setIsHiddenContent']),
+    genLocation(addToQuery) {
+      return {
+        name: 'feed',
+        query: pickBy({ ...this.$route.query, ...addToQuery }),
+      };
+    },
+  },
   metaInfo: {
     title: 'Tips',
   },
@@ -203,7 +188,7 @@ export default {
         color: $primary_color;
       }
 
-      &.active {
+      &.router-link-exact-active {
         color: $custom_links_color;
         border-bottom-color: $custom_links_color;
       }

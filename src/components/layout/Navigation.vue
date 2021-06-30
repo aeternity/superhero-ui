@@ -12,7 +12,7 @@
     </RouterLink>
 
     <RouterLink
-      exact
+      :exact="$route.name !== 'feed'"
       :to="{ name: 'feed' }"
     >
       <IconTips />

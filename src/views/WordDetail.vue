@@ -152,7 +152,7 @@ export default {
 
     .word-buy-sell-buttons {
       .buy-modal {
-        .not-bootstrap-modal-content {
+        .modal-content {
           margin-left: -204px;
 
           @include desktop {
@@ -162,7 +162,7 @@ export default {
       }
 
       .sell-modal {
-        .not-bootstrap-modal-content {
+        .modal-content {
           @include desktop {
             margin-left: -120px;
           }

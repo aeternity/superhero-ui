@@ -4,7 +4,7 @@
     :class="$route.meta.layoutClass"
   >
     <MobileNavigation v-if="!$route.meta.fullScreen" />
-    <div class="not-bootstrap-row">
+    <div class="row">
       <div
         v-if="!$route.meta.fullScreen"
         class="sidebar-sticky"
@@ -140,7 +140,7 @@ export default {
   display: flex;
   flex-direction: column;
 
-  .not-bootstrap-row {
+  .row {
     flex-grow: 1;
     display: flex;
     flex-wrap: nowrap;

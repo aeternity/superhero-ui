@@ -19,7 +19,7 @@
           maxlength="280"
           :placeholder="$t('addMessage')"
         />
-        <div class="not-bootstrap-row">
+        <div class="row">
           <div class="url-input">
             <UrlStatus
               :url="sendTipForm.url"
@@ -184,7 +184,7 @@ export default {
   form {
     padding: 12px 20px 0 20px;
 
-    .not-bootstrap-row {
+    .row {
       display: flex;
       flex-direction: row;
       align-items: center;

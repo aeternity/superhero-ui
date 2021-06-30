@@ -19,7 +19,7 @@
       <div class="address">
         {{ address }}
       </div>
-      <div class="not-bootstrap-row">
+      <div class="row">
         <Dropdown
           v-if="hasContractV2Address"
           :options="tokenBalancesOptions"
@@ -190,7 +190,7 @@ export default {
     top: -0.5rem;
   }
 
-  .not-bootstrap-row {
+  .row {
     display: flex;
     align-items: center;
 

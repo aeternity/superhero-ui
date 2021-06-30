@@ -368,12 +368,12 @@ export default {
   }
 }
 
-::v-deep.not-bootstrap-modal {
+::v-deep.modal {
   .overlay {
     z-index: 1;
   }
 
-  .not-bootstrap-modal-content {
+  .modal-content {
     background-color: $actions_ribbon_background_color;
     border: 1px solid $background_color;
     box-sizing: border-box;

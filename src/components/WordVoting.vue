@@ -529,7 +529,7 @@ export default {
       justify-content: center;
       align-items: center;
 
-      ::v-deep .not-bootstrap-modal-content {
+      ::v-deep .modal-content {
         @include mobile {
           margin-left: 0;
         }

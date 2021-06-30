@@ -121,7 +121,7 @@ export default {
     padding: 0;
   }
 
-  &::v-deep .not-bootstrap-modal-content {
+  &::v-deep .modal-content {
     max-height: 10rem;
     overflow-y: auto;
     scrollbar-width: none;
@@ -132,7 +132,7 @@ export default {
     }
   }
 
-  &.right::v-deep .not-bootstrap-modal-content {
+  &.right::v-deep .modal-content {
     right: 0;
   }
 

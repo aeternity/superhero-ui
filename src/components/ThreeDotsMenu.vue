@@ -44,7 +44,7 @@ export default {
     color: #fff;
   }
 
-  ::v-deep .not-bootstrap-modal-content {
+  ::v-deep .modal-content {
     font-size: 0.75rem;
     border-radius: 0.25rem;
     border: 0.05rem solid $article_content_color;

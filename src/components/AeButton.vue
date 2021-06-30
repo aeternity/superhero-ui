@@ -12,18 +12,16 @@
     type="submit"
     @click="clickHandler"
   >
-    <Loading v-if="loading" />
+    <Spinner v-if="loading" />
     <slot v-else />
   </button>
 </template>
 
 <script>
-import Loading from './Loading.vue';
+import Spinner from './Spinner.vue';
 
 export default {
-  components: {
-    Loading,
-  },
+  components: { Spinner },
   props: {
     disabled: Boolean,
     loading: { type: Boolean },
@@ -51,11 +49,6 @@ export default {
   transition: background-color 0.3s;
   text-align: center;
 
-  .loading {
-    transform: scale(0.6);
-    margin-top: -0.7rem;
-  }
-
   &[disabled] {
     opacity: 0.4;
   }
@@ -66,6 +59,12 @@ export default {
 
   &:hover:not(.green) {
     background-color: $button_hover_color;
+  }
+
+  .spinner {
+    width: 1.2rem;
+    height: 1.2rem;
+    vertical-align: middle;
   }
 }
 </style>

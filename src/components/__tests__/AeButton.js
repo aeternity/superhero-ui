@@ -9,6 +9,6 @@ describe('AeButton', () => {
         $t: () => 'locale-specific-text',
       },
     });
-    expect(wrapper.find('.loading').exists()).toBeTruthy();
+    expect(wrapper.find('.spinner').exists()).toBeTruthy();
   });
 });

@@ -1,11 +1,14 @@
 <template>
   <div :class="['loading', { 'above-content': aboveContent, small }]">
-    <div class="spinner-border" />
+    <Spinner />
   </div>
 </template>
 
 <script>
+import Spinner from './Spinner.vue';
+
 export default {
+  components: { Spinner },
   props: { aboveContent: Boolean, small: Boolean },
 };
 </script>
@@ -17,7 +20,6 @@ export default {
   width: 100%;
   text-align: center;
   padding: 0.5rem;
-  color: $light_font_color;
 
   &.above-content {
     margin-bottom: -3rem;
@@ -27,7 +29,7 @@ export default {
   &.small {
     height: 0.8rem;
 
-    .spinner-border {
+    .spinner {
       width: 0.8rem;
       height: 0.8rem;
     }

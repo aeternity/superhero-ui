@@ -127,6 +127,11 @@ export default {
   display: flex;
   align-items: center;
 
+  img,
+  svg {
+    display: block;
+  }
+
   .logo img {
     width: 9.2rem;
   }

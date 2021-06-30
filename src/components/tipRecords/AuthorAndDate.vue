@@ -14,9 +14,7 @@
       @mouseover.native="hoverDebounced = true"
       @mouseleave.native="hoverDebounced = false"
     >
-      <div
-        class="avatar-wrapper"
-      >
+      <div class="avatar-wrapper">
         <Avatar :address="address" />
         <Transition name="fade">
           <UserCard
@@ -115,6 +113,7 @@ export default {
 
     .avatar {
       margin-right: 0.25rem;
+      display: block;
     }
 
     .user-card {

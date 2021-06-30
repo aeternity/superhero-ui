@@ -228,8 +228,12 @@ export default {
     padding: 0 2.3rem;
 
     .action {
+      svg,
+      span {
+        vertical-align: middle;
+      }
+
       svg {
-        margin-bottom: 0.3rem;
         height: 0.9rem;
       }
 

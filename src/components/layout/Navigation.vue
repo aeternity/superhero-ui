@@ -90,6 +90,10 @@ export default {
 
   a.logo {
     margin-bottom: 2.5rem;
+
+    img {
+      display: block;
+    }
   }
 
   a:not(.logo) {

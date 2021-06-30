@@ -1,6 +1,6 @@
 <template>
   <div
-    class="input-group"
+    class="ae-input-amount input-group"
     :class="{ disabled }"
   >
     <input
@@ -126,7 +126,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.input-group {
+.ae-input-amount.input-group {
   border: 0.05rem solid $buttons_background;
   border-radius: 0.25rem;
 

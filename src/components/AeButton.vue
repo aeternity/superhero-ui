@@ -7,7 +7,7 @@
   -->
   <button
     :disabled="disabled || loading"
-    class="btn btn-primary ae-button"
+    class="ae-button"
     :class="{ green }"
     type="submit"
     @click="clickHandler"
@@ -47,7 +47,9 @@ export default {
   color: $standard_font_color;
   background-color: $secondary_color;
   border: none;
+  border-radius: 0.25rem;
   transition: background-color 0.3s;
+  text-align: center;
 
   .loading {
     transform: scale(0.6);

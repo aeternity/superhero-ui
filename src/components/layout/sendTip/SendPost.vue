@@ -227,7 +227,7 @@ export default {
       }
 
       svg {
-        height: 1.1em;
+        height: 22px;
       }
     }
   }

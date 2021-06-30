@@ -62,39 +62,20 @@ export default {
 
 <style lang="scss" scoped>
 .search-input {
-  background-color: $buttons_background;
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
-  border-radius: 6px;
+  @include input-like;
+
   display: flex;
   align-items: center;
-  font-size: 14px;
 
-  &:focus-within {
-    border-color: $secondary_color;
-    background-color: $actions_ribbon_background_color;
-
-    .iconSearch {
-      display: none;
-    }
+  &:focus-within .iconSearch {
+    display: none;
   }
 
   input {
-    background: none;
-    border: none;
-    outline: none;
     flex-grow: 1;
-    font-size: 14px;
-    line-height: 22.65px;
-    color: $standard_font_color;
-    padding: 8.5px 16px;
 
     ~ * {
       margin-right: 10px;
-    }
-
-    &:focus {
-      background-color: $actions_ribbon_background_color;
     }
   }
 

@@ -7,6 +7,31 @@
   -webkit-box-orient: vertical;
 }
 
+@mixin input-like {
+  background-color: $buttons_background;
+  border: solid transparent;
+  border-width: 1px 0;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 22.65px;
+  color: $standard_font_color;
+
+  &:focus-within {
+    border-color: $secondary_color;
+    background-color: $actions_ribbon_background_color;
+  }
+
+  input {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    line-height: 22.65px;
+    color: $standard_font_color;
+    padding: 8.5px 16px;
+  }
+}
+
 @mixin smallest {
   @media (max-width: 480px) {
     @content;

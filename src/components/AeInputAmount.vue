@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ae-input-amount input-group"
+    class="ae-input-amount"
     :class="{ disabled }"
   >
     <input
@@ -11,51 +11,37 @@
       :min="min"
       :step="step"
       :placeholder="$t('amount')"
-      class="form-control input-amount"
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-mn"
       :disabled="disabled"
       @input="$emit('input', $event.target.value)"
       @keyup="$emit('keyup', $event)"
     >
-    <div class="input-group-append">
-      <span
-        class="input-group-text append-ae"
-        :title="value"
-      >
-        <!-- eslint-disable vue-i18n/no-raw-text -->
-        <span class="symbol">
-          {{ symbol }}
-        </span>
-        <!-- eslint-enable vue-i18n/no-raw-text -->
-        <FiatValue
-          v-if="!noFiatvalue"
-          :amount="value"
-          :token="selectedToken"
-        />
-      </span>
-      <Dropdown
-        v-if="tokenTipable && !noDropdown"
-        :options="selectTokenOptions"
-        :selected="selectedToken"
-        :method="selectToken"
-        show-right
-      >
-        <template #default="{ option }">
-          <div class="token-option">
-            <TokenAvatarAndSymbol :address="option.token" />
-            <span class="tokens-amount">{{
-              showTokenAmount(option.balance, option.token)
-            }}</span>
-            <FiatValue
-              :amount="option.balance"
-              :token="option.token"
-              :aettos="!!option.token"
-            />
-          </div>
-        </template>
-      </Dropdown>
-    </div>
+    <span class="symbol">{{ symbol }}</span>
+    &nbsp;<FiatValue
+      v-if="!noFiatvalue"
+      :amount="value"
+      :token="selectedToken"
+    />
+    <Dropdown
+      v-if="tokenTipable && !noDropdown"
+      :options="selectTokenOptions"
+      :selected="selectedToken"
+      :method="selectToken"
+      show-right
+    >
+      <template #default="{ option }">
+        <div class="token-option">
+          <TokenAvatarAndSymbol :address="option.token" />
+          <span class="tokens-amount">{{
+            showTokenAmount(option.balance, option.token)
+          }}</span>
+          &nbsp;<FiatValue
+            :amount="option.balance"
+            :token="option.token"
+            :aettos="!!option.token"
+          />
+        </div>
+      </template>
+    </Dropdown>
   </div>
 </template>
 
@@ -126,53 +112,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ae-input-amount.input-group {
-  border: 0.05rem solid $buttons_background;
-  border-radius: 6px;
+.ae-input-amount {
+  @include input-like;
 
-  .input-group-append {
-    max-width: 65%;
-    background: $buttons_background;
-    align-items: center;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-  }
-
-  .input-group-text {
-    display: block;
-  }
+  display: flex;
+  align-items: center;
 
   &.disabled {
     opacity: 0.44;
   }
 
-  input,
-  input ~ .input-group-append > span.append-ae {
-    border: 0;
-
-    &:focus {
-      border: 0;
-    }
+  input {
+    width: 100%;
   }
 
-  .input-group-append > span.append-ae {
+  .symbol,
+  .fiat-value {
     font-size: 0.75rem;
-    background: $buttons_background;
-    cursor: default;
-
-    .symbol {
-      color: $secondary_color;
-    }
+    flex-shrink: 0;
   }
 
-  &:focus-within {
-    border-top: 0.05rem solid $secondary_color;
-    border-bottom: 0.05rem solid $secondary_color;
-
-    .input-group-append,
-    .input-group-append > span.append-ae {
-      background-color: $background_color;
-    }
+  .symbol {
+    color: $secondary_color;
   }
 
   .token-option {
@@ -184,11 +145,11 @@ export default {
     > div:first-child {
       flex-grow: 1;
     }
-  }
 
-  .tokens-amount {
-    color: $tip-note-color;
-    margin-right: 0.1rem;
+    .tokens-amount {
+      color: $tip-note-color;
+      flex-shrink: 0;
+    }
   }
 
   .dropdown::v-deep {
@@ -197,7 +158,6 @@ export default {
     > button {
       background-color: transparent;
       height: 2.1rem;
-      margin-left: -0.8rem;
     }
 
     .not-bootstrap-modal-content {

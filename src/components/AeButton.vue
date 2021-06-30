@@ -48,6 +48,7 @@ export default {
   border-radius: 0.25rem;
   transition: background-color 0.3s;
   text-align: center;
+  font-size: 16px;
 
   &[disabled] {
     opacity: 0.4;

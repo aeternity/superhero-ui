@@ -128,7 +128,7 @@ export default {
 <style lang="scss" scoped>
 .ae-input-amount.input-group {
   border: 0.05rem solid $buttons_background;
-  border-radius: 0.25rem;
+  border-radius: 6px;
 
   .input-group-append {
     max-width: 65%;

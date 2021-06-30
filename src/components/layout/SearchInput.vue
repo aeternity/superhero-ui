@@ -1,15 +1,13 @@
 <template>
   <div
     class="search-input"
-    :class="{ sided, focused }"
+    :class="{ sided }"
   >
     <input
       ref="search"
       :value="value"
       type="text"
       :placeholder="placeholder"
-      @focus="focused = true"
-      @blur="focused = false"
       @input="search($event.target.value)"
     >
     <ButtonPlain
@@ -19,7 +17,7 @@
     >
       <IconEraser />
     </ButtonPlain>
-    <IconSearch v-else-if="sided && !focused" />
+    <IconSearch v-else-if="sided" />
     <ButtonPlain
       v-if="!sided"
       :title="$t('views.TipList.CloseSearch')"
@@ -51,11 +49,6 @@ export default {
     hideEraser: Boolean,
     setFocused: Boolean,
   },
-  data() {
-    return {
-      focused: false,
-    };
-  },
   mounted() {
     if (this.setFocused) { this.$refs.search.focus(); }
   },
@@ -77,9 +70,13 @@ export default {
   align-items: center;
   font-size: 14px;
 
-  &.focused {
+  &:focus-within {
     border-color: $secondary_color;
     background-color: $actions_ribbon_background_color;
+
+    .iconSearch {
+      display: none;
+    }
   }
 
   input {

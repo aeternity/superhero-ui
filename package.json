@@ -4,7 +4,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:tnet": "vue-cli-service serve --mode tnet",
-    "build": "vue-cli-service build --mode tnet",
+    "build": "vue-cli-service build",
     "build:stats": "vue-cli-service build --report-json",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e --mode e2e",

@@ -39,12 +39,13 @@ export default {
 
 <style lang="scss" scoped>
 .tip-media {
-  max-height: 210px;
   margin-top: 1rem;
   border-radius: 0.5rem;
   overflow: hidden;
   display: grid;
   position: relative;
+
+  @include feed-preview-height;
 
   &.template1 {
     grid-template: 'pos0' 100%;

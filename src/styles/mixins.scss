@@ -32,6 +32,30 @@
   }
 }
 
+@mixin feed-preview-height {
+  aspect-ratio: 16/9;
+
+  // TODO: Drop after the latest Safari/iOS get support of aspect-ratio
+  // https://caniuse.com/mdn-css_properties_aspect-ratio
+  @supports not (aspect-ratio: 16/9) {
+    @include mobile {
+      height: #{100vw / 16 * 9};
+    }
+
+    @include above-mobile {
+      height: #{370px / 16 * 9};
+    }
+
+    @include above-desktop-small {
+      height: #{550px / 16 * 9};
+    }
+
+    @include above-desktop-big {
+      height: #{570px / 16 * 9};
+    }
+  }
+}
+
 @mixin smallest {
   @media (max-width: 480px) {
     @content;

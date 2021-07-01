@@ -252,7 +252,7 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1024px) {
+@include mobile {
   .tip-record {
     position: relative;
   }

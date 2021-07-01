@@ -682,7 +682,7 @@ input[type="file"] {
   }
 }
 
-@media screen and (max-width: 1024px) {
+@include mobile {
   .user-info {
     .tips-container {
       padding: 0.15rem 0.5rem;

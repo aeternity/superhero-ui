@@ -161,7 +161,7 @@ export default {
   height: $mobile_navigation_height;
   margin: 0 auto;
 
-  @media (min-width: 1025px) {
+  @include above-mobile {
     display: none;
   }
 

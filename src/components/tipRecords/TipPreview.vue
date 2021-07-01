@@ -332,13 +332,13 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1024px) {
+@include mobile {
   .tip-article {
     min-height: 2rem;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media (max-width: 768px) {
   .tip-amount:nth-child(2) .retip-container {
     left: -50%;
     right: -50%;

@@ -121,13 +121,13 @@ export default {
   }
 }
 
-@media (min-width: 1200px) {
+@include above-desktop-small {
   html {
     font-size: 125%;
   }
 }
 
-@media (min-width: 1440px) {
+@include above-desktop-big {
   :root {
     --container-width: 61rem;
   }
@@ -164,7 +164,7 @@ export default {
         margin-right: 15px;
         padding-top: 1rem;
 
-        @media (min-width: 1440px) {
+        @include above-desktop-big {
           margin-right: calc(15px + 1rem); // TODO: Replace with a rem value
         }
       }

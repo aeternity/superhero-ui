@@ -416,7 +416,7 @@ export default {
       }
 
       .dropdown {
-        @include desktop-only {
+        @include above-desktop {
           display: none;
         }
       }

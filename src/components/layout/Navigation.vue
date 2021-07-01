@@ -90,6 +90,10 @@ export default {
 
   a.logo {
     margin-bottom: 2.5rem;
+
+    img {
+      display: block;
+    }
   }
 
   a:not(.logo) {
@@ -108,7 +112,7 @@ export default {
       color: $custom_links_color;
     }
 
-    @media (min-width: 1440px) {
+    @include above-desktop-big {
       font-size: 1rem;
       margin-bottom: 1.45rem;
     }

@@ -1,0 +1,99 @@
+// This file is included multiple times in every scss file and component, do not put any rendered styles
+
+@mixin truncate-overflow-mx($property) {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: $property;
+  -webkit-box-orient: vertical;
+}
+
+@mixin input-like {
+  background-color: $buttons_background;
+  border: solid transparent;
+  border-width: 1px 0;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 22.65px;
+  color: $standard_font_color;
+
+  &:focus-within {
+    border-color: $secondary_color;
+    background-color: $actions_ribbon_background_color;
+  }
+
+  input {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    line-height: 22.65px;
+    color: $standard_font_color;
+    padding: 8.5px 16px;
+  }
+}
+
+@mixin feed-preview-height {
+  aspect-ratio: 16/9;
+
+  // TODO: Drop after the latest Safari/iOS get support of aspect-ratio
+  // https://caniuse.com/mdn-css_properties_aspect-ratio
+  @supports not (aspect-ratio: 16/9) {
+    @include mobile {
+      height: #{100vw / 16 * 9};
+    }
+
+    @include above-mobile {
+      height: #{370px / 16 * 9};
+    }
+
+    @include above-desktop-small {
+      height: #{550px / 16 * 9};
+    }
+
+    @include above-desktop-big {
+      height: #{570px / 16 * 9};
+    }
+  }
+}
+
+@mixin smallest {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin above-mobile {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+@mixin above-desktop-small {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: 1280px) {
+    @content;
+  }
+}
+
+@mixin above-desktop {
+  @media (min-width: 1281px) {
+    @content;
+  }
+}
+
+@mixin above-desktop-big {
+  @media (min-width: 1440px) {
+    @content;
+  }
+}

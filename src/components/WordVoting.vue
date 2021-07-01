@@ -546,7 +546,7 @@ export default {
             height: 24px;
           }
 
-          @include desktop-only {
+          @include above-desktop {
             &.wide {
               width: 186px;
             }

@@ -29,7 +29,7 @@
           </ThreeDotsMenu>
         </AuthorAndDate>
       </div>
-      <div class="tip-note pr-2">
+      <div class="tip-note">
         <TipTitle :tip-title="tip.title" />
         <TipMedia
           v-if="tip.media && tip.media.length"
@@ -200,7 +200,7 @@ export default {
   font-size: 0.85rem;
   line-height: 1.1rem;
   margin-bottom: 0.8rem;
-  padding-left: 1rem;
+  padding: 0 1rem;
 
   ::v-deep .title .topic {
     color: $standard_font_color;
@@ -228,8 +228,12 @@ export default {
     padding: 0 2.3rem;
 
     .action {
+      svg,
+      span {
+        vertical-align: middle;
+      }
+
       svg {
-        margin-bottom: 0.3rem;
         height: 0.9rem;
       }
 
@@ -248,7 +252,7 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1024px) {
+@include mobile {
   .tip-record {
     position: relative;
   }

@@ -1,9 +1,7 @@
 <template>
   <div class="tip-input">
-    <Component
-      :is="useSdkWallet ? 'button' : 'a'"
-      :href="useSdkWallet ? undefined : deepLink"
-      class="button"
+    <ButtonPlain
+      :to="useSdkWallet ? undefined : deepLink"
       :class="{ tipped: tipUrlStats.isTipped }"
       :title="title"
       :disabled="!tipUrl"
@@ -15,7 +13,7 @@
         :amount="tipAmount.value"
         :token="tipAmount.token"
       />
-    </Component>
+    </ButtonPlain>
     <Dropdown
       v-if="showTokenDropdown"
       v-slot="{ option }"
@@ -32,42 +30,35 @@
       v-if="showModal"
       @close="hideModal"
     >
-      <Loading v-if="showLoading" />
-      <template v-else>
-        <div
-          v-if="error"
-          class="error"
-        >
-          {{ $t('components.TipInput.error') }}
+      <div
+        v-if="error || v1TipWarning"
+        class="error"
+      >
+        {{ v1TipWarning
+          ? $t('components.TipInput.v1TipWarning')
+          : $t('components.TipInput.error') }}
+      </div>
+      <form @submit.prevent="sendTip">
+        <Input
+          v-if="!isRetippable"
+          v-model="message"
+          class="message"
+          maxlength="280"
+          :placeholder="$t('addMessage')"
+        />
+        <div class="not-bootstrap-row">
+          <AeInputAmount
+            v-model="inputValue"
+            :select-token-f="token => (inputToken = token)"
+          />
+          <AeButton
+            :disabled="!isValid || v1TipWarning"
+            :loading="showLoading"
+          >
+            {{ isRetippable ? $t('retip') : $t('tip') }}
+          </AeButton>
         </div>
-        <div
-          v-if="v1TipWarning"
-          class="error"
-        >
-          {{ $t('components.TipInput.v1TipWarning') }}
-        </div>
-        <form @submit.prevent="sendTip">
-          <div class="input-group">
-            <!-- TODO: Remove this wrapper after removing bootstrap -->
-            <input
-              v-if="!isRetippable"
-              v-model="message"
-              maxlength="280"
-              class="message form-control"
-              :placeholder="$t('addMessage')"
-            >
-          </div>
-          <div class="not-bootstrap-row">
-            <AeInputAmount
-              v-model="inputValue"
-              :select-token-f="token => (inputToken = token)"
-            />
-            <AeButton :disabled="!isValid || v1TipWarning">
-              {{ isRetippable ? $t('retip') : $t('tip') }}
-            </AeButton>
-          </div>
-        </form>
-      </template>
+      </form>
     </Modal>
   </div>
 </template>
@@ -77,8 +68,9 @@ import { mapState, mapGetters } from 'vuex';
 import IconTip from '../assets/iconTip.svg?icon-component';
 import { EventBus } from '../utils/eventBus';
 import { createDeepLinkUrl, shiftDecimalPlaces } from '../utils';
+import ButtonPlain from './ButtonPlain.vue';
+import Input from './Input.vue';
 import AeInputAmount from './AeInputAmount.vue';
-import Loading from './Loading.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Dropdown from './Dropdown.vue';
@@ -86,7 +78,8 @@ import Modal from './Modal.vue';
 
 export default {
   components: {
-    Loading,
+    ButtonPlain,
+    Input,
     AeInputAmount,
     AeButton,
     AeAmountFiat,
@@ -246,11 +239,7 @@ export default {
 
 <style lang="scss" scoped>
 .tip-input {
-  .button {
-    border: none;
-    background: none;
-    outline: none;
-    padding: 0;
+  > .button-plain {
     color: $search_nav_border_color;
 
     &:hover {
@@ -265,22 +254,23 @@ export default {
       }
     }
 
+    .iconTip,
+    .ae-amount-fiat {
+      vertical-align: middle;
+    }
+
     .iconTip {
       height: 24px;
     }
 
-    .ae-amount-fiat {
-      vertical-align: middle;
+    .ae-amount-fiat ::v-deep {
+      .ae-amount {
+        font-size: 0.8rem;
+      }
 
-      ::v-deep {
-        .ae-amount {
-          font-size: 0.8rem;
-        }
-
-        .fiat-value {
-          font-size: 0.7rem;
-          vertical-align: 0.05rem;
-        }
+      .fiat-value {
+        font-size: 0.7rem;
+        vertical-align: 0.05rem;
       }
     }
   }
@@ -306,6 +296,8 @@ export default {
     }
 
     .message {
+      display: block;
+      width: 100%;
       margin-bottom: 0.5rem;
     }
 

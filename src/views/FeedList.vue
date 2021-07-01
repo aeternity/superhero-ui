@@ -147,6 +147,7 @@ export default {
         height: 0.8rem;
       }
 
+      svg,
       span {
         vertical-align: middle;
       }

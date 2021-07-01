@@ -332,13 +332,13 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1024px) {
+@include mobile {
   .tip-article {
     min-height: 2rem;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media (max-width: 768px) {
   .tip-amount:nth-child(2) .retip-container {
     left: -50%;
     right: -50%;
@@ -418,7 +418,8 @@ export default {
   .title {
     font-size: 0.8rem;
     font-weight: 500;
-    margin-bottom: 0.15rem;
+    margin: 0 0 0.15rem 0;
+    line-height: 1.2;
     color: $tip_note_color;
     overflow: hidden;
     white-space: nowrap;

@@ -1,15 +1,13 @@
 <template>
   <div
     class="search-input"
-    :class="{ sided, focused }"
+    :class="{ sided }"
   >
     <input
       ref="search"
       :value="value"
       type="text"
       :placeholder="placeholder"
-      @focus="focused = true"
-      @blur="focused = false"
       @input="search($event.target.value)"
     >
     <ButtonPlain
@@ -19,7 +17,7 @@
     >
       <IconEraser />
     </ButtonPlain>
-    <IconSearch v-else-if="sided && !focused" />
+    <IconSearch v-else-if="sided" />
     <ButtonPlain
       v-if="!sided"
       :title="$t('views.TipList.CloseSearch')"
@@ -51,11 +49,6 @@ export default {
     hideEraser: Boolean,
     setFocused: Boolean,
   },
-  data() {
-    return {
-      focused: false,
-    };
-  },
   mounted() {
     if (this.setFocused) { this.$refs.search.focus(); }
   },
@@ -69,35 +62,20 @@ export default {
 
 <style lang="scss" scoped>
 .search-input {
-  background-color: $buttons_background;
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
-  border-radius: 6px;
+  @include input-like;
+
   display: flex;
   align-items: center;
-  font-size: 14px;
 
-  &.focused {
-    border-color: $secondary_color;
-    background-color: $actions_ribbon_background_color;
+  &:focus-within .iconSearch {
+    display: none;
   }
 
   input {
-    background: none;
-    border: none;
-    outline: none;
     flex-grow: 1;
-    font-size: 14px;
-    line-height: 22.65px;
-    color: $standard_font_color;
-    padding: 8.5px 16px;
 
     ~ * {
       margin-right: 10px;
-    }
-
-    &:focus {
-      background-color: $actions_ribbon_background_color;
     }
   }
 

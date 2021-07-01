@@ -18,8 +18,8 @@
       v-if="showGifs"
       @add-gif="media.push({ link: $event })"
     />
-    <div class="mt-2 d-flex flex-row justify-content-between">
-      <div class="post-actions">
+    <div class="not-bootstrap-row">
+      <div class="actions">
         <label>
           <IconPictures />
           <input
@@ -29,8 +29,11 @@
             @change="uploadImage($event)"
           >
         </label>
-        <ButtonPlain @click="showGifs = !showGifs">
-          <IconGif :class="{ active: showGifs }" />
+        <ButtonPlain
+          :class="{ active: showGifs }"
+          @click="showGifs = !showGifs"
+        >
+          <IconGif />
         </ButtonPlain>
         <template v-if="UNFINISHED_FEATURES">
           <ButtonPlain disabled>
@@ -44,14 +47,13 @@
           </ButtonPlain>
         </template>
       </div>
-      <ButtonPlain
-        class="btn btn-primary post-submit text-nowrap"
-        type="submit"
-        :disabled="!title.length || sendingPost || uploadingMedia"
+      <AeButton
+        :loading="sendingPost || uploadingMedia"
+        :disabled="!title"
         @click="sendPost"
       >
-        <IconPosts /> {{ $t('Post') }}
-      </ButtonPlain>
+        <IconPosts /> <span>{{ $t('Post') }}</span>
+      </AeButton>
     </div>
   </form>
 </template>
@@ -62,6 +64,7 @@ import { EventBus } from '../../../utils/eventBus';
 import Backend from '../../../utils/backend';
 import MessageInput from '../../MessageInput.vue';
 import ButtonPlain from '../../ButtonPlain.vue';
+import AeButton from '../../AeButton.vue';
 import IconPictures from '../../../assets/iconPictures.svg?icon-component';
 import IconGif from '../../../assets/iconGif.svg?icon-component';
 import IconEmoji from '../../../assets/iconEmoji.svg?icon-component';
@@ -75,6 +78,7 @@ export default {
   components: {
     MessageInput,
     ButtonPlain,
+    AeButton,
     IconPictures,
     IconGif,
     IconEmoji,
@@ -180,58 +184,51 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-input[type="file"] {
-  display: none;
-}
-
 .send-post {
-  .post-actions {
-    padding-bottom: 0.6rem;
+  overflow: hidden;
 
-    svg {
-      height: 2rem;
-      width: auto;
+  .not-bootstrap-row {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5rem 0 1rem 0;
 
-      &:hover {
-        background-color: $light_color;
-        border-radius: 100%;
+    .actions {
+      flex-grow: 1;
+
+      svg {
+        height: 2rem;
       }
 
-      &.active {
-        color: $text_content_color;
+      input[type="file"] {
+        display: none;
+      }
+
+      .button-plain {
+        &:hover {
+          background-color: $light_color;
+          border-radius: 100%;
+        }
+
+        &.active {
+          color: $text_content_color;
+        }
+      }
+
+      label {
+        cursor: pointer;
+        margin-bottom: 0; // TODO: Remove after dropping Bootstrap
       }
     }
 
-    label {
-      cursor: pointer;
-    }
-  }
+    .ae-button {
+      svg,
+      span {
+        vertical-align: middle;
+      }
 
-  .post-submit {
-    max-width: 4.5rem;
-    color: $standard_font_color;
-    background-color: $secondary_color;
-    border: none;
-    width: 100%;
-    height: 2.2rem;
-    margin-top: 0.05rem;
-    margin-bottom: 1rem;
-
-    svg {
-      height: 1.1em;
-    }
-
-    .loading {
-      transform: scale(0.6);
-      margin-top: -0.7rem;
-    }
-
-    &[disabled] {
-      opacity: 0.4;
-    }
-
-    span {
-      vertical-align: inherit;
+      svg {
+        height: 22px;
+      }
     }
   }
 }

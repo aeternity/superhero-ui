@@ -254,7 +254,7 @@ export default {
       }
     }
 
-    @include desktop-only {
+    @include above-desktop {
       &:last-of-type {
         min-width: 140px;
       }

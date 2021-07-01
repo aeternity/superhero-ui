@@ -127,6 +127,11 @@ export default {
   display: flex;
   align-items: center;
 
+  img,
+  svg {
+    display: block;
+  }
+
   .logo img {
     width: 9.2rem;
   }
@@ -156,7 +161,7 @@ export default {
   height: $mobile_navigation_height;
   margin: 0 auto;
 
-  @media (min-width: 1025px) {
+  @include above-mobile {
     display: none;
   }
 

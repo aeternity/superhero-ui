@@ -1,4 +1,4 @@
-import { mount, shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import AeButton from '../AeButton.vue';
 
 describe('AeButton', () => {
@@ -9,13 +9,6 @@ describe('AeButton', () => {
         $t: () => 'locale-specific-text',
       },
     });
-    expect(wrapper.find('.loading').exists()).toBeTruthy();
-  });
-
-  it('is showing img, if `src` props is passed', () => {
-    const wrapper = shallowMount(AeButton, {
-      propsData: { src: 'test/path' },
-    });
-    expect(wrapper.find('img').exists()).toBeTruthy();
+    expect(wrapper.find('.spinner').exists()).toBeTruthy();
   });
 });

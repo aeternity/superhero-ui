@@ -45,7 +45,7 @@ export default {
   @include truncate-overflow-mx(6);
 }
 
-@media only screen and (max-width: 1024px) {
+@include mobile {
   .description {
     @include truncate-overflow-mx(2);
   }

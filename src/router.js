@@ -7,7 +7,6 @@ import FAQ from './views/FAQ.vue';
 import Governance from './views/Governance.vue';
 import Landing from './views/Landing.vue';
 import League from './views/League.vue';
-import Maintenance from './views/Maintenance.vue';
 import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
@@ -152,15 +151,6 @@ const routes = [
     path: '/faq',
     name: 'faq',
     component: FAQ,
-  },
-  {
-    path: '/maintenance',
-    name: 'maintenance',
-    props: true,
-    component: Maintenance,
-    meta: {
-      fullScreen: true,
-    },
   },
   {
     path: '/admin/tracing/:tipId',

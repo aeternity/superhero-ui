@@ -8,10 +8,8 @@ import mutations from './mutations';
 import getters from './getters';
 import persistState from './plugins/persistState';
 import modals from './plugins/modals';
-// eslint-disable-next-line import/no-cycle
 import backend from './modules/backend';
 import aeternity from './modules/aeternity';
-// eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import { handleUnknownError } from '../utils';
 
@@ -34,7 +32,6 @@ export default new Vuex.Store({
     tokenPrices: {},
     wordRegistry: [],
     isHiddenContent: true,
-    isBackendLive: true,
     cookiesConsent: {},
     middleware: null,
   },

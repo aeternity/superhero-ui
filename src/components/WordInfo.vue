@@ -276,16 +276,19 @@ export default {
       timeScope: '0',
       timeScopeText: 'All',
       chart: 'history',
+      timeScopeTabs: [
+        { text: this.$t('views.WordDetail.Period.Day'), tab: '1' },
+        { text: this.$t('views.WordDetail.Period.Week'), tab: '7' },
+        { text: this.$t('views.WordDetail.Period.Month'), tab: '30' },
+        { text: this.$t('views.WordDetail.Period.ThreeMonths'), tab: '90' },
+        { text: this.$t('views.WordDetail.Period.Year'), tab: '365' },
+        { text: this.$t('views.WordDetail.Period.All'), tab: '0' },
+      ],
     };
   },
   computed: {
     ...mapState(['address', 'tokenInfo']),
     ...mapGetters(['roundedTokenAmount']),
-    timeScopeTabs() {
-      const activities = ['1', '3', '7', '30', '90', '365', '0'];
-      return this.$t('views.WordDetail.TimeScopeTabs')
-        .map((t, i) => ({ text: t, tab: activities[i] }));
-    },
     chartData() {
       const decimals = this.tokenInfo[this.data.tokenAddress]?.decimals ?? 18;
       const initialPrice = new BigNumber(shiftDecimalPlaces(1, -18));

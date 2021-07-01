@@ -512,8 +512,21 @@
       "InitiateMobile": "Initiate",
       "Spread": "Accumulated Spread",
       "Stake": "Majority Stake",
-      "RibbonTabs": ["Token Info", "Funds release vote"],
-      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"]
+      "RibbonTabs": { "Info": "Token Info", "Vote": "Funds release vote" },
+      "RibbonTabsMobile": { "Info": "Info", "Vote": "Vote" },
+      "Tabs": {
+        "Ongoing": "Ongoing Votes",
+        "Past": "Past Votes",
+        "My": "My Votes"
+      },
+      "Period": {
+        "Day": "Day",
+        "Week": "Week",
+        "Month": "Month",
+        "ThreeMonths": "3 Months",
+        "Year": "Year",
+        "All": "All"
+      }
     },
     "WordBazaar": {
       "Title": "WordBazaar",
@@ -535,6 +548,14 @@
           "Text": "How it works",
           "TextMobile": "How-to"
         }
+      },
+      "Tabs": {
+        "All": "All tokens",
+        "Trending": "Trending",
+        "Recent": "Recent"
+      },
+      "TabsMobile": {
+        "All": "All"
       }
     }
   },

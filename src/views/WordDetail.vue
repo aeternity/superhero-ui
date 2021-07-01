@@ -16,16 +16,16 @@
           @click="activity = 'info'"
         >
           <IconInfo />
-          <span class="desktop">{{ $t('views.WordDetail.RibbonTabs[0].text') }}</span>
-          <span class="mobile">{{ $t('views.WordDetail.RibbonTabs[0].textMobile') }}</span>
+          <span class="desktop">{{ $t('views.WordDetail.RibbonTabs.Info') }}</span>
+          <span class="mobile">{{ $t('views.WordDetail.RibbonTabsMobile.Info') }}</span>
         </FilterButton>
         <FilterButton
           :class="{ active: activity === 'voting' }"
           @click="activity = 'voting'"
         >
           <IconPie />
-          <span class="desktop">{{ $t('views.WordDetail.RibbonTabs[1].text') }}</span>
-          <span class="mobile">{{ $t('views.WordDetail.RibbonTabs[1].textMobile') }}</span>
+          <span class="desktop">{{ $t('views.WordDetail.RibbonTabs.Vote') }}</span>
+          <span class="mobile">{{ $t('views.WordDetail.RibbonTabsMobile.Vote') }}</span>
         </FilterButton>
       </template>
       <WordBuySellButtons

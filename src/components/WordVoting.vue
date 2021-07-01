@@ -6,19 +6,19 @@
           :class="{ active: activeTab === 'ongoing' }"
           @click="activeTab = 'ongoing'"
         >
-          {{ $t('views.WordDetail.Tabs[0]') }}
+          {{ $t('views.WordDetail.Tabs.Ongoing') }}
         </TabBarButton>
         <TabBarButton
           :class="{ active: activeTab === 'past' }"
           @click="activeTab = 'past'"
         >
-          {{ $t('views.WordDetail.Tabs[1]') }}
+          {{ $t('views.WordDetail.Tabs.Past') }}
         </TabBarButton>
         <TabBarButton
           :class="{ active: activeTab === 'my' }"
           @click="activeTab = 'my'"
         >
-          {{ $t('views.WordDetail.Tabs[2]') }}
+          {{ $t('views.WordDetail.Tabs.My') }}
         </TabBarButton>
       </template>
       <template slot="right">

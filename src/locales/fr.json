@@ -474,7 +474,7 @@
       "CreateVote": {
         "YourMessage": "Your message to the community",
         "Placeholder": "Tell the community why you need the funds to be released",
-        "AddressPlaceholder": "Enter blockchain address or .chain name",
+        "AddressPlaceholder": "Enter blockchain address",
         "ProgressMessage": [
           "Creating voting contract... (step 1 of 2)",
           "Adding your vote to WordBazaar... (step 2 of 2)"

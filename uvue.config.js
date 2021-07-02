@@ -4,4 +4,7 @@ export default {
     '@uvue/core/plugins/errorHandler',
     '../../src/utils/uvueVuexPlugin',
   ],
+  paths: {
+    template: 'public/ssr.html',
+  },
 };

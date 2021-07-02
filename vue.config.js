@@ -25,7 +25,7 @@ module.exports = {
       .plugin('favicons')
       .use(FaviconsWebpackPlugin, [{
         logo: path.resolve(__dirname, 'src/assets/favicon.svg'),
-        publicPath: '/',
+        inject: 'force',
         favicons: {
           start_url: '/',
           appName: 'Superhero',

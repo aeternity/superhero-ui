@@ -2,7 +2,6 @@ import Router from 'vue-router';
 import { IS_MOBILE_DEVICE } from './utils';
 import Tracing from './views/admin/Tracing.vue';
 import Conference from './views/Conference.vue';
-import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
 import Governance from './views/Governance.vue';
 import Landing from './views/Landing.vue';
@@ -102,11 +101,6 @@ const routes = [
     path: '/privacy',
     name: 'privacy',
     component: Privacy,
-  },
-  {
-    path: '/tutorial',
-    name: 'tutorial',
-    component: CreateProfile,
   },
   {
     path: '/league',

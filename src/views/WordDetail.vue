@@ -2,7 +2,7 @@
   <div class="word-detail">
     <BackButtonRibbon>
       <template #title>
-        <span class="abbreviation">{{ selectedWord }}</span>
+        <span class="abbreviation">{{ word }}</span>
       </template>
     </BackButtonRibbon>
 
@@ -36,16 +36,16 @@
     </ActivityRibbon>
 
     <WordInfo
-      v-if="selectedWord && activity === 'info'"
+      v-if="activity === 'info'"
       :data="data"
-      :selected-word="selectedWord"
+      :selected-word="word"
       :sale-contract-address="saleContractAddress"
     />
 
     <WordVoting
-      v-if="selectedWord && activity === 'voting'"
+      v-if="activity === 'voting'"
       :data="data"
-      :selected-word="selectedWord"
+      :selected-word="word"
       :sale-contract-address="saleContractAddress"
     />
   </div>
@@ -73,31 +73,32 @@ export default {
     WordVoting,
     WordInfo: () => import(/* webpackChunkName: "WordInfo" */ '../components/WordInfo.vue'),
   },
+  props: {
+    word: { type: String, required: true },
+  },
   data() {
     return {
       wordRegistryState: null,
-      selectedWord: '',
       saleContractAddress: '',
       data: {},
       activity: 'info',
     };
   },
   async mounted() {
-    this.selectedWord = this.$route.params.word;
     await this.reloadData();
     const interval = setInterval(() => this.reloadData(), 120 * 1000);
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
   },
   methods: {
     async reloadData() {
-      this.wordRegistryState = await Backend.getWordRegistry('', '', this.selectedWord);
+      this.wordRegistryState = await Backend.getWordRegistry('', '', this.word);
       this.saleContractAddress = this.wordRegistryState
-        .find(({ word }) => word === this.selectedWord).sale;
+        .find(({ word }) => word === this.word).sale;
       this.data = await Backend.getWordSale(this.saleContractAddress);
     },
   },
   metaInfo() {
-    return { title: this.$t('views.WordDetail.Title', { word: this.selectedWord }) };
+    return { title: this.$t('views.WordDetail.Title', { word: this.word }) };
   },
 };
 </script>

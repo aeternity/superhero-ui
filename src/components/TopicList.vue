@@ -15,15 +15,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import Backend from '../utils/backend';
 import Topic from './tipRecords/Topic.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 
 export default {
   components: { Topic, AeAmountFiat },
-  computed: mapState({
-    topics: ({ topics }) => topics.filter(([t]) => t !== '#test'),
-  }),
+  data: () => ({ topics: [] }),
+  async mounted() {
+    this.topics = (await Backend.getTopics()).filter(([t]) => t !== '#test');
+  },
 };
 </script>
 

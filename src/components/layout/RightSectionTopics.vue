@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import RightSectionTitle from './RightSectionTitle.vue';
 import TopicList from '../TopicList.vue';
 
@@ -24,9 +23,6 @@ export default {
     RightSectionTitle, TopicList,
   },
   props: { closed: Boolean },
-  computed: mapState({
-    topics: ({ topics }) => topics.filter(([t]) => t !== '#test'),
-  }),
 };
 </script>
 

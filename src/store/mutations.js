@@ -12,9 +12,6 @@ export default {
     state.profile = {};
     state.cookiesConsent = {};
   },
-  updateTopics(state, payload) {
-    state.topics = payload;
-  },
   setChainNames(state, payload) {
     state.chainNames = payload;
   },

@@ -22,7 +22,6 @@ export default new Vuex.Store({
     profile: {},
     pinnedItems: [],
     selectedCurrency: 'eur',
-    topics: [],
     chainNames: [],
     verifiedUrls: [],
     graylistedUrls: [],

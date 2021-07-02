@@ -12,7 +12,6 @@
   "FAQ": "FAQ",
   "FellowSuperhero": "Fellow superhero",
   "Balance": "Balance:",
-  "aeternityBlockchain": "aeternity blockchain",
   "views": {
     "FeedList": {
       "main": "Feed",
@@ -78,31 +77,6 @@
           "Contact": "Contact"
         }
       }
-    },
-    "Mission": {
-      "header": "SUPERHERO: AN ORIGIN STORY WITH A MISSION",
-      "sections": [
-        {
-          "text": "In comics, Superheroes believe it’s their duty to help good triumph. Meanwhile - very real, modern times continually test humanity."
-        },
-        {
-          "text": "From artists to scientists, educators, medical groups, non-profit projects, social impact initiatives, community causes, animal welfare, environmental advocacy to the one inspiring you… We can (and do) make a difference every day to each other. People supporting people are contemporary Superheroes."
-        },
-        {
-          "text": "Superhero.com was conceived as a tangible way to celebrate the difference that can come from empowering people to support people, P2P, without intermediaries."
-        },
-        {
-          "text": "Superhero.com was built as an open source platform which shifts the control of people supporting people away from private entities back into public hands."
-        },
-        {
-          "text": "Those at {aeternityBlockchain} that brought Superhero.com to life are united in helping deliver on the promise of a better internet for all."
-        },
-        {
-          "text": "Welcome to a better virtual world – an internet with quantifiably more freedom to transact. We only have just begun to see where our superpowers of being humans that support each other can take us."
-        }
-      ],
-      "footer": "ARE YOU MAKING A DIFFERENCE?",
-      "footerContent": "Superhero.com a tool for good built on æternity blockchain"
     },
     "FAQ": {
       "header": "Frequently Asked Questions",

@@ -81,31 +81,6 @@
         }
       }
     },
-    "Mission": {
-      "header": "SUPERHERO: UNA HISTORIA CON UNA MISIÓN",
-      "sections": [
-        {
-          "text": "En los cómics, los superhéroes creen que es su deber ayudar a la humanidad. Mientras tanto, de manera muy real, los tiempos actuales ponen a prueba continuamente a la humanidad "
-        },
-        {
-          "text": "Desde artistas hasta científicos, educadores, grupos médicos, proyectos sin fines de lucro, iniciativas de impacto social, causas comunitarias, protectoras de animales, defensa del medio ambiente hasta lo que más te inspire ... Podemos (y queremos) hacer acciones que creen una diferencia entre nosotros todos los días. Las personas que apoyan a las personas son superhéroes contemporáneos "
-        },
-        {
-          "text": "Superhero.com fue concebido como una forma tangible de celebrar la diferencia que puede surgir de empoderar a las personas para que se apoyen entre ellas, de par a par, sin intermediarios.."
-        },
-        {
-          "text": "Superhero.com se creó como una plataforma de código abierto que hace pasar el control de las personas que se apoyan entre ellas, de las entidades privadas a las manos públicas "
-        },
-        {
-          "text": "Aquellos en {aeternityBlockchain} que dieron vida a Superhero.com están unidos para ayudar a cumplir la promesa de un Internet mejor para todos"
-        },
-        {
-          "text": "Bienvenido a un mundo virtual mejor: un Internet con una libertad mucho mayor para realizar transacciones. Estamos empezando a ver hacia dónde nos llevan nuestros superpoderes de seres humanos que se apoyan mutuamente "
-        }
-      ],
-      "footer": "¿ESTAS HACIENDO LA DIFERENCIA?",
-      "footerContent": "Superhero.com una herramienta para el bien común creada en la æternity blockchain"
-    },
     "FAQ": {
       "header": "Preguntas Frecuentes",
       "subheader": "SOBRE SUPERHERO.com",
@@ -143,8 +118,7 @@
       "forum": "Fórum",
       "tutorial": "tutorial",
       "feedbackForm": "formulario de comentarios",
-      "ourTutorial": "Nuestro tutorial",
-      "aeternityBlockchain": "aeternity blockchain"
+      "ourTutorial": "Nuestro tutorial"
     },
     "Privacy": {
       "title": "POLÍTICA DE PRIVACIDAD",
@@ -526,8 +500,7 @@
           "bolder": "Para empezar, necesitarás una billetera. Es gratis. Es fácil. {br} {click} {br} de instalar la billetera Superhero:",
           "click": "Elige la extensión del navegador o la aplicación móvil",
           "learnMore": "Aprende:",
-          "tutorial": "Tutorial",
-          "aeternityBlockchain": "aeternity blockchain"
+          "tutorial": "Tutorial"
         },
         "step3": {
           "header": "Recibir propinas: {br} Haciendo de Internet un lugar mas justo",

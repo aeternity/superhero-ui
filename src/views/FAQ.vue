@@ -38,8 +38,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.faq-page,
-.mission-page {
+.faq-page {
   background-color: $light_color;
   padding: 2.75rem 2rem;
 

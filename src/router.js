@@ -6,7 +6,6 @@ import FAQ from './views/FAQ.vue';
 import Governance from './views/Governance.vue';
 import Landing from './views/Landing.vue';
 import League from './views/League.vue';
-import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
 import TipsAndComments from './views/TipsAndComments.vue';
@@ -111,11 +110,6 @@ const routes = [
     path: '/voting',
     name: 'voting',
     component: Governance,
-  },
-  {
-    path: '/mission',
-    name: 'mission',
-    component: Mission,
   },
   {
     path: '/faq',

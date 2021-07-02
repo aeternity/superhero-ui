@@ -12,7 +12,6 @@
   "FAQ": "FAQ",
   "FellowSuperhero": "Membres superhero",
   "Balance": "Balance:",
-  "aeternityBlockchain": "aeternity blockchain",
   "views": {
     "FeedList": {
       "main": "Feed",
@@ -78,31 +77,6 @@
           "Contact": "Contact"
         }
       }
-    },
-    "Mission": {
-      "header": "SUPERHERO: UNE HISTOIRE ORIGINALE ASSORTIE D'UNE MISSION",
-      "sections": [
-        {
-          "text": "Dans les bandes dessinées de type Comics les Super Héros croient qu'il est de leur devoir d'aider et de faire triompher le bien. Cependant - la véritable réalité des temps modernes continue de tester l'humanité."
-        },
-        {
-          "text": "Depuis les artistes aux scientifiques, les professeurs, les groupes médicaux, les projets non lucratifs, les initiatives sociales à fort impact, les causes communautaires, le bien-être animal, la défense de l'environnement, à celui qui ne fait que vous inspirer… Nous pouvons (et nous devons) faire une différence tous les jours les uns pour les autres. Les gens soutenant l'Humanité sont des Super Héros contemporains."
-        },
-        {
-          "text": "Superhero.com a été conçu comme une façon tangible de célébrer la différence qui peut provenir des personnes menant des projets valorisants pouvant aider les gens, Peer 2 Peer, et cela, sans aucun intermédiaire."
-        },
-        {
-          "text": "Superhero.com a été construit comme un projet open source qui transfère le pouvoir aux initiatives valorisantes pouvant aider l'Humanité, loin des intérêts privés de certaines entités et contrôlés uniquement par la volonté publique."
-        },
-        {
-          "text": "Ceux qui font partie de la communauté {aeternityBlockchain} et qui ont mené le projet Superhero.com à la vie sont unis dans la promesse d'aider à donner un meilleur internet pour chacun d'entre nous."
-        },
-        {
-          "text": "Bienvenue dans un meilleur monde virtuel – un internet avec une liberté quantifiable de transactions. Nous avons juste commencé à voir ou nos super-pouvoirs d'êtres humains aidant les uns et les autres peuvent nous mener."
-        }
-      ],
-      "footer": "FAITES-VOUS UNE DIFFÉRENCE ?",
-      "footerContent": "Superhero.com l'outil du bien construit sur la blockchain æternity"
     },
     "FAQ": {
       "header": "Questions féquemment posées",

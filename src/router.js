@@ -12,10 +12,6 @@ import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
 import TipsAndComments from './views/TipsAndComments.vue';
 import FeedList from './views/FeedList.vue';
-import TutorialMeet from './views/tutorial/Meet.vue';
-import TutorialVoting from './views/tutorial/Voting.vue';
-import TutorialWallet from './views/tutorial/Wallet.vue';
-import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
 import WordBazaar from './views/WordBazaar.vue';
 import WordBazaarAssets from './views/WordBazaarAssets.vue';
@@ -126,26 +122,6 @@ const routes = [
     path: '/mission',
     name: 'mission',
     component: Mission,
-  },
-  {
-    path: '/tutorial/widget',
-    name: 'tutorial-widget',
-    component: TutorialWidget,
-  },
-  {
-    path: '/tutorial/voting',
-    name: 'tutorial-voting',
-    component: TutorialVoting,
-  },
-  {
-    path: '/tutorial/wallet',
-    name: 'tutorial-wallet',
-    component: TutorialWallet,
-  },
-  {
-    path: '/tutorial/meet',
-    name: 'tutorial-meet',
-    component: TutorialMeet,
   },
   {
     path: '/faq',

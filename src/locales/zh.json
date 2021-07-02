@@ -316,50 +316,6 @@
       "Comments": "评论",
       "EditBiography": "编辑传记"
     },
-    "Widget": {
-      "header": "[[ 小部件页头部文本占位符 ]]",
-      "sections": [
-        {
-          "text": "第1占位符。"
-        },
-        {
-          "text": "第2占位符。"
-        }
-      ]
-    },
-    "Voting": {
-      "header": "[[ 投票页头部文本占位符 ]]",
-      "sections": [
-        {
-          "text": "第1占位符。"
-        },
-        {
-          "text": "第2占位符。"
-        }
-      ]
-    },
-    "Wallet": {
-      "header": "[[ 钱包页面头部文本占位符 ]]",
-      "sections": [
-        {
-          "text": "第1占位符。"
-        },
-        {
-          "text": "第2占位符."
-        }
-      ]
-    },
-    "Meet": {
-      "header": "[[ 会议页头部文本占位符 ]]",
-      "sections": [
-        {
-          "text": "第1占位符."
-        },
-        {
-          "text": "第2占位符."
-        }
-      ]
-    },
     "WordDetail": {
       "NewVote": "New vote",
       "NoVotes": "There are no current votes for this token.",

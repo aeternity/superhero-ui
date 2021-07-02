@@ -11,7 +11,6 @@
             class="close-button"
             @click="showOverlay = false"
           >
-            <!--eslint-disable-line vue-i18n/no-raw-text-->
             &#x2715;
           </ButtonPlain>
           <Navigation mobile />

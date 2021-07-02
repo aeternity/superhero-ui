@@ -69,7 +69,7 @@
             <span class="error">{{ error.name || '' }}</span>
             <div>
               <span :class="{ error: error.name }">{{ name.length }}</span>
-              <span>{{ ` / ${maxNameLength}` }}</span>
+              <span> / {{ maxNameLength }}</span>
             </div>
           </div>
         </div>

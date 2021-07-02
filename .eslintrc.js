@@ -42,7 +42,7 @@ module.exports = {
     'vue/v-on-function-call': 'error',
     'vue-i18n/no-dynamic-keys': 'error',
     'vue-i18n/no-unused-keys': 'error',
-    'vue-i18n/no-raw-text': 'error',
+    'vue-i18n/no-raw-text': 'off',
   },
   overrides: [
     {

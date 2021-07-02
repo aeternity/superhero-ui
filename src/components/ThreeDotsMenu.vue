@@ -4,7 +4,6 @@
     :class="{ active: showMenu }"
     @click="showMenu = true"
   >
-    <!--eslint-disable-line vue-i18n/no-raw-text-->
     •••
     <Modal
       v-if="showMenu"

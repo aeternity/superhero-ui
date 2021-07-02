@@ -120,7 +120,7 @@
               applied: vote.statusApplied,
               ongoing: vote.statusOngoing,
             }"
-            :style="{ width: vote.statusOngoing ? vote.stakePercent : '100' + '%' }"
+            :style="{ width: vote.statusOngoing ? `${vote.stakePercent}%` : '100%' }"
           >
             <span v-if="vote.statusOngoing">
               {{ `${vote.stakePercent}%${vote.showApplyPayout ? ' 🎉' : ''}` }}

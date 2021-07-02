@@ -500,6 +500,8 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+@import "~animate.css";
+
 .landing-page-container {
   a {
     color: inherit;

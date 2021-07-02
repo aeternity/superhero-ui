@@ -126,30 +126,35 @@ export default {
     },
   },
   metaInfo() {
-    const title = {
-      tip: `Tip ${this.tipId}`,
-      comment: 'Comment View',
+    if (!this.record) return { title: 'Loading' };
+    const { title, description, author } = {
+      tip: {
+        title: `Tip ${this.tipId.split('_')[0]}`,
+        description: this.record.text,
+        author: this.record.author,
+      },
+      comment: {
+        title: 'Comment',
+        description: this.record.title,
+        sender: this.record.sender,
+      },
     }[this.$route.name];
-    const author = this.id ? this.record?.author : this.record?.sender;
-    const avatar = Backend.getProfileImageUrl(author);
+    const image = this.record.media?.[0] ?? Backend.getProfileImageUrl(author);
 
-    const ogImage = this.record?.media?.length ? this.record.media[0] : avatar;
-    const ogUrl = window.location.href.split('?')[0];
-    const ogTitle = `Superhero ${this.id ? 'Comment' : `Tip ${this.tipId.split('_')[1]}`}`;
-    const ogDescription = this.id ? this.record?.text : this.record?.title;
-
-    const meta = [
-      { property: 'og:image', content: ogImage },
-      { property: 'og:url', content: ogUrl },
-      { property: 'og:title', content: ogTitle },
-      { property: 'og:description', content: ogDescription },
-      { property: 'og:site_name', content: 'Superhero' },
-      { name: 'twitter:card', content: 'summary' },
-      { name: 'twitter:site', content: '@superhero_chain' },
-      { name: 'twitter:creator', content: '@superhero_chain' },
-      { name: 'twitter:image:alt', content: 'Superhero post' },
-    ];
-    return { title, meta };
+    return {
+      title,
+      meta: [
+        { property: 'og:image', content: image },
+        { property: 'og:url', content: window.location.href.split('?')[0] },
+        { property: 'og:title', content: `Superhero ${title}` },
+        { property: 'og:description', content: description },
+        { property: 'og:site_name', content: 'Superhero' },
+        { name: 'twitter:card', content: 'summary' },
+        { name: 'twitter:site', content: '@superhero_chain' },
+        { name: 'twitter:creator', content: '@superhero_chain' },
+        { name: 'twitter:image:alt', content: 'Superhero post' },
+      ],
+    };
   },
 };
 </script>

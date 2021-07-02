@@ -34,6 +34,10 @@ const routes = [
       next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
     },
   },
+  {
+    path: '/search/:query',
+    redirect: (to) => ({ name: 'feed', query: { search: to.params.query } }),
+  },
   ...process.env.VUE_APP_LANDING_ENABLED ? [{
     path: '/landing',
     name: 'landing',
@@ -43,12 +47,6 @@ const routes = [
       layoutClass: 'landing-page',
     },
   }] : [],
-  {
-    path: '/search/:query',
-    name: 'feed-search',
-    component: FeedList,
-    props: true,
-  },
   {
     path: '/tip/:tipId/comment/:id',
     name: 'comment',

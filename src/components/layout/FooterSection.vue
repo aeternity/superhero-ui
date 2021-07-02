@@ -60,25 +60,28 @@
       </a>
     </div>
 
-    <OutlinedButton
-      v-if="!isLoggedIn"
-      :to="addressDeepLink"
-      class="login-footer"
-    >
-      {{ $t('components.layout.FooterSection.LoginWithWallet') }}
-    </OutlinedButton>
+    <ClientOnly>
+      <OutlinedButton
+        v-if="!isLoggedIn"
+        :to="addressDeepLink"
+        class="login-footer"
+      >
+        {{ $t('components.layout.FooterSection.LoginWithWallet') }}
+      </OutlinedButton>
+    </ClientOnly>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import ClientOnly from 'vue-client-only';
 import { createDeepLinkUrl } from '../../utils';
 import OutlinedButton from '../OutlinedButton.vue';
 import IconVenture from '../../assets/iconVenture.svg?icon-component';
 
 export default {
   components: {
-    OutlinedButton, IconVenture,
+    ClientOnly, OutlinedButton, IconVenture,
   },
   data: () => ({
     version: process.env.npm_package_version,

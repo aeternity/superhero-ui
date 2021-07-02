@@ -8,35 +8,37 @@
         class="profile-header"
         :class="{ 'profile-editable': backendAuth && currentAddress === address }"
       >
-        <div class="profile-image">
-          <Avatar :address="address" />
-          <TipInput
-            v-if="currentAddress !== address"
-            :user-address="address"
-            class="profile-button avatar-button"
-          />
-          <template v-else-if="!editMode && backendAuth">
-            <label
+        <ClientOnly>
+          <div class="profile-image">
+            <Avatar :address="address" />
+            <TipInput
+              v-if="currentAddress !== address"
+              :user-address="address"
               class="profile-button avatar-button"
-              :title="$t('views.UserProfileView.ChangeAvatar')"
-            >
-              <img src="../assets/buttonPhoto.svg">
-              <input
-                type="file"
-                name="avatar"
-                accept="image/png, image/jpeg"
-                @change="uploadPhoto($event)"
+            />
+            <template v-else-if="!editMode && backendAuth">
+              <label
+                class="profile-button avatar-button"
+                :title="$t('views.UserProfileView.ChangeAvatar')"
               >
-            </label>
-            <button
-              class="profile-button delete-avatar-button"
-              :title="$t('views.UserProfileView.DeleteAvatar')"
-              @click="deleteAvatar"
-            >
-              <IconCancel />
-            </button>
-          </template>
-        </div>
+                <img src="../assets/buttonPhoto.svg">
+                <input
+                  type="file"
+                  name="avatar"
+                  accept="image/png, image/jpeg"
+                  @change="uploadPhoto($event)"
+                >
+              </label>
+              <button
+                class="profile-button delete-avatar-button"
+                :title="$t('views.UserProfileView.DeleteAvatar')"
+                @click="deleteAvatar"
+              >
+                <IconCancel />
+              </button>
+            </template>
+          </div>
+        </ClientOnly>
         <div class="profile-info">
           <a
             class="profile-username"
@@ -48,33 +50,37 @@
             </div>
             <div class="text-ellipsis">{{ address }}</div>
           </a>
-          <div
-            v-if="balance"
-            class="balance text-ellipsis"
-          >
-            {{ $t('Balance') }} <AeAmountFiat :amount="balance" />
-          </div>
-          <div class="profile-row">
-            <div class="location">
-              <img
-                v-if="profile.location.length || currentAddress === address"
-                src="../assets/location.svg"
-              >
-              <input
-                v-if="editMode"
-                v-model="profile.location"
-                class="location-input"
-                type="text"
-                :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
-              >
-              <span v-if="!editMode && (profile.location.length || currentAddress === address)">
-                {{
-                  profile.location.length
-                    ? profile.location
-                    : $t('views.UserProfileView.Location')
-                }}
-              </span>
+          <ClientOnly>
+            <div
+              v-if="balance"
+              class="balance text-ellipsis"
+            >
+              {{ $t('Balance') }} <AeAmountFiat :amount="balance" />
             </div>
+          </ClientOnly>
+          <div class="profile-row">
+            <ClientOnly>
+              <div class="location">
+                <img
+                  v-if="profile.location.length || currentAddress === address"
+                  src="../assets/location.svg"
+                >
+                <input
+                  v-if="editMode"
+                  v-model="profile.location"
+                  class="location-input"
+                  type="text"
+                  :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
+                >
+                <span v-if="!editMode && (profile.location.length || currentAddress === address)">
+                  {{
+                    profile.location.length
+                      ? profile.location
+                      : $t('views.UserProfileView.Location')
+                  }}
+                </span>
+              </div>
+            </ClientOnly>
             <div
               v-if="userStats && hasCreationDate"
               class="joined"
@@ -84,51 +90,53 @@
             </div>
           </div>
         </div>
-        <div
-          v-if="backendAuth && currentAddress === address"
-          class="edit-buttons"
-        >
-          <label
-            v-if="!editMode"
-            :title="$t('views.UserProfileView.ChangeCoverPhoto')"
-            class="profile-button edit-button"
+        <ClientOnly>
+          <div
+            v-if="backendAuth && currentAddress === address"
+            class="edit-buttons"
           >
-            <img src="../assets/buttonPhoto.svg">
-            <input
-              type="file"
-              name="cover"
-              accept="image/png, image/jpeg"
-              @change="uploadPhoto($event, true)"
+            <label
+              v-if="!editMode"
+              :title="$t('views.UserProfileView.ChangeCoverPhoto')"
+              class="profile-button edit-button"
             >
-          </label>
-          <button
-            v-if="!editMode"
-            class="profile-button edit-button"
-            type="button"
-            :title="$t('views.UserProfileView.EditProfile')"
-            @click="editMode = true"
-          >
-            <img src="../assets/buttonEdit.svg">
-          </button>
-          <button
-            v-if="editMode"
-            type="button"
-            class="profile-button cancel-button"
-            :title="$t('cancel')"
-            @click="resetEditedValues"
-          >
-            <IconCancel />
-          </button>
-          <button
-            v-if="editMode"
-            type="button"
-            class="profile-button save-button"
-            :title="$t('views.UserProfileView.Save')"
-            @click="saveProfile"
-          >
-            <img src="../assets/buttonSave.svg">
-          </button>
-        </div>
+              <img src="../assets/buttonPhoto.svg">
+              <input
+                type="file"
+                name="cover"
+                accept="image/png, image/jpeg"
+                @change="uploadPhoto($event, true)"
+              >
+            </label>
+            <button
+              v-if="!editMode"
+              class="profile-button edit-button"
+              type="button"
+              :title="$t('views.UserProfileView.EditProfile')"
+              @click="editMode = true"
+            >
+              <img src="../assets/buttonEdit.svg">
+            </button>
+            <button
+              v-if="editMode"
+              type="button"
+              class="profile-button cancel-button"
+              :title="$t('cancel')"
+              @click="resetEditedValues"
+            >
+              <IconCancel />
+            </button>
+            <button
+              v-if="editMode"
+              type="button"
+              class="profile-button save-button"
+              :title="$t('views.UserProfileView.Save')"
+              @click="saveProfile"
+            >
+              <img src="../assets/buttonSave.svg">
+            </button>
+          </div>
+        </ClientOnly>
       </div>
       <div
         v-if="!editMode"
@@ -211,6 +219,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import ClientOnly from 'vue-client-only';
 import Backend from '../utils/backend';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Avatar from './Avatar.vue';
@@ -223,6 +232,7 @@ import IconCancel from '../assets/iconCancel.svg?icon-component';
 
 export default {
   components: {
+    ClientOnly,
     AeAmountFiat,
     Avatar,
     TipInput,

@@ -13,7 +13,6 @@
         v-for="childComment in sort(comment.children || [], true)"
         :key="childComment.id"
         v-bind="childComment"
-        @reply="openReply = comment.id"
       />
       <Transition name="fade">
         <SendComment

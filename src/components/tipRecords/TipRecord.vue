@@ -52,7 +52,7 @@
         />
         <span v-else />
         <ButtonFeed
-          :disabled="$route.name === 'tip'"
+          :disabled="detailed"
           @click.stop="$router.push(toTip)"
         >
           <IconComment slot="icon" />
@@ -95,6 +95,7 @@ export default {
   mixins: [backendAuthMixin(true)],
   props: {
     tip: { type: Object, required: true },
+    detailed: Boolean,
   },
   data: () => ({
     UNFINISHED_FEATURES: process.env.UNFINISHED_FEATURES,

@@ -1,8 +1,8 @@
 <template>
   <div
     class="tip-comment"
-    :class="{ clickable }"
-    @click="clickable && $router.push({
+    :class="{ detailed }"
+    @click="!detailed && $router.push({
       name: 'comment',
       params: { tipId, id },
     })"
@@ -21,7 +21,8 @@
       />
       <ButtonFeed
         :title="$t('components.tipRecords.TipComment.Replies')"
-        @click.stop="$emit('reply')"
+        :disabled="detailed"
+        @click="replyClickHandler"
       >
         <IconReply slot="icon" />
         {{ children.length }}
@@ -51,10 +52,13 @@ export default {
     text: { type: String, required: true },
     children: { type: Array, default: () => [] },
     createdAt: { type: String, required: true },
+    detailed: Boolean,
   },
-  computed: {
-    clickable() {
-      return this.$route.name !== 'comment' || +this.$route.params.id !== +this.id;
+  methods: {
+    replyClickHandler(event) {
+      if (!this.$listeners.reply) return;
+      this.$emit('reply');
+      event.stopPropagation();
     },
   },
 };
@@ -71,7 +75,7 @@ export default {
     padding: 0.5rem;
   }
 
-  &.clickable:hover {
+  &:not(.detailed):hover {
     cursor: pointer;
   }
 

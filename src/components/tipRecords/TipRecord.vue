@@ -50,22 +50,17 @@
           v-if="tip.type === 'POST_WITHOUT_TIP'"
           :tip="{ ...tip, url: `https://superhero.com/tip/${tip.id}` }"
         />
-        <div class="actions-wrapper">
-          <ButtonPlain
-            class="action"
-            :class="{ active: tip.commentCount, disabled: $route.name === 'tip' }"
-            @click.stop="$route.name === 'tip' ? null : $router.push(toTip)"
-          >
-            <IconComments />
-            <span>{{ tip.commentCount }}</span>
-          </ButtonPlain>
-          <ButtonPlain
-            v-if="UNFINISHED_FEATURES"
-            class="action"
-          >
-            <IconShare />
-          </ButtonPlain>
-        </div>
+        <span v-else />
+        <ButtonFeed
+          :disabled="$route.name === 'tip'"
+          @click.stop="$router.push(toTip)"
+        >
+          <IconComment slot="icon" />
+          {{ tip.commentCount }}
+        </ButtonFeed>
+        <ButtonFeed v-if="UNFINISHED_FEATURES">
+          <IconShare slot="icon" />
+        </ButtonFeed>
       </div>
     </div>
   </div>
@@ -81,8 +76,8 @@ import TipPreview from './TipPreview.vue';
 import TipInput from '../TipInput.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import AuthorAndDate from './AuthorAndDate.vue';
-import ButtonPlain from '../ButtonPlain.vue';
-import IconComments from '../../assets/iconComments.svg?icon-component';
+import ButtonFeed from '../ButtonFeed.vue';
+import IconComment from '../../assets/iconComment.svg?icon-component';
 import IconShare from '../../assets/iconShare.svg?icon-component';
 
 export default {
@@ -92,8 +87,8 @@ export default {
     TipPreview,
     ThreeDotsMenu,
     AuthorAndDate,
-    ButtonPlain,
-    IconComments,
+    ButtonFeed,
+    IconComment,
     IconShare,
     TipInput,
   },
@@ -212,43 +207,17 @@ export default {
 }
 
 .tip-footer {
-  border-bottom-left-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-  color: $light_font_color;
-  font-size: 1rem;
   padding: 0.75rem 1rem 0.75rem;
   display: flex;
-  flex-wrap: wrap;
   cursor: default;
+  justify-content: space-between;
 
-  .actions-wrapper {
-    display: flex;
-    justify-content: space-evenly;
-    flex-grow: 1;
-    padding: 0 2.3rem;
+  &::after {
+    content: '';
+  }
 
-    .action {
-      svg,
-      span {
-        vertical-align: middle;
-      }
-
-      svg {
-        height: 0.9rem;
-      }
-
-      span {
-        margin-left: 0.5rem;
-      }
-
-      &.active {
-        color: #fff;
-      }
-
-      &.disabled {
-        cursor: default;
-      }
-    }
+  @include smallest {
+    padding: 0.85rem 0 0 0;
   }
 }
 
@@ -281,10 +250,6 @@ export default {
 
   .tip-note {
     padding: 0;
-  }
-
-  .tip-footer {
-    padding: 0.85rem 0 0 0;
   }
 }
 </style>

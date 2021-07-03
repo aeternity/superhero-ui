@@ -32,7 +32,7 @@ export default {
   padding-bottom: 0.9rem;
 
   .author {
-    max-width: 80%;
+    min-width: 0;
     margin-right: 1rem;
   }
 

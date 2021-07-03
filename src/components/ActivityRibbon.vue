@@ -6,11 +6,7 @@
       :class="{ active: value === tab.activity }"
       @click="updateValue(tab.activity)"
     >
-      <Component :is="tab.icon" />
-
-      <span class="text">
-        {{ tab.text }}
-      </span>
+      <Component :is="tab.icon" /> <span>{{ tab.text }}</span>
     </FilterButton>
     <slot name="left" />
     <div class="separator" />
@@ -45,8 +41,11 @@ export default {
   display: flex;
   align-items: center;
 
-  .text {
-    padding-left: 0.15rem;
+  .filter-button {
+    svg,
+    span {
+      vertical-align: middle;
+    }
   }
 
   .separator {

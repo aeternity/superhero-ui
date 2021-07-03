@@ -22,6 +22,8 @@
   padding: 8.5px 16px;
 
   &:focus {
+    transition: 0.3s;
+    transition-property: background-color, border-color;
     border-color: $secondary_color;
     background-color: $actions_ribbon_background_color;
   }

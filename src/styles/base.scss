@@ -40,36 +40,6 @@ a {
   white-space: nowrap;
 }
 
-.input-group,
-.form-group {
-  .form-control {
-    border: 1px solid transparent;
-    box-shadow: none;
-    transition: none;
-
-    &:focus {
-      border: 1px solid $secondary_color;
-    }
-  }
-}
-
-.input-group {
-  padding-left: 0;
-  padding-right: 0;
-
-  .form-control {
-    background-color: $buttons_background;
-    border: 1px solid $white_color;
-    color: $standard_font_color;
-    font-size: 14px;
-    height: 40px;
-
-    &:focus {
-      background-color: $background_color;
-    }
-  }
-}
-
 img.fail {
   visibility: hidden;
 }

@@ -112,6 +112,7 @@ export default {
     .bubbleArrow {
       height: 40px;
       color: $secondary_color;
+      vertical-align: middle;
     }
 
     .activity-icon {
@@ -143,6 +144,7 @@ export default {
         height: 24px;
         margin-bottom: 2px;
         flex-shrink: 0;
+        vertical-align: middle;
       }
 
       .desktop { margin-left: 2px; }

@@ -412,11 +412,6 @@ export default {
   }
 }
 
-.input-group {
-  width: 228px;
-  margin-bottom: 24px;
-}
-
 .return-amount {
   display: flex;
   flex-direction: row;

@@ -58,23 +58,12 @@
         </OutlinedButton>
       </div>
 
-      <label
-        v-if="vote.showVoteOption"
-        class="stake-label"
-      >
-        {{ $t('components.VoteCard.Amount') }}
-      </label>
-      <label
-        v-if="vote.accountHasVoted"
-        class="stake-label"
-      >
-        {{ $t('components.VoteCard.Staked') }}
-      </label>
-      <label
-        v-if="!vote.showVoteOption && !vote.accountHasVoted"
-        class="stake-label"
-      >
-        {{ $t('components.VoteCard.NotParticipate') }}
+      <label class="stake-label">
+        {{
+          vote.showVoteOption && $t('components.VoteCard.Amount')
+          || vote.accountHasVoted && $t('components.VoteCard.Staked')
+          || $t('components.VoteCard.NotParticipate')
+        }}
       </label>
 
       <div class="input-bar">
@@ -354,6 +343,7 @@ export default {
       svg {
         height: 16px;
         width: auto;
+        vertical-align: middle;
       }
 
       time {
@@ -385,10 +375,6 @@ export default {
   &:active,
   &:hover {
     background-color: $card_hover_color;
-
-    ::v-deep .form-control {
-      background-color: $super_dark;
-    }
   }
 
   .vote-progress-bar {
@@ -457,23 +443,6 @@ export default {
 
     @include mobile {
       height: 100%;
-    }
-  }
-
-  .input-group {
-    width: 50%;
-    height: 100%;
-
-    .input-group-append > span.append__ae {
-      font-size: 0.62rem;
-    }
-
-    .form-control {
-      height: 100%;
-    }
-
-    @include mobile {
-      width: 100%;
     }
   }
 

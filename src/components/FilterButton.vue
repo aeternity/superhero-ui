@@ -21,7 +21,7 @@ export default {
   border-radius: 50px;
   font-size: 16px;
   font-weight: 700;
-  line-height: 18px;
+  line-height: 22px;
   padding: 8px 16px;
   color: $tip_note_color;
   height: 40px;

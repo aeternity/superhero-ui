@@ -38,5 +38,12 @@ export default {
       border-color: $custom_links_color;
       color: $custom_links_color;
     }
+
+    ::v-deep {
+      svg,
+      span {
+        vertical-align: middle;
+      }
+    }
   }
 </style>

@@ -186,6 +186,7 @@ export default {
     height: 24px;
     color: $standard_font_color;
     transition: color 0.3s;
+    vertical-align: middle;
 
     &.asc {
       transform: rotate(180deg);

@@ -41,7 +41,8 @@ export default {
   padding-right: 16px;
 
   p {
-    margin-bottom: 32px;
+    margin-top: 0;
+    margin-bottom: 29px;
   }
 
   .subtitle {
@@ -54,11 +55,18 @@ export default {
     font-size: 20px;
     font-weight: 500;
     color: $standard_font_color;
-    margin-bottom: 12px;
+    margin-top: 0;
+    margin-bottom: 9px;
   }
 
   a {
     color: $custom_links_color;
+  }
+
+  hr {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid transparent;
   }
 }
 </style>

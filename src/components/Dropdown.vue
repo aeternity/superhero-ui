@@ -103,6 +103,7 @@ export default {
     color: $standard_font_color;
     box-shadow: inset 0 0 0.1rem $article_content_color;
     border-radius: unset;
+    white-space: nowrap;
 
     &:first-child {
       border-radius: 0.15rem 0.15rem 0 0;

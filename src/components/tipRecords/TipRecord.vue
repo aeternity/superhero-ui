@@ -182,7 +182,7 @@ export default {
     padding-left: 1rem;
     padding-right: 1rem;
 
-    .date .three-dots {
+    .date .three-dots-menu {
       font-size: 0.75rem;
       margin-left: 0.3rem;
     }

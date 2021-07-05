@@ -527,7 +527,7 @@ export default {
         align-items: center;
         justify-content: center;
 
-        .three-dots {
+        .three-dots-menu {
           font-size: 0.75rem;
           margin-left: 0.3rem;
         }
@@ -573,7 +573,7 @@ export default {
         color: #fff;
       }
 
-      .tip-description .author-and-date .date .three-dots {
+      .tip-description .author-and-date .date .three-dots-menu {
         font-size: 0.75rem;
         margin-left: 0.3rem;
       }

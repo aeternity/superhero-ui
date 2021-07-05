@@ -40,7 +40,7 @@
 
       <a :href="`https://github.com/aeternity/superhero-ui/commit/${commitHash}`">
         {{ commitHash.slice(0, 7) }}
-      </a><!--eslint-disable-line vue-i18n/no-raw-text-->
+      </a>
       / {{ version }}
     </div>
 
@@ -56,7 +56,6 @@
         target="_blank"
         href="https://venture.com/"
       >
-        <!--eslint-disable-next-line vue-i18n/no-raw-text-->
         <IconVenture /> <span>Branded by Venture</span>
       </a>
     </div>

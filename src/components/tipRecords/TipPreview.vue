@@ -117,7 +117,6 @@
             </div>
           </RouterLink>
         </div>
-        <!-- eslint-disable-next-line vue-i18n/no-raw-text -->
         <div v-else>
           No preview available for this URL
         </div>

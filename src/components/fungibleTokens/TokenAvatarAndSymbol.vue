@@ -10,7 +10,6 @@
       src="../../assets/aeternitySymbol.svg"
       class="aeternity-logo"
     >
-    <!--eslint-disable-next-line vue-i18n/no-raw-text-->
     <span class="symbol">{{ tokenData ? tokenData.symbol : 'AE' }}</span>
   </div>
 </template>

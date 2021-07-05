@@ -1,4 +1,3 @@
-<!-- eslint-disable vue-i18n/no-raw-text -->
 <template>
   <div class="landing-page-container">
     <header

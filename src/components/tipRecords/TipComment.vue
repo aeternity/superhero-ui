@@ -2,11 +2,11 @@
   <div
     class="tip-comment"
     :class="{ detailed }"
-    @click="!detailed && $router.push({
-      name: 'comment',
-      params: { tipId, id },
-    })"
   >
+    <RouterLink
+      v-if="!detailed"
+      :to="{ name: 'comment', params: { tipId, id } }"
+    />
     <AuthorAndDate
       :date="createdAt"
       :address="author"
@@ -15,14 +15,11 @@
       {{ text }}
     </div>
     <div class="actions">
-      <TipInput
-        :comment="{ tipId, id }"
-        @click.native.stop
-      />
+      <TipInput :comment="{ tipId, id }" />
       <ButtonFeed
         :title="$t('components.tipRecords.TipComment.Replies')"
-        :disabled="detailed"
-        @click="replyClickHandler"
+        :disabled="detailed || !$listeners.reply"
+        @click="$listeners.reply && $emit('reply')"
       >
         <IconReply slot="icon" />
         {{ children.length }}
@@ -54,13 +51,6 @@ export default {
     createdAt: { type: String, required: true },
     detailed: Boolean,
   },
-  methods: {
-    replyClickHandler(event) {
-      if (!this.$listeners.reply) return;
-      this.$emit('reply');
-      event.stopPropagation();
-    },
-  },
 };
 </script>
 
@@ -68,22 +58,26 @@ export default {
 .tip-comment {
   margin-bottom: 0.5rem;
   padding: 1rem;
-  border-radius: 0.25rem;
-  background-color: $light_color;
+  position: relative;
 
   @include smallest {
     padding: 0.5rem;
   }
 
-  &:not(.detailed):hover {
-    cursor: pointer;
+  a::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .author-and-date {
     padding-bottom: 0;
 
-    ::v-deep .address {
-      font-size: 0.6rem;
+    ::v-deep .author {
+      position: relative;
     }
   }
 
@@ -101,17 +95,19 @@ export default {
 
   .actions {
     padding-top: 0.25rem;
-    color: $standard_font_color;
-    font-size: 0.8rem;
     display: flex;
 
     @include smallest {
-      padding-left: 0;
       padding-top: 0.5rem;
     }
 
     > :not(:first-child) {
       margin-left: 3rem;
+    }
+
+    .tip-input,
+    .button-feed:not([disabled]) {
+      position: relative;
     }
   }
 }

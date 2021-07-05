@@ -68,16 +68,11 @@ export default {
       padding-top: 0;
     }
 
-    &:nth-child(2) {
-      border-top: 0.05rem solid $article_content_color;
-      border-radius: 0;
-    }
-
     + .tip-comment {
-      padding-left: 3rem;
+      margin-left: 3rem;
 
       @include smallest {
-        padding-left: 1.5rem;
+        margin-left: 1.5rem;
       }
     }
   }

@@ -55,7 +55,8 @@ export default {
     right: 0;
     white-space: nowrap;
 
-    & > div {
+    > .button-plain {
+      display: block;
       padding-bottom: 0.5rem;
 
       &:last-child {
@@ -63,7 +64,6 @@ export default {
       }
 
       &:hover {
-        cursor: pointer;
         color: $standard_font_color;
       }
     }

@@ -10,22 +10,22 @@
           :address="tip.sender"
         >
           <ThreeDotsMenu v-if="address">
-            <div @click="sendReport">
+            <ButtonPlain @click="sendReport">
               {{ $t('components.tipRecords.TipRecord.reportPost') }}
-            </div>
-            <div
+            </ButtonPlain>
+            <ButtonPlain
               v-if="tip.type === 'AE_TIP'"
               @click="claim"
             >
               {{ $t('components.tipRecords.TipRecord.claim') }}
-            </div>
-            <div @click="pinOrUnPinTip">
+            </ButtonPlain>
+            <ButtonPlain @click="pinOrUnPinTip">
               {{
                 isTipPinned ?
                   $t('components.tipRecords.TipRecord.UnPin')
                   : $t('components.tipRecords.TipRecord.Pin')
               }}
-            </div>
+            </ButtonPlain>
           </ThreeDotsMenu>
         </AuthorAndDate>
       </div>
@@ -76,6 +76,7 @@ import TipPreview from './TipPreview.vue';
 import TipInput from '../TipInput.vue';
 import ThreeDotsMenu from '../ThreeDotsMenu.vue';
 import AuthorAndDate from './AuthorAndDate.vue';
+import ButtonPlain from '../ButtonPlain.vue';
 import ButtonFeed from '../ButtonFeed.vue';
 import IconComment from '../../assets/iconComment.svg?icon-component';
 import IconShare from '../../assets/iconShare.svg?icon-component';
@@ -87,6 +88,7 @@ export default {
     TipPreview,
     ThreeDotsMenu,
     AuthorAndDate,
+    ButtonPlain,
     ButtonFeed,
     IconComment,
     IconShare,

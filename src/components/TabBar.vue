@@ -9,7 +9,7 @@
       <span> {{ tab.text }}</span>
       <Component :is="tab.icon" />
     </TabBarButton>
-    <slot name="left" />
+    <slot />
     <div class="right">
       <slot name="right" />
     </div>

@@ -61,8 +61,8 @@
       <label class="stake-label">
         {{
           vote.showVoteOption && $t('components.VoteCard.Amount')
-          || vote.accountHasVoted && $t('components.VoteCard.Staked')
-          || $t('components.VoteCard.NotParticipate')
+            || vote.accountHasVoted && $t('components.VoteCard.Staked')
+            || $t('components.VoteCard.NotParticipate')
         }}
       </label>
 

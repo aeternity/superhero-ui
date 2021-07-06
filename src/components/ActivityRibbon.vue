@@ -1,37 +1,13 @@
 <template>
   <div class="activity-ribbon">
-    <FilterButton
-      v-for="tab in tabs"
-      :key="tab.text"
-      :class="{ active: value === tab.activity }"
-      @click="updateValue(tab.activity)"
-    >
-      <Component :is="tab.icon" /> <span>{{ tab.text }}</span>
-    </FilterButton>
-    <slot name="left" />
-    <div class="separator" />
+    <slot />
+    <div
+      v-if="$slots.right"
+      class="separator"
+    />
     <slot name="right" />
   </div>
 </template>
-
-<script>
-import FilterButton from './FilterButton.vue';
-
-export default {
-  components: {
-    FilterButton,
-  },
-  props: {
-    tabs: { type: Array, required: true },
-    value: { type: String, required: true },
-  },
-  methods: {
-    updateValue(value) {
-      this.$emit('input', value);
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .activity-ribbon {
@@ -41,7 +17,7 @@ export default {
   display: flex;
   align-items: center;
 
-  .filter-button {
+  ::v-deep .filter-button {
     svg,
     span {
       vertical-align: middle;

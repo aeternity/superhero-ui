@@ -1,152 +1,153 @@
 <template>
-  <div>
-    <ActivityRibbon
-      v-model="activity"
-      :tabs="ribbonTabs"
-    />
+  <div class="list-of-tips-and-comments">
+    <ActivityRibbon>
+      <FilterButton :to="genLocation({ activity: 'channel' })">
+        <IconChannel />
+        {{ ' ' }}<span>{{ $t('components.ListOfTipsAndComments.Channel') }}</span>
+      </FilterButton>
+      <FilterButton
+        :to="genLocation({ activity: 'feed' })"
+        :class="{ active: ['feed', 'comments'].includes(activity) }"
+      >
+        <IconActivity />
+        {{ ' ' }}<span>{{ $t('components.ListOfTipsAndComments.Activity') }}</span>
+      </FilterButton>
+    </ActivityRibbon>
 
-    <TabBar
-      v-if="activity === 'activity'"
-      v-model="activeTab"
-      :tabs="tabs"
-    />
+    <TabBar v-if="['feed', 'comments'].includes(activity)">
+      <TabBarButton :to="genLocation({ activity: 'feed' })">
+        {{ $t('tips') }}
+      </TabBarButton>
+      <TabBarButton :to="genLocation({ activity: 'comments' })">
+        {{ $t('comments') }}
+      </TabBarButton>
+    </TabBar>
 
-    <div class="position-relative">
+    <FeedPagination
+      v-if="activity === 'feed'"
+      tip-sort-by="latest"
+      :address="address"
+      show-tips
+      show-posts
+    />
+    <template v-else>
       <div
-        v-if="activeTab === 'tips' && activity === 'activity'"
-        class="tips-container"
+        v-if="error"
+        class="message"
       >
-        <FeedPagination
-          tip-sort-by="latest"
-          :address="address"
-          show-tips
-          show-posts
-        />
+        Unknown error
       </div>
+      <Loader v-if="loading" />
       <div
-        v-if="activeTab === 'comments' && activity === 'activity'"
-        class="tips-container"
+        v-else-if="!items.length"
+        class="message"
       >
-        <Loading
-          v-if="showLoading"
-          above-content
-        />
-        <div
-          v-if="showNoResultsMsg"
-          class="no-results"
-          :class="{ error }"
-        >
-          {{ $t('components.ListOfTipsAndComments.NoActivity') }}
-        </div>
-        <TipComment
-          v-for="(comment, index) in comments"
-          :key="index"
-          v-bind="comment"
-        />
+        {{ activity === 'channel' && $t('components.ListOfTipsAndComments.NoPinnedItems')
+          || $t('components.ListOfTipsAndComments.NoActivity') }}
       </div>
-      <div
-        v-if="activeTab === 'tips' && activity === 'channel'"
-        class="tips-container"
-      >
-        <div
-          v-if="!pinnedItems.length"
-          class="no-results"
-          :class="{ error }"
-        >
-          {{ $t('components.ListOfTipsAndComments.NoPinnedItems') }}
-        </div>
-        <TipRecord
-          v-for="pinnedItem in pinnedItems"
-          :key="pinnedItem.id"
-          :tip="pinnedItem"
-        />
-      </div>
-    </div>
+      <TipCommentList
+        v-if="activity === 'comments'"
+        :comments="items"
+      />
+      <TipRecord
+        v-for="pinnedItem in items"
+        v-else-if="activity === 'channel'"
+        :key="pinnedItem.id"
+        :tip="pinnedItem"
+      />
+    </template>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { pickBy } from 'lodash-es';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
-import Loading from './Loading.vue';
+import Loader from './Loader.vue';
 import FeedPagination from './FeedPagination.vue';
-import TipComment from './tipRecords/TipComment.vue';
+import TipCommentList from './tipRecords/TipCommentList.vue';
 import TipRecord from './tipRecords/TipRecord.vue';
 import IconChannel from '../assets/iconChannel.svg?icon-component';
 import IconActivity from '../assets/iconActivity.svg?icon-component';
 import ActivityRibbon from './ActivityRibbon.vue';
+import FilterButton from './FilterButton.vue';
 import TabBar from './TabBar.vue';
+import TabBarButton from './TabBarButton.vue';
 
 export default {
   components: {
     TabBar,
+    TabBarButton,
     FeedPagination,
-    Loading,
-    TipComment,
+    Loader,
+    TipCommentList,
     TipRecord,
     ActivityRibbon,
+    FilterButton,
+    IconChannel,
+    IconActivity,
   },
   props: { address: { type: String, required: true } },
   data: () => ({
-    showLoading: false,
+    loading: false,
     error: false,
-    activeTab: 'tips',
-    activity: 'activity',
-    userPinnedItems: [],
+    pinnedItems: [],
   }),
   computed: {
-    ...mapState({ currentAddress: 'address' }),
-    pinnedItems() {
-      return this.address === this.currentAddress
-        ? this.$store.state.pinnedItems : this.userPinnedItems;
+    activity() {
+      return this.$route.params.activity || 'feed';
     },
-    showNoResultsMsg() {
-      return this.activeTab === 'comments'
-        && this.comments.length === 0 && !this.showLoading;
-    },
-    comments() {
-      return this.$store.state.backend.userComments[this.address] || [];
-    },
-    ribbonTabs() {
-      return [{ icon: IconChannel, text: this.$t('components.ListOfTipsAndComments.Channel'), activity: 'channel' }, { icon: IconActivity, text: this.$t('components.ListOfTipsAndComments.Activity'), activity: 'activity' }];
-    },
-    tabs() {
-      return [{ text: this.$t('tips'), tab: 'tips' }, { text: this.$t('comments'), tab: 'comments' }];
+    items() {
+      switch (this.activity) {
+        case 'comments':
+          return this.$store.state.backend.userComments[this.address] || [];
+        case 'channel':
+          return this.pinnedItems;
+        default:
+          return [];
+      }
     },
   },
   mounted() {
-    this.reloadData();
-
+    this.$watch(
+      ({ address, activity }) => [address, activity],
+      () => this.reloadData(),
+      { immediate: true },
+    );
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
-
-    if (this.address !== this.currentAddress) {
-      Backend.getPinnedItems(this.address)
-        .then((pinnedItems) => {
-          this.userPinnedItems = pinnedItems;
-        })
-        .catch(console.error);
-    }
-
     const interval = setInterval(() => this.reloadData(), 120 * 1000);
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
   },
   methods: {
-    setActiveTab(tab) {
-      this.activeTab = tab;
+    genLocation(addToParams) {
+      return {
+        ...this.$route,
+        params: pickBy({ ...this.$route.params, ...addToParams }, (p) => p !== 'feed'),
+      };
     },
     async reloadData() {
-      this.showLoading = true;
+      this.loading = true;
       try {
-        await this.$store.dispatch('backend/reloadUserComments', this.address);
         this.error = false;
+        switch (this.activity) {
+          case 'feed':
+            break;
+          case 'channel':
+            this.pinnedItems = await Backend.getPinnedItems(this.address);
+            break;
+          case 'comments':
+            await this.$store.dispatch('backend/reloadUserComments', this.address);
+            break;
+          default:
+            throw new Error(`Unknown activity: ${this.activity}`);
+        }
       } catch (error) {
         this.error = true;
-        throw error;
+        console.error(error);
       } finally {
-        this.showLoading = false;
+        this.loading = false;
       }
     },
   },
@@ -154,45 +155,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.profile-actions {
-  background-color: $actions_ribbon_background_color;
-  padding-left: 1rem;
-  position: sticky;
-  top: 3rem;
-  z-index: 21;
-
-  a {
-    color: $light_font_color;
-    display: inline-block;
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-right: 0.5rem;
-    padding: 0.5rem;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &:hover {
-      color: $primary_color;
-      cursor: pointer;
-    }
-
-    &.active {
-      border-bottom: 2px solid $custom_links_color;
-      color: $custom_links_color;
-    }
-  }
-
-  .activity-ribbon {
-    background-color: $light_color;
-    padding: 0.5rem 0 0.5rem 0.75rem;
-    margin-left: -1rem;
-  }
-}
-
-.no-results {
+.list-of-tips-and-comments .message {
   text-align: center;
-  margin-top: 1rem;
+  margin: 1rem 0;
 }
 </style>

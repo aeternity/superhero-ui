@@ -26,7 +26,7 @@ export default {
   props: {
     address: { type: String, required: true },
   },
-  data: () => ({ hover: false, name: null }),
+  data: () => ({ name: null }),
   async mounted() {
     const { preferredChainName } = await Backend.getProfile(this.address);
     this.name = preferredChainName || this.$t('FellowSuperhero');

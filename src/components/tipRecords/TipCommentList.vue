@@ -63,6 +63,7 @@ export default {
     margin-bottom: 0;
     padding-left: 0;
     padding-right: 0;
+    padding-bottom: 0;
 
     &:first-child {
       padding-top: 0;

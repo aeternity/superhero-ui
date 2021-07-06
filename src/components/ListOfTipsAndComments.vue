@@ -1,12 +1,12 @@
 <template>
   <div class="list-of-tips-and-comments">
     <ActivityRibbon>
-      <FilterButton :to="genLocation({ activity: 'channel' })">
+      <FilterButton :to-relative="{ params: { activity: 'channel' } }">
         <IconChannel />
         {{ ' ' }}<span>{{ $t('components.ListOfTipsAndComments.Channel') }}</span>
       </FilterButton>
       <FilterButton
-        :to="genLocation({ activity: 'feed' })"
+        :to-relative="{ params: { activity: null } }"
         :class="{ active: ['feed', 'comments'].includes(activity) }"
       >
         <IconActivity />
@@ -15,10 +15,10 @@
     </ActivityRibbon>
 
     <TabBar v-if="['feed', 'comments'].includes(activity)">
-      <TabBarButton :to="genLocation({ activity: 'feed' })">
+      <TabBarButton :to-relative="{ params: { activity: null } }">
         {{ $t('tips') }}
       </TabBarButton>
-      <TabBarButton :to="genLocation({ activity: 'comments' })">
+      <TabBarButton :to-relative="{ params: { activity: 'comments' } }">
         {{ $t('comments') }}
       </TabBarButton>
     </TabBar>
@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import { pickBy } from 'lodash-es';
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
 import Loader from './Loader.vue';
@@ -121,12 +120,6 @@ export default {
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
   },
   methods: {
-    genLocation(addToParams) {
-      return {
-        ...this.$route,
-        params: pickBy({ ...this.$route.params, ...addToParams }, (p) => p !== 'feed'),
-      };
-    },
     async reloadData() {
       this.loading = true;
       try {

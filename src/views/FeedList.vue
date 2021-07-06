@@ -3,13 +3,13 @@
     <div class="actions">
       <SendTip :post="feed !== 'tips'" />
       <div class="feed-category-row">
-        <FilterButton :to="genLocation({ feed: null })">
+        <FilterButton :to-relative="{ query: { feed: null } }">
           <IconFeed /> <span>{{ $t('views.FeedList.main') }}</span>
         </FilterButton>
-        <FilterButton :to="genLocation({ feed: 'tips' })">
+        <FilterButton :to-relative="{ query: { feed: 'tips' } }">
           <IconDiamond /> <span>{{ $t('views.FeedList.tips') }}</span>
         </FilterButton>
-        <FilterButton :to="genLocation({ feed: 'posts' })">
+        <FilterButton :to-relative="{ query: { feed: 'posts' } }">
           <IconPosts /> <span>{{ $t('views.FeedList.posts') }}</span>
         </FilterButton>
         <FilterButton
@@ -20,13 +20,13 @@
         </FilterButton>
       </div>
       <div class="row">
-        <ButtonPlain :to="genLocation({ sortBy: null })">
+        <ButtonPlain :to-relative="{ query: { sortBy: null } }">
           {{ $t('views.TipList.SortingLatest') }}
         </ButtonPlain>
-        <ButtonPlain :to="genLocation({ sortBy: 'hot' })">
+        <ButtonPlain :to-relative="{ query: { sortBy: 'hot' } }">
           {{ $t('views.TipList.SortingMostPopular') }}
         </ButtonPlain>
-        <ButtonPlain :to="genLocation({ sortBy: 'highest' })">
+        <ButtonPlain :to-relative="{ query: { sortBy: 'highest' } }">
           {{ $t('views.TipList.SortingHighestRated') }}
         </ButtonPlain>
         <div class="separator" />
@@ -53,7 +53,6 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { pickBy } from 'lodash-es';
 import SendTip from '../components/layout/sendTip/SendTip.vue';
 import FeedPagination from '../components/FeedPagination.vue';
 import ThreeDotsMenu from '../components/ThreeDotsMenu.vue';
@@ -87,15 +86,7 @@ export default {
       return this.$route.query.feed || 'main';
     },
   },
-  methods: {
-    ...mapMutations(['setIsHiddenContent']),
-    genLocation(addToQuery) {
-      return {
-        name: 'feed',
-        query: pickBy({ ...this.$route.query, ...addToQuery }),
-      };
-    },
-  },
+  methods: mapMutations(['setIsHiddenContent']),
   metaInfo: {
     title: 'Tips',
   },

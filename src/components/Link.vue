@@ -18,9 +18,12 @@
 </template>
 
 <script>
+import { pickBy } from 'lodash-es';
+
 export default {
   props: {
-    to: { type: [String, Object, URL], required: true },
+    to: { type: [String, Object, URL], default: null },
+    toRelative: { type: Object, default: null },
   },
   computed: {
     isLinkOnSameHost() {
@@ -28,7 +31,15 @@ export default {
         || (new URL(this.to, window.location)).host === window.location.host;
     },
     routerLinkTo() {
-      return this.to instanceof URL ? this.to.toString() : this.to;
+      if (this.toRelative) {
+        return {
+          ...this.$route,
+          query: pickBy({ ...this.$route.query, ...this.toRelative.query }),
+          params: pickBy({ ...this.$route.params, ...this.toRelative.params }),
+        };
+      }
+      if (this.to instanceof URL) return this.to.toString();
+      return this.to;
     },
   },
 };

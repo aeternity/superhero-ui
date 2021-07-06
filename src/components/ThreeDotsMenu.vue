@@ -1,6 +1,6 @@
 <template>
   <div
-    class="three-dots"
+    class="three-dots-menu"
     :class="{ active: showMenu }"
     @click="showMenu = true"
   >
@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.three-dots {
+.three-dots-menu {
   position: relative;
   padding: 0;
   border-radius: 0.25rem;
@@ -55,7 +55,8 @@ export default {
     right: 0;
     white-space: nowrap;
 
-    & > div {
+    > .button-plain {
+      display: block;
       padding-bottom: 0.5rem;
 
       &:last-child {
@@ -63,7 +64,6 @@ export default {
       }
 
       &:hover {
-        cursor: pointer;
         color: $standard_font_color;
       }
     }

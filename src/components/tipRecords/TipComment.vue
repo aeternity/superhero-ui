@@ -1,12 +1,12 @@
 <template>
   <div
     class="tip-comment"
-    :class="{ clickable }"
-    @click="clickable && $router.push({
-      name: 'comment',
-      params: { tipId, id },
-    })"
+    :class="{ detailed }"
   >
+    <RouterLink
+      v-if="!detailed"
+      :to="{ name: 'comment', params: { tipId, id } }"
+    />
     <AuthorAndDate
       :date="createdAt"
       :address="author"
@@ -15,17 +15,15 @@
       {{ text }}
     </div>
     <div class="actions">
-      <TipInput
-        :comment="{ tipId, id }"
-        @click.native.stop
-      />
-      <ButtonPlain
-        class="comments-count"
+      <TipInput :comment="{ tipId, id }" />
+      <ButtonFeed
         :title="$t('components.tipRecords.TipComment.Replies')"
-        @click.stop="$emit('reply')"
+        :disabled="detailed || !$listeners.reply"
+        @click="$listeners.reply && $emit('reply')"
       >
-        <IconReply /> <span>{{ children.length }}</span>
-      </ButtonPlain>
+        <IconReply slot="icon" />
+        {{ children.length }}
+      </ButtonFeed>
     </div>
   </div>
 </template>
@@ -33,14 +31,14 @@
 <script>
 import TipInput from '../TipInput.vue';
 import AuthorAndDate from './AuthorAndDate.vue';
-import ButtonPlain from '../ButtonPlain.vue';
+import ButtonFeed from '../ButtonFeed.vue';
 import IconReply from '../../assets/iconReply.svg?icon-component';
 
 export default {
   components: {
     TipInput,
     AuthorAndDate,
-    ButtonPlain,
+    ButtonFeed,
     IconReply,
   },
   inheritAttrs: false,
@@ -51,11 +49,7 @@ export default {
     text: { type: String, required: true },
     children: { type: Array, default: () => [] },
     createdAt: { type: String, required: true },
-  },
-  computed: {
-    clickable() {
-      return this.$route.name !== 'comment' || +this.$route.params.id !== +this.id;
-    },
+    detailed: Boolean,
   },
 };
 </script>
@@ -64,22 +58,26 @@ export default {
 .tip-comment {
   margin-bottom: 0.5rem;
   padding: 1rem;
-  border-radius: 0.25rem;
-  background-color: $light_color;
+  position: relative;
 
   @include smallest {
     padding: 0.5rem;
   }
 
-  &.clickable:hover {
-    cursor: pointer;
+  a::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .author-and-date {
     padding-bottom: 0;
 
-    ::v-deep .address {
-      font-size: 0.6rem;
+    ::v-deep .author {
+      position: relative;
     }
   }
 
@@ -97,38 +95,19 @@ export default {
 
   .actions {
     padding-top: 0.25rem;
-    color: $standard_font_color;
-    font-size: 0.8rem;
     display: flex;
 
     @include smallest {
-      padding-left: 0;
       padding-top: 0.5rem;
-    }
-
-    .comments-count {
-      &:hover svg {
-        transition: color 0.3s;
-        color: $standard_font_color;
-      }
-
-      svg {
-        color: $search_nav_border_color;
-        height: 14px;
-      }
-
-      svg,
-      span {
-        vertical-align: middle;
-      }
-
-      span {
-        color: $standard_font_color;
-      }
     }
 
     > :not(:first-child) {
       margin-left: 3rem;
+    }
+
+    .tip-input,
+    .button-feed:not([disabled]) {
+      position: relative;
     }
   }
 }

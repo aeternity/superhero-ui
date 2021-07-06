@@ -7,6 +7,7 @@
       v-if="record"
       class="record"
       v-bind="id ? record : { tip: record }"
+      detailed
     />
 
     <div

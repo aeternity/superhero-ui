@@ -8,51 +8,6 @@
         class="profile-header"
         :class="{ 'profile-editable': backendAuth && currentAddress === address }"
       >
-        <div
-          v-if="backendAuth && currentAddress === address"
-          class="edit-buttons"
-        >
-          <label
-            v-if="!editMode"
-            :title="$t('views.UserProfileView.ChangeCoverPhoto')"
-            class="profile-button edit-button"
-          >
-            <img src="../assets/coverPhotoEdit.svg">
-            <input
-              type="file"
-              name="cover"
-              accept="image/png, image/jpeg"
-              @change="uploadPhoto($event, true)"
-            >
-          </label>
-          <button
-            v-if="!editMode"
-            class="profile-button edit-button"
-            type="button"
-            :title="$t('views.UserProfileView.EditProfile')"
-            @click="editMode = true"
-          >
-            <img src="../assets/buttonEdit.svg">
-          </button>
-          <button
-            v-if="editMode"
-            type="button"
-            class="profile-button cancel-button"
-            :title="$t('cancel')"
-            @click="resetEditedValues"
-          >
-            <IconCancel />
-          </button>
-          <button
-            v-if="editMode"
-            type="button"
-            class="profile-button save-button"
-            :title="$t('views.UserProfileView.Save')"
-            @click="saveProfile"
-          >
-            <img src="../assets/buttonSave.svg">
-          </button>
-        </div>
         <div class="profile-image">
           <Avatar :address="address" />
           <TipInput
@@ -128,6 +83,51 @@
               <time :datetime="joinedAtISO">{{ joinedAt }}</time>
             </div>
           </div>
+        </div>
+        <div
+          v-if="backendAuth && currentAddress === address"
+          class="edit-buttons"
+        >
+          <label
+            v-if="!editMode"
+            :title="$t('views.UserProfileView.ChangeCoverPhoto')"
+            class="profile-button edit-button"
+          >
+            <img src="../assets/buttonPhoto.svg">
+            <input
+              type="file"
+              name="cover"
+              accept="image/png, image/jpeg"
+              @change="uploadPhoto($event, true)"
+            >
+          </label>
+          <button
+            v-if="!editMode"
+            class="profile-button edit-button"
+            type="button"
+            :title="$t('views.UserProfileView.EditProfile')"
+            @click="editMode = true"
+          >
+            <img src="../assets/buttonEdit.svg">
+          </button>
+          <button
+            v-if="editMode"
+            type="button"
+            class="profile-button cancel-button"
+            :title="$t('cancel')"
+            @click="resetEditedValues"
+          >
+            <IconCancel />
+          </button>
+          <button
+            v-if="editMode"
+            type="button"
+            class="profile-button save-button"
+            :title="$t('views.UserProfileView.Save')"
+            @click="saveProfile"
+          >
+            <img src="../assets/buttonSave.svg">
+          </button>
         </div>
       </div>
       <div
@@ -415,14 +415,17 @@ input[type="file"] {
   }
 
   .edit-buttons {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    right: 0.5rem;
-    top: 0.75rem;
-
     .profile-button {
+      display: block;
       margin-bottom: 0.6rem;
+    }
+
+    @include mobile {
+      position: absolute;
+      right: 0.5rem;
+      top: 0.4rem;
+      display: flex;
+      flex-direction: row;
     }
   }
 
@@ -658,11 +661,6 @@ input[type="file"] {
   .user-info {
     .tips-container {
       padding: 0.15rem 0.5rem;
-    }
-
-    .edit-buttons {
-      flex-direction: row;
-      top: 0.4rem;
     }
   }
 

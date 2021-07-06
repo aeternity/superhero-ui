@@ -647,17 +647,17 @@ input[type="file"] {
 }
 
 .profile-info {
-  display: flex;
-  flex-direction: column;
-  width: calc(100% - 8.5rem);
+  min-width: 0;
 
   .profile-username {
     color: $tip_note_color;
     display: block;
     font-size: 0.6rem;
-    font-weight: 400;
-    margin-bottom: 0;
     word-break: break-all;
+
+    @include mobile {
+      font-size: 0.55rem;
+    }
 
     .chain {
       color: $standard_font_color;
@@ -685,15 +685,6 @@ input[type="file"] {
     .profile-image .avatar {
       height: 5rem;
       width: 5rem;
-    }
-  }
-
-  .profile-info {
-    vertical-align: middle;
-    width: calc(100% - 4.5rem);
-
-    .profile-username {
-      font-size: 0.55rem;
     }
   }
 

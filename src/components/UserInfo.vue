@@ -1,11 +1,9 @@
 <template>
   <div class="user-info">
-    <div class="profile-section clearfix">
-      <div
-        class="cover-photo"
-        :style="{ 'background-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
-      />
-      <div class="cover-overlay" />
+    <div
+      class="profile-section"
+      :style="{ '--cover-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
+    >
       <div
         class="profile-header"
         :class="{ 'profile-editable': backendAuth && currentAddress === address }"
@@ -562,23 +560,6 @@ input[type="file"] {
       outline: 0;
     }
   }
-
-  .cover-overlay,
-  .cover-photo {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
-  .cover-photo {
-    background-size: cover;
-    background-position: center;
-  }
-
-  .cover-overlay {
-    background-color: $light_color;
-    opacity: 0.8;
-  }
 }
 
 .profile-header {
@@ -643,7 +624,12 @@ input[type="file"] {
 }
 
 .profile-section {
-  background-color: $light_color;
+  background:
+    linear-gradient(rgba($light_color, 0.8), rgba($light_color, 0.8)),
+    var(--cover-image),
+    $light_color;
+  background-size: cover;
+  background-position: center;
   position: relative;
   padding-bottom: 1rem;
 }

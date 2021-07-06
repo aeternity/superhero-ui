@@ -95,10 +95,9 @@
           </a>
           <div
             v-if="balance"
-            class="balance"
+            class="balance text-ellipsis"
           >
-            <span>{{ $t('Balance') }}</span>
-            <AeAmountFiat :amount="balance" />
+            {{ $t('Balance') }} <AeAmountFiat :amount="balance" />
           </div>
           <div class="profile-row">
             <div class="location">
@@ -525,18 +524,6 @@ input[type="file"] {
   .balance {
     margin-top: 0.3rem;
     font-size: 0.7rem;
-    display: flex;
-
-    ::v-deep .ae-amount {
-      margin-left: 0.2rem;
-    }
-
-    .ae-amount-fiat {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      display: block;
-    }
   }
 
   textarea,

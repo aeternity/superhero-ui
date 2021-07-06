@@ -192,21 +192,7 @@ export default {
 }
 
 .tip-note {
-  @include truncate-overflow-mx(4);
-
-  color: $tip_note_color;
-  font-size: 0.85rem;
-  line-height: 1.1rem;
-  margin-bottom: 0.8rem;
   padding: 0 1rem;
-
-  ::v-deep .title .topic {
-    color: $standard_font_color;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
 
 .tip-footer {

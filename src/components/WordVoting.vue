@@ -70,18 +70,16 @@
           </i18n>
 
           <div class="initiate-vote-inputs">
-            <input
+            <Input
               v-model.trim="newVotePayout"
-              class="form-control"
               :placeholder="$t('views.WordDetail.CreateVote.AddressPlaceholder')"
-            >
+            />
 
             <AeButton
               :disabled="!newVotePayout || !description.length"
               @click="createVote"
             >
-              <IconCheckmarkCircle />
-              {{ $t('views.WordDetail.Initiate') }}
+              <IconCheckmarkCircle /> <span>{{ $t('views.WordDetail.Initiate') }}</span>
             </AeButton>
           </div>
         </template>
@@ -232,6 +230,7 @@ import TabBar from './TabBar.vue';
 import TabBarButton from './TabBarButton.vue';
 import ButtonPlain from './ButtonPlain.vue';
 import Loader from './Loader.vue';
+import Input from './Input.vue';
 import { shiftDecimalPlaces, blockToDate } from '../utils';
 
 export default {
@@ -251,6 +250,7 @@ export default {
     ButtonPlain,
     WordBuySellButtons,
     Loader,
+    Input,
   },
   props: {
     data: { type: Object, required: true },
@@ -462,7 +462,8 @@ export default {
 
     &.fade-enter-active,
     &.fade-leave-active {
-      transition: all 0.5s ease;
+      transition: 0.5s ease;
+      transition-property: transform opacity;
     }
 
     &.fade-enter,
@@ -480,20 +481,16 @@ export default {
       flex-direction: row;
       margin-top: 0.4rem;
 
-      input {
-        background-color: $buttons_background;
-        color: $standard_font_color;
-        border: 0.05rem solid $buttons_background;
-        border-radius: 0.25rem;
+      .input {
         flex: 1;
         margin-right: 1.2rem;
-        font-size: 14px;
         height: 40px;
+      }
 
-        &:focus,
-        &:active {
-          border: 0.05rem solid $secondary_color;
-          box-shadow: none;
+      .ae-button {
+        svg,
+        span {
+          vertical-align: middle;
         }
       }
     }
@@ -511,6 +508,8 @@ export default {
     color: $small_heading_color;
     font-weight: 500;
     font-size: 0.75rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
     padding-left: 0.1rem;
   }
 
@@ -519,9 +518,15 @@ export default {
     flex-direction: column;
 
     h3 {
+      margin-top: 0;
+      line-height: 1.2;
       color: $pure_white;
       font-size: 15px;
       font-weight: 500;
+    }
+
+    p {
+      margin-top: 0;
     }
 
     .buttons {
@@ -529,7 +534,7 @@ export default {
       justify-content: center;
       align-items: center;
 
-      ::v-deep .not-bootstrap-modal-content {
+      ::v-deep .modal-content {
         @include mobile {
           margin-left: 0;
         }
@@ -551,6 +556,11 @@ export default {
               width: 186px;
             }
           }
+        }
+
+        svg,
+        span {
+          vertical-align: middle;
         }
       }
     }

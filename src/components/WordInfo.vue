@@ -424,6 +424,10 @@ export default {
         }
       }
     }
+
+    figure {
+      margin: 0 0 1rem;
+    }
   }
 
   .legend {

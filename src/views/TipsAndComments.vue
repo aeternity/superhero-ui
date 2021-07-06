@@ -216,6 +216,7 @@ export default {
     p {
       font-size: 0.75rem;
       text-transform: capitalize;
+      margin-top: 0;
       margin-bottom: 0.7rem;
       color: white;
       font-weight: 600;

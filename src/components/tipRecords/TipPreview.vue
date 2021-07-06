@@ -492,6 +492,7 @@ export default {
     .title {
       font-size: 0.8rem;
       font-weight: 500;
+      margin-top: 0;
       margin-bottom: 0.15rem;
       color: $tip_note_color;
       overflow: hidden;

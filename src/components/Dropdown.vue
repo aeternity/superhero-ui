@@ -103,6 +103,7 @@ export default {
     color: $standard_font_color;
     box-shadow: inset 0 0 0.1rem $article_content_color;
     border-radius: unset;
+    white-space: nowrap;
 
     &:first-child {
       border-radius: 0.15rem 0.15rem 0 0;
@@ -121,7 +122,7 @@ export default {
     padding: 0;
   }
 
-  &::v-deep .not-bootstrap-modal-content {
+  &::v-deep .modal-content {
     max-height: 10rem;
     overflow-y: auto;
     scrollbar-width: none;
@@ -132,7 +133,7 @@ export default {
     }
   }
 
-  &.right::v-deep .not-bootstrap-modal-content {
+  &.right::v-deep .modal-content {
     right: 0;
   }
 

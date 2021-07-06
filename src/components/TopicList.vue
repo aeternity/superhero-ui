@@ -3,7 +3,7 @@
     <div
       v-for="[topic, data] in topics"
       :key="topic"
-      class="not-bootstrap-row"
+      class="row"
     >
       <Topic
         class="text-ellipsis"
@@ -30,7 +30,7 @@ export default {
 
 <style lang="scss" scoped>
 .topic-list {
-  .not-bootstrap-row {
+  .row {
     display: flex;
     align-items: center;
     margin: 0.5rem 0;

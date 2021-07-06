@@ -186,6 +186,7 @@ export default {
     height: 24px;
     color: $standard_font_color;
     transition: color 0.3s;
+    vertical-align: middle;
 
     &.asc {
       transform: rotate(180deg);
@@ -345,7 +346,7 @@ export default {
 
   ::v-deep .word-buy-sell-buttons {
     .buy-modal {
-      .not-bootstrap-modal-content {
+      .modal-content {
         margin-left: -204px;
 
         @include desktop {
@@ -356,7 +357,7 @@ export default {
     }
 
     .sell-modal {
-      .not-bootstrap-modal-content {
+      .modal-content {
         @include desktop {
           margin-left: -260px;
           margin-top: 56px;

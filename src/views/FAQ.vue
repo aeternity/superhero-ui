@@ -48,7 +48,7 @@ export default {
 .mission-page,
 .tutorial-page {
   background-color: $light_color;
-  padding: 2.75rem 2rem;
+  padding: 1.75rem 2rem;
 
   h1 {
     font-size: 1.5rem;
@@ -75,7 +75,8 @@ export default {
   }
 
   hr {
-    background: $search_nav_border_color;
+    border: 0;
+    border-top: 1px solid $search_nav_border_color;
     margin-bottom: 1rem;
   }
 }

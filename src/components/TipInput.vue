@@ -46,7 +46,7 @@
           maxlength="280"
           :placeholder="$t('addMessage')"
         />
-        <div class="not-bootstrap-row">
+        <div class="row">
           <AeInputAmount
             v-model="inputValue"
             :select-token-f="token => (inputToken = token)"
@@ -275,7 +275,7 @@ export default {
     }
   }
 
-  .not-bootstrap-modal > ::v-deep .not-bootstrap-modal-content {
+  .modal > ::v-deep .modal-content {
     background-color: $article_content_color;
     border-radius: 0.25rem;
     margin-top: 0.25rem;
@@ -288,7 +288,7 @@ export default {
     }
   }
 
-  .not-bootstrap-modal .not-bootstrap-modal-content {
+  .modal .modal-content {
     .error {
       text-align: center;
       font-size: 12px;
@@ -301,7 +301,7 @@ export default {
       margin-bottom: 0.5rem;
     }
 
-    .not-bootstrap-row {
+    .row {
       display: flex;
 
       .ae-button {

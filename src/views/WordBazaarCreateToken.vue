@@ -43,19 +43,18 @@
           />
         </div>
       </div>
-      <div class="create-inputs input-group">
+      <div class="create-inputs">
         <div class="input-block">
           <label for="name">{{ $t('components.CreateToken.Name.Title') }}</label>
-          <input
+          <Input
             v-if="!loadingState"
             id="name"
             v-model="name"
             :placeholder="$t('components.CreateToken.Name.Placeholder')"
-            class="form-control"
             :class="{ error: error.name }"
             minlength="1"
             :disabled="loadingState"
-          >
+          />
           <p
             v-else
             class="abbreviation"
@@ -80,7 +79,6 @@
             id="description"
             v-model="description"
             :placeholder="$t('components.CreateToken.Description.Placeholder')"
-            class="form-control"
             :class="{ multiline: description.split('\n').length > 1,
                       error: error.description }"
             :rows="description.split('\n').length || 1"
@@ -104,31 +102,29 @@
             </div>
           </div>
         </div>
-        <div class="input-block">
-          <div class="button">
-            <AeButton
-              v-if="success"
-              :to="{ name: 'word-bazaar-assets' }"
-            >
-              <RightArrow />
-              <span>
-                {{ $t('components.CreateToken.Proceed') }}
-              </span>
-            </AeButton>
-            <AeButton
-              v-else
-              :disabled="loadingState ||
-                !name.length || !description.length || !!error.name || !!error.description"
-              @click="createWordSale"
-            >
-              <RightArrow />
-              <span>
-                {{ loadingState ?
-                  $t('components.CreateToken.Proceed') :
-                  $t('components.CreateToken.CreateToken') }}
-              </span>
-            </AeButton>
-          </div>
+        <div class="input-block button">
+          <AeButton
+            v-if="success"
+            :to="{ name: 'word-bazaar-assets' }"
+          >
+            <RightArrow />
+            <span>
+              {{ $t('components.CreateToken.Proceed') }}
+            </span>
+          </AeButton>
+          <AeButton
+            v-else
+            :disabled="loadingState ||
+              !name.length || !description.length || !!error.name || !!error.description"
+            @click="createWordSale"
+          >
+            <RightArrow />
+            <span>
+              {{ loadingState ?
+                $t('components.CreateToken.Proceed') :
+                $t('components.CreateToken.CreateToken') }}
+            </span>
+          </AeButton>
         </div>
       </div>
     </div>
@@ -138,12 +134,14 @@
 <script>
 import Backend from '../utils/backend';
 import { EventBus } from '../utils/eventBus';
+import Input from '../components/Input.vue';
 import AeButton from '../components/AeButton.vue';
 import RightArrow from '../assets/rightArrow.svg?icon-component';
 
 export default {
   name: 'CreateToken',
   components: {
+    Input,
     AeButton,
     RightArrow,
   },
@@ -289,6 +287,13 @@ export default {
     flex-direction: column;
     align-items: center;
 
+    h2,
+    h3 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
     h2 {
       font-size: 1.6rem;
       font-weight: bold;
@@ -305,9 +310,7 @@ export default {
       font-size: 0.75rem;
       font-weight: 500;
       color: $pure_white;
-      margin-top: 1rem;
-      margin-left: 16px;
-      margin-right: 16px;
+      margin: 1rem;
       text-align: center;
     }
   }
@@ -392,25 +395,22 @@ export default {
       font-weight: 500;
       font-size: 15px;
       line-height: 19px;
+      display: inline-block;
+      margin-bottom: 0.5rem;
     }
 
     input,
     textarea {
-      background: $buttons_background;
+      display: block;
+      width: 100%;
+      height: 40px;
       resize: none;
       padding: 8px 16px;
-      height: 40px;
-      border: 1px solid transparent;
-      transition: 0.3s;
-      transition-property: background-color, border-color;
+
+      @include input-like;
 
       &.multiline {
         height: 100%;
-      }
-
-      &:focus {
-        background-color: $actions_ribbon_background_color;
-        border-color: $secondary_color;
       }
 
       &.error {
@@ -449,6 +449,7 @@ export default {
           padding: 0.2rem;
           margin-bottom: 0.1rem;
           margin-right: 3px;
+          vertical-align: middle;
         }
       }
     }

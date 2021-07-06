@@ -122,9 +122,13 @@ export default {
       border-radius: 20px;
       font-size: 16px;
 
+      svg,
+      span {
+        vertical-align: middle;
+      }
+
       svg {
         height: 24px;
-        margin-bottom: 2px;
         flex-shrink: 0;
       }
 
@@ -152,7 +156,7 @@ export default {
 
     .word-buy-sell-buttons {
       .buy-modal {
-        .not-bootstrap-modal-content {
+        .modal-content {
           margin-left: -204px;
 
           @include desktop {
@@ -162,7 +166,7 @@ export default {
       }
 
       .sell-modal {
-        .not-bootstrap-modal-content {
+        .modal-content {
           @include desktop {
             margin-left: -120px;
           }
@@ -187,8 +191,12 @@ export default {
     z-index: 2;
 
     .button-plain {
+      svg,
+      span {
+        vertical-align: middle;
+      }
+
       .plus {
-        margin-bottom: 1px;
         transition: transform 0.5s;
         height: 20px;
 
@@ -239,6 +247,7 @@ export default {
       font-weight: 400;
 
       h3 {
+        margin-top: 0;
         margin-bottom: 8px;
       }
 
@@ -303,7 +312,9 @@ export default {
         font-weight: 700;
         transition: color 0.3s;
         color: $light_font_color;
+        margin-top: 0;
         margin-bottom: 9px;
+        line-height: 1.2;
       }
 
       &:hover {

@@ -18,7 +18,7 @@
       v-if="showGifs"
       @add-gif="media.push({ link: $event })"
     />
-    <div class="not-bootstrap-row">
+    <div class="row">
       <div class="actions">
         <label>
           <IconPictures />
@@ -187,7 +187,7 @@ export default {
 .send-post {
   overflow: hidden;
 
-  .not-bootstrap-row {
+  .row {
     display: flex;
     flex-direction: row;
     margin: 0.5rem 0 1rem 0;

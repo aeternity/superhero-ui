@@ -379,17 +379,8 @@
             </div>
             <div class="sh-col-6 right-subscribe">
               <form class="subscribe-form">
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    name=""
-                    placeholder="Get started"
-                    type="text"
-                  >
-                  <button class="subscribe-button">
-                    Subscribe now
-                  </button>
-                </div>
+                <input placeholder="Get started">
+                <button>Subscribe now</button>
               </form>
             </div>
           </div>
@@ -1059,7 +1050,9 @@ section.superhero-footer {
 }
 
 .subscribe-form {
-  input.form-control {
+  display: flex;
+
+  input {
     background-color: #fff;
     border: 1px solid #fff;
     border-radius: 5px 0 0 5px;
@@ -1070,20 +1063,15 @@ section.superhero-footer {
     width: 100%;
   }
 
-  .form-group {
-    display: flex;
-    margin-bottom: 0;
+  button {
+    background-color: #1161fe;
+    border: 1px solid #0043b3;
+    border-radius: 0 5px 5px 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    min-width: 154px;
   }
-}
-
-button.subscribe-button {
-  background-color: #1161fe;
-  border: 1px solid #0043b3;
-  border-radius: 0 5px 5px 0;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 500;
-  min-width: 154px;
 }
 
 .center-sh-foot p {

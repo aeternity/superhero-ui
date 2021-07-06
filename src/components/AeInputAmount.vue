@@ -160,7 +160,7 @@ export default {
       height: 2.1rem;
     }
 
-    .not-bootstrap-modal-content {
+    .modal-content {
       margin-top: 0.25rem;
     }
   }

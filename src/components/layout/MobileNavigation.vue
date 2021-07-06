@@ -169,7 +169,7 @@ export default {
   }
 }
 
-::v-deep .not-bootstrap-modal {
+::v-deep .modal {
   .overlay {
     background-color: rgba($background_color, 0.6);
   }

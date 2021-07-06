@@ -19,15 +19,13 @@
         :comment="{ tipId, id }"
         @click.native.stop
       />
-      <div
+      <ButtonPlain
         class="comments-count"
         :title="$t('components.tipRecords.TipComment.Replies')"
+        @click.stop="$emit('reply')"
       >
-        <ButtonPlain @click.stop="$emit('reply')">
-          <IconReply />
-        </ButtonPlain>
-        <span>&nbsp;{{ children.length }}</span>
-      </div>
+        <IconReply /> <span>{{ children.length }}</span>
+      </ButtonPlain>
     </div>
   </div>
 </template>
@@ -109,21 +107,23 @@ export default {
     }
 
     .comments-count {
+      &:hover svg {
+        transition: color 0.3s;
+        color: $standard_font_color;
+      }
+
+      svg {
+        color: $search_nav_border_color;
+        height: 14px;
+      }
+
+      svg,
       span {
         vertical-align: middle;
       }
 
-      .button-plain {
-        color: $search_nav_border_color;
-        transition: color 0.3s;
-
-        &:hover {
-          color: $standard_font_color;
-        }
-
-        svg {
-          height: 14px;
-        }
+      span {
+        color: $standard_font_color;
       }
     }
 

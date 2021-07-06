@@ -19,7 +19,7 @@
           <IconHashtag />
         </FilterButton>
       </div>
-      <div class="not-bootstrap-row">
+      <div class="row">
         <ButtonPlain :to="genLocation({ sortBy: null })">
           {{ $t('views.TipList.SortingLatest') }}
         </ButtonPlain>
@@ -151,7 +151,7 @@ export default {
     }
   }
 
-  .not-bootstrap-row {
+  .row {
     background-color: $actions_ribbon_background_color;
     display: flex;
     align-items: center;

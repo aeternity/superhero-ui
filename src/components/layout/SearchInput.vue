@@ -79,12 +79,13 @@ export default {
     }
   }
 
-  ::v-deep svg {
+  svg {
     height: 24px;
     opacity: 0.44;
     color: $standard_font_color;
     transition: opacity 0.3s;
     cursor: pointer;
+    vertical-align: middle;
 
     .background {
       opacity: 0;
@@ -98,6 +99,10 @@ export default {
         opacity: 1;
       }
     }
+  }
+
+  .iconEraser {
+    padding: 4px;
   }
 
   &.sided {

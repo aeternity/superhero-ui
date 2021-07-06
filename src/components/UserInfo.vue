@@ -640,6 +640,10 @@ input[type="file"] {
   color: $lighter_font_color;
   font-size: 0.7rem;
   vertical-align: middle;
+
+  img {
+    vertical-align: middle;
+  }
 }
 
 .profile-section {
@@ -775,6 +779,7 @@ input[type="file"] {
       height: 0.9rem;
       margin-bottom: 0.2rem;
       margin-right: 0.2rem;
+      vertical-align: middle;
     }
   }
 

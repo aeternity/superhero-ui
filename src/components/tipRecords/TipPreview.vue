@@ -321,10 +321,6 @@ export default {
     background-color: $thumbnail_background_color_alt;
     cursor: pointer;
 
-    .preview-image {
-      background-color: $thumbnail_background_color_alt;
-    }
-
     .tip-article-content {
       color: #c6c6cc;
     }
@@ -548,7 +544,6 @@ export default {
       }
 
       img.user-identicon,
-      img.preview-image,
       svg {
         border-radius: 50%;
         flex-shrink: 0;

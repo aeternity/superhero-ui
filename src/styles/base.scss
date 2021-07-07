@@ -1,5 +1,6 @@
 @import "fonts";
 @import "~normalize.css";
+@import "mixins";
 
 /* Global Styles */
 body {
@@ -34,10 +35,9 @@ a {
 }
 
 /* Helpers */
+// TODO: use mixin instead
 .text-ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @include text-ellipsis;
 }
 
 img.fail {

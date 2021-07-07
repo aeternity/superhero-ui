@@ -7,6 +7,12 @@
   -webkit-box-orient: vertical;
 }
 
+@mixin text-ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @mixin input-like {
   background-color: $buttons_background;
   border: solid transparent;

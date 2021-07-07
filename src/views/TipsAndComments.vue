@@ -166,16 +166,8 @@ export default {
   font-size: 0.75rem;
 
   .record {
-    &.tip-record {
-      margin-bottom: 0;
-      background-color: $thumbnail_background_color;
-    }
-
-    &.tip-comment {
-      background-color: $thumbnail_background_color;
-      border-radius: 0;
-      margin-bottom: 0;
-    }
+    margin-bottom: 0;
+    background-color: $thumbnail_background_color;
   }
 
   .comments-section {

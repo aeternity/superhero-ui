@@ -243,8 +243,6 @@ export default {
   border-radius: 0.25rem;
   font-size: 0.75rem;
   height: auto;
-  margin-left: 1rem;
-  margin-right: 1rem;
   padding: 0;
   position: relative;
 

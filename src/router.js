@@ -2,20 +2,14 @@ import Router from 'vue-router';
 import { IS_MOBILE_DEVICE } from './utils';
 import Tracing from './views/admin/Tracing.vue';
 import Conference from './views/Conference.vue';
-import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
 import Governance from './views/Governance.vue';
 import Landing from './views/Landing.vue';
 import League from './views/League.vue';
-import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
 import TipsAndComments from './views/TipsAndComments.vue';
 import FeedList from './views/FeedList.vue';
-import TutorialMeet from './views/tutorial/Meet.vue';
-import TutorialVoting from './views/tutorial/Voting.vue';
-import TutorialWallet from './views/tutorial/Wallet.vue';
-import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
 import WordBazaar from './views/WordBazaar.vue';
 import WordBazaarAssets from './views/WordBazaarAssets.vue';
@@ -106,11 +100,6 @@ const routes = [
     component: Privacy,
   },
   {
-    path: '/tutorial',
-    name: 'tutorial',
-    component: CreateProfile,
-  },
-  {
     path: '/league',
     name: 'league',
     component: League,
@@ -119,31 +108,6 @@ const routes = [
     path: '/voting',
     name: 'voting',
     component: Governance,
-  },
-  {
-    path: '/mission',
-    name: 'mission',
-    component: Mission,
-  },
-  {
-    path: '/tutorial/widget',
-    name: 'tutorial-widget',
-    component: TutorialWidget,
-  },
-  {
-    path: '/tutorial/voting',
-    name: 'tutorial-voting',
-    component: TutorialVoting,
-  },
-  {
-    path: '/tutorial/wallet',
-    name: 'tutorial-wallet',
-    component: TutorialWallet,
-  },
-  {
-    path: '/tutorial/meet',
-    name: 'tutorial-meet',
-    component: TutorialMeet,
   },
   {
     path: '/faq',

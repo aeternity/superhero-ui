@@ -12,7 +12,6 @@
   "FAQ": "FAQ",
   "FellowSuperhero": "Fellow superhero",
   "Balance": "Balance:",
-  "aeternityBlockchain": "aeternity blockchain",
   "views": {
     "FeedList": {
       "main": "Feed",
@@ -78,31 +77,6 @@
           "Contact": "Contact"
         }
       }
-    },
-    "Mission": {
-      "header": "SUPERHERO: AN ORIGIN STORY WITH A MISSION",
-      "sections": [
-        {
-          "text": "In comics, Superheroes believe it’s their duty to help good triumph. Meanwhile - very real, modern times continually test humanity."
-        },
-        {
-          "text": "From artists to scientists, educators, medical groups, non-profit projects, social impact initiatives, community causes, animal welfare, environmental advocacy to the one inspiring you… We can (and do) make a difference every day to each other. People supporting people are contemporary Superheroes."
-        },
-        {
-          "text": "Superhero.com was conceived as a tangible way to celebrate the difference that can come from empowering people to support people, P2P, without intermediaries."
-        },
-        {
-          "text": "Superhero.com was built as an open source platform which shifts the control of people supporting people away from private entities back into public hands."
-        },
-        {
-          "text": "Those at {aeternityBlockchain} that brought Superhero.com to life are united in helping deliver on the promise of a better internet for all."
-        },
-        {
-          "text": "Welcome to a better virtual world – an internet with quantifiably more freedom to transact. We only have just begun to see where our superpowers of being humans that support each other can take us."
-        }
-      ],
-      "footer": "ARE YOU MAKING A DIFFERENCE?",
-      "footerContent": "Superhero.com a tool for good built on æternity blockchain"
     },
     "FAQ": {
       "header": "Frequently Asked Questions",
@@ -328,101 +302,6 @@
       "LocationPlaceholder": "Edit Location",
       "Location": "Location",
       "noPinnedItems": "There are no pinned items to display."
-    },
-    "Wallet": {
-      "header": "WALLET: Fully P2P, instant tipping with no third-party leeches.",
-      "sections": [
-        {
-          "text": "Censorship-free content monetization with no third party custodians. Want to get started?"
-        },
-        {
-          "text": "CREATING AN ACCOUNT {br}{br} Sign up through Superhero.com or by downloading the Chrome or Firefox extension. {br} The Chrome extension can be used for Brave, Opera, and any Chromium-based browser. {br} If you have an existing AE wallet, you may choose Retrieve Existing Account and input your seed phrase. Otherwise, choose Generate New Wallet. {br} 2. You may read through the starter guide or skip this entirely. This then leads you to your wallet. That’s it—your account is created!"
-        },
-        {
-          "text": "SENDING TIPS {br}{br} Click Send Tip. {br} Paste the URL you want to tip. {br} Enter the amount you want to send, along with a message to go with that tip (this is optional). {br} Click Send Tip to verify the transaction."
-        },
-        {
-          "text": "RECEIVING TIPS {br}{br} To start receiving tips from a URL, copy your Superhero wallet address (the string of letters on top of your wallet starting with ak_) and paste it into your website or online profile. You can also add it into your website's HTML code. {br} Please note that only public URLs can be tipped. Profiles that require a log-in to view (such as Facebook profiles) cannot be tipped at this moment. {br} Click the Claim Tip button and enter your URL. Hit Confirm to proceed. {br} All tips your URL will receive in the future, as well as tips received in the past will be added to your wallet balance."
-        },
-        {
-          "text": "TOPPING UP {br}{br} Click the Top Up button on your wallet. You can BUY AE TOKENS in small amounts through the æternity Store. You can also instantly SWAP CRYPTO FOR AE TOKENS through JellySwap. {br} Alternatively, you can top up your SUPERHERO wallet by sending AE tokens from a cryptocurrency exchange of your choice. We are collating a full wiki for the most cost-efficient ways to get AE and will be posting this soon."
-        },
-        {
-          "text": "WITHDRAWING {br}{br} In the same way you don’t walk around with large amounts of cash in your purse, it is highly recommended that you do not keep large amounts of AE in your Superhero wallet. For long-term storage of large amounts of AE, we recommend using a cold wallet, like AirGap. {br} To withdraw tips you've collected, you can send tips from your SUPERHERO wallet to your AE wallet address in a crypto exchange that supports AE tokens. {br} - To withdraw, go to the hamburger menu. {br} - Click Withdraw. {br} - Enter your wallet address from the crypto exchange of your choice. You can also send to someone else’s wallet by pasting their wallet address into the wallet address field. {br} - Enter the amount you want to withdraw. {br} Click Review to check your transaction details. {br} - Hit Send to confirm the withdrawal. {br}Tips can then be converted into other cryptocurrencies or fiat and transferred to your local bank. {br} Processes for exchanges vary per country. In many cases, there will be a few minutes’ wait time or longer depending on the exchange’s capacity and processes. But you can track your transactions easily by clicking the eye button next to the transaction in your Activity History."
-        },
-        {
-          "text": "SECURING YOUR WALLET {br}{br} With great freedom comes great responsibility. You’re in charge of keeping the keys to your account. There are no third-party custodians to store nor connect any password with any account. The task of keeping the keys to your wallet is yours and yours alone, Superhero. {br} Here’s how to secure and backup your wallet: {br} Once you’re in your dashboard, you’ll get a series of words called a seed phrase. The seed phrase is somewhat like a password – it’s a unique set of words (in order) which connects you to your wallet. {br} - Click the hamburger menu on the upper right of your wallet. {br} - Go to Settings, chose Security. {br} - On the next screen, click Show seed phrase. {br} - Write down the 12 words displayed on a piece of paper and keep it in a safe and secret place. Simple as that. {br} IMPORTANT: You’ll need this seed phrase to retrieve your wallet in case you lose access to the extension for any reason (migrating to a new device, reinstalling browser, etc.)."
-        },
-        {
-          "text": "FAQ"
-        },
-        {
-          "text": "Use Superhero alone to give / accept a tip of AE. Use Superhero alongside other existing fiat-based tools to additionally give / accept tips in AE. {br}{br} Join a community by posting, commenting, and tipping other Superheroes directly. {br} Off Superhero’s platform, add a Superhero button or link to your site so anyone can tip you directly."
-        },
-        {
-          "text": "Can I send tips to any website? {br} YES. Any public URL can be tipped with Superhero."
-        },
-        {
-          "text": "Where does a tip go if there are more than one wallet addresses on a URL? {br} The first wallet address among the addresses on the page to claim the tip, gets the tip."
-        },
-        {
-          "text": "Is there a deadline for claiming tips? {br} YES. Tips must be claimed within one (1) year. If that time lapses, unclaimed tips can be retrieved by tip senders. If a tip remains unclaimed after two (2) years by the sender or receiver, it is transferred to the aeternity crypto foundation."
-        },
-        {
-          "text": "Can I use my Base æpp wallet for my Superhero wallet? {br} YES. Just choose Retrieve Existing Account and input your Base æpp wallet’s seed phrase."
-        },
-        {
-          "text": "Can I use an AE address from a centralized exchange for my Superhero wallet? {br} NO. You need an AE wallet address for which you hold the private key or seed phrase. For centralized exchanges, the exchange holds custody of users' private keys. This means that the user cannot use the AE address on Superhero because he/she does not have the private keys/seed phrase to retrieve the account. {br}{br} You can simply Generate a New Wallet on Superhero and top it up by sending AE form your other wallets to your Superhero wallet address."
-        },
-        {
-          "text": "Do I have to add my wallet address to every Tweet? {br} NO. The Superhero wallet can detect the wallet address on a user's Twitter profile. No need to add it in the tweets."
-        },
-        {
-          "text": "If the owner of the URL I tipped doesn’t have an AE address on their site, will they still receive their tips? {br} YES. As soon as the webpage owner creates a Superhero wallet and adds their wallet address to their URL, tips they’ve received in the past will be added into their wallet balance."
-        }
-      ]
-    },
-    "Widget": {
-      "header": "WIDGET: Get instant tips from your website visitors!",
-      "sections": [
-        {
-          "text": "Add the Superhero widget to your website and visitors can send you tips with just one click!"
-        },
-        {
-          "text": "Want to add the Web Widget to your website?"
-        }
-      ]
-    },
-    "Voting": {
-      "header": "VOTING: The governance æpp is now on SUPERHERO.com!",
-      "sections": [
-        {
-          "text": "On-chain voting—transparent and publicly verifiable."
-        },
-        {
-          "text": "Build governance mechanisms for autonomous organizations."
-        },
-        {
-          "text": "TO LAUNCH A POLL {br}{br} Go to the Voting section on SUPERHERO.com. {br} Click the + icon at the bottom right of the Voting screen. {br} Fill in the Poll title, description, and add a link to a discussion or paper for reference. {br} Polls can be made public or unlisted. {br} Add poll options. {br} Set the close date and time for the poll. If you want a poll to run forever, set the CLOSE AT HEIGHT field to zero. {br} Click Create Poll. {br} A window prompt will ask you for confirmation for the poll. Click CONFIRM."
-        },
-        {
-          "text": "TO VOTE ON A POLL {br}{br} Choose an open poll on the Voting section of SUPERHERO.com. {br} Tick the box next to your vote. A window prompt will appear. Click CONFIRM."
-        },
-        {
-          "text": "IMPORTANT: Please note that your voting power depends on your AE wallet balance AT THE TIME A POLL ENDS, not at the time you cast your vote. To maximize your voting power for a particular poll or governance decision, make sure to have a lot of AE tokens in your wallet at the time a poll is scheduled to conclude."
-        }
-      ]
-    },
-    "Meet": {
-      "header": "Superhero MEET: launch your own online conferences.",
-      "sections": [
-        {
-          "text": "Launch your own edition of SuperheroLeague and online meet-ups!"
-        },
-        {
-          "text": "Ready to roll?"
-        }
-      ]
     },
     "Profile_Channels": {
       "header": "PROFILE & CHANNELS: *coming shortly.*",

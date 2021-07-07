@@ -12,7 +12,6 @@
   "FAQ": "FAQ",
   "FellowSuperhero": "Membres superhero",
   "Balance": "Balance:",
-  "aeternityBlockchain": "aeternity blockchain",
   "views": {
     "FeedList": {
       "main": "Feed",
@@ -78,31 +77,6 @@
           "Contact": "Contact"
         }
       }
-    },
-    "Mission": {
-      "header": "SUPERHERO: UNE HISTOIRE ORIGINALE ASSORTIE D'UNE MISSION",
-      "sections": [
-        {
-          "text": "Dans les bandes dessinées de type Comics les Super Héros croient qu'il est de leur devoir d'aider et de faire triompher le bien. Cependant - la véritable réalité des temps modernes continue de tester l'humanité."
-        },
-        {
-          "text": "Depuis les artistes aux scientifiques, les professeurs, les groupes médicaux, les projets non lucratifs, les initiatives sociales à fort impact, les causes communautaires, le bien-être animal, la défense de l'environnement, à celui qui ne fait que vous inspirer… Nous pouvons (et nous devons) faire une différence tous les jours les uns pour les autres. Les gens soutenant l'Humanité sont des Super Héros contemporains."
-        },
-        {
-          "text": "Superhero.com a été conçu comme une façon tangible de célébrer la différence qui peut provenir des personnes menant des projets valorisants pouvant aider les gens, Peer 2 Peer, et cela, sans aucun intermédiaire."
-        },
-        {
-          "text": "Superhero.com a été construit comme un projet open source qui transfère le pouvoir aux initiatives valorisantes pouvant aider l'Humanité, loin des intérêts privés de certaines entités et contrôlés uniquement par la volonté publique."
-        },
-        {
-          "text": "Ceux qui font partie de la communauté {aeternityBlockchain} et qui ont mené le projet Superhero.com à la vie sont unis dans la promesse d'aider à donner un meilleur internet pour chacun d'entre nous."
-        },
-        {
-          "text": "Bienvenue dans un meilleur monde virtuel – un internet avec une liberté quantifiable de transactions. Nous avons juste commencé à voir ou nos super-pouvoirs d'êtres humains aidant les uns et les autres peuvent nous mener."
-        }
-      ],
-      "footer": "FAITES-VOUS UNE DIFFÉRENCE ?",
-      "footerContent": "Superhero.com l'outil du bien construit sur la blockchain æternity"
     },
     "FAQ": {
       "header": "Questions féquemment posées",
@@ -320,101 +294,6 @@
       "LocationPlaceholder": "Éditer sa Location",
       "Location": "Location",
       "noPinnedItems": "Il n'y a pas d'épingles à afficher."
-    },
-    "Wallet": {
-      "header": "PORTEFEUILLE: Complétement Peer 2 Peer, pourboires instantanés sans frais cachés.",
-      "sections": [
-        {
-          "text": "Monétisation du contenu sans censure, sans aucune tierce partie. Vous voulez commencer ?"
-        },
-        {
-          "text": "CRÉER UN COMPTE {br}{br} Créez un compte sur le site Superhero.com ou téléchargez l'extension Chrome ou Firefox. {br} L'extension Chrome peut être utilisée sur les navigateurs Brave, Opera, et tous ceux utilisant la technologie Chrome. {br} Si vous avez déjà un portefeuille AE, vous pouvez choisir de récupérer votre compte existant et d'entrer votre phrase de récupération. Sinon vous pouvez créer un nouveau portefeuille. {br} 2. Vous pouvez lire le guide de démarrage ou sauter entièrement cette étape. Cela vous mènera ensuite sur votre portefeuille. C'est tout! votre compte est créé!"
-        },
-        {
-          "text": "ENVOYER DES POURBOIRES {br}{br} Cliquez sur Envoyer un Pourboire. {br} Collez l'adresse URL que vous souhaitez récompenser avec un pourboire. {br} Entrez le montant que vous désirez donner,  ainsi qu'un message accompagnant ce pourboire (ceci est optionnel). {br} Cliquez sur Envoyer le pourboire afin de vérifier la transaction."
-        },
-        {
-          "text": "RECEVOIR DES POURBOIRES {br}{br} Pour commencer à recevoir des pourboires d'après une adresse URL, copiez l'adresse de votre portefeuille Superhero (la chaîne de lettres au dessus de votre portefeuille commence par les caractères ak_) et copiez cela sur votre site internet ou sur votre profil en ligne. Voux pouvez aussi l'ajouter sur le code HTML de votre site. {br} Veuillez noter que les adresses URL publiques sont les seules à pouvoir recevoir un pourboire. Les profils qui recquièrent l'obligation de se connecter afin de pouvoir consulter leur page (comme les profils Facebook) ne peuvent pas être récompensés par un pourboire pour le moment. {br} Clicquez sur le bouton Réclamer le pourboire et entrez votre adresse URL. Cliquez sur Confirmer pour valider. {br} Tous les pourboires que votre adresse URL recevra par le futur, et ceux, reçus par le passé seront ajouté à la balance de votre portefeuille."
-        },
-        {
-          "text": "RÉAPPROVISIONNER SON PORTEFEUILLE {br}{br} Cliquez sur le bouton Réapprovisioner votre portefeuille. Vous pouvez ACHETER des TOKENS AE en petite quantité grâce à la boutique æternity. Vous pouvez également ÉCHANGER instantanémpent vos CRYPTOMONNAIES pour des TOKENS AE à travers la plateforme JellySwap. {br} Alternativement, vous pouvez réapprovisionner votre portefeuille SUPERHERO en envoyant des tokens AE depuis votre plateforme favorite d'échange de cryptomonnaies. Nous sommes actuellement en train de rassembler toutes les informations sur un wiki complet pour trouver les moyens les plus économiques d'obtenir des tokens AE et nous publierons bientôt ce document."
-        },
-        {
-          "text": "FAIRE UN RETRAIT {br}{br} De la même manière que vous ne marchez pas dans la rue avec un gros montant d'argent liquide caché dans votre sac, il est hautement recommandé de ne pas garder de gros montants de tokens AE dans votre portefeuille Superhero. Pour garder sur le long terme de grandes quantités de tokens AE, nous vous recommandons d'utiliser un portefeuille de cryptomonnaie non connecté à Internet comme AirGap. {br} Pour effectuer le retrait des pourboires que vous avez collecté, vous pouvez envoyer des pourboires depuis votre portefeuille SUPERHERO à votre adresse de portefeuille AE sur une plateforme d'échange de cryptomonnaies qui supporte les tokens AE. {br} - Pour effectuer le retrait, allez sur le menu hamburger. {br} - Cliquez sur Faire un Retrait. {br} - Entrez votre adresse de portefeuille depuis la plateforme d'échange de cryptomonnaies de votre choix. Vous pouvez aussi envoyer ce retrait au portefeuille de quelqu'un d'autre en collant l'adresse de son portefeuille dans le champs réservé à cet effet. {br} - Entrez le montant que vous souhaiter retirer. {br} Cliquez sur Révision afin de vérifier les détails de la transaction. {br} - Appuyez sur le bouton Confirmer le Retrait. {br} Les pourboires peuvent être convertis en d'autres cryptomonnaies ou monnaies fiduciaires et transférés à votre banque locale. {br} Les procédures d'échanges peuvent varier en fonction des pays. Dans la plupart des cas, il y aura quelques minutes d'attente dépendemment des capacités de la plateforme d'échange et des procédures employées. Mais vous pouvez suivre aisément vos transactions en cliquant sur le bouton en forme d'oeil juste à côté de votre transaction dans le rapport historique des activités."
-        },
-        {
-          "text": "SÉCURISER VOTRE PORTEFEUILLE {br}{br} De grands pouvoirs impliquent de lourdes responsabilités. Vous êtes responsable de garder privés les mots de passe de votre compte. Il n'existe pas de partie tierce gardienne du stockage des mots de passe. La tâche consistant à garder les accès privés de votre portefeuille vous revient donc, à vous seul, Superhero. {br} Voici comment sécuriser et garder une sauvegarde de votre portefeuille: {br} Une fois que vous êtes sur votre tableau de bord, vous allez recevoir une série de mots appelée phrase de récupération. Cette phrase de récupération est comme un mot de passe – c'est à dire unique, sensible à l'ordre des mots et qui vous connecte à votre portefeuille. {br} - Cliquez sur le menu hamburger dans le coin droit de votre portefeuille. {br} - Allez sur Paramétrages, choissisez l'onglet Sécurité. {br} - Sur le prochain écran, choissisez l'option Voir la phrase de récupération. {br} - Écrivez sur un morceau de papier les 12 mots affichés à l'écran et gardez le dans un endroit sûr et secret. Simple comme Bonjour. {br} IMPORTANT: Vous aurez besoin de cette phrase de récupération pour retrouver votre portefeuille dans le cas ou pour une raison quelconque vous auriez perdu les accès à l'extension (une migration sur un nouveau système, une réinstallation de navigateur, etc.)"
-        },
-        {
-          "text": "FAQ"
-        },
-        {
-          "text": "Utilisez Superhero pour donner / accepter un pourboire d'AE. Utilisez Superhero avec d'autres outils existants basés sur des monnaies fiduciaires pour ajouter d'autres fonctionnalités de pourboires en tokens AE. {br}{br} Rejoignez une communauté en postant, commentant et donnant directement des pourboires à d'autres super-héros. {br} En dehors de la plateforme de Superhero, ajoutez un bouton Superhero ou un lien vers votre site pour que tout le monde puisse vous donner un pourboire directement."
-        },
-        {
-          "text": "Puis-je envoyer des pourboires sur n'importe quel site? {br} OUI. N'importe quelle adresse URL publique peut recevoir un pourboire via Superhero."
-        },
-        {
-          "text": "Où va le pourboire s'il y a plus d'une adresse de portefeuille sur une URL? {br} La première adresse de portefeuille où le pourboire est réclamé reçoit le montant."
-        },
-        {
-          "text": "Existe-t-il une limite de temps pour réclamer les pourboires? {br} OUI. Les pourboires doivent être réclamés dans une limite de un (1) an. Si ce délai est écoulé, les pourboires non réclamés ne peuvent être récupérés par les expéditeurs. Si un pourboire reste non réclamé après deux (2) ans par l'expéditeur ou le destinataire, il est transféré à la fondation cryptomonnaie d'aeternity."
-        },
-        {
-          "text": "Puis-je utiliser mon Base æpp portefeuille pour mon portefeuille Superhero? {br} OUI. Choissisez simplement de récupérez votre compte existant et entrez la phrase de récupération de votre portefeuille Base æpp."
-        },
-        {
-          "text": "Puis-je utiliser une adresse AE depuis une plateforme d'échange centralisée pour mon portefeuille Superhero? {br} NON. Vous avez besoin d'une adresse de portefeuille AE qui vous permet de détenir votre clef privée ou votre phrase de récupération. En ce qui concerne les plateformes centralisées d'échanges, ces dernières détiennent la garde des clefs privées des utilisateurs. Cela signifie que l'utilisateur ne peut pas utiliser son adresse de portefeuille AE sur Superheros car il/elle n'a pas la clef privée/phrase de récupération pour retrouver son compte. {br}{br} Vous pouvez simplement générer un nouveau portefeuille sur Superhero et le réapprovisionner en envoyant le formulaire AE de vos autres portefeuilles à l'adresse de votre portefeuille Superhero."
-        },
-        {
-          "text": "Dois-je ajouter l'adresse de mon portefeuille à chaque Tweet? {br} NON. Le portefeuille du Superheros peut détecter l'adresse du portefeuille sur le profil Twitter d'un utilisateur. Pas besoin de l'ajouter dans les tweets."
-        },
-        {
-          "text": "Si le propriétaire de l'URL que j'ai renseignée n'a pas d'adresse AE sur son site, recevra-t-il quand même ses pourboires? {br} OUI. Dès que le propriétaire de la page web crée un portefeuille de Superheros et ajoute l'adresse de son portefeuille à son URL, les pourboires qu'il a reçus dans le passé seront ajoutés au solde de son portefeuille."
-        }
-      ]
-    },
-    "Widget": {
-      "header": "WIDGET: Recevez des pourboires instantanés de la part des visiteurs de votre site!",
-      "sections": [
-        {
-          "text": "Ajoutez un Superhero widget à votre site et vos visiteurs pourront vous envoyer des pourboires en un clic!"
-        },
-        {
-          "text": "Vous voulez ajouter un Widget à votre site?"
-        }
-      ]
-    },
-    "Voting": {
-      "header": "VOTER: La governance æpp est maintenant sur SUPERHERO.com!",
-      "sections": [
-        {
-          "text": "Le vote utilisant la technologie Blockchain - transparent et vérifiable par le public."
-        },
-        {
-          "text": "Mettre en place des mécanismes de gouvernance pour des organisations autonomes."
-        },
-        {
-          "text": "POUR LANCER UN SONDAGE {br}{br} Allez sur la section Votes sur SUPERHERO.com. {br}Cliquez sur le bouton + dans le coin en bas à droite de l'écran des votes. {br} Remplissez le titre du sondage, sa description et ajoutez un lien vers une discussion ou un document de référence. {br} Les sondages peuvent être rendus publics ou non catégorisés. {br} Ajoutez des options de sondage. {br} Paramétrez une date et une heure pour le sondage. Si vous voulez que votre sondage marche en tout temps, paramétrez à zéro le champs fermeture du sondage. {br} Cliquez sur Créer un sondage. {br} Une fenêtre va s'ouvrir vous demandant une confirmation pour le sondage. Cliquez sur Confirmer."
-        },
-        {
-          "text": "POUR VOTER SUR UN SONDAGE {br}{br} Choissisez un sondage ouvert dans la section des votes sur SUPERHERO.com. {br} Cochez la case à côté de votre vote. Un fenêtre va apparaître. Cliquez sur CONFIRMER."
-        },
-        {
-          "text": "IMPORTANT: Veuillez noter que votre capacité de vote dépend du solde de votre portefeuille AE AU MOMENT DE LA FIN DU SONDAGE, et non au moment où vous votez. Pour maximiser votre pouvoir de vote sur un sondage particulier ou une décision de gouvernance, assurez-vous d'avoir beaucoup de tokens AE dans votre portefeuille au moment où le sondage prévoit de se terminer."
-        }
-      ]
-    },
-    "Meet": {
-      "header": "Superhero CONFÉRENCES: lancez vos propres conférences en ligne.",
-      "sections": [
-        {
-          "text": "Lancez votre propre édition de SuperheroLeague et des rencontres en ligne!"
-        },
-        {
-          "text": "Prêt à démarrer?"
-        }
-      ]
     },
     "Profile_Channels": {
       "header": "PAGE DE PROFIL & CHAINES: *A venir bientôt.*",

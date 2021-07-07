@@ -6,28 +6,24 @@
       </template>
     </BackButtonRibbon>
 
-    <ActivityRibbon
-      value=""
-      :tabs="[]"
-    >
-      <template slot="left">
-        <FilterButton
-          :class="{ active: activity === 'info' }"
-          @click="activity = 'info'"
-        >
-          <IconInfo />
-          <span class="desktop">{{ $t('views.WordDetail.RibbonTabs.Info') }}</span>
-          <span class="mobile">{{ $t('views.WordDetail.RibbonTabsMobile.Info') }}</span>
-        </FilterButton>
-        <FilterButton
-          :class="{ active: activity === 'voting' }"
-          @click="activity = 'voting'"
-        >
-          <IconPie />
-          <span class="desktop">{{ $t('views.WordDetail.RibbonTabs.Vote') }}</span>
-          <span class="mobile">{{ $t('views.WordDetail.RibbonTabsMobile.Vote') }}</span>
-        </FilterButton>
-      </template>
+    <ActivityRibbon>
+      <FilterButton
+        :class="{ active: activity === 'info' }"
+        @click="activity = 'info'"
+      >
+        <IconInfo />
+        <span class="desktop">{{ $t('views.WordDetail.RibbonTabs.Info') }}</span>
+        <span class="mobile">{{ $t('views.WordDetail.RibbonTabsMobile.Info') }}</span>
+      </FilterButton>
+      <FilterButton
+        :class="{ active: activity === 'voting' }"
+        @click="activity = 'voting'"
+      >
+        <IconPie />
+        <span class="desktop">{{ $t('views.WordDetail.RibbonTabs.Vote') }}</span>
+        <span class="mobile">{{ $t('views.WordDetail.RibbonTabsMobile.Vote') }}</span>
+      </FilterButton>
+
       <WordBuySellButtons
         v-if="saleContractAddress && activity === 'info'"
         slot="right"

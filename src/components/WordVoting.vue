@@ -1,26 +1,24 @@
 <template>
   <div class="word-voting">
     <TabBar>
-      <template slot="left">
-        <TabBarButton
-          :class="{ active: activeTab === 'ongoing' }"
-          @click="activeTab = 'ongoing'"
-        >
-          {{ $t('views.WordDetail.Tabs.Ongoing') }}
-        </TabBarButton>
-        <TabBarButton
-          :class="{ active: activeTab === 'past' }"
-          @click="activeTab = 'past'"
-        >
-          {{ $t('views.WordDetail.Tabs.Past') }}
-        </TabBarButton>
-        <TabBarButton
-          :class="{ active: activeTab === 'my' }"
-          @click="activeTab = 'my'"
-        >
-          {{ $t('views.WordDetail.Tabs.My') }}
-        </TabBarButton>
-      </template>
+      <TabBarButton
+        :class="{ active: activeTab === 'ongoing' }"
+        @click="activeTab = 'ongoing'"
+      >
+        {{ $t('views.WordDetail.Tabs.Ongoing') }}
+      </TabBarButton>
+      <TabBarButton
+        :class="{ active: activeTab === 'past' }"
+        @click="activeTab = 'past'"
+      >
+        {{ $t('views.WordDetail.Tabs.Past') }}
+      </TabBarButton>
+      <TabBarButton
+        :class="{ active: activeTab === 'my' }"
+        @click="activeTab = 'my'"
+      >
+        {{ $t('views.WordDetail.Tabs.My') }}
+      </TabBarButton>
       <template slot="right">
         <ButtonPlain
           v-if="activeTab === 'ongoing' && maxAmount > 0"

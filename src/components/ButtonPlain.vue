@@ -1,10 +1,10 @@
 <template>
   <Component
-    :is="!disabled && to ? 'Link' : 'button'"
-    :to="to"
-    :disabled="disabled"
+    :is="!$attrs.disabled && ($attrs.to || $attrs['to-relative'])
+      ? 'Link' : 'button'"
+    v-bind="$attrs"
     class="button-plain"
-    @click="$emit('click', $event)"
+    v-on="$listeners"
   >
     <slot />
   </Component>
@@ -15,10 +15,6 @@ import Link from './Link.vue';
 
 export default {
   components: { Link },
-  props: {
-    to: { type: [String, Object, URL], default: null },
-    disabled: Boolean,
-  },
 };
 </script>
 

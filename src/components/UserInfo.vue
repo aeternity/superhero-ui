@@ -662,12 +662,6 @@ input[type="file"] {
 }
 
 @include mobile {
-  .user-info {
-    .tips-container {
-      padding: 0.15rem 0.5rem;
-    }
-  }
-
   .profile-header {
     white-space: nowrap;
 

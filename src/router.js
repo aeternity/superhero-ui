@@ -84,7 +84,7 @@ const routes = [
     redirect: '/users/:address',
   },
   {
-    path: '/users/:address',
+    path: '/users/:address/:activity?',
     name: 'user-profile',
     component: UserProfile,
     props: true,

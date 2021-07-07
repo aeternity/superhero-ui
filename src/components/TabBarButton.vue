@@ -34,7 +34,8 @@ export default {
       cursor: pointer;
     }
 
-    &.active {
+    &.active,
+    &.router-link-exact-active {
       border-color: $custom_links_color;
       color: $custom_links_color;
     }

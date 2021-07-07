@@ -30,7 +30,7 @@
       <template v-if="record">
         <div
           v-if="nestedComments.length === 0 && !showLoading"
-          class="no-results text-center w-100"
+          class="no-results"
           :class="{ error }"
         >
           {{ $t('views.TipCommentsView.NoResultsMsg') }}

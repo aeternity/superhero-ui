@@ -21,7 +21,6 @@
       <template v-if="!isPlaying">
         <img :src="`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`">
         <PlayButton
-          class="play-button"
           @click.stop="isAllowed ? isPlaying = true : showCookiesDialog = true"
         />
         <div class="tip-info">

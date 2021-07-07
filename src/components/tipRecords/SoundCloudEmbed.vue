@@ -23,7 +23,6 @@
       </div>
       <PlayButton
         v-if="!isPlaying"
-        :is-playing="isPlaying"
         @click.stop="isAllowed ? isPlaying = true : showCookiesDialog = true"
       />
       <SoundCloudPlayer

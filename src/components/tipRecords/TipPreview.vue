@@ -239,7 +239,7 @@ export default {
 }
 
 .tip-article {
-  background-color: $buttons_background;
+  background-color: $thumbnail_background_color_alt;
   border-radius: 0.25rem;
   font-size: 0.75rem;
   height: auto;
@@ -247,6 +247,15 @@ export default {
   margin-right: 1rem;
   padding: 0;
   position: relative;
+
+  &:hover {
+    background-color: #373843;
+    cursor: pointer;
+
+    .tip-article-content {
+      color: #c6c6cc;
+    }
+  }
 
   .tip-article-content {
     color: #babac0;
@@ -314,15 +323,6 @@ export default {
           filter: brightness(1.3);
         }
       }
-    }
-  }
-
-  &:hover {
-    background-color: $thumbnail_background_color_alt;
-    cursor: pointer;
-
-    .tip-article-content {
-      color: #c6c6cc;
     }
   }
 }

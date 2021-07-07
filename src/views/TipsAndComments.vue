@@ -169,14 +169,6 @@ export default {
     &.tip-record {
       margin-bottom: 0;
       background-color: $thumbnail_background_color;
-
-      ::v-deep .tip-body .tip-article {
-        background-color: $thumbnail_background_color_alt;
-
-        &:hover {
-          background-color: #373843;
-        }
-      }
     }
 
     &.tip-comment {

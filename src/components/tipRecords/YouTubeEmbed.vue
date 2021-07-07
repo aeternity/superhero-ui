@@ -79,6 +79,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import './preview-legacy';
+
 .you-tube-embed {
   position: relative;
 }

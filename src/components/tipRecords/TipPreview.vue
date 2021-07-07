@@ -362,14 +362,14 @@ export default {
   }
 }
 
-::v-deep .source {
+.source {
   font-size: 0.5rem;
   color: $light_font_color;
   margin-bottom: 0.15rem;
   text-transform: uppercase;
 }
 
-::v-deep .tip-cover-preview {
+.tip-cover-preview {
   position: relative;
   padding-top: 55%;
   overflow: hidden;
@@ -400,7 +400,7 @@ export default {
   }
 }
 
-::v-deep .tip-info {
+.tip-info {
   width: 100%;
   max-width: 100%;
   position: absolute;
@@ -433,190 +433,5 @@ export default {
   padding-left: 0.5rem;
   padding-top: 0.5rem;
   background: $thumbnail_background_color_alt;
-}
-
-::v-deep .tip-two-columns-preview {
-  display: flex;
-  flex-direction: row;
-  height: auto;
-  -webkit-transition: 0.4s all;
-  -moz-transition: 0.4s all;
-  transition: 0.4s all;
-
-  .tip-two-columns-img {
-    flex: 0 0 35%;
-    max-width: 35%;
-    min-width: 35%;
-    width: 35%;
-    border-top-left-radius: 0.5rem;
-    position: relative;
-    padding-top: 35%;
-    overflow: hidden;
-
-    img {
-      bottom: 0;
-      display: block;
-      left: 0;
-      margin: auto;
-      width: auto;
-      position: absolute;
-      top: 0;
-      border: none;
-      height: 100%;
-      max-height: 100%;
-      cursor: pointer;
-      overflow: hidden;
-    }
-  }
-
-  .tip-two-columns-info {
-    flex: 0 0 65%;
-    max-width: 65%;
-    min-width: 65%;
-    width: 65%;
-    height: 100%;
-    padding: 0.5rem;
-
-    .source {
-      font-size: 0.5rem;
-      color: $light_font_color;
-      margin-bottom: 0.15rem;
-    }
-
-    .title {
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-top: 0;
-      margin-bottom: 0.15rem;
-      color: $tip_note_color;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .description {
-      font-size: 0.7rem;
-      color: $tip_note_color;
-    }
-  }
-
-  .tip-no-preview {
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-    padding-left: 0.5rem;
-    padding-top: 0.5rem;
-    background: $thumbnail_background_color_alt;
-
-    .tip-author {
-      align-items: center;
-      color: $light_font_color;
-      display: flex;
-      font-size: 0.8rem;
-      justify-content: space-between;
-      padding: 0 1rem 0.9rem 1rem;
-
-      .tip-date {
-        font-size: 0.6rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .three-dots-menu {
-          font-size: 0.75rem;
-          margin-left: 0.3rem;
-        }
-      }
-
-      .address {
-        font-size: 0.65rem;
-      }
-
-      .address,
-      .chain-name {
-        display: inline-block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 100%;
-        word-break: break-all;
-      }
-
-      img.user-identicon,
-      svg {
-        border-radius: 50%;
-        flex-shrink: 0;
-        height: 2rem;
-        margin-right: 0.25rem;
-        object-fit: cover;
-        width: 2rem;
-      }
-
-      a {
-        color: $light_font_color;
-        display: flex;
-        margin-right: 1rem;
-        overflow: hidden;
-
-        &:hover {
-          filter: brightness(1.3);
-        }
-      }
-
-      .chain-name {
-        color: #fff;
-      }
-
-      .tip-description .author-and-date .date .three-dots-menu {
-        font-size: 0.75rem;
-        margin-left: 0.3rem;
-      }
-    }
-  }
-
-  ::v-deep .tip-two-columns-preview {
-    display: flex;
-    flex-direction: row;
-    height: auto;
-    -webkit-transition: 0.4s all;
-    -moz-transition: 0.4s all;
-    transition: 0.4s all;
-
-    .tip-two-columns-img {
-      flex: 0 0 35%;
-      max-width: 35%;
-      min-width: 35%;
-      width: 35%;
-      border-top-left-radius: 0.5rem;
-      position: relative;
-      padding-top: 35%;
-      overflow: hidden;
-
-      img {
-        bottom: 0;
-        display: block;
-        left: 0;
-        margin: auto;
-        width: auto;
-        position: absolute;
-        top: 0;
-        border: none;
-        height: 100%;
-        max-height: 100%;
-        cursor: pointer;
-        overflow: hidden;
-      }
-    }
-
-    .tip-two-columns-info {
-      flex: 0 0 65%;
-      max-width: 65%;
-      min-width: 65%;
-      width: 65%;
-      height: 100%;
-      overflow: hidden;
-      white-space: pre-wrap;
-      text-overflow: ellipsis;
-    }
-  }
 }
 </style>

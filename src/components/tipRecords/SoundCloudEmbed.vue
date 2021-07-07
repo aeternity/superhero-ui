@@ -63,6 +63,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import './preview-legacy';
+
 .sound-cloud-player {
   height: 100%;
   position: relative;

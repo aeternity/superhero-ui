@@ -41,6 +41,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import './preview-legacy';
+
 .description {
   @include truncate-overflow-mx(6);
 }

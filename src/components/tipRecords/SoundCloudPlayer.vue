@@ -9,11 +9,17 @@
       :src="playUrl"
     />
     <PlayButton
+      v-if="loading || duration"
+      class="play-button"
       :is-playing="isPlaying"
       :loading="loading"
       @click.stop="togglePlay"
     />
+    <template v-else>
+      Playback error
+    </template>
     <div
+      v-if="duration"
       ref="soundWave"
       class="sound-wave"
       @click="seekToPosition"
@@ -88,10 +94,10 @@ export default {
     this.player = new SoundcloudWidget(this.$refs.iframe);
     const soundcloudEvents = SoundcloudWidget.events;
 
-    this.player.on(soundcloudEvents.READY, () => {
-      this.loading = false;
+    this.player.on(soundcloudEvents.READY, async () => {
+      this.duration = await this.player.getDuration();
       this.player.play();
-      this.player.getDuration().then((d) => { this.duration = d || 0; });
+      this.loading = false;
     });
     this.player.on(soundcloudEvents.PLAY, () => {
       this.isPlaying = true;

@@ -70,7 +70,7 @@ export default {
     },
   },
   props: {
-    tip: { type: Object, required: true },
+    tipUrl: { type: String, required: true },
   },
   data() {
     return {
@@ -84,7 +84,7 @@ export default {
   },
   computed: {
     playUrl() {
-      return `https://w.soundcloud.com/player/?url=${this.tip.url}`;
+      return `https://w.soundcloud.com/player/?url=${this.tipUrl}`;
     },
     waveProgress() {
       return { width: `${this.position}%`, 'background-size': `${(1 / this.position) * 10000}% 100%` };

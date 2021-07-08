@@ -1,6 +1,6 @@
 <template>
   <div
-    class="soundcloud-player"
+    class="sound-cloud-player"
     @click.stop
   >
     <iframe
@@ -130,7 +130,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.soundcloud-player {
+.sound-cloud-player {
   display: flex;
   align-items: center;
 

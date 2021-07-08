@@ -1,6 +1,6 @@
 <template>
   <div
-    class="sound-cloud-player"
+    class="sound-cloud-embed"
     :class="{ 'dialog-inside': showCookiesDialog && !isAllowed }"
   >
     <CookiesDialog
@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sound-cloud-player {
+.sound-cloud-embed {
   display: flex;
 
   &.dialog-inside {

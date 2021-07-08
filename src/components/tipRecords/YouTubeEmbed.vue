@@ -1,5 +1,8 @@
 <template>
-  <div class="you-tube-embed">
+  <div
+    class="you-tube-embed"
+    :class="{ 'dialog-inside': showCookiesDialog && !isAllowed }"
+  >
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
       scope="YouTube"
@@ -64,6 +67,10 @@ export default {
 
 <style lang="scss" scoped>
 .you-tube-embed {
+  &.dialog-inside {
+    position: relative;
+  }
+
   iframe {
     display: block;
     width: 100%;

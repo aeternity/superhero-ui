@@ -1,5 +1,8 @@
 <template>
-  <div class="sound-cloud-player">
+  <div
+    class="sound-cloud-player"
+    :class="{ 'dialog-inside': showCookiesDialog && !isAllowed }"
+  >
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
       scope="SoundCloud"
@@ -57,6 +60,10 @@ export default {
 <style lang="scss" scoped>
 .sound-cloud-player {
   display: flex;
+
+  &.dialog-inside {
+    position: relative;
+  }
 
   img {
     width: 35%;

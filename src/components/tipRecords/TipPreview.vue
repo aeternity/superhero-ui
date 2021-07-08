@@ -4,27 +4,20 @@
       :is="richPreviewComponent"
       v-if="richPreviewComponent && isPreviewToBeVisualized"
       :tip="tip"
+      :tip-url="tipUrl"
       :tip-preview-title="tipPreviewTitle"
       :tip-preview-description="tipPreviewDescription"
       :tip-preview-image="tipPreviewImage"
       :source-url="sourceUrl"
       :go-to-tip="goToTip"
     />
-    <div
+    <TipPreviewImage
       v-else-if="isPreviewToBeVisualized"
-      class="cover-image"
-    >
-      <img
-        :src="tipPreviewImage"
-        loading="lazy"
-        @error="$event.target.src = defaultImage"
-      >
-      <TipUrlDetails
-        :source="sourceUrl"
-        :title="tipPreviewTitle"
-        :description="tipPreviewDescription"
-      />
-    </div>
+      :image="tipPreviewImage"
+      :source="sourceUrl"
+      :title="tipPreviewTitle"
+      :description="tipPreviewDescription"
+    />
     <TipUrlDetails
       v-else
       :source="sourceUrl"
@@ -58,6 +51,7 @@
 
 <script>
 import Backend from '../../utils/backend';
+import TipPreviewImage from './TipPreviewImage.vue';
 import YouTubeEmbed from './YouTubeEmbed.vue';
 import TwitterEmbed from './TwitterEmbed.vue';
 import SoundCloudEmbed from './SoundCloudEmbed.vue';
@@ -70,6 +64,7 @@ import defaultImage from '../../assets/defaultImg.svg';
 
 export default {
   components: {
+    TipPreviewImage,
     Author,
     TipUrlDetails,
     Avatar,
@@ -134,32 +129,6 @@ export default {
   &:hover {
     background-color: #373843;
     color: #c6c6cc;
-  }
-
-  .cover-image {
-    background: #000;
-    position: relative;
-
-    img {
-      display: block;
-      width: 100%;
-      object-fit: cover;
-
-      @include feed-preview-height;
-
-      &:hover {
-        transition: 0.4s opacity;
-        opacity: 0.75;
-      }
-    }
-
-    .tip-url-details {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.7);
-    }
   }
 
   .no-preview {

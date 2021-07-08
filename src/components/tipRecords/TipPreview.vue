@@ -3,13 +3,11 @@
     <Component
       :is="richPreviewComponent"
       v-if="richPreviewComponent && isPreviewToBeVisualized"
-      :tip="tip"
       :tip-url="tipUrl"
       :tip-preview-title="tipPreviewTitle"
       :tip-preview-description="tipPreviewDescription"
       :tip-preview-image="tipPreviewImage"
       :source-url="sourceUrl"
-      :go-to-tip="goToTip"
     />
     <TipPreviewImage
       v-else-if="isPreviewToBeVisualized"
@@ -76,7 +74,6 @@ export default {
   },
   props: {
     tip: { type: Object, required: true },
-    goToTip: { type: Function, required: true },
     tipUrl: { type: String, default: '' },
   },
   data: () => ({ defaultImage }),

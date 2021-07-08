@@ -34,7 +34,6 @@
     <TipPreview
       v-if="tipUrl || tip.receiver"
       :tip="tip"
-      :go-to-tip="goToTip"
       :tip-url="tipUrl"
     />
     <div

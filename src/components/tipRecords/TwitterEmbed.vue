@@ -1,55 +1,44 @@
 <template>
-  <div
-    class="tip-two-columns-preview"
-    @click.stop="goToTip"
-  >
-    <div class="tip-two-columns-img">
-      <img :src="tipPreviewImage">
-    </div>
+  <div class="twitter-embed">
+    <img :src="tipPreviewImage">
 
-    <div class="tip-two-columns-info">
-      <div class="source">
-        {{ sourceUrl.toUpperCase() }}
-      </div>
-      <h2
-        class="title text-ellipsis"
-        :title="tipPreviewTitle"
-      >
-        {{ tipPreviewTitle }}
-      </h2>
-      <div
-        class="description"
-        :title="tipPreviewDescription"
-      >
-        {{ tipPreviewDescription }}
-      </div>
-    </div>
+    <TipUrlDetails
+      :source="sourceUrl"
+      :title="tipPreviewTitle"
+      :description="tipPreviewDescription"
+    />
   </div>
 </template>
 
 <script>
+import TipUrlDetails from './TipUrlDetails.vue';
+
 export default {
+  components: { TipUrlDetails },
   props: {
-    tip: { type: Object, required: true },
     tipPreviewTitle: { type: String, required: true },
     tipPreviewDescription: { type: String, required: true },
     tipPreviewImage: { type: String, default: '' },
     sourceUrl: { type: String, default: '' },
-    goToTip: { type: Function, default: () => {} },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import './preview-legacy';
+.twitter-embed {
+  display: flex;
 
-.description {
-  @include truncate-overflow-mx(6);
-}
+  img {
+    width: 35%;
+    object-fit: cover;
+  }
 
-@include mobile {
-  .description {
-    @include truncate-overflow-mx(2);
+  .tip-url-details ::v-deep .description {
+    @include truncate-overflow-mx(6);
+
+    @include mobile {
+      @include truncate-overflow-mx(3);
+    }
   }
 }
 </style>

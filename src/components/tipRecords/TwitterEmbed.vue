@@ -1,5 +1,9 @@
 <template>
-  <div class="twitter-embed">
+  <a
+    class="twitter-embed"
+    :href="tipUrl"
+    target="_blank"
+  >
     <img :src="tipPreviewImage">
 
     <TipUrlDetails
@@ -7,7 +11,7 @@
       :title="tipPreviewTitle"
       :description="tipPreviewDescription"
     />
-  </div>
+  </a>
 </template>
 
 <script>
@@ -19,6 +23,7 @@ export default {
     tipPreviewTitle: { type: String, required: true },
     tipPreviewDescription: { type: String, required: true },
     tipPreviewImage: { type: String, required: true },
+    tipUrl: { type: String, required: true },
     sourceUrl: { type: String, default: '' },
   },
 };

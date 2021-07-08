@@ -9,7 +9,7 @@
       :style="{ 'grid-area': `pos${index}` }"
       :src="image"
       loading="lazy"
-      @click.stop="openImageGallery(index)"
+      @click="openImageGallery(index)"
       @error="$event.target.src = defaultImage"
     >
     <span

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="sound-cloud-player"
-    @click.stop
-  >
+  <div class="sound-cloud-player">
     <iframe
       ref="iframe"
       class="soundcloud-iframe"
@@ -13,7 +10,7 @@
       class="play-button"
       :is-playing="isPlaying"
       :loading="loading"
-      @click.stop="togglePlay"
+      @click="togglePlay"
     />
     <template v-else>
       Playback error

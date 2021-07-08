@@ -1,8 +1,9 @@
 <template>
-  <div
-    class="tip-record"
-    @click="goToTip"
-  >
+  <div class="tip-record">
+    <RouterLink
+      v-if="!detailed"
+      :to="toTip"
+    />
     <AuthorAndDate
       :date="tip.timestamp"
       :address="tip.sender"
@@ -36,19 +37,13 @@
       :tip="tip"
       :tip-url="tipUrl"
     />
-    <div
-      class="actions"
-      @click.stop
-    >
+    <div class="actions">
       <TipInput
         v-if="tip.type === 'POST_WITHOUT_TIP'"
         :tip="{ ...tip, url: `https://superhero.com/tip/${tip.id}` }"
       />
       <span v-else />
-      <ButtonFeed
-        :disabled="detailed"
-        @click.stop="$router.push(toTip)"
-      >
+      <ButtonFeed disabled>
         <IconComment slot="icon" />
         {{ tip.commentCount }}
       </ButtonFeed>
@@ -149,12 +144,6 @@ export default {
       );
       await this.$store.dispatch('updatePinnedItems');
     },
-    goToTip() {
-      if (this.detailed) {
-        return this.tipUrl ? window.open(this.tipUrl) : null;
-      }
-      return this.$router.push(this.toTip);
-    },
   },
 };
 </script>
@@ -164,11 +153,29 @@ export default {
   background-color: $light_color;
   padding: 1rem 1rem 0.75rem 1rem;
   margin-bottom: 0.15rem;
-  cursor: pointer;
+  position: relative;
 
   @include smallest {
     padding: 0.5rem;
     margin-bottom: 0.5rem;
+  }
+
+  > a::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .author-and-date ::v-deep .author,
+  .author-and-date .three-dots-menu,
+  .tip-title ::v-deep .topic,
+  .tip-media,
+  .tip-preview,
+  .tip-input {
+    position: relative;
   }
 
   .actions {

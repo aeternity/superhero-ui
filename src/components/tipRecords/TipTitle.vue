@@ -5,7 +5,6 @@
         v-if="part.matches"
         :key="id"
         :topic="part.text"
-        @click.native.stop
       />
       <template v-else>
         {{ part.text }}

@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal-mask"
-    @click.stop="resolve"
+    @click="resolve"
   >
     <div class="modal-wrapper">
       <div class="success-modal">

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="you-tube-embed"
-    :class="{ 'dialog-inside': showCookiesDialog && !isAllowed }"
-  >
+  <div class="you-tube-embed">
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
       scope="YouTube"
@@ -20,17 +17,18 @@
         picture-in-picture"
       allowfullscreen
     />
-    <TipPreviewImage
-      v-if="!isPlaying"
-      :image="`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`"
-      :source="sourceUrl"
-      :title="tipPreviewTitle"
-      :description="tipPreviewDescription"
-    >
-      <PlayButton
-        @click.stop="isAllowed ? isPlaying = true : showCookiesDialog = true"
+    <template v-if="!isPlaying">
+      <TipPreviewImage
+        :tip-url="tipUrl"
+        :image="`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`"
+        :source="sourceUrl"
+        :title="tipPreviewTitle"
+        :description="tipPreviewDescription"
       />
-    </TipPreviewImage>
+      <PlayButton
+        @click="isAllowed ? isPlaying = true : showCookiesDialog = true"
+      />
+    </template>
   </div>
 </template>
 
@@ -67,9 +65,7 @@ export default {
 
 <style lang="scss" scoped>
 .you-tube-embed {
-  &.dialog-inside {
-    position: relative;
-  }
+  position: relative;
 
   iframe {
     display: block;
@@ -79,7 +75,7 @@ export default {
     @include feed-preview-height;
   }
 
-  .tip-preview-image .play-button {
+  .play-button {
     position: absolute;
     left: 50%;
     top: 50%;

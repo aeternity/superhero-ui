@@ -2,18 +2,9 @@
   <RouterLink
     :to="{ name: 'user-profile', params: { address } }"
     class="author"
-    @mouseover.native="hoverDebounced = true"
-    @mouseleave.native="hoverDebounced = false"
+    @mouseenter.native="mouseEnterHandler"
   >
-    <div class="avatar-wrapper">
-      <Avatar :address="address" />
-      <Transition name="fade">
-        <UserCard
-          v-if="hoverDebounced"
-          :address="address"
-        />
-      </Transition>
-    </div>
+    <Avatar :address="address" />
     <div class="author-name">
       <span class="chain-name">
         {{ name ? name : $t('FellowSuperhero') }}
@@ -26,30 +17,30 @@
 </template>
 
 <script>
-import { debounce } from 'lodash-es';
 import Backend from '../../utils/backend';
 import Avatar from '../Avatar.vue';
-import UserCard from '../UserCard.vue';
 
 export default {
-  components: { Avatar, UserCard },
+  components: { Avatar },
   props: {
     address: { type: String, required: true },
   },
-  data: () => ({ hover: false, name: null }),
-  computed: {
-    hoverDebounced: {
-      get() {
-        return this.hover;
-      },
-      set: debounce(function set(hover) {
-        this.hover = hover;
-      }, 500),
-    },
-  },
+  data: () => ({ popupBound: false, name: null }),
   async mounted() {
     const profile = await Backend.getProfile(this.address);
     this.name = profile ? profile.preferredChainName : null;
+  },
+  methods: {
+    async mouseEnterHandler() {
+      if (this.popupBound) return;
+      this.popupBound = true;
+      await this.$store.dispatch('modals/open', {
+        name: 'user-popup',
+        reference: this.$el,
+        address: this.address,
+      });
+      this.popupBound = false;
+    },
   },
 };
 </script>
@@ -65,33 +56,9 @@ export default {
     }
   }
 
-  .avatar-wrapper {
-    position: relative;
-
-    .avatar {
-      margin-right: 0.25rem;
-      display: block;
-    }
-
-    .user-card {
-      position: absolute;
-      width: 450px;
-      z-index: 10;
-
-      @include mobile {
-        width: 350px;
-      }
-
-      &.fade-enter-active,
-      &.fade-leave-active {
-        transition: opacity 0.3s;
-      }
-
-      &.fade-enter,
-      &.fade-leave-to {
-        opacity: 0;
-      }
-    }
+  .avatar {
+    margin-right: 0.25rem;
+    display: block;
   }
 
   .author-name {

@@ -19,6 +19,7 @@
   "dependencies": {
     "@aeternity/aepp-sdk": "^8.2.1",
     "@fontsource/oxygen": "^4.4.5",
+    "@popperjs/core": "^2.9.2",
     "aeternity-fungible-token": "github:aeternity/aeternity-fungible-token#v2.0.0",
     "animate.css": "^4.1.1",
     "autosize": "^5.0.0",

@@ -2,6 +2,7 @@ import { merge } from 'lodash-es';
 import { registerModal } from '../store/plugins/modals';
 import AlertModal from '../components/AlertModal.vue';
 import ImageGallery from '../components/ImageGallery.vue';
+import UserPopup from '../components/UserPopup.vue';
 
 export default () => {
   registerModal({ name: 'success', component: AlertModal });
@@ -15,5 +16,9 @@ export default () => {
   registerModal({
     name: 'image-gallery',
     component: ImageGallery,
+  });
+  registerModal({
+    name: 'user-popup',
+    component: UserPopup,
   });
 };

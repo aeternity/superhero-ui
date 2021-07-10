@@ -5,6 +5,7 @@ import ImageGallery from '../components/ImageGallery.vue';
 import UserPopup from '../components/UserPopup.vue';
 import FeedItemMenu from '../components/FeedItemMenu.vue';
 import TokenSelect from '../components/TokenSelect.vue';
+import TipInputPopup from '../components/TipInputPopup.vue';
 
 export default () => {
   registerModal({ name: 'success', component: AlertModal });
@@ -30,5 +31,9 @@ export default () => {
   registerModal({
     name: 'token-select',
     component: TokenSelect,
+  });
+  registerModal({
+    name: 'tip-input-popup',
+    component: TipInputPopup,
   });
 };

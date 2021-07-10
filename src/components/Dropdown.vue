@@ -19,7 +19,7 @@
       @close="showMenu = false"
     >
       <Component
-        :is="method ? ButtonPlain : 'div'"
+        :is="method ? 'ButtonPlain' : 'div'"
         v-for="option in options"
         :key="option.value"
         class="dropdown-item"
@@ -43,16 +43,15 @@ export default {
     ButtonPlain,
   },
   props: {
-    options: { type: Array, default: null },
-    selected: { type: [String, Number] },
-    method: { type: Function },
-    showRight: { type: Boolean },
+    options: { type: Array, required: true },
+    selected: { type: [String, Number], default: '' },
+    method: { type: Function, default: null },
+    showRight: Boolean,
   },
   data() {
     return {
       showMenu: false,
       currentValue: this.options[0],
-      ButtonPlain,
     };
   },
   computed: {
@@ -92,6 +91,10 @@ export default {
 
     &.active {
       background-color: $article_content_color;
+    }
+
+    img {
+      height: 24px;
     }
   }
 

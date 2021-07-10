@@ -23,18 +23,27 @@ export default {
   color: $border_color;
   background-color: $actions_ribbon_background_color;
 
-  > .button-plain {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 0.5rem 0.5rem 0 0.5rem;
+  > .button-plain,
+  > div {
+    padding: 0.25rem 0.5rem;
+
+    &:first-child {
+      padding-top: 0.5rem;
+    }
 
     &:last-child {
       padding-bottom: 0.5rem;
     }
+  }
+
+  > .button-plain {
+    display: block;
+    width: 100%;
+    text-align: left;
 
     &:hover {
       color: $standard_font_color;
+      background-color: $background_color;
     }
   }
 }

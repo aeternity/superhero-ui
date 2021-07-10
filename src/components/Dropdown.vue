@@ -3,17 +3,16 @@
     class="dropdown"
     :class="{ right: showRight, 'read-only': !method }"
   >
-    <ButtonPlain
+    <ButtonDropdown
       :class="{ active: showMenu }"
-      @click.prevent="showMenu = true"
+      @click.native.prevent="showMenu = true"
     >
       <slot
         name="displayValue"
         :displayValue="currentValue"
       />
       <span v-if="!$slots.displayValue">{{ displayValue }}</span>
-      <img src="../assets/caretDown.svg">
-    </ButtonPlain>
+    </ButtonDropdown>
     <Modal
       v-if="showMenu"
       @close="showMenu = false"
@@ -35,11 +34,13 @@
 
 <script>
 import Modal from './Modal.vue';
+import ButtonDropdown from './ButtonDropdown.vue';
 import ButtonPlain from './ButtonPlain.vue';
 
 export default {
   components: {
     Modal,
+    ButtonDropdown,
     ButtonPlain,
   },
   props: {
@@ -81,21 +82,8 @@ export default {
   display: inline-block;
   vertical-align: middle;
 
-  > button {
+  > .button-dropdown {
     display: flex;
-    align-items: center;
-    padding: 0.2rem 0.4rem;
-    font-size: 0.75rem;
-    color: $standard_font_color;
-    border-radius: 2.5rem;
-
-    &.active {
-      background-color: $article_content_color;
-    }
-
-    img {
-      height: 24px;
-    }
   }
 
   .dropdown-item {

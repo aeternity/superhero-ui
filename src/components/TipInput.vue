@@ -14,18 +14,17 @@
         :token="tipAmount.token"
       />
     </ButtonPlain>
-    <Dropdown
+    <ButtonDropdown
       v-if="showTokenDropdown"
-      v-slot="{ option }"
-      :options="tipUrlStats.tokenTotalAmount"
-      show-right
-    >
-      <AeAmountFiat
-        :key="option.token"
-        :amount="option.amount"
-        :token="option.token"
-      />
-    </Dropdown>
+      ref="tokensOpener"
+      @click="$store.dispatch('modals/open', {
+        name: 'token-select',
+        reference: $refs.tokensOpener.$el,
+        notSelectable: true,
+        tokens: tipUrlStats.tokenTotalAmount,
+        inEnd: true,
+      })"
+    />
     <Modal
       v-if="showModal"
       @close="hideModal"
@@ -73,7 +72,7 @@ import Input from './Input.vue';
 import AeInputAmount from './AeInputAmount.vue';
 import AeButton from './AeButton.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
-import Dropdown from './Dropdown.vue';
+import ButtonDropdown from './ButtonDropdown.vue';
 import Modal from './Modal.vue';
 
 export default {
@@ -84,7 +83,7 @@ export default {
     AeButton,
     AeAmountFiat,
     Modal,
-    Dropdown,
+    ButtonDropdown,
     IconTip,
   },
   props: {
@@ -273,6 +272,10 @@ export default {
         vertical-align: 0.05rem;
       }
     }
+  }
+
+  .button-dropdown {
+    vertical-align: middle;
   }
 
   .modal > ::v-deep .modal-content {

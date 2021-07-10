@@ -21,42 +21,23 @@
       :amount="value"
       :token="selectedToken"
     />
-    <Dropdown
+    <ButtonDropdown
       v-if="tokenTipable && !noDropdown"
-      :options="selectTokenOptions"
-      :selected="selectedToken"
-      :method="selectToken"
-      show-right
-    >
-      <template #default="{ option }">
-        <div class="token-option">
-          <TokenAvatarAndSymbol :address="option.token" />
-          <span class="tokens-amount">{{
-            showTokenAmount(option.balance, option.token)
-          }}</span>
-          &nbsp;<FiatValue
-            :amount="option.balance"
-            :token="option.token"
-            :aettos="!!option.token"
-          />
-        </div>
-      </template>
-    </Dropdown>
+      @click="selectToken"
+    />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 import FiatValue from './FiatValue.vue';
-import Dropdown from './Dropdown.vue';
-import TokenAvatarAndSymbol from './fungibleTokens/TokenAvatarAndSymbol.vue';
+import ButtonDropdown from './ButtonDropdown.vue';
 
 export default {
   components: {
-    Dropdown,
+    ButtonDropdown,
     FiatValue,
-    TokenAvatarAndSymbol,
   },
   props: {
     min: { type: Number, default: 0 },
@@ -73,7 +54,6 @@ export default {
     selectedToken: null,
   }),
   computed: {
-    ...mapGetters(['roundedTokenAmount']),
     ...mapState(['tokenInfo']),
     ...mapState({
       selectTokenOptions: ({ tokenBalances, balance }) => [
@@ -96,16 +76,23 @@ export default {
     },
   },
   mounted() {
-    this.selectToken(this.selectTokenOptions.find((t) => t.token === this.token));
+    this.setToken(this.selectTokenOptions.find((t) => t.token === this.token));
   },
   methods: {
-    selectToken(selected) {
+    async selectToken() {
+      const token = await this.$store.dispatch('modals/open', {
+        name: 'token-select',
+        reference: this.$el,
+        tokens: this.selectTokenOptions,
+        inEnd: true,
+      });
+      if (!token) return;
+      this.setToken(token);
+    },
+    setToken(selected) {
       if (this.noDropdown) return;
       this.selectedToken = selected.token;
       this.selectTokenF(this.selectedToken);
-    },
-    showTokenAmount(amount, token) {
-      return this.roundedTokenAmount(amount || 0, token);
     },
   },
 };
@@ -134,35 +121,6 @@ export default {
 
   .symbol {
     color: $secondary_color;
-  }
-
-  .token-option {
-    display: flex;
-    align-items: center;
-    min-width: 12rem;
-    max-width: 15rem;
-
-    > div:first-child {
-      flex-grow: 1;
-    }
-
-    .tokens-amount {
-      color: $tip-note-color;
-      flex-shrink: 0;
-    }
-  }
-
-  .dropdown::v-deep {
-    border-radius: 50%;
-
-    > button {
-      background-color: transparent;
-      height: 2.1rem;
-    }
-
-    .modal-content {
-      margin-top: 0.25rem;
-    }
   }
 }
 </style>

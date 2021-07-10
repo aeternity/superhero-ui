@@ -3,6 +3,7 @@ import { registerModal } from '../store/plugins/modals';
 import AlertModal from '../components/AlertModal.vue';
 import ImageGallery from '../components/ImageGallery.vue';
 import UserPopup from '../components/UserPopup.vue';
+import FeedItemMenu from '../components/FeedItemMenu.vue';
 
 export default () => {
   registerModal({ name: 'success', component: AlertModal });
@@ -20,5 +21,9 @@ export default () => {
   registerModal({
     name: 'user-popup',
     component: UserPopup,
+  });
+  registerModal({
+    name: 'feed-item-menu',
+    component: FeedItemMenu,
   });
 };

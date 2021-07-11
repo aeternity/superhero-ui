@@ -18,7 +18,7 @@ export default {
   components: { TipUrlDetails },
   inheritAttrs: false,
   props: {
-    image: { type: String, required: true },
+    image: { type: String, default: defaultImage },
   },
   data: () => ({ defaultImage }),
 };

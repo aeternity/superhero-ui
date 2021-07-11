@@ -58,7 +58,6 @@ import Author from './Author.vue';
 import TipUrlDetails from './TipUrlDetails.vue';
 import Avatar from '../Avatar.vue';
 import TipInput from '../TipInput.vue';
-import defaultImage from '../../assets/defaultImg.svg';
 
 export default {
   components: {
@@ -76,7 +75,6 @@ export default {
     tip: { type: Object, required: true },
     tipUrl: { type: String, default: '' },
   },
-  data: () => ({ defaultImage }),
   computed: {
     sourceUrl() {
       try {
@@ -92,7 +90,8 @@ export default {
       return this.tip?.linkPreview?.title || '';
     },
     tipPreviewImage() {
-      return this.isPreviewToBeVisualized && this.tip.linkPreview.image !== null ? Backend.getTipPreviewUrl(this.tip.linkPreview.image) : '';
+      return this.isPreviewToBeVisualized && this.tip.linkPreview.image
+        && Backend.getTipPreviewUrl(this.tip.linkPreview.image);
     },
     isPreviewToBeVisualized() {
       return this.tip.linkPreview?.description || this.tip.linkPreview?.title;

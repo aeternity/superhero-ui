@@ -18,7 +18,7 @@ export default {
   props: {
     tipPreviewTitle: { type: String, required: true },
     tipPreviewDescription: { type: String, required: true },
-    tipPreviewImage: { type: String, default: '' },
+    tipPreviewImage: { type: String, required: true },
     sourceUrl: { type: String, default: '' },
   },
 };

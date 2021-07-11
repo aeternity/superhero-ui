@@ -42,7 +42,7 @@ export default {
     tipUrl: { type: String, required: true },
     tipPreviewTitle: { type: String, required: true },
     tipPreviewDescription: { type: String, required: true },
-    tipPreviewImage: { type: String, default: '' },
+    tipPreviewImage: { type: String, required: true },
     sourceUrl: { type: String, default: '' },
   },
   data() {

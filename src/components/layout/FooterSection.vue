@@ -41,6 +41,9 @@
       <a :href="`https://github.com/aeternity/superhero-ui/commit/${commitHash}`">
         {{ commitHash.slice(0, 7) }}
       </a>
+      <template v-if="ssrTime">
+        / {{ ssrTime }}s
+      </template>
       / {{ version }}
     </div>
 
@@ -73,7 +76,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import ClientOnly from 'vue-client-only';
 import { createDeepLinkUrl } from '../../utils';
 import OutlinedButton from '../OutlinedButton.vue';
@@ -89,6 +92,12 @@ export default {
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
+    ...mapState({
+      ssrTime({ ssrTime, route }) {
+        if (this.$context.isServer) return ssrTime;
+        return !+ssrTime || route.from.name ? '' : ssrTime;
+      },
+    }),
     addressDeepLink() {
       return createDeepLinkUrl({
         type: 'address',

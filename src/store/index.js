@@ -31,6 +31,7 @@ export default () => new Vuex.Store({
     isHiddenContent: true,
     cookiesConsent: {},
     middleware: null,
+    ssrTime: 'SH_SSR_TIME',
   },
   mutations,
   actions: {

@@ -6,6 +6,7 @@ export default {
       path: path.join(__dirname, 'public', '500-error.html'),
     }],
     '@uvue/server/plugins/static',
+    './src/utils/uvueSsrTimePlugin',
   ],
   externalsWhitelist: ['lodash-es', /^@aeternity\/aepp-sdk\/es/],
 };

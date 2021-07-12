@@ -8,6 +8,7 @@ import VueMeta from 'vue-meta';
 import VueTimeago from 'vue-timeago';
 import formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import fetch from 'node-fetch';
+import LruCache from 'lru-cache';
 import App from './App.vue';
 import createStore from './store';
 import setupClientState from './store/plugins/setupClientState';
@@ -16,7 +17,26 @@ import i18n from './utils/i18nHelper';
 import registerModals from './views/modals';
 
 if (process.env.VUE_CLI_SSR) {
-  global.fetch = fetch;
+  const cache = new LruCache({
+    max: 1000,
+    maxAge: 1000 * 60 * 15,
+  });
+
+  const urlsToCache = [
+    '/cache/price',
+    '/tips/topics',
+    '/cache/chainnames',
+  ].map((path) => process.env.VUE_APP_BACKEND_URL + path);
+
+  global.fetch = async (url, ...args) => {
+    if (urlsToCache.includes(url)) {
+      if (cache.get(url)) return cache.get(url).clone();
+      const res = await fetch(url, ...args);
+      cache.set(url, res.clone());
+      return res;
+    }
+    return fetch(url, ...args);
+  };
 }
 
 Vue.use(VueRouter);

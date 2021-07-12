@@ -43,6 +43,7 @@
     "is-fqdn": "^2.0.1",
     "jitsi-iframe-api": "^1.0.0",
     "lodash-es": "^4.17.21",
+    "lru-cache": "^6.0.0",
     "node-fetch": "^2.6.1",
     "normalize.css": "^8.0.1",
     "serve-static": "^1.14.1",

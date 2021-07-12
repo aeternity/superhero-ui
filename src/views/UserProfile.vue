@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Backend from '../utils/backend';
+import { mapState } from 'vuex';
 import backendAuthMixin from '../utils/backendAuthMixin';
 import ListOfTipsAndComments from '../components/ListOfTipsAndComments.vue';
 import BackButtonRibbon from '../components/BackButtonRibbon.vue';
@@ -26,11 +26,11 @@ export default {
   props: {
     address: { type: String, required: true },
   },
-  data: () => ({ name: null }),
-  async mounted() {
-    const { preferredChainName } = await Backend.getProfile(this.address);
-    this.name = preferredChainName || this.$t('FellowSuperhero');
-  },
+  computed: mapState({
+    name({ chainNames }) {
+      return chainNames[this.address] || this.$t('FellowSuperhero');
+    },
+  }),
   metaInfo() {
     return { title: this.name };
   },

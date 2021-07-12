@@ -7,7 +7,7 @@
     <Avatar :address="address" />
     <div class="author-name">
       <span class="chain-name">
-        {{ name ? name : $t('FellowSuperhero') }}
+        {{ name }}
       </span>
       <span class="address">
         {{ address }}
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Backend from '../../utils/backend';
+import { mapState } from 'vuex';
 import Avatar from '../Avatar.vue';
 
 export default {
@@ -25,11 +25,12 @@ export default {
   props: {
     address: { type: String, required: true },
   },
-  data: () => ({ popupBound: false, name: null }),
-  async mounted() {
-    const profile = await Backend.getProfile(this.address);
-    this.name = profile ? profile.preferredChainName : null;
-  },
+  data: () => ({ popupBound: false }),
+  computed: mapState({
+    name({ chainNames }) {
+      return chainNames[this.address] || this.$t('FellowSuperhero');
+    },
+  }),
   methods: {
     async mouseEnterHandler() {
       if (this.popupBound) return;

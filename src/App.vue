@@ -109,7 +109,7 @@ export default {
     },
   },
   metaInfo: {
-    titleTemplate: '%s - Superhero.com',
+    titleTemplate: (pageTitle) => (pageTitle ? `${pageTitle} - Superhero.com` : 'Superhero.com'),
   },
 };
 </script>

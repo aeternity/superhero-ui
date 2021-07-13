@@ -36,6 +36,10 @@ export default {
   img {
     width: 35%;
     object-fit: cover;
+
+    @include smallest {
+      max-height: 150px;
+    }
   }
 
   .tip-url-details {

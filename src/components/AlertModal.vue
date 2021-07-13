@@ -16,12 +16,9 @@
         >
           {{ row }}
         </p>
-        <button
-          class="button"
-          @click="resolve"
-        >
+        <AeButton @click="resolve">
           {{ primaryButtonText }}
-        </button>
+        </AeButton>
       </div>
     </div>
   </div>
@@ -30,8 +27,10 @@
 <script>
 import SuccessIcon from '../assets/verifiedUrl.svg';
 import FailureIcon from '../assets/iconError.svg';
+import AeButton from './AeButton.vue';
 
 export default {
+  components: { AeButton },
   props: {
     title: { type: String, required: true },
     body: { type: [String, Array], required: true },
@@ -90,18 +89,6 @@ export default {
       color: $standard_font_color;
       font-size: 1rem;
       font-weight: 500;
-    }
-
-    .button {
-      background-color: $secondary_color;
-      border: none;
-      border-radius: 0.25rem;
-      color: $standard_font_color;
-      font-size: 0.75rem;
-      font-weight: 700;
-      justify-self: center;
-      line-height: 1.125;
-      padding: 0.65rem 1rem;
     }
   }
 }

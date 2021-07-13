@@ -6,6 +6,7 @@ import UserPopup from '../components/UserPopup.vue';
 import FeedItemMenu from '../components/FeedItemMenu.vue';
 import TokenSelect from '../components/TokenSelect.vue';
 import TipInputPopup from '../components/TipInputPopup.vue';
+import CookiesDialog from '../components/CookiesDialog.vue';
 
 export default () => {
   registerModal({ name: 'success', component: AlertModal });
@@ -35,5 +36,9 @@ export default () => {
   registerModal({
     name: 'tip-input-popup',
     component: TipInputPopup,
+  });
+  registerModal({
+    name: 'cookies-dialog',
+    component: CookiesDialog,
   });
 };

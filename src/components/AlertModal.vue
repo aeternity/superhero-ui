@@ -1,25 +1,23 @@
 <template>
   <div
-    class="modal-mask"
-    @click="resolve"
+    class="alert-modal"
+    @click.self="resolve"
   >
-    <div class="modal-wrapper">
-      <div class="success-modal">
-        <img
-          v-if="!hideIcon"
-          :src="failure ? FailureIcon : SuccessIcon"
-        >
-        <h1>{{ title }}</h1>
-        <p
-          v-for="(row, index) in body instanceof Array ? body : [body]"
-          :key="index"
-        >
-          {{ row }}
-        </p>
-        <AeButton @click="resolve">
-          {{ primaryButtonText }}
-        </AeButton>
-      </div>
+    <div class="content">
+      <img
+        v-if="!hideIcon"
+        :src="failure ? FailureIcon : SuccessIcon"
+      >
+      <h1>{{ title }}</h1>
+      <p
+        v-for="(row, index) in body instanceof Array ? body : [body]"
+        :key="index"
+      >
+        {{ row }}
+      </p>
+      <AeButton @click="resolve">
+        {{ primaryButtonText }}
+      </AeButton>
     </div>
   </div>
 </template>
@@ -35,40 +33,36 @@ export default {
     title: { type: String, required: true },
     body: { type: [String, Array], required: true },
     resolve: { type: Function, required: true },
-    failure: { type: Boolean },
-    hideIcon: { type: Boolean },
+    failure: Boolean,
+    hideIcon: Boolean,
     primaryButtonText: {
       type: String,
       default() { return this.$t('done'); },
     },
   },
-  data() {
-    return {
-      SuccessIcon,
-      FailureIcon,
-    };
-  },
+  data: () => ({
+    SuccessIcon,
+    FailureIcon,
+  }),
 };
 </script>
 
 <style lang="scss" scoped>
-.modal-mask {
-  vertical-align: middle;
-  padding-top: 5rem;
+.alert-modal {
   position: fixed;
   z-index: 9998;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  display: table;
+  display: flex;
   background-color: rgba(0, 0, 0, 0.5);
 
-  .success-modal {
+  .content {
     text-align: center;
     width: 25rem;
-    margin: 0 auto;
-    padding: 2.5rem 2.5rem;
+    margin: auto;
+    padding: 2.5rem;
     background-color: $actions_ribbon_background_color;
     border-radius: 0.25rem;
     border: 1px solid $card_border_color;

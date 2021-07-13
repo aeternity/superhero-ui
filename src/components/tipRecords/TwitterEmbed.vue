@@ -38,11 +38,15 @@ export default {
     object-fit: cover;
   }
 
-  .tip-url-details ::v-deep .description {
-    @include truncate-overflow-mx(6);
+  .tip-url-details {
+    min-width: 0;
 
-    @include mobile {
-      @include truncate-overflow-mx(3);
+    ::v-deep .description {
+      @include truncate-overflow-mx(6);
+
+      @include mobile {
+        @include truncate-overflow-mx(3);
+      }
     }
   }
 }

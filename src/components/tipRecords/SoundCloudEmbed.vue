@@ -68,6 +68,8 @@ export default {
   }
 
   .tip-url-details {
+    min-width: 0;
+
     ::v-deep .description {
       @include truncate-overflow-mx(3);
     }

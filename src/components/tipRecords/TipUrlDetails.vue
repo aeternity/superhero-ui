@@ -4,7 +4,7 @@
       {{ source }}
     </div>
     <h2
-      class="title text-ellipsis"
+      class="title"
       :title="title"
     >
       {{ title }}
@@ -47,6 +47,8 @@ export default {
     margin: 0 0 0.15rem 0;
     color: $tip_note_color;
     line-height: 0.9rem;
+
+    @include text-ellipsis;
   }
 
   .description {

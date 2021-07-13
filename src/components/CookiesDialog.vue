@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="cookies-dialog"
-    @click.stop
-  >
+  <div class="cookies-dialog">
     <ButtonPlain
       class="button-cancel"
       @click="$emit('close', $event)"
@@ -55,7 +52,6 @@ export default {
   border: 1px solid $article_content_color;
   border-radius: 0.25rem;
   padding: 0.9rem;
-  cursor: default;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;

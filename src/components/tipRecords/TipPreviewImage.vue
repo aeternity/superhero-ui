@@ -1,23 +1,27 @@
 <template>
-  <div class="tip-preview-image">
+  <Link
+    class="tip-preview-image"
+    :to="tipUrl"
+  >
     <img
       :src="image"
       loading="lazy"
       @error="$event.target.src = defaultImage"
     >
     <TipUrlDetails v-bind="$attrs" />
-    <slot />
-  </div>
+  </Link>
 </template>
 
 <script>
+import Link from '../Link.vue';
 import TipUrlDetails from './TipUrlDetails.vue';
 import defaultImage from '../../assets/defaultImg.svg';
 
 export default {
-  components: { TipUrlDetails },
+  components: { Link, TipUrlDetails },
   inheritAttrs: false,
   props: {
+    tipUrl: { type: String, required: true },
     image: { type: String, default: defaultImage },
   },
   data: () => ({ defaultImage }),
@@ -27,6 +31,7 @@ export default {
 <style lang="scss" scoped>
 .tip-preview-image {
   background: #000;
+  display: block;
   position: relative;
 
   img {

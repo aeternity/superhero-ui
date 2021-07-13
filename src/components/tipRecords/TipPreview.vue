@@ -11,6 +11,7 @@
     />
     <TipPreviewImage
       v-else-if="isPreviewToBeVisualized"
+      :tip-url="tipUrl"
       :image="tipPreviewImage"
       :source="sourceUrl"
       :title="tipPreviewTitle"
@@ -30,13 +31,9 @@
       </div>
     </TipUrlDetails>
 
-    <div
-      class="actions"
-      @click.stop
-    >
+    <div class="actions">
       <TipInput :tip="tip" />
       <a
-        v-if="tipUrl"
         target="_blank"
         :href="tipUrl"
       >
@@ -117,14 +114,26 @@ export default {
   background-color: $thumbnail_background_color_alt;
   border-radius: 0.5rem;
   font-size: 0.75rem;
-  cursor: pointer;
   color: #babac0;
   line-height: 1.1rem;
-  overflow: hidden;
 
   &:hover {
     background-color: #373843;
     color: #c6c6cc;
+  }
+
+  // TODO: add `overflow: hidden` after making dropdowns appearing in a separate node
+  // to don't duplicate border-radius, and better margins
+  ::v-deep .tip-preview-image,
+  ::v-deep .tip-preview-image > img,
+  ::v-deep .you-tube-embed > iframe, {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+
+  ::v-deep .sound-cloud-embed > img,
+  ::v-deep .twitter-embed > img {
+    border-top-left-radius: 0.5rem;
   }
 
   .no-preview {
@@ -135,7 +144,7 @@ export default {
     display: flex;
     align-items: center;
     margin-top: 0.25rem;
-    margin-bottom: 0.2rem;
+    padding-bottom: 0.2rem; // TODO: replace with margin after adding `overflow: hidden`
 
     .tip-input {
       flex-shrink: 0;

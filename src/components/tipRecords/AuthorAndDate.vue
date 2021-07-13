@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="author-and-date"
-    @click.stop
-  >
+  <div class="author-and-date">
     <Author :address="address" />
     <span class="right">
       <FormatDate v-bind="$attrs" />

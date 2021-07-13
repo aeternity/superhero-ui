@@ -1,5 +1,9 @@
 <template>
-  <div class="twitter-embed">
+  <a
+    class="twitter-embed"
+    :href="tipUrl"
+    target="_blank"
+  >
     <img :src="tipPreviewImage">
 
     <TipUrlDetails
@@ -7,7 +11,7 @@
       :title="tipPreviewTitle"
       :description="tipPreviewDescription"
     />
-  </div>
+  </a>
 </template>
 
 <script>
@@ -19,6 +23,7 @@ export default {
     tipPreviewTitle: { type: String, required: true },
     tipPreviewDescription: { type: String, required: true },
     tipPreviewImage: { type: String, required: true },
+    tipUrl: { type: String, required: true },
     sourceUrl: { type: String, default: '' },
   },
 };
@@ -31,13 +36,21 @@ export default {
   img {
     width: 35%;
     object-fit: cover;
+
+    @include smallest {
+      max-height: 150px;
+    }
   }
 
-  .tip-url-details ::v-deep .description {
-    @include truncate-overflow-mx(6);
+  .tip-url-details {
+    min-width: 0;
 
-    @include mobile {
-      @include truncate-overflow-mx(3);
+    ::v-deep .description {
+      @include truncate-overflow-mx(6);
+
+      @include mobile {
+        @include truncate-overflow-mx(3);
+      }
     }
   }
 }

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="sound-cloud-embed"
-    :class="{ 'dialog-inside': showCookiesDialog && !isAllowed }"
-  >
+  <div class="sound-cloud-embed">
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
       scope="SoundCloud"
@@ -14,14 +11,17 @@
       :title="tipPreviewTitle"
       :description="tipPreviewDescription"
     >
+      <a
+        :href="tipUrl"
+        target="_blank"
+      />
       <PlayButton
         v-if="!isPlaying"
-        @click.stop="isAllowed ? isPlaying = true : showCookiesDialog = true"
+        @click="isAllowed ? isPlaying = true : showCookiesDialog = true"
       />
       <SoundCloudPlayer
         v-else-if="isPlaying && isAllowed"
         :tip-url="tipUrl"
-        @click.stop
       />
     </TipUrlDetails>
   </div>
@@ -60,18 +60,37 @@ export default {
 <style lang="scss" scoped>
 .sound-cloud-embed {
   display: flex;
-
-  &.dialog-inside {
-    position: relative;
-  }
+  position: relative;
 
   img {
     width: 35%;
     object-fit: cover;
+
+    @include smallest {
+      max-height: 150px;
+    }
   }
 
-  .tip-url-details ::v-deep .description {
-    @include truncate-overflow-mx(3);
+  .tip-url-details {
+    min-width: 0;
+
+    ::v-deep .description {
+      @include truncate-overflow-mx(3);
+    }
+
+    a::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    .play-button,
+    .sound-cloud-player {
+      position: relative;
+    }
   }
 }
 </style>

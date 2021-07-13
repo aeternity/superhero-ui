@@ -1,67 +1,60 @@
 <template>
   <div
-    class="tip-record row"
+    class="tip-record"
     @click="goToTip"
   >
-    <div class="tip-body">
-      <div class="tip-description">
-        <AuthorAndDate
-          :date="tip.timestamp"
-          :address="tip.sender"
+    <AuthorAndDate
+      :date="tip.timestamp"
+      :address="tip.sender"
+    >
+      <ThreeDotsMenu v-if="address">
+        <ButtonPlain @click="sendReport">
+          {{ $t('components.tipRecords.TipRecord.reportPost') }}
+        </ButtonPlain>
+        <ButtonPlain
+          v-if="tip.type === 'AE_TIP'"
+          @click="claim"
         >
-          <ThreeDotsMenu v-if="address">
-            <ButtonPlain @click="sendReport">
-              {{ $t('components.tipRecords.TipRecord.reportPost') }}
-            </ButtonPlain>
-            <ButtonPlain
-              v-if="tip.type === 'AE_TIP'"
-              @click="claim"
-            >
-              {{ $t('components.tipRecords.TipRecord.claim') }}
-            </ButtonPlain>
-            <ButtonPlain @click="pinOrUnPinTip">
-              {{
-                isTipPinned ?
-                  $t('components.tipRecords.TipRecord.UnPin')
-                  : $t('components.tipRecords.TipRecord.Pin')
-              }}
-            </ButtonPlain>
-          </ThreeDotsMenu>
-        </AuthorAndDate>
-      </div>
-      <div class="tip-note">
-        <TipTitle :tip-title="tip.title" />
-        <TipMedia
-          v-if="tip.media && tip.media.length"
-          :media="tip.media"
-        />
-      </div>
-      <TipPreview
-        v-if="tipUrl || tip.receiver"
-        :tip="tip"
-        :go-to-tip="goToTip"
-        :tip-url="tipUrl"
+          {{ $t('components.tipRecords.TipRecord.claim') }}
+        </ButtonPlain>
+        <ButtonPlain @click="pinOrUnPinTip">
+          {{
+            isTipPinned ?
+              $t('components.tipRecords.TipRecord.UnPin')
+              : $t('components.tipRecords.TipRecord.Pin')
+          }}
+        </ButtonPlain>
+      </ThreeDotsMenu>
+    </AuthorAndDate>
+    <TipTitle :tip-title="tip.title" />
+    <TipMedia
+      v-if="tip.media && tip.media.length"
+      :media="tip.media"
+    />
+    <TipPreview
+      v-if="tipUrl || tip.receiver"
+      :tip="tip"
+      :tip-url="tipUrl"
+    />
+    <div
+      class="actions"
+      @click.stop
+    >
+      <TipInput
+        v-if="tip.type === 'POST_WITHOUT_TIP'"
+        :tip="{ ...tip, url: `https://superhero.com/tip/${tip.id}` }"
       />
-      <div
-        class="tip-footer"
-        @click.stop
+      <span v-else />
+      <ButtonFeed
+        :disabled="detailed"
+        @click.stop="$router.push(toTip)"
       >
-        <TipInput
-          v-if="tip.type === 'POST_WITHOUT_TIP'"
-          :tip="{ ...tip, url: `https://superhero.com/tip/${tip.id}` }"
-        />
-        <span v-else />
-        <ButtonFeed
-          :disabled="detailed"
-          @click.stop="$router.push(toTip)"
-        >
-          <IconComment slot="icon" />
-          {{ tip.commentCount }}
-        </ButtonFeed>
-        <ButtonFeed v-if="UNFINISHED_FEATURES">
-          <IconShare slot="icon" />
-        </ButtonFeed>
-      </div>
+        <IconComment slot="icon" />
+        {{ tip.commentCount }}
+      </ButtonFeed>
+      <ButtonFeed v-if="UNFINISHED_FEATURES">
+        <IconShare slot="icon" />
+      </ButtonFeed>
     </div>
   </div>
 </template>
@@ -157,7 +150,7 @@ export default {
       await this.$store.dispatch('updatePinnedItems');
     },
     goToTip() {
-      if (this.$route.params.tipId === this.tip.id) {
+      if (this.detailed) {
         return this.tipUrl ? window.open(this.tipUrl) : null;
       }
       return this.$router.push(this.toTip);
@@ -169,76 +162,23 @@ export default {
 <style lang="scss" scoped>
 .tip-record {
   background-color: $light_color;
-  margin: 0 0 0.15rem 0;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.tip-body {
-  padding-top: 1rem;
-  width: 100%;
-
-  .tip-description .author-and-date {
-    padding-left: 1rem;
-    padding-right: 1rem;
-
-    .date .three-dots-menu {
-      font-size: 0.75rem;
-      margin-left: 0.3rem;
-    }
-  }
-}
-
-.tip-note {
-  padding: 0 1rem;
-}
-
-.tip-footer {
-  padding: 0.75rem 1rem 0.75rem;
-  display: flex;
-  cursor: default;
-  justify-content: space-between;
-
-  &::after {
-    content: '';
-  }
+  padding: 1rem 1rem 0.75rem 1rem;
+  margin-bottom: 0.15rem;
+  cursor: pointer;
 
   @include smallest {
-    padding: 0.85rem 0 0 0;
-  }
-}
-
-@include mobile {
-  .tip-record {
-    position: relative;
-  }
-}
-
-@include smallest {
-  .tip-body {
-    padding: 0;
-  }
-
-  .tip-record {
-    margin-bottom: 0.5rem;
     padding: 0.5rem;
-    position: relative;
-
-    .tip-body .tip-description .author-and-date ::v-deep {
-      padding-left: 0;
-      padding-right: 0;
-
-      img {
-        height: 1.5rem;
-        width: 1.5rem;
-      }
-    }
+    margin-bottom: 0.5rem;
   }
 
-  .tip-note {
-    padding: 0;
+  .actions {
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+
+    &::after {
+      content: '';
+    }
   }
 }
 </style>

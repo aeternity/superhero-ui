@@ -51,12 +51,10 @@ export default {
 .cookies-dialog {
   position: absolute;
   z-index: 9;
-  left: -4%;
   background-color: $buttons_background;
   border: 1px solid $article_content_color;
   border-radius: 0.25rem;
-  width: 108%;
-  padding: 1rem;
+  padding: 0.9rem;
   cursor: default;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
   display: flex;
@@ -80,8 +78,7 @@ export default {
   }
 
   .info {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding: 0.8rem 0;
     text-align: center;
   }
 
@@ -92,7 +89,7 @@ export default {
     color: $secondary_color;
     padding: 0.35rem 0.7rem;
     background-color: $buttons_background;
-    margin: 0.5rem 0.5rem 0.5rem 0;
+    margin: 0.5rem 0.5rem 0 0;
 
     &:hover {
       background-color: #1161fe50;

@@ -1,53 +1,48 @@
 <template>
-  <div class="sound-cloud-player tip-two-columns-preview">
+  <div
+    class="sound-cloud-embed"
+    :class="{ 'dialog-inside': showCookiesDialog && !isAllowed }"
+  >
     <CookiesDialog
       v-if="showCookiesDialog && !isAllowed"
       scope="SoundCloud"
       @close="showCookiesDialog = false"
     />
-    <div class="tip-two-columns-img">
-      <img :src="tipPreviewImage">
-    </div>
-    <div class="tip-two-columns-info">
-      <div class="source">
-        {{ sourceUrl.toUpperCase() }}
-      </div>
-      <h2 class="title text-ellipsis">
-        {{ tipPreviewTitle }}
-      </h2>
-      <div
-        class="description"
-        :title="tipPreviewDescription"
-      >
-        {{ tipPreviewDescription }}
-      </div>
+    <img :src="tipPreviewImage">
+    <TipUrlDetails
+      :source="sourceUrl"
+      :title="tipPreviewTitle"
+      :description="tipPreviewDescription"
+    >
       <PlayButton
         v-if="!isPlaying"
-        :is-playing="isPlaying"
         @click.stop="isAllowed ? isPlaying = true : showCookiesDialog = true"
       />
       <SoundCloudPlayer
         v-else-if="isPlaying && isAllowed"
-        :tip="tip"
+        :tip-url="tipUrl"
         @click.stop
       />
-    </div>
+    </TipUrlDetails>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import SoundCloudPlayer from './SoundCloudPlayer.vue';
+import TipUrlDetails from './TipUrlDetails.vue';
 import PlayButton from '../PlayButton.vue';
 import CookiesDialog from '../CookiesDialog.vue';
 
 export default {
-  components: { SoundCloudPlayer, PlayButton, CookiesDialog },
+  components: {
+    SoundCloudPlayer, TipUrlDetails, PlayButton, CookiesDialog,
+  },
   props: {
-    tip: { type: Object, required: true },
+    tipUrl: { type: String, required: true },
     tipPreviewTitle: { type: String, required: true },
     tipPreviewDescription: { type: String, required: true },
-    tipPreviewImage: { type: String, default: '' },
+    tipPreviewImage: { type: String, required: true },
     sourceUrl: { type: String, default: '' },
   },
   data() {
@@ -63,12 +58,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sound-cloud-player {
-  height: 100%;
-  position: relative;
-}
+.sound-cloud-embed {
+  display: flex;
 
-.description {
-  @include truncate-overflow-mx(3);
+  &.dialog-inside {
+    position: relative;
+  }
+
+  img {
+    width: 35%;
+    object-fit: cover;
+  }
+
+  .tip-url-details ::v-deep .description {
+    @include truncate-overflow-mx(3);
+  }
 }
 </style>

@@ -166,32 +166,8 @@ export default {
   font-size: 0.75rem;
 
   .record {
-    &.tip-record {
-      margin-bottom: 0;
-      background-color: $thumbnail_background_color;
-
-      ::v-deep .tip-body .tip-article {
-        background-color: $thumbnail_background_color_alt;
-
-        .preview-image {
-          background-color: $thumbnail_background_color_alt;
-        }
-
-        &:hover {
-          background-color: #373843;
-
-          .preview-image {
-            background-color: #373843;
-          }
-        }
-      }
-    }
-
-    &.tip-comment {
-      background-color: $thumbnail_background_color;
-      border-radius: 0;
-      margin-bottom: 0;
-    }
+    margin-bottom: 0;
+    background-color: $thumbnail_background_color;
   }
 
   .comments-section {

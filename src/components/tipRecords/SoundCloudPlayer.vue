@@ -1,6 +1,6 @@
 <template>
   <div
-    class="soundcloud-player"
+    class="sound-cloud-player"
     @click.stop
   >
     <iframe
@@ -9,12 +9,17 @@
       :src="playUrl"
     />
     <PlayButton
+      v-if="loading || duration"
       class="play-button"
       :is-playing="isPlaying"
       :loading="loading"
       @click.stop="togglePlay"
     />
+    <template v-else>
+      Playback error
+    </template>
     <div
+      v-if="duration"
       ref="soundWave"
       class="sound-wave"
       @click="seekToPosition"
@@ -65,7 +70,7 @@ export default {
     },
   },
   props: {
-    tip: { type: Object, required: true },
+    tipUrl: { type: String, required: true },
   },
   data() {
     return {
@@ -79,7 +84,7 @@ export default {
   },
   computed: {
     playUrl() {
-      return `https://w.soundcloud.com/player/?url=${this.tip.url}`;
+      return `https://w.soundcloud.com/player/?url=${this.tipUrl}`;
     },
     waveProgress() {
       return { width: `${this.position}%`, 'background-size': `${(1 / this.position) * 10000}% 100%` };
@@ -89,10 +94,10 @@ export default {
     this.player = new SoundcloudWidget(this.$refs.iframe);
     const soundcloudEvents = SoundcloudWidget.events;
 
-    this.player.on(soundcloudEvents.READY, () => {
-      this.loading = false;
+    this.player.on(soundcloudEvents.READY, async () => {
+      this.duration = await this.player.getDuration();
       this.player.play();
-      this.player.getDuration().then((d) => { this.duration = d || 0; });
+      this.loading = false;
     });
     this.player.on(soundcloudEvents.PLAY, () => {
       this.isPlaying = true;
@@ -125,7 +130,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.soundcloud-player {
+.sound-cloud-player {
   display: flex;
   align-items: center;
 

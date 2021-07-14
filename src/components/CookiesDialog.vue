@@ -49,6 +49,9 @@ export default {
     this.popper = createPopper(this.reference, this.$el, {
       placement: 'bottom-start',
       modifiers: [{
+        name: 'flip',
+        enabled: false,
+      }, {
         name: 'sameWidth',
         enabled: true,
         phase: 'beforeWrite',

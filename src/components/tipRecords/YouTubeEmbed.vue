@@ -1,10 +1,5 @@
 <template>
   <div class="you-tube-embed">
-    <CookiesDialog
-      v-if="showCookiesDialog && !isAllowed"
-      scope="YouTube"
-      @close="showCookiesDialog = false"
-    />
     <iframe
       v-if="isPlaying && isAllowed"
       :src="`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`"
@@ -26,7 +21,13 @@
         :description="tipPreviewDescription"
       />
       <PlayButton
-        @click="isAllowed ? isPlaying = true : showCookiesDialog = true"
+        @click="isAllowed
+          ? isPlaying = true
+          : $store.dispatch('modals/open', {
+            name: 'cookies-dialog',
+            reference: $el,
+            scope: 'YouTube',
+          })"
       />
     </template>
   </div>
@@ -35,11 +36,10 @@
 <script>
 import { mapState } from 'vuex';
 import PlayButton from '../PlayButton.vue';
-import CookiesDialog from '../CookiesDialog.vue';
 import TipPreviewImage from './TipPreviewImage.vue';
 
 export default {
-  components: { PlayButton, CookiesDialog, TipPreviewImage },
+  components: { PlayButton, TipPreviewImage },
   props: {
     tipUrl: { type: String, required: true },
     tipPreviewTitle: { type: String, default: '' },
@@ -48,7 +48,6 @@ export default {
   },
   data: () => ({
     isPlaying: false,
-    showCookiesDialog: false,
   }),
   computed: {
     videoId() {

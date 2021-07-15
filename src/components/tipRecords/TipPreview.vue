@@ -116,24 +116,11 @@ export default {
   font-size: 0.75rem;
   color: #babac0;
   line-height: 1.1rem;
+  overflow: hidden;
 
   &:hover {
     background-color: #373843;
     color: #c6c6cc;
-  }
-
-  // TODO: add `overflow: hidden` after making dropdowns appearing in a separate node
-  // to don't duplicate border-radius, and better margins
-  ::v-deep .tip-preview-image,
-  ::v-deep .tip-preview-image > img,
-  ::v-deep .you-tube-embed > iframe, {
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-  }
-
-  ::v-deep .sound-cloud-embed > img,
-  ::v-deep .twitter-embed > img {
-    border-top-left-radius: 0.5rem;
   }
 
   .no-preview {
@@ -144,7 +131,7 @@ export default {
     display: flex;
     align-items: center;
     margin-top: 0.25rem;
-    padding-bottom: 0.2rem; // TODO: replace with margin after adding `overflow: hidden`
+    margin-bottom: 0.2rem;
 
     .tip-input {
       flex-shrink: 0;

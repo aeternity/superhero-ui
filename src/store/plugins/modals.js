@@ -45,6 +45,10 @@ export default (store) => {
     ({ route }) => route,
     () => store.state.modals.opened
       .filter(({ name, allowRedirect }) => !modals[name].allowRedirect && !allowRedirect)
+      .filter(({ name, props: { resolve } }) => {
+        if (modals[name].resolveNullOnRedirect) resolve(null);
+        return !modals[name].resolveNullOnRedirect;
+      })
       .forEach(({ props: { reject } }) => reject(new Error('User navigated outside'))),
   );
 };

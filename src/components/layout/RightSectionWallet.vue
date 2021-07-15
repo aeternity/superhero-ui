@@ -20,22 +20,16 @@
         {{ address }}
       </div>
       <div class="row">
-        <Dropdown
+        <ButtonDropdown
           v-if="hasContractV2Address"
-          :options="tokenBalancesOptions"
-          :method="selectToken"
-          :selected="aeternityTokenData.token"
+          ref="tokensOpener"
+          @click="selectToken"
         >
-          <template #displayValue>
-            <AeAmount
-              :amount="(selectedToken || aeternityTokenData).balance"
-              :token="(selectedToken || aeternityTokenData).token"
-            />
-          </template>
-          <template #default="{ option }">
-            <TokenAvatarAndSymbol :address="option.token" />
-          </template>
-        </Dropdown>
+          <AeAmount
+            :amount="(selectedToken || aeternityTokenData).balance"
+            :token="(selectedToken || aeternityTokenData).token"
+          />
+        </ButtonDropdown>
         <AeAmount
           v-else
           :amount="balance"
@@ -90,17 +84,17 @@ import AeAmount from '../AeAmount.vue';
 import Dropdown from '../Dropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
 import OutlinedButton from '../OutlinedButton.vue';
-import TokenAvatarAndSymbol from '../fungibleTokens/TokenAvatarAndSymbol.vue';
 import FiatValue from '../FiatValue.vue';
+import ButtonDropdown from '../ButtonDropdown.vue';
 
 export default {
   components: {
+    ButtonDropdown,
     FiatValue,
     RightSectionTitle,
     AeAmount,
     Dropdown,
     OutlinedButton,
-    TokenAvatarAndSymbol,
   },
   props: { closed: Boolean },
   data: () => ({
@@ -139,10 +133,10 @@ export default {
           const wordAddress = this.wordRegistry.find((w) => w.word === word).tokenAddress;
           const option = this.tokenBalancesOptions.find((t) => t.token === wordAddress);
           if (option) {
-            this.selectToken(option);
+            this.setToken(option);
           }
         } else {
-          this.selectToken(null);
+          this.setToken(null);
         }
       },
     },
@@ -150,7 +144,16 @@ export default {
   methods: {
     ...mapMutations(['updateCurrency']),
     ...mapMutations('aeternity', ['enableIframeWallet']),
-    selectToken(option) {
+    async selectToken() {
+      const token = await this.$store.dispatch('modals/open', {
+        name: 'token-select',
+        reference: this.$refs.tokensOpener.$el,
+        tokens: this.tokenBalancesOptions,
+      });
+      if (!token) return;
+      this.setToken(token === this.aeternityTokenData ? null : token);
+    },
+    setToken(option) {
       this.selectedToken = option;
       this.showCurrencyDropdown = option === null
         || (!!this.tokenPrices[option?.token] && !!this.tokenInfo[option?.token]);
@@ -193,10 +196,10 @@ export default {
   .row {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     .ae-amount,
-    .dropdown:first-child {
-      flex-grow: 1;
+    .button-dropdown {
       font-size: 1rem;
     }
   }

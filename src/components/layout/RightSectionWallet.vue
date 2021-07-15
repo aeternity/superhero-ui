@@ -151,7 +151,7 @@ export default {
         tokens: this.tokenBalancesOptions,
       });
       if (!token) return;
-      this.setToken(token);
+      this.setToken(token === this.aeternityTokenData ? null : token);
     },
     setToken(option) {
       this.selectedToken = option;

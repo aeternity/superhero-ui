@@ -10,7 +10,7 @@
       @click="resolve(token)"
     >
       <TokenAvatarAndSymbol :address="token.token" />
-      <span class="amount">
+      &nbsp;<span class="amount">
         <!-- TODO: rename `balance` to `amount` -->
         {{ roundedTokenAmount(token.amount || token.balance, token.token) }}
       </span>

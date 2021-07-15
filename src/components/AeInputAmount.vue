@@ -18,7 +18,7 @@
     <span class="symbol">{{ symbol }}</span>
     &nbsp;<FiatValue
       v-if="!noFiatvalue"
-      :amount="value"
+      :amount="valueAettos.toFixed()"
       :token="selectedToken"
     />
     <ButtonDropdown
@@ -73,6 +73,9 @@ export default {
       return this.selectedToken
         ? this.tokenInfo[this.selectedToken].symbol
         : 'AE';
+    },
+    valueAettos() {
+      return new BigNumber(this.value).shiftedBy(18);
     },
   },
   mounted() {

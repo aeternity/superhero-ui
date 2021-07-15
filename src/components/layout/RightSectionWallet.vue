@@ -1,85 +1,88 @@
 <template>
-  <div
-    class="right-section-wallet"
-    :class="{ iframe: useIframeWallet }"
-  >
-    <RightSectionTitle
-      v-bind="$attrs"
-      :closed="closed"
+  <ClientOnly>
+    <div
+      class="right-section-wallet"
+      :class="{ iframe: useIframeWallet }"
     >
-      {{ $t('components.layout.RightSection.Wallet') }}
-    </RightSectionTitle>
+      <RightSectionTitle
+        v-bind="$attrs"
+        :closed="closed"
+      >
+        {{ $t('components.layout.RightSection.Wallet') }}
+      </RightSectionTitle>
 
-    <iframe
-      v-if="useIframeWallet"
-      :class="{ 'half-closed': closed }"
-      :src="walletUrl"
-    />
-    <template v-else-if="isLoggedIn">
-      <div class="address">
-        {{ address }}
-      </div>
-      <div class="row">
-        <ButtonDropdown
-          v-if="hasContractV2Address"
-          ref="tokensOpener"
-          @click="selectToken"
-        >
+      <iframe
+        v-if="useIframeWallet"
+        :class="{ 'half-closed': closed }"
+        :src="walletUrl"
+      />
+      <template v-else-if="isLoggedIn">
+        <div class="address">
+          {{ address }}
+        </div>
+        <div class="row">
+          <ButtonDropdown
+            v-if="hasContractV2Address"
+            ref="tokensOpener"
+            @click="selectToken"
+          >
+            <AeAmount
+              :amount="(selectedToken || aeternityTokenData).balance"
+              :token="(selectedToken || aeternityTokenData).token"
+            />
+          </ButtonDropdown>
           <AeAmount
-            :amount="(selectedToken || aeternityTokenData).balance"
-            :token="(selectedToken || aeternityTokenData).token"
+            v-else
+            :amount="balance"
           />
-        </ButtonDropdown>
-        <AeAmount
-          v-else
-          :amount="balance"
-        />
-        <Dropdown
-          v-if="currencyDropdownOptions.length && showCurrencyDropdown"
-          :options="currencyDropdownOptions"
-          :method="({ currency }) => updateCurrency(currency)"
-          :selected="selectedCurrency"
-          show-right
-        >
-          <template #displayValue>
-            <span class="currency-value spaced">
-              <FiatValue
-                :amount="(selectedToken || aeternityTokenData).balance"
-                :token="(selectedToken || aeternityTokenData).token"
-                no-parentheses
-                no-symbol
-                :aettos="selectedToken && !!selectedToken.token"
-              />
-            </span>
-            {{ selectedCurrency.toUpperCase() }}
-          </template>
-          <template #default="{ option }">
-            <span class="currency-value">
-              <FiatValue
-                :amount="(selectedToken || aeternityTokenData).balance"
-                :token="(selectedToken || aeternityTokenData).token"
-                :currency="option.currency"
-                no-parentheses
-                no-symbol
-                :aettos="(selectedToken || aeternityTokenData).token"
-              />
-            </span>
-            {{ option.currency.toUpperCase() }}
-          </template>
-        </Dropdown>
-      </div>
-    </template>
-    <OutlinedButton
-      v-else
-      @click="enableIframeWallet"
-    >
-      {{ $t('components.layout.FooterSection.LoginWithWallet') }}
-    </OutlinedButton>
-  </div>
+          <Dropdown
+            v-if="currencyDropdownOptions.length && showCurrencyDropdown"
+            :options="currencyDropdownOptions"
+            :method="({ currency }) => updateCurrency(currency)"
+            :selected="selectedCurrency"
+            show-right
+          >
+            <template #displayValue>
+              <span class="currency-value spaced">
+                <FiatValue
+                  :amount="(selectedToken || aeternityTokenData).balance"
+                  :token="(selectedToken || aeternityTokenData).token"
+                  no-parentheses
+                  no-symbol
+                  :aettos="selectedToken && !!selectedToken.token"
+                />
+              </span>
+              {{ selectedCurrency.toUpperCase() }}
+            </template>
+            <template #default="{ option }">
+              <span class="currency-value">
+                <FiatValue
+                  :amount="(selectedToken || aeternityTokenData).balance"
+                  :token="(selectedToken || aeternityTokenData).token"
+                  :currency="option.currency"
+                  no-parentheses
+                  no-symbol
+                  :aettos="(selectedToken || aeternityTokenData).token"
+                />
+              </span>
+              {{ option.currency.toUpperCase() }}
+            </template>
+          </Dropdown>
+        </div>
+      </template>
+      <OutlinedButton
+        v-else
+        @click="enableIframeWallet"
+      >
+        {{ $t('components.layout.FooterSection.LoginWithWallet') }}
+      </OutlinedButton>
+    </div>
+  </ClientOnly>
 </template>
 
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
+import ClientOnly from 'vue-client-only';
 import AeAmount from '../AeAmount.vue';
 import Dropdown from '../Dropdown.vue';
 import RightSectionTitle from './RightSectionTitle.vue';
@@ -89,6 +92,7 @@ import ButtonDropdown from '../ButtonDropdown.vue';
 
 export default {
   components: {
+    ClientOnly,
     ButtonDropdown,
     FiatValue,
     RightSectionTitle,

@@ -63,9 +63,10 @@ export default {
       ),
     ),
   },
-  async mounted() {
+  async prefetch() {
     await this.reloadTips();
-
+  },
+  async mounted() {
     const scrollHandler = () => {
       const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
       if (scrollHeight - scrollTop <= clientHeight + 100) {

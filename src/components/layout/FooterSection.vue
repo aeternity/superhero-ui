@@ -41,6 +41,9 @@
       <a :href="`https://github.com/aeternity/superhero-ui/commit/${commitHash}`">
         {{ commitHash.slice(0, 7) }}
       </a>
+      <template v-if="ssrTime">
+        / {{ ssrTime }}s
+      </template>
       / {{ version }}
     </div>
 
@@ -60,35 +63,49 @@
       </a>
     </div>
 
-    <OutlinedButton
-      v-if="!isLoggedIn"
-      :to="addressDeepLink"
-      class="login-footer"
-    >
-      {{ $t('components.layout.FooterSection.LoginWithWallet') }}
-    </OutlinedButton>
+    <ClientOnly>
+      <OutlinedButton
+        v-if="!isLoggedIn"
+        :to="addressDeepLink"
+        class="login-footer"
+      >
+        {{ $t('components.layout.FooterSection.LoginWithWallet') }}
+      </OutlinedButton>
+    </ClientOnly>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
+import ClientOnly from 'vue-client-only';
 import { createDeepLinkUrl } from '../../utils';
 import OutlinedButton from '../OutlinedButton.vue';
 import IconVenture from '../../assets/iconVenture.svg?icon-component';
 
 export default {
   components: {
-    OutlinedButton, IconVenture,
+    ClientOnly, OutlinedButton, IconVenture,
   },
   data: () => ({
     version: process.env.npm_package_version,
     commitHash: process.env.COMMIT_HASH,
-    addressDeepLink: createDeepLinkUrl({
-      type: 'address',
-      'x-success': `${window.location}?address={address}`,
-    }),
   }),
-  computed: mapGetters(['isLoggedIn']),
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+    ...mapState({
+      ssrTime({ ssrTime, route }) {
+        if (this.$context.isServer) return ssrTime;
+        return !+ssrTime || route.from.name ? '' : ssrTime;
+      },
+    }),
+    addressDeepLink() {
+      return createDeepLinkUrl({
+        type: 'address',
+        'x-success': `${this.$location}?address={address}`,
+        'x-cancel': this.$location,
+      });
+    },
+  },
 };
 </script>
 

@@ -105,11 +105,12 @@ export default {
       return this.tip.url;
     },
     deepLink() {
-      return createDeepLinkUrl(
-        this.tip
+      return createDeepLinkUrl({
+        ...this.tip
           ? { type: 'retip', id: this.tip.id }
           : { type: 'tips', url: this.tipUrl },
-      );
+        callbackUrl: this.$location,
+      });
     },
     title() {
       if (this.userAddress) return this.$t('components.TipInput.tipUser');

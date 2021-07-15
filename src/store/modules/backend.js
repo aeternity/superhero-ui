@@ -6,7 +6,7 @@ import { createDeepLinkUrl } from '../../utils';
 
 export default {
   namespaced: true,
-  state: {
+  state: () => ({
     tips: {},
     tipsPageCount: {},
     tipsReloading: {},
@@ -17,7 +17,7 @@ export default {
     comment: {},
     stats: null,
     prices: {},
-  },
+  }),
   getters: {
     minTipAmount: ({ prices: { usd } }) => 0.01 / usd,
   },
@@ -145,6 +145,7 @@ export default {
         type: 'sign-message',
         message: challenge,
         'x-success': `${url}?method=${method}&address=${address}&challenge=${challenge}&signature={signature}`,
+        'x-cancel': url,
       });
     },
     async sendComment(
@@ -153,7 +154,7 @@ export default {
     ) {
       if (!useSdkWallet) {
         window.location = createDeepLinkUrl({
-          type: 'comment', id: tipId, text, parentId,
+          type: 'comment', id: tipId, text, parentId, callbackUrl: window.location,
         });
         return;
       }

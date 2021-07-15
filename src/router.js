@@ -1,5 +1,4 @@
 import Router from 'vue-router';
-import { IS_MOBILE_DEVICE } from './utils';
 import Tracing from './views/admin/Tracing.vue';
 import Conference from './views/Conference.vue';
 import FAQ from './views/FAQ.vue';
@@ -125,10 +124,6 @@ const routes = [
     name: 'conference',
     component: Conference,
     props: true,
-    beforeEnter(to, from, next) {
-      if (IS_MOBILE_DEVICE) window.location = `https://${process.env.VUE_APP_JITSI_HOST}/${to.params.room || ''}`;
-      else next();
-    },
   },
   {
     path: '/trending',
@@ -141,4 +136,4 @@ const routes = [
   },
 ];
 
-export default new Router({ mode: 'history', routes });
+export default () => new Router({ mode: 'history', routes });

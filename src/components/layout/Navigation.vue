@@ -18,13 +18,15 @@
       <IconTips />
       {{ $t('components.layout.Navigation.feed') }}
     </RouterLink>
-    <RouterLink
-      v-if="isLoggedIn"
-      :to="{ name: 'user-profile', params: { address } }"
-    >
-      <IconUser />
-      {{ $t('components.layout.Navigation.MyProfile') }}
-    </RouterLink>
+    <ClientOnly>
+      <RouterLink
+        v-if="isLoggedIn"
+        :to="{ name: 'user-profile', params: { address } }"
+      >
+        <IconUser />
+        {{ $t('components.layout.Navigation.MyProfile') }}
+      </RouterLink>
+    </ClientOnly>
     <RouterLink
       v-if="showWordBazaar"
       :to="{ name: 'word-bazaar-assets' }"
@@ -53,6 +55,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import ClientOnly from 'vue-client-only';
 import IconTips from '../../assets/iconTips.svg?icon-component';
 import IconUser from '../../assets/iconUser.svg?icon-component';
 import IconHelp from '../../assets/iconHelp.svg?icon-component';
@@ -63,6 +66,7 @@ import IconSmile from '../../assets/iconSmile.svg?icon-component';
 
 export default {
   components: {
+    ClientOnly,
     IconTips,
     IconUser,
     IconHelp,

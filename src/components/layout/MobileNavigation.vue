@@ -78,12 +78,14 @@ export default {
   data: () => ({
     showOverlay: false,
     showSearchFeed: false,
-    tipDeepLink: createDeepLinkUrl({ type: 'tips' }),
   }),
   computed: {
     ...mapState('aeternity', ['useSdkWallet']),
     isOnFeed() {
       return this.$route.name === 'feed';
+    },
+    tipDeepLink() {
+      return createDeepLinkUrl({ type: 'tips', callbackUrl: this.$location });
     },
   },
   watch: {

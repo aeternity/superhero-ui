@@ -15,7 +15,7 @@ import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
 import BONDING_CURVE from 'sophia-bonding-curve/BondCurveLinear.aes';
 
 import { BigNumber } from 'bignumber.js';
-import { IS_MOBILE_DEVICE, shiftDecimalPlaces } from '../../utils';
+import { shiftDecimalPlaces } from '../../utils';
 
 export default {
   namespaced: true,
@@ -122,7 +122,9 @@ export default {
         connectionInfo: { id: 'spy' },
       });
       const detector = await WalletDetector({ connection: scannerConnection });
-      const webWalletTimeout = setTimeout(() => !IS_MOBILE_DEVICE && commit('enableIframeWallet'), 10000);
+      // eslint-disable-next-line no-underscore-dangle
+      const webWalletTimeout = this._vm.$isMobileDevice ? 0
+        : setTimeout(() => commit('enableIframeWallet'), 10000);
 
       return new Promise((resolve) => {
         detector.scan(async ({ newWallet }) => {

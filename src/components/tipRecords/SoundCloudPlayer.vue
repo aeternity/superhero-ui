@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import SoundcloudWidget from 'soundcloud-widget';
 import PlayButton from '../PlayButton.vue';
 
 export default {
@@ -87,7 +86,8 @@ export default {
       return { width: `${this.position}%`, 'background-size': `${(1 / this.position) * 10000}% 100%` };
     },
   },
-  mounted() {
+  async mounted() {
+    const SoundcloudWidget = (await import('soundcloud-widget')).default;
     this.player = new SoundcloudWidget(this.$refs.iframe);
     const soundcloudEvents = SoundcloudWidget.events;
 

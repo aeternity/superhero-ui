@@ -8,15 +8,17 @@
       :date="tip.timestamp"
       :address="tip.sender"
     >
-      <ButtonThreeDots
-        v-if="isLoggedIn"
-        ref="menuOpener"
-        @click="$store.dispatch('modals/open', {
-          name: 'feed-item-menu',
-          ...tip,
-          reference: $refs.menuOpener.$el,
-        })"
-      />
+      <ClientOnly>
+        <ButtonThreeDots
+          v-if="isLoggedIn"
+          ref="menuOpener"
+          @click="$store.dispatch('modals/open', {
+            name: 'feed-item-menu',
+            ...tip,
+            reference: $refs.menuOpener.$el,
+          })"
+        />
+      </ClientOnly>
     </AuthorAndDate>
     <TipTitle :tip-title="tip.title" />
     <TipMedia
@@ -47,6 +49,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import ClientOnly from 'vue-client-only';
 import TipTitle from './TipTitle.vue';
 import TipMedia from './TipMedia.vue';
 import TipPreview from './TipPreview.vue';
@@ -63,6 +66,7 @@ export default {
     TipMedia,
     TipPreview,
     AuthorAndDate,
+    ClientOnly,
     ButtonThreeDots,
     ButtonFeed,
     IconComment,

@@ -112,12 +112,11 @@ export default {
       await Backend.awaitRetip(id);
     },
     async reloadStats({ commit, rootState: { aeternity: { sdk } } }) {
-      const [stats1, stats2, height] = await Promise.all([
+      const [stats, height] = await Promise.all([
         Backend.getTipStats(),
-        Backend.getStats(),
         sdk.height(),
       ]);
-      commit('setStats', { ...stats1, ...stats2, height });
+      commit('setStats', { ...stats, height });
     },
     async reloadPrices({ commit }) {
       commit('setPrices', (await Backend.getPrice())?.aeternity);

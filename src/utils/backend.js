@@ -83,8 +83,6 @@ export default class Backend {
 
   static getProfileImageUrl = (address) => `${process.env.VUE_APP_BACKEND_URL}/profile/image/${address}`;
 
-  static getStats = async () => backendFetch('static/stats/');
-
   static getTipById = async (id) => backendFetch(`tips/single/${id}`);
 
   static getSenderStats = async (address) => backendFetch(`stats/sender?address=${address}`)

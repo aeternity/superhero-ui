@@ -34,7 +34,7 @@ export default {
   display: flex;
 
   img {
-    width: 35%;
+    min-width: 35%;
     object-fit: cover;
 
     @include smallest {

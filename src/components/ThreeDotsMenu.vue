@@ -1,10 +1,9 @@
 <template>
   <div
-    class="three-dots"
+    class="three-dots-menu"
     :class="{ active: showMenu }"
     @click="showMenu = true"
   >
-    <!--eslint-disable-line vue-i18n/no-raw-text-->
     •••
     <Modal
       v-if="showMenu"
@@ -31,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.three-dots {
+.three-dots-menu {
   position: relative;
   padding: 0;
   border-radius: 0.25rem;
@@ -45,7 +44,7 @@ export default {
     color: #fff;
   }
 
-  ::v-deep .not-bootstrap-modal-content {
+  ::v-deep .modal-content {
     font-size: 0.75rem;
     border-radius: 0.25rem;
     border: 0.05rem solid $article_content_color;
@@ -56,7 +55,8 @@ export default {
     right: 0;
     white-space: nowrap;
 
-    & > div {
+    > .button-plain {
+      display: block;
       padding-bottom: 0.5rem;
 
       &:last-child {
@@ -64,7 +64,6 @@ export default {
       }
 
       &:hover {
-        cursor: pointer;
         color: $standard_font_color;
       }
     }

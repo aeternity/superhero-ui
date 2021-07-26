@@ -3,7 +3,7 @@
     <div
       v-for="[topic, data] in topics"
       :key="topic"
-      class="not-bootstrap-row"
+      class="row"
     >
       <Topic
         class="text-ellipsis"
@@ -15,21 +15,22 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import Backend from '../utils/backend';
 import Topic from './tipRecords/Topic.vue';
 import AeAmountFiat from './AeAmountFiat.vue';
 
 export default {
   components: { Topic, AeAmountFiat },
-  computed: mapState({
-    topics: ({ topics }) => topics.filter(([t]) => t !== '#test'),
-  }),
+  data: () => ({ topics: [] }),
+  async prefetch() {
+    this.topics = (await Backend.getTopics()).filter(([t]) => t !== '#test');
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .topic-list {
-  .not-bootstrap-row {
+  .row {
     display: flex;
     align-items: center;
     margin: 0.5rem 0;

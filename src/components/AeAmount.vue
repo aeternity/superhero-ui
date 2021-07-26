@@ -1,7 +1,6 @@
 <template>
   <span class="ae-amount">
     <template>{{ roundedAmount }}</template>
-    <!--eslint-disable-next-line vue-i18n/no-raw-text-->
     <span
       v-if="!noSymbol"
       class="ae"

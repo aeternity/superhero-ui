@@ -1,34 +1,39 @@
 <template>
+  <!--
+    TODO: render as RouterLink if `to` is passed to support:
+      - opening in a new tab by the middle button
+      - hinting the URL at the bottom
+      - navigation in SSR (including indexing)
+  -->
   <button
     :disabled="disabled || loading"
-    class="btn btn-primary ae-button"
+    class="ae-button"
     :class="{ green }"
     type="submit"
-    @click="$emit('click', $event)"
+    @click="clickHandler"
   >
-    <Loading v-if="loading" />
-    <template v-else>
-      <img
-        v-if="src"
-        :src="src"
-      >
-      <span><slot /></span>
-    </template>
+    <Spinner v-if="loading" />
+    <slot v-else />
   </button>
 </template>
 
 <script>
-import Loading from './Loading.vue';
+import Spinner from './Spinner.vue';
 
 export default {
-  components: {
-    Loading,
-  },
+  components: { Spinner },
   props: {
     disabled: Boolean,
-    src: { type: String, default: '' },
     loading: { type: Boolean },
     green: { type: Boolean },
+    to: { type: [String, Object], default: null },
+  },
+  methods: {
+    clickHandler(event) {
+      this.$emit('click', event);
+      if (!this.to) return;
+      this.$router.push(this.to);
+    },
   },
 };
 </script>
@@ -40,19 +45,13 @@ export default {
   color: $standard_font_color;
   background-color: $secondary_color;
   border: none;
+  border-radius: 0.25rem;
   transition: background-color 0.3s;
-
-  .loading {
-    transform: scale(0.6);
-    margin-top: -0.7rem;
-  }
+  text-align: center;
+  font-size: 16px;
 
   &[disabled] {
     opacity: 0.4;
-  }
-
-  span {
-    vertical-align: inherit;
   }
 
   &.green {
@@ -61,6 +60,12 @@ export default {
 
   &:hover:not(.green) {
     background-color: $button_hover_color;
+  }
+
+  .spinner {
+    width: 1.2rem;
+    height: 1.2rem;
+    vertical-align: middle;
   }
 }
 </style>

@@ -1,13 +1,12 @@
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 import Vue from 'vue';
 import { times } from 'lodash-es';
-// eslint-disable-next-line import/no-cycle
 import Backend from '../../utils/backend';
 import { createDeepLinkUrl } from '../../utils';
 
 export default {
   namespaced: true,
-  state: {
+  state: () => ({
     tips: {},
     tipsPageCount: {},
     tipsReloading: {},
@@ -18,7 +17,7 @@ export default {
     comment: {},
     stats: null,
     prices: {},
-  },
+  }),
   getters: {
     minTipAmount: ({ prices: { usd } }) => 0.01 / usd,
   },
@@ -87,6 +86,8 @@ export default {
         Backend.getTipById(id),
         Backend.getTipComments(id),
       ]);
+      // TODO: Remove after backend methods start to throw exceptions on not found
+      if (!tip) throw new Error(`Can't find tip with id: ${id}`);
       commit('setTip', {
         id,
         value: {
@@ -99,7 +100,10 @@ export default {
       });
     },
     async reloadComment({ commit }, id) {
-      commit('setComment', { id, value: await Backend.getCommentById(id) });
+      const value = await Backend.getCommentById(id);
+      // TODO: Remove after backend methods start to throw exceptions on not found
+      if (!value) throw new Error(`Can't find comment with id: ${id}`);
+      commit('setComment', { id, value });
     },
     async awaitTip(_, id) {
       await Backend.awaitTip(id);
@@ -108,12 +112,11 @@ export default {
       await Backend.awaitRetip(id);
     },
     async reloadStats({ commit, rootState: { aeternity: { sdk } } }) {
-      const [stats1, stats2, height] = await Promise.all([
+      const [stats, height] = await Promise.all([
         Backend.getTipStats(),
-        Backend.getStats(),
         sdk.height(),
       ]);
-      commit('setStats', { ...stats1, ...stats2, height });
+      commit('setStats', { ...stats, height });
     },
     async reloadPrices({ commit }) {
       commit('setPrices', (await Backend.getPrice())?.aeternity);
@@ -141,6 +144,7 @@ export default {
         type: 'sign-message',
         message: challenge,
         'x-success': `${url}?method=${method}&address=${address}&challenge=${challenge}&signature={signature}`,
+        'x-cancel': url,
       });
     },
     async sendComment(
@@ -149,7 +153,7 @@ export default {
     ) {
       if (!useSdkWallet) {
         window.location = createDeepLinkUrl({
-          type: 'comment', id: tipId, text, parentId,
+          type: 'comment', id: tipId, text, parentId, callbackUrl: window.location,
         });
         return;
       }

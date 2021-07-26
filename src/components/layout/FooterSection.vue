@@ -1,31 +1,33 @@
 <template>
-  <div class="footer">
-    <div class="footer-btns">
+  <div class="footer-section">
+    <div class="buttons">
       <OutlinedButton
-        :to="'https://form.jotform.com/201075183408046'"
-        class="blue feedback"
+        to="https://form.jotform.com/201075183408046"
+        class="blue"
       >
         {{ $t('components.layout.FooterSection.Feedback') }}
       </OutlinedButton>
       <OutlinedButton
-        :to="'https://thesuperherowallet.typeform.com/to/vh8Ffu'"
+        to="https://thesuperherowallet.typeform.com/to/vh8Ffu"
         class="blue"
       >
         {{ $t('components.layout.FooterSection.Support') }}
       </OutlinedButton>
     </div>
+
     <div>
-      <p>
-        {{ $t("components.layout.FooterSection.FooterInfo") }}
-        <a
-          href="https://github.com/aeternity/superhero-ui/"
-          target="_blank"
-          class="gh-link"
-        >
-          {{ $t('components.layout.FooterSection.ContributeOnGithub') }}
-          <img src="../../assets/ghLogo.svg">
-        </a>
-      </p>
+      {{ $t("components.layout.FooterSection.FooterInfo") }}
+      <a
+        href="https://github.com/aeternity/superhero-ui/"
+        target="_blank"
+        class="gh-link"
+      >
+        {{ $t('components.layout.FooterSection.ContributeOnGithub') }}
+        &nbsp;<img src="../../assets/ghLogo.svg">
+      </a>
+    </div>
+
+    <div>
       <div class="powered-by">
         {{ $t('components.layout.FooterSection.PoweredBy') }}
         <a
@@ -35,24 +37,21 @@
           <img src="../../assets/aeternityLogo.svg">
         </a>
       </div>
-    </div>
-    <span>
+
       <a :href="`https://github.com/aeternity/superhero-ui/commit/${commitHash}`">
         {{ commitHash.slice(0, 7) }}
-      </a><!--eslint-disable-line vue-i18n/no-raw-text-->
+      </a>
+      <template v-if="ssrTime">
+        / {{ ssrTime }}s
+      </template>
       / {{ version }}
-    </span>
-    <div class="terms-links">
-      <RouterLink
-        class="footer-links"
-        to="/terms"
-      >
+    </div>
+
+    <div>
+      <RouterLink to="/terms">
         {{ $t('components.layout.FooterSection.Terms') }}
       </RouterLink>
-      <RouterLink
-        class="footer-links"
-        to="/privacy"
-      >
+      <RouterLink to="/privacy">
         {{ $t('components.layout.FooterSection.Privacy') }}
       </RouterLink>
       <a
@@ -60,158 +59,139 @@
         target="_blank"
         href="https://venture.com/"
       >
-        <!--eslint-disable-next-line vue-i18n/no-raw-text-->
         <IconVenture /> <span>Branded by Venture</span>
       </a>
     </div>
-    <div
-      v-if="!isLoggedIn"
-      class="login-footer"
-    >
-      <OutlinedButton :to="addressDeepLink">
+
+    <ClientOnly>
+      <OutlinedButton
+        v-if="!isLoggedIn"
+        :to="addressDeepLink"
+        class="login-footer"
+      >
         {{ $t('components.layout.FooterSection.LoginWithWallet') }}
       </OutlinedButton>
-    </div>
+    </ClientOnly>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
+import ClientOnly from 'vue-client-only';
 import { createDeepLinkUrl } from '../../utils';
 import OutlinedButton from '../OutlinedButton.vue';
 import IconVenture from '../../assets/iconVenture.svg?icon-component';
 
 export default {
   components: {
-    OutlinedButton, IconVenture,
+    ClientOnly, OutlinedButton, IconVenture,
   },
   data: () => ({
     version: process.env.npm_package_version,
     commitHash: process.env.COMMIT_HASH,
-    addressDeepLink: createDeepLinkUrl({
-      type: 'address',
-      'x-success': `${window.location}?address={address}`,
-    }),
   }),
-  computed: mapGetters(['isLoggedIn']),
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+    ...mapState({
+      ssrTime({ ssrTime, route }) {
+        if (this.$context.isServer) return ssrTime;
+        return !+ssrTime || route.from.name ? '' : ssrTime;
+      },
+    }),
+    addressDeepLink() {
+      return createDeepLinkUrl({
+        type: 'address',
+        'x-success': `${this.$location}?address={address}`,
+        'x-cancel': this.$location,
+      });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-  .footer {
-    font-size: 0.55rem;
-    text-align: center;
+.footer-section {
+  font-size: 0.55rem;
+  text-align: center;
 
-    .feedback {
-      margin-right: 1rem;
-    }
-
-    .footer-btns {
-      margin-bottom: 8px;
-
-      @include mobile {
-        display: flex;
-        flex-direction: column;
-
-        .outlined-button {
-          width: 100%;
-          margin-bottom: 8px;
-        }
-      }
-    }
-
-    .venture {
-      margin-left: 0.35rem;
-      color: #cda564;
-      letter-spacing: -0.045em;
-
-      svg {
-        height: 0.5rem;
-      }
-
-      svg,
-      span {
-        vertical-align: middle;
-      }
-
-      &:hover {
-        filter: brightness(1.3);
-      }
-    }
-
-    .terms-links {
-      margin-top: 8px;
-    }
-
-    .gh-link {
-      img {
-        width: 0.65rem;
-        height: 0.65rem;
-        vertical-align: text-bottom;
-      }
-
-      &:hover {
-        img {
-          filter: brightness(0.8);
-        }
-      }
-    }
-
-    .login-footer {
-      display: none;
-      line-height: 0.9rem;
-      margin-top: 0.4rem;
-
-      a {
-        padding: 0.625rem 1rem 0.625rem 1rem;
-      }
-    }
-
-    .powered-by {
-      color: $standard_font_color;
-      font-size: 0.7rem;
-
-      a {
-        &:hover {
-          filter: brightness(1.3);
-        }
-
-        img {
-          height: 0.55rem;
-        }
-      }
-    }
-
-    a {
-      @include mobile {
-        display: block;
-      }
-    }
-  }
-
-  p {
+  > * {
     margin-bottom: 8px;
   }
 
-  @media (max-width: 1024px) {
-    .footer .login-footer {
+  @include mobile {
+    a {
       display: block;
     }
   }
 
-  @media (max-height: 595px) {
-    p {
-      margin-bottom: 0.4rem;
+  .buttons .outlined-button {
+    &:first-of-type {
+      margin-right: 1rem;
     }
 
-    .footer {
-      .footer-btns {
-        margin-bottom: 0.4rem;
+    @include mobile {
+      display: block;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+  }
+
+  .gh-link {
+    img {
+      height: 0.65rem;
+      vertical-align: text-bottom;
+    }
+
+    &:hover img {
+      filter: brightness(0.8);
+    }
+  }
+
+  .venture {
+    margin-left: 0.35rem;
+    color: #cda564;
+    letter-spacing: -0.045em;
+
+    svg {
+      height: 0.5rem;
+    }
+
+    svg,
+    span {
+      vertical-align: middle;
+    }
+
+    &:hover {
+      filter: brightness(1.3);
+    }
+  }
+
+  .powered-by {
+    color: $standard_font_color;
+    font-size: 0.7rem;
+
+    a {
+      &:hover {
+        filter: brightness(1.3);
       }
 
-      .terms-links {
-        margin-top: 0.4rem;
+      img {
+        height: 0.55rem;
+        vertical-align: middle;
       }
     }
   }
+
+  .login-footer {
+    line-height: 0.9rem;
+
+    @include above-mobile {
+      display: none;
+    }
+
+    a {
+      padding: 0.625rem 1rem 0.625rem 1rem;
+    }
+  }
+}
 </style>

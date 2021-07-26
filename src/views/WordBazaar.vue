@@ -15,28 +15,23 @@
       </template>
     </BackButtonRibbon>
 
-    <ActivityRibbon
-      value=""
-      :tabs="[]"
-    >
-      <template slot="left">
-        <FilterButton :to="{ name: 'word-bazaar-assets' }">
-          <IconTokens />
-          {{ $t('views.WordBazaar.RibbonTabs.Assets.Text') }}
-        </FilterButton>
-        <FilterButton :to="{ name: 'word-bazaar-create-token' }">
-          <IconPlus />
-          {{ $t('views.WordBazaar.RibbonTabs.Create.Text') }}
-        </FilterButton>
-        <FilterButton :to="{ name: 'word-bazaar-get-ae' }">
-          <IconAe />
-          {{ $t('views.WordBazaar.RibbonTabs.Get.Text') }}
-        </FilterButton>
-        <FilterButton :to="{ name: 'word-bazaar-how-it-works' }">
-          <IconHelp2 />
-          {{ $t('views.WordBazaar.RibbonTabs.How.Text') }}
-        </FilterButton>
-      </template>
+    <ActivityRibbon>
+      <FilterButton :to="{ name: 'word-bazaar-assets' }">
+        <IconTokens />
+        {{ $t('views.WordBazaar.RibbonTabs.Assets.Text') }}
+      </FilterButton>
+      <FilterButton :to="{ name: 'word-bazaar-create-token' }">
+        <IconPlus />
+        {{ $t('views.WordBazaar.RibbonTabs.Create.Text') }}
+      </FilterButton>
+      <FilterButton :to="{ name: 'word-bazaar-get-ae' }">
+        <IconAe />
+        {{ $t('views.WordBazaar.RibbonTabs.Get.Text') }}
+      </FilterButton>
+      <FilterButton :to="{ name: 'word-bazaar-how-it-works' }">
+        <IconHelp2 />
+        {{ $t('views.WordBazaar.RibbonTabs.How.Text') }}
+      </FilterButton>
     </ActivityRibbon>
 
     <RouterView />
@@ -112,6 +107,7 @@ export default {
     .bubbleArrow {
       height: 40px;
       color: $secondary_color;
+      vertical-align: middle;
     }
 
     .activity-icon {
@@ -143,6 +139,7 @@ export default {
         height: 24px;
         margin-bottom: 2px;
         flex-shrink: 0;
+        vertical-align: middle;
       }
 
       .desktop { margin-left: 2px; }

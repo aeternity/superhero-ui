@@ -9,9 +9,7 @@
   </div>
 </template>
 <script>
-import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
-import JitsiMeetExternalAPI from 'jitsi-iframe-api';
-import { IS_MOBILE_DEVICE } from '../utils';
+import { BrowserWindowMessageConnection } from '@aeternity/aepp-sdk';
 import Loading from '../components/Loading.vue';
 
 export default {
@@ -30,6 +28,17 @@ export default {
       this.initJitsi();
     },
   },
+  created() {
+    if (this.$isMobileDevice) {
+      const url = `https://${process.env.VUE_APP_JITSI_HOST}/${this.room || ''}`;
+      // TODO: Remove after solving https://github.com/universal-vue/uvue/pull/64
+      if (this.$context.isClient) {
+        window.location = url;
+        return;
+      }
+      this.$redirect(url, 302);
+    }
+  },
   async mounted() {
     this.initJitsi();
 
@@ -47,7 +56,8 @@ export default {
     });
   },
   methods: {
-    initJitsi() {
+    async initJitsi() {
+      const JitsiMeetExternalAPI = (await import('jitsi-iframe-api')).default;
       // eslint-disable-next-line no-new
       this.jitsi = new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_HOST, {
         parentNode: this.$refs.jitsi,
@@ -55,7 +65,7 @@ export default {
         height: '100%',
         roomName: this.room,
         configOverwrite: {
-          disableDeepLinking: IS_MOBILE_DEVICE,
+          disableDeepLinking: this.$isMobileDevice,
         },
         onload: () => {
           this.loading = false;

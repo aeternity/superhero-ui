@@ -2,32 +2,28 @@
   <div class="word-detail">
     <BackButtonRibbon>
       <template #title>
-        <span class="abbreviation">{{ selectedWord }}</span>
+        <span class="abbreviation">{{ word }}</span>
       </template>
     </BackButtonRibbon>
 
-    <ActivityRibbon
-      value=""
-      :tabs="[]"
-    >
-      <template slot="left">
-        <FilterButton
-          :class="{ active: activity === 'info' }"
-          @click="activity = 'info'"
-        >
-          <IconInfo />
-          <span class="desktop">{{ $t('views.WordDetail.RibbonTabs[0].text') }}</span>
-          <span class="mobile">{{ $t('views.WordDetail.RibbonTabs[0].textMobile') }}</span>
-        </FilterButton>
-        <FilterButton
-          :class="{ active: activity === 'voting' }"
-          @click="activity = 'voting'"
-        >
-          <IconPie />
-          <span class="desktop">{{ $t('views.WordDetail.RibbonTabs[1].text') }}</span>
-          <span class="mobile">{{ $t('views.WordDetail.RibbonTabs[1].textMobile') }}</span>
-        </FilterButton>
-      </template>
+    <ActivityRibbon>
+      <FilterButton
+        :class="{ active: activity === 'info' }"
+        @click="activity = 'info'"
+      >
+        <IconInfo />
+        <span class="desktop">{{ $t('views.WordDetail.RibbonTabs.Info') }}</span>
+        <span class="mobile">{{ $t('views.WordDetail.RibbonTabsMobile.Info') }}</span>
+      </FilterButton>
+      <FilterButton
+        :class="{ active: activity === 'voting' }"
+        @click="activity = 'voting'"
+      >
+        <IconPie />
+        <span class="desktop">{{ $t('views.WordDetail.RibbonTabs.Vote') }}</span>
+        <span class="mobile">{{ $t('views.WordDetail.RibbonTabsMobile.Vote') }}</span>
+      </FilterButton>
+
       <WordBuySellButtons
         v-if="saleContractAddress && activity === 'info'"
         slot="right"
@@ -36,16 +32,16 @@
     </ActivityRibbon>
 
     <WordInfo
-      v-if="selectedWord && activity === 'info'"
+      v-if="activity === 'info'"
       :data="data"
-      :selected-word="selectedWord"
+      :selected-word="word"
       :sale-contract-address="saleContractAddress"
     />
 
     <WordVoting
-      v-if="selectedWord && activity === 'voting'"
+      v-if="activity === 'voting'"
       :data="data"
-      :selected-word="selectedWord"
+      :selected-word="word"
       :sale-contract-address="saleContractAddress"
     />
   </div>
@@ -60,7 +56,6 @@ import IconInfo from '../assets/iconInfo.svg?icon-component';
 import ActivityRibbon from '../components/ActivityRibbon.vue';
 import FilterButton from '../components/FilterButton.vue';
 import WordVoting from '../components/WordVoting.vue';
-import WordInfo from '../components/WordInfo.vue';
 
 export default {
   name: 'WordDetail',
@@ -72,33 +67,36 @@ export default {
     WordBuySellButtons,
     BackButtonRibbon,
     WordVoting,
-    WordInfo,
+    WordInfo: () => import(/* webpackChunkName: "WordInfo" */ '../components/WordInfo.vue'),
+  },
+  props: {
+    word: { type: String, required: true },
   },
   data() {
     return {
       wordRegistryState: null,
-      selectedWord: '',
       saleContractAddress: '',
       data: {},
       activity: 'info',
     };
   },
-  async mounted() {
-    this.selectedWord = this.$route.params.word;
+  async prefetch() {
     await this.reloadData();
+  },
+  async mounted() {
     const interval = setInterval(() => this.reloadData(), 120 * 1000);
     this.$once('hook:beforeDestroy', () => clearInterval(interval));
   },
   methods: {
     async reloadData() {
-      this.wordRegistryState = await Backend.getWordRegistry('', '', this.selectedWord);
+      this.wordRegistryState = await Backend.getWordRegistry('', '', this.word);
       this.saleContractAddress = this.wordRegistryState
-        .find(({ word }) => word === this.selectedWord).sale;
+        .find(({ word }) => word === this.word).sale;
       this.data = await Backend.getWordSale(this.saleContractAddress);
     },
   },
   metaInfo() {
-    return { title: this.$t('views.WordDetail.Title', { word: this.selectedWord }) };
+    return { title: this.$t('views.WordDetail.Title', { word: this.word }) };
   },
 };
 </script>
@@ -122,9 +120,13 @@ export default {
       border-radius: 20px;
       font-size: 16px;
 
+      svg,
+      span {
+        vertical-align: middle;
+      }
+
       svg {
         height: 24px;
-        margin-bottom: 2px;
         flex-shrink: 0;
       }
 
@@ -152,7 +154,7 @@ export default {
 
     .word-buy-sell-buttons {
       .buy-modal {
-        .not-bootstrap-modal-content {
+        .modal-content {
           margin-left: -204px;
 
           @include desktop {
@@ -162,7 +164,7 @@ export default {
       }
 
       .sell-modal {
-        .not-bootstrap-modal-content {
+        .modal-content {
           @include desktop {
             margin-left: -120px;
           }
@@ -187,8 +189,12 @@ export default {
     z-index: 2;
 
     .button-plain {
+      svg,
+      span {
+        vertical-align: middle;
+      }
+
       .plus {
-        margin-bottom: 1px;
         transition: transform 0.5s;
         height: 20px;
 
@@ -239,6 +245,7 @@ export default {
       font-weight: 400;
 
       h3 {
+        margin-top: 0;
         margin-bottom: 8px;
       }
 
@@ -303,7 +310,9 @@ export default {
         font-weight: 700;
         transition: color 0.3s;
         color: $light_font_color;
+        margin-top: 0;
         margin-bottom: 9px;
+        line-height: 1.2;
       }
 
       &:hover {

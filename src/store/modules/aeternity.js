@@ -1,9 +1,7 @@
 /* globals Cypress */
 import {
-  MemoryAccount, Node, Universal, RpcAepp, Crypto,
+  MemoryAccount, Node, Universal, RpcAepp, Crypto, WalletDetector, BrowserWindowMessageConnection,
 } from '@aeternity/aepp-sdk';
-import BrowserWindowMessageConnection from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message';
-import Detector from '@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector';
 import TIPPING_INTERFACE_V1 from 'tipping-contract/Tipping_v1_Interface.aes';
 import TIPPING_INTERFACE_V2 from 'tipping-contract/Tipping_v2_Interface.aes';
 import TIPPING_INTERFACE_V3 from 'tipping-contract/Tipping_v3_Interface.aes';
@@ -17,7 +15,7 @@ import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
 import BONDING_CURVE from 'sophia-bonding-curve/BondCurveLinear.aes';
 
 import { BigNumber } from 'bignumber.js';
-import { IS_MOBILE_DEVICE, shiftDecimalPlaces } from '../../utils';
+import { shiftDecimalPlaces } from '../../utils';
 
 export default {
   namespaced: true,
@@ -84,53 +82,49 @@ export default {
       commit('setContracts', contracts);
     },
     async initSdk({ dispatch, commit }) {
-      try {
-        const options = {
-          nodes: [{ name: 'node', instance: await Node({ url: process.env.VUE_APP_NODE_URL }) }],
-          compilerUrl: process.env.VUE_APP_COMPILER_URL,
-        };
-        if (window.Cypress) {
-          const instance = await Universal({
-            ...options,
-            accounts: [
-              MemoryAccount({
-                keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey') },
-              }),
-            ],
-            address: Cypress.env('publicKey'),
-          });
-          const rpcClient = async () => Cypress.env('publicKey');
-          instance.rpcClient = { getCurrentAccount: async () => Cypress.env('publicKey') };
-          commit('setSdk', { instance, rpcClient });
-          await dispatch('initTippingContractIfNeeded');
-        } else {
-          const instance = await RpcAepp({
-            ...options,
-            name: 'Superhero',
-            onDisconnect() {
-              commit('resetState');
-            },
-            async onAddressChange(accounts) {
-              const address = Object.keys(accounts.current)[0];
-              commit('setAddress', address, { root: true });
-              await dispatch('fetchUserInfo', null, { root: true });
-            },
-          });
-          commit('setSdk', { instance });
-          await dispatch('initTippingContractIfNeeded');
-        }
-      } catch (err) {
-        commit('setBackendStatus', false, { root: true });
-        return;
+      const options = {
+        nodes: [{ name: 'node', instance: await Node({ url: process.env.VUE_APP_NODE_URL }) }],
+        compilerUrl: process.env.VUE_APP_COMPILER_URL,
+      };
+      if (window.Cypress) {
+        const instance = await Universal({
+          ...options,
+          accounts: [
+            MemoryAccount({
+              keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey') },
+            }),
+          ],
+          address: Cypress.env('publicKey'),
+        });
+        const rpcClient = async () => Cypress.env('publicKey');
+        instance.rpcClient = { getCurrentAccount: async () => Cypress.env('publicKey') };
+        commit('setSdk', { instance, rpcClient });
+        await dispatch('initTippingContractIfNeeded');
+      } else {
+        const instance = await RpcAepp({
+          ...options,
+          name: 'Superhero',
+          onDisconnect() {
+            commit('resetState');
+          },
+          async onAddressChange(accounts) {
+            const address = Object.keys(accounts.current)[0];
+            commit('setAddress', address, { root: true });
+            await dispatch('fetchUserInfo', null, { root: true });
+          },
+        });
+        commit('setSdk', { instance });
+        await dispatch('initTippingContractIfNeeded');
       }
-      commit('setBackendStatus', true, { root: true });
     },
     async scanForWallets({ commit, state: { sdk } }) {
       const scannerConnection = await BrowserWindowMessageConnection({
         connectionInfo: { id: 'spy' },
       });
-      const detector = await Detector({ connection: scannerConnection });
-      const webWalletTimeout = setTimeout(() => !IS_MOBILE_DEVICE && commit('enableIframeWallet'), 10000);
+      const detector = await WalletDetector({ connection: scannerConnection });
+      // eslint-disable-next-line no-underscore-dangle
+      const webWalletTimeout = this._vm.$isMobileDevice ? 0
+        : setTimeout(() => commit('enableIframeWallet'), 10000);
 
       return new Promise((resolve) => {
         detector.scan(async ({ newWallet }) => {

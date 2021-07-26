@@ -1,90 +1,44 @@
-<!-- eslint-disable vue-i18n/no-raw-text -->
 <template>
   <div class="user-info">
-    <div class="profile-section clearfix">
-      <div
-        class="cover-photo"
-        :style="{ 'background-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
-      />
-      <div class="cover-overlay" />
+    <div
+      class="profile-section"
+      :style="{ '--cover-image': 'url(' + BACKEND_URL + profile.coverImage + ')' }"
+    >
       <div
         class="profile-header"
         :class="{ 'profile-editable': backendAuth && currentAddress === address }"
       >
-        <div
-          v-if="backendAuth && currentAddress === address"
-          class="edit-buttons"
-        >
-          <label
-            v-if="!editMode"
-            :title="$t('views.UserProfileView.ChangeCoverPhoto')"
-            class="profile-button edit-button"
-          >
-            <img src="../assets/coverPhotoEdit.svg">
-            <input
-              type="file"
-              name="cover"
-              accept="image/png, image/jpeg"
-              @change="uploadPhoto($event, true)"
-            >
-          </label>
-          <button
-            v-if="!editMode"
-            class="profile-button edit-button"
-            type="button"
-            :title="$t('views.UserProfileView.EditProfile')"
-            @click="editMode = true"
-          >
-            <img src="../assets/buttonEdit.svg">
-          </button>
-          <button
-            v-if="editMode"
-            type="button"
-            class="profile-button cancel-button"
-            :title="$t('cancel')"
-            @click="resetEditedValues"
-          >
-            <IconCancel />
-          </button>
-          <button
-            v-if="editMode"
-            type="button"
-            class="profile-button save-button"
-            :title="$t('views.UserProfileView.Save')"
-            @click="saveProfile"
-          >
-            <img src="../assets/buttonSave.svg">
-          </button>
-        </div>
-        <div class="profile-image">
-          <Avatar :address="address" />
-          <TipInput
-            v-if="currentAddress !== address"
-            :user-address="address"
-            class="profile-button avatar-button"
-          />
-          <template v-else-if="!editMode && backendAuth">
-            <label
+        <ClientOnly>
+          <div class="profile-image">
+            <Avatar :address="address" />
+            <TipInput
+              v-if="currentAddress !== address"
+              :user-address="address"
               class="profile-button avatar-button"
-              :title="$t('views.UserProfileView.ChangeAvatar')"
-            >
-              <img src="../assets/buttonPhoto.svg">
-              <input
-                type="file"
-                name="avatar"
-                accept="image/png, image/jpeg"
-                @change="uploadPhoto($event)"
+            />
+            <template v-else-if="!editMode && backendAuth">
+              <label
+                class="profile-button avatar-button"
+                :title="$t('views.UserProfileView.ChangeAvatar')"
               >
-            </label>
-            <button
-              class="profile-button delete-avatar-button"
-              :title="$t('views.UserProfileView.DeleteAvatar')"
-              @click="deleteAvatar"
-            >
-              <IconCancel />
-            </button>
-          </template>
-        </div>
+                <img src="../assets/buttonPhoto.svg">
+                <input
+                  type="file"
+                  name="avatar"
+                  accept="image/png, image/jpeg"
+                  @change="uploadPhoto($event)"
+                >
+              </label>
+              <button
+                class="profile-button delete-avatar-button"
+                :title="$t('views.UserProfileView.DeleteAvatar')"
+                @click="deleteAvatar"
+              >
+                <IconCancel />
+              </button>
+            </template>
+          </div>
+        </ClientOnly>
         <div class="profile-info">
           <a
             class="profile-username"
@@ -96,34 +50,37 @@
             </div>
             <div class="text-ellipsis">{{ address }}</div>
           </a>
-          <div
-            v-if="balance"
-            class="balance"
-          >
-            <span>{{ $t('Balance') }}</span>
-            <AeAmountFiat :amount="balance" />
-          </div>
-          <div class="profile-row">
-            <div class="location">
-              <img
-                v-if="profile.location.length || currentAddress === address"
-                src="../assets/location.svg"
-              >
-              <input
-                v-if="editMode"
-                v-model="profile.location"
-                class="location-input"
-                type="text"
-                :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
-              >
-              <span v-if="!editMode && (profile.location.length || currentAddress === address)">
-                {{
-                  profile.location.length
-                    ? profile.location
-                    : $t('views.UserProfileView.Location')
-                }}
-              </span>
+          <ClientOnly>
+            <div
+              v-if="balance"
+              class="balance text-ellipsis"
+            >
+              {{ $t('Balance') }} <AeAmountFiat :amount="balance" />
             </div>
+          </ClientOnly>
+          <div class="profile-row">
+            <ClientOnly>
+              <div class="location">
+                <img
+                  v-if="profile.location.length || currentAddress === address"
+                  src="../assets/location.svg"
+                >
+                <input
+                  v-if="editMode"
+                  v-model="profile.location"
+                  class="location-input"
+                  type="text"
+                  :placeholder="$t('views.UserProfileView.LocationPlaceholder')"
+                >
+                <span v-if="!editMode && (profile.location.length || currentAddress === address)">
+                  {{
+                    profile.location.length
+                      ? profile.location
+                      : $t('views.UserProfileView.Location')
+                  }}
+                </span>
+              </div>
+            </ClientOnly>
             <div
               v-if="userStats && hasCreationDate"
               class="joined"
@@ -133,6 +90,53 @@
             </div>
           </div>
         </div>
+        <ClientOnly>
+          <div
+            v-if="backendAuth && currentAddress === address"
+            class="edit-buttons"
+          >
+            <label
+              v-if="!editMode"
+              :title="$t('views.UserProfileView.ChangeCoverPhoto')"
+              class="profile-button edit-button"
+            >
+              <img src="../assets/buttonPhoto.svg">
+              <input
+                type="file"
+                name="cover"
+                accept="image/png, image/jpeg"
+                @change="uploadPhoto($event, true)"
+              >
+            </label>
+            <button
+              v-if="!editMode"
+              class="profile-button edit-button"
+              type="button"
+              :title="$t('views.UserProfileView.EditProfile')"
+              @click="editMode = true"
+            >
+              <img src="../assets/buttonEdit.svg">
+            </button>
+            <button
+              v-if="editMode"
+              type="button"
+              class="profile-button cancel-button"
+              :title="$t('cancel')"
+              @click="resetEditedValues"
+            >
+              <IconCancel />
+            </button>
+            <button
+              v-if="editMode"
+              type="button"
+              class="profile-button save-button"
+              :title="$t('views.UserProfileView.Save')"
+              @click="saveProfile"
+            >
+              <img src="../assets/buttonSave.svg">
+            </button>
+          </div>
+        </ClientOnly>
       </div>
       <div
         v-if="!editMode"
@@ -215,6 +219,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import ClientOnly from 'vue-client-only';
 import Backend from '../utils/backend';
 import AeAmountFiat from './AeAmountFiat.vue';
 import Avatar from './Avatar.vue';
@@ -227,6 +232,7 @@ import IconCancel from '../assets/iconCancel.svg?icon-component';
 
 export default {
   components: {
+    ClientOnly,
     AeAmountFiat,
     Avatar,
     TipInput,
@@ -322,6 +328,9 @@ export default {
       return `${process.env.VUE_APP_EXPLORER_URL}/account/transactions/${this.address}`;
     },
   },
+  async prefetch() {
+    await this.reloadData();
+  },
   mounted() {
     this.$watch(
       () => this.address,
@@ -329,8 +338,8 @@ export default {
         this.reloadData();
         this.reloadBalance();
       },
-      { immediate: true },
     );
+    this.reloadBalance();
 
     EventBus.$on('reloadData', () => {
       this.reloadData();
@@ -366,14 +375,14 @@ export default {
       await this.backendAuth('sendProfileData', data);
       await this.resetEditedValues();
     },
-    reloadData() {
+    async reloadData() {
       this.getProfile();
-      Backend.getSenderStats(this.address).then((stats) => {
+      await Backend.getSenderStats(this.address).then((stats) => {
         this.userStats = stats;
       });
     },
     async getProfile() {
-      Backend.getProfile(this.address)
+      await Backend.getProfile(this.address)
         .then((profile) => {
           if (!profile) {
             return;
@@ -419,14 +428,17 @@ input[type="file"] {
   }
 
   .edit-buttons {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    right: 0.5rem;
-    top: 0.75rem;
-
     .profile-button {
+      display: block;
       margin-bottom: 0.6rem;
+    }
+
+    @include mobile {
+      position: absolute;
+      right: 0.5rem;
+      top: 0.4rem;
+      display: flex;
+      flex-direction: row;
     }
   }
 
@@ -528,18 +540,6 @@ input[type="file"] {
   .balance {
     margin-top: 0.3rem;
     font-size: 0.7rem;
-    display: flex;
-
-    ::v-deep .ae-amount {
-      margin-left: 0.2rem;
-    }
-
-    .ae-amount-fiat {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      display: block;
-    }
   }
 
   textarea,
@@ -562,23 +562,6 @@ input[type="file"] {
       border-bottom: 1px solid $secondary_color;
       outline: 0;
     }
-  }
-
-  .cover-overlay,
-  .cover-photo {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
-  .cover-photo {
-    background-size: cover;
-    background-position: center;
-  }
-
-  .cover-overlay {
-    background-color: $light_color;
-    opacity: 0.8;
   }
 }
 
@@ -641,10 +624,19 @@ input[type="file"] {
   color: $lighter_font_color;
   font-size: 0.7rem;
   vertical-align: middle;
+
+  img {
+    vertical-align: middle;
+  }
 }
 
 .profile-section {
-  background-color: $light_color;
+  background:
+    linear-gradient(rgba($light_color, 0.8), rgba($light_color, 0.8)),
+    var(--cover-image),
+    $light_color;
+  background-size: cover;
+  background-position: center;
   position: relative;
   padding-bottom: 1rem;
 }
@@ -662,17 +654,17 @@ input[type="file"] {
 }
 
 .profile-info {
-  display: flex;
-  flex-direction: column;
-  width: calc(100% - 8.5rem);
+  min-width: 0;
 
   .profile-username {
     color: $tip_note_color;
     display: block;
     font-size: 0.6rem;
-    font-weight: 400;
-    margin-bottom: 0;
     word-break: break-all;
+
+    @include mobile {
+      font-size: 0.55rem;
+    }
 
     .chain {
       color: $standard_font_color;
@@ -682,33 +674,13 @@ input[type="file"] {
   }
 }
 
-@media screen and (max-width: 1024px) {
-  .user-info {
-    .tips-container {
-      padding: 0.15rem 0.5rem;
-    }
-
-    .edit-buttons {
-      flex-direction: row;
-      top: 0.4rem;
-    }
-  }
-
+@include mobile {
   .profile-header {
     white-space: nowrap;
 
     .profile-image .avatar {
       height: 5rem;
       width: 5rem;
-    }
-  }
-
-  .profile-info {
-    vertical-align: middle;
-    width: calc(100% - 4.5rem);
-
-    .profile-username {
-      font-size: 0.55rem;
     }
   }
 
@@ -776,6 +748,7 @@ input[type="file"] {
       height: 0.9rem;
       margin-bottom: 0.2rem;
       margin-right: 0.2rem;
+      vertical-align: middle;
     }
   }
 

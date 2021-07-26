@@ -5,13 +5,7 @@
     <i18n
       path="views.FAQ.subheader"
       tag="p"
-    >
-      <template #tutorialPage>
-        <RouterLink to="/tutorial">
-          {{ $t('views.FAQ.tutorialPage') }}
-        </RouterLink>
-      </template>
-    </i18n>
+    />
 
     <ExpandableBlock
       v-for="({ title }, index) in $t('views.FAQ.questions')"
@@ -44,11 +38,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.faq-page,
-.mission-page,
-.tutorial-page {
+.faq-page {
   background-color: $light_color;
-  padding: 2.75rem 2rem;
+  padding: 1.75rem 2rem;
 
   h1 {
     font-size: 1.5rem;
@@ -75,7 +67,8 @@ export default {
   }
 
   hr {
-    background: $search_nav_border_color;
+    border: 0;
+    border-top: 1px solid $search_nav_border_color;
     margin-bottom: 1rem;
   }
 }

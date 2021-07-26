@@ -7,6 +7,7 @@
       v-if="record"
       class="record"
       v-bind="id ? record : { tip: record }"
+      detailed
     />
 
     <div
@@ -29,7 +30,7 @@
       <template v-if="record">
         <div
           v-if="nestedComments.length === 0 && !showLoading"
-          class="no-results text-center w-100"
+          class="no-results"
           :class="{ error }"
         >
           {{ $t('views.TipCommentsView.NoResultsMsg') }}
@@ -82,13 +83,16 @@ export default {
         : this.record.comments.filter(({ parentId }) => !parentId);
     },
   },
+  async prefetch() {
+    await this.reloadData();
+  },
   async mounted() {
     EventBus.$on('reloadData', () => {
       this.reloadData();
     });
 
     const handler = () => this.reloadData();
-    this.$watch(({ id }) => id, handler, { immediate: true });
+    this.$watch(({ id }) => id, handler);
     const interval = setInterval(handler, 120 * 1000);
 
     this.$once('hook:destroyed', () => {
@@ -126,30 +130,35 @@ export default {
     },
   },
   metaInfo() {
-    const title = {
-      tip: `Tip ${this.tipId}`,
-      comment: 'Comment View',
+    if (!this.record) return { title: 'Loading' };
+    const { title, description, author } = {
+      tip: {
+        title: `Tip ${this.tipId.split('_')[0]}`,
+        description: this.record.text,
+        author: this.record.author,
+      },
+      comment: {
+        title: 'Comment',
+        description: this.record.title,
+        sender: this.record.sender,
+      },
     }[this.$route.name];
-    const author = this.id ? this.record?.author : this.record?.sender;
-    const avatar = Backend.getProfileImageUrl(author);
+    const image = this.record.media?.[0] ?? Backend.getProfileImageUrl(author);
 
-    const ogImage = this.record?.media?.length ? this.record.media[0] : avatar;
-    const ogUrl = window.location.href.split('?')[0];
-    const ogTitle = `Superhero ${this.id ? 'Comment' : `Tip ${this.tipId.split('_')[1]}`}`;
-    const ogDescription = this.id ? this.record?.text : this.record?.title;
-
-    const meta = [
-      { property: 'og:image', content: ogImage },
-      { property: 'og:url', content: ogUrl },
-      { property: 'og:title', content: ogTitle },
-      { property: 'og:description', content: ogDescription },
-      { property: 'og:site_name', content: 'Superhero' },
-      { name: 'twitter:card', content: 'summary' },
-      { name: 'twitter:site', content: '@superhero_chain' },
-      { name: 'twitter:creator', content: '@superhero_chain' },
-      { name: 'twitter:image:alt', content: 'Superhero post' },
-    ];
-    return { title, meta };
+    return {
+      title,
+      meta: [
+        { property: 'og:image', content: image },
+        { property: 'og:url', content: this.$location.href.split('?')[0] },
+        { property: 'og:title', content: `Superhero ${title}` },
+        { property: 'og:description', content: description },
+        { property: 'og:site_name', content: 'Superhero' },
+        { name: 'twitter:card', content: 'summary' },
+        { name: 'twitter:site', content: '@superhero_chain' },
+        { name: 'twitter:creator', content: '@superhero_chain' },
+        { name: 'twitter:image:alt', content: 'Superhero post' },
+      ],
+    };
   },
 };
 </script>
@@ -160,32 +169,8 @@ export default {
   font-size: 0.75rem;
 
   .record {
-    &.tip-record {
-      margin-bottom: 0;
-      background-color: $thumbnail_background_color;
-
-      ::v-deep .tip-body .tip-article {
-        background-color: $thumbnail_background_color_alt;
-
-        .preview-image {
-          background-color: $thumbnail_background_color_alt;
-        }
-
-        &:hover {
-          background-color: #373843;
-
-          .preview-image {
-            background-color: #373843;
-          }
-        }
-      }
-    }
-
-    &.tip-comment {
-      background-color: $thumbnail_background_color;
-      border-radius: 0;
-      margin-bottom: 0;
-    }
+    margin-bottom: 0;
+    background-color: $thumbnail_background_color;
   }
 
   .comments-section {
@@ -211,6 +196,7 @@ export default {
     p {
       font-size: 0.75rem;
       text-transform: capitalize;
+      margin-top: 0;
       margin-bottom: 0.7rem;
       color: white;
       font-weight: 600;

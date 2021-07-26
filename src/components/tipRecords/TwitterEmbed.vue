@@ -1,53 +1,57 @@
 <template>
-  <div
-    class="tip-two-columns-preview"
-    @click.stop="goToTip"
+  <a
+    class="twitter-embed"
+    :href="tipUrl"
+    target="_blank"
   >
-    <div class="tip-two-columns-img">
-      <img :src="tipPreviewImage">
-    </div>
+    <img :src="tipPreviewImage">
 
-    <div class="tip-two-columns-info">
-      <div class="source">
-        {{ sourceUrl.toUpperCase() }}
-      </div>
-      <h2
-        class="title text-ellipsis"
-        :title="tipPreviewTitle"
-      >
-        {{ tipPreviewTitle }}
-      </h2>
-      <div
-        class="description"
-        :title="tipPreviewDescription"
-      >
-        {{ tipPreviewDescription }}
-      </div>
-    </div>
-  </div>
+    <TipUrlDetails
+      :source="sourceUrl"
+      :title="tipPreviewTitle"
+      :description="tipPreviewDescription"
+    />
+  </a>
 </template>
 
 <script>
+import TipUrlDetails from './TipUrlDetails.vue';
+
 export default {
+  components: { TipUrlDetails },
   props: {
-    tip: { type: Object, required: true },
     tipPreviewTitle: { type: String, required: true },
     tipPreviewDescription: { type: String, required: true },
-    tipPreviewImage: { type: String, default: '' },
+    tipPreviewImage: { type: String, required: true },
+    tipUrl: { type: String, required: true },
     sourceUrl: { type: String, default: '' },
-    goToTip: { type: Function, default: () => {} },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.description {
-  @include truncate-overflow-mx(6);
-}
+.twitter-embed {
+  display: flex;
 
-@media only screen and (max-width: 1024px) {
-  .description {
-    @include truncate-overflow-mx(2);
+  img {
+    width: 35%;
+    object-fit: cover;
+
+    @include smallest {
+      max-height: 150px;
+    }
+  }
+
+  .tip-url-details {
+    min-width: 0;
+
+    ::v-deep .description {
+      @include truncate-overflow-mx(6);
+
+      @include mobile {
+        @include truncate-overflow-mx(3);
+      }
+    }
   }
 }
 </style>

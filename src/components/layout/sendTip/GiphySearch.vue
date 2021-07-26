@@ -21,18 +21,16 @@
         :key="colIndex"
         class="gif-column"
       >
-        <div
-          v-for="({ still, animated, original }, index) in results"
-          :key="index"
-        >
+        <template v-for="({ still, animated, original }, index) in results">
           <img
             v-if="index % 3 === colIndex"
+            :key="index"
             :src="hovered === index ? animated : still"
             @mouseover="hovered = index"
             @mouseleave="hovered = null"
             @click="$emit('add-gif', original)"
           >
-        </div>
+        </template>
       </div>
     </div>
     <Loading v-if="loading" />
@@ -97,53 +95,47 @@ export default {
   position: relative;
   margin: 0.5rem;
 
-  .loading {
-    position: absolute;
-    bottom: 0;
+  .search-input {
+    border-radius: 0.25rem 0.25rem 0 0;
   }
-}
 
-.search-input {
-  border-radius: 0.25rem 0.25rem 0 0;
-}
+  .results-count {
+    background: $light_color;
+    text-align: right;
+  }
 
-.results-count {
-  background: $light_color;
-  text-align: right;
-}
+  .results {
+    height: 20rem;
+    display: flex;
+    overflow-y: scroll;
+    scrollbar-color: $light_font_color $actions_ribbon_background_color;
+    scrollbar-width: thin;
 
-.results {
-  height: 20rem;
-  display: flex;
-  overflow-y: scroll;
-  flex-wrap: no-wrap;
-  scrollbar-color: $light_font_color $actions_ribbon_background_color;
-  scrollbar-width: thin;
+    &::-webkit-scrollbar {
+      width: 0.25rem;
+    }
 
-  img {
-    background-color: $article_content_color;
-    padding: 0.2rem;
-    width: 100%;
-    height: auto;
-    cursor: pointer;
+    &::-webkit-scrollbar-thumb {
+      background: $light_font_color;
+      border-radius: 0.25rem;
+    }
 
-    &:hover {
-      filter: brightness(1.3);
+    img {
+      background-color: $article_content_color;
+      padding: 0.2rem;
+      width: 100%;
+      display: block;
+      cursor: pointer;
+
+      &:hover {
+        filter: brightness(1.3);
+      }
     }
   }
 
-  button {
-    height: 2rem;
-    flex-grow: 0;
-  }
-
-  &::-webkit-scrollbar {
-    width: 0.25rem;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $light_font_color;
-    border-radius: 0.25rem;
+  .loading {
+    position: absolute;
+    bottom: 0;
   }
 }
 </style>

@@ -4,7 +4,7 @@
     :class="$route.meta.layoutClass"
   >
     <MobileNavigation v-if="!$route.meta.fullScreen" />
-    <div class="not-bootstrap-row">
+    <div class="row">
       <div
         v-if="!$route.meta.fullScreen"
         class="sidebar-sticky"
@@ -62,18 +62,23 @@ export default {
       this.reloadData(),
     ]);
   },
+  async prefetch() {
+    await Promise.all([
+      this.$store.dispatch('backend/reloadPrices'),
+      Backend.getCacheChainNames().then((names) => this.setChainNames(names)),
+    ]);
+  },
   methods: {
     ...mapMutations([
-      'setAddress', 'updateTopics', 'setChainNames', 'updateBalance',
+      'setAddress', 'setChainNames', 'updateBalance',
       'setGraylistedUrls', 'setTokenInfo', 'setWordRegistry', 'setVerifiedUrls',
     ]),
     ...mapMutations('aeternity', ['useSdkWallet']),
     async reloadData() {
       const [
-        chainNames, topics, verifiedUrls, graylistedUrls, tokenInfo, wordRegistry,
+        chainNames, verifiedUrls, graylistedUrls, tokenInfo, wordRegistry,
       ] = await Promise.all([
         Backend.getCacheChainNames(),
-        Backend.getTopics(),
         Backend.getVerifiedUrls(),
         Backend.getGrayListedUrls(),
         Backend.getTokenInfo(),
@@ -83,7 +88,6 @@ export default {
         this.$store.dispatch('fetchUserInfo'),
       ]);
 
-      this.updateTopics(topics);
       this.setChainNames(chainNames);
       this.setGraylistedUrls(graylistedUrls);
       this.setVerifiedUrls(verifiedUrls);
@@ -105,7 +109,7 @@ export default {
     },
   },
   metaInfo: {
-    titleTemplate: '%s - Superhero.com',
+    titleTemplate: (pageTitle) => (pageTitle ? `${pageTitle} - Superhero.com` : 'Superhero.com'),
   },
 };
 </script>
@@ -121,13 +125,13 @@ export default {
   }
 }
 
-@media (min-width: 1200px) {
+@include above-desktop-small {
   html {
     font-size: 125%;
   }
 }
 
-@media (min-width: 1440px) {
+@include above-desktop-big {
   :root {
     --container-width: 61rem;
   }
@@ -142,7 +146,7 @@ export default {
   display: flex;
   flex-direction: column;
 
-  .not-bootstrap-row {
+  .row {
     flex-grow: 1;
     display: flex;
     flex-wrap: nowrap;
@@ -164,7 +168,7 @@ export default {
         margin-right: 15px;
         padding-top: 1rem;
 
-        @media (min-width: 1440px) {
+        @include above-desktop-big {
           margin-right: calc(15px + 1rem); // TODO: Replace with a rem value
         }
       }

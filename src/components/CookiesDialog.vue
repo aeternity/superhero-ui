@@ -1,12 +1,8 @@
-<!-- eslint-disable vue-i18n/no-raw-text -->
 <template>
-  <div
-    class="cookies-dialog"
-    @click.stop
-  >
+  <div class="cookies-dialog">
     <ButtonPlain
       class="button-cancel"
-      @click="$emit('close', $event)"
+      @click="resolve"
     >
       <IconCancel />
     </ButtonPlain>
@@ -19,7 +15,7 @@
     <div>
       <ButtonPlain
         class="cookies-button"
-        @click="setCookies({ scope, status: true })"
+        @click="allowHandler"
       >
         Allow {{ scope }}
       </ButtonPlain>
@@ -35,35 +31,65 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { createPopper } from '@popperjs/core';
+import { mapState } from 'vuex';
+import { ElementType } from '../utils';
 import ButtonPlain from './ButtonPlain.vue';
 import CookieImg from '../assets/cookieImg.svg?icon-component';
 import IconCancel from '../assets/iconCancel.svg?icon-component';
 
 export default {
   components: { ButtonPlain, CookieImg, IconCancel },
-  props: { scope: { type: String, required: true } },
+  props: {
+    resolve: { type: Function, required: true },
+    reference: { type: ElementType, required: true },
+    scope: { type: String, required: true },
+  },
   computed: mapState(['address']),
-  methods: mapActions('backend', ['setCookies']),
+  mounted() {
+    this.popper = createPopper(this.reference, this.$el, {
+      placement: 'bottom-start',
+      modifiers: [{
+        name: 'flip',
+        enabled: false,
+      }, {
+        name: 'sameWidth',
+        enabled: true,
+        phase: 'beforeWrite',
+        requires: ['computeStyles'],
+        fn: ({ state }) => {
+          state.styles.popper.width = `${state.rects.reference.width}px`;
+          state.styles.popper.top = `-${state.rects.reference.height}px`;
+        },
+        effect: ({ state }) => {
+          state.elements.popper.style.width = `${
+            state.elements.reference.offsetWidth
+          }px`;
+        },
+      }],
+    });
+  },
+  methods: {
+    async allowHandler() {
+      await this.$store.dispatch('backend/setCookies', { scope: this.scope, status: true });
+      this.resolve();
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .cookies-dialog {
-  position: absolute;
-  z-index: 9;
-  left: -4%;
   background-color: $buttons_background;
   border: 1px solid $article_content_color;
   border-radius: 0.25rem;
-  width: 108%;
-  padding: 1rem;
-  cursor: default;
+  padding: 0.9rem;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: 0.75rem;
 
   .button-cancel {
     position: absolute;
@@ -81,8 +107,7 @@ export default {
   }
 
   .info {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding: 0.8rem 0;
     text-align: center;
   }
 
@@ -93,7 +118,7 @@ export default {
     color: $secondary_color;
     padding: 0.35rem 0.7rem;
     background-color: $buttons_background;
-    margin: 0.5rem 0.5rem 0.5rem 0;
+    margin: 0.5rem 0.5rem 0 0;
 
     &:hover {
       background-color: #1161fe50;

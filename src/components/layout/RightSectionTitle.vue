@@ -47,6 +47,7 @@ export default {
 
     svg {
       height: 1em;
+      vertical-align: middle;
 
       &.closed {
         transform: rotate(180deg);

@@ -12,12 +12,6 @@ export default {
     state.profile = {};
     state.cookiesConsent = {};
   },
-  updateTopics(state, payload) {
-    state.topics = payload;
-  },
-  setTipSortBy(state, payload) {
-    state.tipSortBy = payload;
-  },
   setChainNames(state, payload) {
     state.chainNames = payload;
   },
@@ -66,9 +60,6 @@ export default {
     };
     Object.entries(mergeWith({}, state, remoteState, customizer))
       .forEach(([name, value]) => Vue.set(state, name, value));
-  },
-  setBackendStatus(state, isBackendLive) {
-    state.isBackendLive = isBackendLive;
   },
   setCookiesConsent(state, { scope, status }) {
     Vue.set(state.cookiesConsent, scope, status);

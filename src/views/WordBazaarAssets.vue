@@ -1,32 +1,28 @@
 <template>
   <div class="word-bazaar-assets">
     <TabBar>
-      <template slot="left">
-        <TabBarButton
-          :class="{ active: activeTab === 'all' }"
-          @click="activeTab = 'all'"
-        >
-          <span class="desktop">{{ $t('views.WordBazaar.Tabs[0].text') }}</span>
-          <span class="mobile">{{ $t('views.WordBazaar.Tabs[0].textMobile') }}</span>
-          <IconFilter class="mobile" />
-        </TabBarButton>
-        <TabBarButton
-          :class="{ active: activeTab === 'trending' }"
-          @click="activeTab = 'trending'"
-        >
-          <span class="desktop">{{ $t('views.WordBazaar.Tabs[1].text') }}</span>
-          <span class="mobile">{{ $t('views.WordBazaar.Tabs[1].textMobile') }}</span>
-          <IconFilter class="mobile" />
-        </TabBarButton>
-        <TabBarButton
-          :class="{ active: activeTab === 'recent' }"
-          @click="activeTab = 'recent'"
-        >
-          <span class="desktop">{{ $t('views.WordBazaar.Tabs[2].text') }}</span>
-          <span class="mobile">{{ $t('views.WordBazaar.Tabs[2].textMobile') }}</span>
-          <IconFilter class="mobile" />
-        </TabBarButton>
-      </template>
+      <TabBarButton
+        :class="{ active: activeTab === 'all' }"
+        @click="activeTab = 'all'"
+      >
+        <span class="desktop">{{ $t('views.WordBazaar.Tabs.All') }}</span>
+        <span class="mobile">{{ $t('views.WordBazaar.TabsMobile.All') }}</span>
+        <IconFilter class="mobile" />
+      </TabBarButton>
+      <TabBarButton
+        :class="{ active: activeTab === 'trending' }"
+        @click="activeTab = 'trending'"
+      >
+        <span>{{ $t('views.WordBazaar.Tabs.Trending') }}</span>
+        <IconFilter class="mobile" />
+      </TabBarButton>
+      <TabBarButton
+        :class="{ active: activeTab === 'recent' }"
+        @click="activeTab = 'recent'"
+      >
+        <span>{{ $t('views.WordBazaar.Tabs.Recent') }}</span>
+        <IconFilter class="mobile" />
+      </TabBarButton>
       <template slot="right">
         <SearchInput
           v-if="showSearch"

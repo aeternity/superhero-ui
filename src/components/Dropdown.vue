@@ -3,23 +3,22 @@
     class="dropdown"
     :class="{ right: showRight, 'read-only': !method }"
   >
-    <ButtonPlain
+    <ButtonDropdown
       :class="{ active: showMenu }"
-      @click.prevent="showMenu = true"
+      @click.native.prevent="showMenu = true"
     >
       <slot
         name="displayValue"
         :displayValue="currentValue"
       />
       <span v-if="!$slots.displayValue">{{ displayValue }}</span>
-      <img src="../assets/caretDown.svg">
-    </ButtonPlain>
+    </ButtonDropdown>
     <Modal
       v-if="showMenu"
       @close="showMenu = false"
     >
       <Component
-        :is="method ? ButtonPlain : 'div'"
+        :is="method ? 'ButtonPlain' : 'div'"
         v-for="option in options"
         :key="option.value"
         class="dropdown-item"
@@ -35,24 +34,25 @@
 
 <script>
 import Modal from './Modal.vue';
+import ButtonDropdown from './ButtonDropdown.vue';
 import ButtonPlain from './ButtonPlain.vue';
 
 export default {
   components: {
     Modal,
+    ButtonDropdown,
     ButtonPlain,
   },
   props: {
-    options: { type: Array, default: null },
-    selected: { type: [String, Number] },
-    method: { type: Function },
-    showRight: { type: Boolean },
+    options: { type: Array, required: true },
+    selected: { type: [String, Number], default: '' },
+    method: { type: Function, default: null },
+    showRight: Boolean,
   },
   data() {
     return {
       showMenu: false,
       currentValue: this.options[0],
-      ButtonPlain,
     };
   },
   computed: {
@@ -82,17 +82,8 @@ export default {
   display: inline-block;
   vertical-align: middle;
 
-  > button {
+  > .button-dropdown {
     display: flex;
-    align-items: center;
-    padding: 0.2rem 0.4rem;
-    font-size: 0.75rem;
-    color: $standard_font_color;
-    border-radius: 2.5rem;
-
-    &.active {
-      background-color: $article_content_color;
-    }
   }
 
   .dropdown-item {
@@ -103,6 +94,7 @@ export default {
     color: $standard_font_color;
     box-shadow: inset 0 0 0.1rem $article_content_color;
     border-radius: unset;
+    white-space: nowrap;
 
     &:first-child {
       border-radius: 0.15rem 0.15rem 0 0;
@@ -121,7 +113,7 @@ export default {
     padding: 0;
   }
 
-  &::v-deep .not-bootstrap-modal-content {
+  &::v-deep .modal-content {
     max-height: 10rem;
     overflow-y: auto;
     scrollbar-width: none;
@@ -132,7 +124,7 @@ export default {
     }
   }
 
-  &.right::v-deep .not-bootstrap-modal-content {
+  &.right::v-deep .modal-content {
     right: 0;
   }
 

@@ -11,7 +11,6 @@
             class="close-button"
             @click="showOverlay = false"
           >
-            <!--eslint-disable-line vue-i18n/no-raw-text-->
             &#x2715;
           </ButtonPlain>
           <Navigation mobile />
@@ -20,7 +19,7 @@
       </Modal>
     </Transition>
     <SearchFeed
-      v-if="isTipsRoute && showSearchFeed"
+      v-if="isOnFeed && showSearchFeed"
       class="mobile-navigation-sticky"
       @close="showSearchFeed = false"
     />
@@ -35,13 +34,13 @@
       <div class="separator" />
 
       <a
-        v-if="!useSdkWallet && isTipsRoute"
+        v-if="!useSdkWallet && isOnFeed"
         :href="tipDeepLink"
       >
         <IconWallet />
       </a>
       <ButtonPlain
-        v-if="isTipsRoute"
+        v-if="isOnFeed"
         @click="showSearchFeed = true"
       >
         <IconSearch />
@@ -79,12 +78,14 @@ export default {
   data: () => ({
     showOverlay: false,
     showSearchFeed: false,
-    tipDeepLink: createDeepLinkUrl({ type: 'tips' }),
   }),
   computed: {
     ...mapState('aeternity', ['useSdkWallet']),
-    isTipsRoute() {
-      return ['feed', 'feed-search'].includes(this.$route.name);
+    isOnFeed() {
+      return this.$route.name === 'feed';
+    },
+    tipDeepLink() {
+      return createDeepLinkUrl({ type: 'tips', callbackUrl: this.$location });
     },
   },
   watch: {
@@ -127,6 +128,11 @@ export default {
   display: flex;
   align-items: center;
 
+  img,
+  svg {
+    display: block;
+  }
+
   .logo img {
     width: 9.2rem;
   }
@@ -156,7 +162,7 @@ export default {
   height: $mobile_navigation_height;
   margin: 0 auto;
 
-  @media (min-width: 1025px) {
+  @include above-mobile {
     display: none;
   }
 
@@ -165,7 +171,7 @@ export default {
   }
 }
 
-::v-deep .not-bootstrap-modal {
+::v-deep .modal {
   .overlay {
     background-color: rgba($background_color, 0.6);
   }

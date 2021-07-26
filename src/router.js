@@ -1,22 +1,14 @@
 import Router from 'vue-router';
-import { IS_MOBILE_DEVICE } from './utils';
 import Tracing from './views/admin/Tracing.vue';
 import Conference from './views/Conference.vue';
-import CreateProfile from './views/CreateProfile.vue';
 import FAQ from './views/FAQ.vue';
 import Governance from './views/Governance.vue';
 import Landing from './views/Landing.vue';
 import League from './views/League.vue';
-import Maintenance from './views/Maintenance.vue';
-import Mission from './views/Mission.vue';
 import Privacy from './views/Privacy.vue';
 import Terms from './views/Terms.vue';
 import TipsAndComments from './views/TipsAndComments.vue';
 import FeedList from './views/FeedList.vue';
-import TutorialMeet from './views/tutorial/Meet.vue';
-import TutorialVoting from './views/tutorial/Voting.vue';
-import TutorialWallet from './views/tutorial/Wallet.vue';
-import TutorialWidget from './views/tutorial/Widget.vue';
 import UserProfile from './views/UserProfile.vue';
 import WordBazaar from './views/WordBazaar.vue';
 import WordBazaarAssets from './views/WordBazaarAssets.vue';
@@ -35,7 +27,11 @@ const routes = [
       next(to.fullPath.startsWith('/#/') ? to.fullPath.slice(2) : undefined);
     },
   },
-  ...process.env.LANDING_ENABLED ? [{
+  {
+    path: '/search/:query',
+    redirect: (to) => ({ name: 'feed', query: { search: to.params.query } }),
+  },
+  ...process.env.VUE_APP_LANDING_ENABLED ? [{
     path: '/landing',
     name: 'landing',
     component: Landing,
@@ -44,12 +40,6 @@ const routes = [
       layoutClass: 'landing-page',
     },
   }] : [],
-  {
-    path: '/search/:query',
-    name: 'feed-search',
-    component: FeedList,
-    props: true,
-  },
   {
     path: '/tip/:tipId/comment/:id',
     name: 'comment',
@@ -93,7 +83,7 @@ const routes = [
     redirect: '/users/:address',
   },
   {
-    path: '/users/:address',
+    path: '/users/:address/:activity?',
     name: 'user-profile',
     component: UserProfile,
     props: true,
@@ -109,11 +99,6 @@ const routes = [
     component: Privacy,
   },
   {
-    path: '/tutorial',
-    name: 'tutorial',
-    component: CreateProfile,
-  },
-  {
     path: '/league',
     name: 'league',
     component: League,
@@ -124,43 +109,9 @@ const routes = [
     component: Governance,
   },
   {
-    path: '/mission',
-    name: 'mission',
-    component: Mission,
-  },
-  {
-    path: '/tutorial/widget',
-    name: 'tutorial-widget',
-    component: TutorialWidget,
-  },
-  {
-    path: '/tutorial/voting',
-    name: 'tutorial-voting',
-    component: TutorialVoting,
-  },
-  {
-    path: '/tutorial/wallet',
-    name: 'tutorial-wallet',
-    component: TutorialWallet,
-  },
-  {
-    path: '/tutorial/meet',
-    name: 'tutorial-meet',
-    component: TutorialMeet,
-  },
-  {
     path: '/faq',
     name: 'faq',
     component: FAQ,
-  },
-  {
-    path: '/maintenance',
-    name: 'maintenance',
-    props: true,
-    component: Maintenance,
-    meta: {
-      fullScreen: true,
-    },
   },
   {
     path: '/admin/tracing/:tipId',
@@ -173,10 +124,6 @@ const routes = [
     name: 'conference',
     component: Conference,
     props: true,
-    beforeEnter(to, from, next) {
-      if (IS_MOBILE_DEVICE) window.location = `https://${process.env.VUE_APP_JITSI_HOST}/${to.params.room || ''}`;
-      else next();
-    },
   },
   {
     path: '/trending',
@@ -189,4 +136,4 @@ const routes = [
   },
 ];
 
-export default new Router({ mode: 'history', routes });
+export default () => new Router({ mode: 'history', routes });

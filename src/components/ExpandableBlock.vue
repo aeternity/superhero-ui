@@ -1,55 +1,71 @@
 <template>
-  <div
-    class="expand-block"
-    :class="{ expanded: expanded }"
-  >
-    <div
+  <div class="expandable-block">
+    <input
+      :id="_uid"
+      type="checkbox"
+    >
+    <label
+      :for="_uid"
       class="heading"
-      @click="toggleExpand(!expanded)"
     >
-      <img
-        :src="iconDrawer"
-        class="arrow"
-      >
-      <div class="title">
-        {{ title }}
-      </div>
-    </div>
-    <div
-      v-if="expanded"
-      class="body"
-    >
+      <IconRightArrow />
+      {{ title }}
+    </label>
+    <div class="body">
       <slot />
     </div>
   </div>
 </template>
 
 <script>
-import iconDrawer from '../assets/iconDrawer.svg';
+import IconRightArrow from '../assets/iconRightArrow.svg?icon-component';
 
 export default {
+  components: { IconRightArrow },
   props: {
     title: { type: String, required: false, default: '' },
-  },
-  data() {
-    return {
-      expanded: false,
-      iconDrawer,
-    };
-  },
-  methods: {
-    toggleExpand(isExpanded) {
-      this.expanded = isExpanded;
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.expand-block {
+.expandable-block {
   margin-bottom: 1rem;
 
+  input {
+    display: none;
+
+    &:checked ~ {
+      .heading {
+        color: $standard_font_color;
+
+        .iconRightArrow {
+          transform: rotate(90deg);
+          color: $custom_links_color;
+        }
+      }
+
+      .body {
+        display: block;
+      }
+    }
+  }
+
+  .heading {
+    cursor: pointer;
+    color: $custom_links_color;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+
+    .iconRightArrow {
+      height: 1rem;
+      margin-right: 0.2rem;
+      vertical-align: middle;
+    }
+  }
+
   .body {
+    display: none;
     color: $text_content_color;
     font-size: 0.8rem;
     margin-top: 0.5rem;
@@ -57,40 +73,14 @@ export default {
     p {
       text-align: left;
     }
-  }
 
-  .title {
-    display: inline;
-    color: $custom_links_color;
-    font-size: 0.9rem;
-    font-weight: 400;
-  }
+    a {
+      color: $custom_links_color;
 
-  .arrow {
-    margin-right: 0.5rem;
-    vertical-align: middle;
-  }
-
-  &.expanded {
-    .arrow {
-      transform: rotate(90deg);
+      &:hover {
+        filter: saturate(0.5) brightness(1.2);
+      }
     }
-
-    .title {
-      color: $standard_font_color;
-    }
-  }
-
-  a {
-    color: $custom_links_color;
-
-    &:hover {
-      filter: saturate(0.5) brightness(1.2);
-    }
-  }
-
-  .heading:hover {
-    cursor: pointer;
   }
 }
 </style>

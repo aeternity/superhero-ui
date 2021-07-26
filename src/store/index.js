@@ -6,26 +6,21 @@ import { mapObject } from '@aeternity/aepp-sdk/es/utils/other';
 import { camelCase } from 'lodash-es';
 import mutations from './mutations';
 import getters from './getters';
-import persistState from './plugins/persistState';
 import modals from './plugins/modals';
-// eslint-disable-next-line import/no-cycle
 import backend from './modules/backend';
 import aeternity from './modules/aeternity';
-// eslint-disable-next-line import/no-cycle
 import Backend from '../utils/backend';
 import { handleUnknownError } from '../utils';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+export default () => new Vuex.Store({
   state: {
     address: null,
     balance: 0,
     profile: {},
     pinnedItems: [],
     selectedCurrency: 'eur',
-    topics: [],
-    tipSortBy: 'latest',
     chainNames: [],
     verifiedUrls: [],
     graylistedUrls: [],
@@ -34,9 +29,9 @@ export default new Vuex.Store({
     tokenPrices: {},
     wordRegistry: [],
     isHiddenContent: true,
-    isBackendLive: true,
     cookiesConsent: {},
     middleware: null,
+    ssrTime: 'SH_SSR_TIME',
   },
   mutations,
   actions: {
@@ -106,6 +101,7 @@ export default new Vuex.Store({
         },
       };
       spec.basePath = '/mdw//';
+      spec.schemes = ['https']; // TODO: Remove after solving https://github.com/aeternity/ae_mdw/issues/160
 
       const middleware = mapObject(
         (await genSwaggerClient(specUrl, { spec })).api,
@@ -132,22 +128,6 @@ export default new Vuex.Store({
     aeternity,
   },
   plugins: [
-    persistState(
-      (state) => state,
-      ({
-        selectedCurrency, address, balance, tokenInfo, tokenBalances,
-        tokenPrices, wordRegistry, cookiesConsent,
-      }) => ({
-        selectedCurrency,
-        address,
-        balance,
-        tokenInfo,
-        tokenBalances,
-        tokenPrices,
-        wordRegistry,
-        cookiesConsent,
-      }),
-    ),
     modals,
   ],
 });

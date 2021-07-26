@@ -53,6 +53,8 @@ export default {
   .svg {
     width: 56px;
     height: 56px;
+    display: block;
+    margin: 0 auto;
   }
 
   &.lg .svg {

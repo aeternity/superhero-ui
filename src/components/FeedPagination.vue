@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="feed-pagination">
     <Loader
       v-if="tipsReloading"
       lg
     />
-    <div v-if="tips">
+    <template v-if="tips">
       <TipRecord
         v-for="tip in tips"
         :key="tip.id"
@@ -17,11 +17,11 @@
       />
       <div
         v-if="tips.length === 0"
-        class="no-results text-center m-2"
+        class="no-results"
       >
         {{ $t('components.TipsPagination.NoResultsMsg') }}
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -63,9 +63,10 @@ export default {
       ),
     ),
   },
-  async mounted() {
+  async prefetch() {
     await this.reloadTips();
-
+  },
+  async mounted() {
     const scrollHandler = () => {
       const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
       if (scrollHeight - scrollTop <= clientHeight + 100) {
@@ -101,3 +102,10 @@ export default {
   ),
 };
 </script>
+
+<style lang="scss" scoped>
+.feed-pagination .no-results {
+  text-align: center;
+  margin: 0.5rem;
+}
+</style>

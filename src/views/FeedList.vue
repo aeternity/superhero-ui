@@ -3,32 +3,14 @@
     <div class="actions">
       <SendTip :post="feed !== 'tips'" />
       <div class="feed-category-row">
-        <FilterButton
-          :class="{ active: feed === 'main' }"
-          @click="feed = 'main'"
-        >
-          <IconFeed />
-          <span>
-            {{ $t('views.FeedList.main') }}
-          </span>
+        <FilterButton :to-relative="{ query: { feed: null } }">
+          <IconFeed /> <span>{{ $t('views.FeedList.main') }}</span>
         </FilterButton>
-        <FilterButton
-          :class="{ active: feed === 'tips' }"
-          @click="feed = 'tips'"
-        >
-          <IconDiamond />
-          <span>
-            {{ $t('views.FeedList.tips') }}
-          </span>
+        <FilterButton :to-relative="{ query: { feed: 'tips' } }">
+          <IconDiamond /> <span>{{ $t('views.FeedList.tips') }}</span>
         </FilterButton>
-        <FilterButton
-          :class="{ active: feed === 'posts' }"
-          @click="feed = 'posts'"
-        >
-          <IconPosts />
-          <span>
-            {{ $t('views.FeedList.posts') }}
-          </span>
+        <FilterButton :to-relative="{ query: { feed: 'posts' } }">
+          <IconPosts /> <span>{{ $t('views.FeedList.posts') }}</span>
         </FilterButton>
         <FilterButton
           class="trending"
@@ -37,24 +19,14 @@
           <IconHashtag />
         </FilterButton>
       </div>
-      <div class="not-bootstrap-row">
-        <ButtonPlain
-          id="sort-latest"
-          :class="{ active: tipSortBy === 'latest' }"
-          @click="setTipSortBy('latest')"
-        >
+      <div class="row">
+        <ButtonPlain :to-relative="{ query: { sortBy: null } }">
           {{ $t('views.TipList.SortingLatest') }}
         </ButtonPlain>
-        <ButtonPlain
-          :class="{ active: tipSortBy === 'hot' }"
-          @click="setTipSortBy('hot')"
-        >
+        <ButtonPlain :to-relative="{ query: { sortBy: 'hot' } }">
           {{ $t('views.TipList.SortingMostPopular') }}
         </ButtonPlain>
-        <ButtonPlain
-          :class="{ active: tipSortBy === 'highest' }"
-          @click="setTipSortBy('highest')"
-        >
+        <ButtonPlain :to-relative="{ query: { sortBy: 'highest' } }">
           {{ $t('views.TipList.SortingHighestRated') }}
         </ButtonPlain>
         <div class="separator" />
@@ -70,8 +42,8 @@
     </div>
 
     <FeedPagination
-      :tip-sort-by="tipSortBy"
-      :search="query"
+      :tip-sort-by="$route.query.sortBy || 'latest'"
+      :search="$route.query.search"
       :blacklist="isHiddenContent"
       :show-tips="['main', 'tips'].includes(feed)"
       :show-posts="['main', 'posts'].includes(feed)"
@@ -108,9 +80,13 @@ export default {
   props: {
     query: { type: String, default: '' },
   },
-  data: () => ({ feed: 'main' }),
-  computed: mapState(['tipSortBy', 'isHiddenContent']),
-  methods: mapMutations(['setTipSortBy', 'setIsHiddenContent']),
+  computed: {
+    ...mapState(['isHiddenContent']),
+    feed() {
+      return this.$route.query.feed || 'main';
+    },
+  },
+  methods: mapMutations(['setIsHiddenContent']),
   metaInfo: {
     title: 'Tips',
   },
@@ -147,6 +123,7 @@ export default {
         height: 0.8rem;
       }
 
+      svg,
       span {
         vertical-align: middle;
       }
@@ -165,7 +142,7 @@ export default {
     }
   }
 
-  .not-bootstrap-row {
+  .row {
     background-color: $actions_ribbon_background_color;
     display: flex;
     align-items: center;
@@ -202,7 +179,7 @@ export default {
         color: $primary_color;
       }
 
-      &.active {
+      &.router-link-exact-active {
         color: $custom_links_color;
         border-bottom-color: $custom_links_color;
       }

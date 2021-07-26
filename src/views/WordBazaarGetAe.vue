@@ -10,7 +10,7 @@
         tag="p"
       >
         <template #ae>
-          <span class="abbreviation">{{ $t('AE') }}</span>
+          <span class="abbreviation">AE</span>
         </template>
       </i18n>
     </div>
@@ -24,7 +24,7 @@
         tag="p"
       >
         <template #ae>
-          <span class="abbreviation">{{ $t('AE') }}</span>
+          <span class="abbreviation">AE</span>
         </template>
       </i18n>
     </div>
@@ -38,7 +38,7 @@
         tag="p"
       >
         <template #ae>
-          <span class="abbreviation">{{ $t('AE') }}</span>
+          <span class="abbreviation">AE</span>
         </template>
       </i18n>
     </div>

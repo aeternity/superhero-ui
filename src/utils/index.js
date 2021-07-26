@@ -3,6 +3,8 @@ import BigNumber from 'bignumber.js';
 import isFQDN from 'is-fqdn';
 import i18n from './i18nHelper';
 
+export const ElementType = typeof Element !== 'undefined' ? Element : null;
+
 export const topicsRegex = /(#[a-zA-Z]+\b)(?!;)/g;
 
 export const shiftDecimalPlaces = (amount, decimals) => new BigNumber(amount).shiftedBy(decimals);
@@ -13,12 +15,12 @@ export const currencySigns = {
   cny: '¥',
 };
 
-export const IS_MOBILE_DEVICE = window.navigator.userAgent.includes('Mobi');
-
-export const createDeepLinkUrl = ({ type, ...params }) => {
+export const createDeepLinkUrl = ({ type, callbackUrl, ...params }) => {
   const url = new URL(`${process.env.VUE_APP_WALLET_URL}/${type}`);
-  url.searchParams.set('x-success', window.location);
-  url.searchParams.set('x-cancel', window.location);
+  if (callbackUrl) {
+    url.searchParams.set('x-success', callbackUrl);
+    url.searchParams.set('x-cancel', callbackUrl);
+  }
   Object.entries(params)
     .filter(([, value]) => ![undefined, null].includes(value))
     .forEach(([name, value]) => url.searchParams.set(name, value));
@@ -63,24 +65,4 @@ export const handleUnknownError = (error) => console.warn('Unknown rejection', e
 export const blockToDate = (goalBlock, height) => {
   const diff = goalBlock - height;
   return new Date(diff * 180000 + Date.now());
-};
-
-export const wrapTry = async (promise, store) => {
-  try {
-    return promise.then((res) => {
-      if (!res) {
-        if (store) { store.commit('setBackendStatus', false); }
-        return null;
-      }
-      if (store) { store.commit('setBackendStatus', true); }
-      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
-      return res.json();
-    }).catch((error) => {
-      console.error(error);
-      return null;
-    });
-  } catch (err) {
-    if (store) { store.commit('setBackendStatus', false); }
-    return null;
-  }
 };

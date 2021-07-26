@@ -1,6 +1,6 @@
 <template>
   <div
-    class="input-group"
+    class="ae-input-amount"
     :class="{ disabled }"
   >
     <input
@@ -11,66 +11,33 @@
       :min="min"
       :step="step"
       :placeholder="$t('amount')"
-      class="form-control input-amount"
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-mn"
       :disabled="disabled"
       @input="$emit('input', $event.target.value)"
       @keyup="$emit('keyup', $event)"
     >
-    <div class="input-group-append">
-      <span
-        class="input-group-text append-ae"
-        :title="value"
-      >
-        <!-- eslint-disable vue-i18n/no-raw-text -->
-        <span class="symbol">
-          {{ symbol }}
-        </span>
-        <!-- eslint-enable vue-i18n/no-raw-text -->
-        <FiatValue
-          v-if="!noFiatvalue"
-          :amount="value"
-          :token="selectedToken"
-        />
-      </span>
-      <Dropdown
-        v-if="tokenTipable && !noDropdown"
-        :options="selectTokenOptions"
-        :selected="selectedToken"
-        :method="selectToken"
-        show-right
-      >
-        <template #default="{ option }">
-          <div class="token-option">
-            <TokenAvatarAndSymbol :address="option.token" />
-            <span class="tokens-amount">{{
-              showTokenAmount(option.balance, option.token)
-            }}</span>
-            <FiatValue
-              :amount="option.balance"
-              :token="option.token"
-              :aettos="!!option.token"
-            />
-          </div>
-        </template>
-      </Dropdown>
-    </div>
+    <span class="symbol">{{ symbol }}</span>
+    &nbsp;<FiatValue
+      v-if="!noFiatvalue"
+      :amount="valueAettos.toFixed()"
+      :token="selectedToken"
+    />
+    <ButtonDropdown
+      v-if="tokenTipable && !noDropdown"
+      @click="selectToken"
+    />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 import FiatValue from './FiatValue.vue';
-import Dropdown from './Dropdown.vue';
-import TokenAvatarAndSymbol from './fungibleTokens/TokenAvatarAndSymbol.vue';
+import ButtonDropdown from './ButtonDropdown.vue';
 
 export default {
   components: {
-    Dropdown,
+    ButtonDropdown,
     FiatValue,
-    TokenAvatarAndSymbol,
   },
   props: {
     min: { type: Number, default: 0 },
@@ -87,7 +54,6 @@ export default {
     selectedToken: null,
   }),
   computed: {
-    ...mapGetters(['roundedTokenAmount']),
     ...mapState(['tokenInfo']),
     ...mapState({
       selectTokenOptions: ({ tokenBalances, balance }) => [
@@ -108,101 +74,56 @@ export default {
         ? this.tokenInfo[this.selectedToken].symbol
         : 'AE';
     },
+    valueAettos() {
+      return new BigNumber(this.value).shiftedBy(18);
+    },
   },
   mounted() {
-    this.selectToken(this.selectTokenOptions.find((t) => t.token === this.token));
+    this.setToken(this.selectTokenOptions.find((t) => t.token === this.token));
   },
   methods: {
-    selectToken(selected) {
+    async selectToken() {
+      const token = await this.$store.dispatch('modals/open', {
+        name: 'token-select',
+        reference: this.$el,
+        tokens: this.selectTokenOptions,
+        inEnd: true,
+      });
+      if (!token) return;
+      this.setToken(token);
+    },
+    setToken(selected) {
       if (this.noDropdown) return;
       this.selectedToken = selected.token;
       this.selectTokenF(this.selectedToken);
-    },
-    showTokenAmount(amount, token) {
-      return this.roundedTokenAmount(amount || 0, token);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.input-group {
-  border: 0.05rem solid $buttons_background;
-  border-radius: 0.25rem;
+.ae-input-amount {
+  @include input-like;
 
-  .input-group-append {
-    max-width: 65%;
-    background: $buttons_background;
-    align-items: center;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-  }
-
-  .input-group-text {
-    display: block;
-  }
+  display: flex;
+  align-items: center;
 
   &.disabled {
     opacity: 0.44;
   }
 
-  input,
-  input ~ .input-group-append > span.append-ae {
-    border: 0;
-
-    &:focus {
-      border: 0;
-    }
+  input {
+    width: 100%;
   }
 
-  .input-group-append > span.append-ae {
+  .symbol,
+  .fiat-value {
     font-size: 0.75rem;
-    background: $buttons_background;
-    cursor: default;
-
-    .symbol {
-      color: $secondary_color;
-    }
+    flex-shrink: 0;
   }
 
-  &:focus-within {
-    border-top: 0.05rem solid $secondary_color;
-    border-bottom: 0.05rem solid $secondary_color;
-
-    .input-group-append,
-    .input-group-append > span.append-ae {
-      background-color: $background_color;
-    }
-  }
-
-  .token-option {
-    display: flex;
-    align-items: center;
-    min-width: 12rem;
-    max-width: 15rem;
-
-    > div:first-child {
-      flex-grow: 1;
-    }
-  }
-
-  .tokens-amount {
-    color: $tip-note-color;
-    margin-right: 0.1rem;
-  }
-
-  .dropdown::v-deep {
-    border-radius: 50%;
-
-    > button {
-      background-color: transparent;
-      height: 2.1rem;
-      margin-left: -0.8rem;
-    }
-
-    .not-bootstrap-modal-content {
-      margin-top: 0.25rem;
-    }
+  .symbol {
+    color: $secondary_color;
   }
 }
 </style>

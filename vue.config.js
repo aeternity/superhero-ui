@@ -13,9 +13,9 @@ module.exports = {
     loaderOptions: {
       sass: {
         // Global includes - will be prepended in every scss file (including components)
-        prependData: `
-          @import "${path.resolve(__dirname, 'src/styles/_variables.scss')}";
-          @import "${path.resolve(__dirname, 'src/styles/_mixins.scss')}";
+        additionalData: `
+          @import "${path.resolve(__dirname, 'src/styles/variables.scss')}";
+          @import "${path.resolve(__dirname, 'src/styles/mixins.scss')}";
         `,
       },
     },
@@ -25,7 +25,7 @@ module.exports = {
       .plugin('favicons')
       .use(FaviconsWebpackPlugin, [{
         logo: path.resolve(__dirname, 'src/assets/favicon.svg'),
-        publicPath: '/',
+        inject: 'force',
         favicons: {
           start_url: '/',
           appName: 'Superhero',
@@ -49,6 +49,7 @@ module.exports = {
           definitions['process.env.npm_package_version'] = JSON.stringify(npm_package_version);
         }
         definitions['process.env.COMMIT_HASH'] = JSON.stringify(commitHash);
+        definitions['process.env.VUE_CLI_SSR'] = JSON.stringify(process.env.UVUE_SIDE === 'server');
         return [definitions];
       })
       .end()

@@ -10,7 +10,6 @@
   "comments": "评论",
   "FAQ": "常见问题解答",
   "FellowSuperhero": "超级英雄",
-  "aeternityBlockchain": "AEternity区块链",
   "views": {
     "FeedList": {
       "main": "Feed",
@@ -77,31 +76,6 @@
         }
       }
     },
-    "Mission": {
-      "header": "超级英雄:有故事起源的使命",
-      "sections": [
-        {
-          "text": "在漫画中，超级英雄认为帮助自己取得胜利是他们的职责。 同时-非常真实的现状不断考验人类."
-        },
-        {
-          "text": "从艺术到科学、教育、医疗、公益、社会影响、社区事业、动物福利、环境宣传到激励你的人……我们每天都能（而且确实）为彼此带来改变。支持人民的人是当代的超级英雄."
-        },
-        {
-          "text": "Superhero.com 被认为是一种实现区别的切实方法，这种区别可以源于在没有中介机构的情况下增强人们支持P2P的能力."
-        },
-        {
-          "text": "Superhero.com 构建于开放源代码平台，将支持人员的控制权从私人实体转移到公共手中."
-        },
-        {
-          "text": "Superhero.com 运行于 {aeternityBlockchain} 使栩栩如生的人们团结一致，致力于为所有人提供更好的互联网."
-        },
-        {
-          "text": "欢迎来到一个更好的虚拟世界 – 可以自由交易的互联网。 我们才刚刚开始看到我们相互支持的人类超级力量可以带给我们什么."
-        }
-      ],
-      "footer": "您与众不同吗?",
-      "footerContent": "Superhero.com 是建立在æternity区块链上的优质工具"
-    },
     "FAQ": {
       "header": "常见问题解答",
       "subheader": "关于 SUPERHERO.com",
@@ -135,12 +109,6 @@
           "text": "需要帮助吗？想报告技术问题，给出反馈和建议吗？请使用右下角的“反馈”或“支持”按钮 Superhero.com."
         }
       ]
-    },
-    "Maintenance": {
-      "RechargeTitle": "我们正在维护.",
-      "RechargeSubTitle": "维护很快就会完成.",
-      "CleaningTitle": "清除HQ.",
-      "CleaningSubTitle": "几分钟后我们将再次起飞."
     },
     "Privacy": {
       "title": "隐私政策",
@@ -322,50 +290,6 @@
       "Comments": "评论",
       "EditBiography": "编辑传记"
     },
-    "Widget": {
-      "header": "[[ 小部件页头部文本占位符 ]]",
-      "sections": [
-        {
-          "text": "第1占位符。"
-        },
-        {
-          "text": "第2占位符。"
-        }
-      ]
-    },
-    "Voting": {
-      "header": "[[ 投票页头部文本占位符 ]]",
-      "sections": [
-        {
-          "text": "第1占位符。"
-        },
-        {
-          "text": "第2占位符。"
-        }
-      ]
-    },
-    "Wallet": {
-      "header": "[[ 钱包页面头部文本占位符 ]]",
-      "sections": [
-        {
-          "text": "第1占位符。"
-        },
-        {
-          "text": "第2占位符."
-        }
-      ]
-    },
-    "Meet": {
-      "header": "[[ 会议页头部文本占位符 ]]",
-      "sections": [
-        {
-          "text": "第1占位符."
-        },
-        {
-          "text": "第2占位符."
-        }
-      ]
-    },
     "WordDetail": {
       "NewVote": "New vote",
       "NoVotes": "There are no current votes for this token.",
@@ -375,7 +299,7 @@
       "CreateVote": {
         "YourMessage": "Your message to the community",
         "Placeholder": "Tell the community why you need the funds to be released",
-        "AddressPlaceholder": "Enter blockchain address or .chain name",
+        "AddressPlaceholder": "Enter blockchain address",
         "ProgressMessage": [
           "Creating voting contract... (step 1 of 2)",
           "Adding your vote to WordBazaar... (step 2 of 2)"
@@ -403,20 +327,23 @@
       "BuyMore": "Buy more tokens",
       "Initiate": "Initiate Vote",
       "InitiateMobile": "Initiate",
-      "Spread": "Accumulated spread",
-      "Stake": "Majority stake",
-      "RibbonTabs": [
-        {
-          "text": "Token info",
-          "textMobile": "Info"
-        },
-        {
-          "text": "Funds release vote",
-          "textMobile": "Vote"
-        }
-      ],
-      "Tabs": ["Ongoing Votes", "Past Votes", "My Votes"],
-      "TimeScopeTabs": ["Day", "Week", "Month", "3 Months", "Year", "All"]
+      "Spread": "Accumulated Spread",
+      "Stake": "Majority Stake",
+      "RibbonTabs": { "Info": "Token Info", "Vote": "Funds release vote" },
+      "RibbonTabsMobile": { "Info": "Info", "Vote": "Vote" },
+      "Tabs": {
+        "Ongoing": "Ongoing Votes",
+        "Past": "Past Votes",
+        "My": "My Votes"
+      },
+      "Period": {
+        "Day": "Day",
+        "Week": "Week",
+        "Month": "Month",
+        "ThreeMonths": "3 Months",
+        "Year": "Year",
+        "All": "All"
+      }
     },
     "WordBazaar": {
       "Title": "WordBazaar",
@@ -438,6 +365,14 @@
           "Text": "How it works",
           "TextMobile": "How-to"
         }
+      },
+      "Tabs": {
+        "All": "All tokens",
+        "Trending": "Trending",
+        "Recent": "Recent"
+      },
+      "TabsMobile": {
+        "All": "All"
       }
     }
   },

@@ -5,7 +5,6 @@
         v-if="part.matches"
         :key="id"
         :topic="part.text"
-        @click.native.stop
       />
       <template v-else>
         {{ part.text }}
@@ -33,3 +32,12 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.tip-title {
+  color: $tip_note_color;
+  font-size: 0.85rem;
+  line-height: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+</style>

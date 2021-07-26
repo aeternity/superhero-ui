@@ -1,24 +1,29 @@
-//Bootstrap customizations go here:
-$theme-colors: (
-  "primary": $primary_color,
-  "light": $light_color
-);
-
 @import "fonts";
-@import "node_modules/bootstrap/scss/bootstrap";
-@import "~animate.css/animate.css";
+@import "~normalize.css";
+@import "mixins";
 
 /* Global Styles */
 body {
   background-color: $background_color;
   color: $primary_color;
   font-family: IBM Plex Sans, sans-serif;
-  overflow-x: hidden;
   overflow-y: overlay;
+  line-height: 1.5;
 }
 
-a:hover {
-  text-decoration: none;
+a {
+  color: $primary_color;
+
+  &,
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 .btn {
@@ -30,44 +35,9 @@ a:hover {
 }
 
 /* Helpers */
+// TODO: use mixin instead
 .text-ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.vertical-align-mid {
-  vertical-align: middle;
-}
-
-.input-group,
-.form-group {
-  .form-control {
-    border: 1px solid transparent;
-    box-shadow: none;
-    transition: none;
-
-    &:focus {
-      border: 1px solid $secondary_color;
-    }
-  }
-}
-
-.input-group {
-  padding-left: 0;
-  padding-right: 0;
-
-  .form-control {
-    background-color: $buttons_background;
-    border: 1px solid $white_color;
-    color: $standard_font_color;
-    font-size: 14px;
-    height: 40px;
-
-    &:focus {
-      background-color: $background_color;
-    }
-  }
+  @include text-ellipsis;
 }
 
 img.fail {

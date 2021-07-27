@@ -19,7 +19,8 @@
     "ssr:start": "vue-cli-service ssr:start",
     "ssr:static": "vue-cli-service ssr:static",
     "test": "npm run lint && npm run test:unit",
-    "test:withe2e": "npm run lint && npm run test:unit && npm run test:e2e -- --headless"
+    "test:withe2e": "npm run lint && npm run test:unit && npm run test:e2e -- --headless",
+    "release": "standard-version"
   },
   "license": "ISC",
   "dependencies": {
@@ -86,6 +87,7 @@
     "node-sass": "^6.0.1",
     "raw-loader": "^4.0.2",
     "sass-loader": "^10.2.0",
+    "standard-version": "^9.3.1",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "svg-url-loader": "^7.1.1",
@@ -93,5 +95,41 @@
     "svgo-loader": "^3.0.0",
     "vue-svg-loader": "^0.16.0",
     "vue-template-compiler": "^2.6.14"
+  },
+  "standard-version": {
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "chore",
+        "section": "Maintenance"
+      },
+      {
+        "type": "docs",
+        "section": "Documentation"
+      },
+      {
+        "type": "style",
+        "section": "Style"
+      },
+      {
+        "type": "refactor",
+        "section": "Maintenance"
+      },
+      {
+        "type": "perf",
+        "section": "Performance"
+      },
+      {
+        "type": "test",
+        "section": "Tests"
+      }
+    ]
   }
 }

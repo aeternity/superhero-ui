@@ -1,4 +1,4 @@
-describe('Tips.vue', () => {
+describe('Tests about the feed page', () => {
   const randomString = [...Array(20)].map(() => Math.random().toString(36)[2]).join('');
 
   describe('Tips page', () => {
@@ -7,6 +7,13 @@ describe('Tips.vue', () => {
         .visit('/');
     });
 
+    it('renders feed of posts and tips', () => {});
+    it('filters tips only', () => {});
+    it('filters posts only', () => {});
+    it('sorts by latest/most popular/highest rated', () => {});
+  });
+
+  describe('Tip and post', () => {
     it('creates new tip, navigates to home, new tip is visible', () => {
       cy
         .get('.tips > a')
@@ -49,6 +56,7 @@ describe('Tips.vue', () => {
         .url()
         .should('contain', '/tip/');
     });
+    it('creates new post, navigates and the new post is visible', () => {});
   });
 
   describe('Retip', () => {

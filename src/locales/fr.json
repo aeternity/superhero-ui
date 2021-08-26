@@ -264,9 +264,6 @@
       "AddReply": "Ajouter une réponse",
       "LatestReplies": "Dernières réponses"
     },
-    "SingleCommentView": {
-      "NoResultsMsg": "Il n'y a pas de commentaires à afficher"
-    },
     "TipList": {
       "SearchPlaceholder": "Rechercher un Superhero",
       "SortingLatest": "Dernier Pourboire",

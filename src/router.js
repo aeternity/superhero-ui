@@ -17,6 +17,7 @@ import WordBazaarGetAe from './views/WordBazaarGetAe.vue';
 import WordBazaarHowItWorks from './views/WordBazaarHowItWorks.vue';
 import WordDetail from './views/WordDetail.vue';
 import Trending from './views/Trending.vue';
+import Aepps from './views/Aepps.vue';
 
 const routes = [
   {
@@ -129,6 +130,11 @@ const routes = [
     path: '/trending',
     name: 'trending',
     component: Trending,
+  },
+  {
+    path: '/aepps',
+    name: 'aepps',
+    component: Aepps,
   },
   {
     path: '*',

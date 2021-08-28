@@ -42,6 +42,10 @@
       <IconMeet />
       {{ $t('Networking.MenuLink') }}
     </RouterLink>
+    <RouterLink :to="{ name: 'aepps' }">
+      <IconHashtag />
+      {{ $t('components.layout.Navigation.Aepps') }}
+    </RouterLink>
     <RouterLink :to="{ name: 'league' }">
       <IconDiamond />
       {{ $t('components.layout.Navigation.League') }}
@@ -63,6 +67,7 @@ import IconDiamond from '../../assets/iconDiamond.svg?icon-component';
 import IconGovernance from '../../assets/iconGovernance.svg?icon-component';
 import IconMeet from '../../assets/iconMeet.svg?icon-component';
 import IconSmile from '../../assets/iconSmile.svg?icon-component';
+import IconHashtag from '../../assets/iconHashtag.svg?icon-component';
 
 export default {
   components: {
@@ -74,6 +79,7 @@ export default {
     IconGovernance,
     IconMeet,
     IconSmile,
+    IconHashtag,
   },
   props: {
     mobile: Boolean,

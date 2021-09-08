@@ -1,12 +1,5 @@
 <template>
-  <Spinner
-    v-if="!profile"
-    class="user-info"
-  />
-  <div
-    v-else
-    class="user-info"
-  >
+  <div class="user-info">
     <div
       class="profile-section"
       :style="profile.coverImage
@@ -70,7 +63,7 @@
             <ClientOnly>
               <div class="location">
                 <img
-                  v-if="profile.location.length || isOwn"
+                  v-if="profile.location || isOwn"
                   src="../assets/location.svg"
                 >
                 <input
@@ -221,6 +214,9 @@
         </div>
       </div>
     </div>
+    <Spinner
+      v-if="loading"
+    />
   </div>
 </template>
 
@@ -256,9 +252,15 @@ export default {
   data() {
     return {
       maxLength: 250,
+      loading: false,
       userStats: null,
       editMode: false,
-      profile: null,
+      profile: {
+        biography: '',
+        createdAt: '',
+        location: '',
+        coverImage: '',
+      },
       balance: '',
       BACKEND_URL: process.env.VUE_APP_BACKEND_URL,
     };
@@ -327,7 +329,6 @@ export default {
       () => this.reloadData(),
       { immediate: true },
     );
-    this.reloadBalance();
 
     EventBus.$on('reloadData', () => {
       this.reloadData();
@@ -360,6 +361,7 @@ export default {
       await this.resetEditedValues();
     },
     async reloadData() {
+      this.loading = true;
       await Promise.all([
         this.reloadProfile(),
         Backend.getSenderStats(this.address).then((stats) => {
@@ -373,6 +375,7 @@ export default {
           });
         })(),
       ]);
+      this.loading = false;
     },
     async reloadProfile() {
       this.profile = await Backend.getProfile(this.address);

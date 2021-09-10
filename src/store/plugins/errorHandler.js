@@ -1,5 +1,6 @@
 import { serializeError } from 'serialize-error';
 import Vue from 'vue';
+import { detect } from 'detect-browser';
 
 export default ({ dispatch }) => {
   const reportsToSend = [];
@@ -7,13 +8,15 @@ export default ({ dispatch }) => {
 
   const handleError = async (error) => {
     reportsToSend.push({
-      appName: 'superhero-ui',
       appVersion: process.env.npm_package_version,
-      appRevision: process.env.COMMIT_HASH,
-      userAgent: window.navigator.userAgent,
-      location: window.location.href,
-      timestamp: Date.now(),
-      error,
+      browser: detect(),
+      platform: 'superhero-ui',
+      time: Date.now(),
+      error: {
+        ...error,
+        appRevision: process.env.COMMIT_HASH,
+        location: window.location.href,
+      },
     });
     if (showingErrorReportModal) return;
     showingErrorReportModal = true;

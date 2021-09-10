@@ -67,7 +67,7 @@ export default {
     async send() {
       await Backend.errorReport({
         ...this.report,
-        userComment: this.userComment,
+        description: this.userComment,
       });
       this.resolve(true);
     },

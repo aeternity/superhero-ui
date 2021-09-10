@@ -40,6 +40,7 @@
     "connect": "^3.7.0",
     "core-js": "^3.15.1",
     "date-fns": "^2.22.1",
+    "detect-browser": "^5.2.0",
     "fontsource-ibm-plex-sans": "^3.1.5",
     "i18n": "^0.13.3",
     "is-fqdn": "^2.0.1",

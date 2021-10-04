@@ -1,0 +1,69 @@
+version: 2.1
+
+executors:
+  docker_builder:
+    docker:
+      - image: circleci/buildpack-deps:bionic
+        user: root
+
+references:
+  docker_parameters: &docker_parameters
+    DOCKERHUB_REPO:
+        type: string
+    APP_NAME: 
+        type: string
+    DOCKER_FILE:
+        type: string
+        
+commands:
+  docker_build:
+    parameters: *docker_parameters
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build and push Docker image to DockerHub
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker build -t << parameters.DOCKERHUB_REPO >>:${CIRCLE_TAG:-master} -f << parameters.DOCKER_FILE >> .
+            docker push << parameters.DOCKERHUB_REPO >>:${CIRCLE_TAG:-master}
+            
+jobs:          
+  docker_push_tag:
+    parameters: *docker_parameters
+    executor: docker_builder
+    steps:
+      - docker_build:
+          DOCKERHUB_REPO: << parameters.DOCKERHUB_REPO >>
+          APP_NAME: << parameters.APP_NAME >>
+          DOCKER_FILE: << parameters.DOCKER_FILE >>
+
+workflows:
+  version: 2
+  build_push:
+    jobs:
+      - docker_push_tag:
+          name: docker_push_tag_web
+          DOCKERHUB_REPO: "aeternity/superhero-ui" // what should be the same image or different tag ? 
+          APP_NAME: "aggregator"
+          DOCKER_FILE: nginx.Dockerfile
+          context: ae-dockerhub
+          filters:
+            branches:
+              only:
+                - features/circleci-config
+            tags:
+              only: /^v.*$/
+      - docker_push_tag:
+          name: docker_push_tag_ssr
+          DOCKERHUB_REPO: "aeternity/superhero-ui"
+          APP_NAME: ""
+          DOCKER_FILE: Dockerfile
+          context: ae-dockerhub
+          filters:
+            branches:
+              only:
+                - features/circleci-config
+            tags:
+              only: /^v.*$/

@@ -16,7 +16,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 100
       
       - name: Log in to Docker Hub
         if: github.event_name != 'pull_request'

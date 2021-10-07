@@ -9,20 +9,11 @@ USER node
 
 RUN npm ci
 COPY --chown=node:node . /home/node/app
+RUN npm test
 ENV NODE_ENV=production
-RUN npm run ssr:build
+RUN npm run build -- --report
 
-
-FROM node:14-alpine
-
-ENV NODE_ENV production
-ENV HOST 0.0.0.0
-ENV PORT 8080
-EXPOSE 8080
-
-USER node
-WORKDIR /home/node/app
-
-COPY --chown=node:node --from=builder /home/node/app /home/node/app
-
-CMD ["./node_modules/@uvue/server/start.js"]
+FROM nginx:1.13.7-alpine
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf 
+COPY --from=builder /home/node/app/dist /usr/share/nginx/html

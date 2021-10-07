@@ -2,11 +2,11 @@ name: Publish Docker Superhero image
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ master, develop ]
     tags:
       - 'v*'
   pull_request:
-    branches: [ develop ]
+    branches: [ master, develop ]
 
 jobs:
   push_to_registry:

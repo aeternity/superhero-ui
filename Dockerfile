@@ -9,7 +9,6 @@ USER node
 
 RUN npm ci
 COPY --chown=node:node . /home/node/app
-RUN ls -la .
 RUN npm test
 ENV NODE_ENV=production
 RUN npm run build -- --report

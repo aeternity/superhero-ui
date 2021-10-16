@@ -2,7 +2,8 @@ name: Web Pipeline
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: 
+      - master
     tags:
       - 'v*'
   pull_request:
@@ -31,8 +32,6 @@ jobs:
         with:
           path: ~/.npm
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-      - run: npm ci
-      - run: npm test
 
       - name: Log in to Docker Hub
         if: github.event_name != 'pull_request'

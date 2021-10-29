@@ -12,7 +12,6 @@ jobs:
         with:
           repository: aeternity/gitops-apps.git
           ref: dev
-          path: gitops-apps
 
       - uses: rlespinasse/github-slug-action@v3.x
 
@@ -24,9 +23,9 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m "generated"
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: dev
-

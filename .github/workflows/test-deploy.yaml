@@ -14,11 +14,18 @@ jobs:
           ref: dev
           path: gitops-apps
 
+      - uses: rlespinasse/github-slug-action@v3.x
+
       - run: |
           cd gitops-apps
-          date > generated.txt
+          echo $GITHUB_REF_SLUG_URL > generated.txt
+          cat generated.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
           git commit -m "generated"
-          git push
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

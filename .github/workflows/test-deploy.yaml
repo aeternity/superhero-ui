@@ -1,0 +1,24 @@
+name: Staging Deploy Test Pipeline
+
+on:
+  push:
+    branches: 
+      - feat/gh-actions-docker-build
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: aeternity/gitops-apps.git
+          ref: dev
+          path: gitops-apps
+
+      - run: |
+          cd gitops-apps
+          date > gitops-apps/generated.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
+          git push

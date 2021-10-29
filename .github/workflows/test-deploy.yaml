@@ -17,7 +17,7 @@ jobs:
       - uses: rlespinasse/github-slug-action@v3.x
 
       - run: |
-          snap install yq
+          sudo snap install yq
           yq eval -i '.app.versions += "$GITHUB_REF_SLUG_URL"' superhero-ui/values.yaml
           yq eval -i '.. style="double" superhero-ui/values.yaml
           cat superhero-ui/values.yaml

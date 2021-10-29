@@ -12,6 +12,7 @@ jobs:
         with:
           repository: aeternity/gitops-apps.git
           ref: dev
+          fetch-depth: 0
 
       - uses: rlespinasse/github-slug-action@v3.x
 

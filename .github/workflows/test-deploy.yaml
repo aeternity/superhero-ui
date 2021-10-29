@@ -15,7 +15,7 @@ jobs:
           path: gitops-apps
 
       - run: |
-          ls -la .
+          cd gitops-apps
           date > generated.txt
           git config user.name github-actions
           git config user.email github-actions@github.com

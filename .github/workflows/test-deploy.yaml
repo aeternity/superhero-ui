@@ -16,7 +16,6 @@ jobs:
       - uses: rlespinasse/github-slug-action@v3.x
 
       - run: |
-          cd gitops-apps
           echo $GITHUB_REF_SLUG_URL > generated.txt
           cat generated.txt
           git config user.name github-actions

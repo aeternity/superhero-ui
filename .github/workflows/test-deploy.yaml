@@ -49,7 +49,7 @@ jobs:
       - uses: rlespinasse/github-slug-action@v3.x
       
       - name: Modify values for staging deploy
-      - if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
           sudo snap install yq
           yq eval -i 'del(... | select(.[] == "'${GITHUB_REF_SLUG_URL}.dev.aepps.com'"))' superhero-ui/values.yaml

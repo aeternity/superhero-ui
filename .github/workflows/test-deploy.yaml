@@ -4,6 +4,10 @@ on:
   push:
     branches: 
       - feat/gh-actions-docker-build
+  pull_request:
+    branches:
+      - feat/gh-actions-docker-build
+
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest

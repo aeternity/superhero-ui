@@ -5,7 +5,7 @@ on:
     branches: 
       - feat/gh-actions-docker-build
 jobs:
-  deploy:
+  deploy-staging:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,7 +15,9 @@ jobs:
           fetch-depth: 0
 
       - uses: rlespinasse/github-slug-action@v3.x
-
+      
+      - name: Modify values for staging deploy
+      - if: github.event_name == 'pull_request' && github.event.action == 'opened'
       - run: |
           sudo snap install yq
           yq eval -i '.app.versions += env(GITHUB_REF_SLUG_URL)' superhero-ui/values.yaml
@@ -27,7 +29,38 @@ jobs:
           git add .
           git commit -m "generated"
 
-      - name: Push changes
+      - name: Push deploy changes to staging branch
+      - if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          repository: aeternity/gitops-apps
+          branch: dev
+  
+  undeploy-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: aeternity/gitops-apps.git
+          ref: dev
+          fetch-depth: 0
+
+      - uses: rlespinasse/github-slug-action@v3.x
+      
+      - name: Modify values for staging deploy
+      - if: github.event_name == 'pull_request' && github.event.action == 'closed'
+      - run: |
+          sudo snap install yq
+          yq eval -i 'del(... | select(.[] == "'${GITHUB_REF_SLUG_URL}.dev.aepps.com'"))' superhero-ui/values.yaml
+          cat superhero-ui/values.yaml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
+
+      - name: Push deploy changes to staging branch
+      - if: github.event_name == 'pull_request' && github.event.action == 'closed'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

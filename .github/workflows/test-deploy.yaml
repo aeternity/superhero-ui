@@ -17,8 +17,8 @@ jobs:
       - uses: rlespinasse/github-slug-action@v3.x
       
       - name: Modify values for staging deploy
-      - if: github.event_name == 'pull_request' && github.event.action == 'opened'
-      - run: |
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        run: |
           sudo snap install yq
           yq eval -i '.app.versions += env(GITHUB_REF_SLUG_URL)' superhero-ui/values.yaml
           yq eval -i '.app.ingress.hosts += [{"host": "'${GITHUB_REF_SLUG_URL}'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
@@ -30,7 +30,7 @@ jobs:
           git commit -m "generated"
 
       - name: Push deploy changes to staging branch
-      - if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -50,7 +50,7 @@ jobs:
       
       - name: Modify values for staging deploy
       - if: github.event_name == 'pull_request' && github.event.action == 'closed'
-      - run: |
+        run: |
           sudo snap install yq
           yq eval -i 'del(... | select(.[] == "'${GITHUB_REF_SLUG_URL}.dev.aepps.com'"))' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
@@ -60,7 +60,7 @@ jobs:
           git commit -m "generated"
 
       - name: Push deploy changes to staging branch
-      - if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -56,7 +56,7 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
           sudo snap install yq
-          yq eval -i 'del( .app.versions[] | select(. == env(GITHUB_REF_NAME))  )' values.yaml
+          yq eval -i 'del( .app.versions[] | select(. == env(GITHUB_REF_NAME))  )' superhero-ui/values.yaml
           yq eval -i 'del(... | select(.[] == "'${GITHUB_REF_NAME}.dev.aepps.com'"))' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
           git config user.name github-actions

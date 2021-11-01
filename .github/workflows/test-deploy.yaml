@@ -19,7 +19,7 @@ jobs:
       - uses: rlespinasse/github-slug-action@v3.x
       
       - name: Modify values for staging deploy
-        #if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
           yq eval -i '.app.versions += env(GITHUB_REF_NAME)' superhero-ui/values.yaml

@@ -38,9 +38,10 @@ jobs:
         #if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
           repository: aeternity/gitops-apps
           branch: dev
+
   
   undeploy-staging:
     runs-on: ubuntu-latest
@@ -68,6 +69,6 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
           repository: aeternity/gitops-apps
           branch: dev

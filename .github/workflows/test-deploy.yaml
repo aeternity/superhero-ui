@@ -31,7 +31,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "generated"
+          git commit -m "Deploy ${GITHUB_REF_SLUG_URL}.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
@@ -61,7 +61,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "generated"
+          git commit -m "Undeploy ${GITHUB_REF_SLUG_URL}.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
         if: github.event_name == 'pull_request' && github.event.action == 'closed'

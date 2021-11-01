@@ -72,3 +72,4 @@ jobs:
           repository: aeternity/gitops-apps
           branch: dev
 
+

@@ -22,14 +22,14 @@ jobs:
         #if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
-          yq eval -i '.app.versions += env( GITHUB_BASE_REF_SLUG_URL)' superhero-ui/values.yaml
-          yq eval -i '.app.ingress.hosts += [{"host": "'${ GITHUB_BASE_REF_SLUG_URL}'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
+          yq eval -i '.app.versions += env(GITHUB_BASE_REF_SLUG )' superhero-ui/values.yaml
+          yq eval -i '.app.ingress.hosts += [{"host": "'${GITHUB_BASE_REF_SLUG }'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
           yq eval -i '.. style="double"' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Deploy ${ GITHUB_BASE_REF_SLUG_URL}.dev.aepps.com"
+          git commit -m "Deploy ${GITHUB_BASE_REF_SLUG }.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
@@ -55,13 +55,13 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
           sudo snap install yq
-          yq eval -i 'del( .app.versions[] | select(. == env( GITHUB_BASE_REF_SLUG_URL))  )' values.yaml
-          yq eval -i 'del(... | select(.[] == "'${ GITHUB_BASE_REF_SLUG_URL}.dev.aepps.com'"))' superhero-ui/values.yaml
+          yq eval -i 'del( .app.versions[] | select(. == env(GITHUB_BASE_REF_SLUG ))  )' values.yaml
+          yq eval -i 'del(... | select(.[] == "'${GITHUB_BASE_REF_SLUG }.dev.aepps.com'"))' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Undeploy ${ GITHUB_BASE_REF_SLUG_URL}.dev.aepps.com"
+          git commit -m "Undeploy ${GITHUB_BASE_REF_SLUG }.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
         if: github.event_name == 'pull_request' && github.event.action == 'closed'

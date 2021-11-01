@@ -1,6 +1,9 @@
 name: Staging Deploy Test Pipeline
 
 on:
+  push:
+    branches:
+      - feat/gh-actions-docker-build
   pull_request:
     types: [ opened, closed ]
     branches:
@@ -53,7 +56,7 @@ jobs:
       - uses: rlespinasse/github-slug-action@v3.x
       
       - name: Modify values for staging deploy
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        #if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
           sudo snap install yq
           yq eval -i 'del( .app.versions[] | select(. == env(GITHUB_REF_NAME))  )' superhero-ui/values.yaml
@@ -65,9 +68,9 @@ jobs:
           git commit -m "Undeploy ${GITHUB_REF_NAME}.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        #if: github.event_name == 'pull_request' && github.event.action == 'closed'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          repository: aeternity/gitops-apps.git
+          repository: aeternity/gitops-apps
           branch: dev

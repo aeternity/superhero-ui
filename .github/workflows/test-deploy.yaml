@@ -71,3 +71,4 @@ jobs:
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
           repository: aeternity/gitops-apps
           branch: dev
+

@@ -1,10 +1,8 @@
 name: Staging Deploy Test Pipeline
 
 on:
-  push:
-    branches: 
-      - feat/gh-actions-docker-build
   pull_request:
+    types: [ opened, closed ]
     branches:
       - feat/gh-actions-docker-build
 

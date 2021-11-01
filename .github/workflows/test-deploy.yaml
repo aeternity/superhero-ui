@@ -23,7 +23,7 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
-          yq eval -i '.app.versions += env(GITHUB_REF_NAME)' superhero-ui/values.yaml
+          yq eval -i '.app.versions += [env(GITHUB_REF_NAME)'] superhero-ui/values.yaml
           yq eval -i '.app.ingress.hosts += [{"host": "'${GITHUB_REF_NAME}'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
           yq eval -i '.. style="double"' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
@@ -69,7 +69,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          repository: aeternity/gitops-apps
+          repository: aeternity/gitops-apps.git
           branch: dev
-
-

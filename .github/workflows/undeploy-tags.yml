@@ -17,8 +17,8 @@ jobs:
           login_data() {
           cat <<EOF
           {
-            "username": "$USERNAME",
-            "password": "$PASSWORD"
+            "username": "$DOCKERHUB_USER",
+            "password": "$DOCKERHUB_PASS"
           }
           EOF
           }                                                    

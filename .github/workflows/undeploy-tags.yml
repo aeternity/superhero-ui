@@ -8,8 +8,7 @@ on:
 jobs:
   remove-dockerhub-tags-staging:
     runs-on: ubuntu-latest
-    steps:
-      - name: Remove tags from dockerhub  
+    steps: 
       - shell: bash
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}

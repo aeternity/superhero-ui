@@ -8,13 +8,21 @@ on:
 jobs:
   remove-dockerhub-tags-staging:
     runs-on: ubuntu-latest
-    steps: 
-      - shell: bash
+    steps:
+      - name: Remove tags from dockerhub
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
           DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}
-        run: |                                                              
-          TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "$DOCKERHUB_USER", "password": "$DOCKERHUB_PASS"}' "https://hub.docker.com/v2/users/login/" | jq -r .token)
+        run: |
+          login_data() {
+          cat <<EOF
+          {
+            "username": "$USERNAME",
+            "password": "$PASSWORD"
+          }
+          EOF
+          }                                                    
+          TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "$(login_data)" "https://hub.docker.com/v2/users/login/" | jq -r .token)
           curl "https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/test/" \
           -X DELETE \
           -H "Authorization: JWT ${TOKEN}"

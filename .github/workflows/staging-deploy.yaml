@@ -1,4 +1,4 @@
-name: Staging Deploy Test Pipeline
+name: Staging Deploy Pipeline
 
 on:
   pull_request:

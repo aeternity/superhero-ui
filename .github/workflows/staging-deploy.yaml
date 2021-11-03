@@ -38,7 +38,7 @@ jobs:
           git commit -m "Deploy ${FULL_PR_NUMBER}.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        #if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
@@ -55,10 +55,11 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
       
-      - name: Modify values for staging deploy
+      - name: Modify values for staging undeploy
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
           sudo snap install yq
+          export FULL_PR_NUMBER="pr-$PR_NUMBER"
           yq eval -i 'del( .app.versions[] | select(. == env(FULL_PR_NUMBER))  )' superhero-ui/values.yaml
           yq eval -i 'del(... | select(.[] == "'${FULL_PR_NUMBER}.dev.aepps.com'"))' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
@@ -67,7 +68,7 @@ jobs:
           git add .
           git commit -m "Undeploy ${FULL_PR_NUMBER}.dev.aepps.com"
 
-      - name: Push deploy changes to staging branch
+      - name: Push undeploy changes to staging branch
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         uses: ad-m/github-push-action@master
         with:
@@ -84,6 +85,7 @@ jobs:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
           DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}
         run: |
+          export FULL_PR_NUMBER="pr-$PR_NUMBER"
           login_data() {
           cat <<EOF
           {
@@ -93,6 +95,6 @@ jobs:
           EOF
           }                                                    
           TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "$(login_data)" "https://hub.docker.com/v2/users/login/" | jq -r .token)
-          curl "https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/test/" \
+          curl "https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/${FULL_PR_NUMBER}/" \
           -X DELETE \
           -H "Authorization: JWT ${TOKEN}"

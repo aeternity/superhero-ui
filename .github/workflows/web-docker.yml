@@ -3,11 +3,11 @@ name: Web Pipeline
 on:
   push:
     branches: 
-      - feat/gh-actions-docker-build
+      - master
     tags:
       - 'v*'
   pull_request:
-    branches: [ feat/gh-actions-docker-build ]
+    branches: [ master, develop, feat/gh-actions-docker-build ]
 
 jobs:
   main:
@@ -45,6 +45,12 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: aeternity/superhero-ui
+          tags: |
+            type=raw,value=latest-test,enable=${{ endsWith(GitHub.ref, 'feat/gh-actions-docker-build') }}
+            type=ref,event=tag
+            type=ref,event=pr
+          flavor: |
+            latest=false
       
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -54,21 +60,3 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          repository: aeternity/gitops-apps.git
-          ref: dev
-          path: gitops-apps
-
-      - run: |
-          cd gitops-apps
-          date > gitops-apps/generated.txt
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "generated"
-          git push

@@ -36,6 +36,12 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: aeternity/superhero-ssr
+          tags: |
+            type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
+            type=ref,event=tag
+            type=ref,event=pr
+          flavor: |
+            latest=false
       
       - name: Build and push Docker image
         uses: docker/build-push-action@v2

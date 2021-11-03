@@ -14,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TARGET: ${{ format('/home/{0}/superhero-ui', secrets.SSR_STAGE_USER) }}
-      PR_NUMBER: ${{ github.event.number }
+      PR_NUMBER: ${{ github.event.number }}
 
     name: Web build docker
     steps:
       - run: echo $PR_NUMBER
-      
+
       - if: github.ref != 'refs/heads/develop'
         uses: actions/checkout@v2
         with:

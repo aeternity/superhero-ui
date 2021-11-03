@@ -14,12 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PR_NUMBER: "1234"
-      
+
     steps:
-      - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
-
-      - run: echo $FULL_PR_NUMBER
-
       - uses: actions/checkout@v2
         with:
           repository: aeternity/gitops-apps.git
@@ -31,6 +27,7 @@ jobs:
         #if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
+          echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
           yq eval -i '.app.versions += [env(FULL_PR_NUMBER)'] superhero-ui/values.yaml
           yq eval -i '.app.ingress.hosts += [{"host": "'${FULL_PR_NUMBER}'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
           yq eval -i '.. style="double"' superhero-ui/values.yaml

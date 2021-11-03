@@ -14,9 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TARGET: ${{ format('/home/{0}/superhero-ui', secrets.SSR_STAGE_USER) }}
-      
+      PR_NUMBER: ${{ github.event.number }
+
     name: Web build docker
     steps:
+      - run: echo $PR_NUMBER
+      
       - if: github.ref != 'refs/heads/develop'
         uses: actions/checkout@v2
         with:
@@ -39,9 +42,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASS }}
-      
-      - uses: rlespinasse/github-slug-action@v3.x
-      - run: echo ${GITHUB_REF_NAME_SLUG}
 
       - name: Extract metadata (tags, labels) for docker
         id: meta
@@ -52,7 +52,6 @@ jobs:
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
             type=ref,event=tag
             type=ref,event=pr
-            type=raw,value=${GITHUB_REF_NAME_SLUG},event=pr
           flavor: |
             latest=false
       

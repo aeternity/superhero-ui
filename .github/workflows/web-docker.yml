@@ -40,6 +40,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASS }}
       
+      - run: echo ${GITHUB_REF_NAME}
+
       - name: Extract metadata (tags, labels) for docker
         id: meta
         uses: docker/metadata-action@v3
@@ -49,7 +51,7 @@ jobs:
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
             type=ref,event=tag
             type=ref,event=pr
-            type=raw,value=${GITHUB_REF_NAME},enable=${{ endsWith(GitHub.ref, 'master') }}
+            type=raw,value=${GITHUB_REF_NAME},event=pr
           flavor: |
             latest=false
       

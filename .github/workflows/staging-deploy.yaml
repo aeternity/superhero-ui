@@ -95,6 +95,6 @@ jobs:
           EOF
           }                                                    
           TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "$(login_data)" "https://hub.docker.com/v2/users/login/" | jq -r .token)
-          curl https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/${FULL_PR_NUMBER}/ \
+          curl https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/"'"$FULL_PR_NUMBER"'"/ \
           -X DELETE \
           -H "Authorization: JWT ${TOKEN}"

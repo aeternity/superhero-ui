@@ -18,8 +18,8 @@ jobs:
 
     name: Web build docker
     steps:
-      - run: echo $PR_NUMBER
-
+      - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
+      - run: echo $FULL_PR_NUMBER
       - if: github.ref != 'refs/heads/develop'
         uses: actions/checkout@v2
         with:

@@ -22,8 +22,6 @@ jobs:
           ref: dev
           persist-credentials: false
           fetch-depth: 0
-      
-      - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
 
       - name: Modify values for staging deploy
         #if: github.event_name == 'pull_request' && github.event.action == 'opened'
@@ -60,6 +58,7 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
           sudo snap install yq
+          echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
           yq eval -i 'del( .app.versions[] | select(. == env(FULL_PR_NUMBER))  )' superhero-ui/values.yaml
           yq eval -i 'del(... | select(.[] == "'${FULL_PR_NUMBER}.dev.aepps.com'"))' superhero-ui/values.yaml
           cat superhero-ui/values.yaml

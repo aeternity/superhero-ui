@@ -13,7 +13,8 @@ jobs:
   deploy-staging:
     runs-on: ubuntu-latest
     env:
-      PR_NUMBER: ${{ github.event.number }}
+      PR_NUMBER: "1234"
+      
     steps:
       - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
 

@@ -41,7 +41,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASS }}
       
       - uses: rlespinasse/github-slug-action@v3.x
-      - run: echo ${GITHUB_REF_NAME}
+      - run: echo ${GITHUB_REF_NAME_SLUG}
 
       - name: Extract metadata (tags, labels) for docker
         id: meta
@@ -52,7 +52,7 @@ jobs:
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
             type=ref,event=tag
             type=ref,event=pr
-            type=raw,value=${GITHUB_REF_NAME},event=pr
+            type=raw,value=${GITHUB_REF_NAME_SLUG},event=pr
           flavor: |
             latest=false
       

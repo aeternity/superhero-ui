@@ -1,6 +1,9 @@
 name: Staging Deploy Pipeline
 
 on:
+  push:
+    branches:
+      - feat/gh-actions-docker-build
   pull_request:
     types: [ opened, closed ] 
     branches:
@@ -14,17 +17,17 @@ jobs:
     steps:
       - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
 
+      - run: echo $FULL_PR_NUMBER
+
       - uses: actions/checkout@v2
         with:
           repository: aeternity/gitops-apps.git
           ref: dev
           persist-credentials: false
           fetch-depth: 0
-
-      - uses: rlespinasse/github-slug-action@v3.x
       
       - name: Modify values for staging deploy
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        #if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
           yq eval -i '.app.versions += [env(FULL_PR_NUMBER)'] superhero-ui/values.yaml

@@ -13,7 +13,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
       
-    name: Run Tests
+    name: Run tests
     steps:
       - if: github.ref != 'refs/heads/develop'
         uses: actions/checkout@v2

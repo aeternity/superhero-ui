@@ -6,15 +6,14 @@ on:
     branches:
       - develop
 
+env:
+  PR_NUMBER: ${{ github.event.number }}
+
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest
-    env:
-      PR_NUMBER: ${{ github.event.number }}
 
     steps:
-      - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
-
       - uses: actions/checkout@v2
         with:
           repository: aeternity/gitops-apps.git
@@ -26,6 +25,7 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
+          export FULL_PR_NUMBER="pr-$PR_NUMBER"
           yq eval -i '.app.versions += [env(FULL_PR_NUMBER)'] superhero-ui/values.yaml
           yq eval -i '.app.ingress.hosts += [{"host": "'${FULL_PR_NUMBER}'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
           yq eval -i '.. style="double"' superhero-ui/values.yaml
@@ -52,13 +52,12 @@ jobs:
           ref: staging
           persist-credentials: false
           fetch-depth: 0
-
-      - uses: rlespinasse/github-slug-action@v3.x
       
       - name: Modify values for staging deploy
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
           sudo snap install yq
+          export FULL_PR_NUMBER="pr-$PR_NUMBER"
           yq eval -i 'del( .app.versions[] | select(. == env(FULL_PR_NUMBER))  )' superhero-ui/values.yaml
           yq eval -i 'del(... | select(.[] == "'${FULL_PR_NUMBER}.dev.aepps.com'"))' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
@@ -84,6 +83,7 @@ jobs:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
           DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}
         run: |
+          export FULL_PR_NUMBER="pr-$PR_NUMBER"
           login_data() {
           cat <<EOF
           {

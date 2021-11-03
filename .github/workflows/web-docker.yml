@@ -1,0 +1,63 @@
+name: Web Pipeline
+
+on:
+  push:
+    branches: 
+      - master
+      - feat/gh-actions-docker-build
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    env:
+      TARGET: ${{ format('/home/{0}/superhero-ui', secrets.SSR_STAGE_USER) }}
+      
+    name: Web build docker
+    steps:
+      - if: github.ref != 'refs/heads/develop'
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 100
+
+      - if: github.ref != 'refs/heads/develop'
+        run: git branch develop origin/develop
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Log in to dockerhub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
+      
+      - name: Extract metadata (tags, labels) for docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: aeternity/superhero-ui
+          tags: |
+            type=raw,value=latest-test,enable=${{ endsWith(GitHub.ref, 'master') }}
+            type=ref,event=tag
+            type=ref,event=pr
+          flavor: |
+            latest=false
+      
+      - name: Build and push docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile.web
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

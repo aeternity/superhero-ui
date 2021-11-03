@@ -1,0 +1,34 @@
+name: Tests Pipeline
+
+on:
+  push:
+    branches: 
+      - master
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+      
+    name: Run tests
+    steps:
+      - if: github.ref != 'refs/heads/develop'
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 100
+
+      - if: github.ref != 'refs/heads/develop'
+        run: git branch develop origin/develop
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+      - run: npm ci
+      - run: npm test

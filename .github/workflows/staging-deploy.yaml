@@ -9,12 +9,13 @@ on:
     branches:
       - feat/gh-actions-docker-build
 
+env:
+  PR_NUMBER: "1234"
+  FULL_PR_NUMBER: "pr-$PR_NUMBER"
+
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest
-    env:
-      PR_NUMBER: "1234"
-
     steps:
       - uses: actions/checkout@v2
         with:
@@ -27,15 +28,14 @@ jobs:
         #if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
-          echo "pr-$PR_NUMBER"
-          yq eval -i '.app.versions += [env(pr-$PR_NUMBER)'] superhero-ui/values.yaml
-          yq eval -i '.app.ingress.hosts += [{"host": "'${pr-$PR_NUMBER}'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
+          yq eval -i '.app.versions += [env(FULL_PR_NUMBER)'] superhero-ui/values.yaml
+          yq eval -i '.app.ingress.hosts += [{"host": "'${FULL_PR_NUMBER}'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
           yq eval -i '.. style="double"' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Deploy ${pr-$PR_NUMBER}.dev.aepps.com"
+          git commit -m "Deploy ${FULL_PR_NUMBER}.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
@@ -54,20 +54,18 @@ jobs:
           ref: dev
           persist-credentials: false
           fetch-depth: 0
-
-      - uses: rlespinasse/github-slug-action@v3.x
       
       - name: Modify values for staging deploy
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
           sudo snap install yq
-          yq eval -i 'del( .app.versions[] | select(. == env(pr-$PR_NUMBER))  )' superhero-ui/values.yaml
-          yq eval -i 'del(... | select(.[] == "'${pr-$PR_NUMBER}.dev.aepps.com'"))' superhero-ui/values.yaml
+          yq eval -i 'del( .app.versions[] | select(. == env(FULL_PR_NUMBER))  )' superhero-ui/values.yaml
+          yq eval -i 'del(... | select(.[] == "'${FULL_PR_NUMBER}.dev.aepps.com'"))' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Undeploy ${pr-$PR_NUMBER}.dev.aepps.com"
+          git commit -m "Undeploy ${FULL_PR_NUMBER}.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
         if: github.event_name == 'pull_request' && github.event.action == 'closed'

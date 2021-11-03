@@ -5,12 +5,12 @@ on:
     types: [ opened, closed ] 
     branches:
       - feat/gh-actions-docker-build
+env:
+  PR_NUMBER: ${{ github.event.number }}
 
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest
-    env:
-      PR_NUMBER: ${{ github.event.number }}
     steps:
       - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
 
@@ -21,7 +21,6 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: rlespinasse/github-slug-action@v3.x
       
       - name: Modify values for staging deploy
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
@@ -54,7 +53,7 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: rlespinasse/github-slug-action@v3.x
+      - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
       
       - name: Modify values for staging deploy
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -79,6 +78,8 @@ jobs:
   remove-dockerhub-tags-staging:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
+
       - name: Remove tags from dockerhub
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         env:
@@ -97,4 +98,3 @@ jobs:
           curl "https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/test/" \
           -X DELETE \
           -H "Authorization: JWT ${TOKEN}"
-

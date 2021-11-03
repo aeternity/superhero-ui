@@ -9,28 +9,31 @@ on:
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest
+    env:
+      PR_NUMBER: ${{ github.event.number }}
+
     steps:
+      - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
+
       - uses: actions/checkout@v2
         with:
           repository: aeternity/gitops-apps.git
           ref: staging
           persist-credentials: false
           fetch-depth: 0
-
-      - uses: rlespinasse/github-slug-action@v3.x
       
       - name: Modify values for staging deploy
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
-          yq eval -i '.app.versions += [env(GITHUB_REF_NAME_SLUG)'] superhero-ui/values.yaml
-          yq eval -i '.app.ingress.hosts += [{"host": "'${GITHUB_REF_NAME_SLUG}'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
+          yq eval -i '.app.versions += [env(FULL_PR_NUMBER)'] superhero-ui/values.yaml
+          yq eval -i '.app.ingress.hosts += [{"host": "'${FULL_PR_NUMBER}'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
           yq eval -i '.. style="double"' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Deploy ${GITHUB_REF_NAME_SLUG}.dev.aepps.com"
+          git commit -m "Deploy ${FULL_PR_NUMBER}.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
@@ -56,13 +59,13 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
           sudo snap install yq
-          yq eval -i 'del( .app.versions[] | select(. == env(GITHUB_REF_NAME_SLUG))  )' superhero-ui/values.yaml
-          yq eval -i 'del(... | select(.[] == "'${GITHUB_REF_NAME_SLUG}.dev.aepps.com'"))' superhero-ui/values.yaml
+          yq eval -i 'del( .app.versions[] | select(. == env(FULL_PR_NUMBER))  )' superhero-ui/values.yaml
+          yq eval -i 'del(... | select(.[] == "'${FULL_PR_NUMBER}.dev.aepps.com'"))' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Undeploy ${GITHUB_REF_NAME_SLUG}.dev.aepps.com"
+          git commit -m "Undeploy ${FULL_PR_NUMBER}.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -90,6 +93,6 @@ jobs:
           EOF
           }                                                    
           TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "$(login_data)" "https://hub.docker.com/v2/users/login/" | jq -r .token)
-          curl "https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/${GITHUB_REF_NAME_SLUG}/" \
+          curl "https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/${FULL_PR_NUMBER}/" \
           -X DELETE \
           -H "Authorization: JWT ${TOKEN}"

@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 0
 
       - name: Modify values for staging deploy
-        #if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
           export FULL_PR_NUMBER="pr-$PR_NUMBER"
@@ -38,7 +38,7 @@ jobs:
           git commit -m "Deploy ${FULL_PR_NUMBER}.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
-        #if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
@@ -56,7 +56,7 @@ jobs:
           fetch-depth: 0
       
       - name: Modify values for staging undeploy
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        #if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
           sudo snap install yq
           export FULL_PR_NUMBER="pr-$PR_NUMBER"
@@ -69,7 +69,7 @@ jobs:
           git commit -m "Undeploy ${FULL_PR_NUMBER}.dev.aepps.com"
 
       - name: Push undeploy changes to staging branch
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        #if: github.event_name == 'pull_request' && github.event.action == 'closed'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Remove tags from dockerhub
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        #if: github.event_name == 'pull_request' && github.event.action == 'closed'
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
           DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}

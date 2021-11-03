@@ -24,7 +24,7 @@ jobs:
       - uses: rlespinasse/github-slug-action@v3.x
       
       - name: Modify values for staging deploy
-        #if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
           yq eval -i '.app.versions += [env(FULL_PR_NUMBER)'] superhero-ui/values.yaml
@@ -37,7 +37,7 @@ jobs:
           git commit -m "Deploy ${FULL_PR_NUMBER}.dev.aepps.com"
 
       - name: Push deploy changes to staging branch
-        #if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}

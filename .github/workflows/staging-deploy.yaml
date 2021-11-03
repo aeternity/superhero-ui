@@ -1,14 +1,10 @@
 name: Staging Deploy Pipeline
 
 on:
-  push:
-    branches:
-      - feat/gh-actions-docker-build
   pull_request:
     types: [ opened, closed ] 
     branches:
-      - develop
-
+      - feat/gh-actions-docker-build
 
 jobs:
   deploy-staging:

@@ -11,7 +11,6 @@ on:
 
 env:
   PR_NUMBER: "1234"
-  FULL_PR_NUMBER: "pr-$PR_NUMBER"
 
 jobs:
   deploy-staging:
@@ -24,6 +23,8 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
       
+      - run: echo "pr-$PR_NUMBER" | tee -a $FULL_PR_NUMBER
+
       - name: Modify values for staging deploy
         #if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |

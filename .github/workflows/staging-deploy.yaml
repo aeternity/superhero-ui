@@ -86,6 +86,7 @@ jobs:
           DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}
         run: |
           export FULL_PR_NUMBER="pr-$PR_NUMBER"
+          echo "https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/${FULL_PR_NUMBER}/"
           login_data() {
           cat <<EOF
           {
@@ -94,7 +95,8 @@ jobs:
           }
           EOF
           }
-          TOKEN=$(curl -vvv -s -H "Content-Type: application/json" -X POST -d "$(login_data)" "https://hub.docker.com/v2/users/login/" | jq -r .token)
+
+          TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "$(login_data)" "https://hub.docker.com/v2/users/login/" | jq -r .token)
           echo "https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/${FULL_PR_NUMBER}/"
           curl "https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/${FULL_PR_NUMBER}/" \
           -X DELETE \

@@ -40,6 +40,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASS }}
       
+      - uses: rlespinasse/github-slug-action@v3.x
       - run: echo ${GITHUB_REF_NAME}
 
       - name: Extract metadata (tags, labels) for docker

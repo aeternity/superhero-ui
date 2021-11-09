@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - master
-      - feat/gh-actions-docker-build
     tags:
       - 'v*'
   pull_request:
@@ -58,5 +57,6 @@ jobs:
         with:
           context: .
           file: Dockerfile.web
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

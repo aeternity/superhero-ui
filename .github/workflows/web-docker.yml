@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - master
-      - feat/gh-actions-docker-build
     tags:
       - 'v*'
   pull_request:

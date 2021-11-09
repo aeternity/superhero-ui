@@ -19,31 +19,31 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: aeternity/gitops-apps.git
-          ref: dev
+          ref: staging
           persist-credentials: false
           fetch-depth: 0
 
       - name: Modify values for staging deploy
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        #if: github.event_name == 'pull_request' && github.event.action == 'opened'
         run: |
           sudo snap install yq
           export FULL_PR_NUMBER="pr-$PR_NUMBER"
           yq eval -i '.app.versions += [env(FULL_PR_NUMBER)'] superhero-ui/values.yaml
-          yq eval -i '.app.ingress.hosts += [{"host": "'${FULL_PR_NUMBER}'.dev.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
+          yq eval -i '.app.ingress.hosts += [{"host": "'${FULL_PR_NUMBER}'.stg.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
           yq eval -i '.. style="double"' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Deploy ${FULL_PR_NUMBER}.dev.aepps.com"
+          git commit -m "Deploy ${FULL_PR_NUMBER}.stg.aepps.com"
 
       - name: Push deploy changes to staging branch
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        #if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
           repository: aeternity/gitops-apps
-          branch: dev
+          branch: staging
 
   undeploy-staging:
     runs-on: ubuntu-latest
@@ -51,7 +51,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: aeternity/gitops-apps.git
-          ref: dev
+          ref: staging
           persist-credentials: false
           fetch-depth: 0
       
@@ -61,12 +61,12 @@ jobs:
           sudo snap install yq
           export FULL_PR_NUMBER="pr-$PR_NUMBER"
           yq eval -i 'del( .app.versions[] | select(. == env(FULL_PR_NUMBER))  )' superhero-ui/values.yaml
-          yq eval -i 'del(... | select(.[] == "'${FULL_PR_NUMBER}.dev.aepps.com'"))' superhero-ui/values.yaml
+          yq eval -i 'del(... | select(.[] == "'${FULL_PR_NUMBER}.stg.aepps.com'"))' superhero-ui/values.yaml
           cat superhero-ui/values.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Undeploy ${FULL_PR_NUMBER}.dev.aepps.com"
+          git commit -m "Undeploy ${FULL_PR_NUMBER}.stg.aepps.com"
 
       - name: Push undeploy changes to staging branch
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -74,13 +74,13 @@ jobs:
         with:
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
           repository: aeternity/gitops-apps
-          branch: dev
+          branch: staging
   
   remove-dockerhub-tags-staging:
     runs-on: ubuntu-latest
     steps:
       - name: Remove tags from dockerhub
-        #if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
           DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}

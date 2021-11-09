@@ -8,10 +8,10 @@ on:
     tags:
       - 'v*'
   pull_request:
-    branches: [ master, develop ]
+    branches: [ feat/gh-actions-docker-build ]
 
 jobs:
-  main:
+  web-docker:
     runs-on: ubuntu-latest
     env:
       TARGET: ${{ format('/home/{0}/superhero-ui', secrets.SSR_STAGE_USER) }}

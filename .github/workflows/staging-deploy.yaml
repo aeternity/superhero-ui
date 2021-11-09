@@ -1,20 +1,15 @@
 name: Staging Deploy Pipeline
 
 on:
-  push:
-    branches:
-      - feat/gh-actions-docker-build
   pull_request:
     types: [ opened, closed ] 
     branches:
       - feat/gh-actions-docker-build
 
-env:
-  PR_NUMBER: "1234"
-
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest
+    needs: web-docker
     steps:
       - uses: actions/checkout@v2
         with:
@@ -28,10 +23,10 @@ jobs:
         run: |
           sudo snap install yq
           export FULL_PR_NUMBER="pr-$PR_NUMBER"
-          yq eval -i '.app.versions += [env(FULL_PR_NUMBER)'] superhero-ui/values.yaml
-          yq eval -i '.app.ingress.hosts += [{"host": "'${FULL_PR_NUMBER}'.stg.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values.yaml
-          yq eval -i '.. style="double"' superhero-ui/values.yaml
-          cat superhero-ui/values.yaml
+          yq eval -i '.app.versions += [env(FULL_PR_NUMBER)'] superhero-ui/values-staging.yaml
+          yq eval -i '.app.ingress.hosts += [{"host": "'${FULL_PR_NUMBER}'.stg.aepps.com", "paths": { "path": "/"}}]' superhero-ui/values-staging.yaml
+          yq eval -i '.. style="double"' superhero-ui/values-staging.yaml
+          cat superhero-ui/values-staging.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
@@ -60,9 +55,9 @@ jobs:
         run: |
           sudo snap install yq
           export FULL_PR_NUMBER="pr-$PR_NUMBER"
-          yq eval -i 'del( .app.versions[] | select(. == env(FULL_PR_NUMBER))  )' superhero-ui/values.yaml
-          yq eval -i 'del(... | select(.[] == "'${FULL_PR_NUMBER}.stg.aepps.com'"))' superhero-ui/values.yaml
-          cat superhero-ui/values.yaml
+          yq eval -i 'del( .app.versions[] | select(. == env(FULL_PR_NUMBER))  )' superhero-ui/values-staging.yaml
+          yq eval -i 'del(... | select(.[] == "'${FULL_PR_NUMBER}.stg.aepps.com'"))' superhero-ui/values-staging.yaml
+          cat superhero-ui/values-staging.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .

@@ -1,4 +1,4 @@
-name: Web Pipeline
+name: WebPipeline
 
 on:
   push:

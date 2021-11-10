@@ -8,6 +8,7 @@ on:
       - 'v*'
   pull_request:
     branches: [ feat/gh-actions-docker-build ]
+    types: [ opened, closed ]
 
 jobs:
   web-docker:

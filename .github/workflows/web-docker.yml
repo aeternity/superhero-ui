@@ -8,6 +8,7 @@ on:
       - 'v*'
   pull_request:
     branches: [ master, develop ]
+    types: [ opened ]
 
 jobs:
   main:
@@ -34,7 +35,6 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Log in to dockerhub
-        if: github.event_name != 'pull_request'
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
@@ -49,14 +49,13 @@ jobs:
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
             type=ref,event=tag
             type=ref,event=pr
-          flavor: |
-            latest=false
       
       - name: Build and push docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           file: Dockerfile.web
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+

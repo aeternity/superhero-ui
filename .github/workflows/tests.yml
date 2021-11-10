@@ -8,6 +8,7 @@ on:
       - 'v*'
   pull_request:
     branches: [ master, develop ]
+    types: [ opened ]
 
 jobs:
   main:

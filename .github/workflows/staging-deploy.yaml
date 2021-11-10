@@ -1,10 +1,10 @@
 name: Staging Deploy Pipeline
 
 on:
-  pull_request:
-    types: [ opened, closed ] 
-    branches:
-      - develop
+  workflow_run:
+    workflows: [ "WEB Pipeline", "SSR Pipeline" ]
+    types:
+      - completed
 
 env:
   PR_NUMBER: ${{ github.event.number }}
@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
       
       - name: Modify values for staging deploy
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         run: |
           sudo snap install yq
           export FULL_PR_NUMBER="pr-$PR_NUMBER"
@@ -36,63 +36,9 @@ jobs:
           git commit -m "Deploy ${FULL_PR_NUMBER}.stg.aepps.com"
 
       - name: Push deploy changes to staging branch
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
           repository: aeternity/gitops-apps
           branch: staging
-
-  undeploy-staging:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          repository: aeternity/gitops-apps.git
-          ref: staging
-          persist-credentials: false
-          fetch-depth: 0
-      
-      - name: Modify values for staging deploy
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        run: |
-          sudo snap install yq
-          export FULL_PR_NUMBER="pr-$PR_NUMBER"
-          yq eval -i 'del( .app.versions[] | select(. == env(FULL_PR_NUMBER))  )' superhero-ui/values.yaml
-          yq eval -i 'del(... | select(.[] == "'${FULL_PR_NUMBER}.stg.aepps.com'"))' superhero-ui/values.yaml
-          cat superhero-ui/values.yaml
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "Undeploy ${FULL_PR_NUMBER}.stg.aepps.com"
-
-      - name: Push deploy changes to staging branch
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          repository: aeternity/gitops-apps
-          branch: staging
-  
-  remove-dockerhub-tags-staging:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Remove tags from dockerhub
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        env:
-          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
-          DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}
-        run: |
-          export FULL_PR_NUMBER="pr-$PR_NUMBER"
-          login_data() {
-          cat <<EOF
-          {
-            "username": "$DOCKERHUB_USER",
-            "password": "$DOCKERHUB_PASS"
-          }
-          EOF
-          }                                                    
-          TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "$(login_data)" "https://hub.docker.com/v2/users/login/" | jq -r .token)
-          curl "https://hub.docker.com/v2/repositories/aeternity/superhero-ui-web/tags/${FULL_PR_NUMBER}/" \
-          -X DELETE \
-          -H "Authorization: JWT ${TOKEN}"

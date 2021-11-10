@@ -5,7 +5,10 @@ on:
     branches: [ master, develop ]
     types:
       - closed
-    
+
+env:
+  PR_NUMBER: ${{ github.event.number }}
+
 jobs:
   undeploy-staging:
     runs-on: ubuntu-latest

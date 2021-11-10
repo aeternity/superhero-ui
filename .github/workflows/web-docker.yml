@@ -44,7 +44,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: aeternity/superhero-ui
+          images: aeternity/superhero-ui-web
           tags: |
             type=raw,value=latest-test,enable=${{ endsWith(GitHub.ref, 'master') }}
             type=ref,event=tag

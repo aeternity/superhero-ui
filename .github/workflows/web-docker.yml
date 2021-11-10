@@ -48,8 +48,6 @@ jobs:
             type=raw,value=master,enable=${{ endsWith(GitHub.ref, 'master') }}
             type=ref,event=tag
             type=ref,event=pr
-          flavor: |
-            latest=true
       
       - name: Build and push docker image
         uses: docker/build-push-action@v2

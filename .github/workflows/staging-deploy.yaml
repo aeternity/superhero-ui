@@ -2,7 +2,7 @@ name: Staging Deploy Pipeline
 
 on:
   workflow_run:
-    workflows: ["Web Pipeline"]
+    workflows: ["Web Pipeline", "SSR Pipeline"]
     types:
       - completed
 

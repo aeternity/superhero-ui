@@ -12,10 +12,7 @@ on:
 
 jobs:
   main:
-    runs-on: ubuntu-latest
-    env:
-      TARGET: ${{ format('/home/{0}/superhero-ui', secrets.SSR_STAGE_USER) }}
-      
+    runs-on: ubuntu-latest    
     name: Web build docker
     steps:
       - if: github.ref != 'refs/heads/develop'

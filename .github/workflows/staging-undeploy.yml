@@ -7,7 +7,6 @@ on:
       - closed
     
 jobs:
-
   undeploy-staging:
     runs-on: ubuntu-latest
     steps:

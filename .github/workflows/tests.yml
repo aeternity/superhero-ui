@@ -13,7 +13,6 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
-      
     name: Run tests
     steps:
       - if: github.ref != 'refs/heads/develop'

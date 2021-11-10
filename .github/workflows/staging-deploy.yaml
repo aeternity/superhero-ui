@@ -1,10 +1,11 @@
 name: Staging Deploy Pipeline
 
 on:
-  pull_request:
-    types: [ opened, closed ] 
-    branches:
-      - feat/gh-actions-docker-build
+  workflow_run:
+    workflows: 
+      - WebPipeline
+    types:
+      - completed
 
 jobs:
   deploy-staging:

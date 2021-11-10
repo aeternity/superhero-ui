@@ -4,6 +4,7 @@ on:
   workflow_run:
     workflows: 
       - WebPipeline
+    branches: [feat/gh-actions-docker-build]
     types:
       - completed
 

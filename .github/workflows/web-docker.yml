@@ -8,7 +8,7 @@ on:
       - 'v*'
   pull_request:
     branches: [ master, develop ]
-    types: [ opened ]
+    types: [ opened, closed ]
 
 jobs:
   main:
@@ -38,16 +38,18 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASS }}
 
       - name: Extract metadata (tags, labels) for docker
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: aeternity/superhero-ui
+          images: aeternity/superhero-ui-web
           tags: |
-            type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
+            type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'main') }}
             type=ref,event=tag
             type=ref,event=pr
       
       - name: Build and push docker image
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -56,3 +58,27 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - uses: actions/checkout@v2
+        with:
+          repository: aeternity/gitops-apps.git
+          ref: staging
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Install yq
+        run: |
+          sudo snap install yq
+
+      - name: Staging Deploy
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        uses: mmpetarpeshev/staging-deploy-composite-action/staging-deploy@v1
+        with:
+          pr-number: $PR_NUMBER
+          env: "stg"
+
+      - name: Staging Undeploy
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        uses: mmpetarpeshev/staging-deploy-composite-action/staging-undeploy@v1
+        with:
+          pr-number: $PR_NUMBER
+          env: "stg"

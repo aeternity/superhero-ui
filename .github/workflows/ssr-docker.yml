@@ -31,7 +31,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASS }}
       
-      - name: Extract metadata (tags, labels) for docker
+      - name: Extract metadata for docker
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         id: meta
         uses: docker/metadata-action@v3
@@ -63,14 +63,14 @@ jobs:
         run: |
           sudo snap install yq
 
-      - name: Staging Deploy
+      - name: Staging deploy
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: aeternity/ae-github-actions/staging-deploy@v1
         with:
           pr-number: $PR_NUMBER
           env: "stg"
 
-      - name: Staging Undeploy
+      - name: Staging undeploy
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         uses: aeternity/ae-github-actions/staging-undeploy@v1
         with:

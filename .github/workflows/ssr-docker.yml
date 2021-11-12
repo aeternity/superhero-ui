@@ -65,14 +65,14 @@ jobs:
 
       - name: Staging Deploy
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
-        uses: mmpetarpeshev/staging-deploy-composite-action/staging-deploy@v1
+        uses: aeternity/ae-github-actions/staging-deploy@v1
         with:
           pr-number: $PR_NUMBER
           env: "stg"
 
       - name: Staging Undeploy
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        uses: mmpetarpeshev/staging-deploy-composite-action/staging-undeploy@v1
+        uses: aeternity/ae-github-actions/staging-undeploy@v1
         with:
           pr-number: $PR_NUMBER
           env: "stg"

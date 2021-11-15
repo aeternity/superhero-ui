@@ -78,7 +78,7 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: aeternity/ae-github-actions/staging-deploy@v1
         with:
-          pr-number: ${{ env.PR_NUMBER }}
+          url-prefix: ${{ env.PR_NUMBER }}
           env: ${{ env.ENV }}
           argocd-file: ${{ env.argocd-file }}
       
@@ -86,17 +86,21 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         uses: aeternity/ae-github-actions/staging-undeploy@v1
         with:
-          pr-number: ${{ env.PR_NUMBER }}
+          url-prefix: pr-${{ env.PR_NUMBER }}
           env: ${{ env.ENV }}
           argocd-file: ${{ env.argocd-file }}
       
+      - name: Get the tag version
+        if: startsWith(github.ref, 'refs/tags/v')
+        id: get_version
+        run: echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
+
       - name: Production Deploy
-        if: github.event_name == 'push' ||
-            startsWith(github.ref, 'refs/tags/v')
-        uses: aeternity/ae-github-actions/staging-deploy@v1
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: mmpetarpeshev/staging-deploy-composite-action/staging-deploy@v1
         with:
-          pr-number: ${{ env.PR_NUMBER }}
-          env: ${{ env.ENV }}
+          url-prefix: ${{ steps.get_version.outputs.TAG }}
+          env: "prd"
           argocd-file: "values.yaml"
 
       - name: Print PR url
@@ -105,5 +109,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: Deployed to ${{ env.PR_NUMBER }}.${{ env.ENV }}.aepps.com
+          msg: Deployed to pr-${{ env.PR_NUMBER }}.${{ env.ENV }}.aepps.com
           check_for_duplicate_msg: true

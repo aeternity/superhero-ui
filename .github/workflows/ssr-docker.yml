@@ -10,6 +10,11 @@ on:
     branches: [ master, develop ]
     types: [ opened, closed ]
 
+env:
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+  ENV: "stg"
+  argocd-file: "values-staging.yaml"
+
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -70,18 +75,27 @@ jobs:
           sudo snap install yq
 
       - name: Staging deploy
-        if: |
-          github.event_name == 'push' ||
-          startsWith(github.ref, 'refs/tags/v') ||
-          github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: aeternity/ae-github-actions/staging-deploy@v1
         with:
-          pr-number: $PR_NUMBER
-          env: "stg"
-
+          pr-number: ${{ env.PR_NUMBER }}
+          env: ${{ env.ENV }}
+          argocd-file: ${{ env.argocd-file }}
+      
       - name: Staging undeploy
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         uses: aeternity/ae-github-actions/staging-undeploy@v1
         with:
-          pr-number: $PR_NUMBER
-          env: "stg"
+          pr-number: ${{ env.PR_NUMBER }}
+          env: ${{ env.ENV }}
+          argocd-file: ${{ env.argocd-file }}
+
+      - name: Print PR url
+        uses: unsplash/comment-on-pr@v1.3.0
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: Deployed to ${{ env.PR_NUMBER }}.${{ env.ENV }}.aepps.com
+          check_for_duplicate_msg: true
+

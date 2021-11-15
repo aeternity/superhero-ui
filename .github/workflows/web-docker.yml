@@ -82,7 +82,7 @@ jobs:
 
       - name: Staging deploy
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
-        uses: aeternity/ae-github-actions/staging-deploy@v1
+        uses: aeternity/ae-github-actions/argocd-deploy@v1
         with:
           url-prefix: pr-${{ env.PR_NUMBER }}
           env: ${{ env.ENV }}
@@ -90,7 +90,7 @@ jobs:
 
       - name: Staging undeploy
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        uses: aeternity/ae-github-actions/staging-undeploy@v1
+        uses: aeternity/ae-github-actions/argocd-undeploy@v1
         with:
           url-prefix: pr-${{ env.PR_NUMBER }}
           env: ${{ env.ENV }}
@@ -103,7 +103,7 @@ jobs:
 
       - name: Production Deploy
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: mmpetarpeshev/staging-deploy-composite-action/staging-deploy@v1
+        uses: aeternity/ae-github-actions/argocd-deploy@v1
         with:
           url-prefix: ${{ steps.get_version.outputs.TAG }}
           env: "prd"

@@ -13,7 +13,7 @@ on:
 env:
   PR_NUMBER: ${{ github.event.pull_request.number }}
   ENV: "stg"
-  argocd-file: "values-staging.yaml"
+  ARGOCD-FILE: "values-staging.yaml"
 
 jobs:
   main:
@@ -76,17 +76,13 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - name: Install yq
-        run: |
-          sudo snap install yq
-
       - name: Staging deploy
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: aeternity/ae-github-actions/argocd-deploy@v1
         with:
           url-prefix: pr-${{ env.PR_NUMBER }}
           env: ${{ env.ENV }}
-          argocd-file: ${{ env.argocd-file }}
+          argocd-file: ${{ env.ARGOCD-FILE }}
 
       - name: Staging undeploy
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -94,7 +90,7 @@ jobs:
         with:
           url-prefix: pr-${{ env.PR_NUMBER }}
           env: ${{ env.ENV }}
-          argocd-file: ${{ env.argocd-file }}
+          argocd-file: ${{ env.ARGOCD-FILE }}
 
       - name: Get the tag version
         if: startsWith(github.ref, 'refs/tags/v')

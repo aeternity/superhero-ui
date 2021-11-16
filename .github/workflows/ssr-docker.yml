@@ -49,6 +49,8 @@ jobs:
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'main') }}
             type=ref,event=tag
             type=ref,event=pr
+          flavor: |
+            latest=false
       
       - name: Build and push docker image
         if: |

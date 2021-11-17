@@ -6,7 +6,6 @@ on:
       - master
     tags:
       - 'v*'
-
 env:
   ENV: "prd"
   ARGOCD-FILE: "values.yaml"

@@ -9,7 +9,6 @@ on:
 
 env:
   ENV: "prd"
-  ARGOCD-FILE: "values.yaml"
 
 jobs:
   main:
@@ -69,4 +68,4 @@ jobs:
         with:
           url-prefix: ${{ steps.get_version.outputs.TAG }}
           env: ${{ env.ENV }}
-          argocd-file: ${{ env.ARGOCD-FILE }}
+

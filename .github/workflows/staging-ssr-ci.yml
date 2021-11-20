@@ -8,7 +8,6 @@ on:
 env:
   PR_NUMBER: ${{ github.event.pull_request.number }}
   ENV: "stg"
-  ARGOCD-FILE: "values-staging.yaml"
 
 jobs:
   main:
@@ -65,7 +64,6 @@ jobs:
         with:
           url-prefix: ${{ env.PR_NUMBER }}
           env: ${{ env.ENV }}
-          argocd-file: ${{ env.ARGOCD-FILE }}
       
       - name: Staging undeploy
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -73,7 +71,6 @@ jobs:
         with:
           url-prefix: pr-${{ env.PR_NUMBER }}
           env: ${{ env.ENV }}
-          argocd-file: ${{ env.ARGOCD-FILE }}
       
       - name: Print PR url
         uses: unsplash/comment-on-pr@v1.3.0

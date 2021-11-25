@@ -9,6 +9,7 @@ on:
 
 env:
   ENV: "prd"
+  APP: "superhero-ui-web"
 
 jobs:
   main:
@@ -68,4 +69,4 @@ jobs:
         with:
           url-prefix: ${{ steps.get_version.outputs.TAG }}
           env: ${{ env.ENV }}
-
+          app: ${{ env.APP }}

@@ -87,7 +87,7 @@
     "eslint-plugin-vue": "^7.16.0",
     "eslint-plugin-vue-i18n": "^0.3.0",
     "favicons-webpack-plugin": "^2.1.0",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "raw-loader": "^4.0.2",
     "sass-loader": "^10.2.0",
     "standard-version": "^9.3.1",

@@ -26,4 +26,3 @@ WORKDIR /home/node/app
 COPY --chown=node:node --from=builder /home/node/app /home/node/app
 
 CMD ["./node_modules/@uvue/server/start.js"]
-

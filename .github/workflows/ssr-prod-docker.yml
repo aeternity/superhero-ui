@@ -11,6 +11,8 @@ env:
   ENV: "prd"
   APP: "superhero-ui-ssr"
 
+concurrency: superhero_ui_production_environment
+
 jobs:
   main:
     runs-on: ubuntu-latest

@@ -10,6 +10,7 @@ env:
   ENV: "stg"
   APP: "superhero-ui-ssr"
 
+concurrency: superhero_ui_staging_environment
 
 jobs:
   main:
@@ -62,14 +63,14 @@ jobs:
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'main') }}
             type=ref,event=tag
             type=ref,event=pr
-      
+
       - name: Get commit sha on PR Sync
-        if: github.event_name == 'pull_request' && github.event.action == 'synchronize'  
+        if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
         id: git-sha
         shell: bash
         run: |
           echo "::set-output name=git-sha::$(git rev-parse --short HEAD)"
-      
+
       - name: Build and push docker image
         if: github.event_name == 'pull_request' && github.event.action == 'opened' || github.event.action == 'synchronize'
         uses: docker/build-push-action@v2
@@ -97,7 +98,7 @@ jobs:
           ref: stg
           persist-credentials: false
           fetch-depth: 0
-      
+
       - name: Staging PR Sync
         if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
         uses: aeternity/ae-github-actions/argocd-pr-sync@v4

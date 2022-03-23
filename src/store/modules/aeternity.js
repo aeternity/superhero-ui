@@ -105,7 +105,7 @@ export default {
           ...options,
           name: 'Superhero',
           onDisconnect() {
-            commit('resetState');
+            commit('resetState', null, { root: true });
           },
           async onAddressChange(accounts) {
             const address = Object.keys(accounts.current)[0];

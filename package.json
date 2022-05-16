@@ -33,7 +33,7 @@
     "aeternity-fungible-token": "github:aeternity/aeternity-fungible-token#v2.0.0",
     "animate.css": "^4.1.1",
     "autosize": "^5.0.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bignumber.js": "^9.0.1",
     "chart.js": "^2.9.4",
     "chartjs-plugin-annotation": "^0.5.7",

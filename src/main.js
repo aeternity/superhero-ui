@@ -9,12 +9,14 @@ import VueTimeago from 'vue-timeago';
 import formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import fetch from 'node-fetch';
 import LruCache from 'lru-cache';
+import SmartBanner from 'smart-app-banner';
 import App from './App.vue';
 import createStore from './store';
 import setupClientState from './store/plugins/setupClientState';
 import createRouter from './router';
 import i18n from './utils/i18nHelper';
 import registerModals from './views/modals';
+import 'smart-app-banner/dist/smart-app-banner.css';
 
 if (process.env.VUE_CLI_SSR) {
   const cache = new LruCache({
@@ -105,6 +107,25 @@ export default () => {
     store,
     router,
     i18n,
+    created() {
+      // eslint-disable-next-line no-new
+      new SmartBanner({
+        daysHidden: 15, // days to hide banner after close button is clicked (defaults to 15)
+        daysReminder: 90, // days to hide banner after "VIEW" button is clicked (defaults to 90)
+        title: 'Superhero Wallet',
+        author: 'æternity',
+        button: 'VIEW',
+        store: {
+          android: 'On Google Play',
+        },
+        price: {
+          ios: 'FREE',
+          android: 'FREE',
+          windows: 'FREE',
+        },
+        icon: 'https://play-lh.googleusercontent.com/S_DA5CooCpf1uAQsWSOKMdhIT1pN9MutIF55RotrXCgn9wzlOke2RYKW86lDxGfBuEo=w240-h480',
+      });
+    },
     render: (h) => h(App),
   });
 };

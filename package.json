@@ -30,7 +30,7 @@
     "@popperjs/core": "^2.9.2",
     "@uvue/core": "^0.1.7",
     "@uvue/server": "^0.1.7",
-    "aeternity-fungible-token": "github:aeternity/aeternity-fungible-token#v2.0.0",
+    "aeternity-fungible-token": "git+https://git@github.com/aeternity/aeternity-fungible-token#v2.0.0",
     "animate.css": "^4.1.1",
     "autosize": "^5.0.0",
     "axios": "^0.21.1",
@@ -50,9 +50,9 @@
     "normalize.css": "^8.0.1",
     "serve-static": "^1.14.1",
     "smart-app-banner": "^2.0.0",
-    "sophia-bonding-curve": "github:aeternity/BondingCurve#1.0.0-alpha.2",
+    "sophia-bonding-curve": "git+https://git@github.com/aeternity/BondingCurve#1.0.0-alpha.2",
     "soundcloud-widget": "^0.2.1",
-    "tipping-contract": "github:aeternity/tipping-contract#v5.0.0-alpha1",
+    "tipping-contract": "git+https://git@github.com/aeternity/tipping-contract#v5.0.0-alpha1",
     "vue": "^2.6.14",
     "vue-chartjs": "^3.5.1",
     "vue-client-only": "^2.1.0",
@@ -62,7 +62,7 @@
     "vue-timeago": "^5.1.3",
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0",
-    "wordbazaar-contracts": "github:aeternity/wordbazaar-contracts#v0.0.4-alpha2"
+    "wordbazaar-contracts": "git+https://git@github.com/aeternity/wordbazaar-contracts#v0.0.4-alpha3"
   },
   "repository": {
     "type": "git",

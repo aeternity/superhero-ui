@@ -49,7 +49,7 @@
       :placeholder="post ?
         'Create New Post' :
         $t('components.layout.SendTip.SendNewTip')"
-      @focus="useSdkWallet ? toggleForm() : openTipDeeplink()"
+      @focus="(useSdkWallet || post) ? toggleForm() : openTipDeeplink()"
     />
   </div>
 </template>

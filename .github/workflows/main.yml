@@ -25,7 +25,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: dist
-          cname: superhero.com
+          cname: superhero.aeternity.io
       - uses: rlespinasse/github-slug-action@v3.x
 
       - name: Deploy to stage

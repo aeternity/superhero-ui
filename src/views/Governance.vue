@@ -1,7 +1,7 @@
 <template>
   <iframe
     class="governance"
-    src="https://governance.aeternity.art/#/?iframe=1"
+    src="https://governance.aeternity.com/#/?iframe=1"
   />
 </template>
 

@@ -64,7 +64,4 @@ export default {
   setCookiesConsent(state, { scope, status }) {
     Vue.set(state.cookiesConsent, scope, status);
   },
-  setMiddleware(state, payload) {
-    state.middleware = payload;
-  },
 };

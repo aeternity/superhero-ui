@@ -110,7 +110,7 @@ export default {
     async reloadStats({ commit, rootState: { aeternity: { sdk } } }) {
       const [stats, height] = await Promise.all([
         Backend.getTipStats(),
-        sdk.height(),
+        sdk.getHeight(),
       ]);
       commit('setStats', { ...stats, height });
     },
@@ -129,7 +129,7 @@ export default {
     }, { method, arg, to }) {
       const { challenge } = await Backend[method](address, arg);
       if (useSdkWallet) {
-        const signature = await sdk.signMessage(challenge);
+        const signature = (await sdk.signMessage(challenge)).toString('hex');
         const response = await Backend[method](address, { challenge, signature });
         return response;
       }

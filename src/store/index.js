@@ -1,16 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import BigNumber from 'bignumber.js';
-import { genSwaggerClient } from '@aeternity/aepp-sdk';
-import { mapObject } from '@aeternity/aepp-sdk/es/utils/other';
-import { camelCase } from 'lodash-es';
+import axios from 'axios';
 import mutations from './mutations';
 import getters from './getters';
 import modals from './plugins/modals';
 import backend from './modules/backend';
 import aeternity from './modules/aeternity';
 import Backend from '../utils/backend';
-import { fetchJson } from '../utils';
 
 Vue.use(Vuex);
 
@@ -30,7 +27,6 @@ export default () => new Vuex.Store({
     wordRegistry: [],
     isHiddenContent: true,
     cookiesConsent: {},
-    middleware: null,
     ssrTime: 'SH_SSR_TIME',
   },
   mutations,
@@ -45,14 +41,13 @@ export default () => new Vuex.Store({
       dispatch('backend/callWithAuth', { method: 'getCookiesConsent' })
         .then((list) => list.forEach(({ scope, status }) => commit('setCookiesConsent', { scope, status: status === 'ALLOWED' })));
     },
-    async getTokenBalance({ state: { address, middleware } }, contractAddress) {
-      const result = await middleware.getAex9Balance(contractAddress, address);
-      return new BigNumber(result.amount || 0).toFixed();
+    async getTokenBalance({ state: { address } }, contractAddress) {
+      const result = await axios.get(`${process.env.VUE_APP_MIDDLEWARE_URL}/aex9/balance/${contractAddress}/${address}`);
+      return new BigNumber(result.data.amount || 0).toFixed();
     },
-    async updateTokensBalanceAndPrice({ state: { address, middleware }, commit, dispatch }) {
+    async updateTokensBalanceAndPrice({ state: { address }, commit, dispatch }) {
       const tokens = await Backend.getTokenBalances(address);
       const knownTokens = (await Backend.getWordRegistry()).map((item) => item.tokenAddress);
-      if (!middleware) await dispatch('initMiddleware');
       await Promise.all(Object.entries(tokens).map(async ([token]) => {
         commit('addTokenBalance', {
           token,
@@ -66,48 +61,13 @@ export default () => new Vuex.Store({
         }
       }));
     },
-    async initMiddleware({ commit }) {
-      const specUrl = `${process.env.VUE_APP_MIDDLEWARE_URL}/swagger/swagger.json`;
-      const spec = await fetchJson(specUrl);
-
-      spec.paths = {
-        ...spec.paths,
-        'aex9/balance/{token}/{account}?top=true': {
-          get: {
-            operationId: 'getAex9Balance',
-            parameters: [
-              {
-                in: 'path',
-                name: 'token',
-                required: true,
-                type: 'string',
-              },
-              {
-                in: 'path',
-                name: 'account',
-                required: true,
-                type: 'string',
-              },
-            ],
-          },
-        },
-      };
-      spec.basePath = '/mdw//';
-      spec.schemes = ['https']; // TODO: Remove after solving https://github.com/aeternity/ae_mdw/issues/160
-
-      const middleware = mapObject(
-        (await genSwaggerClient(specUrl, { spec })).api,
-        ([k, v]) => [camelCase(k), v],
-      );
-      commit('setMiddleware', middleware);
-    },
     async fetchUserInfo({ dispatch, commit, state: { address, aeternity: { sdk } } }) {
       if (!address) return;
       await Promise.all([
         dispatch('updatePinnedItems'),
         dispatch('updateUserProfile'),
         (async () => {
-          const balance = await sdk.balance(address).catch((error) => {
+          const balance = await sdk.getBalance(address).catch((error) => {
             if (error.status !== 404) throw error;
             return 0;
           });

@@ -1,21 +1,22 @@
 /* globals Cypress */
+/* eslint-disable no-unused-vars */
 import {
-  MemoryAccount, Node, Universal, RpcAepp, Crypto, WalletDetector, BrowserWindowMessageConnection,
+  AeSdk,
+  AeSdkAepp,
+  BrowserWindowMessageConnection,
+  hash,
+  MemoryAccount,
+  Node,
+  walletDetector,
 } from '@aeternity/aepp-sdk';
-import TIPPING_INTERFACE_V1 from 'tipping-contract/Tipping_v1_Interface.aes';
-import TIPPING_INTERFACE_V2 from 'tipping-contract/Tipping_v2_Interface.aes';
-import TIPPING_INTERFACE_V3 from 'tipping-contract/Tipping_v3_Interface.aes';
+// TODO upgrade contracts to acis
+import TIPPING_V1_ACI from 'tipping-contract/generated/Tipping_v1.aci.json';
+import TIPPING_V2_ACI from 'tipping-contract/generated/Tipping_v2.aci.json';
+import TIPPING_V3_ACI from 'tipping-contract/generated/Tipping_v3.aci.json';
 import tippingContractUtil from 'tipping-contract/util/tippingContractUtil';
-
-import FUNGIBLE_TOKEN_CONTRACT_INTERFACE from 'aeternity-fungible-token/FungibleTokenFullInterface.aes';
-import FUNGIBLE_TOKEN_CONTRACT from 'wordbazaar-contracts/FungibleTokenCustom.aes';
-import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/TokenVoting.aes';
-import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/TokenSale.aes';
-import WORD_REGISTRY_CONTRACT from 'wordbazaar-contracts/WordRegistry.aes';
-import BONDING_CURVE from 'sophia-bonding-curve/BondCurveLinear.aes';
+import FUNGIBLE_TOKEN_ACI from 'aeternity-fungible-token/generated/FungibleTokenFull.aci.json';
 
 import { BigNumber } from 'bignumber.js';
-import { shiftDecimalPlaces } from '../../utils';
 
 export default {
   namespaced: true,
@@ -23,23 +24,12 @@ export default {
     sdk: null,
     useSdkWallet: false,
     useIframeWallet: false,
-    contractV1: null,
-    contractV2: null,
-    contractV3: null,
     wordRegistryContract: null,
     fungibleTokenContracts: {},
     tokenVotingContracts: {},
     tokenSaleContracts: {},
-    isTippingContractsInitialised: false,
   },
   mutations: {
-    setContracts(state, contracts) {
-      const [contractV1, contractV2, contractV3] = contracts;
-      state.contractV1 = contractV1;
-      state.contractV2 = contractV2;
-      state.contractV3 = contractV3;
-      state.isTippingContractsInitialised = true;
-    },
     setSdk(state, { instance }) {
       state.sdk = instance;
     },
@@ -63,45 +53,44 @@ export default {
     },
   },
   actions: {
-    async initTippingContractIfNeeded({
-      commit,
+    async initTippingContract({
       state: {
         sdk,
-        isTippingContractsInitialised,
       },
     }) {
       if (!sdk) throw new Error('Init sdk first');
-      if (isTippingContractsInitialised) return;
-      const contracts = await Promise.all([
-        [TIPPING_INTERFACE_V1, process.env.VUE_APP_CONTRACT_V1_ADDRESS],
-        [TIPPING_INTERFACE_V2, process.env.VUE_APP_CONTRACT_V2_ADDRESS],
-        [TIPPING_INTERFACE_V3, process.env.VUE_APP_CONTRACT_V3_ADDRESS],
+      // Due to reactivity issues we are not committing the contract instances to the state
+      return Promise.all([
+        [TIPPING_V1_ACI, process.env.VUE_APP_CONTRACT_V1_ADDRESS],
+        [TIPPING_V2_ACI, process.env.VUE_APP_CONTRACT_V2_ADDRESS],
+        [TIPPING_V3_ACI, process.env.VUE_APP_CONTRACT_V3_ADDRESS],
       ].map(([tippingInterface, contractAddress]) => (contractAddress
-        ? sdk.getContractInstance(tippingInterface, { contractAddress })
+        ? sdk.initializeContract({
+          aci: tippingInterface,
+          address: contractAddress,
+        })
         : null)));
-      commit('setContracts', contracts);
     },
     async initSdk({ dispatch, commit }) {
       const options = {
-        nodes: [{ name: 'node', instance: await Node({ url: process.env.VUE_APP_NODE_URL }) }],
-        compilerUrl: process.env.VUE_APP_COMPILER_URL,
+        nodes: [{ name: 'node', instance: new Node(process.env.VUE_APP_NODE_URL) }],
       };
       if (window.Cypress) {
-        const instance = await Universal({
+        const instance = new AeSdk({
           ...options,
           accounts: [
-            MemoryAccount({
+            new MemoryAccount({
               keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey') },
             }),
           ],
           address: Cypress.env('publicKey'),
         });
+        // TODO fix to apply to new standard
         const rpcClient = async () => Cypress.env('publicKey');
         instance.rpcClient = { getCurrentAccount: async () => Cypress.env('publicKey') };
         commit('setSdk', { instance, rpcClient });
-        await dispatch('initTippingContractIfNeeded');
       } else {
-        const instance = await RpcAepp({
+        const instance = new AeSdkAepp({
           ...options,
           name: 'Superhero',
           onDisconnect() {
@@ -114,34 +103,49 @@ export default {
           },
         });
         commit('setSdk', { instance });
-        await dispatch('initTippingContractIfNeeded');
       }
     },
     async scanForWallets({ commit, state: { sdk } }) {
-      const scannerConnection = await BrowserWindowMessageConnection({
-        connectionInfo: { id: 'spy' },
-      });
-      const detector = await WalletDetector({ connection: scannerConnection });
+      let stopScan;
+      let resolve = null;
+      let rejected = (e) => {
+        throw e;
+      };
       // eslint-disable-next-line no-underscore-dangle
       const webWalletTimeout = this._vm.$isMobileDevice ? 0
         : setTimeout(() => commit('enableIframeWallet'), 10000);
 
-      return new Promise((resolve) => {
-        detector.scan(async ({ newWallet }) => {
-          if (!newWallet) return;
+      async function handleNewWallet({ newWallet }) {
+        try {
+          if (!newWallet) return null;
           clearInterval(webWalletTimeout);
           await sdk.connectToWallet(await newWallet.getConnection());
-          await sdk.subscribeAddress('subscribe', 'current');
-          const address = sdk.rpcClient.getCurrentAccount();
-          if (!address) return;
-          detector.stopScan();
+          const ret = await sdk.subscribeAddress('subscribe', 'current');
+          const { address: { current } } = ret;
+          const address = Object.keys(current)[0];
+          if (!address) return null;
+          if (stopScan) stopScan();
           commit('setAddress', address, { root: true });
-          resolve(address);
-        });
+          if (resolve) return resolve(address);
+          return address;
+        } catch (e) {
+          return rejected(e);
+        }
+      }
+      console.log('Scanning for wallets...');
+
+      const scannerConnection = new BrowserWindowMessageConnection({
+        connectionInfo: { id: 'spy' },
+      });
+      stopScan = walletDetector(scannerConnection, handleNewWallet);
+
+      return new Promise((_resolve, _rejected) => {
+        resolve = _resolve;
+        rejected = _rejected;
       });
     },
     async getHeight({ state: { sdk } }) {
-      return sdk.height();
+      return sdk.getHeight();
     },
     async initFungibleTokenContractIfNeeded(
       { commit, state: { sdk, fungibleTokenContracts } },
@@ -149,7 +153,10 @@ export default {
     ) {
       if (!fungibleTokenContracts[contractAddress]) {
         const contract = await sdk
-          .getContractInstance(FUNGIBLE_TOKEN_CONTRACT_INTERFACE, { contractAddress });
+          .initializeContract({
+            aci: FUNGIBLE_TOKEN_ACI,
+            address: contractAddress,
+          });
         commit('setFungibleTokenContract', contractAddress, contract);
         return contract;
       }
@@ -157,52 +164,64 @@ export default {
       return fungibleTokenContracts[contractAddress];
     },
     async initWordRegistryContractIfNeeded({ commit, state: { sdk, wordRegistryContract } }) {
-      if (!wordRegistryContract) {
-        const contract = await sdk
-          .getContractInstance(WORD_REGISTRY_CONTRACT,
-            { contractAddress: process.env.VUE_APP_WORD_REGISTRY_ADDRESS });
-        commit('setWordRegistryContract', contract);
-        return contract;
-      }
-
-      return wordRegistryContract;
+      // FIXME implement wordbazaar contracts
+      throw new Error('Wordbazaar contracts are not implemented yet');
+      // if (!wordRegistryContract) {
+      //   const contract = await sdk.initializeContract({
+      //     aci: WORD_REGISTRY_CONTRACT,
+      //     address: process.env.VUE_APP_WORD_REGISTRY_ADDRESS,
+      //   });
+      //   commit('setWordRegistryContract', contract);
+      //   return contract;
+      // }
+      //
+      // return wordRegistryContract;
     },
     async initTokenVotingContractIfNeeded(
       { commit, state: { sdk, tokenVotingContracts } },
       contractAddress,
     ) {
-      if (!tokenVotingContracts[contractAddress]) {
-        const contract = await sdk
-          .getContractInstance(TOKEN_VOTING_CONTRACT, { contractAddress });
-        commit('setTokenVotingContract', contractAddress, contract);
-        return contract;
-      }
-
-      return tokenVotingContracts[contractAddress];
+      // FIXME implement wordbazaar contracts
+      throw new Error('Wordbazaar contracts are not implemented yet');
+      // if (!tokenVotingContracts[contractAddress]) {
+      //   const contract = await sdk.initializeContract({
+      //     aci: TOKEN_VOTING_CONTRACT,
+      //     address: contractAddress,
+      //   });
+      //   commit('setTokenVotingContract', contractAddress, contract);
+      //   return contract;
+      // }
+      //
+      // return tokenVotingContracts[contractAddress];
     },
     async initTokenSaleContractIfNeeded(
       { commit, state: { sdk, tokenSaleContracts } },
       contractAddress,
     ) {
-      if (!tokenSaleContracts[contractAddress]) {
-        const contract = await sdk.getContractInstance(TOKEN_SALE_CONTRACT, { contractAddress });
-        commit('setTokenSaleContract', contractAddress, contract);
-        return contract;
-      }
-
-      return tokenSaleContracts[contractAddress];
+      // FIXME implement wordbazaar contracts
+      throw new Error('Wordbazaar contracts are not implemented yet');
+      // if (!tokenSaleContracts[contractAddress]) {
+      //   const contract = await sdk.initializeContract({
+      //     aci: TOKEN_SALE_CONTRACT,
+      //     address: contractAddress,
+      //   });
+      //   commit('setTokenSaleContract', contractAddress, contract);
+      //   return contract;
+      // }
+      // return tokenSaleContracts[contractAddress];
     },
     async deployBondingCurve({ state: { sdk } }, decimals) {
-      // alters bonding curve contract to change the dependency default 1 alpha to 18
+      // FIXME implement wordbazaar contracts
+      throw new Error('Wordbazaar contracts are not implemented yet'); // alters bonding curve contract to change the dependency default 1 alpha to 18
       // as we use 18 decimals and thus need to adjust the curve to match that
-      const BONDING_CURVE_DECIMALS = BONDING_CURVE.replace(
-        'function alpha() : Frac.frac = Frac.make_frac(1, 1)',
-        `function alpha() : Frac.frac = Frac.make_frac(1, ${shiftDecimalPlaces(1, decimals)})`,
-      );
-      const contract = await sdk.getContractInstance(BONDING_CURVE_DECIMALS);
-      await contract.methods.init();
-
-      return contract.deployInfo.address;
+      // const BONDING_CURVE_DECIMALS = BONDING_CURVE.replace(
+      //   'function alpha() : Frac.frac = Frac.make_frac(1, 1)',
+      //   `function alpha() : Frac.frac = Frac.make_frac(1, ${shiftDecimalPlaces(1, decimals)})`,
+      // );
+      // const contract = await sdk.getContractInstance(BONDING_CURVE_DECIMALS);
+      // await contract.init();
+      //
+      // return contract.deployInfo.address;
     },
     async deployTokenSaleContract(
       { commit, state: { sdk } },
@@ -213,17 +232,19 @@ export default {
         description,
       },
     ) {
+      // FIXME implement wordbazaar contracts
+      throw new Error('Wordbazaar contracts are not implemented yet');
       // alters token sale contract to change the dependency default 1 decimals to 18
       // as we want that as default for use with wordbazaar
-      const TOKEN_SALE_CONTRACT_DECIMALS = TOKEN_SALE_CONTRACT.replace(
-        'let decimals = 1',
-        `let decimals = ${shiftDecimalPlaces(1, decimals)}`,
-      );
-
-      const contract = await sdk.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS);
-      await contract.methods.init(timeout, bondingCurveAddress, description);
-      commit('setTokenSaleContract', contract.deployInfo.address, contract);
-      return contract.deployInfo.address;
+      // const TOKEN_SALE_CONTRACT_DECIMALS = TOKEN_SALE_CONTRACT.replace(
+      //   'let decimals = 1',
+      //   `let decimals = ${shiftDecimalPlaces(1, decimals)}`,
+      // );
+      //
+      // const contract = await sdk.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS);
+      // await contract.init(timeout, bondingCurveAddress, description);
+      // commit('setTokenSaleContract', contract.deployInfo.address, contract);
+      // return contract.deployInfo.address;
     },
     async deployFungibleTokenContract(
       { commit, state: { sdk } },
@@ -234,11 +255,13 @@ export default {
         tokenSaleAddress,
       },
     ) {
-      const contract = await sdk.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
-      await contract.methods
-        .init(name, decimals, symbol, tokenSaleAddress, process.env.VUE_APP_WORD_REGISTRY_ADDRESS);
-      commit('setFungibleTokenContract', contract.deployInfo.address, contract);
-      return contract.deployInfo.address;
+      // FIXME implement wordbazaar contracts
+      throw new Error('Wordbazaar contracts are not implemented yet');
+      // const contract = await sdk.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
+      // await contract
+      // .init(name, decimals, symbol, tokenSaleAddress, process.env.VUE_APP_WORD_REGISTRY_ADDRESS);
+      // commit('setFungibleTokenContract', contract.deployInfo.address, contract);
+      // return contract.deployInfo.address;
     },
     async deployTokenVotingContract(
       { commit, state: { sdk } },
@@ -248,15 +271,17 @@ export default {
         token,
       },
     ) {
-      const contract = await sdk.getContractInstance(TOKEN_VOTING_CONTRACT);
-      await contract.methods.init(metadata, closeHeight, token);
-      commit('setTokenVotingContract', contract.deployInfo.address, contract);
-      return contract.deployInfo.address;
+      // FIXME implement wordbazaar contracts
+      throw new Error('Wordbazaar contracts are not implemented yet');
+      // const contract = await sdk.getContractInstance(TOKEN_VOTING_CONTRACT);
+      // await contract.init(metadata, closeHeight, token);
+      // commit('setTokenVotingContract', contract.deployInfo.address, contract);
+      // return contract.deployInfo.address;
     },
     async wordRegistryAddToken({ dispatch }, addTokenAddress) {
       const contract = await dispatch('initWordRegistryContractIfNeeded');
 
-      const { decodedResult } = await contract.methods.add_token(addTokenAddress);
+      const { decodedResult } = await contract.add_token(addTokenAddress);
       return decodedResult;
     },
     async tokenSaleMethod(
@@ -270,7 +295,7 @@ export default {
     ) {
       const contract = await dispatch('initTokenSaleContractIfNeeded', contractAddress);
 
-      const { decodedResult } = await contract.methods[method](...args, options);
+      const { decodedResult } = await contract[method](...args, options);
       return decodedResult;
     },
     async tokenVotingMethod(
@@ -284,19 +309,19 @@ export default {
     ) {
       const contract = await dispatch('initTokenVotingContractIfNeeded', contractAddress);
 
-      const { decodedResult } = await contract.methods[method](...args, options);
+      const { decodedResult } = await contract[method](...args, options);
       return decodedResult;
     },
     async tokenBalance({ dispatch }, { contractAddress, address }) {
       const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
 
-      const { decodedResult } = await contract.methods.balance(address);
+      const { decodedResult } = await contract.balance(address);
       return new BigNumber(decodedResult || 0).toFixed();
     },
     async tokenTotalSupply({ dispatch }, contractAddress) {
       const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
 
-      const { decodedResult } = await contract.methods.total_supply();
+      const { decodedResult } = await contract.total_supply();
       return new BigNumber(decodedResult || 0).toFixed();
     },
     async createOrChangeAllowance(
@@ -305,8 +330,8 @@ export default {
     ) {
       const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
 
-      const { decodedResult } = await contract.methods.allowance({
-        from_account: await sdk.address(),
+      const { decodedResult } = await contract.allowance({
+        from_account: sdk.address,
         for_account: forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
       });
 
@@ -314,62 +339,58 @@ export default {
         ? new BigNumber(decodedResult).multipliedBy(-1).plus(amount).toNumber()
         : amount;
 
-      return contract.methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
+      return contract[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](
         forAccount || process.env.VUE_APP_CONTRACT_V2_ADDRESS.replace('ct_', 'ak_'),
         allowanceAmount,
       );
     },
-    async tip({ dispatch, state: { contractV2, contractV1 } }, {
+    async tip({ dispatch }, {
       url,
       title,
       amount,
       tokenAddress = null,
     }) {
-      await dispatch('initTippingContractIfNeeded');
+      const [contractV1, contractV2] = await dispatch('initTippingContract');
 
       if (tokenAddress && tokenAddress !== 'native') {
         await dispatch('createOrChangeAllowance', { contractAddress: tokenAddress, amount });
 
-        const { decodedResult } = await contractV2.methods
+        const { decodedResult } = await contractV2
           .tip_token(url, title, tokenAddress, amount);
         return dispatch('backend/awaitTip', `${decodedResult}_v2`, { root: true });
       }
 
       if (contractV2) {
-        const { decodedResult } = await contractV2.methods.tip(url, title, { amount });
+        const { decodedResult } = await contractV2.tip(url, title, { amount });
         return dispatch('backend/awaitTip', `${decodedResult}_v2`, { root: true });
       }
 
-      await contractV1.methods.tip(url, title, { amount });
+      await contractV1.tip(url, title, { amount });
       return dispatch('backend/awaitTip', null, { root: true })
         // TODO: remove after solving https://github.com/aeternity/tipping-community-backend/issues/371
         .catch(console.error);
     },
     async retip({
       dispatch,
-      state: {
-        contractV1,
-        contractV2,
-      },
     }, {
       contractAddress,
       id,
       amount,
       tokenAddress = null,
     }) {
-      await dispatch('initTippingContractIfNeeded');
+      const [contractV1, contractV2] = await dispatch('initTippingContract');
 
       if (tokenAddress && tokenAddress !== 'native') {
         await dispatch('createOrChangeAllowance', { contractAddress: tokenAddress, amount });
 
         const [tipId, contractVersion] = id.split('_');
-        const { decodedResult } = await contractV2.methods
+        const { decodedResult } = await contractV2
           .retip_token(Number(tipId), tokenAddress, amount);
         return dispatch('backend/awaitRetip', `${decodedResult}_${contractVersion}`, { root: true });
       }
 
       if (contractAddress === process.env.VUE_APP_CONTRACT_V1_ADDRESS) {
-        await contractV1.methods.retip(Number(id.split('_')[0]), { amount });
+        await contractV1.retip(Number(id.split('_')[0]), { amount });
         return dispatch('backend/awaitRetip', null, { root: true })
           // TODO: remove after solving https://github.com/aeternity/tipping-community-backend/issues/371
           .catch(console.error);
@@ -377,22 +398,22 @@ export default {
 
       if (contractAddress === process.env.VUE_APP_CONTRACT_V2_ADDRESS) {
         const [tipId, contractVersion] = id.split('_');
-        const { decodedResult } = await contractV2.methods.retip(Number(tipId), { amount });
+        const { decodedResult } = await contractV2.retip(Number(tipId), { amount });
         return dispatch('backend/awaitRetip', `${decodedResult}_${contractVersion}`, { root: true });
       }
 
       return null;
     },
-    async postWithoutTip({ dispatch, state: { contractV3 } }, { title, media }) {
-      await dispatch('initTippingContractIfNeeded');
+    async postWithoutTip({ dispatch }, { title, media }) {
+      const contracts = await dispatch('initTippingContract');
 
-      const { decodedResult } = await contractV3.methods.post_without_tip(title, media);
+      const { decodedResult } = await contracts[2].post_without_tip(title, media);
       return dispatch('backend/awaitTip', `${decodedResult}_v3`, { root: true });
     },
     async postWithoutTipSignature({ state: { sdk } }, { title, media }) {
       const message = tippingContractUtil.postWithoutTippingString(title, media);
-      const hash = Crypto.hash(message);
-      return sdk.signMessage(hash, { returnHex: true });
+      const hashBuffer = hash(message);
+      return sdk.signMessage(hashBuffer.toString('hex'), { returnHex: true });
     },
   },
 };

@@ -43,7 +43,6 @@
     "fontsource-ibm-plex-sans": "^3.1.5",
     "i18n": "^0.13.3",
     "is-fqdn": "^2.0.1",
-    "jitsi-iframe-api": "^1.0.0",
     "lodash-es": "^4.17.21",
     "lru-cache": "^6.0.0",
     "node-fetch": "^2.6.1",

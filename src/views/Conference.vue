@@ -57,20 +57,7 @@ export default {
   },
   methods: {
     async initJitsi() {
-      const JitsiMeetExternalAPI = (await import('jitsi-iframe-api')).default;
-      // eslint-disable-next-line no-new
-      this.jitsi = new JitsiMeetExternalAPI(process.env.VUE_APP_JITSI_HOST, {
-        parentNode: this.$refs.jitsi,
-        width: '100%',
-        height: '100%',
-        roomName: this.room,
-        configOverwrite: {
-          disableDeepLinking: this.$isMobileDevice,
-        },
-        onload: () => {
-          this.loading = false;
-        },
-      });
+      // TODO fix the jitsi integration
     },
   },
   metaInfo: {

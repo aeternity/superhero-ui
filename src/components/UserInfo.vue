@@ -369,7 +369,7 @@ export default {
         }),
         (async () => {
           await this.$watchUntilTruly(() => this.sdk);
-          this.balance = await this.sdk.balance(this.address).catch((error) => {
+          this.balance = await this.sdk.getBalance(this.address).catch((error) => {
             if (error.status !== 404) throw error;
             return 0;
           });

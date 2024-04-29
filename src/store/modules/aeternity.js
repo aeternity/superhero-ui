@@ -9,7 +9,6 @@ import {
   Node,
   walletDetector,
 } from '@aeternity/aepp-sdk';
-// TODO upgrade contracts to acis
 import TIPPING_V1_ACI from 'tipping-contract/generated/Tipping_v1.aci.json';
 import TIPPING_V2_ACI from 'tipping-contract/generated/Tipping_v2.aci.json';
 import TIPPING_V3_ACI from 'tipping-contract/generated/Tipping_v3.aci.json';
@@ -79,16 +78,11 @@ export default {
         const instance = new AeSdk({
           ...options,
           accounts: [
-            new MemoryAccount({
-              keypair: { secretKey: Cypress.env('privateKey'), publicKey: Cypress.env('publicKey') },
-            }),
+            new MemoryAccount(Cypress.env('privateKey')),
           ],
-          address: Cypress.env('publicKey'),
         });
-        // TODO fix to apply to new standard
-        const rpcClient = async () => Cypress.env('publicKey');
-        instance.rpcClient = { getCurrentAccount: async () => Cypress.env('publicKey') };
-        commit('setSdk', { instance, rpcClient });
+        instance.subscribeAddress = async () => ({ address: { current: { [Cypress.env('publicKey')]: 'subscribed' } } });
+        commit('setSdk', { instance });
       } else {
         const instance = new AeSdkAepp({
           ...options,

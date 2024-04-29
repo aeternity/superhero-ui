@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 // eslint-disable-next-line camelcase
@@ -7,33 +6,6 @@ const { npm_package_version } = process.env;
 const commitHash = require('child_process')
   .execSync('git rev-parse HEAD')
   .toString().trim();
-
-const ROOT_PATH = process.cwd(); // Adjust this as necessary
-
-function createExportsReplacerPlugin(packageName) {
-  const packageJSONPath = path.join(ROOT_PATH, 'node_modules', packageName, 'package.json');
-  const packageJSON = fs.readFileSync(packageJSONPath, 'utf-8');
-  const { exports } = JSON.parse(packageJSON);
-  const regex = new RegExp(`^${packageName}`);
-
-  return new webpack.NormalModuleReplacementPlugin(regex, (resource) => {
-    const { request } = resource;
-    if (!request.endsWith('.js') && !request.endsWith('.mjs') && !request.endsWith('.cjs')) {
-      const relative = `./${path.relative(packageName, request)}`;
-      const exportEntry = exports[relative]?.browser?.import || exports[relative]?.import;
-
-      if (exportEntry) {
-        const newRequest = path.join(packageName, exportEntry);
-        console.log(`[exports-replacer]: ${request} => ${newRequest}`);
-        resource.request = newRequest;
-      } else {
-        console.warn(
-          `[exports-replacer]: Could not find import field for ${relative} in exports of [${packageName}]`,
-        );
-      }
-    }
-  });
-}
 
 module.exports = {
   lintOnSave: false,

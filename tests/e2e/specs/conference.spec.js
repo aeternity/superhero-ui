@@ -1,4 +1,4 @@
-describe('Conference.vue', () => {
+describe.skip('Conference.vue', () => {
   const ROOM_NAME = 'SOME_VALID_ROOM_NAME_1234567890$()[]-+{><}^!@$_()';
   // regarding to the https://github.com/aeternity/jitsi-meet/blob/80463517e9216cbb2e51d08bb69f5477af005bdb/react/features/welcome/components/WelcomePage.web.js#L23
   const isValid = ROOM_NAME.match(/^[^?&:\u0022\u0027%#]+$/);

@@ -51,7 +51,7 @@
     "smart-app-banner": "^2.0.0",
     "sophia-bonding-curve": "git+https://git@github.com/aeternity/BondingCurve#1.0.0-alpha.2",
     "soundcloud-widget": "^0.2.1",
-    "tipping-contract": "git+https://git@github.com/aeternity/tipping-contract#develop",
+    "tipping-contract": "git+https://git@github.com/aeternity/tipping-contract#v5.0.0-alpha2",
     "vue": "^2.6.14",
     "vue-chartjs": "^3.5.1",
     "vue-client-only": "^2.1.0",

@@ -98,7 +98,6 @@ export default {
       let { address } = this.$route.query;
       if (!address) {
         address = await this.$store.dispatch('aeternity/scanForWallets');
-        console.log('found wallet');
         this.useSdkWallet();
         this.setAddress(address);
         this.$store.dispatch('updateCookiesConsent');

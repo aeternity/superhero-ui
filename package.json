@@ -49,7 +49,7 @@
     "normalize.css": "^8.0.1",
     "serve-static": "^1.14.1",
     "smart-app-banner": "^2.0.0",
-    "sophia-bonding-curve": "git+https://git@github.com/aeternity/BondingCurve#1.0.0-alpha.2",
+    "sophia-bonding-curve": "git+https://git@github.com/aeternity/BondingCurve#1.0.0-alpha.3",
     "soundcloud-widget": "^0.2.1",
     "tipping-contract": "git+https://git@github.com/aeternity/tipping-contract#v5.0.0-alpha2",
     "vue": "^2.6.14",
@@ -61,7 +61,7 @@
     "vue-timeago": "^5.1.3",
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0",
-    "wordbazaar-contracts": "git+https://git@github.com/aeternity/wordbazaar-contracts#v0.0.4-alpha3"
+    "wordbazaar-contracts": "git+https://git@github.com/aeternity/wordbazaar-contracts#v0.0.4-alpha4"
   },
   "repository": {
     "type": "git",

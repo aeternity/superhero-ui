@@ -111,35 +111,6 @@ module.exports = {
       .loader('svgo-loader')
       .end();
 
-    /*
-    {
-        test: /@swagger-api\/apidom-.*\.[mc]?js$/,
-        include: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          plugins: [
-            '@babel/plugin-transform-class-properties',
-            '@babel/plugin-transform-logical-assignment-operators',
-          ],
-          ...defaultJsOptions,
-        },
-      },
-     */
-    config.module
-      .rule('babel-loader-for-apidom')
-      .test(/@swagger-api\/apidom-.*\.[mc]?js$/)
-      .include
-      .add(/node_modules/)
-      .end()
-      .use('babel-loader')
-      .loader('babel-loader')
-      .options({
-        plugins: [
-          '@babel/plugin-transform-class-properties',
-          '@babel/plugin-transform-logical-assignment-operators',
-        ],
-      });
-
     return config;
   },
 };

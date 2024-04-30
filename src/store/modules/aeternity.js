@@ -14,8 +14,16 @@ import TIPPING_V2_ACI from 'tipping-contract/generated/Tipping_v2.aci.json';
 import TIPPING_V3_ACI from 'tipping-contract/generated/Tipping_v3.aci.json';
 import tippingContractUtil from 'tipping-contract/util/tippingContractUtil';
 import FUNGIBLE_TOKEN_ACI from 'aeternity-fungible-token/generated/FungibleTokenFull.aci.json';
+import FUNGIBLE_TOKEN_CONTRACT from 'aeternity-fungible-token/FungibleTokenFull.aes';
+import WORD_REGISTRY_ACI from 'wordbazaar-contracts/generated/WordRegistry.aci.json';
+import TOKEN_VOTING_ACI from 'wordbazaar-contracts/generated/TokenVoting.aci.json';
+import TOKEN_SALE_ACI from 'wordbazaar-contracts/generated/TokenSale.aci.json';
+import TOKEN_SALE_CONTRACT from 'wordbazaar-contracts/generated/TokenSale.aes';
+import TOKEN_VOTING_CONTRACT from 'wordbazaar-contracts/generated/TokenVoting.aes';
+import BONDING_CURVE from 'sophia-bonding-curve/generated/BondCurveLinear.aes';
 
 import { BigNumber } from 'bignumber.js';
+import { shiftDecimalPlaces } from '../../utils';
 
 export default {
   namespaced: true,
@@ -23,10 +31,6 @@ export default {
     sdk: null,
     useSdkWallet: false,
     useIframeWallet: false,
-    wordRegistryContract: null,
-    fungibleTokenContracts: {},
-    tokenVotingContracts: {},
-    tokenSaleContracts: {},
   },
   mutations: {
     setSdk(state, { instance }) {
@@ -37,18 +41,6 @@ export default {
     },
     enableIframeWallet(state) {
       state.useIframeWallet = true;
-    },
-    setFungibleTokenContract(state, contractAddress, instance) {
-      state.fungibleTokenContracts[contractAddress] = instance;
-    },
-    setTokenVotingContract(state, contractAddress, instance) {
-      state.tokenVotingContracts[contractAddress] = instance;
-    },
-    setTokenSaleContract(state, contractAddress, instance) {
-      state.tokenSaleContracts[contractAddress] = instance;
-    },
-    setWordRegistryContract(state, instance) {
-      state.wordRegistryContract = instance;
     },
   },
   actions: {
@@ -81,7 +73,7 @@ export default {
             new MemoryAccount(Cypress.env('privateKey')),
           ],
         });
-        instance.subscribeAddress = async () => ({ address: { current: { [Cypress.env('publicKey')]: 'subscribed' } } });
+        instance.addresses = () => ([Cypress.env('publicKey')]);
         commit('setSdk', { instance });
       } else {
         const instance = new AeSdkAepp({
@@ -111,12 +103,10 @@ export default {
 
       async function handleNewWallet({ newWallet }) {
         try {
-          if (!newWallet) return null;
           clearInterval(webWalletTimeout);
           await sdk.connectToWallet(await newWallet.getConnection());
-          const ret = await sdk.subscribeAddress('subscribe', 'current');
-          const { address: { current } } = ret;
-          const address = Object.keys(current)[0];
+          await sdk.subscribeAddress('subscribe', 'current');
+          const address = sdk.addresses()[0];
           if (!address) return null;
           if (stopScan) stopScan();
           commit('setAddress', address, { root: true });
@@ -126,11 +116,10 @@ export default {
           return rejected(e);
         }
       }
+
       console.log('Scanning for wallets...');
 
-      const scannerConnection = new BrowserWindowMessageConnection({
-        connectionInfo: { id: 'spy' },
-      });
+      const scannerConnection = new BrowserWindowMessageConnection();
       stopScan = walletDetector(scannerConnection, handleNewWallet);
 
       return new Promise((_resolve, _rejected) => {
@@ -141,81 +130,50 @@ export default {
     async getHeight({ state: { sdk } }) {
       return sdk.getHeight();
     },
-    async initFungibleTokenContractIfNeeded(
-      { commit, state: { sdk, fungibleTokenContracts } },
+    async initFungibleTokenContract(
+      { commit, state: { sdk } },
       contractAddress,
     ) {
-      if (!fungibleTokenContracts[contractAddress]) {
-        const contract = await sdk
-          .initializeContract({
-            aci: FUNGIBLE_TOKEN_ACI,
-            address: contractAddress,
-          });
-        commit('setFungibleTokenContract', contractAddress, contract);
-        return contract;
-      }
-
-      return fungibleTokenContracts[contractAddress];
+      return sdk
+        .initializeContract({
+          aci: FUNGIBLE_TOKEN_ACI,
+          address: contractAddress,
+        });
     },
-    async initWordRegistryContractIfNeeded({ commit, state: { sdk, wordRegistryContract } }) {
-      // FIXME implement wordbazaar contracts
-      throw new Error('Wordbazaar contracts are not implemented yet');
-      // if (!wordRegistryContract) {
-      //   const contract = await sdk.initializeContract({
-      //     aci: WORD_REGISTRY_CONTRACT,
-      //     address: process.env.VUE_APP_WORD_REGISTRY_ADDRESS,
-      //   });
-      //   commit('setWordRegistryContract', contract);
-      //   return contract;
-      // }
-      //
-      // return wordRegistryContract;
+    async initWordRegistryContract({ commit, state: { sdk } }) {
+      return sdk.initializeContract({
+        aci: WORD_REGISTRY_ACI,
+        address: process.env.VUE_APP_WORD_REGISTRY_ADDRESS,
+      });
     },
-    async initTokenVotingContractIfNeeded(
-      { commit, state: { sdk, tokenVotingContracts } },
+    async initTokenVotingContract(
+      { commit, state: { sdk } },
       contractAddress,
     ) {
-      // FIXME implement wordbazaar contracts
-      throw new Error('Wordbazaar contracts are not implemented yet');
-      // if (!tokenVotingContracts[contractAddress]) {
-      //   const contract = await sdk.initializeContract({
-      //     aci: TOKEN_VOTING_CONTRACT,
-      //     address: contractAddress,
-      //   });
-      //   commit('setTokenVotingContract', contractAddress, contract);
-      //   return contract;
-      // }
-      //
-      // return tokenVotingContracts[contractAddress];
+      return sdk.initializeContract({
+        aci: TOKEN_VOTING_ACI,
+        address: contractAddress,
+      });
     },
-    async initTokenSaleContractIfNeeded(
-      { commit, state: { sdk, tokenSaleContracts } },
+    async initTokenSaleContract(
+      { commit, state: { sdk } },
       contractAddress,
     ) {
-      // FIXME implement wordbazaar contracts
-      throw new Error('Wordbazaar contracts are not implemented yet');
-      // if (!tokenSaleContracts[contractAddress]) {
-      //   const contract = await sdk.initializeContract({
-      //     aci: TOKEN_SALE_CONTRACT,
-      //     address: contractAddress,
-      //   });
-      //   commit('setTokenSaleContract', contractAddress, contract);
-      //   return contract;
-      // }
-      // return tokenSaleContracts[contractAddress];
+      return sdk.initializeContract({
+        aci: TOKEN_SALE_ACI,
+        address: contractAddress,
+      });
     },
     async deployBondingCurve({ state: { sdk } }, decimals) {
-      // FIXME implement wordbazaar contracts
-      throw new Error('Wordbazaar contracts are not implemented yet'); // alters bonding curve contract to change the dependency default 1 alpha to 18
       // as we use 18 decimals and thus need to adjust the curve to match that
-      // const BONDING_CURVE_DECIMALS = BONDING_CURVE.replace(
-      //   'function alpha() : Frac.frac = Frac.make_frac(1, 1)',
-      //   `function alpha() : Frac.frac = Frac.make_frac(1, ${shiftDecimalPlaces(1, decimals)})`,
-      // );
-      // const contract = await sdk.getContractInstance(BONDING_CURVE_DECIMALS);
-      // await contract.init();
-      //
-      // return contract.deployInfo.address;
+      const BONDING_CURVE_DECIMALS = BONDING_CURVE.replace(
+        'function alpha() : Frac.frac = Frac.make_frac(1, 1)',
+        `function alpha() : Frac.frac = Frac.make_frac(1, ${shiftDecimalPlaces(1, decimals)})`,
+      );
+      const contract = await sdk.initializeContract({ sourceCode: BONDING_CURVE_DECIMALS });
+      await contract.init();
+
+      return contract.$options.address;
     },
     async deployTokenSaleContract(
       { commit, state: { sdk } },
@@ -226,19 +184,16 @@ export default {
         description,
       },
     ) {
-      // FIXME implement wordbazaar contracts
-      throw new Error('Wordbazaar contracts are not implemented yet');
       // alters token sale contract to change the dependency default 1 decimals to 18
       // as we want that as default for use with wordbazaar
-      // const TOKEN_SALE_CONTRACT_DECIMALS = TOKEN_SALE_CONTRACT.replace(
-      //   'let decimals = 1',
-      //   `let decimals = ${shiftDecimalPlaces(1, decimals)}`,
-      // );
-      //
-      // const contract = await sdk.getContractInstance(TOKEN_SALE_CONTRACT_DECIMALS);
-      // await contract.init(timeout, bondingCurveAddress, description);
-      // commit('setTokenSaleContract', contract.deployInfo.address, contract);
-      // return contract.deployInfo.address;
+      const TOKEN_SALE_CONTRACT_DECIMALS = TOKEN_SALE_CONTRACT.replace(
+        'let decimals = 1',
+        `let decimals = ${shiftDecimalPlaces(1, decimals)}`,
+      );
+
+      const contract = await sdk.initializeContract({ sourceCode: TOKEN_SALE_CONTRACT_DECIMALS });
+      await contract.init(timeout, bondingCurveAddress, description);
+      return contract.$options.address;
     },
     async deployFungibleTokenContract(
       { commit, state: { sdk } },
@@ -249,13 +204,10 @@ export default {
         tokenSaleAddress,
       },
     ) {
-      // FIXME implement wordbazaar contracts
-      throw new Error('Wordbazaar contracts are not implemented yet');
-      // const contract = await sdk.getContractInstance(FUNGIBLE_TOKEN_CONTRACT);
-      // await contract
-      // .init(name, decimals, symbol, tokenSaleAddress, process.env.VUE_APP_WORD_REGISTRY_ADDRESS);
-      // commit('setFungibleTokenContract', contract.deployInfo.address, contract);
-      // return contract.deployInfo.address;
+      const contract = await sdk.initializeContract({ sourceCode: FUNGIBLE_TOKEN_CONTRACT });
+      await contract
+        .init(name, decimals, symbol, tokenSaleAddress, process.env.VUE_APP_WORD_REGISTRY_ADDRESS);
+      return contract.$options.address;
     },
     async deployTokenVotingContract(
       { commit, state: { sdk } },
@@ -265,15 +217,12 @@ export default {
         token,
       },
     ) {
-      // FIXME implement wordbazaar contracts
-      throw new Error('Wordbazaar contracts are not implemented yet');
-      // const contract = await sdk.getContractInstance(TOKEN_VOTING_CONTRACT);
-      // await contract.init(metadata, closeHeight, token);
-      // commit('setTokenVotingContract', contract.deployInfo.address, contract);
-      // return contract.deployInfo.address;
+      const contract = await sdk.initializeContract({ sourceCode: TOKEN_VOTING_CONTRACT });
+      await contract.init(metadata, closeHeight, token);
+      return contract.$options.address;
     },
     async wordRegistryAddToken({ dispatch }, addTokenAddress) {
-      const contract = await dispatch('initWordRegistryContractIfNeeded');
+      const contract = await dispatch('initWordRegistryContract');
 
       const { decodedResult } = await contract.add_token(addTokenAddress);
       return decodedResult;
@@ -287,7 +236,7 @@ export default {
         options = {},
       },
     ) {
-      const contract = await dispatch('initTokenSaleContractIfNeeded', contractAddress);
+      const contract = await dispatch('initTokenSaleContract', contractAddress);
 
       const { decodedResult } = await contract[method](...args, options);
       return decodedResult;
@@ -301,19 +250,19 @@ export default {
         options = {},
       },
     ) {
-      const contract = await dispatch('initTokenVotingContractIfNeeded', contractAddress);
+      const contract = await dispatch('initTokenVotingContract', contractAddress);
 
       const { decodedResult } = await contract[method](...args, options);
       return decodedResult;
     },
     async tokenBalance({ dispatch }, { contractAddress, address }) {
-      const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
+      const contract = await dispatch('initFungibleTokenContract', contractAddress);
 
       const { decodedResult } = await contract.balance(address);
       return new BigNumber(decodedResult || 0).toFixed();
     },
     async tokenTotalSupply({ dispatch }, contractAddress) {
-      const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
+      const contract = await dispatch('initFungibleTokenContract', contractAddress);
 
       const { decodedResult } = await contract.total_supply();
       return new BigNumber(decodedResult || 0).toFixed();
@@ -322,7 +271,7 @@ export default {
       { dispatch, state: { sdk } },
       { contractAddress, amount, forAccount = null },
     ) {
-      const contract = await dispatch('initFungibleTokenContractIfNeeded', contractAddress);
+      const contract = await dispatch('initFungibleTokenContract', contractAddress);
 
       const { decodedResult } = await contract.allowance({
         from_account: sdk.address,

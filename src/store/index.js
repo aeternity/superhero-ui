@@ -67,10 +67,7 @@ export default () => new Vuex.Store({
         dispatch('updatePinnedItems'),
         dispatch('updateUserProfile'),
         (async () => {
-          const balance = await sdk.getBalance(address).catch((error) => {
-            if (error.status !== 404) throw error;
-            return 0;
-          });
+          const balance = await sdk.getBalance(address);
           commit('updateBalance', balance);
         })(),
         dispatch('updateTokensBalanceAndPrice'),

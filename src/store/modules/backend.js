@@ -86,8 +86,6 @@ export default {
         Backend.getTipById(id),
         Backend.getTipComments(id),
       ]);
-      // TODO: Remove after backend methods start to throw exceptions on not found
-      if (!tip) throw new Error(`Can't find tip with id: ${id}`);
       commit('setTip', {
         id,
         value: {
@@ -101,8 +99,6 @@ export default {
     },
     async reloadComment({ commit }, id) {
       const value = await Backend.getCommentById(id);
-      // TODO: Remove after backend methods start to throw exceptions on not found
-      if (!value) throw new Error(`Can't find comment with id: ${id}`);
       commit('setComment', { id, value });
     },
     async awaitTip(_, id) {
@@ -114,12 +110,12 @@ export default {
     async reloadStats({ commit, rootState: { aeternity: { sdk } } }) {
       const [stats, height] = await Promise.all([
         Backend.getTipStats(),
-        sdk.height(),
+        sdk.getHeight(),
       ]);
       commit('setStats', { ...stats, height });
     },
     async reloadPrices({ commit }) {
-      commit('setPrices', (await Backend.getPrice())?.aeternity);
+      commit('setPrices', (await Backend.getPrice()).aeternity);
     },
     // eslint-disable-next-line consistent-return
     async callWithAuth({
@@ -133,7 +129,7 @@ export default {
     }, { method, arg, to }) {
       const { challenge } = await Backend[method](address, arg);
       if (useSdkWallet) {
-        const signature = await sdk.signMessage(challenge);
+        const signature = (await sdk.signMessage(challenge)).toString('hex');
         const response = await Backend[method](address, { challenge, signature });
         return response;
       }

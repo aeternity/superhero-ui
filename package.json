@@ -1,6 +1,6 @@
 {
   "name": "superhero-ui",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:tnet": "vue-cli-service serve --mode tnet",
@@ -11,7 +11,8 @@
     "lint:vue": "vue-cli-service lint --no-fix",
     "lint:vue:fix": "vue-cli-service lint --fix",
     "lint:css": "stylelint src/**/*.{css,scss,vue}",
-    "lint": "npm run lint:vue && npm run lint:css",
+    "lint:commit": "commitlint --from develop --verbose",
+    "lint": "npm run lint:commit && npm run lint:vue && npm run lint:css",
     "ssr:build": "vue-cli-service ssr:build",
     "ssr:fix": "vue-cli-service ssr:fix",
     "ssr:fix-vuex": "vue-cli-service ssr:fix-vuex",
@@ -19,16 +20,17 @@
     "ssr:start": "vue-cli-service ssr:start",
     "ssr:static": "vue-cli-service ssr:static",
     "test": "npm run lint && npm run test:unit",
-    "test:withe2e": "npm run lint && npm run test:unit && npm run test:e2e -- --headless"
+    "test:withe2e": "npm run lint && npm run test:unit && npm run test:e2e -- --headless",
+    "release": "standard-version"
   },
   "license": "ISC",
   "dependencies": {
-    "@aeternity/aepp-sdk": "^8.2.1",
+    "@aeternity/aepp-sdk": "^13.3.2",
     "@fontsource/oxygen": "^4.4.5",
     "@popperjs/core": "^2.9.2",
     "@uvue/core": "^0.1.7",
     "@uvue/server": "^0.1.7",
-    "aeternity-fungible-token": "github:aeternity/aeternity-fungible-token#v2.0.0",
+    "aeternity-fungible-token": "git+https://git@github.com/aeternity/aeternity-fungible-token#v2.2.0",
     "animate.css": "^4.1.1",
     "autosize": "^5.0.0",
     "axios": "^0.21.1",
@@ -41,16 +43,15 @@
     "fontsource-ibm-plex-sans": "^3.1.5",
     "i18n": "^0.13.3",
     "is-fqdn": "^2.0.1",
-    "jitsi-iframe-api": "^1.0.0",
     "lodash-es": "^4.17.21",
     "lru-cache": "^6.0.0",
     "node-fetch": "^2.6.1",
     "normalize.css": "^8.0.1",
     "serve-static": "^1.14.1",
     "smart-app-banner": "^2.0.0",
-    "sophia-bonding-curve": "github:aeternity/BondingCurve#1.0.0-alpha.2",
+    "sophia-bonding-curve": "git+https://git@github.com/aeternity/BondingCurve#1.0.0-alpha.3",
     "soundcloud-widget": "^0.2.1",
-    "tipping-contract": "github:aeternity/tipping-contract#v5.0.0-alpha1",
+    "tipping-contract": "git+https://git@github.com/aeternity/tipping-contract#v5.0.0-alpha2",
     "vue": "^2.6.14",
     "vue-chartjs": "^3.5.1",
     "vue-client-only": "^2.1.0",
@@ -60,7 +61,7 @@
     "vue-timeago": "^5.1.3",
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0",
-    "wordbazaar-contracts": "github:aeternity/wordbazaar-contracts#v0.0.4-alpha2"
+    "wordbazaar-contracts": "git+https://git@github.com/aeternity/wordbazaar-contracts#v0.0.4-alpha4"
   },
   "repository": {
     "type": "git",
@@ -69,30 +70,69 @@
   "devDependencies": {
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.13",
     "@babel/plugin-proposal-optional-chaining": "^7.12.7",
+    "@uvue/vue-cli-plugin-ssr": "~0.1.7",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-e2e-cypress": "^4.5.13",
     "@vue/cli-plugin-eslint": "^4.5.13",
     "@vue/cli-plugin-unit-jest": "^4.5.13",
     "@vue/cli-service": "^4.5.13",
-    "@uvue/vue-cli-plugin-ssr": "~0.1.7",
     "@vue/eslint-config-airbnb": "^5.3.0",
     "@vue/test-utils": "1.2.1",
     "babel-eslint": "^10.1.0",
     "empty-module": "0.0.2",
     "eslint": "^6.8.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-vue": "^7.12.1",
+    "eslint-plugin-import": "^2.24.1",
+    "eslint-plugin-vue": "^7.16.0",
     "eslint-plugin-vue-i18n": "^0.3.0",
     "favicons-webpack-plugin": "^2.1.0",
     "node-sass": "^6.0.1",
     "raw-loader": "^4.0.2",
     "sass-loader": "^10.2.0",
+    "standard-version": "^9.3.1",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "svg-url-loader": "^7.1.1",
-    "svgo": "^2.3.1",
+    "svgo": "^2.4.0",
     "svgo-loader": "^3.0.0",
     "vue-svg-loader": "^0.16.0",
     "vue-template-compiler": "^2.6.14"
+  },
+  "standard-version": {
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "chore",
+        "section": "Maintenance"
+      },
+      {
+        "type": "docs",
+        "section": "Documentation"
+      },
+      {
+        "type": "style",
+        "section": "Style"
+      },
+      {
+        "type": "refactor",
+        "section": "Maintenance"
+      },
+      {
+        "type": "perf",
+        "section": "Performance"
+      },
+      {
+        "type": "test",
+        "section": "Tests"
+      }
+    ]
   }
 }

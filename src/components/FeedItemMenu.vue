@@ -82,16 +82,17 @@ export default {
         });
         await this.$store.dispatch('modals/open', {
           name: 'success',
-          title: this.$t('components.tipRecords.TipRecord.claimTitle'),
+          title: this.$t('components.tipRecords.TipRecord.claimTitleSuccess'),
           body: this.$t('components.tipRecords.TipRecord.claimBodySuccess'),
         });
         this.resolve();
-      } catch (e) {
+      } catch (error) {
         await this.$store.dispatch('modals/open', {
           name: 'failure',
-          title: this.$t('components.tipRecords.TipRecord.claimTitle'),
+          title: this.$t('components.tipRecords.TipRecord.claimTitleFailure'),
           body: this.$t('components.tipRecords.TipRecord.claimBodyFailure'),
         });
+        console.error(error);
       }
     },
     async pinOrUnPinTip() {

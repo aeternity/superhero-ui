@@ -1,4 +1,5 @@
 {
+  "AE": "AE",
   "loading": "加载...",
   "cancel": "取消",
   "close": "关闭",
@@ -260,9 +261,6 @@
       "Reply": "评论",
       "AddReply": "添加评论",
       "LatestReplies": "最新评论"
-    },
-    "SingleCommentView": {
-      "NoResultsMsg": "没有要显示的评论"
     },
     "TipList": {
       "SearchPlaceholder": "搜索超级英雄",

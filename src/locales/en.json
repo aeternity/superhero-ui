@@ -1,4 +1,5 @@
 {
+  "AE": "AE",
   "loading": "Loading...",
   "cancel": "Cancel",
   "close": "Close",
@@ -271,9 +272,6 @@
       "AddReply": "Add reply",
       "LatestReplies": "Latest Replies"
     },
-    "SingleCommentView": {
-      "NoResultsMsg": "There are no comments to display"
-    },
     "TipList": {
       "SearchPlaceholder": "Search Superhero",
       "SortingLatest": "Latest",
@@ -483,9 +481,10 @@
         "reportPostTitle": "Thanks for letting us know",
         "reportPostBody": "Our support team will investigate",
         "claim": "Claim",
-        "claimTitle": "Claiming attempt",
-        "claimBodySuccess": "was successfully sent",
-        "claimBodyFailure": "failed to be send",
+        "claimTitleSuccess": "Your claim was sent",
+        "claimTitleFailure": "Your claim could not be sent",
+        "claimBodySuccess": "If your claim is successful, the tip amount will be added to your wallet.",
+        "claimBodyFailure": "Please try again later or contact support.",
         "Pin": "Pin to Channel",
         "UnPin": "Unpin from Channel"
       }

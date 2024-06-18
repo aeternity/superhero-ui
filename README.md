@@ -37,5 +37,10 @@ npm run test:e2e
 npm run lint
 ```
 
+### Bump version and generate change log
+```
+npm run release
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

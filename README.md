@@ -42,5 +42,5 @@ npm run lint
 npm run release
 ```
 
-### Customize configuration
+### Customise configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

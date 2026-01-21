@@ -43,7 +43,7 @@
     "fontsource-ibm-plex-sans": "^3.1.5",
     "i18n": "^0.13.3",
     "is-fqdn": "^2.0.1",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.23",
     "lru-cache": "^6.0.0",
     "node-fetch": "^2.6.1",
     "normalize.css": "^8.0.1",

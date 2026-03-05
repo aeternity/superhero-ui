@@ -94,7 +94,7 @@
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "svg-url-loader": "^7.1.1",
-    "svgo": "^2.4.0",
+    "svgo": "^2.8.2",
     "svgo-loader": "^3.0.0",
     "vue-svg-loader": "^0.16.0",
     "vue-template-compiler": "^2.6.14"
